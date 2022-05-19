@@ -11,10 +11,9 @@ type Checker struct {
 func (this *Checker) Add(condition bool, error string) {
 	if condition == false && error != "" {
 		logger.Error(error)
-	}
+	} // if
 
 	this.result = this.result && condition
-
 }
 
 // Result 取得檢查結果

@@ -30,7 +30,7 @@ func build(cmd *cobra.Command, args []string) {
 	if err != nil {
 		logger.Error("read config failed")
 		return
-	}
+	} // if
 
 	var config BuildConfig
 
@@ -39,5 +39,5 @@ func build(cmd *cobra.Command, args []string) {
 	if err != nil {
 		logger.Error("read config failed")
 		return
-	}
+	} // if
 }
