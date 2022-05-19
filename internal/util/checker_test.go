@@ -28,7 +28,7 @@ func TestChecker_Add(t *testing.T) {
 	}
 
 	if len(alterLog.String()) <= 0 {
-		t.Error("add false failed, message should not be empty")
+		t.Error("add false failed, message should not empty")
 	}
 }
 
