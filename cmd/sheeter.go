@@ -9,8 +9,8 @@ import (
 )
 
 func main() {
-	logger.Initialize()
-	defer logger.Finalize()
+	logInitialize()
+	defer logFinalize()
 
 	rootCommand := &cobra.Command{
 		Use:  internal.Title,
@@ -23,5 +23,23 @@ func main() {
 
 	if err := rootCommand.Execute(); err != nil {
 		panic(err)
-	}
+	} // if
+}
+
+// logInitialize 初始化日誌
+func logInitialize() {
+	err := logger.Initialize()
+
+	if err != nil {
+		panic(err)
+	} // if
+}
+
+// logFinalize 結束日誌
+func logFinalize() {
+	err := logger.Finalize()
+
+	if err != nil {
+		panic(err)
+	} // if
 }

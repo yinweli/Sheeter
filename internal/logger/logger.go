@@ -11,26 +11,22 @@ import (
 var logFile *os.File // 日誌檔案物件
 
 // Initialize 初始化日誌
-func Initialize() {
-	file, err := os.OpenFile(internal.LoggerFileName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+func Initialize() (err error) {
+	logFile, err = os.OpenFile(internal.LoggerFileName, os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 
 	if err != nil {
-		panic(err)
-	}
-
-	logFile = file
+		return err
+	} // if
 
 	log.SetOutput(logFile)
 	log.Println("----------------------------------------")
+	return nil
 }
 
 // Finalize 結束日誌
-func Finalize() {
-	err := logFile.Close()
-
-	if err != nil {
-		panic(err)
-	}
+func Finalize() (err error) {
+	log.SetOutput(os.Stderr)
+	return logFile.Close()
 }
 
 // Info 輸出訊息日誌
