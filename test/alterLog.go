@@ -31,6 +31,5 @@ func (this *AlterLog) String() string {
 func NewAlterLog() *AlterLog {
 	alterLog := &AlterLog{buffer: bytes.Buffer{}}
 	alterLog.Initialize()
-
 	return alterLog
 }
