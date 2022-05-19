@@ -3,7 +3,6 @@ package command
 import (
 	"io/ioutil"
 
-	"Sheeter/internal/config"
 	"Sheeter/internal/logger"
 
 	"gopkg.in/yaml.v3"
@@ -29,16 +28,16 @@ func build(cmd *cobra.Command, args []string) {
 	yamlFile, err := ioutil.ReadFile(args[0])
 
 	if err != nil {
-		logger.Error("read configuration failed")
+		logger.Error("read config failed")
 		return
 	}
 
-	var configuration config.Config
+	var config BuildConfig
 
-	err = yaml.Unmarshal(yamlFile, configuration)
+	err = yaml.Unmarshal(yamlFile, config)
 
 	if err != nil {
-		logger.Error("read configuration failed")
+		logger.Error("read config failed")
 		return
 	}
 }

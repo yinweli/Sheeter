@@ -1,17 +1,17 @@
-package config
+package command
 
 import (
 	"Sheeter/internal/util"
 )
 
-// Config 設定資料
-type Config struct {
+// BuildConfig 建立表格設定資料
+type BuildConfig struct {
 	Global   Global    `yaml:"Global"`   // 全域設定資料
 	Elements []Element `yaml:"elements"` // 項目設定資料列表
 }
 
 // Check 檢查設定資料是否正確
-func (this *Config) Check() (result bool) {
+func (this *BuildConfig) Check() (result bool) {
 	checker := util.NewChecker()
 	checker.Add(this.Global.Check(), "")
 	checker.Add(len(this.Elements) <= 0, "element: element empty")
