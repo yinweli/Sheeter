@@ -9,7 +9,7 @@ import (
 // NewCommand 建立命令
 func NewCommand() (cmd *cobra.Command) {
 	return &cobra.Command{
-		Use:   "build",
+		Use:   "build [config]",
 		Short: "build sheet",
 		Long:  "build all the sheet in the configuration",
 		Args:  cobra.MinimumNArgs(1),

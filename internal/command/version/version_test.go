@@ -18,11 +18,18 @@ func TestNewCommand(t *testing.T) {
 }
 
 func TestExecute(t *testing.T) {
-	buffer := &bytes.Buffer{}
-	command := &cobra.Command{}
-	command.SetOut(buffer)
+	buffer, command := fakeCommand()
 	expected := fmt.Sprintf("%s %s", internal.Title, internal.Version)
 
 	execute(command, []string{})
 	assert.Equal(t, expected, buffer.String(), "version failed")
+}
+
+// fakeCommand 取得假的命令物件
+func fakeCommand() (buffer *bytes.Buffer, command *cobra.Command) {
+	buffer = &bytes.Buffer{}
+	command = &cobra.Command{}
+	command.SetOut(buffer)
+
+	return buffer, command
 }
