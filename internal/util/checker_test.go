@@ -2,48 +2,85 @@ package util
 
 import (
 	"testing"
-
-	"Sheeter/test"
 )
 
-func TestChecker_Add(t *testing.T) {
-	alterLog := test.NewAlterLog()
-	defer alterLog.Finalize()
-
+func TestChecker_1(t *testing.T) {
+	testMessage1 := "test message1"
+	testMessage2 := "test message2"
+	testMessage3 := "test message3"
 	checker := NewChecker()
-	checker.Add(true, "test message")
+	checker.Add(true, testMessage1)
+	checker.Add(true, testMessage2)
+	checker.Add(true, testMessage3)
 
-	if checker.Result() == false {
-		t.Error("add true failed, result should be true")
+	if checker.Result() != true {
+		t.Error("result != true")
 	}
 
-	if len(alterLog.String()) > 0 {
-		t.Error("add true failed, message should be empty")
-	}
+	errors := checker.Errors()
 
-	checker.Add(false, "test message")
-
-	if checker.Result() == true {
-		t.Error("add false failed, result should be false")
-	}
-
-	if len(alterLog.String()) <= 0 {
-		t.Error("add false failed, message should not empty")
+	if len(errors) > 0 {
+		t.Error("errors len > 0")
 	}
 }
 
-func TestChecker_Result(t *testing.T) {
+func TestChecker_2(t *testing.T) {
+	testMessage1 := "test message1"
+	testMessage2 := "test message2"
+	testMessage3 := "test message3"
 	checker := NewChecker()
-	checker.Add(true, "test message")
+	checker.Add(false, testMessage1)
+	checker.Add(false, testMessage2)
+	checker.Add(false, testMessage3)
 
-	if checker.Result() == false {
-		t.Error("result should be true")
+	if checker.Result() != false {
+		t.Error("result != false")
 	}
 
-	checker.Add(false, "test message")
+	errors := checker.Errors()
 
-	if checker.Result() == true {
-		t.Error("result should be false")
+	if len(errors) != 3 {
+		t.Error("errors len != 3")
+	}
+
+	if errors[0] != testMessage1 {
+		t.Error("errors[0] invalid")
+	}
+
+	if errors[1] != testMessage2 {
+		t.Error("errors[1] invalid")
+	}
+
+	if errors[2] != testMessage3 {
+		t.Error("errors[2] invalid")
+	}
+}
+
+func TestChecker_3(t *testing.T) {
+	testMessage1 := "test message1"
+	testMessage2 := "test message2"
+	testMessage3 := "test message3"
+	checker := NewChecker()
+	checker.Add(false, testMessage1)
+	checker.Add(true, testMessage2)
+	checker.Add(false, testMessage3)
+
+	if checker.Result() != false {
+		t.Error("result != false")
+	}
+
+	errors := checker.Errors()
+
+	if len(errors) != 2 {
+		t.Error("errors len != 2")
+	}
+
+	if errors[0] != testMessage1 {
+		t.Error("errors[0] invalid")
+	}
+
+	if errors[1] != testMessage3 {
+		t.Error("errors[1] invalid")
 	}
 }
 
