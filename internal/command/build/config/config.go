@@ -19,6 +19,7 @@ func (this *Config) Check() (result bool) {
 	checker.Add(this.Global.OutputPathGo != "", "Global: outputPathGo empty")
 	checker.Add(this.Global.OutputPathCs != "", "Global: outputPathCs empty")
 	checker.Add(this.Global.OutputPathCpp != "", "Global: outputPathCpp empty")
+	checker.Add(this.Global.GoPackage != "", "Global: goPackage empty")
 	checker.Add(this.Global.LineOfData > this.Global.LineOfNote, "Global: line of note can't greater than line of data")
 	checker.Add(this.Global.LineOfData > this.Global.LineOfField, "Global: line of field can't greater than line of data")
 	checker.Add(len(this.Elements) != 0, "element: element empty")
@@ -39,10 +40,11 @@ func (this *Config) Check() (result bool) {
 type Global struct {
 	ExcelPath      string `yaml:"excelPath"`      // 來源Excel路徑
 	OutputPathJson string `yaml:"outputPathJson"` // 輸出路徑: json
-	OutputPathGo   string `yaml:"outputPathGo"`   // 輸出路徑: go
-	OutputPathCs   string `yaml:"outputPathCs"`   // 輸出路徑: c#
 	OutputPathCpp  string `yaml:"outputPathCpp"`  // 輸出路徑: c++
-	CppLibraryPath string `yaml:"cppLibraryPath"` // 函式庫路徑: cpp
+	OutputPathCs   string `yaml:"outputPathCs"`   // 輸出路徑: c#
+	OutputPathGo   string `yaml:"outputPathGo"`   // 輸出路徑: go
+	CppLibraryPath string `yaml:"cppLibraryPath"` // cpp函式庫路徑
+	GoPackage      string `yaml:"goPackage"`      // go包名
 	Bom            bool   `yaml:"bom"`            // 輸出的檔案是否使用順序標記(BOM)
 	LineOfNote     int    `yaml:"lineOfNote"`     // 註解行號
 	LineOfField    int    `yaml:"lineOfField"`    // 欄位行號

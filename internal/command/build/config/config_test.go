@@ -37,6 +37,10 @@ func TestConfig_Check(t *testing.T) {
 	assert.Equal(t, false, config.Check(), "check failed(Global.OutputPathCpp)")
 
 	loadConfig(t, &config)
+	config.Global.GoPackage = ""
+	assert.Equal(t, false, config.Check(), "check failed(Global.GoPackage)")
+
+	loadConfig(t, &config)
 	config.Global.LineOfNote = 3
 	assert.Equal(t, false, config.Check(), "check failed(Global.LineOfNote)")
 
