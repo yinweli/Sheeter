@@ -1,29 +1,28 @@
-package command
+package build
 
 import (
 	"io/ioutil"
 
+	config2 "Sheeter/internal/command/build/config"
 	"Sheeter/internal/logger"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )
 
-// NewCommandBuild 建立編譯表格命令
-func NewCommandBuild() (command *cobra.Command) {
-	command = &cobra.Command{
+// NewCommand 建立命令
+func NewCommand() (cmd *cobra.Command) {
+	return &cobra.Command{
 		Use:   "build",
-		Short: "NewCommandBuild sheet",
-		Long:  "NewCommandBuild all the sheet written in the configuration file",
+		Short: "build sheet",
+		Long:  "build all the sheet in the configuration",
 		Args:  cobra.MinimumNArgs(1),
-		Run:   build,
+		Run:   execute,
 	}
-
-	return command
 }
 
-// build 編譯表格命令
-func build(cmd *cobra.Command, args []string) {
+// execute 執行命令
+func execute(cmd *cobra.Command, args []string) {
 	yamlFile, err := ioutil.ReadFile(args[0])
 
 	if err != nil {
@@ -31,7 +30,7 @@ func build(cmd *cobra.Command, args []string) {
 		return
 	} // if
 
-	var config BuildConfig
+	var config config2.Config
 
 	err = yaml.Unmarshal(yamlFile, config)
 

@@ -1,18 +1,18 @@
-package command
+package config
 
 import (
 	"Sheeter/internal/logger"
 	"Sheeter/internal/util"
 )
 
-// BuildConfig 建立表格設定資料
-type BuildConfig struct {
-	Global   Global    `yaml:"global"`   // 全域設定資料
-	Elements []Element `yaml:"elements"` // 項目設定資料列表
+// Config 編譯設定
+type Config struct {
+	Global   Global    `yaml:"global"`   // 全域設定
+	Elements []Element `yaml:"elements"` // 項目設定列表
 }
 
-// Check 檢查設定資料是否正確
-func (this *BuildConfig) Check() (result bool) {
+// Check 檢查設定是否正確
+func (this *Config) Check() (result bool) {
 	checker := util.NewChecker()
 	checker.Add(this.Global.ExcelPath != "", "Global: excelPath empty")
 	checker.Add(this.Global.OutputPathJson != "", "Global: outputPathJson empty")
@@ -35,7 +35,7 @@ func (this *BuildConfig) Check() (result bool) {
 	return checker.Result()
 }
 
-// Global 全域設定資料
+// Global 全域設定
 type Global struct {
 	ExcelPath      string `yaml:"excelPath"`      // 來源Excel路徑
 	OutputPathJson string `yaml:"outputPathJson"` // 輸出路徑: json
@@ -49,7 +49,7 @@ type Global struct {
 	LineOfData     int    `yaml:"lineOfData"`     // 資料起始行號
 }
 
-// Element 項目設定資料
+// Element 項目設定
 type Element struct {
 	ExcelName string `yaml:"excelName"` // Excel檔名
 	SheetName string `yaml:"sheetName"` // Excel表單名稱
