@@ -13,8 +13,8 @@ func TestChecker_1(t *testing.T) {
 	checker.Add(true, testMessage2)
 	checker.Add(true, testMessage3)
 
-	if checker.Result() != true {
-		t.Error("result != true")
+	if checker.Result() == false {
+		t.Error("result == false")
 	}
 
 	errors := checker.Errors()
