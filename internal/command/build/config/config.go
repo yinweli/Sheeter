@@ -1,7 +1,6 @@
 package config
 
 import (
-	"Sheeter/internal/logger"
 	"Sheeter/internal/util"
 )
 
@@ -12,7 +11,7 @@ type Config struct {
 }
 
 // Check 檢查設定是否正確
-func (this *Config) Check() (result bool) {
+func (this *Config) Check() (result bool, errors []string) {
 	checker := util.NewChecker()
 	checker.Add(this.Global.ExcelPath != "", "Global: excelPath empty")
 	checker.Add(this.Global.OutputPathJson != "", "Global: outputPathJson empty")
@@ -29,11 +28,7 @@ func (this *Config) Check() (result bool) {
 		checker.Add(itor.SheetName != "", "element: sheetName empty")
 	} // for
 
-	for _, itor := range checker.Errors() {
-		logger.Error(itor)
-	} // for
-
-	return checker.Result()
+	return checker.Result(), checker.Errors()
 }
 
 // Global 全域設定

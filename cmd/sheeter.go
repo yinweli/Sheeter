@@ -4,7 +4,6 @@ import (
 	"Sheeter/internal"
 	"Sheeter/internal/command/build"
 	"Sheeter/internal/command/version"
-	"Sheeter/internal/logger"
 
 	"github.com/spf13/cobra"
 )
@@ -17,11 +16,5 @@ func main() {
 	rootCommand.AddCommand(version.NewCommand())
 	rootCommand.AddCommand(build.NewCommand())
 	rootCommand.CompletionOptions.HiddenDefaultCmd = true // 隱藏cobra提供的預設命令
-
-	logger.Initialize(internal.LogName)
-	defer logger.Finalize()
-
-	if err := rootCommand.Execute(); err != nil {
-		panic(err)
-	} // if
+	_ = rootCommand.Execute()
 }
