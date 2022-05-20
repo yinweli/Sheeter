@@ -1,10 +1,11 @@
 global:
   excelPath: testme
   outputPathJson: testme
-  outputPathGo: testme
-  outputPathCs: testme
   outputPathCpp: testme
+  outputPathCs: testme
+  outputPathGo: testme
   cppLibraryPath: testme
+  goPackage: testme
   bom: true
   lineOfNote: 1
   lineOfField: 2
