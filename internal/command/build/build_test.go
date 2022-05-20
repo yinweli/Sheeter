@@ -18,11 +18,21 @@ func TestNewCommand(t *testing.T) {
 }
 
 func TestReadBuildConfig(t *testing.T) {
-	filename := testdata.Path("config.yaml")
 	buildConfig := config.Config{}
+	filename1 := testdata.Path("config.yaml")
 
-	err := readBuildConfig(filename, &buildConfig)
+	err := readBuildConfig(filename1, &buildConfig)
 	assert.Nil(t, err, err)
+
+	filename2 := testdata.Path("failed.yaml")
+
+	err = readBuildConfig(filename2, &buildConfig)
+	assert.NotNil(t, err, err)
+
+	filename3 := testdata.Path("??????.yaml")
+
+	err = readBuildConfig(filename3, &buildConfig)
+	assert.NotNil(t, err, err)
 }
 
 // fakeCommand 取得假的命令物件
