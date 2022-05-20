@@ -1,9 +1,12 @@
 package build
 
 import (
-	"fmt"
+	"io/ioutil"
+
+	"Sheeter/internal/command/build/config"
 
 	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v3"
 )
 
 // NewCommand 建立命令
@@ -19,5 +22,19 @@ func NewCommand() (cmd *cobra.Command) {
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
-	fmt.Println(args)
+	filename := args[0]
+	file, err := ioutil.ReadFile(filename)
+
+	if err != nil {
+		cmd.Println(err)
+		return
+	} // if
+
+	buildConfig := config.Config{}
+	err = yaml.Unmarshal(file, &buildConfig)
+
+	if err != nil {
+		cmd.Println(err)
+		return
+	} // if
 }
