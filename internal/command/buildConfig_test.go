@@ -1,85 +1,57 @@
 package command
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
 
 func TestBuildConfig_Check(t *testing.T) {
 	buildConfig := BuildConfig{}
 
 	recoveryBuildConfig(&buildConfig)
-
-	if buildConfig.Check() == false {
-		t.Error("check == false")
-	}
+	assert.Equal(t, true, buildConfig.Check(), "check failed")
 
 	recoveryBuildConfig(&buildConfig)
 	buildConfig.Global.ExcelPath = ""
-
-	if buildConfig.Check() == true {
-		t.Error("check == true (Global.ExcelPath)")
-	}
+	assert.Equal(t, false, buildConfig.Check(), "check failed(Global.ExcelPath)")
 
 	recoveryBuildConfig(&buildConfig)
 	buildConfig.Global.OutputPathJson = ""
-
-	if buildConfig.Check() == true {
-		t.Error("check == true (Global.OutputPathJson)")
-	}
+	assert.Equal(t, false, buildConfig.Check(), "check failed(Global.OutputPathJson)")
 
 	recoveryBuildConfig(&buildConfig)
 	buildConfig.Global.OutputPathGo = ""
-
-	if buildConfig.Check() == true {
-		t.Error("check == true (Global.OutputPathGo)")
-	}
+	assert.Equal(t, false, buildConfig.Check(), "check failed(Global.OutputPathGo)")
 
 	recoveryBuildConfig(&buildConfig)
 	buildConfig.Global.OutputPathCs = ""
-
-	if buildConfig.Check() == true {
-		t.Error("check == true (Global.OutputPathCs)")
-	}
+	assert.Equal(t, false, buildConfig.Check(), "check failed(Global.OutputPathCs)")
 
 	recoveryBuildConfig(&buildConfig)
 	buildConfig.Global.OutputPathCpp = ""
-
-	if buildConfig.Check() == true {
-		t.Error("check == true (Global.OutputPathCpp)")
-	}
+	assert.Equal(t, false, buildConfig.Check(), "check failed(Global.OutputPathCpp)")
 
 	recoveryBuildConfig(&buildConfig)
 	buildConfig.Global.LineOfNote = 3
-
-	if buildConfig.Check() == true {
-		t.Error("check == true (Global.LineOfNote)")
-	}
+	assert.Equal(t, false, buildConfig.Check(), "check failed(Global.LineOfNote)")
 
 	recoveryBuildConfig(&buildConfig)
 	buildConfig.Global.LineOfField = 3
-
-	if buildConfig.Check() == true {
-		t.Error("check == true (Global.LineOfField)")
-	}
+	assert.Equal(t, false, buildConfig.Check(), "check failed(Global.LineOfField)")
 
 	recoveryBuildConfig(&buildConfig)
 	buildConfig.Elements = []Element{}
-
-	if buildConfig.Check() == true {
-		t.Error("check == true (Elements empty)")
-	}
+	assert.Equal(t, false, buildConfig.Check(), "check failed(Elements empty)")
 
 	recoveryBuildConfig(&buildConfig)
 	buildConfig.Elements[0].ExcelName = ""
-
-	if buildConfig.Check() == true {
-		t.Error("check == true (Elements.ExcelName)")
-	}
+	assert.Equal(t, false, buildConfig.Check(), "check failed(Elements.ExcelName)")
 
 	recoveryBuildConfig(&buildConfig)
 	buildConfig.Elements[0].SheetName = ""
+	assert.Equal(t, false, buildConfig.Check(), "check failed(Elements.SheetName)")
 
-	if buildConfig.Check() == true {
-		t.Error("check == true (Elements.SheetName)")
-	}
 }
 
 // recoveryBuildConfig 復原建立表格設定資料
