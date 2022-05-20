@@ -7,8 +7,7 @@ type Config struct {
 }
 
 // Check 檢查設定是否正確
-func (this *Config) Check() (result bool, errors []string) {
-
+func (this *Config) Check() (errors []string, result bool) {
 	if this.Global.ExcelPath == "" {
 		errors = append(errors, "Global: excelPath empty")
 	} // if
@@ -56,7 +55,7 @@ func (this *Config) Check() (result bool, errors []string) {
 
 	} // for
 
-	return len(errors) <= 0, errors
+	return errors, len(errors) <= 0
 }
 
 // Global 全域設定

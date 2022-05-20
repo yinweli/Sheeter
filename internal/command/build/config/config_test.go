@@ -16,82 +16,81 @@ func TestConfig_Check(t *testing.T) {
 	var errors []string
 
 	fakeConfig(t, &config)
-	result, errors = config.Check()
-	assert.Equal(t, true, result, "check result failed")
+	errors, result = config.Check()
 	assert.Equal(t, 0, len(errors), "check errors failed")
+	assert.Equal(t, true, result, "check result failed")
 
 	fakeConfig(t, &config)
 	config.Global.ExcelPath = ""
-	result, errors = config.Check()
-	assert.Equal(t, false, result, "check result failed(Global.ExcelPath)")
+	errors, result = config.Check()
 	assert.Equal(t, 1, len(errors), "check errors failed(Global.ExcelPath)")
+	assert.Equal(t, false, result, "check result failed(Global.ExcelPath)")
 
 	fakeConfig(t, &config)
 	config.Global.OutputPathJson = ""
-	result, errors = config.Check()
-	assert.Equal(t, false, result, "check result failed(Global.OutputPathJson)")
+	errors, result = config.Check()
 	assert.Equal(t, 1, len(errors), "check errors failed(Global.OutputPathJson)")
+	assert.Equal(t, false, result, "check result failed(Global.OutputPathJson)")
 
 	fakeConfig(t, &config)
 	config.Global.OutputPathCpp = ""
-	result, errors = config.Check()
-	assert.Equal(t, false, result, "check result failed(Global.OutputPathCpp)")
+	errors, result = config.Check()
 	assert.Equal(t, 1, len(errors), "check errors failed(Global.OutputPathCpp)")
+	assert.Equal(t, false, result, "check result failed(Global.OutputPathCpp)")
 
 	fakeConfig(t, &config)
 	config.Global.OutputPathCs = ""
-	result, errors = config.Check()
-	assert.Equal(t, false, result, "check result failed(Global.OutputPathCs)")
+	errors, result = config.Check()
 	assert.Equal(t, 1, len(errors), "check errors failed(Global.OutputPathCs)")
+	assert.Equal(t, false, result, "check result failed(Global.OutputPathCs)")
 
 	fakeConfig(t, &config)
 	config.Global.OutputPathGo = ""
-	result, errors = config.Check()
-	assert.Equal(t, false, result, "check result failed(Global.OutputPathGo)")
+	errors, result = config.Check()
 	assert.Equal(t, 1, len(errors), "check errors failed(Global.OutputPathGo)")
+	assert.Equal(t, false, result, "check result failed(Global.OutputPathGo)")
 
 	fakeConfig(t, &config)
 	config.Global.GoPackage = ""
-	result, errors = config.Check()
-	assert.Equal(t, false, result, "check result failed(Global.GoPackage)")
+	errors, result = config.Check()
 	assert.Equal(t, 1, len(errors), "check errors failed(Global.GoPackage)")
+	assert.Equal(t, false, result, "check result failed(Global.GoPackage)")
 
 	fakeConfig(t, &config)
 	config.Global.LineOfNote = 3
-	result, errors = config.Check()
-	assert.Equal(t, false, result, "check result failed(Global.LineOfNote)")
+	errors, result = config.Check()
 	assert.Equal(t, 1, len(errors), "check errors failed(Global.LineOfNote)")
+	assert.Equal(t, false, result, "check result failed(Global.LineOfNote)")
 
 	fakeConfig(t, &config)
 	config.Global.LineOfField = 3
-	result, errors = config.Check()
-	assert.Equal(t, false, result, "check result failed(Global.LineOfField)")
+	errors, result = config.Check()
 	assert.Equal(t, 1, len(errors), "check errors failed(Global.LineOfField)")
+	assert.Equal(t, false, result, "check result failed(Global.LineOfField)")
 
 	fakeConfig(t, &config)
 	config.Elements = []Element{}
-	result, errors = config.Check()
-	assert.Equal(t, false, result, "check result failed(Elements empty)")
+	errors, result = config.Check()
 	assert.Equal(t, 1, len(errors), "check errors failed(Elements empty)")
+	assert.Equal(t, false, result, "check result failed(Elements empty)")
 
 	fakeConfig(t, &config)
 	config.Elements[0].ExcelName = ""
-	result, errors = config.Check()
-	assert.Equal(t, false, result, "check result failed(Elements.ExcelName)")
+	errors, result = config.Check()
 	assert.Equal(t, 1, len(errors), "check errors failed(Elements.ExcelName)")
+	assert.Equal(t, false, result, "check result failed(Elements.ExcelName)")
 
 	fakeConfig(t, &config)
 	config.Elements[0].SheetName = ""
-	result, errors = config.Check()
-	assert.Equal(t, false, result, "check result failed(Elements.SheetName)")
+	errors, result = config.Check()
 	assert.Equal(t, 1, len(errors), "check errors failed(Elements.SheetName)")
-
+	assert.Equal(t, false, result, "check result failed(Elements.SheetName)")
 }
 
 // fakeConfig 取得假的編譯設定
 func fakeConfig(t *testing.T, config *Config) {
-	path := testdata.Path("config.yaml")
-	file, err := ioutil.ReadFile(path)
+	filename := testdata.Path("config.yaml")
+	file, err := ioutil.ReadFile(filename)
 
 	assert.NotNil(t, file, "load config failed")
 	assert.Nil(t, err, err)
