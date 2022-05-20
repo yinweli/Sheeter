@@ -1,6 +1,7 @@
 package command
 
 import (
+	"Sheeter/internal/logger"
 	"Sheeter/internal/util"
 )
 
@@ -13,11 +14,22 @@ type BuildConfig struct {
 // Check 檢查設定資料是否正確
 func (this *BuildConfig) Check() (result bool) {
 	checker := util.NewChecker()
-	checker.Add(this.Global.Check(), "")
+	checker.Add(this.Global.ExcelPath == "", "Global: excelPath empty")
+	checker.Add(this.Global.OutputPathJson == "", "Global: outputPathJson empty")
+	checker.Add(this.Global.OutputPathGo == "", "Global: outputPathGo empty")
+	checker.Add(this.Global.OutputPathCs == "", "Global: outputPathCs empty")
+	checker.Add(this.Global.OutputPathCpp == "", "Global: outputPathCpp empty")
+	checker.Add(this.Global.LineOfNote >= this.Global.LineOfData, "Global: line of note can't greater than line of data")
+	checker.Add(this.Global.LineOfField >= this.Global.LineOfData, "Global: line of field can't greater than line of data")
 	checker.Add(len(this.Elements) <= 0, "element: element empty")
 
 	for _, itor := range this.Elements {
-		checker.Add(itor.Check(), "")
+		checker.Add(itor.ExcelName == "", "element: excelName empty")
+		checker.Add(itor.SheetName == "", "element: sheetName empty")
+	} // for
+
+	for _, itor := range checker.Errors() {
+		logger.Error(itor)
 	} // for
 
 	return checker.Result()
@@ -37,31 +49,8 @@ type Global struct {
 	LineOfData     int    `yaml:"lineOfData"`     // 資料起始行號
 }
 
-// Check 檢查全域設定資料是否正確
-func (this *Global) Check() (result bool) {
-	checker := util.NewChecker()
-	checker.Add(this.ExcelPath == "", "Global: excelPath empty")
-	checker.Add(this.OutputPathJson == "", "Global: outputPathJson empty")
-	checker.Add(this.OutputPathGo == "", "Global: outputPathGo empty")
-	checker.Add(this.OutputPathCs == "", "Global: outputPathCs empty")
-	checker.Add(this.OutputPathCpp == "", "Global: outputPathCpp empty")
-	checker.Add(this.LineOfNote >= this.LineOfData, "Global: line of note can't greater than line of data")
-	checker.Add(this.LineOfField >= this.LineOfData, "Global: line of field can't greater than line of data")
-
-	return checker.Result()
-}
-
 // Element 項目設定資料
 type Element struct {
 	ExcelName string `yaml:"excelName"` // Excel檔名
 	SheetName string `yaml:"sheetName"` // Excel表單名稱
-}
-
-// Check 檢查項目設定資料是否正確
-func (this *Element) Check() (result bool) {
-	checker := util.NewChecker()
-	checker.Add(this.ExcelName == "", "element: excelName empty")
-	checker.Add(this.SheetName == "", "element: sheetName empty")
-
-	return checker.Result()
 }
