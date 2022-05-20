@@ -12,8 +12,8 @@ import (
 
 func TestConfig_Check(t *testing.T) {
 	var config Config
-	var result bool
 	var errors []string
+	var result bool
 
 	fakeConfig(t, &config)
 	errors, result = config.Check()

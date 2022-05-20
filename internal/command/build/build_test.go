@@ -18,20 +18,16 @@ func TestNewCommand(t *testing.T) {
 }
 
 func TestReadBuildConfig(t *testing.T) {
-	buildConfig := config.Config{}
-	filename1 := testdata.Path("config.yaml")
+	var err error
+	var buildConfig config.Config
 
-	err := readBuildConfig(filename1, &buildConfig)
+	err = readBuildConfig(testdata.Path("config.yaml"), &buildConfig)
 	assert.Nil(t, err, err)
 
-	filename2 := testdata.Path("failed.yaml")
-
-	err = readBuildConfig(filename2, &buildConfig)
+	err = readBuildConfig(testdata.Path("failed.yaml"), &buildConfig)
 	assert.NotNil(t, err, err)
 
-	filename3 := testdata.Path("??????.yaml")
-
-	err = readBuildConfig(filename3, &buildConfig)
+	err = readBuildConfig(testdata.Path("??????.yaml"), &buildConfig)
 	assert.NotNil(t, err, err)
 }
 
