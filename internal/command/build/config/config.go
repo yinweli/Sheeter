@@ -1,9 +1,5 @@
 package config
 
-import (
-	"Sheeter/internal/util"
-)
-
 // Config 編譯設定
 type Config struct {
 	Global   Global    `yaml:"global"`   // 全域設定
@@ -12,23 +8,55 @@ type Config struct {
 
 // Check 檢查設定是否正確
 func (this *Config) Check() (result bool, errors []string) {
-	checker := util.NewChecker()
-	checker.Add(this.Global.ExcelPath != "", "Global: excelPath empty")
-	checker.Add(this.Global.OutputPathJson != "", "Global: outputPathJson empty")
-	checker.Add(this.Global.OutputPathGo != "", "Global: outputPathGo empty")
-	checker.Add(this.Global.OutputPathCs != "", "Global: outputPathCs empty")
-	checker.Add(this.Global.OutputPathCpp != "", "Global: outputPathCpp empty")
-	checker.Add(this.Global.GoPackage != "", "Global: goPackage empty")
-	checker.Add(this.Global.LineOfData > this.Global.LineOfNote, "Global: line of note can't greater than line of data")
-	checker.Add(this.Global.LineOfData > this.Global.LineOfField, "Global: line of field can't greater than line of data")
-	checker.Add(len(this.Elements) != 0, "element: element empty")
+
+	if this.Global.ExcelPath == "" {
+		errors = append(errors, "Global: excelPath empty")
+	} // if
+
+	if this.Global.OutputPathJson == "" {
+		errors = append(errors, "Global: outputPathJson empty")
+	} // if
+
+	if this.Global.OutputPathCpp == "" {
+		errors = append(errors, "Global: outputPathCpp empty")
+	} // if
+
+	if this.Global.OutputPathCs == "" {
+		errors = append(errors, "Global: outputPathCs empty")
+	} // if
+
+	if this.Global.OutputPathGo == "" {
+		errors = append(errors, "Global: outputPathGo empty")
+	} // if
+
+	if this.Global.GoPackage == "" {
+		errors = append(errors, "Global: goPackage empty")
+	} // if
+
+	if this.Global.LineOfNote >= this.Global.LineOfData {
+		errors = append(errors, "Global: line of note can't greater than line of data")
+	} // if
+
+	if this.Global.LineOfField >= this.Global.LineOfData {
+		errors = append(errors, "Global: line of field can't greater than line of data")
+	} // if
+
+	if len(this.Elements) <= 0 {
+		errors = append(errors, "element: element empty")
+	} // if
 
 	for _, itor := range this.Elements {
-		checker.Add(itor.ExcelName != "", "element: excelName empty")
-		checker.Add(itor.SheetName != "", "element: sheetName empty")
+		if itor.ExcelName == "" {
+			errors = append(errors, "element: excelName empty")
+		} // if
+
+		if itor.SheetName == "" {
+			errors = append(errors, "element: sheetName empty")
+		} // if
+
 	} // for
 
-	return checker.Result(), checker.Errors()
+	return len(errors) <= 0, errors
 }
 
 // Global 全域設定
