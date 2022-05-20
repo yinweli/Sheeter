@@ -9,12 +9,12 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// Build 建立表格命令
-func Build() (command *cobra.Command) {
+// NewCommandBuild 建立編譯表格命令
+func NewCommandBuild() (command *cobra.Command) {
 	command = &cobra.Command{
 		Use:   "build",
-		Short: "Build sheet",
-		Long:  "Build all the sheet written in the configuration file",
+		Short: "NewCommandBuild sheet",
+		Long:  "NewCommandBuild all the sheet written in the configuration file",
 		Args:  cobra.MinimumNArgs(1),
 		Run:   build,
 	}
@@ -22,7 +22,7 @@ func Build() (command *cobra.Command) {
 	return command
 }
 
-// command 建立表格命令
+// build 編譯表格命令
 func build(cmd *cobra.Command, args []string) {
 	yamlFile, err := ioutil.ReadFile(args[0])
 
