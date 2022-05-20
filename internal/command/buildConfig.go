@@ -7,7 +7,7 @@ import (
 
 // BuildConfig 建立表格設定資料
 type BuildConfig struct {
-	Global   Global    `yaml:"Global"`   // 全域設定資料
+	Global   Global    `yaml:"global"`   // 全域設定資料
 	Elements []Element `yaml:"elements"` // 項目設定資料列表
 }
 
