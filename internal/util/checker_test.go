@@ -50,6 +50,6 @@ func TestNewChecker(t *testing.T) {
 	assert.NotNil(t, checker, "checker nil")
 }
 
-var message1 string = "message1"
-var message2 string = "message2"
-var message3 string = "message3"
+var message1 string = "message1" // 測試訊息1
+var message2 string = "message2" // 測試訊息2
+var message3 string = "message3" // 測試訊息3

@@ -2,7 +2,8 @@ package main
 
 import (
 	"Sheeter/internal"
-	"Sheeter/internal/command"
+	"Sheeter/internal/command/build"
+	"Sheeter/internal/command/version"
 	"Sheeter/internal/logger"
 
 	"github.com/spf13/cobra"
@@ -16,8 +17,8 @@ func main() {
 		Use:  internal.Title,
 		Long: "Sheeter used to convert excel file to json file, and generate code of data structure",
 	}
-	rootCommand.AddCommand(command.NewCommandVersion())
-	rootCommand.AddCommand(command.NewCommandBuild())
+	rootCommand.AddCommand(version.NewCommand())
+	rootCommand.AddCommand(build.NewCommand())
 	rootCommand.CompletionOptions.HiddenDefaultCmd = true // 隱藏cobra提供的預設命令
 
 	if err := rootCommand.Execute(); err != nil {
