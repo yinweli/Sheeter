@@ -10,9 +10,6 @@ import (
 )
 
 func main() {
-	logger.Initialize(internal.LogName)
-	defer logger.Finalize()
-
 	rootCommand := &cobra.Command{
 		Use:  internal.Title,
 		Long: "Sheeter used to convert excel file to json file, and generate code of data structure",
@@ -20,6 +17,9 @@ func main() {
 	rootCommand.AddCommand(version.NewCommand())
 	rootCommand.AddCommand(build.NewCommand())
 	rootCommand.CompletionOptions.HiddenDefaultCmd = true // 隱藏cobra提供的預設命令
+
+	logger.Initialize(internal.LogName)
+	defer logger.Finalize()
 
 	if err := rootCommand.Execute(); err != nil {
 		panic(err)
