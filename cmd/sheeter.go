@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	rootCommand := &cobra.Command{
+	rootCommand := cobra.Command{
 		Use:  internal.Title,
 		Long: "Sheeter used to convert excel file to json file, and generate code of data structure",
 	}
