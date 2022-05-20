@@ -10,7 +10,7 @@ import (
 )
 
 // NewCommand 建立命令
-func NewCommand() (cmd *cobra.Command) {
+func NewCommand() *cobra.Command {
 	return &cobra.Command{
 		Use:   "build [config]",
 		Short: "build sheet",
@@ -22,19 +22,28 @@ func NewCommand() (cmd *cobra.Command) {
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
-	filename := args[0]
+	buildConfig := config.Config{}
+	err := readBuildConfig(args[0], &buildConfig)
+
+	if err != nil {
+		cmd.Println(err)
+		return
+	} // if
+}
+
+// readBuildConfig 讀取編譯設置
+func readBuildConfig(filename string, buildConfig *config.Config) error {
 	file, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		cmd.Println(err)
-		return
+		return err
 	} // if
 
-	buildConfig := config.Config{}
 	err = yaml.Unmarshal(file, &buildConfig)
 
 	if err != nil {
-		cmd.Println(err)
-		return
+		return err
 	} // if
+
+	return nil
 }
