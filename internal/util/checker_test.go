@@ -2,92 +2,54 @@ package util
 
 import (
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func TestChecker_1(t *testing.T) {
-	testMessage1 := "test message1"
-	testMessage2 := "test message2"
-	testMessage3 := "test message3"
+func TestChecker_AllSuccess(t *testing.T) {
 	checker := NewChecker()
-	checker.Add(true, testMessage1)
-	checker.Add(true, testMessage2)
-	checker.Add(true, testMessage3)
-
-	if checker.Result() == false {
-		t.Error("result == false")
-	}
-
+	checker.Add(true, message1)
+	checker.Add(true, message2)
+	checker.Add(true, message3)
 	errors := checker.Errors()
 
-	if len(errors) > 0 {
-		t.Error("errors len > 0")
-	}
+	assert.Equal(t, true, checker.Result(), "result failed")
+	assert.Equal(t, 0, len(errors), "errors len failed")
 }
 
-func TestChecker_2(t *testing.T) {
-	testMessage1 := "test message1"
-	testMessage2 := "test message2"
-	testMessage3 := "test message3"
+func TestChecker_AllFailed(t *testing.T) {
 	checker := NewChecker()
-	checker.Add(false, testMessage1)
-	checker.Add(false, testMessage2)
-	checker.Add(false, testMessage3)
-
-	if checker.Result() != false {
-		t.Error("result != false")
-	}
-
+	checker.Add(false, message1)
+	checker.Add(false, message2)
+	checker.Add(false, message3)
 	errors := checker.Errors()
 
-	if len(errors) != 3 {
-		t.Error("errors len != 3")
-	}
-
-	if errors[0] != testMessage1 {
-		t.Error("errors[0] invalid")
-	}
-
-	if errors[1] != testMessage2 {
-		t.Error("errors[1] invalid")
-	}
-
-	if errors[2] != testMessage3 {
-		t.Error("errors[2] invalid")
-	}
+	assert.Equal(t, false, checker.Result(), "result failed")
+	assert.Equal(t, 3, len(errors), "errors len failed")
+	assert.Equal(t, message1, errors[0], "errors[0] failed")
+	assert.Equal(t, message2, errors[1], "errors[1] failed")
+	assert.Equal(t, message3, errors[2], "errors[2] failed")
 }
 
-func TestChecker_3(t *testing.T) {
-	testMessage1 := "test message1"
-	testMessage2 := "test message2"
-	testMessage3 := "test message3"
+func TestChecker_Mix(t *testing.T) {
 	checker := NewChecker()
-	checker.Add(false, testMessage1)
-	checker.Add(true, testMessage2)
-	checker.Add(false, testMessage3)
-
-	if checker.Result() != false {
-		t.Error("result != false")
-	}
-
+	checker.Add(false, message1)
+	checker.Add(true, message2)
+	checker.Add(false, message3)
 	errors := checker.Errors()
 
-	if len(errors) != 2 {
-		t.Error("errors len != 2")
-	}
-
-	if errors[0] != testMessage1 {
-		t.Error("errors[0] invalid")
-	}
-
-	if errors[1] != testMessage3 {
-		t.Error("errors[1] invalid")
-	}
+	assert.Equal(t, false, checker.Result(), "result failed")
+	assert.Equal(t, 2, len(errors), "errors len failed")
+	assert.Equal(t, message1, errors[0], "errors[0] failed")
+	assert.Equal(t, message3, errors[1], "errors[1] failed")
 }
 
 func TestNewChecker(t *testing.T) {
 	checker := NewChecker()
 
-	if checker == nil {
-		t.Error("new checker failed")
-	}
+	assert.NotNil(t, checker, "checker nil")
 }
+
+var message1 string = "message1"
+var message2 string = "message2"
+var message3 string = "message3"
