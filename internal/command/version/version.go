@@ -7,7 +7,7 @@ import (
 )
 
 // NewCommand 建立命令
-func NewCommand() (cmd *cobra.Command) {
+func NewCommand() *cobra.Command {
 	return &cobra.Command{
 		Use:   "version",
 		Short: "show version",
