@@ -14,12 +14,10 @@ func Initialize(fileName string) {
 		panic(err)
 	} // if
 
-	multiWriter := io.MultiWriter(os.Stdout, file)
+	multiWriter := io.MultiWriter(file, os.Stdout)
 	flag := log.LstdFlags | log.Lshortfile
 	logInfo = log.New(multiWriter, "Info", flag)
 	logError = log.New(multiWriter, "Error", flag)
-
-	Info("==================== start ====================")
 }
 
 // Finalize 結束日誌
