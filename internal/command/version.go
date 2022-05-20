@@ -8,8 +8,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Version 顯示版本命令
-func Version() (command *cobra.Command) {
+// NewCommandVersion 建立顯示版本命令
+func NewCommandVersion() (command *cobra.Command) {
 	command = &cobra.Command{
 		Use:   "version",
 		Short: "Show version",

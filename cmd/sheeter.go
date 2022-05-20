@@ -16,8 +16,8 @@ func main() {
 		Use:  internal.Title,
 		Long: "Sheeter used to convert excel file to json file, and generate code of data structure",
 	}
-	rootCommand.AddCommand(command.Version())
-	rootCommand.AddCommand(command.Build())
+	rootCommand.AddCommand(command.NewCommandVersion())
+	rootCommand.AddCommand(command.NewCommandBuild())
 	rootCommand.CompletionOptions.HiddenDefaultCmd = true // 隱藏cobra提供的預設命令
 
 	if err := rootCommand.Execute(); err != nil {
