@@ -1,0 +1,15 @@
+global:
+  excelPath: testme
+  outputPathJson: testme
+  outputPathGo: testme
+  outputPathCs: testme
+  outputPathCpp: testme
+  cppLibraryPath: testme
+  bom: true
+  lineOfNote: 1
+  lineOfField: 2
+  lineOfData: 3
+
+elements:
+  - excelName: testme
+    sheetName: testme
