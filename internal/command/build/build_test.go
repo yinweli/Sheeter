@@ -15,6 +15,8 @@ func TestNewCommand(t *testing.T) {
 	command := NewCommand()
 
 	assert.NotNil(t, command, "command nil")
+
+	//
 }
 
 func TestReadBuildConfig(t *testing.T) {
