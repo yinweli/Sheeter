@@ -17,7 +17,7 @@ func TestInt(t *testing.T) {
 	metas := Metas{}
 
 	assert.Equal(t, "int", object.TypeExcel(), "type excel failed")
-	assert.Equal(t, "int", object.TypeCpp(), "type cpp failed")
+	assert.Equal(t, "int32_t", object.TypeCpp(), "type cpp failed")
 	assert.Equal(t, "int", object.TypeCs(), "type cs failed")
 	assert.Equal(t, "int", object.TypeGo(), "type go failed")
 	assert.Equal(t, false, object.Hide(), "hide failed")

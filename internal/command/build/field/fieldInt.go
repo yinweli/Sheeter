@@ -14,7 +14,7 @@ func (this *Int) TypeExcel() string {
 
 // TypeCpp 取得c++欄位類型
 func (this *Int) TypeCpp() string {
-	return "int"
+	return "int32_t"
 }
 
 // TypeCs 取得c#欄位類型
