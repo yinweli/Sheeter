@@ -20,10 +20,10 @@ func TestNewCommand(t *testing.T) {
 func TestExecute(t *testing.T) {
 	buffer, command := fakeCommand()
 
-	execute(command, []string{testdata.Path(testdata.RealYaml())})
+	execute(command, []string{testdata.RealYaml()})
 	assert.Equal(t, "", buffer.String(), "read real config failed")
 
-	execute(command, []string{testdata.Path(testdata.FakeYaml())})
+	execute(command, []string{testdata.FakeYaml()})
 	assert.NotEqual(t, "", buffer.String(), "read fake config failed")
 }
 
