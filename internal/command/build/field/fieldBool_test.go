@@ -25,5 +25,5 @@ func TestBool(t *testing.T) {
 	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
 	assert.Nil(t, object.FillToMetas(metas, strconv.FormatBool(true)), "fill to metas failed")
 	assert.Equal(t, true, metas[object.Name], "fill to metas failed")
-	assert.NotNil(t, object.FillToMetas(metas, "abc"), "fill to metas failed")
+	assert.NotNil(t, object.FillToMetas(metas, "fake"), "fill to metas failed")
 }

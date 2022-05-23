@@ -5,9 +5,14 @@ import (
 	"runtime"
 )
 
-// Path 取得測試資料路徑
-func Path(path string) string {
-	return filepath.Join(root, path)
+// BoolString 取得布林值字串
+func BoolString() string {
+	return "true,false,false,true,true,false,true"
+}
+
+// BoolArray 取得布林值陣列
+func BoolArray() []bool {
+	return []bool{true, false, false, true, true, false, true}
 }
 
 // RealYaml 取得real.yaml路徑
@@ -25,6 +30,11 @@ func UnknownYaml() string {
 	return Path("????.yaml")
 }
 
+// Path 取得測試路徑
+func Path(path string) string {
+	return filepath.Join(root, path)
+}
+
 func init() {
 	_, currentFile, _, ok := runtime.Caller(0)
 
@@ -35,4 +45,4 @@ func init() {
 	root = filepath.Dir(currentFile)
 }
 
-var root string // 測試資料根路徑
+var root string // 根路徑
