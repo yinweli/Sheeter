@@ -5,34 +5,44 @@ import (
 	"runtime"
 )
 
-// BoolString 取得bool字串
+// BoolString 取得測試字串
 func BoolString() string {
 	return "true,false,false,true,true,false,true"
 }
 
-// BoolArray 取得bool陣列
+// BoolArray 取得測試陣列
 func BoolArray() []bool {
 	return []bool{true, false, false, true, true, false, true}
 }
 
-// Float32String 取得float32字串
+// Int32String 取得測試字串
+func Int32String() string {
+	return "10,8,6,4,2,1,0,-99"
+}
+
+// Int32Array 取得測試陣列
+func Int32Array() []int {
+	return []int{10, 8, 6, 4, 2, 1, 0, -99}
+}
+
+// Float32String 取得測試字串
 func Float32String() string {
-	return "0.101,0.202,0.303,0.404,0.505"
+	return "0.101,0.202,0.303,0.404,0.505,-0.909"
 }
 
-// Float32Array 取得float32陣列
+// Float32Array 取得測試陣列
 func Float32Array() []float32 {
-	return []float32{0.101, 0.202, 0.303, 0.404, 0.505}
+	return []float32{0.101, 0.202, 0.303, 0.404, 0.505, -0.909}
 }
 
-// Float64String 取得float64字串
+// Float64String 取得測試字串
 func Float64String() string {
-	return "0.000101,0.000202,0.000303,0.000404,0.000505"
+	return "0.000101,0.000202,0.000303,0.000404,0.000505,-0.000909"
 }
 
-// Float64Array 取得float64陣列
+// Float64Array 取得測試陣列
 func Float64Array() []float64 {
-	return []float64{0.000101, 0.000202, 0.000303, 0.000404, 0.000505}
+	return []float64{0.000101, 0.000202, 0.000303, 0.000404, 0.000505, -0.000909}
 }
 
 // RealYaml 取得real.yaml路徑
