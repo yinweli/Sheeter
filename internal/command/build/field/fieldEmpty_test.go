@@ -7,7 +7,7 @@ import (
 )
 
 func TestEmpty(t *testing.T) {
-	empty := Empty{
+	object := Empty{
 		Data{
 			Raw:  "raw",
 			Note: "note",
@@ -16,12 +16,12 @@ func TestEmpty(t *testing.T) {
 	}
 	metas := Metas{}
 
-	assert.Equal(t, "empty", empty.TypeExcel(), "type excel failed")
-	assert.Equal(t, "", empty.TypeCpp(), "type cpp failed")
-	assert.Equal(t, "", empty.TypeCs(), "type cs failed")
-	assert.Equal(t, "", empty.TypeGo(), "type go failed")
-	assert.Equal(t, true, empty.Hide(), "hide failed")
-	assert.Equal(t, false, empty.PrimaryKey(), "primary key failed")
-	assert.Nil(t, empty.FillToMetas(metas, "test"), "fill to metas failed")
+	assert.Equal(t, "object", object.TypeExcel(), "type excel failed")
+	assert.Equal(t, "", object.TypeCpp(), "type cpp failed")
+	assert.Equal(t, "", object.TypeCs(), "type cs failed")
+	assert.Equal(t, "", object.TypeGo(), "type go failed")
+	assert.Equal(t, true, object.Hide(), "hide failed")
+	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
+	assert.Nil(t, object.FillToMetas(metas, "test"), "fill to metas failed")
 	assert.Equal(t, 0, len(metas), "fill to metas failed")
 }

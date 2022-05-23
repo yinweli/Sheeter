@@ -8,7 +8,7 @@ import (
 )
 
 func TestPkey(t *testing.T) {
-	pkey := Pkey{
+	object := Pkey{
 		Data{
 			Raw:  "raw",
 			Note: "note",
@@ -17,13 +17,13 @@ func TestPkey(t *testing.T) {
 	}
 	metas := Metas{}
 
-	assert.Equal(t, "pkey", pkey.TypeExcel(), "type excel failed")
-	assert.Equal(t, "Sheet::pkey", pkey.TypeCpp(), "type cpp failed")
-	assert.Equal(t, "int", pkey.TypeCs(), "type cs failed")
-	assert.Equal(t, "int", pkey.TypeGo(), "type go failed")
-	assert.Equal(t, false, pkey.Hide(), "hide failed")
-	assert.Equal(t, true, pkey.PrimaryKey(), "primary key failed")
-	assert.Nil(t, pkey.FillToMetas(metas, strconv.Itoa(999)), "fill to metas failed")
-	assert.Equal(t, 999, metas[pkey.Name], "fill to metas failed")
-	assert.NotNil(t, pkey.FillToMetas(metas, "abc"), "fill to metas failed")
+	assert.Equal(t, "pkey", object.TypeExcel(), "type excel failed")
+	assert.Equal(t, "Sheet::pkey", object.TypeCpp(), "type cpp failed")
+	assert.Equal(t, "int", object.TypeCs(), "type cs failed")
+	assert.Equal(t, "int", object.TypeGo(), "type go failed")
+	assert.Equal(t, false, object.Hide(), "hide failed")
+	assert.Equal(t, true, object.PrimaryKey(), "primary key failed")
+	assert.Nil(t, object.FillToMetas(metas, strconv.Itoa(999)), "fill to metas failed")
+	assert.Equal(t, 999, metas[object.Name], "fill to metas failed")
+	assert.NotNil(t, object.FillToMetas(metas, "abc"), "fill to metas failed")
 }

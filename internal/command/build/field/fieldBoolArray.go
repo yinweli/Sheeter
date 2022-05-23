@@ -1,10 +1,7 @@
 package field
 
 import (
-	"strconv"
-	"strings"
-
-	"Sheeter/internal"
+	"Sheeter/internal/util"
 )
 
 // BoolArray 布林值陣列
@@ -44,17 +41,11 @@ func (this *BoolArray) PrimaryKey() bool {
 
 // FillToMetas 寫入到元資料列表
 func (this *BoolArray) FillToMetas(metas Metas, data string) error {
-	var values []bool
+	values, err := util.StringToBoolArray(data)
 
-	for _, itor := range strings.Split(data, internal.Separator) {
-		value, err := strconv.ParseBool(itor)
-
-		if err != nil {
-			return err
-		} // if
-
-		values = append(values, value)
-	} // for
+	if err != nil {
+		return err
+	} // if
 
 	metas[this.Name] = values
 	return nil
