@@ -19,10 +19,10 @@ func TestInt(t *testing.T) {
 	assert.Equal(t, "int", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "int32_t", object.TypeCpp(), "type cpp failed")
 	assert.Equal(t, "int", object.TypeCs(), "type cs failed")
-	assert.Equal(t, "int", object.TypeGo(), "type go failed")
+	assert.Equal(t, "int32", object.TypeGo(), "type go failed")
 	assert.Equal(t, false, object.Hide(), "hide failed")
 	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
 	assert.Nil(t, object.FillToMetas(metas, "999"), "fill to metas failed")
-	assert.Equal(t, 999, metas[object.Name], "fill to metas failed")
+	assert.Equal(t, int32(999), metas[object.Name], "fill to metas failed")
 	assert.NotNil(t, object.FillToMetas(metas, "fake"), "fill to metas failed")
 }
