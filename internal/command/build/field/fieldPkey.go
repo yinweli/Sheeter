@@ -37,14 +37,14 @@ func (this *Pkey) PrimaryKey() bool {
 	return true
 }
 
-// FillToJsons 寫入到json列表
-func (this *Pkey) FillToJsons(jsons Jsons, data string) error {
+// FillToMetas 寫入到元資料列表
+func (this *Pkey) FillToMetas(metas Metas, data string) error {
 	value, err := strconv.Atoi(data)
 
 	if err != nil {
 		return err
 	} // if
 
-	jsons[this.Name] = value
+	metas[this.Name] = value
 	return nil
 }

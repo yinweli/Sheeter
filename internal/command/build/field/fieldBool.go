@@ -37,14 +37,14 @@ func (this *Bool) PrimaryKey() bool {
 	return false
 }
 
-// FillToJsons 寫入到json列表
-func (this *Bool) FillToJsons(jsons Jsons, data string) error {
+// FillToMetas 寫入到元資料列表
+func (this *Bool) FillToMetas(metas Metas, data string) error {
 	value, err := strconv.ParseBool(data)
 
 	if err != nil {
 		return err
 	} // if
 
-	jsons[this.Name] = value
+	metas[this.Name] = value
 	return nil
 }

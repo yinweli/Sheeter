@@ -15,9 +15,7 @@ func TestBool(t *testing.T) {
 			Name: "name",
 		},
 	}
-	jsons := Jsons{}
-	realValue := true
-	fakeValue := "abc"
+	metas := Metas{}
 
 	assert.Equal(t, "bool", pkey.TypeExcel(), "type excel failed")
 	assert.Equal(t, "bool", pkey.TypeCpp(), "type cpp failed")
@@ -25,7 +23,7 @@ func TestBool(t *testing.T) {
 	assert.Equal(t, "bool", pkey.TypeGo(), "type go failed")
 	assert.Equal(t, false, pkey.Hide(), "hide failed")
 	assert.Equal(t, false, pkey.PrimaryKey(), "primary key failed")
-	assert.Nil(t, pkey.FillToJsons(jsons, strconv.FormatBool(realValue)), "fill to jsons failed")
-	assert.Equal(t, realValue, jsons[pkey.Name], "fill to jsons failed")
-	assert.NotNil(t, pkey.FillToJsons(jsons, fakeValue), "fill to jsons failed")
+	assert.Nil(t, pkey.FillToMetas(metas, strconv.FormatBool(true)), "fill to metas failed")
+	assert.Equal(t, true, metas[pkey.Name], "fill to metas failed")
+	assert.NotNil(t, pkey.FillToMetas(metas, "abc"), "fill to metas failed")
 }
