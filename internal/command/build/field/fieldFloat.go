@@ -45,6 +45,6 @@ func (this *Float) FillToMetas(metas Metas, data string) error {
 		return err
 	} // if
 
-	metas[this.Name] = value
+	metas[this.Name] = float32(value)
 	return nil
 }
