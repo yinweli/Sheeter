@@ -16,7 +16,7 @@ func TestEmpty(t *testing.T) {
 	}
 	metas := Metas{}
 
-	assert.Equal(t, "object", object.TypeExcel(), "type excel failed")
+	assert.Equal(t, "empty", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "", object.TypeCpp(), "type cpp failed")
 	assert.Equal(t, "", object.TypeCs(), "type cs failed")
 	assert.Equal(t, "", object.TypeGo(), "type go failed")
