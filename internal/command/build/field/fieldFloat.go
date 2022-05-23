@@ -2,7 +2,7 @@ package field
 
 import "strconv"
 
-// Float 布林值
+// Float 浮點數
 type Float struct {
 	Data
 }
