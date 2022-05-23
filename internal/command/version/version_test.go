@@ -19,10 +19,9 @@ func TestNewCommand(t *testing.T) {
 
 func TestExecute(t *testing.T) {
 	buffer, command := fakeCommand()
-	expected := fmt.Sprintf("%s %s", internal.Title, internal.Version)
 
 	execute(command, []string{})
-	assert.Equal(t, expected, buffer.String(), "version failed")
+	assert.Equal(t, fmt.Sprintf("%s %s", internal.Title, internal.Version), buffer.String(), "execute failed")
 }
 
 // fakeCommand 取得假的命令物件

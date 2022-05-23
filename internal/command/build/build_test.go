@@ -20,25 +20,19 @@ func TestNewCommand(t *testing.T) {
 func TestExecute(t *testing.T) {
 	buffer, command := fakeCommand()
 
-	execute(command, []string{testdata.Path("real.yaml")})
+	execute(command, []string{testdata.Path(testdata.RealYaml())})
 	assert.Equal(t, "", buffer.String(), "read real config failed")
 
-	execute(command, []string{testdata.Path("fake.yaml")})
+	execute(command, []string{testdata.Path(testdata.FakeYaml())})
 	assert.NotEqual(t, "", buffer.String(), "read fake config failed")
 }
 
 func TestReadBuildConfig(t *testing.T) {
-	var err error
 	var buildConfig config.Config
 
-	err = readBuildConfig(testdata.Path("real.yaml"), &buildConfig)
-	assert.Nil(t, err, "read real config failed")
-
-	err = readBuildConfig(testdata.Path("fake.yaml"), &buildConfig)
-	assert.NotNil(t, err, "read fake config failed")
-
-	err = readBuildConfig(testdata.Path("??????.yaml"), &buildConfig)
-	assert.NotNil(t, err, "read unknown config failed")
+	assert.Nil(t, readBuildConfig(testdata.RealYaml(), &buildConfig), "read real config failed")
+	assert.NotNil(t, readBuildConfig(testdata.FakeYaml(), &buildConfig), "read fake config failed")
+	assert.NotNil(t, readBuildConfig(testdata.UnknownYaml(), &buildConfig), "read unknown config failed")
 }
 
 // fakeCommand 取得假的命令物件
