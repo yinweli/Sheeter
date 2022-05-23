@@ -28,7 +28,7 @@ func (this *Int) TypeCs() string {
 
 // TypeGo 取得go欄位類型
 func (this *Int) TypeGo() string {
-	return "int"
+	return "int32"
 }
 
 // Hide 是否隱藏
@@ -49,6 +49,6 @@ func (this *Int) FillToMetas(metas Metas, data string) error {
 		return err
 	} // if
 
-	metas[this.Name] = int(value)
+	metas[this.Name] = int32(value)
 	return nil
 }

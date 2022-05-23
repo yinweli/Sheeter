@@ -24,7 +24,7 @@ func (this *IntArray) TypeCs() string {
 
 // TypeGo 取得go欄位類型
 func (this *IntArray) TypeGo() string {
-	return "[]int"
+	return "[]int32"
 }
 
 // Hide 是否隱藏
