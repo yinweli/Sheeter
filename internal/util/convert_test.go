@@ -25,6 +25,23 @@ func TestBoolArrayToString(t *testing.T) {
 	assert.Equal(t, testdata.BoolString(), BoolArrayToString(testdata.BoolArray()), "convert failed")
 }
 
+func TestStringToInt32Array(t *testing.T) {
+	var result []int
+	var err error
+
+	result, err = StringToInt32Array(testdata.Int32String())
+	assert.Equal(t, testdata.Int32Array(), result, "convert real failed")
+	assert.Nil(t, err, "convert real failed")
+
+	result, err = StringToInt32Array("fake")
+	assert.Nil(t, result, "convert fake failed")
+	assert.NotNil(t, err, "convert fake failed")
+}
+
+func TestInt32ArrayToString(t *testing.T) {
+	assert.Equal(t, testdata.Int32String(), Int32ArrayToString(testdata.Int32Array()), "convert failed")
+}
+
 func TestStringToFloat32Array(t *testing.T) {
 	var result []float32
 	var err error
