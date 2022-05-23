@@ -35,7 +35,7 @@ func (this *Empty) PrimaryKey() bool {
 	return false
 }
 
-// FillToJsons 寫入到json列表
-func (this *Empty) FillToJsons(jsons Jsons, value string) error {
+// FillToMetas 寫入到元資料列表
+func (this *Empty) FillToMetas(metas Metas, data string) error {
 	return nil
 }

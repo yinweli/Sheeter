@@ -20,12 +20,12 @@ type Field interface {
 	// PrimaryKey 是否是主要索引
 	PrimaryKey() bool
 
-	// FillToJsons 寫入到json列表
-	FillToJsons(jsons Jsons, value string) error
+	// FillToMetas 寫入到元資料列表
+	FillToMetas(metas Metas, data string) error
 }
 
-// Jsons json列表型態 TODO: 應該要放到writer中!
-type Jsons map[string]interface{}
+// Metas 元資料列表型態 TODO: 應該要放到writer中!
+type Metas map[string]interface{}
 
 // Data 欄位資料
 type Data struct {

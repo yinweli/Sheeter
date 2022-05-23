@@ -7,55 +7,55 @@ type Config struct {
 }
 
 // Check 檢查設定是否正確
-func (this *Config) Check() (errors []string, result bool) {
+func (this *Config) Check() (result bool, errs []string) {
 	if this.Global.ExcelPath == "" {
-		errors = append(errors, "Global: excelPath empty")
+		errs = append(errs, "Global: excelPath empty")
 	} // if
 
 	if this.Global.OutputPathJson == "" {
-		errors = append(errors, "Global: outputPathJson empty")
+		errs = append(errs, "Global: outputPathJson empty")
 	} // if
 
 	if this.Global.OutputPathCpp == "" {
-		errors = append(errors, "Global: outputPathCpp empty")
+		errs = append(errs, "Global: outputPathCpp empty")
 	} // if
 
 	if this.Global.OutputPathCs == "" {
-		errors = append(errors, "Global: outputPathCs empty")
+		errs = append(errs, "Global: outputPathCs empty")
 	} // if
 
 	if this.Global.OutputPathGo == "" {
-		errors = append(errors, "Global: outputPathGo empty")
+		errs = append(errs, "Global: outputPathGo empty")
 	} // if
 
 	if this.Global.GoPackage == "" {
-		errors = append(errors, "Global: goPackage empty")
+		errs = append(errs, "Global: goPackage empty")
 	} // if
 
 	if this.Global.LineOfNote >= this.Global.LineOfData {
-		errors = append(errors, "Global: line of note can't greater than line of data")
+		errs = append(errs, "Global: line of note can't greater than line of data")
 	} // if
 
 	if this.Global.LineOfField >= this.Global.LineOfData {
-		errors = append(errors, "Global: line of field can't greater than line of data")
+		errs = append(errs, "Global: line of field can't greater than line of data")
 	} // if
 
 	if len(this.Elements) <= 0 {
-		errors = append(errors, "element: element empty")
+		errs = append(errs, "elements empty")
 	} // if
 
 	for _, itor := range this.Elements {
-		if itor.ExcelName == "" {
-			errors = append(errors, "element: excelName empty")
+		if itor.Excel == "" {
+			errs = append(errs, "element: excel empty")
 		} // if
 
-		if itor.SheetName == "" {
-			errors = append(errors, "element: sheetName empty")
+		if itor.Sheet == "" {
+			errs = append(errs, "element: sheet empty")
 		} // if
 
 	} // for
 
-	return errors, len(errors) <= 0
+	return len(errs) <= 0, errs
 }
 
 // Global 全域設定
@@ -75,6 +75,6 @@ type Global struct {
 
 // Element 項目設定
 type Element struct {
-	ExcelName string `yaml:"excelName"` // Excel檔名
-	SheetName string `yaml:"sheetName"` // Excel表單名稱
+	Excel string `yaml:"excel"` // Excel檔案名稱
+	Sheet string `yaml:"sheet"` // Excel表單名稱
 }
