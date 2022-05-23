@@ -3,6 +3,8 @@ package util
 import (
 	"testing"
 
+	"Sheeter/testdata"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -10,8 +12,8 @@ func TestStringToBoolArray(t *testing.T) {
 	var result []bool
 	var err error
 
-	result, err = StringToBoolArray("true,false,t,f,1,0")
-	assert.Equal(t, []bool{true, false, true, false, true, false}, result, "convert real failed")
+	result, err = StringToBoolArray(testdata.BoolString())
+	assert.Equal(t, testdata.BoolArray(), result, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
 
 	result, err = StringToBoolArray("fake")
@@ -20,5 +22,5 @@ func TestStringToBoolArray(t *testing.T) {
 }
 
 func TestBoolArrayToString(t *testing.T) {
-	assert.Equal(t, "true,false,true,false", BoolArrayToString([]bool{true, false, true, false}), "convert failed")
+	assert.Equal(t, testdata.BoolString(), BoolArrayToString(testdata.BoolArray()), "convert failed")
 }

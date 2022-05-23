@@ -25,5 +25,5 @@ func TestPkey(t *testing.T) {
 	assert.Equal(t, true, object.PrimaryKey(), "primary key failed")
 	assert.Nil(t, object.FillToMetas(metas, strconv.Itoa(999)), "fill to metas failed")
 	assert.Equal(t, 999, metas[object.Name], "fill to metas failed")
-	assert.NotNil(t, object.FillToMetas(metas, "abc"), "fill to metas failed")
+	assert.NotNil(t, object.FillToMetas(metas, "fake"), "fill to metas failed")
 }
