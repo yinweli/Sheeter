@@ -7,7 +7,7 @@ import (
 	"Sheeter/internal"
 )
 
-// StringToBoolArray 字串轉為布林值陣列
+// StringToBoolArray 字串轉為bool陣列
 func StringToBoolArray(input string) (results []bool, err error) {
 	tokens := strings.Split(input, internal.Separator)
 
@@ -24,7 +24,7 @@ func StringToBoolArray(input string) (results []bool, err error) {
 	return results, nil
 }
 
-// BoolArrayToString 布林值轉為字串
+// BoolArrayToString bool陣列轉為字串
 func BoolArrayToString(inputs []bool) string {
 	var tokens []string
 
@@ -33,4 +33,73 @@ func BoolArrayToString(inputs []bool) string {
 	} // for
 
 	return strings.Join(tokens, internal.Separator)
+}
+
+// StringToFloat32Array 字串轉為32位元浮點數陣列
+func StringToFloat32Array(input string) (results []float32, err error) {
+	tokens := strings.Split(input, internal.Separator)
+
+	for _, itor := range tokens {
+		value, err := strconv.ParseFloat(itor, 32)
+
+		if err != nil {
+			return nil, err
+		} // if
+
+		results = append(results, float32(value))
+	} // for
+
+	return results, nil
+}
+
+// Float32ArrayToString 32位元浮點數陣列轉為字串
+func Float32ArrayToString(inputs []float32) string {
+	var tokens []string
+
+	for _, itor := range inputs {
+		tokens = append(tokens, trimFloatString(strconv.FormatFloat(float64(itor), 'f', internal.Precision, 32)))
+	} // for
+
+	return strings.Join(tokens, internal.Separator)
+}
+
+// StringToFloat64Array 字串轉為64位元浮點數陣列
+func StringToFloat64Array(input string) (results []float64, err error) {
+	tokens := strings.Split(input, internal.Separator)
+
+	for _, itor := range tokens {
+		value, err := strconv.ParseFloat(itor, 64)
+
+		if err != nil {
+			return nil, err
+		} // if
+
+		results = append(results, value)
+	} // for
+
+	return results, nil
+}
+
+// Float64ArrayToString 64位元浮點數陣列轉為字串
+func Float64ArrayToString(inputs []float64) string {
+	var tokens []string
+
+	for _, itor := range inputs {
+		tokens = append(tokens, trimFloatString(strconv.FormatFloat(itor, 'f', internal.Precision, 64)))
+	} // for
+
+	return strings.Join(tokens, internal.Separator)
+}
+
+// trimFloatString 去除浮點數字串結尾多餘的0或是'.'
+func trimFloatString(input string) string {
+	for strings.HasSuffix(input, "0") { // 去除浮點數字串結尾有多餘的0
+		input = strings.TrimSuffix(input, "0")
+	} // for
+
+	if strings.HasSuffix(input, ".") { // 去除浮點數字串結尾有多餘的'.'
+		input = strings.TrimSuffix(input, ".")
+	} // if
+
+	return input
 }
