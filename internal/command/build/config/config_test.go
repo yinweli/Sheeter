@@ -89,7 +89,7 @@ func TestConfig_Check(t *testing.T) {
 
 // fakeConfig 取得假的編譯設定
 func fakeConfig(t *testing.T, config *Config) {
-	filename := testdata.Path("config.yaml")
+	filename := testdata.Path("real.yaml")
 	file, err := ioutil.ReadFile(filename)
 
 	assert.NotNil(t, file, "load config failed")
