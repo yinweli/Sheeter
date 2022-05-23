@@ -39,7 +39,7 @@ func (this *Double) PrimaryKey() bool {
 
 // FillToMetas 寫入到元資料列表
 func (this *Double) FillToMetas(metas Metas, data string) error {
-	value, err := strconv.ParseFloat(data, 64) // 64位元浮點數, 如果不需要那麼多的小數點, 就得用floatFloat了
+	value, err := strconv.ParseFloat(data, 64)
 
 	if err != nil {
 		return err

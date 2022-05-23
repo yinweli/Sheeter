@@ -1,6 +1,10 @@
 package field
 
-import "strconv"
+import (
+	"strconv"
+
+	"Sheeter/internal"
+)
 
 // Int 32位元整數
 type Int struct {
@@ -39,7 +43,7 @@ func (this *Int) PrimaryKey() bool {
 
 // FillToMetas 寫入到元資料列表
 func (this *Int) FillToMetas(metas Metas, data string) error {
-	value, err := strconv.ParseInt(data, 10, 32) // 32位元整數
+	value, err := strconv.ParseInt(data, internal.Decimal, 32)
 
 	if err != nil {
 		return err
