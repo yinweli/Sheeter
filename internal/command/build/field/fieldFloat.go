@@ -2,7 +2,7 @@ package field
 
 import "strconv"
 
-// Float 浮點數
+// Float 32位元浮點數
 type Float struct {
 	Data
 }
