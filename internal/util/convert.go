@@ -36,7 +36,7 @@ func BoolArrayToString(inputs []bool) string {
 }
 
 // StringToInt32Array 字串轉為陣列
-func StringToInt32Array(input string) (results []int, err error) {
+func StringToInt32Array(input string) (results []int32, err error) {
 	tokens := strings.Split(input, internal.Separator)
 
 	for _, itor := range tokens {
@@ -46,18 +46,46 @@ func StringToInt32Array(input string) (results []int, err error) {
 			return nil, err
 		} // if
 
-		results = append(results, int(value))
+		results = append(results, int32(value))
 	} // for
 
 	return results, nil
 }
 
 // Int32ArrayToString 陣列轉為字串
-func Int32ArrayToString(inputs []int) string {
+func Int32ArrayToString(inputs []int32) string {
 	var tokens []string
 
 	for _, itor := range inputs {
-		tokens = append(tokens, strconv.FormatInt(int64(int(itor)), internal.Decimal))
+		tokens = append(tokens, strconv.FormatInt(int64(itor), internal.Decimal))
+	} // for
+
+	return strings.Join(tokens, internal.Separator)
+}
+
+// StringToInt64Array 字串轉為陣列
+func StringToInt64Array(input string) (results []int64, err error) {
+	tokens := strings.Split(input, internal.Separator)
+
+	for _, itor := range tokens {
+		value, err := strconv.ParseInt(itor, internal.Decimal, 64)
+
+		if err != nil {
+			return nil, err
+		} // if
+
+		results = append(results, value)
+	} // for
+
+	return results, nil
+}
+
+// Int64ArrayToString 陣列轉為字串
+func Int64ArrayToString(inputs []int64) string {
+	var tokens []string
+
+	for _, itor := range inputs {
+		tokens = append(tokens, strconv.FormatInt(itor, internal.Decimal))
 	} // for
 
 	return strings.Join(tokens, internal.Separator)
