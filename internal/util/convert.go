@@ -24,14 +24,13 @@ func StringToBoolArray(input string) (results []bool, err error) {
 	return results, nil
 }
 
-func BoolArrayToString(input []bool) string {
-	var temps []string
+// BoolArrayToString 布林值轉為字串
+func BoolArrayToString(inputs []bool) string {
+	var tokens []string
 
-	for _, itor := range input {
-		temps = append(temps, strconv.FormatBool(itor))
+	for _, itor := range inputs {
+		tokens = append(tokens, strconv.FormatBool(itor))
 	} // for
 
-	result := strings.Join(temps, internal.Separator)
-
-	return result
+	return strings.Join(tokens, internal.Separator)
 }
