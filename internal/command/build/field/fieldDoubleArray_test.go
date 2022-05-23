@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFloat64Array(t *testing.T) {
+func TestDoubleArray(t *testing.T) {
 	object := DoubleArray{
 		Data{
 			Raw:  "raw",
