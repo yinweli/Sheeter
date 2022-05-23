@@ -5,23 +5,23 @@ type Empty struct {
 	Data
 }
 
-// StyleJson 取得json欄位類型
-func (this *Empty) StyleJson() string {
+// TypeExcel 取得excel欄位類型
+func (this *Empty) TypeExcel() string {
 	return "empty"
 }
 
-// StyleCpp 取得c++欄位類型
-func (this *Empty) StyleCpp() string {
+// TypeCpp 取得c++欄位類型
+func (this *Empty) TypeCpp() string {
 	return ""
 }
 
-// StyleCs 取得c#欄位類型
-func (this *Empty) StyleCs() string {
+// TypeCs 取得c#欄位類型
+func (this *Empty) TypeCs() string {
 	return ""
 }
 
-// StyleGo 取得go欄位類型
-func (this *Empty) StyleGo() string {
+// TypeGo 取得go欄位類型
+func (this *Empty) TypeGo() string {
 	return ""
 }
 
@@ -35,7 +35,7 @@ func (this *Empty) PrimaryKey() bool {
 	return false
 }
 
-// FillToMetas 寫入到元資料列表
-func (this *Empty) FillToMetas(metas Metas, value string) error {
+// FillToJsons 寫入到json列表
+func (this *Empty) FillToJsons(jsons Jsons, value string) error {
 	return nil
 }

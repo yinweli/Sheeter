@@ -7,23 +7,23 @@ type Pkey struct {
 	Data
 }
 
-// StyleJson 取得json欄位類型
-func (this *Pkey) StyleJson() string {
+// TypeExcel 取得excel欄位類型
+func (this *Pkey) TypeExcel() string {
 	return "pkey"
 }
 
-// StyleCpp 取得c++欄位類型
-func (this *Pkey) StyleCpp() string {
+// TypeCpp 取得c++欄位類型
+func (this *Pkey) TypeCpp() string {
 	return "Sheet::pkey" // pkey型態宣告在命名空間Sheet中
 }
 
-// StyleCs 取得c#欄位類型
-func (this *Pkey) StyleCs() string {
+// TypeCs 取得c#欄位類型
+func (this *Pkey) TypeCs() string {
 	return "int"
 }
 
-// StyleGo 取得go欄位類型
-func (this *Pkey) StyleGo() string {
+// TypeGo 取得go欄位類型
+func (this *Pkey) TypeGo() string {
 	return "int"
 }
 
@@ -37,14 +37,14 @@ func (this *Pkey) PrimaryKey() bool {
 	return true
 }
 
-// FillToMetas 寫入到元資料列表
-func (this *Pkey) FillToMetas(metas Metas, data string) error {
+// FillToJsons 寫入到json列表
+func (this *Pkey) FillToJsons(jsons Jsons, data string) error {
 	value, err := strconv.Atoi(data)
 
 	if err != nil {
 		return err
 	} // if
 
-	metas[this.Name] = value
+	jsons[this.Name] = value
 	return nil
 }
