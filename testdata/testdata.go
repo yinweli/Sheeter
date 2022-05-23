@@ -21,8 +21,18 @@ func Int32String() string {
 }
 
 // Int32Array 取得測試陣列
-func Int32Array() []int {
-	return []int{10, 8, 6, 4, 2, 1, 0, -99}
+func Int32Array() []int32 {
+	return []int32{10, 8, 6, 4, 2, 1, 0, -99}
+}
+
+// Int64String 取得測試字串
+func Int64String() string {
+	return "10,8,6,4,2,1,0,-99"
+}
+
+// Int64Array 取得測試陣列
+func Int64Array() []int64 {
+	return []int64{10, 8, 6, 4, 2, 1, 0, -99}
 }
 
 // Float32String 取得測試字串
