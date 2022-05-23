@@ -14,8 +14,11 @@ func TestStringToBoolArray(t *testing.T) {
 	assert.Equal(t, []bool{true, false, true, false, true, false}, result, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
 
-	fakeString := "fake"
-	result, err = StringToBoolArray(fakeString)
+	result, err = StringToBoolArray("fake")
 	assert.Nil(t, result, "convert fake failed")
 	assert.NotNil(t, err, "convert fake failed")
+}
+
+func TestBoolArrayToString(t *testing.T) {
+	assert.Equal(t, "true,false,true,false", BoolArrayToString([]bool{true, false, true, false}), "convert failed")
 }
