@@ -7,7 +7,7 @@ import (
 	"Sheeter/internal"
 )
 
-// StringToBoolArray 字串轉為bool陣列
+// StringToBoolArray 字串轉為陣列
 func StringToBoolArray(input string) (results []bool, err error) {
 	tokens := strings.Split(input, internal.Separator)
 
@@ -24,7 +24,7 @@ func StringToBoolArray(input string) (results []bool, err error) {
 	return results, nil
 }
 
-// BoolArrayToString bool陣列轉為字串
+// BoolArrayToString 陣列轉為字串
 func BoolArrayToString(inputs []bool) string {
 	var tokens []string
 
@@ -35,7 +35,35 @@ func BoolArrayToString(inputs []bool) string {
 	return strings.Join(tokens, internal.Separator)
 }
 
-// StringToFloat32Array 字串轉為32位元浮點數陣列
+// StringToInt32Array 字串轉為陣列
+func StringToInt32Array(input string) (results []int, err error) {
+	tokens := strings.Split(input, internal.Separator)
+
+	for _, itor := range tokens {
+		value, err := strconv.ParseInt(itor, internal.Decimal, 32)
+
+		if err != nil {
+			return nil, err
+		} // if
+
+		results = append(results, int(value))
+	} // for
+
+	return results, nil
+}
+
+// Int32ArrayToString 陣列轉為字串
+func Int32ArrayToString(inputs []int) string {
+	var tokens []string
+
+	for _, itor := range inputs {
+		tokens = append(tokens, strconv.FormatInt(int64(int(itor)), internal.Decimal))
+	} // for
+
+	return strings.Join(tokens, internal.Separator)
+}
+
+// StringToFloat32Array 字串轉為陣列
 func StringToFloat32Array(input string) (results []float32, err error) {
 	tokens := strings.Split(input, internal.Separator)
 
@@ -52,7 +80,7 @@ func StringToFloat32Array(input string) (results []float32, err error) {
 	return results, nil
 }
 
-// Float32ArrayToString 32位元浮點數陣列轉為字串
+// Float32ArrayToString 陣列轉為字串
 func Float32ArrayToString(inputs []float32) string {
 	var tokens []string
 
@@ -63,7 +91,7 @@ func Float32ArrayToString(inputs []float32) string {
 	return strings.Join(tokens, internal.Separator)
 }
 
-// StringToFloat64Array 字串轉為64位元浮點數陣列
+// StringToFloat64Array 字串轉為陣列
 func StringToFloat64Array(input string) (results []float64, err error) {
 	tokens := strings.Split(input, internal.Separator)
 
@@ -80,7 +108,7 @@ func StringToFloat64Array(input string) (results []float64, err error) {
 	return results, nil
 }
 
-// Float64ArrayToString 64位元浮點數陣列轉為字串
+// Float64ArrayToString 陣列轉為字串
 func Float64ArrayToString(inputs []float64) string {
 	var tokens []string
 
