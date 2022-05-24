@@ -1,0 +1,12 @@
+global:
+  excelPath:
+  outputPathJson:
+  outputPathCpp:
+  outputPathCs:
+  outputPathGo:
+  cppLibraryPath:
+  goPackage:
+  bom:
+  lineOfNote:
+  lineOfField:
+  lineOfData:
