@@ -9,74 +9,74 @@ type Config struct {
 }
 
 // Check 檢查設定是否正確
-func (this *Config) Check() (result bool, errs []error) {
+func (this *Config) Check() error {
 	if this.Global.ExcelPath == "" {
-		errs = append(errs, errors.New("global: excelPath empty"))
+		return errors.New("global: excelPath empty")
 	} // if
 
 	if this.Global.OutputPathJson == "" {
-		errs = append(errs, errors.New("global: outputPathJson empty"))
+		return errors.New("global: outputPathJson empty")
 	} // if
 
 	if this.Global.OutputPathCpp == "" {
-		errs = append(errs, errors.New("global: outputPathCpp empty"))
+		return errors.New("global: outputPathCpp empty")
 	} // if
 
 	if this.Global.OutputPathCs == "" {
-		errs = append(errs, errors.New("global: outputPathCs empty"))
+		return errors.New("global: outputPathCs empty")
 	} // if
 
 	if this.Global.OutputPathGo == "" {
-		errs = append(errs, errors.New("global: outputPathGo empty"))
+		return errors.New("global: outputPathGo empty")
 	} // if
 
 	if this.Global.CppLibraryPath == "" {
-		errs = append(errs, errors.New("global: cppLibraryPath empty"))
+		return errors.New("global: cppLibraryPath empty")
 	} // if
 
 	if this.Global.GoPackage == "" {
-		errs = append(errs, errors.New("global: goPackage empty"))
+		return errors.New("global: goPackage empty")
 	} // if
 
 	if this.Global.LineOfNote >= this.Global.LineOfData {
-		errs = append(errs, errors.New("global: line of note can't greater than line of data"))
+		return errors.New("global: line of note can't greater than line of data")
 	} // if
 
 	if this.Global.LineOfField >= this.Global.LineOfData {
-		errs = append(errs, errors.New("global: line of field can't greater than line of data"))
+		return errors.New("global: line of field can't greater than line of data")
 	} // if
 
 	if len(this.Elements) <= 0 {
-		errs = append(errs, errors.New("elements empty"))
+		return errors.New("elements empty")
 	} // if
 
 	for _, itor := range this.Elements {
 		if itor.Excel == "" {
-			errs = append(errs, errors.New("element: excel empty"))
+			return errors.New("element: excel empty")
 		} // if
 
 		if itor.Sheet == "" {
-			errs = append(errs, errors.New("element: sheet empty"))
+			return errors.New("element: sheet empty")
 		} // if
-
 	} // for
 
-	return len(errs) <= 0, errs
+	return nil
 }
 
 // Global 全域設定
 type Global struct {
 	ExcelPath      string `yaml:"excelPath"`      // 來源Excel路徑
-	OutputPathJson string `yaml:"outputPathJson"` // 輸出路徑: json
-	OutputPathCpp  string `yaml:"outputPathCpp"`  // 輸出路徑: c++
-	OutputPathCs   string `yaml:"outputPathCs"`   // 輸出路徑: c#
-	OutputPathGo   string `yaml:"outputPathGo"`   // 輸出路徑: go
-	CppLibraryPath string `yaml:"cppLibraryPath"` // cpp函式庫路徑
-	GoPackage      string `yaml:"goPackage"`      // go包名
-	Bom            bool   `yaml:"bom"`            // 輸出的檔案是否使用順序標記(BOM)
-	LineOfNote     int    `yaml:"lineOfNote"`     // 註解行號(1為起始行)
-	LineOfField    int    `yaml:"lineOfField"`    // 欄位行號(1為起始行)
-	LineOfData     int    `yaml:"lineOfData"`     // 資料起始行號(1為起始行)
+	OutputPathJson string `yaml:"outputPathJson"` // 輸出路徑: json TODO: 改內定的
+	OutputPathCpp  string `yaml:"outputPathCpp"`  // 輸出路徑: c++ TODO: 改內定的
+	OutputPathCs   string `yaml:"outputPathCs"`   // 輸出路徑: c# TODO: 改內定的
+	OutputPathGo   string `yaml:"outputPathGo"`   // 輸出路徑: go TODO: 改內定的
+	CppLibraryPath string `yaml:"cppLibraryPath"` // cpp函式庫路徑 TODO: 改內定的
+	// TODO: 多一個cs命名空間
+	GoPackage   string `yaml:"goPackage"`   // go包名
+	Bom         bool   `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
+	LineOfNote  int    `yaml:"lineOfNote"`  // 註解行號(1為起始行)
+	LineOfField int    `yaml:"lineOfField"` // 欄位行號(1為起始行)
+	LineOfData  int    `yaml:"lineOfData"`  // 資料起始行號(1為起始行)
 }
 
 // Element 項目設定
