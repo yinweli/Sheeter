@@ -21,7 +21,7 @@ func TestIntArray(t *testing.T) {
 	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
 
 	result, err = object.Transform(testdata.Int32String())
-	assert.Equal(t, result, testdata.Int32Array(), "transform failed")
+	assert.Equal(t, testdata.Int32Array(), result, "transform failed")
 	assert.Nil(t, err, "transform failed")
 
 	result, err = object.Transform("fake")

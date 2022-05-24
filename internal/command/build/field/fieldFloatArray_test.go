@@ -21,7 +21,7 @@ func TestFloatArray(t *testing.T) {
 	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
 
 	result, err = object.Transform(testdata.Float32String())
-	assert.Equal(t, result, testdata.Float32Array(), "transform failed")
+	assert.Equal(t, testdata.Float32Array(), result, "transform failed")
 	assert.Nil(t, err, "transform failed")
 
 	result, err = object.Transform("fake")
