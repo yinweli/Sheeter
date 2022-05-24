@@ -11,9 +11,9 @@ import (
 func TestIntArray(t *testing.T) {
 	object := IntArray{
 		Data{
-			Raw:  "raw",
-			Note: "note",
-			Name: "name",
+			Note:  "note",
+			Name:  "name",
+			Field: "field",
 		},
 	}
 	metas := Metas{}

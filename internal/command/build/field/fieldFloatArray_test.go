@@ -11,9 +11,9 @@ import (
 func TestFloatArray(t *testing.T) {
 	object := FloatArray{
 		Data{
-			Raw:  "raw",
-			Note: "note",
-			Name: "name",
+			Note:  "note",
+			Name:  "name",
+			Field: "field",
 		},
 	}
 	metas := Metas{}

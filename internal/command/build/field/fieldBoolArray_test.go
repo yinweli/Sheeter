@@ -11,9 +11,9 @@ import (
 func TestBoolArray(t *testing.T) {
 	object := BoolArray{
 		Data{
-			Raw:  "raw",
-			Note: "note",
-			Name: "name",
+			Note:  "note",
+			Name:  "name",
+			Field: "field",
 		},
 	}
 	metas := Metas{}

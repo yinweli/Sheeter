@@ -29,7 +29,7 @@ type Metas map[string]interface{}
 
 // Data 欄位資料
 type Data struct {
-	Raw  string // 原始字串
-	Note string // 註解名稱
-	Name string // 欄位名稱
+	Note  string // 註解名稱
+	Name  string // 欄位名稱
+	Field string // 欄位類型
 }
