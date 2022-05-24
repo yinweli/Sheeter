@@ -19,7 +19,7 @@ func TestPkey(t *testing.T) {
 	assert.Equal(t, true, object.PrimaryKey(), "primary key failed")
 
 	result, err = object.Transform("999")
-	assert.Equal(t, result, 999, "transform failed")
+	assert.Equal(t, 999, result, "transform failed")
 	assert.Nil(t, err, "transform failed")
 
 	result, err = object.Transform("fake")

@@ -19,7 +19,7 @@ func TestLong(t *testing.T) {
 	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
 
 	result, err = object.Transform("999999999999")
-	assert.Equal(t, result, int64(999999999999), "transform failed")
+	assert.Equal(t, int64(999999999999), result, "transform failed")
 	assert.Nil(t, err, "transform failed")
 
 	result, err = object.Transform("fake")

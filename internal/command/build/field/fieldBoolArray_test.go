@@ -21,7 +21,7 @@ func TestBoolArray(t *testing.T) {
 	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
 
 	result, err = object.Transform(testdata.BoolString())
-	assert.Equal(t, result, testdata.BoolArray(), "transform failed")
+	assert.Equal(t, testdata.BoolArray(), result, "transform failed")
 	assert.Nil(t, err, "transform failed")
 
 	result, err = object.Transform("fake")

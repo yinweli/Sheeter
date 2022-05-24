@@ -19,7 +19,7 @@ func TestFloat(t *testing.T) {
 	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
 
 	result, err = object.Transform("0.9999")
-	assert.InDelta(t, result, 0.9999, 0.0001, "transform failed")
+	assert.InDelta(t, 0.9999, result, 0.0001, "transform failed")
 	assert.Nil(t, err, "transform failed")
 
 	result, err = object.Transform("fake")

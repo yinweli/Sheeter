@@ -19,7 +19,7 @@ func TestDouble(t *testing.T) {
 	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
 
 	result, err = object.Transform("0.99999999")
-	assert.InDelta(t, result, 0.99999999, 0.00000001, "fill to metas failed")
+	assert.InDelta(t, 0.99999999, result, 0.00000001, "fill to metas failed")
 	assert.Nil(t, err, "transform failed")
 
 	result, err = object.Transform("fake")
