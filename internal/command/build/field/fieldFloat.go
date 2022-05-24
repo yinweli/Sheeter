@@ -37,6 +37,21 @@ func (this *Float) PrimaryKey() bool {
 	return false
 }
 
+// GetNote 取得註解名稱
+func (this *Float) GetNote() string {
+	return this.Note
+}
+
+// GetName 取得欄位名稱
+func (this *Float) GetName() string {
+	return this.Name
+}
+
+// GetField 取得欄位類型
+func (this *Float) GetField() string {
+	return this.Field
+}
+
 // FillToMetas 寫入到元資料列表
 func (this *Float) FillToMetas(metas Metas, data string) error {
 	value, err := strconv.ParseFloat(data, 32)

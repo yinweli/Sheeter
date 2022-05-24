@@ -20,6 +20,15 @@ type Field interface {
 	// PrimaryKey 是否是主要索引
 	PrimaryKey() bool
 
+	// GetNote 取得註解名稱
+	GetNote() string
+
+	// GetName 取得欄位名稱
+	GetName() string
+
+	// GetField 取得欄位類型
+	GetField() string
+
 	// FillToMetas 寫入到元資料列表
 	FillToMetas(metas Metas, data string) error
 }
