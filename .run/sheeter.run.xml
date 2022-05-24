@@ -2,6 +2,7 @@
   <configuration default="false" name="sheeter" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="Sheeter" />
     <working_directory value="$PROJECT_DIR$/bin" />
+    <parameters value="build config.yaml" />
     <kind value="FILE" />
     <package value="Sheeter" />
     <directory value="$PROJECT_DIR$" />

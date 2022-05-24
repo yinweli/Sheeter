@@ -27,12 +27,12 @@ func TestExecute(t *testing.T) {
 	assert.NotEqual(t, "", buffer.String(), "read fake config failed")
 }
 
-func TestReadBuildConfig(t *testing.T) {
+func TestReadConfig(t *testing.T) {
 	var buildConfig config.Config
 
-	assert.Nil(t, readBuildConfig(testdata.RealYaml(), &buildConfig), "read real config failed")
-	assert.NotNil(t, readBuildConfig(testdata.FakeYaml(), &buildConfig), "read fake config failed")
-	assert.NotNil(t, readBuildConfig(testdata.UnknownYaml(), &buildConfig), "read unknown config failed")
+	assert.Nil(t, readConfig(testdata.RealYaml(), &buildConfig), "read real config failed")
+	assert.NotNil(t, readConfig(testdata.FakeYaml(), &buildConfig), "read fake config failed")
+	assert.NotNil(t, readConfig(testdata.UnknownYaml(), &buildConfig), "read unknown config failed")
 }
 
 // fakeCommand 取得假的命令物件
