@@ -19,13 +19,10 @@ func NewCommand() *cobra.Command {
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
-	buildConfig, errs := builder.ReadConfig(args[0])
+	config, err := builder.ReadConfig(args[0])
 
-	if errs != nil {
-		for _, itor := range errs {
-			cmd.Println(itor)
-		} // for
-
+	if err != nil {
+		cmd.Println(err)
 		return
 	} // if
 
@@ -33,10 +30,10 @@ func execute(cmd *cobra.Command, args []string) {
 		return
 	} // if
 
-	for _, itor := range buildConfig.Elements {
+	for _, itor := range config.Elements {
 		cargo := builder.Cargo{
 			Output:  cmd.OutOrStdout(),
-			Global:  &buildConfig.Global,
+			Global:  &config.Global,
 			Element: &itor,
 		}
 		err := builder.ReadExcel(&cargo)
