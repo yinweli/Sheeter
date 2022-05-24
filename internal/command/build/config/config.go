@@ -68,9 +68,9 @@ type Global struct {
 	CppLibraryPath string `yaml:"cppLibraryPath"` // cpp函式庫路徑
 	GoPackage      string `yaml:"goPackage"`      // go包名
 	Bom            bool   `yaml:"bom"`            // 輸出的檔案是否使用順序標記(BOM)
-	LineOfNote     int    `yaml:"lineOfNote"`     // 註解行號
-	LineOfField    int    `yaml:"lineOfField"`    // 欄位行號
-	LineOfData     int    `yaml:"lineOfData"`     // 資料起始行號
+	LineOfNote     int    `yaml:"lineOfNote"`     // 註解行號(1為起始行)
+	LineOfField    int    `yaml:"lineOfField"`    // 欄位行號(1為起始行)
+	LineOfData     int    `yaml:"lineOfData"`     // 資料起始行號(1為起始行)
 }
 
 // Element 項目設定
