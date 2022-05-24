@@ -7,14 +7,9 @@ import (
 )
 
 func TestPkey(t *testing.T) {
-	object := Pkey{
-		Data{
-			Note:  "note",
-			Name:  "name",
-			Field: "field",
-		},
-	}
-	metas := Metas{}
+	var result interface{}
+	var err error
+	object := Pkey{}
 
 	assert.Equal(t, "pkey", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "Sheet::pkey", object.TypeCpp(), "type cpp failed")
@@ -22,10 +17,11 @@ func TestPkey(t *testing.T) {
 	assert.Equal(t, "int", object.TypeGo(), "type go failed")
 	assert.Equal(t, false, object.Hide(), "hide failed")
 	assert.Equal(t, true, object.PrimaryKey(), "primary key failed")
-	assert.Equal(t, "note", object.GetNote(), "get note failed")
-	assert.Equal(t, "name", object.GetName(), "get name failed")
-	assert.Equal(t, "field", object.GetField(), "get field failed")
-	assert.Nil(t, object.FillToMetas(metas, "999"), "fill to metas failed")
-	assert.Equal(t, 999, metas[object.Name], "fill to metas failed")
-	assert.NotNil(t, object.FillToMetas(metas, "fake"), "fill to metas failed")
+
+	result, err = object.Transform("999")
+	assert.Equal(t, result, 999, "transform failed")
+	assert.Nil(t, err, "transform failed")
+
+	result, err = object.Transform("fake")
+	assert.NotNil(t, err, "transform failed")
 }

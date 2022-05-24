@@ -4,7 +4,6 @@ import "strconv"
 
 // Float 32位元浮點數
 type Float struct {
-	Data
 }
 
 // TypeExcel 取得excel欄位類型
@@ -37,29 +36,7 @@ func (this *Float) PrimaryKey() bool {
 	return false
 }
 
-// GetNote 取得註解名稱
-func (this *Float) GetNote() string {
-	return this.Note
-}
-
-// GetName 取得欄位名稱
-func (this *Float) GetName() string {
-	return this.Name
-}
-
-// GetField 取得欄位類型
-func (this *Float) GetField() string {
-	return this.Field
-}
-
-// FillToMetas 寫入到元資料列表
-func (this *Float) FillToMetas(metas Metas, data string) error {
-	value, err := strconv.ParseFloat(data, 32)
-
-	if err != nil {
-		return err
-	} // if
-
-	metas[this.Name] = float32(value)
-	return nil
+// Transform 字串轉換
+func (this *Float) Transform(input string) (result interface{}, err error) {
+	return strconv.ParseFloat(input, 32)
 }

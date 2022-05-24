@@ -4,7 +4,6 @@ import "strconv"
 
 // Pkey 主要索引
 type Pkey struct {
-	Data
 }
 
 // TypeExcel 取得excel欄位類型
@@ -37,29 +36,7 @@ func (this *Pkey) PrimaryKey() bool {
 	return true
 }
 
-// GetNote 取得註解名稱
-func (this *Pkey) GetNote() string {
-	return this.Note
-}
-
-// GetName 取得欄位名稱
-func (this *Pkey) GetName() string {
-	return this.Name
-}
-
-// GetField 取得欄位類型
-func (this *Pkey) GetField() string {
-	return this.Field
-}
-
-// FillToMetas 寫入到元資料列表
-func (this *Pkey) FillToMetas(metas Metas, data string) error {
-	value, err := strconv.Atoi(data)
-
-	if err != nil {
-		return err
-	} // if
-
-	metas[this.Name] = value
-	return nil
+// Transform 字串轉換
+func (this *Pkey) Transform(input string) (result interface{}, err error) {
+	return strconv.Atoi(input)
 }
