@@ -9,18 +9,27 @@ import (
 )
 
 // ReadConfig 讀取編譯設定
-func ReadConfig(filename string, buildConfig *config.Config) error {
+func ReadConfig(filename string) (result *config.Config, errs []error) {
 	file, err := ioutil.ReadFile(filename)
 
 	if err != nil {
-		return err
+		errs := append(errs, err)
+		return nil, errs
 	} // if
 
-	err = yaml.Unmarshal(file, buildConfig)
+	result = &config.Config{}
+	err = yaml.Unmarshal(file, result)
 
 	if err != nil {
-		return err
+		errs := append(errs, err)
+		return nil, errs
 	} // if
 
-	return nil
+	ok, errs := result.Check()
+
+	if ok == false {
+		return nil, errs
+	} // if
+
+	return result, nil
 }

@@ -1,5 +1,7 @@
 package config
 
+import "errors"
+
 // Config 編譯設定
 type Config struct {
 	Global   Global    `yaml:"global"`   // 全域設定
@@ -7,50 +9,54 @@ type Config struct {
 }
 
 // Check 檢查設定是否正確
-func (this *Config) Check() (result bool, errs []string) {
+func (this *Config) Check() (result bool, errs []error) {
 	if this.Global.ExcelPath == "" {
-		errs = append(errs, "Global: excelPath empty")
+		errs = append(errs, errors.New("global: excelPath empty"))
 	} // if
 
 	if this.Global.OutputPathJson == "" {
-		errs = append(errs, "Global: outputPathJson empty")
+		errs = append(errs, errors.New("global: outputPathJson empty"))
 	} // if
 
 	if this.Global.OutputPathCpp == "" {
-		errs = append(errs, "Global: outputPathCpp empty")
+		errs = append(errs, errors.New("global: outputPathCpp empty"))
 	} // if
 
 	if this.Global.OutputPathCs == "" {
-		errs = append(errs, "Global: outputPathCs empty")
+		errs = append(errs, errors.New("global: outputPathCs empty"))
 	} // if
 
 	if this.Global.OutputPathGo == "" {
-		errs = append(errs, "Global: outputPathGo empty")
+		errs = append(errs, errors.New("global: outputPathGo empty"))
+	} // if
+
+	if this.Global.CppLibraryPath == "" {
+		errs = append(errs, errors.New("global: cppLibraryPath empty"))
 	} // if
 
 	if this.Global.GoPackage == "" {
-		errs = append(errs, "Global: goPackage empty")
+		errs = append(errs, errors.New("global: goPackage empty"))
 	} // if
 
 	if this.Global.LineOfNote >= this.Global.LineOfData {
-		errs = append(errs, "Global: line of note can't greater than line of data")
+		errs = append(errs, errors.New("global: line of note can't greater than line of data"))
 	} // if
 
 	if this.Global.LineOfField >= this.Global.LineOfData {
-		errs = append(errs, "Global: line of field can't greater than line of data")
+		errs = append(errs, errors.New("global: line of field can't greater than line of data"))
 	} // if
 
 	if len(this.Elements) <= 0 {
-		errs = append(errs, "elements empty")
+		errs = append(errs, errors.New("elements empty"))
 	} // if
 
 	for _, itor := range this.Elements {
 		if itor.Excel == "" {
-			errs = append(errs, "element: excel empty")
+			errs = append(errs, errors.New("element: excel empty"))
 		} // if
 
 		if itor.Sheet == "" {
-			errs = append(errs, "element: sheet empty")
+			errs = append(errs, errors.New("element: sheet empty"))
 		} // if
 
 	} // for

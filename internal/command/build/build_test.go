@@ -1,12 +1,12 @@
 package build
 
 import (
-	"bytes"
+	"fmt"
+	"os"
 	"testing"
 
 	"Sheeter/testdata"
 
-	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -17,23 +17,16 @@ func TestNewCommand(t *testing.T) {
 }
 
 func TestExecute(t *testing.T) {
-	buffer, command := fakeCommand()
+	buffer, command := testdata.MockCommand()
 
-	execute(command, []string{testdata.RealYaml()})
+	fmt.Println(os.Getwd())
+
+	execute(command, []string{testdata.Path(testdata.RealYaml), ""})
 	assert.Equal(t, "", buffer.String(), "read real config failed")
 
-	execute(command, []string{testdata.FakeYaml()})
+	execute(command, []string{testdata.Path(testdata.FakeYaml), ""})
 	assert.NotEqual(t, "", buffer.String(), "read fake config failed")
 
-	execute(command, []string{testdata.EmptyYaml()})
-	assert.NotEqual(t, "", buffer.String(), "read fake config failed")
-}
-
-// fakeCommand 取得假的命令物件
-func fakeCommand() (buffer *bytes.Buffer, command *cobra.Command) {
-	buffer = &bytes.Buffer{}
-	command = &cobra.Command{}
-	command.SetOut(buffer)
-
-	return buffer, command
+	execute(command, []string{testdata.Path(testdata.DefectYml), ""})
+	assert.NotEqual(t, "", buffer.String(), "read defect config failed")
 }

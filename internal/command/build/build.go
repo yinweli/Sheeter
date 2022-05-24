@@ -2,7 +2,6 @@ package build
 
 import (
 	"Sheeter/internal/command/build/builder"
-	"Sheeter/internal/command/build/config"
 
 	"github.com/spf13/cobra"
 )
@@ -13,28 +12,24 @@ func NewCommand() *cobra.Command {
 		Use:   "build [config]",
 		Short: "build sheet",
 		Long:  "build all the sheet in the configuration",
-		Args:  cobra.MinimumNArgs(1),
+		Args:  cobra.ExactArgs(1),
 		Run:   execute,
 	}
 }
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
-	buildConfig := config.Config{}
-	err := builder.ReadConfig(args[0], &buildConfig)
+	buildConfig, errs := builder.ReadConfig(args[0])
 
-	if err != nil {
-		cmd.Println(err)
-		return
-	} // if
-
-	ok, errs := buildConfig.Check()
-
-	if ok == false {
+	if errs != nil {
 		for _, itor := range errs {
 			cmd.Println(itor)
 		} // for
 
+		return
+	} // if
+
+	if len(args) != 1 { // 這裡用來阻擋單元測試時的虛假設定檔測試
 		return
 	} // if
 
