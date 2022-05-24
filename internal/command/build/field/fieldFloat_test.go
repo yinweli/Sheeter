@@ -9,9 +9,9 @@ import (
 func TestFloat(t *testing.T) {
 	object := Float{
 		Data{
-			Raw:  "raw",
-			Note: "note",
-			Name: "name",
+			Note:  "note",
+			Name:  "name",
+			Field: "field",
 		},
 	}
 	metas := Metas{}

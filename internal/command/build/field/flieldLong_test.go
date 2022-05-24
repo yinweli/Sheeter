@@ -9,9 +9,9 @@ import (
 func TestLong(t *testing.T) {
 	object := Long{
 		Data{
-			Raw:  "raw",
-			Note: "note",
-			Name: "name",
+			Note:  "note",
+			Name:  "name",
+			Field: "field",
 		},
 	}
 	metas := Metas{}

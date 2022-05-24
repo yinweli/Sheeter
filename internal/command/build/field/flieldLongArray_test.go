@@ -11,9 +11,9 @@ import (
 func TestLongArray(t *testing.T) {
 	object := LongArray{
 		Data{
-			Raw:  "raw",
-			Note: "note",
-			Name: "name",
+			Note:  "note",
+			Name:  "name",
+			Field: "field",
 		},
 	}
 	metas := Metas{}

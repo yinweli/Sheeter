@@ -11,9 +11,9 @@ import (
 func TestDoubleArray(t *testing.T) {
 	object := DoubleArray{
 		Data{
-			Raw:  "raw",
-			Note: "note",
-			Name: "name",
+			Note:  "note",
+			Name:  "name",
+			Field: "field",
 		},
 	}
 	metas := Metas{}
