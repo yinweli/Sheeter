@@ -20,25 +20,6 @@ type Field interface {
 	// PrimaryKey 是否是主要索引
 	PrimaryKey() bool
 
-	// GetNote 取得註解名稱
-	GetNote() string
-
-	// GetName 取得欄位名稱
-	GetName() string
-
-	// GetField 取得欄位類型
-	GetField() string
-
-	// FillToMetas 寫入到元資料列表
-	FillToMetas(metas Metas, data string) error
-}
-
-// Metas 元資料列表型態 TODO: 應該要放到writer中!
-type Metas map[string]interface{}
-
-// Data 欄位資料
-type Data struct {
-	Note  string // 註解名稱
-	Name  string // 欄位名稱
-	Field string // 欄位類型
+	// Transform 字串轉換
+	Transform(input string) (result interface{}, err error)
 }

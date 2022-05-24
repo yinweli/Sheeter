@@ -7,14 +7,9 @@ import (
 )
 
 func TestBool(t *testing.T) {
-	object := Bool{
-		Data{
-			Note:  "note",
-			Name:  "name",
-			Field: "field",
-		},
-	}
-	metas := Metas{}
+	var result interface{}
+	var err error
+	object := Bool{}
 
 	assert.Equal(t, "bool", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "bool", object.TypeCpp(), "type cpp failed")
@@ -22,10 +17,11 @@ func TestBool(t *testing.T) {
 	assert.Equal(t, "bool", object.TypeGo(), "type go failed")
 	assert.Equal(t, false, object.Hide(), "hide failed")
 	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
-	assert.Equal(t, "note", object.GetNote(), "get note failed")
-	assert.Equal(t, "name", object.GetName(), "get name failed")
-	assert.Equal(t, "field", object.GetField(), "get field failed")
-	assert.Nil(t, object.FillToMetas(metas, "true"), "fill to metas failed")
-	assert.Equal(t, true, metas[object.Name], "fill to metas failed")
-	assert.NotNil(t, object.FillToMetas(metas, "fake"), "fill to metas failed")
+
+	result, err = object.Transform("true")
+	assert.Equal(t, result, true, "transform failed")
+	assert.Nil(t, err, "transform failed")
+
+	result, err = object.Transform("fake")
+	assert.NotNil(t, err, "transform failed")
 }

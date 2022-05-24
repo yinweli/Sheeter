@@ -4,7 +4,6 @@ import "Sheeter/internal/util"
 
 // IntArray 32位元整數陣列
 type IntArray struct {
-	Data
 }
 
 // TypeExcel 取得excel欄位類型
@@ -37,29 +36,7 @@ func (this *IntArray) PrimaryKey() bool {
 	return false
 }
 
-// GetNote 取得註解名稱
-func (this *IntArray) GetNote() string {
-	return this.Note
-}
-
-// GetName 取得欄位名稱
-func (this *IntArray) GetName() string {
-	return this.Name
-}
-
-// GetField 取得欄位類型
-func (this *IntArray) GetField() string {
-	return this.Field
-}
-
-// FillToMetas 寫入到元資料列表
-func (this *IntArray) FillToMetas(metas Metas, data string) error {
-	values, err := util.StringToInt32Array(data)
-
-	if err != nil {
-		return err
-	} // if
-
-	metas[this.Name] = values
-	return nil
+// Transform 字串轉換
+func (this *IntArray) Transform(input string) (result interface{}, err error) {
+	return util.StringToInt32Array(input)
 }

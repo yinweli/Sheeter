@@ -8,7 +8,6 @@ import (
 
 // Int 32位元整數
 type Int struct {
-	Data
 }
 
 // TypeExcel 取得excel欄位類型
@@ -41,29 +40,7 @@ func (this *Int) PrimaryKey() bool {
 	return false
 }
 
-// GetNote 取得註解名稱
-func (this *Int) GetNote() string {
-	return this.Note
-}
-
-// GetName 取得欄位名稱
-func (this *Int) GetName() string {
-	return this.Name
-}
-
-// GetField 取得欄位類型
-func (this *Int) GetField() string {
-	return this.Field
-}
-
-// FillToMetas 寫入到元資料列表
-func (this *Int) FillToMetas(metas Metas, data string) error {
-	value, err := strconv.ParseInt(data, internal.Decimal, 32)
-
-	if err != nil {
-		return err
-	} // if
-
-	metas[this.Name] = int32(value)
-	return nil
+// Transform 字串轉換
+func (this *Int) Transform(input string) (result interface{}, err error) {
+	return strconv.ParseInt(input, internal.Decimal, 32)
 }

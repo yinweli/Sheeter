@@ -9,14 +9,9 @@ import (
 )
 
 func TestFloatArray(t *testing.T) {
-	object := FloatArray{
-		Data{
-			Note:  "note",
-			Name:  "name",
-			Field: "field",
-		},
-	}
-	metas := Metas{}
+	var result interface{}
+	var err error
+	object := FloatArray{}
 
 	assert.Equal(t, "floatArray", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "std::vector<float>", object.TypeCpp(), "type cpp failed")
@@ -24,10 +19,12 @@ func TestFloatArray(t *testing.T) {
 	assert.Equal(t, "[]float32", object.TypeGo(), "type go failed")
 	assert.Equal(t, false, object.Hide(), "hide failed")
 	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
-	assert.Equal(t, "note", object.GetNote(), "get note failed")
-	assert.Equal(t, "name", object.GetName(), "get name failed")
-	assert.Equal(t, "field", object.GetField(), "get field failed")
-	assert.Nil(t, object.FillToMetas(metas, testdata.Float32String()), "fill to metas failed")
-	assert.Equal(t, testdata.Float32Array(), metas[object.Name], "fill to metas failed")
-	assert.NotNil(t, object.FillToMetas(metas, "fake"), "fill to metas failed")
+
+	result, err = object.Transform(testdata.Float32String())
+	assert.Equal(t, result, testdata.Float32Array(), "transform failed")
+	assert.Nil(t, err, "transform failed")
+
+	result, err = object.Transform("fake")
+	assert.NotNil(t, err, "transform failed")
+
 }

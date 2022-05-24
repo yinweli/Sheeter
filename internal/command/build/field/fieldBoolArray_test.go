@@ -9,14 +9,9 @@ import (
 )
 
 func TestBoolArray(t *testing.T) {
-	object := BoolArray{
-		Data{
-			Note:  "note",
-			Name:  "name",
-			Field: "field",
-		},
-	}
-	metas := Metas{}
+	var result interface{}
+	var err error
+	object := BoolArray{}
 
 	assert.Equal(t, "boolArray", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "std::vector<bool>", object.TypeCpp(), "type cpp failed")
@@ -24,10 +19,11 @@ func TestBoolArray(t *testing.T) {
 	assert.Equal(t, "[]bool", object.TypeGo(), "type go failed")
 	assert.Equal(t, false, object.Hide(), "hide failed")
 	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
-	assert.Equal(t, "note", object.GetNote(), "get note failed")
-	assert.Equal(t, "name", object.GetName(), "get name failed")
-	assert.Equal(t, "field", object.GetField(), "get field failed")
-	assert.Nil(t, object.FillToMetas(metas, testdata.BoolString()), "fill to metas failed")
-	assert.Equal(t, testdata.BoolArray(), metas[object.Name], "fill to metas failed")
-	assert.NotNil(t, object.FillToMetas(metas, "fake"), "fill to metas failed")
+
+	result, err = object.Transform(testdata.BoolString())
+	assert.Equal(t, result, testdata.BoolArray(), "transform failed")
+	assert.Nil(t, err, "transform failed")
+
+	result, err = object.Transform("fake")
+	assert.NotNil(t, err, "transform failed")
 }
