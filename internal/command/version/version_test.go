@@ -1,13 +1,12 @@
 package version
 
 import (
-	"bytes"
 	"fmt"
 	"testing"
 
 	"Sheeter/internal"
+	"Sheeter/testdata"
 
-	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -18,17 +17,8 @@ func TestNewCommand(t *testing.T) {
 }
 
 func TestExecute(t *testing.T) {
-	buffer, command := fakeCommand()
+	buffer, command := testdata.MockCommand()
 
 	execute(command, []string{})
 	assert.Equal(t, fmt.Sprintf("%s %s", internal.Title, internal.Version), buffer.String(), "version failed")
-}
-
-// fakeCommand 取得假的命令物件
-func fakeCommand() (buffer *bytes.Buffer, command *cobra.Command) {
-	buffer = &bytes.Buffer{}
-	command = &cobra.Command{}
-	command.SetOut(buffer)
-
-	return buffer, command
 }
