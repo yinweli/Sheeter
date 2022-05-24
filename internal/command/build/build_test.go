@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"testing"
 
-	"Sheeter/internal/command/build/config"
 	"Sheeter/testdata"
 
 	"github.com/spf13/cobra"
@@ -25,14 +24,9 @@ func TestExecute(t *testing.T) {
 
 	execute(command, []string{testdata.FakeYaml()})
 	assert.NotEqual(t, "", buffer.String(), "read fake config failed")
-}
 
-func TestReadConfig(t *testing.T) {
-	var buildConfig config.Config
-
-	assert.Nil(t, readConfig(testdata.RealYaml(), &buildConfig), "read real config failed")
-	assert.NotNil(t, readConfig(testdata.FakeYaml(), &buildConfig), "read fake config failed")
-	assert.NotNil(t, readConfig(testdata.UnknownYaml(), &buildConfig), "read unknown config failed")
+	execute(command, []string{testdata.EmptyYaml()})
+	assert.NotEqual(t, "", buffer.String(), "read fake config failed")
 }
 
 // fakeCommand 取得假的命令物件
