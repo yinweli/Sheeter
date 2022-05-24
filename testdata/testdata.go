@@ -65,6 +65,11 @@ func FakeYaml() string {
 	return Path("fake.yaml")
 }
 
+// EmptyYaml 取得empty.yaml路徑
+func EmptyYaml() string {
+	return Path("empty.yaml")
+}
+
 // UnknownYaml 取得????.yaml路徑
 func UnknownYaml() string {
 	return Path("????.yaml")
