@@ -1,6 +1,8 @@
 package config
 
-import "errors"
+import (
+	"fmt"
+)
 
 // Config 編譯設定
 type Config struct {
@@ -11,40 +13,40 @@ type Config struct {
 // Check 檢查設定是否正確
 func (this *Config) Check() error {
 	if this.Global.ExcelPath == "" {
-		return errors.New("global: excelPath empty")
+		return fmt.Errorf("global: excelPath empty")
 	} // if
 
 	if this.Global.CppLibraryPath == "" {
-		return errors.New("global: cppLibraryPath empty")
+		return fmt.Errorf("global: cppLibraryPath empty")
 	} // if
 
 	if this.Global.CsNamespace == "" {
-		return errors.New("global: csNamespace empty")
+		return fmt.Errorf("global: csNamespace empty")
 	} // if
 
 	if this.Global.GoPackage == "" {
-		return errors.New("global: goPackage empty")
+		return fmt.Errorf("global: goPackage empty")
 	} // if
 
 	if this.Global.LineOfNote >= this.Global.LineOfData {
-		return errors.New("global: line of note can't greater than line of data")
+		return fmt.Errorf("global: LineOfNote(%d) >= LineOfData(%d)", this.Global.LineOfNote, this.Global.LineOfData)
 	} // if
 
 	if this.Global.LineOfField >= this.Global.LineOfData {
-		return errors.New("global: line of field can't greater than line of data")
+		return fmt.Errorf("global: LineOfField(%d) >= LineOfData(%d)", this.Global.LineOfField, this.Global.LineOfData)
 	} // if
 
 	if len(this.Elements) <= 0 {
-		return errors.New("elements empty")
+		return fmt.Errorf("elements empty")
 	} // if
 
 	for _, itor := range this.Elements {
 		if itor.Excel == "" {
-			return errors.New("element: excel empty")
+			return fmt.Errorf("element: excel empty")
 		} // if
 
 		if itor.Sheet == "" {
-			return errors.New("element: sheet empty")
+			return fmt.Errorf("element: sheet empty")
 		} // if
 	} // for
 
