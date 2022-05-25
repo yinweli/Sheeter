@@ -6,6 +6,13 @@ import (
 	"github.com/spf13/cobra"
 )
 
+const RealConfig = "real.yaml"
+const FakeConfig = "fake.yaml"
+const DefectConfig = "defect.yaml"
+const UnknownConfig = "????.yaml"
+const TestExcel = "test.xlsx"
+const TestSheet = "Data"
+
 // BoolString 取得測試字串
 func BoolString() string {
 	return "true,false,false,true,true,false,true"
