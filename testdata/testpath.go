@@ -13,6 +13,8 @@ const UnknownConfig = "????.yaml"
 const TestExcel = "test.xlsx"
 const TestSheet = "Data"
 
+var RootPath string // 根路徑
+
 func init() {
 	_, file, _, ok := runtime.Caller(0)
 
@@ -20,12 +22,12 @@ func init() {
 		panic("can't get root")
 	}
 
-	rootPath = filepath.Dir(file)
+	RootPath = filepath.Dir(file)
 }
 
 // Path 取得測試資料路徑
 func Path(path string) string {
-	return filepath.Join(rootPath, path)
+	return filepath.Join(RootPath, path)
 }
 
 // ChangeWorkDir 變更工作目錄到測試目錄
@@ -36,7 +38,7 @@ func ChangeWorkDir() string {
 		panic(err)
 	} // if
 
-	err = os.Chdir(rootPath)
+	err = os.Chdir(RootPath)
 
 	if err != nil {
 		panic(err)
@@ -53,5 +55,3 @@ func RestoreWorkDir(dir string) {
 		panic(err)
 	} // if
 }
-
-var rootPath string // 根路徑
