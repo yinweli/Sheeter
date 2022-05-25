@@ -1,16 +1,13 @@
 global:
-  excelPath: testme
-  outputPathJson: testme
-  outputPathCpp: testme
-  outputPathCs: testme
-  outputPathGo: testme
-  cppLibraryPath: testme
-  goPackage: testme
+  excelPath: test
+  cppLibraryPath: test
+  csNamespace: test
+  goPackage: test
   bom: true
   lineOfNote: 1
   lineOfField: 2
   lineOfData: 3
 
 elements:
-  - excel: testme
-    sheet: testme
+  - excel: test
+    sheet: test
