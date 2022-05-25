@@ -13,9 +13,6 @@ func TestReadConfig(t *testing.T) {
 	var result *config.Config
 	var err error
 
-	dir := testdata.ChangeWorkDir()
-	defer testdata.RestoreWorkDir(dir)
-
 	result, err = ReadConfig(testdata.Path(testdata.RealConfig))
 	assert.NotNil(t, result, "read real config failed")
 	assert.Nil(t, err, "read real config failed")
