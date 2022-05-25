@@ -9,7 +9,7 @@ import (
 func TestBool(t *testing.T) {
 	var result interface{}
 	var err error
-	object := Bool{}
+	var object Bool
 
 	assert.Equal(t, "bool", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "bool", object.TypeCpp(), "type cpp failed")

@@ -9,7 +9,7 @@ import (
 func TestLong(t *testing.T) {
 	var result interface{}
 	var err error
-	object := Long{}
+	var object Long
 
 	assert.Equal(t, "long", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "int64_t", object.TypeCpp(), "type cpp failed")
