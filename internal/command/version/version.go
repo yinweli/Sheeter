@@ -6,14 +6,12 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// NewCommand 建立命令
-func NewCommand() *cobra.Command {
-	return &cobra.Command{
-		Use:   "version",
-		Short: "show version",
-		Long:  "show version",
-		Run:   execute,
-	}
+// Version 命令物件
+var Version = &cobra.Command{
+	Use:   "version",
+	Short: "show version",
+	Long:  "show version",
+	Run:   execute,
 }
 
 // execute 執行命令
