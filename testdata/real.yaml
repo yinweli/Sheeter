@@ -1,13 +1,13 @@
 global:
-  excelPath: test
-  cppLibraryPath: test
-  csNamespace: test
-  goPackage: test
+  excelPath: .\
+  cppLibraryPath: nlohmann
+  csNamespace: sheeter
+  goPackage: sheeter
   bom: true
   lineOfNote: 1
   lineOfField: 2
   lineOfData: 3
 
 elements:
-  - excel: test
-    sheet: test
+  - excel: test.xlsx
+    sheet: Data
