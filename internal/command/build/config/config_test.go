@@ -35,6 +35,21 @@ func TestConfig(t *testing.T) {
 	assert.NotNil(t, err, "check failed(Global.GoPackage)")
 
 	config = mockConfig()
+	config.Global.LineOfNote = 0
+	err = config.Check()
+	assert.NotNil(t, err, "check failed(Global.LineOfNote <= 0)")
+
+	config = mockConfig()
+	config.Global.LineOfField = 0
+	err = config.Check()
+	assert.NotNil(t, err, "check failed(Global.LineOfField <= 0)")
+
+	config = mockConfig()
+	config.Global.LineOfData = 0
+	err = config.Check()
+	assert.NotNil(t, err, "check failed(Global.LineOfData <= 0)")
+
+	config = mockConfig()
 	config.Global.LineOfNote = 3
 	err = config.Check()
 	assert.NotNil(t, err, "check failed(Global.LineOfNote)")
