@@ -75,6 +75,13 @@ func TestConfig(t *testing.T) {
 	assert.NotNil(t, err, "check failed(Elements.Sheet)")
 }
 
+func TestGlobal(t *testing.T) {
+	config := mockConfig()
+	assert.Equal(t, config.Global.LineOfNote-1, config.Global.GetLineOfNote(), "get line of note failed")
+	assert.Equal(t, config.Global.LineOfField-1, config.Global.GetLineOfField(), "get line of field failed")
+	assert.Equal(t, config.Global.LineOfData-1, config.Global.GetLineOfData(), "get line of data failed")
+}
+
 func mockConfig() *Config {
 	return &Config{
 		Global: Global{
