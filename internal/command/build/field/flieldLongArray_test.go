@@ -11,7 +11,7 @@ import (
 func TestLongArray(t *testing.T) {
 	var result interface{}
 	var err error
-	object := LongArray{}
+	var object LongArray
 
 	assert.Equal(t, "longArray", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "std::vector<int64_t>", object.TypeCpp(), "type cpp failed")

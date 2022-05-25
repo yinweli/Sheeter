@@ -11,7 +11,7 @@ import (
 func TestIntArray(t *testing.T) {
 	var result interface{}
 	var err error
-	object := IntArray{}
+	var object IntArray
 
 	assert.Equal(t, "intArray", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "std::vector<int32_t>", object.TypeCpp(), "type cpp failed")

@@ -9,7 +9,7 @@ import (
 func TestFloat(t *testing.T) {
 	var result interface{}
 	var err error
-	object := Float{}
+	var object Float
 
 	assert.Equal(t, "float", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "float", object.TypeCpp(), "type cpp failed")
