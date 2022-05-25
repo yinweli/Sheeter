@@ -28,6 +28,18 @@ func (this *Config) Check() error {
 		return fmt.Errorf("global: goPackage empty")
 	} // if
 
+	if this.Global.LineOfNote <= 0 {
+		return fmt.Errorf("global: LineOfNote <= 0")
+	} // if
+
+	if this.Global.LineOfField <= 0 {
+		return fmt.Errorf("global: LineOfField <= 0")
+	} // if
+
+	if this.Global.LineOfData <= 0 {
+		return fmt.Errorf("global: LineOfData <= 0")
+	} // if
+
 	if this.Global.LineOfNote >= this.Global.LineOfData {
 		return fmt.Errorf("global: LineOfNote(%d) >= LineOfData(%d)", this.Global.LineOfNote, this.Global.LineOfData)
 	} // if
