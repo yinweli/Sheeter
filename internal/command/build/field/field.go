@@ -23,3 +23,23 @@ type Field interface {
 	// Transform 字串轉換
 	Transform(input string) (result interface{}, err error)
 }
+
+// NewFields 建立欄位列表
+func NewFields() []Field {
+	return []Field{
+		&Bool{},
+		&BoolArray{},
+		&Double{},
+		&DoubleArray{},
+		&Empty{},
+		&Float{},
+		&FloatArray{},
+		&Int{},
+		&IntArray{},
+		&Long{},
+		&LongArray{},
+		&Pkey{},
+		&Text{},
+		&TextArray{},
+	}
+}
