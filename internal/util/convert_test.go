@@ -92,6 +92,15 @@ func TestFloat64ArrayToString(t *testing.T) {
 	assert.Equal(t, testdata.Float64String(), Float64ArrayToString(testdata.Float64Array()), "convert failed")
 }
 
+func TestStringToStringArray(t *testing.T) {
+	assert.Equal(t, testdata.StringArray(), StringToStringArray(testdata.StringString()), "convert failed")
+
+}
+
+func TestStringArrayToString(t *testing.T) {
+	assert.Equal(t, testdata.StringString(), StringArrayToString(testdata.StringArray()), "convert failed")
+}
+
 func TestTrimFloatString(t *testing.T) {
 	assert.Equal(t, "trim", trimFloatString("trim"), "trim float string failed")
 	assert.Equal(t, "trim", trimFloatString("trim.00"), "trim float string failed")

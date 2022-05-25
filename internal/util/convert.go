@@ -147,6 +147,16 @@ func Float64ArrayToString(inputs []float64) string {
 	return strings.Join(tokens, internal.Separator)
 }
 
+// StringToStringArray 字串轉為陣列
+func StringToStringArray(input string) []string {
+	return strings.Split(input, internal.Separator)
+}
+
+// StringArrayToString 陣列轉為字串
+func StringArrayToString(inputs []string) string {
+	return strings.Join(inputs, internal.Separator)
+}
+
 // trimFloatString 去除浮點數字串結尾多餘的0或是'.'
 func trimFloatString(input string) string {
 	for strings.HasSuffix(input, "0") { // 去除浮點數字串結尾有多餘的0

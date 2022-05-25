@@ -56,6 +56,16 @@ func Float64Array() []float64 {
 	return []float64{0.000101, 0.000202, 0.000303, 0.000404, 0.000505, -0.000909}
 }
 
+// StringString 取得測試字串
+func StringString() string {
+	return "1234,5678,9012,3456,7890,1234"
+}
+
+// StringArray 取得測試陣列
+func StringArray() []string {
+	return []string{"1234", "5678", "9012", "3456", "7890", "1234"}
+}
+
 // FakeCommand 取得虛假命令物件
 func FakeCommand() (buffer *bytes.Buffer, command *cobra.Command) {
 	buffer = &bytes.Buffer{}
