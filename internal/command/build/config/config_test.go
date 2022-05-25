@@ -20,29 +20,14 @@ func TestConfig(t *testing.T) {
 	assert.NotNil(t, err, "check failed(Global.ExcelPath)")
 
 	config = mockConfig()
-	config.Global.OutputPathJson = ""
-	err = config.Check()
-	assert.NotNil(t, err, "check failed(Global.OutputPathJson)")
-
-	config = mockConfig()
-	config.Global.OutputPathCpp = ""
-	err = config.Check()
-	assert.NotNil(t, err, "check failed(Global.OutputPathCpp)")
-
-	config = mockConfig()
-	config.Global.OutputPathCs = ""
-	err = config.Check()
-	assert.NotNil(t, err, "check failed(Global.OutputPathCs)")
-
-	config = mockConfig()
-	config.Global.OutputPathGo = ""
-	err = config.Check()
-	assert.NotNil(t, err, "check failed(Global.OutputPathGo)")
-
-	config = mockConfig()
 	config.Global.CppLibraryPath = ""
 	err = config.Check()
 	assert.NotNil(t, err, "check failed(Global.CppLibraryPath)")
+
+	config = mockConfig()
+	config.Global.CsNamespace = ""
+	err = config.Check()
+	assert.NotNil(t, err, "check failed(Global.CsNamespace)")
 
 	config = mockConfig()
 	config.Global.GoPackage = ""
@@ -79,11 +64,8 @@ func mockConfig() *Config {
 	return &Config{
 		Global: Global{
 			ExcelPath:      "test",
-			OutputPathJson: "json",
-			OutputPathCpp:  "cpp",
-			OutputPathCs:   "cs",
-			OutputPathGo:   "go",
 			CppLibraryPath: "nlohmann",
+			CsNamespace:    "Sheeter",
 			GoPackage:      "sheeter",
 			Bom:            true,
 			LineOfNote:     1,

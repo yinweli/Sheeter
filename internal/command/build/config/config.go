@@ -14,24 +14,12 @@ func (this *Config) Check() error {
 		return errors.New("global: excelPath empty")
 	} // if
 
-	if this.Global.OutputPathJson == "" {
-		return errors.New("global: outputPathJson empty")
-	} // if
-
-	if this.Global.OutputPathCpp == "" {
-		return errors.New("global: outputPathCpp empty")
-	} // if
-
-	if this.Global.OutputPathCs == "" {
-		return errors.New("global: outputPathCs empty")
-	} // if
-
-	if this.Global.OutputPathGo == "" {
-		return errors.New("global: outputPathGo empty")
-	} // if
-
 	if this.Global.CppLibraryPath == "" {
 		return errors.New("global: cppLibraryPath empty")
+	} // if
+
+	if this.Global.CsNamespace == "" {
+		return errors.New("global: csNamespace empty")
 	} // if
 
 	if this.Global.GoPackage == "" {
@@ -66,17 +54,13 @@ func (this *Config) Check() error {
 // Global 全域設定
 type Global struct {
 	ExcelPath      string `yaml:"excelPath"`      // 來源Excel路徑
-	OutputPathJson string `yaml:"outputPathJson"` // 輸出路徑: json TODO: 改內定的
-	OutputPathCpp  string `yaml:"outputPathCpp"`  // 輸出路徑: c++ TODO: 改內定的
-	OutputPathCs   string `yaml:"outputPathCs"`   // 輸出路徑: c# TODO: 改內定的
-	OutputPathGo   string `yaml:"outputPathGo"`   // 輸出路徑: go TODO: 改內定的
-	CppLibraryPath string `yaml:"cppLibraryPath"` // cpp函式庫路徑 TODO: 改內定的
-	// TODO: 多一個cs命名空間
-	GoPackage   string `yaml:"goPackage"`   // go包名
-	Bom         bool   `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
-	LineOfNote  int    `yaml:"lineOfNote"`  // 註解行號(1為起始行)
-	LineOfField int    `yaml:"lineOfField"` // 欄位行號(1為起始行)
-	LineOfData  int    `yaml:"lineOfData"`  // 資料起始行號(1為起始行)
+	CppLibraryPath string `yaml:"cppLibraryPath"` // c++函式庫路徑
+	CsNamespace    string `yaml:"csNamespace"`    // c#命名空間名稱
+	GoPackage      string `yaml:"goPackage"`      // go包名
+	Bom            bool   `yaml:"bom"`            // 輸出的檔案是否使用順序標記(BOM)
+	LineOfNote     int    `yaml:"lineOfNote"`     // 註解行號(1為起始行)
+	LineOfField    int    `yaml:"lineOfField"`    // 欄位行號(1為起始行)
+	LineOfData     int    `yaml:"lineOfData"`     // 資料起始行號(1為起始行)
 }
 
 // Element 項目設定
