@@ -24,22 +24,32 @@ type Field interface {
 	Transform(input string) (result interface{}, err error)
 }
 
+// Fields 欄位列表型態
+type Fields map[string]Field
+
 // NewFields 建立欄位列表
-func NewFields() []Field {
-	return []Field{
-		&Bool{},
-		&BoolArray{},
-		&Double{},
-		&DoubleArray{},
-		&Empty{},
-		&Float{},
-		&FloatArray{},
-		&Int{},
-		&IntArray{},
-		&Long{},
-		&LongArray{},
-		&Pkey{},
-		&Text{},
-		&TextArray{},
-	}
+func NewFields() Fields {
+	fields := make(Fields)
+
+	addFields(fields, &Bool{})
+	addFields(fields, &BoolArray{})
+	addFields(fields, &Double{})
+	addFields(fields, &DoubleArray{})
+	addFields(fields, &Empty{})
+	addFields(fields, &Float{})
+	addFields(fields, &FloatArray{})
+	addFields(fields, &Int{})
+	addFields(fields, &IntArray{})
+	addFields(fields, &Long{})
+	addFields(fields, &LongArray{})
+	addFields(fields, &Pkey{})
+	addFields(fields, &Text{})
+	addFields(fields, &TextArray{})
+
+	return fields
+}
+
+// addFields 新增欄位
+func addFields(fields Fields, field Field) {
+	fields[field.TypeExcel()] = field
 }
