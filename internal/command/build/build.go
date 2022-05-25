@@ -5,7 +5,6 @@ import (
 
 	"Sheeter/internal/command/build/config"
 
-	"github.com/schollz/progressbar/v3"
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v2"
 )
@@ -24,18 +23,22 @@ func execute(cmd *cobra.Command, args []string) {
 	build := build{
 		cmd:  cmd,
 		args: args,
-		stop: false,
 	}
+
 	build.readConfig()
+
+	if build.err != nil {
+		cmd.Println(build.err)
+		return
+	} // if
 }
 
 // build 編譯命令
 type build struct {
-	cmd      *cobra.Command           // 命令物件
-	args     []string                 // 參數列表
-	stop     bool                     // 停止旗標
-	config   *config.Config           // 設定物件
-	progress *progressbar.ProgressBar // 進度條
+	cmd    *cobra.Command // 命令物件
+	args   []string       // 參數列表
+	err    error          // 錯誤物件
+	config *config.Config // 設定物件
 }
 
 // readConfig 讀取設定
@@ -43,7 +46,7 @@ func (this *build) readConfig() {
 	bytes, err := ioutil.ReadFile(this.args[0])
 
 	if err != nil {
-		this.failed(err.Error())
+		this.err = err
 		return
 	} // if
 
@@ -51,20 +54,14 @@ func (this *build) readConfig() {
 	err = yaml.Unmarshal(bytes, this.config)
 
 	if err != nil {
-		this.failed(err.Error())
+		this.err = err
 		return
 	} // if
 
 	err = this.config.Check()
 
 	if err != nil {
-		this.failed(err.Error())
+		this.err = err
 		return
 	} // if
-}
-
-// failed 命令失敗
-func (this *build) failed(message string) {
-	this.cmd.Println(message)
-	this.stop = true
 }
