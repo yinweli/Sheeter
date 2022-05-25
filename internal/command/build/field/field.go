@@ -33,8 +33,8 @@ type Field interface {
 	Transform(input string) (result interface{}, err error)
 }
 
-// Parse 解析欄位
-func Parse(input string) (name string, field Field, err error) {
+// ParseField 解析欄位
+func ParseField(input string) (name string, field Field, err error) {
 	tokens := strings.Split(input, internal.FieldSeparator)
 
 	if len(tokens) != 2 {
