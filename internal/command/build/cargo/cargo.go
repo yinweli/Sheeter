@@ -12,7 +12,6 @@ type Cargo struct {
 	Progress *progressbar.ProgressBar // 進度條
 	Global   *config.Global           // 全域設定
 	Element  *config.Element          // 項目設定
-	Fields   field.Fields             // 欄位列表
 	Columns  []Column                 // 行資料列表
 }
 

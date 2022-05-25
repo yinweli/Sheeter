@@ -1,5 +1,14 @@
 package field
 
+import (
+	"fmt"
+	"strings"
+
+	"Sheeter/internal"
+)
+
+/***** 欄位相關 *****/
+
 // Field 欄位介面
 type Field interface {
 	// TypeExcel 取得excel欄位類型
@@ -24,32 +33,49 @@ type Field interface {
 	Transform(input string) (result interface{}, err error)
 }
 
-// Fields 欄位列表型態
-type Fields map[string]Field
+// Parse 解析欄位
+func Parse(input string) (name string, field Field, err error) {
+	tokens := strings.Split(input, internal.FieldSeparator)
 
-// NewFields 建立欄位列表
-func NewFields() Fields {
-	fields := make(Fields)
+	if len(tokens) != 2 {
+		return "", nil, fmt.Errorf("parse failed: %s", input)
+	} // if
 
-	addFields(fields, &Bool{})
-	addFields(fields, &BoolArray{})
-	addFields(fields, &Double{})
-	addFields(fields, &DoubleArray{})
-	addFields(fields, &Empty{})
-	addFields(fields, &Float{})
-	addFields(fields, &FloatArray{})
-	addFields(fields, &Int{})
-	addFields(fields, &IntArray{})
-	addFields(fields, &Long{})
-	addFields(fields, &LongArray{})
-	addFields(fields, &Pkey{})
-	addFields(fields, &Text{})
-	addFields(fields, &TextArray{})
+	field, ok := fields[tokens[1]]
 
-	return fields
+	if field == nil || ok == false {
+		return "", nil, fmt.Errorf("field not found: %s", input)
+	} // if
+
+	return tokens[0], field, nil
 }
 
-// addFields 新增欄位
-func addFields(fields Fields, field Field) {
+/***** 欄位列表 *****/
+
+var fields = make(map[string]Field) // 欄位列表
+
+// addField 新增欄位到欄位列表
+func addField(field Field) {
 	fields[field.TypeExcel()] = field
+}
+
+/***** 初始執行 *****/
+
+func init() {
+	// TODO: 要記得到這裡新增欄位到欄位列表
+
+	addField(&Bool{})
+	addField(&BoolArray{})
+	addField(&Double{})
+	addField(&DoubleArray{})
+	addField(&Empty{})
+	addField(&Float{})
+	addField(&FloatArray{})
+	addField(&Int{})
+	addField(&IntArray{})
+	addField(&Long{})
+	addField(&LongArray{})
+	addField(&Pkey{})
+	addField(&Text{})
+	addField(&TextArray{})
 }
