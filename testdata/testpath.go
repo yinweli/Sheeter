@@ -6,29 +6,16 @@ import (
 	"runtime"
 )
 
-const RealConfig = "real.yaml"
-const FakeConfig = "fake.yaml"
-const DefectConfig = "defect.yaml"
-const UnknownConfig = "????.yaml"
-const TestExcel = "test.xlsx"
-const TestSheet = "Data"
+/***** 測試路徑 *****/
 
 var RootPath string // 根路徑
 
-func init() {
-	_, file, _, ok := runtime.Caller(0)
-
-	if ok == false {
-		panic("can't get root")
-	}
-
-	RootPath = filepath.Dir(file)
-}
-
-// Path 取得測試資料路徑
+// Path 取得測試路徑
 func Path(path string) string {
 	return filepath.Join(RootPath, path)
 }
+
+/***** 變更工作目錄 *****/
 
 // ChangeWorkDir 變更工作目錄到測試目錄
 func ChangeWorkDir() string {
@@ -54,4 +41,16 @@ func RestoreWorkDir(dir string) {
 	if err != nil {
 		panic(err)
 	} // if
+}
+
+/***** 初始執行 *****/
+
+func init() {
+	_, file, _, ok := runtime.Caller(0)
+
+	if ok == false {
+		panic("can't get root")
+	}
+
+	RootPath = filepath.Dir(file)
 }
