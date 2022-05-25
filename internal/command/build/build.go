@@ -1,7 +1,7 @@
 package build
 
 import (
-	"Sheeter/internal/command/build/reader"
+	"Sheeter/internal/command/build/core"
 
 	"github.com/spf13/cobra"
 )
@@ -17,7 +17,7 @@ var Build = &cobra.Command{
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
-	_, err := reader.ReadConfig(args[0])
+	_, err := core.ReadConfig(args[0])
 
 	if err != nil {
 		cmd.Println(err)
