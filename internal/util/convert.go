@@ -9,7 +9,7 @@ import (
 
 // StringToBoolArray 字串轉為陣列
 func StringToBoolArray(input string) (results []bool, err error) {
-	tokens := strings.Split(input, internal.Separator)
+	tokens := strings.Split(input, internal.ArraySeparator)
 
 	for _, itor := range tokens {
 		value, err := strconv.ParseBool(itor)
@@ -32,12 +32,12 @@ func BoolArrayToString(inputs []bool) string {
 		tokens = append(tokens, strconv.FormatBool(itor))
 	} // for
 
-	return strings.Join(tokens, internal.Separator)
+	return strings.Join(tokens, internal.ArraySeparator)
 }
 
 // StringToInt32Array 字串轉為陣列
 func StringToInt32Array(input string) (results []int32, err error) {
-	tokens := strings.Split(input, internal.Separator)
+	tokens := strings.Split(input, internal.ArraySeparator)
 
 	for _, itor := range tokens {
 		value, err := strconv.ParseInt(itor, internal.Decimal, 32)
@@ -60,12 +60,12 @@ func Int32ArrayToString(inputs []int32) string {
 		tokens = append(tokens, strconv.FormatInt(int64(itor), internal.Decimal))
 	} // for
 
-	return strings.Join(tokens, internal.Separator)
+	return strings.Join(tokens, internal.ArraySeparator)
 }
 
 // StringToInt64Array 字串轉為陣列
 func StringToInt64Array(input string) (results []int64, err error) {
-	tokens := strings.Split(input, internal.Separator)
+	tokens := strings.Split(input, internal.ArraySeparator)
 
 	for _, itor := range tokens {
 		value, err := strconv.ParseInt(itor, internal.Decimal, 64)
@@ -88,12 +88,12 @@ func Int64ArrayToString(inputs []int64) string {
 		tokens = append(tokens, strconv.FormatInt(itor, internal.Decimal))
 	} // for
 
-	return strings.Join(tokens, internal.Separator)
+	return strings.Join(tokens, internal.ArraySeparator)
 }
 
 // StringToFloat32Array 字串轉為陣列
 func StringToFloat32Array(input string) (results []float32, err error) {
-	tokens := strings.Split(input, internal.Separator)
+	tokens := strings.Split(input, internal.ArraySeparator)
 
 	for _, itor := range tokens {
 		value, err := strconv.ParseFloat(itor, 32)
@@ -116,12 +116,12 @@ func Float32ArrayToString(inputs []float32) string {
 		tokens = append(tokens, trimFloatString(strconv.FormatFloat(float64(itor), 'f', internal.Precision, 32)))
 	} // for
 
-	return strings.Join(tokens, internal.Separator)
+	return strings.Join(tokens, internal.ArraySeparator)
 }
 
 // StringToFloat64Array 字串轉為陣列
 func StringToFloat64Array(input string) (results []float64, err error) {
-	tokens := strings.Split(input, internal.Separator)
+	tokens := strings.Split(input, internal.ArraySeparator)
 
 	for _, itor := range tokens {
 		value, err := strconv.ParseFloat(itor, 64)
@@ -144,17 +144,17 @@ func Float64ArrayToString(inputs []float64) string {
 		tokens = append(tokens, trimFloatString(strconv.FormatFloat(itor, 'f', internal.Precision, 64)))
 	} // for
 
-	return strings.Join(tokens, internal.Separator)
+	return strings.Join(tokens, internal.ArraySeparator)
 }
 
 // StringToStringArray 字串轉為陣列
 func StringToStringArray(input string) []string {
-	return strings.Split(input, internal.Separator)
+	return strings.Split(input, internal.ArraySeparator)
 }
 
 // StringArrayToString 陣列轉為字串
 func StringArrayToString(inputs []string) string {
-	return strings.Join(inputs, internal.Separator)
+	return strings.Join(inputs, internal.ArraySeparator)
 }
 
 // trimFloatString 去除浮點數字串結尾多餘的0或是'.'
