@@ -14,29 +14,29 @@ import (
 func TestReadSheet(t *testing.T) {
 	cargo := mockCargo()
 
-	err := ReadSheet(cargo)
+	err := ReadSheet(cargo, 0)
 	assert.Nil(t, err)
 
 	cargo.Element.Excel = testdata.Error1Excel
 	cargo.Element.Sheet = testdata.Error1Sheet
-	err = ReadSheet(cargo)
+	err = ReadSheet(cargo, 0)
 	assert.NotNil(t, err)
 
 	cargo.Element.Excel = testdata.Error2Excel
 	cargo.Element.Sheet = testdata.Error2Sheet
-	err = ReadSheet(cargo)
+	err = ReadSheet(cargo, 0)
 	assert.NotNil(t, err)
 
 	cargo.Element.Excel = testdata.Error3Excel
 	cargo.Element.Sheet = testdata.Error3Sheet
-	err = ReadSheet(cargo)
+	err = ReadSheet(cargo, 0)
 	assert.NotNil(t, err)
 }
 
 func TestBuildSheet(t *testing.T) {
 	cargo := mockCargo()
 
-	sheet, err := buildSheet(cargo)
+	sheet, err := buildSheet(cargo, 0)
 	assert.Nil(t, err)
 	assert.Equal(t, 12, len(sheet))
 	assert.Equal(t, 16, len(sheet[0]))
@@ -45,16 +45,16 @@ func TestBuildSheet(t *testing.T) {
 
 	cargo.Element.Excel = testdata.FakeExcel
 	cargo.Element.Sheet = testdata.FakeSheet
-	sheet, err = buildSheet(cargo)
+	sheet, err = buildSheet(cargo, 0)
 	assert.NotNil(t, err)
 
 	cargo.Element.Excel = testdata.FakeExcel
 	cargo.Element.Sheet = testdata.UnknownSheet
-	sheet, err = buildSheet(cargo)
+	sheet, err = buildSheet(cargo, 0)
 	assert.NotNil(t, err)
 
 	cargo.Element.Excel = testdata.UnknownExcel
-	sheet, err = buildSheet(cargo)
+	sheet, err = buildSheet(cargo, 0)
 	assert.NotNil(t, err)
 }
 
