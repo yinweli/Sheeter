@@ -9,7 +9,7 @@ import (
 func TestText(t *testing.T) {
 	var result interface{}
 	var err error
-	var object Text
+	var object FieldText
 
 	assert.Equal(t, "text", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "std::string", object.TypeCpp(), "type cpp failed")

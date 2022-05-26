@@ -9,7 +9,7 @@ import (
 func TestDouble(t *testing.T) {
 	var result interface{}
 	var err error
-	var object Double
+	var object FieldDouble
 
 	assert.Equal(t, "double", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "double", object.TypeCpp(), "type cpp failed")

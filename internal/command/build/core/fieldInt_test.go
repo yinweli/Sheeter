@@ -9,7 +9,7 @@ import (
 func TestInt(t *testing.T) {
 	var result interface{}
 	var err error
-	var object Int
+	var object FieldInt
 
 	assert.Equal(t, "int", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "int32_t", object.TypeCpp(), "type cpp failed")

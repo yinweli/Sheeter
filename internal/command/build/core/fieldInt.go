@@ -6,41 +6,41 @@ import (
 	"Sheeter/internal"
 )
 
-// Int 32位元整數
-type Int struct {
+// FieldInt 32位元整數
+type FieldInt struct {
 }
 
 // TypeExcel 取得excel欄位類型
-func (this *Int) TypeExcel() string {
+func (this *FieldInt) TypeExcel() string {
 	return "int"
 }
 
 // TypeCpp 取得c++欄位類型
-func (this *Int) TypeCpp() string {
+func (this *FieldInt) TypeCpp() string {
 	return "int32_t"
 }
 
 // TypeCs 取得c#欄位類型
-func (this *Int) TypeCs() string {
+func (this *FieldInt) TypeCs() string {
 	return "int"
 }
 
 // TypeGo 取得go欄位類型
-func (this *Int) TypeGo() string {
+func (this *FieldInt) TypeGo() string {
 	return "int32"
 }
 
 // Hide 是否隱藏
-func (this *Int) Hide() bool {
+func (this *FieldInt) Hide() bool {
 	return false
 }
 
 // PrimaryKey 是否是主要索引
-func (this *Int) PrimaryKey() bool {
+func (this *FieldInt) PrimaryKey() bool {
 	return false
 }
 
 // Transform 字串轉換
-func (this *Int) Transform(input string) (result interface{}, err error) {
+func (this *FieldInt) Transform(input string) (result interface{}, err error) {
 	return strconv.ParseInt(input, internal.Decimal, 32)
 }
