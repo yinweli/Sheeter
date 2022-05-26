@@ -17,8 +17,8 @@ func TestFieldDouble(t *testing.T) {
 	assert.Equal(t, false, field.PrimaryKey(), "primary key failed")
 
 	result, err := field.Transform("0.99999999")
-	assert.InDelta(t, 0.99999999, result, 0.00000001, "fill to metas failed")
 	assert.Nil(t, err, "transform failed")
+	assert.InDelta(t, 0.99999999, result, 0.00000001, "fill to metas failed")
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err, "transform failed")

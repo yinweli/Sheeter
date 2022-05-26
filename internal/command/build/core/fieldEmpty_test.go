@@ -17,6 +17,6 @@ func TestFieldEmpty(t *testing.T) {
 	assert.Equal(t, false, field.PrimaryKey(), "primary key failed")
 
 	result, err := field.Transform("test")
-	assert.Nil(t, result, "transform failed")
 	assert.Nil(t, err, "transform failed")
+	assert.Nil(t, result, "transform failed")
 }

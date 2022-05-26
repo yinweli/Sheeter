@@ -19,8 +19,8 @@ func TestFieldIntArray(t *testing.T) {
 	assert.Equal(t, false, field.PrimaryKey(), "primary key failed")
 
 	result, err := field.Transform(testdata.Int32String())
-	assert.Equal(t, testdata.Int32Array(), result, "transform failed")
 	assert.Nil(t, err, "transform failed")
+	assert.Equal(t, testdata.Int32Array(), result, "transform failed")
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err, "transform failed")

@@ -10,11 +10,10 @@ import (
 
 func TestStringToBoolArray(t *testing.T) {
 	result, err := StringToBoolArray(testdata.BoolString())
-	assert.Equal(t, testdata.BoolArray(), result, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
+	assert.Equal(t, testdata.BoolArray(), result, "convert real failed")
 
 	result, err = StringToBoolArray("fake")
-	assert.Nil(t, result, "convert fake failed")
 	assert.NotNil(t, err, "convert fake failed")
 }
 
@@ -24,11 +23,10 @@ func TestBoolArrayToString(t *testing.T) {
 
 func TestStringToInt32Array(t *testing.T) {
 	result, err := StringToInt32Array(testdata.Int32String())
-	assert.Equal(t, testdata.Int32Array(), result, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
+	assert.Equal(t, testdata.Int32Array(), result, "convert real failed")
 
 	result, err = StringToInt32Array("fake")
-	assert.Nil(t, result, "convert fake failed")
 	assert.NotNil(t, err, "convert fake failed")
 }
 
@@ -37,11 +35,10 @@ func TestInt32ArrayToString(t *testing.T) {
 }
 func TestStringToInt64Array(t *testing.T) {
 	result, err := StringToInt64Array(testdata.Int64String())
-	assert.Equal(t, testdata.Int64Array(), result, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
+	assert.Equal(t, testdata.Int64Array(), result, "convert real failed")
 
 	result, err = StringToInt64Array("fake")
-	assert.Nil(t, result, "convert fake failed")
 	assert.NotNil(t, err, "convert fake failed")
 }
 
@@ -51,11 +48,10 @@ func TestInt64ArrayToString(t *testing.T) {
 
 func TestStringToFloat32Array(t *testing.T) {
 	result, err := StringToFloat32Array(testdata.Float32String())
-	assert.InDeltaSlice(t, testdata.Float32Array(), result, 0.000001, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
+	assert.InDeltaSlice(t, testdata.Float32Array(), result, 0.000001, "convert real failed")
 
 	result, err = StringToFloat32Array("fake")
-	assert.Nil(t, result, "convert fake failed")
 	assert.NotNil(t, err, "convert fake failed")
 }
 
@@ -65,11 +61,10 @@ func TestFloat32ArrayToString(t *testing.T) {
 
 func TestStringToFloat64Array(t *testing.T) {
 	result, err := StringToFloat64Array(testdata.Float64String())
-	assert.InDeltaSlice(t, testdata.Float64Array(), result, 0.000001, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
+	assert.InDeltaSlice(t, testdata.Float64Array(), result, 0.000001, "convert real failed")
 
 	result, err = StringToFloat64Array("fake")
-	assert.Nil(t, result, "convert fake failed")
 	assert.NotNil(t, err, "convert fake failed")
 }
 

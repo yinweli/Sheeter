@@ -17,8 +17,8 @@ func TestFieldFloat(t *testing.T) {
 	assert.Equal(t, false, field.PrimaryKey(), "primary key failed")
 
 	result, err := field.Transform("0.9999")
-	assert.InDelta(t, 0.9999, result, 0.0001, "transform failed")
 	assert.Nil(t, err, "transform failed")
+	assert.InDelta(t, 0.9999, result, 0.0001, "transform failed")
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err, "transform failed")
