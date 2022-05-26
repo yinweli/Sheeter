@@ -11,17 +11,17 @@ import (
 func TestFieldIntArray(t *testing.T) {
 	field := FieldIntArray{}
 
-	assert.Equal(t, "intArray", field.TypeExcel(), "type excel failed")
-	assert.Equal(t, "std::vector<int32_t>", field.TypeCpp(), "type cpp failed")
-	assert.Equal(t, "List<int>", field.TypeCs(), "type cs failed")
-	assert.Equal(t, "[]int32", field.TypeGo(), "type go failed")
-	assert.Equal(t, false, field.Hide(), "hide failed")
-	assert.Equal(t, false, field.PrimaryKey(), "primary key failed")
+	assert.Equal(t, "intArray", field.TypeExcel())
+	assert.Equal(t, "std::vector<int32_t>", field.TypeCpp())
+	assert.Equal(t, "List<int>", field.TypeCs())
+	assert.Equal(t, "[]int32", field.TypeGo())
+	assert.Equal(t, false, field.Hide())
+	assert.Equal(t, false, field.PrimaryKey())
 
 	result, err := field.Transform(testdata.Int32String())
-	assert.Nil(t, err, "transform failed")
-	assert.Equal(t, testdata.Int32Array(), result, "transform failed")
+	assert.Nil(t, err)
+	assert.Equal(t, testdata.Int32Array(), result)
 
 	result, err = field.Transform("fake")
-	assert.NotNil(t, err, "transform failed")
+	assert.NotNil(t, err)
 }

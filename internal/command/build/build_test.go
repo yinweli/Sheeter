@@ -14,8 +14,8 @@ func TestExecute(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	execute(command, []string{testdata.Path(testdata.RealConfig)})
-	assert.Equal(t, "", buffer.String(), "execute failed")
+	assert.Equal(t, "", buffer.String())
 
 	execute(command, []string{testdata.Path(testdata.FakeConfig)})
-	assert.NotEqual(t, "", buffer.String(), "execute fake config failed")
+	assert.NotEqual(t, "", buffer.String())
 }
