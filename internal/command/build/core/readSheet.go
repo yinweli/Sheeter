@@ -29,7 +29,7 @@ func ReadSheet(task *Task) error {
 		return err
 	} // if
 
-	err = buildData(task, sheet)
+	err = buildDatas(task, sheet)
 
 	if err != nil {
 		return err
@@ -133,8 +133,8 @@ func buildNotes(task *Task, sheet [][]string) error {
 	return nil
 }
 
-// buildData 建立資料
-func buildData(task *Task, sheet [][]string) error {
+// buildDatas 建立資料
+func buildDatas(task *Task, sheet [][]string) error {
 	for row := task.Global.GetLineOfData(); row < len(sheet); row++ {
 		datas := sheet[row]
 

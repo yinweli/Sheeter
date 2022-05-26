@@ -17,6 +17,6 @@ func TestFieldText(t *testing.T) {
 	assert.Equal(t, false, field.PrimaryKey(), "primary key failed")
 
 	result, err := field.Transform("this is a string")
-	assert.Equal(t, "this is a string", result, "transform failed")
 	assert.Nil(t, err, "transform failed")
+	assert.Equal(t, "this is a string", result, "transform failed")
 }

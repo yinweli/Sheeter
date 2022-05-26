@@ -19,8 +19,8 @@ func TestFieldBoolArray(t *testing.T) {
 	assert.Equal(t, false, field.PrimaryKey(), "primary key failed")
 
 	result, err := field.Transform(testdata.BoolString())
-	assert.Equal(t, testdata.BoolArray(), result, "transform failed")
 	assert.Nil(t, err, "transform failed")
+	assert.Equal(t, testdata.BoolArray(), result, "transform failed")
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err, "transform failed")

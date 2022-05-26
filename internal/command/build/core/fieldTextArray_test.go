@@ -19,6 +19,6 @@ func TestFieldTextArray(t *testing.T) {
 	assert.Equal(t, false, field.PrimaryKey(), "primary key failed")
 
 	result, err := field.Transform(testdata.StringString())
-	assert.Equal(t, testdata.StringArray(), result, "transform failed")
 	assert.Nil(t, err, "transform failed")
+	assert.Equal(t, testdata.StringArray(), result, "transform failed")
 }

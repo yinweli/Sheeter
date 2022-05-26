@@ -10,8 +10,8 @@ import (
 
 func TestReadConfig(t *testing.T) {
 	result, err := ReadConfig(testdata.Path(testdata.RealConfig))
-	assert.NotNil(t, result, "read real config failed")
 	assert.Nil(t, err, "read real config failed")
+	assert.NotNil(t, result, "read real config failed")
 
 	result, err = ReadConfig(testdata.Path(testdata.FakeConfig))
 	assert.NotNil(t, err, "read fake config failed")
