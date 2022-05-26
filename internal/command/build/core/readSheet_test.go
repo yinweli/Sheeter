@@ -6,17 +6,41 @@ import (
 	"Sheeter/internal"
 	"Sheeter/testdata"
 
-	"github.com/stretchr/testify/assert"
-
 	"github.com/schollz/progressbar/v3"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestReadSheet(t *testing.T) {
+	task := mockTask()
 
+	err := ReadSheet(task)
+	assert.Nil(t, err)
 }
 
 func TestBuildSheet(t *testing.T) {
+	task := mockTask()
 
+	sheet, err := buildSheet(task)
+	assert.Nil(t, err)
+	assert.Equal(t, 12, len(sheet))
+	assert.Equal(t, 16, len(sheet[0]))
+	assert.Equal(t, "checkpoint", sheet[0][15])
+	assert.Equal(t, "checkpoint", sheet[11][15])
+
+	task.Element.Excel = testdata.FakeExcel
+	task.Element.Sheet = testdata.FakeSheet
+	sheet, err = buildSheet(task)
+	assert.NotNil(t, err)
+
+	task.Element.Excel = testdata.FakeExcel
+	task.Element.Sheet = testdata.UnknownSheet
+	sheet, err = buildSheet(task)
+	assert.NotNil(t, err)
+
+	task.Element.Excel = testdata.UnknownExcel
+	sheet, err = buildSheet(task)
+	assert.NotNil(t, err)
 }
 
 func TestBuildColumns(t *testing.T) {
@@ -91,7 +115,7 @@ func TestPkeyCheck(t *testing.T) {
 
 func mockTask() *Task {
 	return &Task{
-		Progress: progressbar.Default(internal.ProgressDefault),
+		Progress: progressbar.DefaultSilent(internal.ProgressDefault),
 		Global: &Global{
 			ExcelPath:   testdata.RootPath,
 			LineOfNote:  1,

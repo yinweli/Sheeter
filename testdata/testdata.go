@@ -15,6 +15,7 @@ const RealSheet = "Data"
 const FakeExcel = "fake.xlsx"
 const FakeSheet = "Data"
 const UnknownExcel = "????.xlsx"
+const UnknownSheet = "????"
 
 // BoolString 取得測試字串
 func BoolString() string {
