@@ -19,7 +19,7 @@ func NewProgressBar(max int, desc string, writer io.Writer) *progressbar.Progres
 		progressbar.OptionShowCount(),
 		progressbar.OptionShowIts(),
 		progressbar.OptionOnCompletion(func() {
-			fmt.Printf("\r")
+			fmt.Printf("\r%s complete!\n", desc)
 		}),
 		progressbar.OptionSpinnerType(14),
 	)
