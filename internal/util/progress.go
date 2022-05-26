@@ -9,8 +9,8 @@ import (
 )
 
 // NewProgressBar 建立進度條物件
-func NewProgressBar(max int, desc string, writer io.Writer) *progressbar.ProgressBar {
-	bar := progressbar.NewOptions(
+func NewProgressBar(max int64, desc string, writer io.Writer) *progressbar.ProgressBar {
+	bar := progressbar.NewOptions64(
 		max,
 		progressbar.OptionSetDescription(desc),
 		progressbar.OptionSetWriter(writer),
@@ -19,9 +19,9 @@ func NewProgressBar(max int, desc string, writer io.Writer) *progressbar.Progres
 		progressbar.OptionShowCount(),
 		progressbar.OptionShowIts(),
 		progressbar.OptionOnCompletion(func() {
-			fmt.Printf("\r%s complete!\n", desc)
+			fmt.Printf("\n%s complete!\n", desc)
 		}),
-		progressbar.OptionSpinnerType(14),
+		progressbar.OptionSpinnerType(33),
 	)
 	_ = bar.RenderBlank()
 

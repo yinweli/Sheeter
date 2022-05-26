@@ -1,6 +1,7 @@
 package core
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -77,6 +78,12 @@ func TestGlobal(t *testing.T) {
 	assert.Equal(t, config.Global.LineOfNote-1, config.Global.GetLineOfNote())
 	assert.Equal(t, config.Global.LineOfField-1, config.Global.GetLineOfField())
 	assert.Equal(t, config.Global.LineOfData-1, config.Global.GetLineOfData())
+}
+
+func TestElement(t *testing.T) {
+	config := mockConfig()
+	element := config.Elements[0]
+	assert.Equal(t, fmt.Sprintf("%s(%s)", element.Excel, element.Sheet), element.GetFullName())
 }
 
 func mockConfig() *Config {

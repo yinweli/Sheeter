@@ -49,11 +49,11 @@ func buildSheet(task *Task) (sheet [][]string, err error) {
 	sheet, err = file.GetRows(task.Element.Sheet)
 
 	if sheet == nil || err != nil {
-		return nil, fmt.Errorf("sheet not found: %s(%s)", task.Element.Excel, task.Element.Sheet)
+		return nil, fmt.Errorf("sheet not found: %s", task.Element.GetFullName())
 	} // if
 
 	if len(sheet) < 2 { // 表格最少要有2行: 註解行, 欄位行
-		return nil, fmt.Errorf("sheet have too less line: %s(%s)", task.Element.Excel, task.Element.Sheet)
+		return nil, fmt.Errorf("sheet have too less line: %s", task.Element.GetFullName())
 	} // if
 
 	task.Progress.ChangeMax(len(sheet) * internal.TaskMax) // 設定進度條最大值
@@ -75,11 +75,11 @@ func buildColumns(task *Task, sheet [][]string) (pkey *Column, err error) {
 		name, field, err := parser.Parse(itor)
 
 		if err != nil {
-			return nil, fmt.Errorf("field parse failed: %s(%s) [%s : %s]", task.Element.Excel, task.Element.Sheet, itor, err)
+			return nil, fmt.Errorf("field parse failed: %s [%s : %s]", task.Element.GetFullName(), itor, err)
 		} // if
 
 		if field.PrimaryKey() && pkey != nil {
-			return nil, fmt.Errorf("too many pkey: %s(%s)", task.Element.Excel, task.Element.Sheet)
+			return nil, fmt.Errorf("too many pkey: %s", task.Element.GetFullName())
 		} // if
 
 		column := &Column{
@@ -96,7 +96,7 @@ func buildColumns(task *Task, sheet [][]string) (pkey *Column, err error) {
 	} // for
 
 	if pkey == nil { // 這裡也同時檢查了沒有任何欄位的情況
-		return nil, fmt.Errorf("must have one pkey: %s(%s)", task.Element.Excel, task.Element.Sheet)
+		return nil, fmt.Errorf("must have one pkey: %s", task.Element.GetFullName())
 	} // if
 
 	return pkey, nil
@@ -150,7 +150,7 @@ func pkeyCheck(task *Task, pkey *Column) error {
 
 	for _, itor := range pkey.Datas {
 		if _, exist := datas[itor]; exist {
-			return fmt.Errorf("pkey duplicate: %s(%s)", task.Element.Excel, task.Element.Sheet)
+			return fmt.Errorf("pkey duplicate: %s", task.Element.GetFullName())
 		} // if
 
 		datas[itor] = true

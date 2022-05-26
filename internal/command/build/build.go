@@ -1,7 +1,9 @@
 package build
 
 import (
+	"Sheeter/internal"
 	"Sheeter/internal/command/build/core"
+	"Sheeter/internal/util"
 
 	"github.com/spf13/cobra"
 )
@@ -17,10 +19,36 @@ var Build = &cobra.Command{
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
-	_, err := core.ReadConfig(args[0])
+	config, err := core.ReadConfig(args[0])
 
 	if err != nil {
 		cmd.Println(err)
 		return
 	} // if
+
+	cmd.Printf("excelPath: %s\n", config.Global.ExcelPath)
+	cmd.Printf("cppLibraryPath: %s\n", config.Global.CppLibraryPath)
+	cmd.Printf("csNamespace: %s\n", config.Global.CsNamespace)
+	cmd.Printf("goPackage: %s\n", config.Global.GoPackage)
+	cmd.Printf("bom: %t\n", config.Global.Bom)
+	cmd.Printf("lineOfNote: %d\n", config.Global.LineOfNote)
+	cmd.Printf("lineOfField: %d\n", config.Global.LineOfField)
+	cmd.Printf("lineOfData: %d\n", config.Global.LineOfData)
+
+	for _, itor := range config.Elements {
+		progress := util.NewProgressBar(internal.ProgressDefault, itor.GetFullName(), cmd.OutOrStdout())
+		task := &core.Task{
+			Progress: progress,
+			Global:   &config.Global,
+			Element:  &itor,
+		}
+		err := core.ReadSheet(task)
+
+		if err != nil {
+			cmd.Println(err)
+			return
+		} // if
+
+		_ = progress.Finish()
+	} // for
 }
