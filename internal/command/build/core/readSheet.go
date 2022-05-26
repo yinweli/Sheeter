@@ -10,22 +10,22 @@ import (
 )
 
 // ReadSheet 讀取表格
-func ReadSheet(task *Task) error {
-	sheet, err := buildSheet(task)
+func ReadSheet(cargo *Cargo) error {
+	sheet, err := buildSheet(cargo)
 
 	if err != nil {
 		return err
 	} // if
 
-	pkey, err := buildColumns(task, sheet)
+	pkey, err := buildColumns(cargo, sheet)
 
 	if err != nil {
 		return err
 	} // if
 
-	_ = buildNotes(task, sheet) // 目前buildNotes不會失敗
-	_ = buildDatas(task, sheet) // 目前buildDatas不會失敗
-	err = pkeyCheck(task, pkey)
+	_ = buildNotes(cargo, sheet) // 目前buildNotes不會失敗
+	_ = buildDatas(cargo, sheet) // 目前buildDatas不會失敗
+	err = pkeyCheck(cargo, pkey)
 
 	if err != nil {
 		return err
@@ -35,8 +35,8 @@ func ReadSheet(task *Task) error {
 }
 
 // buildSheet 建立表格列表
-func buildSheet(task *Task) (sheet sheets, err error) {
-	file, err := excelize.OpenFile(path.Join(task.Global.ExcelPath, task.Element.Excel))
+func buildSheet(cargo *Cargo) (sheet sheets, err error) {
+	file, err := excelize.OpenFile(path.Join(cargo.Global.ExcelPath, cargo.Element.Excel))
 
 	if err != nil {
 		return nil, err
@@ -46,26 +46,26 @@ func buildSheet(task *Task) (sheet sheets, err error) {
 		_ = file.Close()
 	}()
 
-	sheet, err = file.GetRows(task.Element.Sheet)
+	sheet, err = file.GetRows(cargo.Element.Sheet)
 
 	if sheet == nil || err != nil {
-		return nil, fmt.Errorf("sheet not found: %s", task.Element.GetFullName())
+		return nil, fmt.Errorf("sheet not found: %s", cargo.Element.GetFullName())
 	} // if
 
 	if len(sheet) < 2 { // 表格最少要有2行: 註解行, 欄位行
-		return nil, fmt.Errorf("sheet have too less line: %s", task.Element.GetFullName())
+		return nil, fmt.Errorf("sheet have too less line: %s", cargo.Element.GetFullName())
 	} // if
 
-	task.Progress.ChangeMax(len(sheet) * internal.TaskMax) // 設定進度條最大值
+	cargo.Progress.ChangeMax(len(sheet) * internal.JobMax) // 設定進度條最大值
 
 	return sheet, nil
 }
 
 // buildColumns 建立行資料列表
-func buildColumns(task *Task, sheet sheets) (pkey *Column, err error) {
-	fields := sheet[task.Global.GetLineOfField()]
+func buildColumns(cargo *Cargo, sheet sheets) (pkey *Column, err error) {
+	fields := sheet[cargo.Global.GetLineOfField()]
 	parser := NewParser()
-	task.Columns = []*Column{} // 把行資料列表清空, 避免不必要的問題
+	cargo.Columns = []*Column{} // 把行資料列表清空, 避免不必要的問題
 
 	for _, itor := range fields {
 		if len(itor) <= 0 {
@@ -75,11 +75,11 @@ func buildColumns(task *Task, sheet sheets) (pkey *Column, err error) {
 		name, field, err := parser.Parse(itor)
 
 		if err != nil {
-			return nil, fmt.Errorf("field parse failed: %s [%s : %s]", task.Element.GetFullName(), itor, err)
+			return nil, fmt.Errorf("field parse failed: %s [%s : %s]", cargo.Element.GetFullName(), itor, err)
 		} // if
 
 		if field.PrimaryKey() && pkey != nil {
-			return nil, fmt.Errorf("too many pkey: %s", task.Element.GetFullName())
+			return nil, fmt.Errorf("too many pkey: %s", cargo.Element.GetFullName())
 		} // if
 
 		column := &Column{
@@ -91,22 +91,22 @@ func buildColumns(task *Task, sheet sheets) (pkey *Column, err error) {
 			pkey = column
 		} // if
 
-		task.Columns = append(task.Columns, column)
-		_ = task.Progress.Add(1)
+		cargo.Columns = append(cargo.Columns, column)
+		_ = cargo.Progress.Add(1)
 	} // for
 
 	if pkey == nil { // 這裡也同時檢查了沒有任何欄位的情況
-		return nil, fmt.Errorf("must have one pkey: %s", task.Element.GetFullName())
+		return nil, fmt.Errorf("must have one pkey: %s", cargo.Element.GetFullName())
 	} // if
 
 	return pkey, nil
 }
 
 // buildNotes 建立欄位註解
-func buildNotes(task *Task, sheet sheets) error {
-	notes := sheet[task.Global.GetLineOfNote()]
+func buildNotes(cargo *Cargo, sheet sheets) error {
+	notes := sheet[cargo.Global.GetLineOfNote()]
 
-	for col, itor := range task.Columns {
+	for col, itor := range cargo.Columns {
 		var data string
 
 		if col >= 0 && col < len(notes) { // 註解行的數量可能因為空白格的關係會短缺, 所以要檢查一下
@@ -114,22 +114,22 @@ func buildNotes(task *Task, sheet sheets) error {
 		} // if
 
 		itor.Note = data
-		_ = task.Progress.Add(1)
+		_ = cargo.Progress.Add(1)
 	} // for
 
 	return nil
 }
 
 // buildDatas 建立資料
-func buildDatas(task *Task, sheet sheets) error {
-	for _, itor := range task.Columns {
+func buildDatas(cargo *Cargo, sheet sheets) error {
+	for _, itor := range cargo.Columns {
 		itor.Datas = []string{} // 把資料列表清空, 避免不必要的問題
 	} // for
 
-	for row := task.Global.GetLineOfData(); row < len(sheet); row++ {
+	for row := cargo.Global.GetLineOfData(); row < len(sheet); row++ {
 		datas := sheet[row]
 
-		for col, itor := range task.Columns {
+		for col, itor := range cargo.Columns {
 			var data string
 
 			if col >= 0 && col < len(datas) { // 資料行的數量可能因為空白格的關係會短缺, 所以要檢查一下
@@ -137,7 +137,7 @@ func buildDatas(task *Task, sheet sheets) error {
 			} // if
 
 			itor.Datas = append(itor.Datas, data)
-			_ = task.Progress.Add(1)
+			_ = cargo.Progress.Add(1)
 		} // for
 	} // for
 
@@ -145,12 +145,12 @@ func buildDatas(task *Task, sheet sheets) error {
 }
 
 // pkeyCheck 主要索引檢查
-func pkeyCheck(task *Task, pkey *Column) error {
+func pkeyCheck(cargo *Cargo, pkey *Column) error {
 	datas := make(map[string]bool)
 
 	for _, itor := range pkey.Datas {
 		if _, exist := datas[itor]; exist {
-			return fmt.Errorf("pkey duplicate: %s", task.Element.GetFullName())
+			return fmt.Errorf("pkey duplicate: %s", cargo.Element.GetFullName())
 		} // if
 
 		datas[itor] = true

@@ -3,18 +3,18 @@ package core
 import "fmt"
 
 // WriteJson 寫入json
-func WriteJson(task *Task) error {
+func WriteJson(cargo *Cargo) error {
 	return nil
 }
 
 // buildJBoxes 建立json箱列表
-func buildJBoxes(task *Task) (jboxes []jbox, err error) {
-	for _, itor := range task.Columns {
+func buildJBoxes(cargo *Cargo) (jboxes []jbox, err error) {
+	for _, itor := range cargo.Columns {
 		for row, data := range itor.Datas {
 			result, err := itor.Field.Transform(data)
 
 			if err != nil {
-				return nil, fmt.Errorf("convert to json failed: %s [%s(%d) : %s]", task.Element.GetFullName(), itor.Name, row, err)
+				return nil, fmt.Errorf("convert to json failed: %s [%s(%d) : %s]", cargo.Element.GetFullName(), itor.Name, row, err)
 			} // if
 
 			if len(jboxes) <= row {
@@ -22,7 +22,7 @@ func buildJBoxes(task *Task) (jboxes []jbox, err error) {
 			} // if
 
 			jboxes[row][itor.Name] = result
-			_ = task.Progress.Add(1)
+			_ = cargo.Progress.Add(1)
 		} // for
 	} // for
 

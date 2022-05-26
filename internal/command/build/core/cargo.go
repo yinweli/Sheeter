@@ -4,8 +4,8 @@ import (
 	"github.com/schollz/progressbar/v3"
 )
 
-// Task 編譯工作
-type Task struct {
+// Cargo 編譯工作貨箱
+type Cargo struct {
 	Progress *progressbar.ProgressBar // 進度條
 	Global   *Global                  // 全域設定
 	Element  *Element                 // 項目設定
