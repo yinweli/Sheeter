@@ -27,3 +27,8 @@ func NewProgressBar(max int, desc string, writer io.Writer) *progressbar.Progres
 
 	return bar
 }
+
+// CalcProgress 計算進度值
+func CalcProgress(cellSize int, taskCount int) int {
+	return cellSize * taskCount
+}
