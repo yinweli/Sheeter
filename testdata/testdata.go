@@ -10,8 +10,11 @@ const RealConfig = "real.yaml"
 const FakeConfig = "fake.yaml"
 const DefectConfig = "defect.yaml"
 const UnknownConfig = "????.yaml"
-const TestExcel = "test.xlsx"
-const TestSheet = "Data"
+const RealExcel = "real.xlsx"
+const RealSheet = "Data"
+const FakeExcel = "fake.xlsx"
+const FakeSheet = "Data"
+const UnknownExcel = "????.xlsx"
 
 // BoolString 取得測試字串
 func BoolString() string {

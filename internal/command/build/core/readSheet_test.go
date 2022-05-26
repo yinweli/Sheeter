@@ -15,6 +15,10 @@ func TestReadSheet(t *testing.T) {
 
 }
 
+func TestBuildSheet(t *testing.T) {
+
+}
+
 func TestBuildColumns(t *testing.T) {
 	task := mockTask()
 	fields := []string{"field0#pkey", "field1#bool", "field2#int", "", "field3#text"}
@@ -26,6 +30,27 @@ func TestBuildColumns(t *testing.T) {
 	assert.Equal(t, (&FieldPkey{}).TypeExcel(), pkey.Field.TypeExcel())
 	assert.Equal(t, 3, len(task.Columns))
 	assert.Equal(t, "field0", task.Columns[0].Name)
+	assert.Equal(t, (&FieldPkey{}).TypeExcel(), task.Columns[0].Field.TypeExcel())
+	assert.Equal(t, "field1", task.Columns[1].Name)
+	assert.Equal(t, (&FieldBool{}).TypeExcel(), task.Columns[1].Field.TypeExcel())
+	assert.Equal(t, "field2", task.Columns[2].Name)
+	assert.Equal(t, (&FieldInt{}).TypeExcel(), task.Columns[2].Field.TypeExcel())
+
+	fields = []string{"field0#????", "field1#bool", "field2#int"}
+	pkey, err = buildColumns(task, [][]string{{}, fields})
+	assert.NotNil(t, err)
+
+	fields = []string{"field0#pkey", "field1#pkey", "field2#int"}
+	pkey, err = buildColumns(task, [][]string{{}, fields})
+	assert.NotNil(t, err)
+
+	fields = []string{"field0#int", "field1#int", "field2#int"}
+	pkey, err = buildColumns(task, [][]string{{}, fields})
+	assert.NotNil(t, err)
+
+	fields = []string{}
+	pkey, err = buildColumns(task, [][]string{{}, fields})
+	assert.NotNil(t, err)
 }
 
 func TestBuildNotes(t *testing.T) {
@@ -74,8 +99,8 @@ func mockTask() *Task {
 			LineOfData:  3,
 		},
 		Element: &Element{
-			Excel: testdata.TestExcel,
-			Sheet: testdata.TestSheet,
+			Excel: testdata.RealExcel,
+			Sheet: testdata.RealSheet,
 		},
 		Columns: []*Column{
 			{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
