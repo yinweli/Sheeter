@@ -7,8 +7,8 @@ import (
 )
 
 // ReadConfig 讀取設定
-func ReadConfig(filename string) (result *Config, err error) {
-	bytes, err := ioutil.ReadFile(filename)
+func ReadConfig(fileName string) (result *Config, err error) {
+	bytes, err := ioutil.ReadFile(fileName)
 
 	if err != nil {
 		return nil, err
