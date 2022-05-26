@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLong(t *testing.T) {
+func TestFieldLong(t *testing.T) {
 	var result interface{}
 	var err error
 	var object FieldLong
