@@ -3,12 +3,9 @@ package core
 import (
 	"fmt"
 	"path"
-	"strings"
 
 	"Sheeter/internal"
-	"Sheeter/internal/util"
 
-	mapset "github.com/deckarep/golang-set"
 	"github.com/xuri/excelize/v2"
 )
 
@@ -34,10 +31,11 @@ func ReadSheet(task *Task) error {
 		return fmt.Errorf("sheet have too less line: %s(%s)", task.Element.Excel, task.Element.Sheet)
 	} // if
 
-	task.Progress.ChangeMax(util.CalcProgress(len(sheet), internal.TaskMax)) // 設定進度條最大值
+	task.Progress.ChangeMax(len(sheet) * internal.TaskMax) // 設定進度條最大值
 
 	// 讀取欄位名稱, 欄位類型 TODO: 分離子函式
 	fields := sheet[task.Global.GetLineOfField()]
+	parser := NewParser()
 	pkeyCount := 0
 
 	for _, itor := range fields {
@@ -45,10 +43,10 @@ func ReadSheet(task *Task) error {
 			break
 		} // if
 
-		name, field, err := ParseField(itor)
+		name, field, err := parser.Parse(itor)
 
 		if err != nil {
-			return fmt.Errorf("sheet field parse failed: %s(%s) [%s]", task.Element.Excel, task.Element.Sheet, err)
+			return fmt.Errorf("sheet field Parse failed: %s(%s) [%s]", task.Element.Excel, task.Element.Sheet, err)
 		} // if
 
 		if field.PrimaryKey() {
@@ -102,24 +100,26 @@ func ReadSheet(task *Task) error {
 	} // for
 
 	// 檢查重複索引 TODO: 分離子函式
-	pkeys := mapset.NewSet[string]()
-	duplicate := ""
+	/*
+		pkeys := mapset.NewSet[string]()
+		duplicate := ""
 
-	for _, itor := range task.Columns {
-		if itor.Field.PrimaryKey() {
-			for _, pkey := range itor.Datas {
-				if pkeys.Add(pkey) == false {
-					duplicate = strings.Join([]string{duplicate, pkey}, internal.ArraySeparator)
-				} // if
-			} // for
+		for _, itor := range task.Columns {
+			if itor.Field.PrimaryKey() {
+				for _, pkey := range itor.Datas {
+					if pkeys.Add(pkey) == false {
+						duplicate = strings.Join([]string{duplicate, pkey}, internal.ArraySeparator)
+					} // if
+				} // for
 
-			break
+				break
+			} // if
+		} // for
+
+		if duplicate != "" {
+			return fmt.Errorf("pkey duplicate: %s(%s) [%s]", task.Element.Excel, task.Element.Sheet, duplicate)
 		} // if
-	} // for
-
-	if duplicate != "" {
-		return fmt.Errorf("pkey duplicate: %s(%s) [%s]", task.Element.Excel, task.Element.Sheet, duplicate)
-	} // if
+	*/
 
 	return nil
 }
