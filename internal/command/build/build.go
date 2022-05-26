@@ -37,12 +37,12 @@ func execute(cmd *cobra.Command, args []string) {
 
 	for _, itor := range config.Elements {
 		progress := util.NewProgressBar(internal.ProgressDefault, itor.GetFullName(), cmd.OutOrStdout())
-		task := &core.Task{
+		cargo := &core.Cargo{
 			Progress: progress,
 			Global:   &config.Global,
 			Element:  &itor,
 		}
-		err := core.ReadSheet(task)
+		err := core.ReadSheet(cargo)
 
 		if err != nil {
 			cmd.Println(err)
