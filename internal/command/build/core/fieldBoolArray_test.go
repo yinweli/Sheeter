@@ -8,7 +8,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBoolArray(t *testing.T) {
+func TestFieldBoolArray(t *testing.T) {
 	var result interface{}
 	var err error
 	var object FieldBoolArray

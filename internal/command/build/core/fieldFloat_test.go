@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestFloat(t *testing.T) {
+func TestFieldFloat(t *testing.T) {
 	var result interface{}
 	var err error
 	var object FieldFloat

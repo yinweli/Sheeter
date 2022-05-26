@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestBool(t *testing.T) {
+func TestFieldBool(t *testing.T) {
 	var result interface{}
 	var err error
 	var object FieldBool

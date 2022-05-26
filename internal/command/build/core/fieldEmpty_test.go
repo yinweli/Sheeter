@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestEmpty(t *testing.T) {
+func TestFieldEmpty(t *testing.T) {
 	var result interface{}
 	var err error
 	var object FieldEmpty

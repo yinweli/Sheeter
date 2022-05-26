@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDouble(t *testing.T) {
+func TestFieldDouble(t *testing.T) {
 	var result interface{}
 	var err error
 	var object FieldDouble
