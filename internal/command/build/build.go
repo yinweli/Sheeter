@@ -42,7 +42,8 @@ func execute(cmd *cobra.Command, args []string) {
 			Global:   &config.Global,
 			Element:  &itor,
 		}
-		err := core.ReadSheet(cargo)
+
+		err := core.ReadSheet(cargo, 5) // TODO: 用命令的flags計算task值
 
 		if err != nil {
 			cmd.Println(err)

@@ -4,14 +4,14 @@ import (
 	"fmt"
 	"path"
 
-	"Sheeter/internal"
+	"Sheeter/internal/util"
 
 	"github.com/xuri/excelize/v2"
 )
 
 // ReadSheet 讀取表格
-func ReadSheet(cargo *Cargo) error {
-	sheet, err := buildSheet(cargo)
+func ReadSheet(cargo *Cargo, task int) error {
+	sheet, err := buildSheet(cargo, task)
 
 	if err != nil {
 		return err
@@ -35,7 +35,7 @@ func ReadSheet(cargo *Cargo) error {
 }
 
 // buildSheet 建立表格列表
-func buildSheet(cargo *Cargo) (sheet sheets, err error) {
+func buildSheet(cargo *Cargo, task int) (result sheets, err error) {
 	file, err := excelize.OpenFile(path.Join(cargo.Global.ExcelPath, cargo.Element.Excel))
 
 	if err != nil {
@@ -46,19 +46,19 @@ func buildSheet(cargo *Cargo) (sheet sheets, err error) {
 		_ = file.Close()
 	}()
 
-	sheet, err = file.GetRows(cargo.Element.Sheet)
+	result, err = file.GetRows(cargo.Element.Sheet)
 
-	if sheet == nil || err != nil {
+	if result == nil || err != nil {
 		return nil, fmt.Errorf("sheet not found: %s", cargo.Element.GetFullName())
 	} // if
 
-	if len(sheet) < 2 { // 表格最少要有2行: 註解行, 欄位行
+	if len(result) < 2 { // 表格最少要有2行: 註解行, 欄位行
 		return nil, fmt.Errorf("sheet have too less line: %s", cargo.Element.GetFullName())
 	} // if
 
-	cargo.Progress.ChangeMax(len(sheet) * internal.JobMax) // 設定進度條最大值
+	cargo.Progress.ChangeMax(util.CalcProgress(len(result), task))
 
-	return sheet, nil
+	return result, nil
 }
 
 // buildColumns 建立行資料列表

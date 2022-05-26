@@ -5,6 +5,8 @@ import (
 	"io"
 	"time"
 
+	"Sheeter/internal"
+
 	"github.com/schollz/progressbar/v3"
 )
 
@@ -26,4 +28,9 @@ func NewProgressBar(max int64, desc string, writer io.Writer) *progressbar.Progr
 	_ = bar.RenderBlank()
 
 	return bar
+}
+
+// CalcProgress 計算進度值
+func CalcProgress(count int, task int) int {
+	return int(float32(count*task) * internal.ProgressFactor)
 }
