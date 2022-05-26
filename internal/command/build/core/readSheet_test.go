@@ -3,11 +3,15 @@ package core
 import (
 	"testing"
 
+	"Sheeter/internal"
 	"Sheeter/testdata"
+
+	"github.com/schollz/progressbar/v3"
 )
 
 func TestReadSheet(t *testing.T) {
 	task := &Task{
+		Progress: progressbar.Default(internal.ProgressDefault),
 		Global: &Global{
 			ExcelPath:   testdata.RootPath,
 			LineOfNote:  1,
