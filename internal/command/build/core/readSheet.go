@@ -105,11 +105,7 @@ func buildColumns(task *Task, sheet [][]string) (pkey *Column, err error) {
 		_ = task.Progress.Add(1)
 	} // for
 
-	if len(task.Columns) <= 0 { // 表格最少要有一個欄位
-		return nil, fmt.Errorf("sheet have too less field: %s(%s)", task.Element.Excel, task.Element.Sheet)
-	} // if
-
-	if pkey == nil {
+	if pkey == nil { // 這裡也同時檢查了沒有任何欄位的情況
 		return nil, fmt.Errorf("sheet must have one pkey: %s(%s)", task.Element.Excel, task.Element.Sheet)
 	} // if
 
