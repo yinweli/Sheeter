@@ -75,11 +75,11 @@ func buildColumns(task *Task, sheet [][]string) (pkey *Column, err error) {
 		name, field, err := parser.Parse(itor)
 
 		if err != nil {
-			return nil, fmt.Errorf("sheet field parse failed: %s(%s) [%s : %s]", task.Element.Excel, task.Element.Sheet, itor, err)
+			return nil, fmt.Errorf("field parse failed: %s(%s) [%s : %s]", task.Element.Excel, task.Element.Sheet, itor, err)
 		} // if
 
 		if field.PrimaryKey() && pkey != nil {
-			return nil, fmt.Errorf("sheet have too many pkey: %s(%s)", task.Element.Excel, task.Element.Sheet)
+			return nil, fmt.Errorf("too many pkey: %s(%s)", task.Element.Excel, task.Element.Sheet)
 		} // if
 
 		column := &Column{
@@ -96,7 +96,7 @@ func buildColumns(task *Task, sheet [][]string) (pkey *Column, err error) {
 	} // for
 
 	if pkey == nil { // 這裡也同時檢查了沒有任何欄位的情況
-		return nil, fmt.Errorf("sheet must have one pkey: %s(%s)", task.Element.Excel, task.Element.Sheet)
+		return nil, fmt.Errorf("must have one pkey: %s(%s)", task.Element.Excel, task.Element.Sheet)
 	} // if
 
 	return pkey, nil
@@ -150,7 +150,7 @@ func pkeyCheck(task *Task, pkey *Column) error {
 
 	for _, itor := range pkey.Datas {
 		if _, exist := datas[itor]; exist {
-			return fmt.Errorf("sheet pkey duplicate: %s(%s)", task.Element.Excel, task.Element.Sheet)
+			return fmt.Errorf("pkey duplicate: %s(%s)", task.Element.Excel, task.Element.Sheet)
 		} // if
 
 		datas[itor] = true
