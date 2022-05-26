@@ -97,3 +97,8 @@ type Element struct {
 	Excel string `yaml:"excel"` // Excel檔案名稱
 	Sheet string `yaml:"sheet"` // Excel表單名稱
 }
+
+// GetFullName 取得完整名稱
+func (this *Element) GetFullName() string {
+	return fmt.Sprintf("%s(%s)", this.Excel, this.Sheet)
+}
