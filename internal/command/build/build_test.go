@@ -9,7 +9,7 @@ import (
 )
 
 func TestExecute(t *testing.T) {
-	buffer, command := testdata.FakeCommand()
+	buffer, command := testdata.MockCommand()
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 

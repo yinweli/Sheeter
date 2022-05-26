@@ -73,8 +73,8 @@ func StringArray() []string {
 	return []string{"1234", "5678", "9012", "3456", "7890", "1234"}
 }
 
-// FakeCommand 取得虛假命令物件
-func FakeCommand() (buffer *bytes.Buffer, command *cobra.Command) {
+// MockCommand 取得測試命令物件
+func MockCommand() (buffer *bytes.Buffer, command *cobra.Command) {
 	buffer = &bytes.Buffer{}
 	command = &cobra.Command{}
 	command.SetOut(buffer)
