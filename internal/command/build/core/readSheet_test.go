@@ -16,6 +16,21 @@ func TestReadSheet(t *testing.T) {
 
 	err := ReadSheet(task)
 	assert.Nil(t, err)
+
+	task.Element.Excel = testdata.Error1Excel
+	task.Element.Sheet = testdata.Error1Sheet
+	err = ReadSheet(task)
+	assert.NotNil(t, err)
+
+	task.Element.Excel = testdata.Error2Excel
+	task.Element.Sheet = testdata.Error2Sheet
+	err = ReadSheet(task)
+	assert.NotNil(t, err)
+
+	task.Element.Excel = testdata.Error3Excel
+	task.Element.Sheet = testdata.Error3Sheet
+	err = ReadSheet(task)
+	assert.NotNil(t, err)
 }
 
 func TestBuildSheet(t *testing.T) {

@@ -23,18 +23,8 @@ func ReadSheet(task *Task) error {
 		return err
 	} // if
 
-	err = buildNotes(task, sheet)
-
-	if err != nil {
-		return err
-	} // if
-
-	err = buildDatas(task, sheet)
-
-	if err != nil {
-		return err
-	} // if
-
+	_ = buildNotes(task, sheet) // 目前buildNotes不會失敗
+	_ = buildDatas(task, sheet) // 目前buildDatas不會失敗
 	err = pkeyCheck(task, pkey)
 
 	if err != nil {
