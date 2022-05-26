@@ -8,6 +8,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestNewCommand(t *testing.T) {
+	assert.NotNil(t, NewCommand())
+}
+
 func TestExecute(t *testing.T) {
 	buffer, command := testdata.MockCommand()
 	dir := testdata.ChangeWorkDir()

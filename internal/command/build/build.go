@@ -1,6 +1,8 @@
 package build
 
 import (
+	"fmt"
+
 	"Sheeter/internal"
 	"Sheeter/internal/command/build/core"
 	"Sheeter/internal/util"
@@ -8,17 +10,37 @@ import (
 	"github.com/spf13/cobra"
 )
 
-// Build 命令物件
-var Build = &cobra.Command{
-	Use:   "build [config]",
-	Short: "build sheet",
-	Long:  "build all the sheet in the configuration",
-	Args:  cobra.ExactArgs(1),
-	Run:   execute,
+// NewCommand 取得命令物件
+func NewCommand() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "build [config]",
+		Short: "build sheet",
+		Long:  "build all the sheet in the configuration",
+		Args:  cobra.ExactArgs(1),
+		Run:   execute,
+	}
+	cmd.Flags().BoolP("all", "a", false, "generate all file")
+	cmd.Flags().BoolP("json", "j", false, "generate json file")
+	cmd.Flags().BoolP("cpp", "c", false, "generate cpp file")
+	cmd.Flags().BoolP("cs", "#", false, "generate cs file")
+	cmd.Flags().BoolP("go", "g", false, "generate go file")
+
+	return cmd
 }
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
+	b, _ := cmd.Flags().GetBool("all") // TODO: 做命令旗標
+	fmt.Printf("all:%t\n", b)
+	b, _ = cmd.Flags().GetBool("json")
+	fmt.Printf("json:%t\n", b)
+	b, _ = cmd.Flags().GetBool("cpp")
+	fmt.Printf("cpp:%t\n", b)
+	b, _ = cmd.Flags().GetBool("cs")
+	fmt.Printf("cs:%t\n", b)
+	b, _ = cmd.Flags().GetBool("go")
+	fmt.Printf("go:%t\n", b)
+
 	config, err := core.ReadConfig(args[0])
 
 	if err != nil {

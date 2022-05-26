@@ -13,8 +13,8 @@ func main() {
 		Use:  internal.Title,
 		Long: "Sheeter used to convert excel file to json file, and generate code of data structure",
 	}
-	rootCommand.AddCommand(version.Version)
-	rootCommand.AddCommand(build.Build)
+	rootCommand.AddCommand(version.NewCommand())
+	rootCommand.AddCommand(build.NewCommand())
 	rootCommand.CompletionOptions.HiddenDefaultCmd = true // 隱藏cobra提供的預設命令
 	_ = rootCommand.Execute()
 }
