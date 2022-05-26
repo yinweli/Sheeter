@@ -11,17 +11,17 @@ import (
 func TestFieldBoolArray(t *testing.T) {
 	field := FieldBoolArray{}
 
-	assert.Equal(t, "boolArray", field.TypeExcel(), "type excel failed")
-	assert.Equal(t, "std::vector<bool>", field.TypeCpp(), "type cpp failed")
-	assert.Equal(t, "List<bool>", field.TypeCs(), "type cs failed")
-	assert.Equal(t, "[]bool", field.TypeGo(), "type go failed")
-	assert.Equal(t, false, field.Hide(), "hide failed")
-	assert.Equal(t, false, field.PrimaryKey(), "primary key failed")
+	assert.Equal(t, "boolArray", field.TypeExcel())
+	assert.Equal(t, "std::vector<bool>", field.TypeCpp())
+	assert.Equal(t, "List<bool>", field.TypeCs())
+	assert.Equal(t, "[]bool", field.TypeGo())
+	assert.Equal(t, false, field.Hide())
+	assert.Equal(t, false, field.PrimaryKey())
 
 	result, err := field.Transform(testdata.BoolString())
-	assert.Nil(t, err, "transform failed")
-	assert.Equal(t, testdata.BoolArray(), result, "transform failed")
+	assert.Nil(t, err)
+	assert.Equal(t, testdata.BoolArray(), result)
 
 	result, err = field.Transform("fake")
-	assert.NotNil(t, err, "transform failed")
+	assert.NotNil(t, err)
 }

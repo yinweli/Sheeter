@@ -14,5 +14,5 @@ func TestExecute(t *testing.T) {
 	buffer, command := testdata.MockCommand()
 
 	execute(command, []string{})
-	assert.Equal(t, fmt.Sprintf("%s %s", internal.Title, internal.Version), buffer.String(), "execute failed")
+	assert.Equal(t, fmt.Sprintf("%s %s", internal.Title, internal.Version), buffer.String())
 }

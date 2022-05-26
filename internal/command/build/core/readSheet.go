@@ -75,6 +75,7 @@ func buildSheet(task *Task) (sheet [][]string, err error) {
 func buildColumns(task *Task, sheet [][]string) (pkey *Column, err error) {
 	fields := sheet[task.Global.GetLineOfField()]
 	parser := NewParser()
+	task.Columns = []*Column{} // 把行資料列表清空, 避免不必要的問題
 
 	for _, itor := range fields {
 		if len(itor) <= 0 {
@@ -135,6 +136,10 @@ func buildNotes(task *Task, sheet [][]string) error {
 
 // buildDatas 建立資料
 func buildDatas(task *Task, sheet [][]string) error {
+	for _, itor := range task.Columns {
+		itor.Datas = []string{} // 把資料列表清空, 避免不必要的問題
+	} // for
+
 	for row := task.Global.GetLineOfData(); row < len(sheet); row++ {
 		datas := sheet[row]
 

@@ -14,22 +14,22 @@ func TestParser(t *testing.T) {
 
 	parser.Add(fieldBool)
 	result, ok := parser.fields[fieldBool.TypeExcel()]
-	assert.True(t, ok, "parser add failed")
-	assert.NotNil(t, result, "parser add failed")
-	assert.Equal(t, fieldBool.TypeExcel(), result.TypeExcel(), "parser add failed")
+	assert.True(t, ok)
+	assert.NotNil(t, result)
+	assert.Equal(t, fieldBool.TypeExcel(), result.TypeExcel())
 
 	name, field, err := parser.Parse("real#bool")
-	assert.Nil(t, err, "parser parse real failed")
-	assert.Equal(t, "real", name, "parser parse real failed")
-	assert.Equal(t, (&FieldBool{}).TypeExcel(), field.TypeExcel(), "parser parse real failed")
+	assert.Nil(t, err)
+	assert.Equal(t, "real", name)
+	assert.Equal(t, (&FieldBool{}).TypeExcel(), field.TypeExcel())
 
 	name, field, err = parser.Parse("fake#fake")
-	assert.NotNil(t, err, "parser parse fake failed")
+	assert.NotNil(t, err)
 
 	name, field, err = parser.Parse("unknown")
-	assert.NotNil(t, err, "parser parse unknown failed")
+	assert.NotNil(t, err)
 }
 
 func TestNewParser(t *testing.T) {
-	assert.NotNil(t, NewParser(), "new parser failed")
+	assert.NotNil(t, NewParser())
 }

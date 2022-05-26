@@ -8,5 +8,5 @@ import (
 )
 
 func TestNewProgressBar(t *testing.T) {
-	assert.NotNil(t, NewProgressBar(10, "desc", os.Stdout), "new progressbar failed")
+	assert.NotNil(t, NewProgressBar(10, "desc", os.Stdout))
 }

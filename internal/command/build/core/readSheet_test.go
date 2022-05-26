@@ -20,8 +20,12 @@ func TestBuildColumns(t *testing.T) {
 	fields := []string{"field0#pkey", "field1#bool", "field2#int", "", "field3#text"}
 
 	pkey, err := buildColumns(task, [][]string{{}, fields})
-	assert.Nil(t, err, "build columns failed")
-	assert.NotNil(t, pkey, "build columns failed")
+	assert.Nil(t, err)
+	assert.NotNil(t, pkey)
+	assert.Equal(t, "field0", pkey.Name)
+	assert.Equal(t, (&FieldPkey{}).TypeExcel(), pkey.Field.TypeExcel())
+	assert.Equal(t, 3, len(task.Columns))
+	assert.Equal(t, "field0", task.Columns[0].Name)
 }
 
 func TestBuildNotes(t *testing.T) {
@@ -29,10 +33,10 @@ func TestBuildNotes(t *testing.T) {
 	notes := []string{"note0", "note1", "note2"}
 
 	err := buildNotes(task, [][]string{notes})
-	assert.Nil(t, err, "build notes failed")
-	assert.Equal(t, "note0", task.Columns[0].Note, "build notes failed")
-	assert.Equal(t, "note1", task.Columns[1].Note, "build notes failed")
-	assert.Equal(t, "note2", task.Columns[2].Note, "build notes failed")
+	assert.Nil(t, err)
+	assert.Equal(t, "note0", task.Columns[0].Note)
+	assert.Equal(t, "note1", task.Columns[1].Note)
+	assert.Equal(t, "note2", task.Columns[2].Note)
 }
 
 func TestBuildDatas(t *testing.T) {
@@ -42,10 +46,10 @@ func TestBuildDatas(t *testing.T) {
 	data2 := []string{"data7", "data8", "data9"}
 
 	err := buildDatas(task, [][]string{{}, {}, data0, data1, data2})
-	assert.Nil(t, err, "build datas failed")
-	assert.Equal(t, []string{"data0", "data4", "data7"}, task.Columns[0].Datas, "build datas failed")
-	assert.Equal(t, []string{"data1", "data5", "data8"}, task.Columns[1].Datas, "build datas failed")
-	assert.Equal(t, []string{"data2", "data6", "data9"}, task.Columns[2].Datas, "build datas failed")
+	assert.Nil(t, err)
+	assert.Equal(t, []string{"data0", "data4", "data7"}, task.Columns[0].Datas)
+	assert.Equal(t, []string{"data1", "data5", "data8"}, task.Columns[1].Datas)
+	assert.Equal(t, []string{"data2", "data6", "data9"}, task.Columns[2].Datas)
 }
 
 func TestPkeyCheck(t *testing.T) {
@@ -53,11 +57,11 @@ func TestPkeyCheck(t *testing.T) {
 	pkey := &Column{Datas: []string{"1", "2", "3", "4", "5"}}
 
 	err := pkeyCheck(task, pkey)
-	assert.Nil(t, err, "pkey check failed")
+	assert.Nil(t, err)
 
 	pkey.Datas = append(pkey.Datas, "5")
 	err = pkeyCheck(task, pkey)
-	assert.NotNil(t, err, "pkey check failed")
+	assert.NotNil(t, err)
 }
 
 func mockTask() *Task {
@@ -74,9 +78,9 @@ func mockTask() *Task {
 			Sheet: testdata.TestSheet,
 		},
 		Columns: []*Column{
-			{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{}},
-			{Note: "note1", Name: "name1", Field: &FieldInt{}, Datas: []string{}},
-			{Note: "note2", Name: "name2", Field: &FieldInt{}, Datas: []string{}},
+			{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
+			{Note: "note1", Name: "name1", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
+			{Note: "note2", Name: "name2", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
 		},
 	}
 }
