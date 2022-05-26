@@ -13,7 +13,7 @@ func TestParseField(t *testing.T) {
 
 	name, field, err = ParseField("real#bool")
 	assert.Equal(t, "real", name, "parse real failed")
-	assert.Equal(t, (&Bool{}).TypeExcel(), field.TypeExcel(), "parse real failed")
+	assert.Equal(t, (&FieldBool{}).TypeExcel(), field.TypeExcel(), "parse real failed")
 	assert.Nil(t, err, "parse real failed")
 
 	name, field, err = ParseField("fake#fake")

@@ -9,7 +9,7 @@ import (
 func TestEmpty(t *testing.T) {
 	var result interface{}
 	var err error
-	var object Empty
+	var object FieldEmpty
 
 	assert.Equal(t, "empty", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "", object.TypeCpp(), "type cpp failed")

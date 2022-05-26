@@ -11,7 +11,7 @@ import (
 func TestBoolArray(t *testing.T) {
 	var result interface{}
 	var err error
-	var object BoolArray
+	var object FieldBoolArray
 
 	assert.Equal(t, "boolArray", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "std::vector<bool>", object.TypeCpp(), "type cpp failed")

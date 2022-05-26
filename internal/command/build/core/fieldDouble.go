@@ -2,41 +2,41 @@ package core
 
 import "strconv"
 
-// Double 64位元浮點數
-type Double struct {
+// FieldDouble 64位元浮點數
+type FieldDouble struct {
 }
 
 // TypeExcel 取得excel欄位類型
-func (this *Double) TypeExcel() string {
+func (this *FieldDouble) TypeExcel() string {
 	return "double"
 }
 
 // TypeCpp 取得c++欄位類型
-func (this *Double) TypeCpp() string {
+func (this *FieldDouble) TypeCpp() string {
 	return "double"
 }
 
 // TypeCs 取得c#欄位類型
-func (this *Double) TypeCs() string {
+func (this *FieldDouble) TypeCs() string {
 	return "double"
 }
 
 // TypeGo 取得go欄位類型
-func (this *Double) TypeGo() string {
+func (this *FieldDouble) TypeGo() string {
 	return "float64"
 }
 
 // Hide 是否隱藏
-func (this *Double) Hide() bool {
+func (this *FieldDouble) Hide() bool {
 	return false
 }
 
 // PrimaryKey 是否是主要索引
-func (this *Double) PrimaryKey() bool {
+func (this *FieldDouble) PrimaryKey() bool {
 	return false
 }
 
 // Transform 字串轉換
-func (this *Double) Transform(input string) (result interface{}, err error) {
+func (this *FieldDouble) Transform(input string) (result interface{}, err error) {
 	return strconv.ParseFloat(input, 64)
 }

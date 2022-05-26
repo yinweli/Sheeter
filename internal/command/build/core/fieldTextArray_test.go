@@ -11,7 +11,7 @@ import (
 func TestTextArray(t *testing.T) {
 	var result interface{}
 	var err error
-	var object TextArray
+	var object FieldTextArray
 
 	assert.Equal(t, "textArray", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "std::vector<std::string>", object.TypeCpp(), "type cpp failed")

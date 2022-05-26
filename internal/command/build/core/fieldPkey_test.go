@@ -9,7 +9,7 @@ import (
 func TestPkey(t *testing.T) {
 	var result interface{}
 	var err error
-	var object Pkey
+	var object FieldPkey
 
 	assert.Equal(t, "pkey", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "Sheet::pkey", object.TypeCpp(), "type cpp failed")

@@ -11,7 +11,7 @@ import (
 func TestFloatArray(t *testing.T) {
 	var result interface{}
 	var err error
-	var object FloatArray
+	var object FieldFloatArray
 
 	assert.Equal(t, "floatArray", object.TypeExcel(), "type excel failed")
 	assert.Equal(t, "std::vector<float>", object.TypeCpp(), "type cpp failed")
