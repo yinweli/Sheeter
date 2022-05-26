@@ -35,7 +35,7 @@ func ReadSheet(task *Task) error {
 }
 
 // buildSheet 建立表格列表
-func buildSheet(task *Task) (sheet [][]string, err error) {
+func buildSheet(task *Task) (sheet sheets, err error) {
 	file, err := excelize.OpenFile(path.Join(task.Global.ExcelPath, task.Element.Excel))
 
 	if err != nil {
@@ -62,7 +62,7 @@ func buildSheet(task *Task) (sheet [][]string, err error) {
 }
 
 // buildColumns 建立行資料列表
-func buildColumns(task *Task, sheet [][]string) (pkey *Column, err error) {
+func buildColumns(task *Task, sheet sheets) (pkey *Column, err error) {
 	fields := sheet[task.Global.GetLineOfField()]
 	parser := NewParser()
 	task.Columns = []*Column{} // 把行資料列表清空, 避免不必要的問題
@@ -103,14 +103,14 @@ func buildColumns(task *Task, sheet [][]string) (pkey *Column, err error) {
 }
 
 // buildNotes 建立欄位註解
-func buildNotes(task *Task, sheet [][]string) error {
+func buildNotes(task *Task, sheet sheets) error {
 	notes := sheet[task.Global.GetLineOfNote()]
 
-	for pos, itor := range task.Columns {
+	for col, itor := range task.Columns {
 		var data string
 
-		if pos >= 0 && pos < len(notes) { // 註解行的數量可能因為空白格的關係會短缺, 所以要檢查一下
-			data = notes[pos]
+		if col >= 0 && col < len(notes) { // 註解行的數量可能因為空白格的關係會短缺, 所以要檢查一下
+			data = notes[col]
 		} // if
 
 		itor.Note = data
@@ -121,7 +121,7 @@ func buildNotes(task *Task, sheet [][]string) error {
 }
 
 // buildDatas 建立資料
-func buildDatas(task *Task, sheet [][]string) error {
+func buildDatas(task *Task, sheet sheets) error {
 	for _, itor := range task.Columns {
 		itor.Datas = []string{} // 把資料列表清空, 避免不必要的問題
 	} // for
@@ -129,11 +129,11 @@ func buildDatas(task *Task, sheet [][]string) error {
 	for row := task.Global.GetLineOfData(); row < len(sheet); row++ {
 		datas := sheet[row]
 
-		for pos, itor := range task.Columns {
+		for col, itor := range task.Columns {
 			var data string
 
-			if pos >= 0 && pos < len(datas) { // 資料行的數量可能因為空白格的關係會短缺, 所以要檢查一下
-				data = datas[pos]
+			if col >= 0 && col < len(datas) { // 資料行的數量可能因為空白格的關係會短缺, 所以要檢查一下
+				data = datas[col]
 			} // if
 
 			itor.Datas = append(itor.Datas, data)
@@ -158,3 +158,6 @@ func pkeyCheck(task *Task, pkey *Column) error {
 
 	return nil
 }
+
+// sheets 表格資料列表
+type sheets [][]string
