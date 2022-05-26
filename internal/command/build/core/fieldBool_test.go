@@ -7,21 +7,19 @@ import (
 )
 
 func TestFieldBool(t *testing.T) {
-	var result interface{}
-	var err error
-	var object FieldBool
+	field := FieldBool{}
 
-	assert.Equal(t, "bool", object.TypeExcel(), "type excel failed")
-	assert.Equal(t, "bool", object.TypeCpp(), "type cpp failed")
-	assert.Equal(t, "bool", object.TypeCs(), "type cs failed")
-	assert.Equal(t, "bool", object.TypeGo(), "type go failed")
-	assert.Equal(t, false, object.Hide(), "hide failed")
-	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
+	assert.Equal(t, "bool", field.TypeExcel(), "type excel failed")
+	assert.Equal(t, "bool", field.TypeCpp(), "type cpp failed")
+	assert.Equal(t, "bool", field.TypeCs(), "type cs failed")
+	assert.Equal(t, "bool", field.TypeGo(), "type go failed")
+	assert.Equal(t, false, field.Hide(), "hide failed")
+	assert.Equal(t, false, field.PrimaryKey(), "primary key failed")
 
-	result, err = object.Transform("true")
+	result, err := field.Transform("true")
 	assert.Equal(t, true, result, "transform failed")
 	assert.Nil(t, err, "transform failed")
 
-	result, err = object.Transform("fake")
+	result, err = field.Transform("fake")
 	assert.NotNil(t, err, "transform failed")
 }

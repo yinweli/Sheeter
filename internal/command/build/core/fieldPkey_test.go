@@ -7,21 +7,19 @@ import (
 )
 
 func TestFieldPkey(t *testing.T) {
-	var result interface{}
-	var err error
-	var object FieldPkey
+	field := FieldPkey{}
 
-	assert.Equal(t, "pkey", object.TypeExcel(), "type excel failed")
-	assert.Equal(t, "Sheet::pkey", object.TypeCpp(), "type cpp failed")
-	assert.Equal(t, "int", object.TypeCs(), "type cs failed")
-	assert.Equal(t, "int", object.TypeGo(), "type go failed")
-	assert.Equal(t, false, object.Hide(), "hide failed")
-	assert.Equal(t, true, object.PrimaryKey(), "primary key failed")
+	assert.Equal(t, "pkey", field.TypeExcel(), "type excel failed")
+	assert.Equal(t, "Sheet::pkey", field.TypeCpp(), "type cpp failed")
+	assert.Equal(t, "int", field.TypeCs(), "type cs failed")
+	assert.Equal(t, "int", field.TypeGo(), "type go failed")
+	assert.Equal(t, false, field.Hide(), "hide failed")
+	assert.Equal(t, true, field.PrimaryKey(), "primary key failed")
 
-	result, err = object.Transform("999")
+	result, err := field.Transform("999")
 	assert.Equal(t, 999, result, "transform failed")
 	assert.Nil(t, err, "transform failed")
 
-	result, err = object.Transform("fake")
+	result, err = field.Transform("fake")
 	assert.NotNil(t, err, "transform failed")
 }

@@ -11,121 +11,41 @@ import (
 
 // ReadSheet 讀取表格
 func ReadSheet(task *Task) error {
-	file, err := excelize.OpenFile(path.Join(task.Global.ExcelPath, task.Element.Excel))
+	sheet, err := buildSheet(task)
 
 	if err != nil {
 		return err
 	} // if
 
-	defer func() {
-		_ = file.Close()
-	}()
+	pkey, err := buildColumns(task, sheet)
 
-	sheet, err := file.GetRows(task.Element.Sheet) // 從表格中取得全部資料 TODO: 分離子函式
-
-	if sheet == nil || err != nil {
-		return fmt.Errorf("sheet not found: %s(%s)", task.Element.Excel, task.Element.Sheet)
+	if err != nil {
+		return err
 	} // if
 
-	if len(sheet) < 2 { // 表格最少要有2行: 註解行, 欄位行
-		return fmt.Errorf("sheet have too less line: %s(%s)", task.Element.Excel, task.Element.Sheet)
+	err = buildNotes(task, sheet)
+
+	if err != nil {
+		return err
 	} // if
 
-	task.Progress.ChangeMax(len(sheet) * internal.TaskMax) // 設定進度條最大值
+	err = buildData(task, sheet)
 
-	// 讀取欄位名稱, 欄位類型 TODO: 分離子函式
-	fields := sheet[task.Global.GetLineOfField()]
-	parser := NewParser()
-	pkeyCount := 0
-
-	for _, itor := range fields {
-		if len(itor) <= 0 {
-			break
-		} // if
-
-		name, field, err := parser.Parse(itor)
-
-		if err != nil {
-			return fmt.Errorf("sheet field Parse failed: %s(%s) [%s]", task.Element.Excel, task.Element.Sheet, err)
-		} // if
-
-		if field.PrimaryKey() {
-			pkeyCount++
-		} // if
-
-		column := &Column{
-			Name:  name,
-			Field: field,
-		}
-		task.Columns = append(task.Columns, column)
-		_ = task.Progress.Add(1)
-	} // for
-
-	if len(task.Columns) <= 0 { // 表格最少要有一個欄位
-		return fmt.Errorf("sheet have too less field: %s(%s)", task.Element.Excel, task.Element.Sheet)
+	if err != nil {
+		return err
 	} // if
 
-	if pkeyCount != 0 { // 表格必須有一個主要索引, 超過也不行
-		return fmt.Errorf("sheet must, and only have one pkey: %s(%s)", task.Element.Excel, task.Element.Sheet)
+	err = pkeyCheck(task, pkey)
+
+	if err != nil {
+		return err
 	} // if
-
-	// 讀取欄位註解 TODO: 分離子函式
-	notes := sheet[task.Global.GetLineOfNote()]
-
-	for col := 0; col < len(task.Columns); col++ {
-		var data string
-
-		if col >= 0 && col < len(notes) {
-			data = notes[col]
-		} // if
-
-		task.Columns[col].Note = data
-		_ = task.Progress.Add(1)
-	} // for
-
-	// 讀取資料 TODO: 分離子函式
-	for row := task.Global.GetLineOfData(); row < len(sheet); row++ {
-		datas := sheet[row]
-
-		for col := 0; col < len(task.Columns); col++ {
-			var data string
-
-			if col >= 0 && col < len(datas) {
-				data = datas[col]
-			} // if
-
-			task.Columns[col].Datas = append(task.Columns[col].Datas, data)
-			_ = task.Progress.Add(1)
-		} // for
-	} // for
-
-	// 檢查重複索引 TODO: 分離子函式
-	/*
-		pkeys := mapset.NewSet[string]()
-		duplicate := ""
-
-		for _, itor := range task.Columns {
-			if itor.Field.PrimaryKey() {
-				for _, pkey := range itor.Datas {
-					if pkeys.Add(pkey) == false {
-						duplicate = strings.Join([]string{duplicate, pkey}, internal.ArraySeparator)
-					} // if
-				} // for
-
-				break
-			} // if
-		} // for
-
-		if duplicate != "" {
-			return fmt.Errorf("pkey duplicate: %s(%s) [%s]", task.Element.Excel, task.Element.Sheet, duplicate)
-		} // if
-	*/
 
 	return nil
 }
 
-// 獲得表格資料
-func getSheet(task *Task) (sheet [][]string, err error) {
+// buildSheet 建立表格列表
+func buildSheet(task *Task) (sheet [][]string, err error) {
 	file, err := excelize.OpenFile(path.Join(task.Global.ExcelPath, task.Element.Excel))
 
 	if err != nil {
@@ -136,7 +56,7 @@ func getSheet(task *Task) (sheet [][]string, err error) {
 		_ = file.Close()
 	}()
 
-	sheet, err = file.GetRows(task.Element.Sheet) // 從表格中取得全部資料 TODO: 分離子函式
+	sheet, err = file.GetRows(task.Element.Sheet)
 
 	if sheet == nil || err != nil {
 		return nil, fmt.Errorf("sheet not found: %s(%s)", task.Element.Excel, task.Element.Sheet)
@@ -146,5 +66,104 @@ func getSheet(task *Task) (sheet [][]string, err error) {
 		return nil, fmt.Errorf("sheet have too less line: %s(%s)", task.Element.Excel, task.Element.Sheet)
 	} // if
 
+	task.Progress.ChangeMax(len(sheet) * internal.TaskMax) // 設定進度條最大值
+
 	return sheet, nil
+}
+
+// buildColumns 建立行資料列表
+func buildColumns(task *Task, sheet [][]string) (pkey *Column, err error) {
+	fields := sheet[task.Global.GetLineOfField()]
+	parser := NewParser()
+
+	for _, itor := range fields {
+		if len(itor) <= 0 {
+			break
+		} // if
+
+		name, field, err := parser.Parse(itor)
+
+		if err != nil {
+			return nil, fmt.Errorf("sheet field parse failed: %s(%s) [%s : %s]", task.Element.Excel, task.Element.Sheet, itor, err)
+		} // if
+
+		if field.PrimaryKey() && pkey != nil {
+			return nil, fmt.Errorf("sheet have too many pkey: %s(%s)", task.Element.Excel, task.Element.Sheet)
+		} // if
+
+		column := &Column{
+			Name:  name,
+			Field: field,
+		}
+
+		if field.PrimaryKey() {
+			pkey = column
+		} // if
+
+		task.Columns = append(task.Columns, column)
+		_ = task.Progress.Add(1)
+	} // for
+
+	if len(task.Columns) <= 0 { // 表格最少要有一個欄位
+		return nil, fmt.Errorf("sheet have too less field: %s(%s)", task.Element.Excel, task.Element.Sheet)
+	} // if
+
+	if pkey == nil {
+		return nil, fmt.Errorf("sheet must have one pkey: %s(%s)", task.Element.Excel, task.Element.Sheet)
+	} // if
+
+	return pkey, nil
+}
+
+// buildNotes 建立欄位註解
+func buildNotes(task *Task, sheet [][]string) error {
+	notes := sheet[task.Global.GetLineOfNote()]
+
+	for pos, itor := range task.Columns {
+		var data string
+
+		if pos >= 0 && pos < len(notes) { // 註解行的數量可能因為空白格的關係會短缺, 所以要檢查一下
+			data = notes[pos]
+		} // if
+
+		itor.Note = data
+		_ = task.Progress.Add(1)
+	} // for
+
+	return nil
+}
+
+// buildData 建立資料
+func buildData(task *Task, sheet [][]string) error {
+	for row := task.Global.GetLineOfData(); row < len(sheet); row++ {
+		datas := sheet[row]
+
+		for pos, itor := range task.Columns {
+			var data string
+
+			if pos >= 0 && pos < len(datas) { // 資料行的數量可能因為空白格的關係會短缺, 所以要檢查一下
+				data = datas[pos]
+			} // if
+
+			itor.Datas = append(itor.Datas, data)
+			_ = task.Progress.Add(1)
+		} // for
+	} // for
+
+	return nil
+}
+
+// pkeyCheck 主要索引檢查
+func pkeyCheck(task *Task, pkey *Column) error {
+	datas := make(map[string]bool)
+
+	for _, itor := range pkey.Datas {
+		if _, exist := datas[itor]; exist {
+			return fmt.Errorf("sheet pkey duplicate: %s(%s)", task.Element.Excel, task.Element.Sheet)
+		} // if
+
+		datas[itor] = true
+	} // for
+
+	return nil
 }

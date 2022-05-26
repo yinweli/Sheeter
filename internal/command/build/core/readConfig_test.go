@@ -9,10 +9,7 @@ import (
 )
 
 func TestReadConfig(t *testing.T) {
-	var result *Config
-	var err error
-
-	result, err = ReadConfig(testdata.Path(testdata.RealConfig))
+	result, err := ReadConfig(testdata.Path(testdata.RealConfig))
 	assert.NotNil(t, result, "read real config failed")
 	assert.Nil(t, err, "read real config failed")
 
