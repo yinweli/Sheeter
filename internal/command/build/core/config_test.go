@@ -7,11 +7,8 @@ import (
 )
 
 func TestConfig(t *testing.T) {
-	var config *Config
-	var err error
-
-	config = mockConfig()
-	err = config.Check()
+	config := mockConfig()
+	err := config.Check()
 	assert.Nil(t, err, "check failed")
 
 	config = mockConfig()

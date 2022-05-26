@@ -9,10 +9,7 @@ import (
 )
 
 func TestStringToBoolArray(t *testing.T) {
-	var result []bool
-	var err error
-
-	result, err = StringToBoolArray(testdata.BoolString())
+	result, err := StringToBoolArray(testdata.BoolString())
 	assert.Equal(t, testdata.BoolArray(), result, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
 
@@ -26,10 +23,7 @@ func TestBoolArrayToString(t *testing.T) {
 }
 
 func TestStringToInt32Array(t *testing.T) {
-	var result []int32
-	var err error
-
-	result, err = StringToInt32Array(testdata.Int32String())
+	result, err := StringToInt32Array(testdata.Int32String())
 	assert.Equal(t, testdata.Int32Array(), result, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
 
@@ -42,10 +36,7 @@ func TestInt32ArrayToString(t *testing.T) {
 	assert.Equal(t, testdata.Int32String(), Int32ArrayToString(testdata.Int32Array()), "convert failed")
 }
 func TestStringToInt64Array(t *testing.T) {
-	var result []int64
-	var err error
-
-	result, err = StringToInt64Array(testdata.Int64String())
+	result, err := StringToInt64Array(testdata.Int64String())
 	assert.Equal(t, testdata.Int64Array(), result, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
 
@@ -59,10 +50,7 @@ func TestInt64ArrayToString(t *testing.T) {
 }
 
 func TestStringToFloat32Array(t *testing.T) {
-	var result []float32
-	var err error
-
-	result, err = StringToFloat32Array(testdata.Float32String())
+	result, err := StringToFloat32Array(testdata.Float32String())
 	assert.InDeltaSlice(t, testdata.Float32Array(), result, 0.000001, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
 
@@ -76,10 +64,7 @@ func TestFloat32ArrayToString(t *testing.T) {
 }
 
 func TestStringToFloat64Array(t *testing.T) {
-	var result []float64
-	var err error
-
-	result, err = StringToFloat64Array(testdata.Float64String())
+	result, err := StringToFloat64Array(testdata.Float64String())
 	assert.InDeltaSlice(t, testdata.Float64Array(), result, 0.000001, "convert real failed")
 	assert.Nil(t, err, "convert real failed")
 

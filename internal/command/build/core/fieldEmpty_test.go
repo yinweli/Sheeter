@@ -7,18 +7,16 @@ import (
 )
 
 func TestFieldEmpty(t *testing.T) {
-	var result interface{}
-	var err error
-	var object FieldEmpty
+	field := FieldEmpty{}
 
-	assert.Equal(t, "empty", object.TypeExcel(), "type excel failed")
-	assert.Equal(t, "", object.TypeCpp(), "type cpp failed")
-	assert.Equal(t, "", object.TypeCs(), "type cs failed")
-	assert.Equal(t, "", object.TypeGo(), "type go failed")
-	assert.Equal(t, true, object.Hide(), "hide failed")
-	assert.Equal(t, false, object.PrimaryKey(), "primary key failed")
+	assert.Equal(t, "empty", field.TypeExcel(), "type excel failed")
+	assert.Equal(t, "", field.TypeCpp(), "type cpp failed")
+	assert.Equal(t, "", field.TypeCs(), "type cs failed")
+	assert.Equal(t, "", field.TypeGo(), "type go failed")
+	assert.Equal(t, true, field.Hide(), "hide failed")
+	assert.Equal(t, false, field.PrimaryKey(), "primary key failed")
 
-	result, err = object.Transform("test")
+	result, err := field.Transform("test")
 	assert.Nil(t, result, "transform failed")
 	assert.Nil(t, err, "transform failed")
 }

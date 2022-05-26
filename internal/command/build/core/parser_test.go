@@ -18,11 +18,7 @@ func TestParser(t *testing.T) {
 	assert.Equal(t, fieldBool.TypeExcel(), result.TypeExcel(), "parser add failed")
 	assert.True(t, ok, "parser add failed")
 
-	var name string
-	var field Field
-	var err error
-
-	name, field, err = parser.Parse("real#bool")
+	name, field, err := parser.Parse("real#bool")
 	assert.Equal(t, "real", name, "parser parse real failed")
 	assert.Equal(t, (&FieldBool{}).TypeExcel(), field.TypeExcel(), "parser parse real failed")
 	assert.Nil(t, err, "parser parse real failed")
