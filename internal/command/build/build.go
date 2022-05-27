@@ -1,13 +1,17 @@
 package build
 
 import (
-	"fmt"
-
 	"Sheeter/internal/command/build/core"
 	"Sheeter/internal/util"
 
 	"github.com/spf13/cobra"
 )
+
+const flagAll string = "all"   // 命令旗標: 輸出全部
+const flagJson string = "json" // 命令旗標: 輸出json
+const flagCpp string = "cpp"   // 命令旗標: 輸出c++
+const flagCs string = "cs"     // 命令旗標: 輸出c#
+const flagGo string = "go"     // 命令旗標: 輸出go
 
 // NewCommand 取得命令物件
 func NewCommand() *cobra.Command {
@@ -18,28 +22,17 @@ func NewCommand() *cobra.Command {
 		Args:  cobra.ExactArgs(1),
 		Run:   execute,
 	}
-	cmd.Flags().BoolP("all", "a", false, "generate all file")
-	cmd.Flags().BoolP("json", "j", false, "generate json file")
-	cmd.Flags().BoolP("cpp", "c", false, "generate cpp file")
-	cmd.Flags().BoolP("cs", "#", false, "generate cs file")
-	cmd.Flags().BoolP("go", "g", false, "generate go file")
+	cmd.Flags().BoolP(flagAll, "a", false, "generate all file")
+	cmd.Flags().BoolP(flagJson, "j", false, "generate json file")
+	cmd.Flags().BoolP(flagCpp, "c", false, "generate cpp file")
+	cmd.Flags().BoolP(flagCs, "#", false, "generate cs file")
+	cmd.Flags().BoolP(flagGo, "g", false, "generate go file")
 
 	return cmd
 }
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
-	b, _ := cmd.Flags().GetBool("all") // TODO: 做命令旗標
-	fmt.Printf("all:%t\n", b)
-	b, _ = cmd.Flags().GetBool("json")
-	fmt.Printf("json:%t\n", b)
-	b, _ = cmd.Flags().GetBool("cpp")
-	fmt.Printf("cpp:%t\n", b)
-	b, _ = cmd.Flags().GetBool("cs")
-	fmt.Printf("cs:%t\n", b)
-	b, _ = cmd.Flags().GetBool("go")
-	fmt.Printf("go:%t\n", b)
-
 	config, err := core.ReadConfig(args[0])
 
 	if err != nil {
@@ -64,7 +57,7 @@ func execute(cmd *cobra.Command, args []string) {
 			Element:  &itor,
 		}
 
-		err := core.ReadSheet(cargo, 5) // TODO: 用命令的flags計算task值
+		err := core.ReadSheet(cargo, task(cmd))
 
 		if err != nil {
 			cmd.Println(err)
@@ -73,4 +66,42 @@ func execute(cmd *cobra.Command, args []string) {
 
 		_ = progress.Finish()
 	} // for
+}
+
+// task 計算工作數量
+func task(cmd *cobra.Command) int {
+	var task int = 1 // 從1開始是包括讀取設定與表格這項工作
+
+	if flag(cmd, flagJson) {
+		task++
+	} // if
+
+	if flag(cmd, flagCpp) {
+		task++
+	} // if
+
+	if flag(cmd, flagCs) {
+		task++
+	} // if
+
+	if flag(cmd, flagGo) {
+		task++
+	} // if
+
+	if flag(cmd, flagAll) {
+		task = 5 // 輸出全部的話, 就直接給最大值了
+	} // if
+
+	return task
+}
+
+// flag 取得命令旗標
+func flag(cmd *cobra.Command, name string) bool {
+	result, err := cmd.Flags().GetBool(name)
+
+	if err != nil {
+		return false
+	} // if
+
+	return result
 }
