@@ -16,6 +16,7 @@ const Error2Excel = "error2.xlsx"
 const Error2Sheet = "Data"
 const Error3Excel = "error3.xlsx"
 const Error3Sheet = "Data"
+const Text = "this a string"
 
 // BoolString 取得測試字串
 func BoolString() string {

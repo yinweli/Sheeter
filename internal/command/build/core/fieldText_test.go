@@ -3,6 +3,8 @@ package core
 import (
 	"testing"
 
+	"Sheeter/testdata"
+
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,7 +18,7 @@ func TestFieldText(t *testing.T) {
 	assert.Equal(t, false, field.Hide())
 	assert.Equal(t, false, field.PrimaryKey())
 
-	result, err := field.Transform("this is a string")
+	result, err := field.Transform(testdata.Text)
 	assert.Nil(t, err)
-	assert.Equal(t, "this is a string", result)
+	assert.Equal(t, testdata.Text, result)
 }
