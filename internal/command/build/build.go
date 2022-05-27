@@ -20,24 +20,23 @@ func NewCommand() *cobra.Command {
 		Short: "build sheet",
 		Long:  "build all the sheet in the configuration",
 		Args:  cobra.ExactArgs(1),
-		Run:   execute,
+		RunE:  execute,
 	}
 	cmd.Flags().BoolP(flagAll, "a", false, "generate all file")
 	cmd.Flags().BoolP(flagJson, "j", false, "generate json file")
 	cmd.Flags().BoolP(flagCpp, "c", false, "generate cpp file")
-	cmd.Flags().BoolP(flagCs, "#", false, "generate cs file")
+	cmd.Flags().BoolP(flagCs, "s", false, "generate cs file")
 	cmd.Flags().BoolP(flagGo, "g", false, "generate go file")
 
 	return cmd
 }
 
 // execute 執行命令
-func execute(cmd *cobra.Command, args []string) {
+func execute(cmd *cobra.Command, args []string) error {
 	config, err := core.ReadConfig(args[0])
 
 	if err != nil {
-		cmd.Println(err)
-		return
+		return err
 	} // if
 
 	cmd.Printf("excelPath: %s\n", config.Global.ExcelPath)
@@ -57,15 +56,20 @@ func execute(cmd *cobra.Command, args []string) {
 			Element:  &itor,
 		}
 
-		err := core.ReadSheet(cargo, task(cmd))
+		err = core.ReadSheet(cargo, task(cmd))
 
 		if err != nil {
-			cmd.Println(err)
-			return
+			return err
 		} // if
 
-		_ = progress.Finish()
+		err = progress.Finish()
+
+		if err != nil {
+			return err
+		} // if
 	} // for
+
+	return nil
 }
 
 // task 計算工作數量
