@@ -2,6 +2,7 @@ package core
 
 import (
 	"io/ioutil"
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -12,15 +13,18 @@ import (
 )
 
 func TestWriteFile(t *testing.T) {
+	dir := testdata.ChangeWorkDir()
+	defer testdata.RestoreWorkDir(dir)
+
 	cargo := mockWriteJsonCargo()
 	input := []byte(testdata.Text)
-	filePath := filepath.Join(OutputPathJson, cargo.JsonFileName())
 
 	assert.Nil(t, writeFile(cargo, input))
 
-	output, _ := ioutil.ReadFile(filePath)
+	output, _ := ioutil.ReadFile(filepath.Join(OutputPathJson, cargo.JsonFileName()))
 
 	assert.Equal(t, input, output)
+	assert.Nil(t, os.RemoveAll(OutputPathJson))
 }
 
 func mockWriteJsonCargo() *Cargo {
