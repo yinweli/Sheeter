@@ -2,8 +2,6 @@ package core
 
 import (
 	"strconv"
-
-	"Sheeter/internal"
 )
 
 // FieldLong 64位元整數
@@ -42,5 +40,5 @@ func (this *FieldLong) PrimaryKey() bool {
 
 // Transform 字串轉換
 func (this *FieldLong) Transform(input string) (result interface{}, err error) {
-	return strconv.ParseInt(input, internal.Decimal, 64)
+	return strconv.ParseInt(input, 10, 64)
 }
