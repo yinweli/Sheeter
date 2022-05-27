@@ -11,7 +11,7 @@ import (
 )
 
 func TestReadSheet(t *testing.T) {
-	cargo := mockCargo()
+	cargo := mockReadSheetCargo()
 
 	err := ReadSheet(cargo, 0)
 	assert.Nil(t, err)
@@ -33,7 +33,7 @@ func TestReadSheet(t *testing.T) {
 }
 
 func TestBuildSheet(t *testing.T) {
-	cargo := mockCargo()
+	cargo := mockReadSheetCargo()
 
 	sheet, err := buildSheet(cargo, 0)
 	assert.Nil(t, err)
@@ -58,7 +58,7 @@ func TestBuildSheet(t *testing.T) {
 }
 
 func TestBuildColumns(t *testing.T) {
-	cargo := mockCargo()
+	cargo := mockReadSheetCargo()
 	fields := []string{"field0#pkey", "field1#bool", "field2#int", "", "field3#text"}
 
 	pkey, err := buildColumns(cargo, [][]string{{}, fields})
@@ -92,7 +92,7 @@ func TestBuildColumns(t *testing.T) {
 }
 
 func TestBuildNotes(t *testing.T) {
-	cargo := mockCargo()
+	cargo := mockReadSheetCargo()
 	notes := []string{"note0", "note1", "note2"}
 
 	err := buildNotes(cargo, [][]string{notes})
@@ -103,7 +103,7 @@ func TestBuildNotes(t *testing.T) {
 }
 
 func TestBuildDatas(t *testing.T) {
-	cargo := mockCargo()
+	cargo := mockReadSheetCargo()
 	data0 := []string{"data0", "data1", "data2"}
 	data1 := []string{"data4", "data5", "data6"}
 	data2 := []string{"data7", "data8", "data9"}
@@ -116,7 +116,7 @@ func TestBuildDatas(t *testing.T) {
 }
 
 func TestPkeyCheck(t *testing.T) {
-	cargo := mockCargo()
+	cargo := mockReadSheetCargo()
 	pkey := &Column{Datas: []string{"1", "2", "3", "4", "5"}}
 
 	err := pkeyCheck(cargo, pkey)
@@ -127,7 +127,7 @@ func TestPkeyCheck(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
-func mockCargo() *Cargo {
+func mockReadSheetCargo() *Cargo {
 	return &Cargo{
 		Progress: util.NewProgressBar("test", ioutil.Discard),
 		Global: &Global{
