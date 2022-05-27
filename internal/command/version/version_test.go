@@ -12,7 +12,8 @@ import (
 )
 
 func TestNewCommand(t *testing.T) {
-	assert.NotNil(t, NewCommand())
+	command := NewCommand()
+	assert.NotNil(t, command)
 }
 
 func TestExecute(t *testing.T) {
@@ -20,6 +21,7 @@ func TestExecute(t *testing.T) {
 	command := &cobra.Command{}
 	command.SetOut(buffer)
 
-	assert.Nil(t, execute(command, []string{}))
+	err := execute(command, []string{})
+	assert.Nil(t, err)
 	assert.Equal(t, fmt.Sprintf("%s %s", internal.Title, internal.Version), buffer.String())
 }

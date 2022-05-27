@@ -70,7 +70,7 @@ func buildJson(cargo *Cargo, jboxes []jbox) (result []byte, err error) {
 // writeFile 把json字串寫入檔案
 func writeFile(cargo *Cargo, jsons []byte) error {
 	filePath := filepath.Join(OutputPathJson, cargo.JsonFileName())
-	err := os.Mkdir(OutputPathJson, os.ModePerm)
+	err := os.MkdirAll(OutputPathJson, os.ModePerm)
 
 	if err != nil {
 		return fmt.Errorf("write to file failed: %s [%s]", cargo.Element.GetFullName(), err)
