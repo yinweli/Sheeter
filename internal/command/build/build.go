@@ -3,7 +3,6 @@ package build
 import (
 	"fmt"
 
-	"Sheeter/internal"
 	"Sheeter/internal/command/build/core"
 	"Sheeter/internal/util"
 
@@ -58,7 +57,7 @@ func execute(cmd *cobra.Command, args []string) {
 	cmd.Printf("lineOfData: %d\n", config.Global.LineOfData)
 
 	for _, itor := range config.Elements {
-		progress := util.NewProgressBar(internal.ProgressDefault, itor.GetFullName(), cmd.OutOrStdout())
+		progress := util.NewProgressBar(itor.GetFullName(), cmd.OutOrStdout())
 		cargo := &core.Cargo{
 			Progress: progress,
 			Global:   &config.Global,

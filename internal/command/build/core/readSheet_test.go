@@ -1,12 +1,11 @@
 package core
 
 import (
+	"io/ioutil"
 	"testing"
 
-	"Sheeter/internal"
+	"Sheeter/internal/util"
 	"Sheeter/testdata"
-
-	"github.com/schollz/progressbar/v3"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -130,7 +129,7 @@ func TestPkeyCheck(t *testing.T) {
 
 func mockCargo() *Cargo {
 	return &Cargo{
-		Progress: progressbar.DefaultSilent(internal.ProgressDefault),
+		Progress: util.NewProgressBar("test", ioutil.Discard),
 		Global: &Global{
 			ExcelPath:   testdata.RootPath,
 			LineOfNote:  1,
