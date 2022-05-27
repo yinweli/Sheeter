@@ -11,7 +11,8 @@ import (
 )
 
 func TestNewCommand(t *testing.T) {
-	assert.NotNil(t, NewCommand())
+	command := NewCommand()
+	assert.NotNil(t, command)
 }
 
 func TestExecute(t *testing.T) {
@@ -22,6 +23,8 @@ func TestExecute(t *testing.T) {
 	command := &cobra.Command{}
 	command.SetOut(buffer)
 
-	assert.Nil(t, execute(command, []string{testdata.Path(testdata.RealConfig)}))
-	assert.NotNil(t, execute(command, []string{testdata.Path(testdata.FakeConfig)}))
+	err := execute(command, []string{testdata.Path(testdata.RealConfig)})
+	assert.Nil(t, err)
+	err = execute(command, []string{testdata.Path(testdata.FakeConfig)})
+	assert.NotNil(t, err)
 }

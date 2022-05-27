@@ -31,5 +31,6 @@ func TestParser(t *testing.T) {
 }
 
 func TestNewParser(t *testing.T) {
-	assert.NotNil(t, NewParser())
+	parser := NewParser()
+	assert.NotNil(t, parser)
 }
