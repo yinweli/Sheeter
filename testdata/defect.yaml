@@ -1,6 +1,7 @@
 global:
   excelPath: test
   cppLibraryPath: test
+  cppNamespace: test
   csNamespace: test
   goPackage: test
   bom: true
