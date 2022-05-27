@@ -1,9 +1,12 @@
 package build
 
 import (
+	"bytes"
 	"testing"
 
 	"Sheeter/testdata"
+
+	"github.com/spf13/cobra"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -13,7 +16,10 @@ func TestNewCommand(t *testing.T) {
 }
 
 func TestExecute(t *testing.T) {
-	buffer, command := testdata.MockCommand()
+	buffer := &bytes.Buffer{}
+	command := &cobra.Command{}
+	command.SetOut(buffer)
+
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
