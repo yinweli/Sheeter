@@ -7,7 +7,6 @@ import (
 	"Sheeter/testdata"
 
 	"github.com/spf13/cobra"
-
 	"github.com/stretchr/testify/assert"
 )
 
@@ -23,9 +22,6 @@ func TestExecute(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
-	execute(command, []string{testdata.Path(testdata.RealConfig)})
-	assert.Equal(t, "", buffer.String())
-
-	execute(command, []string{testdata.Path(testdata.FakeConfig)})
-	assert.NotEqual(t, "", buffer.String())
+	assert.Nil(t, execute(command, []string{testdata.Path(testdata.RealConfig)}))
+	assert.NotNil(t, execute(command, []string{testdata.Path(testdata.FakeConfig)}))
 }
