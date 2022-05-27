@@ -12,13 +12,15 @@ func NewCommand() *cobra.Command {
 		Use:   "version",
 		Short: "show version",
 		Long:  "show version",
-		Run:   execute,
+		RunE:  execute,
 	}
 
 	return cmd
 }
 
 // execute 執行命令
-func execute(cmd *cobra.Command, args []string) {
+func execute(cmd *cobra.Command, args []string) error {
 	cmd.Printf("%s %s", internal.Title, internal.Version)
+
+	return nil
 }

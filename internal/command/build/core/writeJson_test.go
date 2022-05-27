@@ -2,15 +2,25 @@ package core
 
 import (
 	"io/ioutil"
+	"path/filepath"
 	"testing"
 
 	"Sheeter/internal/util"
 	"Sheeter/testdata"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestWriteFile(t *testing.T) {
-	// cargo := mockWriteJsonCargo()
-	// bytes := []byte(testdata.Text)
+	cargo := mockWriteJsonCargo()
+	input := []byte(testdata.Text)
+	filePath := filepath.Join(OutputPathJson, cargo.JsonFileName())
+
+	assert.Nil(t, writeFile(cargo, input))
+
+	output, _ := ioutil.ReadFile(filePath)
+
+	assert.Equal(t, input, output)
 }
 
 func mockWriteJsonCargo() *Cargo {

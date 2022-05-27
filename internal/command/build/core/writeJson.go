@@ -3,9 +3,10 @@ package core
 import (
 	"encoding/json"
 	"fmt"
+	"io/fs"
 	"io/ioutil"
+	"os"
 	"path/filepath"
-	"strings"
 )
 
 // WriteJson 寫入json
@@ -68,10 +69,14 @@ func buildJson(cargo *Cargo, jboxes []jbox) (result []byte, err error) {
 
 // writeFile 把json字串寫入檔案
 func writeFile(cargo *Cargo, jsons []byte) error {
-	excelName := strings.TrimSuffix(cargo.Element.Excel, filepath.Ext(cargo.Element.Excel))
-	fileName := fmt.Sprintf("%s%s.json", strings.ToLower(excelName), strings.ToLower(cargo.Element.Sheet))
-	fullPath := filepath.Join(OutputPathJson, fileName)
-	err := ioutil.WriteFile(fullPath, jsons, 0666)
+	filePath := filepath.Join(OutputPathJson, cargo.JsonFileName())
+	err := os.Mkdir(OutputPathJson, os.ModePerm)
+
+	if err != nil {
+		return fmt.Errorf("write to file failed: %s [%s]", cargo.Element.GetFullName(), err)
+	} // if
+
+	err = ioutil.WriteFile(filePath, jsons, fs.ModePerm)
 
 	if err != nil {
 		return fmt.Errorf("write to file failed: %s [%s]", cargo.Element.GetFullName(), err)
