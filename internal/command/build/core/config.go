@@ -20,6 +20,10 @@ func (this *Config) Check() error {
 		return fmt.Errorf("global: cppLibraryPath empty")
 	} // if
 
+	if this.Global.CppNamespace == "" {
+		return fmt.Errorf("global: cppNamespace empty")
+	} // if
+
 	if this.Global.CsNamespace == "" {
 		return fmt.Errorf("global: csNamespace empty")
 	} // if
@@ -69,6 +73,7 @@ func (this *Config) Check() error {
 type Global struct {
 	ExcelPath      string `yaml:"excelPath"`      // 來源Excel路徑
 	CppLibraryPath string `yaml:"cppLibraryPath"` // c++函式庫路徑
+	CppNamespace   string `yaml:"cppNamespace"`   // c++命名空間名稱
 	CsNamespace    string `yaml:"csNamespace"`    // c#命名空間名稱
 	GoPackage      string `yaml:"goPackage"`      // go包名
 	Bom            bool   `yaml:"bom"`            // 輸出的檔案是否使用順序標記(BOM)

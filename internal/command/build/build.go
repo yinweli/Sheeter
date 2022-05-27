@@ -7,7 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const flagAll string = "all"   // 命令旗標: 輸出全部
 const flagJson string = "json" // 命令旗標: 輸出json
 const flagCpp string = "cpp"   // 命令旗標: 輸出c++
 const flagCs string = "cs"     // 命令旗標: 輸出c#
@@ -22,7 +21,6 @@ func NewCommand() *cobra.Command {
 		Args:  cobra.ExactArgs(1),
 		RunE:  execute,
 	}
-	cmd.Flags().BoolP(flagAll, "a", false, "generate all file")
 	cmd.Flags().BoolP(flagJson, "j", false, "generate json file")
 	cmd.Flags().BoolP(flagCpp, "c", false, "generate cpp file")
 	cmd.Flags().BoolP(flagCs, "s", false, "generate cs file")
@@ -41,6 +39,7 @@ func execute(cmd *cobra.Command, args []string) error {
 
 	cmd.Printf("excelPath: %s\n", config.Global.ExcelPath)
 	cmd.Printf("cppLibraryPath: %s\n", config.Global.CppLibraryPath)
+	cmd.Printf("cppNamespace: %s\n", config.Global.CppNamespace)
 	cmd.Printf("csNamespace: %s\n", config.Global.CsNamespace)
 	cmd.Printf("goPackage: %s\n", config.Global.GoPackage)
 	cmd.Printf("bom: %t\n", config.Global.Bom)
@@ -74,7 +73,7 @@ func execute(cmd *cobra.Command, args []string) error {
 
 // task 計算工作數量
 func task(cmd *cobra.Command) int {
-	var task int = 1 // 從1開始是包括讀取設定與表格這項工作
+	var task int
 
 	if flag(cmd, flagJson) {
 		task++
@@ -92,11 +91,7 @@ func task(cmd *cobra.Command) int {
 		task++
 	} // if
 
-	if flag(cmd, flagAll) {
-		task = 5 // 輸出全部的話, 就直接給最大值了
-	} // if
-
-	return task
+	return task + 1 // + 1 是包括讀取設定與表格這項工作
 }
 
 // flag 取得命令旗標
