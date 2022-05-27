@@ -2,8 +2,6 @@ package core
 
 import (
 	"strconv"
-
-	"Sheeter/internal"
 )
 
 // FieldInt 32位元整數
@@ -42,5 +40,5 @@ func (this *FieldInt) PrimaryKey() bool {
 
 // Transform 字串轉換
 func (this *FieldInt) Transform(input string) (result interface{}, err error) {
-	return strconv.ParseInt(input, internal.Decimal, 32)
+	return strconv.ParseInt(input, 10, 32)
 }

@@ -3,9 +3,9 @@ package core
 import (
 	"fmt"
 	"strings"
-
-	"Sheeter/internal"
 )
+
+const fieldSeparator string = "#" // 欄位分隔字串
 
 // Parser 欄位解析器
 type Parser struct {
@@ -19,7 +19,7 @@ func (this *Parser) Add(field Field) {
 
 // Parse 解析欄位
 func (this *Parser) Parse(input string) (name string, field Field, err error) {
-	tokens := strings.Split(input, internal.FieldSeparator)
+	tokens := strings.Split(input, fieldSeparator)
 
 	if len(tokens) != 2 {
 		return "", nil, fmt.Errorf("parse failed: %s", input)

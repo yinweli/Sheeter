@@ -6,8 +6,6 @@ import (
 	"io/ioutil"
 	"path/filepath"
 	"strings"
-
-	"Sheeter/internal"
 )
 
 // WriteJson 寫入json
@@ -72,7 +70,7 @@ func buildJson(cargo *Cargo, jboxes []jbox) (result []byte, err error) {
 func writeFile(cargo *Cargo, jsons []byte) error {
 	excelName := strings.TrimSuffix(cargo.Element.Excel, filepath.Ext(cargo.Element.Excel))
 	fileName := fmt.Sprintf("%s%s.json", strings.ToLower(excelName), strings.ToLower(cargo.Element.Sheet))
-	fullPath := filepath.Join(internal.OutputPathJson, fileName)
+	fullPath := filepath.Join(OutputPathJson, fileName)
 	err := ioutil.WriteFile(fullPath, jsons, 0666)
 
 	if err != nil {
