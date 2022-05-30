@@ -39,9 +39,6 @@ func execute(cmd *cobra.Command, args []string) error {
 
 	cmd.Printf("excelPath: %s\n", config.Global.ExcelPath)
 	cmd.Printf("cppLibraryPath: %s\n", config.Global.CppLibraryPath)
-	cmd.Printf("cppNamespace: %s\n", config.Global.CppNamespace)
-	cmd.Printf("csNamespace: %s\n", config.Global.CsNamespace)
-	cmd.Printf("goPackage: %s\n", config.Global.GoPackage)
 	cmd.Printf("bom: %t\n", config.Global.Bom)
 	cmd.Printf("lineOfNote: %d\n", config.Global.LineOfNote)
 	cmd.Printf("lineOfField: %d\n", config.Global.LineOfField)
