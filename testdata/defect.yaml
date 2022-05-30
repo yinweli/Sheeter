@@ -1,9 +1,6 @@
 global:
   excelPath: test
   cppLibraryPath: test
-  cppNamespace: test
-  csNamespace: test
-  goPackage: test
   bom: true
   lineOfNote: 4 # 故意寫錯
   lineOfField: 2

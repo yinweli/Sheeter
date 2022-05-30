@@ -1,9 +1,6 @@
 global:
   excelPath: .\
   cppLibraryPath: nlohmann
-  cppNamespace: sheeter
-  csNamespace: sheeter
-  goPackage: sheeter
   bom: true
   lineOfNote: 1
   lineOfField: 2
