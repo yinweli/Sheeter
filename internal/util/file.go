@@ -7,19 +7,20 @@ import (
 	"path/filepath"
 )
 
-// WriteFile 寫入檔案
-func WriteFile(path string, name string, bytes []byte) error {
-	err := os.MkdirAll(path, os.ModePerm)
+// FileWrite 寫入檔案
+func FileWrite(path string, name string, bytes []byte) (filePath string, err error) {
+	err = os.MkdirAll(path, os.ModePerm)
 
 	if err != nil {
-		return err
+		return "", err
 	} // if
 
-	err = ioutil.WriteFile(filepath.Join(path, name), bytes, fs.ModePerm)
+	filePath = filepath.Join(path, name)
+	err = ioutil.WriteFile(filePath, bytes, fs.ModePerm)
 
 	if err != nil {
-		return err
+		return "", err
 	} // if
 
-	return nil
+	return filePath, nil
 }
