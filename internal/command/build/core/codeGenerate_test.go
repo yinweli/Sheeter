@@ -12,7 +12,7 @@ func TestCodeGenerate(t *testing.T) {
 
 	result, err := CodeGenerate(code, cargo)
 	assert.Nil(t, err)
-	assert.Equal(t, "TestExcelTestSheet#TestSheet", result.String())
+	assert.Equal(t, "TestExcelTestSheet#TestSheet", string(result[:]))
 
 	result, err = CodeGenerate("{{{.Unknown}}", cargo)
 	assert.NotNil(t, err)

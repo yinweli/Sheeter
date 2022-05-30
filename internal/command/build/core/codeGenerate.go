@@ -8,7 +8,7 @@ import (
 )
 
 // CodeGenerate 產生程式碼
-func CodeGenerate(code string, cargo *Cargo) (results *bytes.Buffer, err error) {
+func CodeGenerate(code string, cargo *Cargo) (results []byte, err error) {
 	temp, err := template.New("codeGenerate").Funcs(template.FuncMap{
 		"cppNamespace": cppNamespace,
 		"csNameSpace":  csNameSpace,
@@ -23,14 +23,14 @@ func CodeGenerate(code string, cargo *Cargo) (results *bytes.Buffer, err error) 
 		return nil, err
 	} // if
 
-	results = &bytes.Buffer{}
-	err = temp.Execute(results, cargo)
+	buffer := &bytes.Buffer{}
+	err = temp.Execute(buffer, cargo)
 
 	if err != nil {
 		return nil, err
 	} // if
 
-	return results, nil
+	return buffer.Bytes(), nil
 }
 
 // cppNamespace 取得c++命名空間名稱
