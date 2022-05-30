@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 	"strings"
 
+	"Sheeter/internal/util"
+
 	"github.com/schollz/progressbar/v3"
 )
 
@@ -43,8 +45,8 @@ func (this *Cargo) PureExcelName() string {
 
 // outputFileName 取得輸出檔案名稱
 func (this *Cargo) outputFileName(ext string) string {
-	excelName := strings.ToLower(this.PureExcelName())
-	sheetName := strings.ToLower(this.Element.Sheet)
+	excelName := util.FirstLower(this.PureExcelName())
+	sheetName := util.FirstUpper(this.Element.Sheet)
 
 	return fmt.Sprintf("%s%s.%s", excelName, sheetName, ext)
 }
