@@ -50,7 +50,7 @@ func goPackage() string {
 
 // structName 取得結構名稱
 func structName(cargo *Cargo) string {
-	return util.FirstUpper(cargo.Element.Excel) + util.FirstUpper(cargo.Element.Sheet)
+	return util.FirstUpper(cargo.PureExcelName()) + util.FirstUpper(cargo.Element.Sheet)
 }
 
 // memberName 取得成員名稱

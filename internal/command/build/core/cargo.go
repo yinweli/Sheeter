@@ -36,9 +36,14 @@ func (this *Cargo) GoFileName() string {
 	return this.outputFileName("go")
 }
 
+// PureExcelName 取得沒有副檔名的excel名稱
+func (this *Cargo) PureExcelName() string {
+	return strings.TrimSuffix(this.Element.Excel, filepath.Ext(this.Element.Excel))
+}
+
 // outputFileName 取得輸出檔案名稱
 func (this *Cargo) outputFileName(ext string) string {
-	excelName := strings.ToLower(strings.TrimSuffix(this.Element.Excel, filepath.Ext(this.Element.Excel)))
+	excelName := strings.ToLower(this.PureExcelName())
 	sheetName := strings.ToLower(this.Element.Sheet)
 
 	return fmt.Sprintf("%s%s.%s", excelName, sheetName, ext)
