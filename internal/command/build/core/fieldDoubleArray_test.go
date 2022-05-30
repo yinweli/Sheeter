@@ -15,7 +15,7 @@ func TestFieldDoubleArray(t *testing.T) {
 	assert.Equal(t, "std::vector<double>", field.TypeCpp())
 	assert.Equal(t, "List<double>", field.TypeCs())
 	assert.Equal(t, "[]float64", field.TypeGo())
-	assert.Equal(t, false, field.Hide())
+	assert.Equal(t, true, field.Show())
 	assert.Equal(t, false, field.PrimaryKey())
 
 	result, err := field.Transform(testdata.Float64String())

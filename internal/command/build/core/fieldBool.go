@@ -26,9 +26,9 @@ func (this *FieldBool) TypeGo() string {
 	return "bool"
 }
 
-// Hide 是否隱藏
-func (this *FieldBool) Hide() bool {
-	return false
+// Show 是否顯示
+func (this *FieldBool) Show() bool {
+	return true
 }
 
 // PrimaryKey 是否是主要索引

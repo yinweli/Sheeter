@@ -28,9 +28,9 @@ func (this *FieldInt) TypeGo() string {
 	return "int32"
 }
 
-// Hide 是否隱藏
-func (this *FieldInt) Hide() bool {
-	return false
+// Show 是否顯示
+func (this *FieldInt) Show() bool {
+	return true
 }
 
 // PrimaryKey 是否是主要索引

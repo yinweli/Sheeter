@@ -13,7 +13,7 @@ func TestFieldPkey(t *testing.T) {
 	assert.Equal(t, CppNamespace+"::pkey", field.TypeCpp())
 	assert.Equal(t, "int", field.TypeCs())
 	assert.Equal(t, "int", field.TypeGo())
-	assert.Equal(t, false, field.Hide())
+	assert.Equal(t, true, field.Show())
 	assert.Equal(t, true, field.PrimaryKey())
 
 	result, err := field.Transform("999")

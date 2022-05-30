@@ -15,7 +15,7 @@ func TestFieldLongArray(t *testing.T) {
 	assert.Equal(t, "std::vector<int64_t>", field.TypeCpp())
 	assert.Equal(t, "List<long>", field.TypeCs())
 	assert.Equal(t, "[]int64", field.TypeGo())
-	assert.Equal(t, false, field.Hide())
+	assert.Equal(t, true, field.Show())
 	assert.Equal(t, false, field.PrimaryKey())
 
 	result, err := field.Transform(testdata.Int64String())

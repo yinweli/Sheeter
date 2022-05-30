@@ -15,7 +15,7 @@ func TestFieldText(t *testing.T) {
 	assert.Equal(t, "std::string", field.TypeCpp())
 	assert.Equal(t, "string", field.TypeCs())
 	assert.Equal(t, "string", field.TypeGo())
-	assert.Equal(t, false, field.Hide())
+	assert.Equal(t, true, field.Show())
 	assert.Equal(t, false, field.PrimaryKey())
 
 	result, err := field.Transform(testdata.Text)

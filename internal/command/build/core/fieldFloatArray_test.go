@@ -15,7 +15,7 @@ func TestFieldFloatArray(t *testing.T) {
 	assert.Equal(t, "std::vector<float>", field.TypeCpp())
 	assert.Equal(t, "List<float>", field.TypeCs())
 	assert.Equal(t, "[]float32", field.TypeGo())
-	assert.Equal(t, false, field.Hide())
+	assert.Equal(t, true, field.Show())
 	assert.Equal(t, false, field.PrimaryKey())
 
 	result, err := field.Transform(testdata.Float32String())

@@ -14,20 +14,22 @@ func WriteJson(cargo *Cargo) (filePath string, err error) {
 	var jsonMaps []jsonMap
 
 	for _, itor := range cargo.Columns {
-		for row, data := range itor.Datas {
-			value, err := itor.Field.Transform(data)
+		if itor.Field.Show() {
+			for row, data := range itor.Datas {
+				value, err := itor.Field.Transform(data)
 
-			if err != nil {
-				return "", fmt.Errorf("convert value failed: %s [%s(%d) : %s]", cargo.Element.GetFullName(), itor.Name, row, err)
-			} // if
+				if err != nil {
+					return "", fmt.Errorf("convert value failed: %s [%s(%d) : %s]", cargo.Element.GetFullName(), itor.Name, row, err)
+				} // if
 
-			if len(jsonMaps) <= row {
-				jsonMaps = append(jsonMaps, jsonMap{})
-			} // if
+				if len(jsonMaps) <= row {
+					jsonMaps = append(jsonMaps, jsonMap{})
+				} // if
 
-			_ = cargo.Progress.Add(1)
-			jsonMaps[row][itor.Name] = value
-		} // for
+				_ = cargo.Progress.Add(1)
+				jsonMaps[row][itor.Name] = value
+			} // for
+		} // if
 	} // for
 
 	_ = cargo.Progress.Add(1)

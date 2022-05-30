@@ -14,8 +14,8 @@ type Field interface {
 	// TypeGo 取得go欄位類型
 	TypeGo() string
 
-	// Hide 是否隱藏
-	Hide() bool
+	// Show 是否顯示
+	Show() bool
 
 	// PrimaryKey 是否是主要索引
 	PrimaryKey() bool

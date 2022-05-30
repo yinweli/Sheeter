@@ -26,9 +26,9 @@ func (this *FieldFloat) TypeGo() string {
 	return "float32"
 }
 
-// Hide 是否隱藏
-func (this *FieldFloat) Hide() bool {
-	return false
+// Show 是否顯示
+func (this *FieldFloat) Show() bool {
+	return true
 }
 
 // PrimaryKey 是否是主要索引

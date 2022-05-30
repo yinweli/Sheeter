@@ -15,7 +15,7 @@ func TestFieldIntArray(t *testing.T) {
 	assert.Equal(t, "std::vector<int32_t>", field.TypeCpp())
 	assert.Equal(t, "List<int>", field.TypeCs())
 	assert.Equal(t, "[]int32", field.TypeGo())
-	assert.Equal(t, false, field.Hide())
+	assert.Equal(t, true, field.Show())
 	assert.Equal(t, false, field.PrimaryKey())
 
 	result, err := field.Transform(testdata.Int32String())

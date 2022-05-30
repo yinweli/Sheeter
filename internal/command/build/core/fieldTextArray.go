@@ -26,9 +26,9 @@ func (this *FieldTextArray) TypeGo() string {
 	return "[]string"
 }
 
-// Hide 是否隱藏
-func (this *FieldTextArray) Hide() bool {
-	return false
+// Show 是否顯示
+func (this *FieldTextArray) Show() bool {
+	return true
 }
 
 // PrimaryKey 是否是主要索引

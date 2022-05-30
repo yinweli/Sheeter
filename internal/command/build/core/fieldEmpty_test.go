@@ -13,7 +13,7 @@ func TestFieldEmpty(t *testing.T) {
 	assert.Equal(t, "", field.TypeCpp())
 	assert.Equal(t, "", field.TypeCs())
 	assert.Equal(t, "", field.TypeGo())
-	assert.Equal(t, true, field.Hide())
+	assert.Equal(t, false, field.Show())
 	assert.Equal(t, false, field.PrimaryKey())
 
 	result, err := field.Transform("test")

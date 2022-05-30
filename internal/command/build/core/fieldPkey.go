@@ -26,9 +26,9 @@ func (this *FieldPkey) TypeGo() string {
 	return "int"
 }
 
-// Hide 是否隱藏
-func (this *FieldPkey) Hide() bool {
-	return false
+// Show 是否顯示
+func (this *FieldPkey) Show() bool {
+	return true
 }
 
 // PrimaryKey 是否是主要索引

@@ -26,9 +26,9 @@ func (this *FieldLongArray) TypeGo() string {
 	return "[]int64"
 }
 
-// Hide 是否隱藏
-func (this *FieldLongArray) Hide() bool {
-	return false
+// Show 是否顯示
+func (this *FieldLongArray) Show() bool {
+	return true
 }
 
 // PrimaryKey 是否是主要索引
