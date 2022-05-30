@@ -91,8 +91,8 @@ func buildColumns(cargo *Cargo, sheet sheets) (pkey *Column, err error) {
 			pkey = column
 		} // if
 
-		cargo.Columns = append(cargo.Columns, column)
 		_ = cargo.Progress.Add(1)
+		cargo.Columns = append(cargo.Columns, column)
 	} // for
 
 	if pkey == nil { // 這裡也同時檢查了沒有任何欄位的情況
@@ -113,8 +113,8 @@ func buildNotes(cargo *Cargo, sheet sheets) error {
 			data = notes[col]
 		} // if
 
-		itor.Note = data
 		_ = cargo.Progress.Add(1)
+		itor.Note = data
 	} // for
 
 	return nil
@@ -136,8 +136,8 @@ func buildDatas(cargo *Cargo, sheet sheets) error {
 				data = datas[col]
 			} // if
 
-			itor.Datas = append(itor.Datas, data)
 			_ = cargo.Progress.Add(1)
+			itor.Datas = append(itor.Datas, data)
 		} // for
 	} // for
 

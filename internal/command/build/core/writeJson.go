@@ -27,11 +27,12 @@ func WriteJson(cargo *Cargo) error {
 				jsonMaps = append(jsonMaps, jsonMap{})
 			} // if
 
-			jsonMaps[row][itor.Name] = value
 			_ = cargo.Progress.Add(1)
+			jsonMaps[row][itor.Name] = value
 		} // for
 	} // for
 
+	_ = cargo.Progress.Add(1)
 	bytes, err := json.MarshalIndent(jsonMaps, "", "    ")
 
 	if err != nil {
@@ -52,6 +53,5 @@ func WriteJson(cargo *Cargo) error {
 		return fmt.Errorf("write to json failed: %s [%s]", cargo.Element.GetFullName(), err)
 	} // if
 
-	_ = cargo.Progress.Add(1)
 	return nil
 }
