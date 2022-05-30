@@ -26,9 +26,9 @@ func (this *FieldDoubleArray) TypeGo() string {
 	return "[]float64"
 }
 
-// Hide 是否隱藏
-func (this *FieldDoubleArray) Hide() bool {
-	return false
+// Show 是否顯示
+func (this *FieldDoubleArray) Show() bool {
+	return true
 }
 
 // PrimaryKey 是否是主要索引

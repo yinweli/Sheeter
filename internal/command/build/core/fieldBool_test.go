@@ -13,7 +13,7 @@ func TestFieldBool(t *testing.T) {
 	assert.Equal(t, "bool", field.TypeCpp())
 	assert.Equal(t, "bool", field.TypeCs())
 	assert.Equal(t, "bool", field.TypeGo())
-	assert.Equal(t, false, field.Hide())
+	assert.Equal(t, true, field.Show())
 	assert.Equal(t, false, field.PrimaryKey())
 
 	result, err := field.Transform("true")

@@ -13,7 +13,7 @@ func TestFieldFloat(t *testing.T) {
 	assert.Equal(t, "float", field.TypeCpp())
 	assert.Equal(t, "float", field.TypeCs())
 	assert.Equal(t, "float32", field.TypeGo())
-	assert.Equal(t, false, field.Hide())
+	assert.Equal(t, true, field.Show())
 	assert.Equal(t, false, field.PrimaryKey())
 
 	result, err := field.Transform("0.9999")

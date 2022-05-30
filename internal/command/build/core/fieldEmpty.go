@@ -24,9 +24,9 @@ func (this *FieldEmpty) TypeGo() string {
 	return ""
 }
 
-// Hide 是否隱藏
-func (this *FieldEmpty) Hide() bool {
-	return true
+// Show 是否顯示
+func (this *FieldEmpty) Show() bool {
+	return false
 }
 
 // PrimaryKey 是否是主要索引
