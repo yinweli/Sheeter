@@ -39,9 +39,11 @@ func execute(cmd *cobra.Command, args []string) error {
 
 	toJson := flag(cmd, flagJson)
 	toCpp := flag(cmd, flagCpp)
+	toCs := flag(cmd, flagCs)
 
 	cmd.Printf("toJson: %t\n", toJson)
 	cmd.Printf("toCpp: %t\n", toCpp)
+	cmd.Printf("toCs: %t\n", toCs)
 
 	for _, itor := range config.Elements {
 		progress := util.NewProgressBar(itor.GetFullName(), cmd.OutOrStdout())
@@ -66,6 +68,14 @@ func execute(cmd *cobra.Command, args []string) error {
 
 		if toCpp {
 			_, err := core.WriteCpp(cargo)
+
+			if err != nil {
+				return err
+			} // if
+		} // if
+
+		if toCs {
+			_, err := core.WriteCs(cargo)
 
 			if err != nil {
 				return err
