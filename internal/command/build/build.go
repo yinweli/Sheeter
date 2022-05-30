@@ -37,12 +37,11 @@ func execute(cmd *cobra.Command, args []string) error {
 		return err
 	} // if
 
-	cmd.Printf("excelPath: %s\n", config.Global.ExcelPath)
-	cmd.Printf("cppLibraryPath: %s\n", config.Global.CppLibraryPath)
-	cmd.Printf("bom: %t\n", config.Global.Bom)
-	cmd.Printf("lineOfNote: %d\n", config.Global.LineOfNote)
-	cmd.Printf("lineOfField: %d\n", config.Global.LineOfField)
-	cmd.Printf("lineOfData: %d\n", config.Global.LineOfData)
+	toJson := flag(cmd, flagJson)
+	toCpp := flag(cmd, flagCpp)
+
+	cmd.Printf("toJson: %t\n", toJson)
+	cmd.Printf("toCpp: %t\n", toCpp)
 
 	for _, itor := range config.Elements {
 		progress := util.NewProgressBar(itor.GetFullName(), cmd.OutOrStdout())
@@ -51,38 +50,29 @@ func execute(cmd *cobra.Command, args []string) error {
 			Global:   &config.Global,
 			Element:  &itor,
 		}
-
 		err = core.ReadSheet(cargo, task(cmd))
 
 		if err != nil {
 			return err
 		} // if
 
-		if flag(cmd, flagJson) {
-			filePath, err := core.WriteJson(cargo)
+		if toJson {
+			_, err := core.WriteJson(cargo)
 
 			if err != nil {
 				return err
 			} // if
-
-			cmd.Printf("save json to %s\n", filePath)
 		} // if
 
-		if flag(cmd, flagCpp) {
-			filePath, err := core.WriteCpp(cargo)
+		if toCpp {
+			_, err := core.WriteCpp(cargo)
 
 			if err != nil {
 				return err
 			} // if
-
-			cmd.Printf("save cpp to %s\n", filePath)
 		} // if
 
-		err = progress.Finish()
-
-		if err != nil {
-			return err
-		} // if
+		_ = progress.Finish()
 	} // for
 
 	return nil
