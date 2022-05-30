@@ -16,7 +16,6 @@ func TestWriteJson(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	cargo := mockWriteJsonCargo()
-
 	err := WriteJson(cargo)
 	assert.Nil(t, err)
 
@@ -36,12 +35,6 @@ func TestWriteJson(t *testing.T) {
 func mockWriteJsonCargo() *Cargo {
 	return &Cargo{
 		Progress: util.NewProgressBar("test", ioutil.Discard),
-		Global: &Global{
-			ExcelPath:   testdata.RootPath,
-			LineOfNote:  1,
-			LineOfField: 2,
-			LineOfData:  3,
-		},
 		Element: &Element{
 			Excel: testdata.RealExcel,
 			Sheet: testdata.RealSheet,
