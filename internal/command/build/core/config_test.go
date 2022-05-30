@@ -23,21 +23,6 @@ func TestConfig(t *testing.T) {
 	assert.NotNil(t, err)
 
 	config = mockConfig()
-	config.Global.CppNamespace = ""
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
-	config.Global.CsNamespace = ""
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
-	config.Global.GoPackage = ""
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
 	config.Global.LineOfNote = 0
 	err = config.Check()
 	assert.NotNil(t, err)
@@ -96,9 +81,6 @@ func mockConfig() *Config {
 		Global: Global{
 			ExcelPath:      "test",
 			CppLibraryPath: "nlohmann",
-			CppNamespace:   "Sheeter",
-			CsNamespace:    "Sheeter",
-			GoPackage:      "sheeter",
 			Bom:            true,
 			LineOfNote:     1,
 			LineOfField:    2,
