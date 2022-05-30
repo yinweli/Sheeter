@@ -16,8 +16,9 @@ func TestWriteJson(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	cargo := mockWriteJsonCargo()
-	err := WriteJson(cargo)
+	filePath, err := WriteJson(cargo)
 	assert.Nil(t, err)
+	assert.FileExists(t, filePath)
 
 	cargo = mockWriteJsonCargo()
 	cargo.Columns = []*Column{
@@ -25,7 +26,7 @@ func TestWriteJson(t *testing.T) {
 		{Note: "note1", Name: "name1", Field: &FieldInt{}, Datas: []string{"x", "2", "3", "4", "5"}},
 		{Note: "note2", Name: "name2", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
 	}
-	err = WriteJson(cargo)
+	filePath, err = WriteJson(cargo)
 	assert.NotNil(t, err)
 
 	err = os.RemoveAll(OutputPathJson)
