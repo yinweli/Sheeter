@@ -13,11 +13,6 @@ func TestConfig(t *testing.T) {
 	assert.Nil(t, err)
 
 	config = mockConfig()
-	config.Global.ExcelPath = ""
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
 	config.Global.CppLibraryPath = ""
 	err = config.Check()
 	assert.NotNil(t, err)

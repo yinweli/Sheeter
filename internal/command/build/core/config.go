@@ -12,10 +12,6 @@ type Config struct {
 
 // Check 檢查設定是否正確
 func (this *Config) Check() error {
-	if this.Global.ExcelPath == "" {
-		return fmt.Errorf("global: excelPath empty")
-	} // if
-
 	if this.Global.CppLibraryPath == "" {
 		return fmt.Errorf("global: cppLibraryPath empty")
 	} // if
