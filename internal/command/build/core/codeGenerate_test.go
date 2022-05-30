@@ -26,7 +26,7 @@ func TestCppNamespace(t *testing.T) {
 }
 
 func TestCsNameSpace(t *testing.T) {
-	assert.Equal(t, CsNamespace, csNameSpace())
+	assert.Equal(t, CsNamespace, csNamespace())
 }
 
 func TestGoPackage(t *testing.T) {

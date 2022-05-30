@@ -11,7 +11,7 @@ import (
 func CodeGenerate(code string, cargo *Cargo) (results []byte, err error) {
 	temp, err := template.New("codeGenerate").Funcs(template.FuncMap{
 		"cppNamespace": cppNamespace,
-		"csNameSpace":  csNameSpace,
+		"csNamespace":  csNamespace,
 		"goPackage":    goPackage,
 		"setline":      setline,
 		"newline":      newline,
@@ -36,8 +36,8 @@ func cppNamespace() string {
 	return CppNamespace
 }
 
-// csNameSpace 取得c#命名空間名稱
-func csNameSpace() string {
+// csNamespace 取得c#命名空間名稱
+func csNamespace() string {
 	return CsNamespace
 }
 
