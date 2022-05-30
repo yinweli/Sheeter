@@ -7,12 +7,12 @@ import (
 )
 
 func TestCodeGenerate(t *testing.T) {
-	code := "{{structName .}}#{{memberName .Element.Sheet}}"
+	code := "{{cppNamespace}}#{{.StructName}}"
 	cargo := mockCodeGenerateCargo()
 
 	result, err := CodeGenerate(code, cargo)
 	assert.Nil(t, err)
-	assert.Equal(t, "TestExcelTestSheet#TestSheet", string(result[:]))
+	assert.Equal(t, "Sheeter#TestExcelTestSheet", string(result[:]))
 
 	result, err = CodeGenerate("{{{.Unknown}}", cargo)
 	assert.NotNil(t, err)
@@ -31,16 +31,6 @@ func TestCsNameSpace(t *testing.T) {
 
 func TestGoPackage(t *testing.T) {
 	assert.Equal(t, GoPackage, goPackage())
-}
-
-func TestStructName(t *testing.T) {
-	cargo := mockCodeGenerateCargo()
-
-	assert.Equal(t, "TestExcelTestSheet", structName(cargo))
-}
-
-func TestMemberName(t *testing.T) {
-	assert.Equal(t, "TestMember", memberName("testMember"))
 }
 
 func TestNewLine(t *testing.T) {
