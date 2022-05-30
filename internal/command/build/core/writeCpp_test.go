@@ -1,52 +1,47 @@
 package core
 
 import (
-	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
-	"text/template"
 
 	"Sheeter/internal/util"
 	"Sheeter/testdata"
+
+	"github.com/stretchr/testify/assert"
 )
 
-func TestWrite(t *testing.T) {
-	tmpl, err := template.New("test").Parse(templateCpp)
+func TestWriteCpp(t *testing.T) {
+	dir := testdata.ChangeWorkDir()
+	defer testdata.RestoreWorkDir(dir)
 
-	if err != nil {
-		fmt.Println(err)
-		return
-	} // if
+	cargo := mockWriteCppCargo()
+	err := WriteCpp(cargo)
+	assert.Nil(t, err)
 
-	cargo := &Cargo{
+	cargo = mockWriteCppCargo()
+	cargo.Global = nil
+	err = WriteCpp(cargo)
+	assert.NotNil(t, err)
+
+	err = os.RemoveAll(OutputPathCpp)
+	assert.Nil(t, err)
+}
+
+func mockWriteCppCargo() *Cargo {
+	return &Cargo{
 		Progress: util.NewProgressBar("test", ioutil.Discard),
 		Global: &Global{
-			CppLibraryPath: "testme.h",
-			CppNamespace:   "sheeter",
-			CsNamespace:    "sheeter",
-			GoPackage:      "sheeter",
-			ExcelPath:      testdata.RootPath,
-			LineOfNote:     1,
-			LineOfField:    2,
-			LineOfData:     3,
+			CppLibraryPath: "nlohmann/json.hpp",
 		},
 		Element: &Element{
 			Excel: testdata.RealExcel,
 			Sheet: testdata.RealSheet,
 		},
 		Columns: []*Column{
-			{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
-			{Note: "note1", Name: "name1", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
-			{Note: "note2", Name: "name2", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
+			{Note: "note0", Name: "name0", Field: &FieldInt{}},
+			{Note: "note1", Name: "name1", Field: &FieldInt{}},
+			{Note: "note2", Name: "name2", Field: &FieldInt{}},
 		},
 	}
-
-	err = tmpl.Execute(os.Stdout, cargo)
-
-	if err != nil {
-		fmt.Println(err)
-		return
-	} // if
-
 }
