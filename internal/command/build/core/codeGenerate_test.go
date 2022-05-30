@@ -21,6 +21,18 @@ func TestCodeGenerate(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
+func TestCppNamespace(t *testing.T) {
+	assert.Equal(t, CppNamespace, cppNamespace())
+}
+
+func TestCsNameSpace(t *testing.T) {
+	assert.Equal(t, CsNamespace, csNameSpace())
+}
+
+func TestGoPackage(t *testing.T) {
+	assert.Equal(t, GoPackage, goPackage())
+}
+
 func TestStructName(t *testing.T) {
 	cargo := mockCodeGenerateCargo()
 
@@ -29,6 +41,23 @@ func TestStructName(t *testing.T) {
 
 func TestMemberName(t *testing.T) {
 	assert.Equal(t, "TestMember", memberName("testMember"))
+}
+
+func TestNewLine(t *testing.T) {
+	setline(1)
+	assert.Equal(t, "\n", newline())
+	assert.NotEqual(t, "\n", newline())
+
+	setline(2)
+	assert.Equal(t, "\n", newline())
+	assert.Equal(t, "\n", newline())
+	assert.Equal(t, "", newline())
+
+	setline(3)
+	assert.Equal(t, "\n", newline())
+	assert.Equal(t, "\n", newline())
+	assert.Equal(t, "\n", newline())
+	assert.Equal(t, "", newline())
 }
 
 func mockCodeGenerateCargo() *Cargo {
