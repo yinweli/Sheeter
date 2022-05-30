@@ -114,7 +114,7 @@ func Float32ArrayToString(inputs []float32) string {
 	var tokens []string
 
 	for _, itor := range inputs {
-		tokens = append(tokens, trimFloatString(strconv.FormatFloat(float64(itor), 'f', precision, 32)))
+		tokens = append(tokens, TrimFloatString(strconv.FormatFloat(float64(itor), 'f', precision, 32)))
 	} // for
 
 	return strings.Join(tokens, arraySeparator)
@@ -142,7 +142,7 @@ func Float64ArrayToString(inputs []float64) string {
 	var tokens []string
 
 	for _, itor := range inputs {
-		tokens = append(tokens, trimFloatString(strconv.FormatFloat(itor, 'f', precision, 64)))
+		tokens = append(tokens, TrimFloatString(strconv.FormatFloat(itor, 'f', precision, 64)))
 	} // for
 
 	return strings.Join(tokens, arraySeparator)
@@ -158,8 +158,8 @@ func StringArrayToString(inputs []string) string {
 	return strings.Join(inputs, arraySeparator)
 }
 
-// trimFloatString 去除浮點數字串結尾多餘的0或是'.'
-func trimFloatString(input string) string {
+// TrimFloatString 去除浮點數字串結尾多餘的0或是'.'
+func TrimFloatString(input string) string {
 	for strings.HasSuffix(input, "0") { // 去除浮點數字串結尾有多餘的0
 		input = strings.TrimSuffix(input, "0")
 	} // for
@@ -169,4 +169,22 @@ func trimFloatString(input string) string {
 	} // if
 
 	return input
+}
+
+// FirstUpper 字串首字母大寫
+func FirstUpper(input string) string {
+	if input == "" {
+		return ""
+	} // if
+
+	return strings.ToUpper(input[:1]) + input[1:]
+}
+
+// FirstLower 字串首字母小寫
+func FirstLower(input string) string {
+	if input == "" {
+		return ""
+	} // if
+
+	return strings.ToLower(input[:1]) + input[1:]
 }
