@@ -55,7 +55,7 @@ func (this *Config) Check() error {
 
 // Global 全域設定
 type Global struct {
-	ExcelPath      string `yaml:"excelPath"`      // 來源Excel路徑
+	ExcelPath      string `yaml:"excelPath"`      // 來源excel路徑
 	CppLibraryPath string `yaml:"cppLibraryPath"` // c++函式庫路徑
 	Bom            bool   `yaml:"bom"`            // 輸出的檔案是否使用順序標記(BOM)
 	LineOfNote     int    `yaml:"lineOfNote"`     // 註解行號(1為起始行)
@@ -80,8 +80,8 @@ func (this *Global) GetLineOfData() int {
 
 // Element 項目設定
 type Element struct {
-	Excel string `yaml:"excel"` // Excel檔案名稱
-	Sheet string `yaml:"sheet"` // Excel表單名稱
+	Excel string `yaml:"excel"` // excel檔案名稱
+	Sheet string `yaml:"sheet"` // excel表單名稱
 }
 
 // GetFullName 取得完整名稱
