@@ -82,8 +82,20 @@ func TestStringArrayToString(t *testing.T) {
 }
 
 func TestTrimFloatString(t *testing.T) {
-	assert.Equal(t, "trim", trimFloatString("trim"))
-	assert.Equal(t, "trim", trimFloatString("trim.00"))
-	assert.Equal(t, "trim.1", trimFloatString("trim.10"))
-	assert.Equal(t, "trim.01", trimFloatString("trim.010"))
+	assert.Equal(t, "", TrimFloatString(""))
+	assert.Equal(t, "trim", TrimFloatString("trim"))
+	assert.Equal(t, "trim", TrimFloatString("trim.00"))
+	assert.Equal(t, "trim.1", TrimFloatString("trim.10"))
+	assert.Equal(t, "trim.01", TrimFloatString("trim.010"))
+}
+
+func TestFirstUpper(t *testing.T) {
+	assert.Equal(t, "", FirstUpper(""))
+	assert.Equal(t, "TestString", FirstUpper("testString"))
+
+}
+
+func TestFirstLower(t *testing.T) {
+	assert.Equal(t, "", FirstLower(""))
+	assert.Equal(t, "testString", FirstLower("TestString"))
 }
