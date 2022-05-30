@@ -5,6 +5,8 @@ import (
 	"text/template"
 
 	"Sheeter/internal/util"
+
+	"github.com/ahmetb/go-linq/v3"
 )
 
 // CodeGenerate 產生程式碼
@@ -59,8 +61,10 @@ func memberName(name string) string {
 }
 
 // setline 重設行數
-func setline(max int) string {
-	maxline = max
+func setline(columns []*Column) string {
+	maxline = linq.From(columns).Where(func(itor interface{}) bool {
+		return itor.(*Column).Field.Show()
+	}).Count() - 1
 	curline = 0
 	return ""
 }

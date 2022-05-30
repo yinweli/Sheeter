@@ -44,17 +44,37 @@ func TestMemberName(t *testing.T) {
 }
 
 func TestNewLine(t *testing.T) {
-	setline(1)
-	assert.Equal(t, "\n", newline())
-	assert.NotEqual(t, "\n", newline())
+	columns := []*Column{
+		{Note: "note0", Name: "name0", Field: &FieldInt{}},
+	}
+	setline(columns)
+	assert.Equal(t, "", newline())
 
-	setline(2)
+	columns = []*Column{
+		{Note: "note0", Name: "name0", Field: &FieldInt{}},
+		{Note: "note1", Name: "name1", Field: &FieldInt{}},
+	}
+	setline(columns)
+	assert.Equal(t, "\n", newline())
+	assert.Equal(t, "", newline())
+
+	columns = []*Column{
+		{Note: "note0", Name: "name0", Field: &FieldInt{}},
+		{Note: "note1", Name: "name1", Field: &FieldInt{}},
+		{Note: "note2", Name: "name2", Field: &FieldInt{}},
+	}
+	setline(columns)
 	assert.Equal(t, "\n", newline())
 	assert.Equal(t, "\n", newline())
 	assert.Equal(t, "", newline())
 
-	setline(3)
-	assert.Equal(t, "\n", newline())
+	columns = []*Column{
+		{Note: "note0", Name: "name0", Field: &FieldInt{}},
+		{Note: "note1", Name: "name1", Field: &FieldInt{}},
+		{Note: "note2", Name: "name2", Field: &FieldInt{}},
+		{Note: "note3", Name: "name3", Field: &FieldEmpty{}},
+	}
+	setline(columns)
 	assert.Equal(t, "\n", newline())
 	assert.Equal(t, "\n", newline())
 	assert.Equal(t, "", newline())

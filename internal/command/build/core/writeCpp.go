@@ -45,22 +45,26 @@ using nlohmann::json;
 using pkey = int32_t;
 #endif // !PKEY
 
-struct {{structName .}} { {{len .Columns|setline}}
+struct {{structName .}} { {{setline .Columns}}
 {{range .Columns}}{{if .Field.Show}}    {{.Field.TypeCpp}} {{memberName .Name}}; // {{.Note}}{{newline}}{{end}}{{end}}
+
+    static std::string get_filename() {
+        return 
+    }
 };
 
 inline json get_untyped(const json& j, const char* property) {
     return j.find(property) != j.end() ? j.at(property).get<json>() : json();
 }
-} // namespace Sheeter
+} // namespace {{cppNamespace}}
 
 namespace nlohmann {
-inline void from_json(const json& _j, struct {{cppNamespace}}::{{structName .}}& _x) { {{len .Columns|setline}}
+inline void from_json(const json& _j, struct {{cppNamespace}}::{{structName .}}& _x) { {{setline .Columns}}
 {{range .Columns}}{{if .Field.Show}}    _x.{{memberName .Name}} = _j.at("{{memberName .Name}}").get<{{.Field.TypeCpp}}>();{{newline}}{{end}}{{end}}
 }
 
-inline void to_json(json& _j, const struct {{cppNamespace}}::{{structName .}}& _x) { {{len .Columns|setline}}
+inline void to_json(json& _j, const struct {{cppNamespace}}::{{structName .}}& _x) { {{setline .Columns}}
     _j = json::object();
-{{range .Columns}}{{if .Field.Show}}    _j[{{memberName .Name}}] = _x.{{memberName .Name}};{{newline}}{{end}}{{end}}
+{{range .Columns}}{{if .Field.Show}}    _j["{{memberName .Name}}"] = _x.{{memberName .Name}};{{newline}}{{end}}{{end}}
 }
 } // namespace nlohmann`
