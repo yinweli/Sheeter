@@ -58,6 +58,26 @@ func execute(cmd *cobra.Command, args []string) error {
 			return err
 		} // if
 
+		if flag(cmd, flagJson) {
+			filePath, err := core.WriteJson(cargo)
+
+			if err != nil {
+				return err
+			} // if
+
+			cmd.Printf("save json to %s\n", filePath)
+		} // if
+
+		if flag(cmd, flagCpp) {
+			filePath, err := core.WriteCpp(cargo)
+
+			if err != nil {
+				return err
+			} // if
+
+			cmd.Printf("save cpp to %s\n", filePath)
+		} // if
+
 		err = progress.Finish()
 
 		if err != nil {
