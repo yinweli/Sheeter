@@ -16,12 +16,13 @@ func TestWriteCpp(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	cargo := mockWriteCppCargo()
-	err := WriteCpp(cargo)
+	filePath, err := WriteCpp(cargo)
 	assert.Nil(t, err)
+	assert.FileExists(t, filePath)
 
 	cargo = mockWriteCppCargo()
 	cargo.Global = nil
-	err = WriteCpp(cargo)
+	filePath, err = WriteCpp(cargo)
 	assert.NotNil(t, err)
 
 	err = os.RemoveAll(OutputPathCpp)

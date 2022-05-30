@@ -7,21 +7,21 @@ import (
 )
 
 // WriteCpp 寫入c++
-func WriteCpp(cargo *Cargo) error {
+func WriteCpp(cargo *Cargo) (filePath string, err error) {
 	bytes, err := CodeGenerate(codeCpp, cargo)
 
 	if err != nil {
-		return fmt.Errorf("convert cpp failed: %s [%s]", cargo.Element.GetFullName(), err)
+		return "", fmt.Errorf("convert cpp failed: %s [%s]", cargo.Element.GetFullName(), err)
 	} // if
 
 	_ = cargo.Progress.Add(1)
-	err = util.WriteFile(OutputPathCpp, cargo.CppFileName(), bytes)
+	filePath, err = util.FileWrite(OutputPathCpp, cargo.CppFileName(), bytes)
 
 	if err != nil {
-		return fmt.Errorf("write to cpp failed: %s [%s]", cargo.Element.GetFullName(), err)
+		return "", fmt.Errorf("write to cpp failed: %s [%s]", cargo.Element.GetFullName(), err)
 	} // if
 
-	return nil
+	return filePath, nil
 }
 
 // codeCpp c++程式碼模板
@@ -63,5 +63,4 @@ inline void to_json(json& _j, const struct {{cppNamespace}}::{{structName .}}& _
     _j = json::object();
 {{range .Columns}}    _j[{{memberName .Name}}] = _x.{{memberName .Name}};{{newline}}{{end}}
 }
-} // namespace nlohmann
-`
+} // namespace nlohmann`
