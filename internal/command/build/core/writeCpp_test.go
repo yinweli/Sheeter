@@ -12,9 +12,6 @@ import (
 )
 
 func TestWriteCpp(t *testing.T) {
-	dir := testdata.ChangeWorkDir()
-	defer testdata.RestoreWorkDir(dir)
-
 	cargo := mockWriteCppCargo()
 	filePath, err := WriteCpp(cargo)
 	assert.Nil(t, err)
