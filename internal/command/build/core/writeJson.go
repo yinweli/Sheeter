@@ -3,10 +3,8 @@ package core
 import (
 	"encoding/json"
 	"fmt"
-	"io/fs"
-	"io/ioutil"
-	"os"
-	"path/filepath"
+
+	"Sheeter/internal/util"
 )
 
 // WriteJson 寫入json
@@ -40,14 +38,7 @@ func WriteJson(cargo *Cargo) error {
 	} // if
 
 	_ = cargo.Progress.Add(1)
-	err = os.MkdirAll(OutputPathJson, os.ModePerm)
-
-	if err != nil {
-		return fmt.Errorf("write to json failed: %s [%s]", cargo.Element.GetFullName(), err)
-	} // if
-
-	_ = cargo.Progress.Add(1)
-	err = ioutil.WriteFile(filepath.Join(OutputPathJson, cargo.JsonFileName()), bytes, fs.ModePerm)
+	err = util.WriteFile(OutputPathJson, cargo.JsonFileName(), bytes)
 
 	if err != nil {
 		return fmt.Errorf("write to json failed: %s [%s]", cargo.Element.GetFullName(), err)
