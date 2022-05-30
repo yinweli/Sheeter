@@ -45,11 +45,11 @@ using nlohmann::json;
 using pkey = int32_t;
 #endif // !PKEY
 
-struct {{structName .}} { {{setline .Columns}}
-{{range .Columns}}{{if .Field.Show}}    {{.Field.TypeCpp}} {{memberName .Name}}; // {{.Note}}{{newline}}{{end}}{{end}}
+struct {{.StructName}} { {{setline .Columns}}
+{{range .Columns}}{{if .Field.Show}}    {{.Field.TypeCpp}} {{.MemberName}}; // {{.Note}}{{newline}}{{end}}{{end}}
 
     static std::string get_filename() {
-        return 
+        return "{{.JsonFileName}}"
     }
 };
 
@@ -59,12 +59,12 @@ inline json get_untyped(const json& j, const char* property) {
 } // namespace {{cppNamespace}}
 
 namespace nlohmann {
-inline void from_json(const json& _j, struct {{cppNamespace}}::{{structName .}}& _x) { {{setline .Columns}}
-{{range .Columns}}{{if .Field.Show}}    _x.{{memberName .Name}} = _j.at("{{memberName .Name}}").get<{{.Field.TypeCpp}}>();{{newline}}{{end}}{{end}}
+inline void from_json(const json& _j, struct {{cppNamespace}}::{{.StructName}}& _x) { {{setline .Columns}}
+{{range .Columns}}{{if .Field.Show}}    _x.{{.MemberName}} = _j.at("{{.MemberName}}").get<{{.Field.TypeCpp}}>();{{newline}}{{end}}{{end}}
 }
 
-inline void to_json(json& _j, const struct {{cppNamespace}}::{{structName .}}& _x) { {{setline .Columns}}
+inline void to_json(json& _j, const struct {{cppNamespace}}::{{.StructName}}& _x) { {{setline .Columns}}
     _j = json::object();
-{{range .Columns}}{{if .Field.Show}}    _j["{{memberName .Name}}"] = _x.{{memberName .Name}};{{newline}}{{end}}{{end}}
+{{range .Columns}}{{if .Field.Show}}    _j["{{.MemberName}}"] = _x.{{.MemberName}};{{newline}}{{end}}{{end}}
 }
 } // namespace nlohmann`
