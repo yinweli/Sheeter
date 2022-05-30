@@ -39,21 +39,19 @@ func WriteJson(cargo *Cargo) error {
 	} // if
 
 	_ = cargo.Progress.Add(1)
-
-	filePath := filepath.Join(OutputPathJson, cargo.JsonFileName())
 	err = os.MkdirAll(OutputPathJson, os.ModePerm)
 
 	if err != nil {
-		return fmt.Errorf("write to file failed: %s [%s]", cargo.Element.GetFullName(), err)
-	} // if
-
-	err = ioutil.WriteFile(filePath, bytes, fs.ModePerm)
-
-	if err != nil {
-		return fmt.Errorf("write to file failed: %s [%s]", cargo.Element.GetFullName(), err)
+		return fmt.Errorf("write to json failed: %s [%s]", cargo.Element.GetFullName(), err)
 	} // if
 
 	_ = cargo.Progress.Add(1)
+	err = ioutil.WriteFile(filepath.Join(OutputPathJson, cargo.JsonFileName()), bytes, fs.ModePerm)
 
+	if err != nil {
+		return fmt.Errorf("write to json failed: %s [%s]", cargo.Element.GetFullName(), err)
+	} // if
+
+	_ = cargo.Progress.Add(1)
 	return nil
 }
