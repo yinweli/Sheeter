@@ -11,15 +11,17 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestWriteFile(t *testing.T) {
+func TestFileWrite(t *testing.T) {
 	path := "test"
 	name := "test.txt"
 	input := []byte(testdata.Text)
 
-	err := WriteFile(path, name, input)
+	filePath, err := FileWrite(path, name, input)
 	assert.Nil(t, err)
+	assert.Equal(t, filepath.Join(path, name), filePath)
 
-	output, _ := ioutil.ReadFile(filepath.Join(path, name))
+	output, err := ioutil.ReadFile(filePath)
+	assert.Nil(t, err)
 	assert.Equal(t, input, output)
 
 	err = os.RemoveAll(path)
