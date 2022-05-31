@@ -12,7 +12,7 @@ const flagCpp string = "cpp"   // 命令旗標: 輸出c++
 const flagCs string = "cs"     // 命令旗標: 輸出c#
 const flagGo string = "go"     // 命令旗標: 輸出go
 
-// NewCommand 取得命令物件
+// NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "build [config]",
@@ -31,6 +31,10 @@ func NewCommand() *cobra.Command {
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) error {
+	// TODO: 重構成Executor
+	// TODO: 做WriteGo
+	// TODO: WriteCpp, WriteCs, WriteGo, WriteJson的單元測試
+
 	config, err := core.ReadConfig(args[0])
 
 	if err != nil {
@@ -121,3 +125,5 @@ func flag(cmd *cobra.Command, name string) bool {
 
 	return result
 }
+
+var executor *core.Executor = core.NewExecutor()
