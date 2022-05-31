@@ -7,11 +7,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-const flagJson string = "json" // 命令旗標: 輸出json
-const flagCpp string = "cpp"   // 命令旗標: 輸出c++
-const flagCs string = "cs"     // 命令旗標: 輸出c#
-const flagGo string = "go"     // 命令旗標: 輸出go
-
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
@@ -21,33 +16,25 @@ func NewCommand() *cobra.Command {
 		Args:  cobra.ExactArgs(1),
 		RunE:  execute,
 	}
-	cmd.Flags().BoolP(flagJson, "j", false, "generate json file")
-	cmd.Flags().BoolP(flagCpp, "c", false, "generate cpp file")
-	cmd.Flags().BoolP(flagCs, "s", false, "generate cs file")
-	cmd.Flags().BoolP(flagGo, "g", false, "generate go file")
+	executor = core.NewExecutor(cmd, []core.ExecData{
+		{LongName: "json", ShortName: "j", Note: "generate json file", ExecFunc: core.WriteJson},
+		{LongName: "cpp", ShortName: "c", Note: "generate cpp file", ExecFunc: core.WriteCpp},
+		{LongName: "cs", ShortName: "s", Note: "generate cs file", ExecFunc: core.WriteCs},
+		{LongName: "go", ShortName: "g", Note: "generate go file", ExecFunc: nil}, // TODO: 做WriteGo
+	})
 
 	return cmd
+
+	// TODO: WriteCpp, WriteCs, WriteGo, WriteJson的單元測試
 }
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) error {
-	// TODO: 重構成Executor
-	// TODO: 做WriteGo
-	// TODO: WriteCpp, WriteCs, WriteGo, WriteJson的單元測試
-
 	config, err := core.ReadConfig(args[0])
 
 	if err != nil {
 		return err
 	} // if
-
-	toJson := flag(cmd, flagJson)
-	toCpp := flag(cmd, flagCpp)
-	toCs := flag(cmd, flagCs)
-
-	cmd.Printf("toJson: %t\n", toJson)
-	cmd.Printf("toCpp: %t\n", toCpp)
-	cmd.Printf("toCs: %t\n", toCs)
 
 	for _, itor := range config.Elements {
 		progress := util.NewProgressBar(itor.GetFullName(), cmd.OutOrStdout())
@@ -56,34 +43,17 @@ func execute(cmd *cobra.Command, args []string) error {
 			Global:   &config.Global,
 			Element:  &itor,
 		}
-		err = core.ReadSheet(cargo, task(cmd))
+		task := executor.Count() + 1 // + 1 是包括讀取設定與表格這項工作
+		err = core.ReadSheet(cargo, task)
 
 		if err != nil {
 			return err
 		} // if
 
-		if toJson {
-			_, err := core.WriteJson(cargo)
+		err = executor.Run(cargo)
 
-			if err != nil {
-				return err
-			} // if
-		} // if
-
-		if toCpp {
-			_, err := core.WriteCpp(cargo)
-
-			if err != nil {
-				return err
-			} // if
-		} // if
-
-		if toCs {
-			_, err := core.WriteCs(cargo)
-
-			if err != nil {
-				return err
-			} // if
+		if err != nil {
+			return err
 		} // if
 
 		_ = progress.Finish()
@@ -92,36 +62,4 @@ func execute(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-// task 計算工作數量
-func task(cmd *cobra.Command) int {
-	var task int
-
-	if flag(cmd, flagJson) {
-		task++
-	} // if
-
-	if flag(cmd, flagCpp) {
-		task++
-	} // if
-
-	if flag(cmd, flagCs) {
-		task++
-	} // if
-
-	if flag(cmd, flagGo) {
-		task++
-	} // if
-
-	return task + 1 // + 1 是包括讀取設定與表格這項工作
-}
-
-// flag 取得命令旗標
-func flag(cmd *cobra.Command, name string) bool {
-	result, err := cmd.Flags().GetBool(name)
-
-	if err != nil {
-		return false
-	} // if
-
-	return result
-}
+var executor *core.Executor // 執行者物件
