@@ -7,16 +7,24 @@ import (
 	"testing"
 
 	"Sheeter/internal/util"
+	"Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestWriteCs(t *testing.T) {
+	dir := testdata.ChangeWorkDir()
+	defer testdata.RestoreWorkDir(dir)
+
 	cargo := mockWriteCsCargo()
 	path, err := WriteCs(cargo)
 	assert.Nil(t, err)
 	assert.Equal(t, filepath.Join(OutputPathCs, "realData.cs"), path)
 	assert.FileExists(t, path)
+
+	bytes, err := ioutil.ReadFile(path)
+	assert.Nil(t, err)
+	assert.Equal(t, mockWriteCsString(), string(bytes[:]))
 
 	err = os.RemoveAll(OutputPathCs)
 	assert.Nil(t, err)
@@ -31,8 +39,24 @@ func mockWriteCsCargo() *Cargo {
 		},
 		Columns: []*Column{
 			{Note: "note0", Name: "name0", Field: &FieldInt{}},
-			{Note: "note1", Name: "name1", Field: &FieldInt{}},
-			{Note: "note2", Name: "name2", Field: &FieldInt{}},
+			{Note: "note1", Name: "name1", Field: &FieldBool{}},
+			{Note: "note2", Name: "name2", Field: &FieldText{}},
 		},
 	}
+}
+
+func mockWriteCsString() string {
+	return `// generation by sheeter ^o<
+
+using System;
+using System.Collections.Generic;
+
+namespace Sheeter {
+    public class RealData { 
+        public const string fileName = "realData.json";
+        public int Name0; // note0
+        public bool Name1; // note1
+        public string Name2; // note2
+    }
+} // namespace Sheeter`
 }
