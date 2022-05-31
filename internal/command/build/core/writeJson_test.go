@@ -3,6 +3,7 @@ package core
 import (
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"Sheeter/internal/util"
@@ -16,9 +17,10 @@ func TestWriteJson(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	cargo := mockWriteJsonCargo()
-	filePath, err := WriteJson(cargo)
+	path, err := WriteJson(cargo)
 	assert.Nil(t, err)
-	assert.FileExists(t, filePath)
+	assert.Equal(t, filepath.Join(OutputPathJson, "realData.json"), path)
+	assert.FileExists(t, path)
 
 	cargo = mockWriteJsonCargo()
 	cargo.Columns = []*Column{
@@ -26,7 +28,7 @@ func TestWriteJson(t *testing.T) {
 		{Note: "note1", Name: "name1", Field: &FieldInt{}, Datas: []string{"x", "2", "3", "4", "5"}},
 		{Note: "note2", Name: "name2", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
 	}
-	filePath, err = WriteJson(cargo)
+	path, err = WriteJson(cargo)
 	assert.NotNil(t, err)
 
 	err = os.RemoveAll(OutputPathJson)
@@ -37,8 +39,8 @@ func mockWriteJsonCargo() *Cargo {
 	return &Cargo{
 		Progress: util.NewProgressBar("test", ioutil.Discard),
 		Element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.RealSheet,
+			Excel: "real.xlsx",
+			Sheet: "data",
 		},
 		Columns: []*Column{
 			{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},

@@ -3,19 +3,20 @@ package core
 import (
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"Sheeter/internal/util"
-	"Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestWriteCs(t *testing.T) {
 	cargo := mockWriteCsCargo()
-	filePath, err := WriteCs(cargo)
+	path, err := WriteCs(cargo)
 	assert.Nil(t, err)
-	assert.FileExists(t, filePath)
+	assert.Equal(t, filepath.Join(OutputPathCs, "realData.cs"), path)
+	assert.FileExists(t, path)
 
 	err = os.RemoveAll(OutputPathCs)
 	assert.Nil(t, err)
@@ -25,8 +26,8 @@ func mockWriteCsCargo() *Cargo {
 	return &Cargo{
 		Progress: util.NewProgressBar("test", ioutil.Discard),
 		Element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.RealSheet,
+			Excel: "real.xlsx",
+			Sheet: "data",
 		},
 		Columns: []*Column{
 			{Note: "note0", Name: "name0", Field: &FieldInt{}},
