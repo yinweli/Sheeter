@@ -20,9 +20,9 @@ func TestFileWrite(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, filepath.Join(path, name), filePath)
 
-	output, err := ioutil.ReadFile(filePath)
+	bytes, err := ioutil.ReadFile(filePath)
 	assert.Nil(t, err)
-	assert.Equal(t, input, output)
+	assert.Equal(t, input, bytes)
 
 	err = os.RemoveAll(path)
 	assert.Nil(t, err)
