@@ -20,7 +20,7 @@ func NewCommand() *cobra.Command {
 		{LongName: "json", ShortName: "j", Note: "generate json file", ExecFunc: core.WriteJson},
 		{LongName: "cpp", ShortName: "c", Note: "generate cpp file", ExecFunc: core.WriteCpp},
 		{LongName: "cs", ShortName: "s", Note: "generate cs file", ExecFunc: core.WriteCs},
-		{LongName: "go", ShortName: "g", Note: "generate go file", ExecFunc: nil}, // TODO: 做WriteGo
+		{LongName: "go", ShortName: "g", Note: "generate go file", ExecFunc: core.WriteGo},
 	})
 
 	return cmd

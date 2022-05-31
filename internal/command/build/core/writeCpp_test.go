@@ -3,23 +3,24 @@ package core
 import (
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"Sheeter/internal/util"
-	"Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestWriteCpp(t *testing.T) {
 	cargo := mockWriteCppCargo()
-	filePath, err := WriteCpp(cargo)
+	path, err := WriteCpp(cargo)
 	assert.Nil(t, err)
-	assert.FileExists(t, filePath)
+	assert.Equal(t, filepath.Join(OutputPathCpp, "realData.hpp"), path)
+	assert.FileExists(t, path)
 
 	cargo = mockWriteCppCargo()
 	cargo.Global = nil
-	filePath, err = WriteCpp(cargo)
+	path, err = WriteCpp(cargo)
 	assert.NotNil(t, err)
 
 	err = os.RemoveAll(OutputPathCpp)
@@ -33,8 +34,8 @@ func mockWriteCppCargo() *Cargo {
 			CppLibraryPath: "nlohmann/json.hpp",
 		},
 		Element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.RealSheet,
+			Excel: "real.xlsx",
+			Sheet: "data",
 		},
 		Columns: []*Column{
 			{Note: "note0", Name: "name0", Field: &FieldInt{}},
