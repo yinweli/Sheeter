@@ -7,3 +7,5 @@ const OutputPathGo string = "go"      // 輸出路徑: go
 const CppNamespace string = "Sheeter" // c++命名空間名稱
 const CsNamespace string = "Sheeter"  // c#命名空間名稱
 const GoPackage string = "sheeter"    // go包名
+const JsonPrefix string = ""          // json前綴
+const JsonIndent string = "    "      // json縮排

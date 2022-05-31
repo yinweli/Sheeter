@@ -9,9 +9,7 @@ import (
 
 // WriteJson 寫入json
 func WriteJson(cargo *Cargo) (filePath string, err error) {
-	type jsonMap map[string]interface{}
-
-	var jsonMaps []jsonMap
+	var jsonMaps []JsonMap
 
 	for _, itor := range cargo.Columns {
 		if itor.Field.Show() {
@@ -23,7 +21,7 @@ func WriteJson(cargo *Cargo) (filePath string, err error) {
 				} // if
 
 				if len(jsonMaps) <= row {
-					jsonMaps = append(jsonMaps, jsonMap{})
+					jsonMaps = append(jsonMaps, JsonMap{})
 				} // if
 
 				_ = cargo.Progress.Add(1)
@@ -33,7 +31,7 @@ func WriteJson(cargo *Cargo) (filePath string, err error) {
 	} // for
 
 	_ = cargo.Progress.Add(1)
-	bytes, err := json.MarshalIndent(jsonMaps, "", "    ")
+	bytes, err := json.MarshalIndent(jsonMaps, JsonPrefix, JsonIndent)
 
 	if err != nil {
 		return "", fmt.Errorf("convert json failed: %s [%s]", cargo.Element.GetFullName(), err)
@@ -48,3 +46,5 @@ func WriteJson(cargo *Cargo) (filePath string, err error) {
 
 	return filePath, nil
 }
+
+type JsonMap map[string]interface{} // json資料列表型態
