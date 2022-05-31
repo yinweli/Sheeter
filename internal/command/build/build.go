@@ -125,5 +125,3 @@ func flag(cmd *cobra.Command, name string) bool {
 
 	return result
 }
-
-var executor *core.Executor = core.NewExecutor()
