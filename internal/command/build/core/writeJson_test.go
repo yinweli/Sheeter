@@ -22,13 +22,23 @@ func TestWriteJson(t *testing.T) {
 	assert.Equal(t, filepath.Join(OutputPathJson, "realData.json"), path)
 	assert.FileExists(t, path)
 
-	cargo = mockWriteJsonCargo()
+	bytes, err := ioutil.ReadFile(path)
+	assert.Nil(t, err)
+	assert.Equal(t, mockWriteJsonString(), string(bytes[:]))
+
+	err = os.RemoveAll(OutputPathJson)
+	assert.Nil(t, err)
+}
+
+func TestWriteJsonFailed(t *testing.T) {
+	dir := testdata.ChangeWorkDir()
+	defer testdata.RestoreWorkDir(dir)
+
+	cargo := mockWriteJsonCargo()
 	cargo.Columns = []*Column{
-		{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
-		{Note: "note1", Name: "name1", Field: &FieldInt{}, Datas: []string{"x", "2", "3", "4", "5"}},
-		{Note: "note2", Name: "name2", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
+		{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{"x", "2", "3"}},
 	}
-	path, err = WriteJson(cargo)
+	_, err := WriteJson(cargo)
 	assert.NotNil(t, err)
 
 	err = os.RemoveAll(OutputPathJson)
@@ -43,9 +53,29 @@ func mockWriteJsonCargo() *Cargo {
 			Sheet: "data",
 		},
 		Columns: []*Column{
-			{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
-			{Note: "note1", Name: "name1", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
-			{Note: "note2", Name: "name2", Field: &FieldInt{}, Datas: []string{"1", "2", "3", "4", "5"}},
+			{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{"1", "2", "3"}},
+			{Note: "note1", Name: "name1", Field: &FieldBool{}, Datas: []string{"false", "true", "false"}},
+			{Note: "note2", Name: "name2", Field: &FieldText{}, Datas: []string{"text1", "text2", "text3"}},
 		},
 	}
+}
+
+func mockWriteJsonString() string {
+	return `[
+    {
+        "name0": 1,
+        "name1": false,
+        "name2": "text1"
+    },
+    {
+        "name0": 2,
+        "name1": true,
+        "name2": "text2"
+    },
+    {
+        "name0": 3,
+        "name1": false,
+        "name2": "text3"
+    }
+]`
 }
