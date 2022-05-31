@@ -3,8 +3,6 @@ package core
 import (
 	"bytes"
 	"text/template"
-
-	"github.com/ahmetb/go-linq/v3"
 )
 
 // CodeGenerate 產生程式碼
@@ -48,9 +46,15 @@ func goPackage() string {
 
 // setline 重設行數
 func setline(columns []*Column) string {
-	maxline = linq.From(columns).Where(func(itor interface{}) bool {
-		return itor.(*Column).Field.Show()
-	}).Count() - 1
+	maxline = 0
+
+	for _, itor := range columns {
+		if itor.Field.Show() {
+			maxline++
+		} // if
+	} // for
+
+	maxline = maxline - 1 // 減一是為了避免多換一次新行
 	curline = 0
 	return ""
 }
