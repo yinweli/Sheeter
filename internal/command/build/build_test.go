@@ -19,12 +19,11 @@ func TestExecute(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
-	buffer := &bytes.Buffer{}
-	command := &cobra.Command{}
-	command.SetOut(buffer)
+	cmd := &cobra.Command{}
+	cmd.SetOut(&bytes.Buffer{})
 
-	err := execute(command, []string{testdata.Path(testdata.RealConfig)})
+	err := execute(cmd, []string{testdata.Path(testdata.RealConfig)})
 	assert.Nil(t, err)
-	err = execute(command, []string{testdata.Path(testdata.FakeConfig)})
+	err = execute(cmd, []string{testdata.Path(testdata.FakeConfig)})
 	assert.NotNil(t, err)
 }
