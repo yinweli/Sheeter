@@ -24,8 +24,6 @@ func NewCommand() *cobra.Command {
 	})
 
 	return cmd
-
-	// TODO: WriteCpp, WriteCs, WriteGo, WriteJson的單元測試
 }
 
 // execute 執行命令
