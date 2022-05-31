@@ -3,7 +3,7 @@ package core
 import (
 	"io/ioutil"
 
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 // ReadConfig 讀取設定
