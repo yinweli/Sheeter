@@ -35,4 +35,4 @@ namespace {{csNamespace}} {
         public const string fileName = "{{.JsonFileName}}";
 {{range .Columns}}{{if .Field.Show}}        public {{.Field.TypeCs}} {{.MemberName}}; // {{.Note}}{{newline}}{{end}}{{end}}
     }
-}`
+} // namespace {{csNamespace}}`
