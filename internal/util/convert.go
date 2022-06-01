@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-const arraySeparator string = "," // 陣列分隔字串
-const precision int = 6           // 小數點精度
+const arraySeparator = "," // 陣列分隔字串
+const precision = 6        // 小數點精度
 
 // StringToBoolArray 字串轉為陣列
 func StringToBoolArray(input string) (results []bool, err error) {
