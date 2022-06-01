@@ -12,21 +12,21 @@ func WriteGo(cargo *Cargo) (filePath string, err error) {
 	bytes, err := CodeGenerate(codeGo, cargo)
 
 	if err != nil {
-		return "", fmt.Errorf("convert go failed: %s [%s]", cargo.Element.GetFullName(), err)
+		return "", fmt.Errorf("convert go failed: %s [%s]", cargo.LogName(), err)
 	} // if
 
-	_ = cargo.Progress.Add(1)
+	cargo.Progress.Add(1)
 	filePath, err = util.FileWrite(OutputPathGo, cargo.GoFileName(), bytes)
 
 	if err != nil {
-		return "", fmt.Errorf("write to go failed: %s [%s]", cargo.Element.GetFullName(), err)
+		return "", fmt.Errorf("write to go failed: %s [%s]", cargo.LogName(), err)
 	} // if
 
 	cmd := exec.Command("go", "fmt", filePath)
 	err = cmd.Run()
 
 	if err != nil {
-		return "", fmt.Errorf("write to go failed: %s [%s]", cargo.Element.GetFullName(), err)
+		return "", fmt.Errorf("write to go failed: %s [%s]", cargo.LogName(), err)
 	} // if
 
 	return filePath, nil

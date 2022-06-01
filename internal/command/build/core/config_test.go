@@ -1,7 +1,6 @@
 package core
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -18,12 +17,12 @@ func TestConfig(t *testing.T) {
 	assert.NotNil(t, err)
 
 	config = mockConfig()
-	config.Global.LineOfNote = 0
+	config.Global.LineOfField = 0
 	err = config.Check()
 	assert.NotNil(t, err)
 
 	config = mockConfig()
-	config.Global.LineOfField = 0
+	config.Global.LineOfNote = 0
 	err = config.Check()
 	assert.NotNil(t, err)
 
@@ -33,12 +32,12 @@ func TestConfig(t *testing.T) {
 	assert.NotNil(t, err)
 
 	config = mockConfig()
-	config.Global.LineOfNote = 3
+	config.Global.LineOfField = 3
 	err = config.Check()
 	assert.NotNil(t, err)
 
 	config = mockConfig()
-	config.Global.LineOfField = 3
+	config.Global.LineOfNote = 3
 	err = config.Check()
 	assert.NotNil(t, err)
 
@@ -60,15 +59,9 @@ func TestConfig(t *testing.T) {
 
 func TestGlobal(t *testing.T) {
 	config := mockConfig()
-	assert.Equal(t, config.Global.LineOfNote-1, config.Global.GetLineOfNote())
 	assert.Equal(t, config.Global.LineOfField-1, config.Global.GetLineOfField())
+	assert.Equal(t, config.Global.LineOfNote-1, config.Global.GetLineOfNote())
 	assert.Equal(t, config.Global.LineOfData-1, config.Global.GetLineOfData())
-}
-
-func TestElement(t *testing.T) {
-	config := mockConfig()
-	element := config.Elements[0]
-	assert.Equal(t, fmt.Sprintf("%s(%s)", element.Excel, element.Sheet), element.GetFullName())
 }
 
 func mockConfig() *Config {
@@ -77,8 +70,8 @@ func mockConfig() *Config {
 			ExcelPath:      "test",
 			CppLibraryPath: "nlohmann",
 			Bom:            true,
-			LineOfNote:     1,
-			LineOfField:    2,
+			LineOfField:    1,
+			LineOfNote:     2,
 			LineOfData:     3,
 		},
 		Elements: []Element{{

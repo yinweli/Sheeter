@@ -11,14 +11,14 @@ func WriteCpp(cargo *Cargo) (filePath string, err error) {
 	bytes, err := CodeGenerate(codeCpp, cargo)
 
 	if err != nil {
-		return "", fmt.Errorf("convert cpp failed: %s [%s]", cargo.Element.GetFullName(), err)
+		return "", fmt.Errorf("convert cpp failed: %s [%s]", cargo.LogName(), err)
 	} // if
 
-	_ = cargo.Progress.Add(1)
+	cargo.Progress.Add(1)
 	filePath, err = util.FileWrite(OutputPathCpp, cargo.CppFileName(), bytes)
 
 	if err != nil {
-		return "", fmt.Errorf("write to cpp failed: %s [%s]", cargo.Element.GetFullName(), err)
+		return "", fmt.Errorf("write to cpp failed: %s [%s]", cargo.LogName(), err)
 	} // if
 
 	return filePath, nil

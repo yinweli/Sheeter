@@ -11,14 +11,14 @@ func WriteCs(cargo *Cargo) (filePath string, err error) {
 	bytes, err := CodeGenerate(codeCs, cargo)
 
 	if err != nil {
-		return "", fmt.Errorf("convert cs failed: %s [%s]", cargo.Element.GetFullName(), err)
+		return "", fmt.Errorf("convert cs failed: %s [%s]", cargo.LogName(), err)
 	} // if
 
-	_ = cargo.Progress.Add(1)
+	cargo.Progress.Add(1)
 	filePath, err = util.FileWrite(OutputPathCs, cargo.CsFileName(), bytes)
 
 	if err != nil {
-		return "", fmt.Errorf("write to cs failed: %s [%s]", cargo.Element.GetFullName(), err)
+		return "", fmt.Errorf("write to cs failed: %s [%s]", cargo.LogName(), err)
 	} // if
 
 	return filePath, nil

@@ -6,16 +6,28 @@ import (
 	"strings"
 
 	"Sheeter/internal/util"
-
-	"github.com/schollz/progressbar/v3"
 )
 
 // Cargo 工作箱
 type Cargo struct {
-	Progress *progressbar.ProgressBar // 進度條
-	Global   *Global                  // 全域設定
-	Element  *Element                 // 項目設定
-	Columns  []*Column                // 行資料列表
+	Progress *Progress // 進度物件
+	Global   *Global   // 全域設定
+	Element  *Element  // 項目設定
+	Sheets   Sheets    // 表格資料列表
+	Columns  []*Column // 行資料列表
+}
+
+// LogName 取得紀錄名稱
+func (this *Cargo) LogName() string {
+	return fmt.Sprintf("%s(%s)", this.Element.Excel, this.Element.Sheet)
+}
+
+// StructName 取得結構名稱
+func (this *Cargo) StructName() string {
+	excelName := util.FirstUpper(this.excelName())
+	sheetName := util.FirstUpper(this.Element.Sheet)
+
+	return excelName + sheetName
 }
 
 // JsonFileName 取得json檔案名稱
@@ -38,14 +50,6 @@ func (this *Cargo) GoFileName() string {
 	return this.fileName("go")
 }
 
-// StructName 取得結構名稱
-func (this *Cargo) StructName() string {
-	excelName := util.FirstUpper(this.excelName())
-	sheetName := util.FirstUpper(this.Element.Sheet)
-
-	return excelName + sheetName
-}
-
 // fileName 取得輸出檔案名稱
 func (this *Cargo) fileName(ext string) string {
 	excelName := util.FirstLower(this.excelName())
@@ -57,6 +61,20 @@ func (this *Cargo) fileName(ext string) string {
 // outputExcelName 取得沒有副檔名的excel名稱
 func (this *Cargo) excelName() string {
 	return strings.TrimSuffix(this.Element.Excel, filepath.Ext(this.Element.Excel))
+}
+
+// Sheets 表格資料列表
+type Sheets [][]string
+
+// Size 取得表格資料數量
+func (this *Sheets) Size() int {
+	count := 0
+
+	for _, itor := range *this {
+		count = count + len(itor)
+	} // for
+
+	return count
 }
 
 // Column 行資料
