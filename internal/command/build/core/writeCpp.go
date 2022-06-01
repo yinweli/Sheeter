@@ -14,7 +14,6 @@ func WriteCpp(cargo *Cargo) (filePath string, err error) {
 		return "", fmt.Errorf("convert cpp failed: %s [%s]", cargo.LogName(), err)
 	} // if
 
-	cargo.Progress.Add(1)
 	filePath, err = util.FileWrite(OutputPathCpp, cargo.CppFileName(), bytes)
 
 	if err != nil {

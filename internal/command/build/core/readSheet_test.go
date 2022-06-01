@@ -11,7 +11,7 @@ import (
 
 func TestReadSheet(t *testing.T) {
 	cargo := mockReadSheetCargo()
-	err := ReadSheet(cargo, ioutil.Discard)
+	err := ReadSheet(cargo, 0, ioutil.Discard)
 	assert.Nil(t, err)
 	assert.NotNil(t, cargo.Progress)
 	assert.NotNil(t, cargo.Sheets)
@@ -22,17 +22,23 @@ func TestReadSheet(t *testing.T) {
 
 	cargo = mockReadSheetCargo()
 	cargo.Global.ExcelPath = ""
-	err = ReadSheet(cargo, ioutil.Discard)
+	err = ReadSheet(cargo, 0, ioutil.Discard)
+	assert.NotNil(t, err)
+
+	cargo = mockReadSheetCargo()
+	cargo.Element.Excel = testdata.DefectExcel
+	cargo.Element.Sheet = testdata.DefectSheet
+	err = ReadSheet(cargo, 0, ioutil.Discard)
 	assert.NotNil(t, err)
 
 	cargo = mockReadSheetCargo()
 	cargo.Element.Excel = testdata.UnknownExcel
-	err = ReadSheet(cargo, ioutil.Discard)
+	err = ReadSheet(cargo, 0, ioutil.Discard)
 	assert.NotNil(t, err)
 
 	cargo = mockReadSheetCargo()
 	cargo.Element.Sheet = testdata.UnknownSheet
-	err = ReadSheet(cargo, ioutil.Discard)
+	err = ReadSheet(cargo, 0, ioutil.Discard)
 	assert.NotNil(t, err)
 }
 

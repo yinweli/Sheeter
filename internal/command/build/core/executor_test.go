@@ -34,26 +34,31 @@ func TestExecutor_Run(t *testing.T) {
 	assert.Nil(t, executor.Run(nil))
 }
 
-func TestExecutor_Count(t *testing.T) {
+func TestExecutor_Progress(t *testing.T) {
 	executor := NewExecutor(&cobra.Command{}, []ExecData{
-		{LongName: "cmd1"},
-		{LongName: "cmd2"},
-		{LongName: "cmd3"},
+		{LongName: "cmd1", Progress: true},
+		{LongName: "cmd2", Progress: true},
+		{LongName: "cmd3", Progress: true},
+		{LongName: "cmd4", Progress: false},
 	})
 
-	assert.Equal(t, 0, executor.Count())
+	assert.Equal(t, 0, executor.Progress())
 
 	err := executor.Cmd.Flags().Set("cmd1", "true")
 	assert.Nil(t, err)
-	assert.Equal(t, 1, executor.Count())
+	assert.Equal(t, 1, executor.Progress())
 
 	err = executor.Cmd.Flags().Set("cmd2", "true")
 	assert.Nil(t, err)
-	assert.Equal(t, 2, executor.Count())
+	assert.Equal(t, 2, executor.Progress())
 
 	err = executor.Cmd.Flags().Set("cmd3", "true")
 	assert.Nil(t, err)
-	assert.Equal(t, 3, executor.Count())
+	assert.Equal(t, 3, executor.Progress())
+
+	err = executor.Cmd.Flags().Set("cmd4", "true")
+	assert.Nil(t, err)
+	assert.Equal(t, 3, executor.Progress())
 }
 
 func TestExecutor_State(t *testing.T) {

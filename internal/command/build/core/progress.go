@@ -21,7 +21,7 @@ func (this *Progress) Add(num int) {
 
 	if currPercent-this.lastPercent >= 1.0 {
 		this.lastPercent = currPercent
-		time.Sleep(time.Millisecond) // 睡眠一下, 讓系統有時間去畫進度條
+		time.Sleep(10 * time.Millisecond) // 睡眠一下, 讓系統有時間去畫進度條
 	} // if
 }
 
