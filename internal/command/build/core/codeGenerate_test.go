@@ -9,7 +9,6 @@ import (
 func TestCodeGenerate(t *testing.T) {
 	code := "{{cppNamespace}}#{{.StructName}}"
 	cargo := mockCodeGenerateCargo()
-
 	result, err := CodeGenerate(code, cargo)
 	assert.Nil(t, err)
 	assert.Equal(t, "Sheeter#TestExcelTestSheet", string(result[:]))
