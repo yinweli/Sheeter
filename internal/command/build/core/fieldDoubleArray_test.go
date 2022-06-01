@@ -10,7 +10,6 @@ import (
 
 func TestFieldDoubleArray(t *testing.T) {
 	field := FieldDoubleArray{}
-
 	assert.Equal(t, "doubleArray", field.TypeExcel())
 	assert.Equal(t, "std::vector<double>", field.TypeCpp())
 	assert.Equal(t, "List<double>", field.TypeCs())

@@ -8,7 +8,6 @@ import (
 
 func TestFieldEmpty(t *testing.T) {
 	field := FieldEmpty{}
-
 	assert.Equal(t, "empty", field.TypeExcel())
 	assert.Equal(t, "", field.TypeCpp())
 	assert.Equal(t, "", field.TypeCs())

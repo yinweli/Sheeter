@@ -10,7 +10,6 @@ import (
 
 func TestFieldText(t *testing.T) {
 	field := FieldText{}
-
 	assert.Equal(t, "text", field.TypeExcel())
 	assert.Equal(t, "std::string", field.TypeCpp())
 	assert.Equal(t, "string", field.TypeCs())

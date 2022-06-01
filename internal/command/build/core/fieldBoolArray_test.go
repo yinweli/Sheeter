@@ -10,7 +10,6 @@ import (
 
 func TestFieldBoolArray(t *testing.T) {
 	field := FieldBoolArray{}
-
 	assert.Equal(t, "boolArray", field.TypeExcel())
 	assert.Equal(t, "std::vector<bool>", field.TypeCpp())
 	assert.Equal(t, "List<bool>", field.TypeCs())

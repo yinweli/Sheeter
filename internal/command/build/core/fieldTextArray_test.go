@@ -10,7 +10,6 @@ import (
 
 func TestFieldTextArray(t *testing.T) {
 	field := FieldTextArray{}
-
 	assert.Equal(t, "textArray", field.TypeExcel())
 	assert.Equal(t, "std::vector<std::string>", field.TypeCpp())
 	assert.Equal(t, "List<string>", field.TypeCs())

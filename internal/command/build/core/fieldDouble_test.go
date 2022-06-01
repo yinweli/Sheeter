@@ -8,7 +8,6 @@ import (
 
 func TestFieldDouble(t *testing.T) {
 	field := FieldDouble{}
-
 	assert.Equal(t, "double", field.TypeExcel())
 	assert.Equal(t, "double", field.TypeCpp())
 	assert.Equal(t, "double", field.TypeCs())

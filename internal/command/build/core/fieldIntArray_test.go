@@ -10,7 +10,6 @@ import (
 
 func TestFieldIntArray(t *testing.T) {
 	field := FieldIntArray{}
-
 	assert.Equal(t, "intArray", field.TypeExcel())
 	assert.Equal(t, "std::vector<int32_t>", field.TypeCpp())
 	assert.Equal(t, "List<int>", field.TypeCs())

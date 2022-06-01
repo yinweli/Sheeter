@@ -8,7 +8,6 @@ import (
 
 func TestFieldLong(t *testing.T) {
 	field := FieldLong{}
-
 	assert.Equal(t, "long", field.TypeExcel())
 	assert.Equal(t, "int64_t", field.TypeCpp())
 	assert.Equal(t, "long", field.TypeCs())

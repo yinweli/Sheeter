@@ -8,7 +8,6 @@ import (
 
 func TestFieldFloat(t *testing.T) {
 	field := FieldFloat{}
-
 	assert.Equal(t, "float", field.TypeExcel())
 	assert.Equal(t, "float", field.TypeCpp())
 	assert.Equal(t, "float", field.TypeCs())
