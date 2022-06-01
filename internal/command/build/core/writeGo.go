@@ -15,7 +15,6 @@ func WriteGo(cargo *Cargo) (filePath string, err error) {
 		return "", fmt.Errorf("convert go failed: %s [%s]", cargo.LogName(), err)
 	} // if
 
-	cargo.Progress.Add(1)
 	filePath, err = util.FileWrite(OutputPathGo, cargo.GoFileName(), bytes)
 
 	if err != nil {

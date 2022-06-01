@@ -9,7 +9,7 @@ import (
 )
 
 // ReadSheet 讀取表格
-func ReadSheet(cargo *Cargo, writer io.Writer) error {
+func ReadSheet(cargo *Cargo, progress int, writer io.Writer) error {
 	file, err := excelize.OpenFile(path.Join(cargo.Global.ExcelPath, cargo.Element.Excel))
 
 	if err != nil {
@@ -30,8 +30,8 @@ func ReadSheet(cargo *Cargo, writer io.Writer) error {
 		return fmt.Errorf("sheet have too less line: %s", cargo.LogName())
 	} // if
 
-	cargo.Progress = NewProgress(99, cargo.LogName(), writer) // TODO: 計算進度值
 	cargo.Sheets = sheets
+	cargo.Progress = NewProgress(progress*cargo.Sheets.Size(), cargo.LogName(), writer)
 
 	return nil
 }

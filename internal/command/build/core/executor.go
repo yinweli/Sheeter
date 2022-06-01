@@ -16,6 +16,7 @@ type ExecData struct {
 	ShortName string                                          // 短名稱
 	Note      string                                          // 註解
 	ExecFunc  func(cargo *Cargo) (filePath string, err error) // 執行函式
+	Progress  bool                                            // 進度旗標
 }
 
 // Run 執行項目
@@ -33,12 +34,12 @@ func (this *Executor) Run(cargo *Cargo) error {
 	return nil
 }
 
-// Count 取得執行數量
-func (this *Executor) Count() int {
+// Progress 取得進度數量
+func (this *Executor) Progress() int {
 	count := 0
 
-	for name, _ := range this.execMaps {
-		if this.state(name) {
+	for name, itor := range this.execMaps {
+		if this.state(name) && itor.Progress {
 			count++
 		} // if
 	} // for

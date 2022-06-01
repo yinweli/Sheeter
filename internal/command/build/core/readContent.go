@@ -64,7 +64,6 @@ func buildColumns(cargo *Cargo) (pkey *Column, err error) {
 			pkey = column
 		} // if
 
-		cargo.Progress.Add(1)
 		cargo.Columns = append(cargo.Columns, column)
 	} // for
 
@@ -92,7 +91,6 @@ func buildNotes(cargo *Cargo) error {
 			data = notes[col]
 		} // if
 
-		cargo.Progress.Add(1)
 		itor.Note = data
 	} // for
 

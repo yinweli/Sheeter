@@ -30,14 +30,12 @@ func WriteJson(cargo *Cargo) (filePath string, err error) {
 		} // if
 	} // for
 
-	cargo.Progress.Add(1)
 	bytes, err := json.MarshalIndent(jsonMaps, JsonPrefix, JsonIndent)
 
 	if err != nil {
 		return "", fmt.Errorf("convert json failed: %s [%s]", cargo.LogName(), err)
 	} // if
 
-	cargo.Progress.Add(1)
 	filePath, err = util.FileWrite(OutputPathJson, cargo.JsonFileName(), bytes)
 
 	if err != nil {

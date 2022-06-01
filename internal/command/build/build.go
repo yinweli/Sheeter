@@ -16,10 +16,10 @@ func NewCommand() *cobra.Command {
 		RunE:  execute,
 	}
 	executor = core.NewExecutor(cmd, []core.ExecData{
-		{LongName: "json", ShortName: "j", Note: "generate json file", ExecFunc: core.WriteJson},
-		{LongName: "cpp", ShortName: "c", Note: "generate cpp file", ExecFunc: core.WriteCpp},
-		{LongName: "cs", ShortName: "s", Note: "generate cs file", ExecFunc: core.WriteCs},
-		{LongName: "go", ShortName: "g", Note: "generate go file", ExecFunc: core.WriteGo},
+		{LongName: "json", ShortName: "j", Note: "generate json file", ExecFunc: core.WriteJson, Progress: true},
+		{LongName: "cpp", ShortName: "c", Note: "generate cpp file", ExecFunc: core.WriteCpp, Progress: false},
+		{LongName: "cs", ShortName: "s", Note: "generate cs file", ExecFunc: core.WriteCs, Progress: false},
+		{LongName: "go", ShortName: "g", Note: "generate go file", ExecFunc: core.WriteGo, Progress: false},
 	})
 
 	return cmd
@@ -39,7 +39,7 @@ func execute(cmd *cobra.Command, args []string) error {
 			Element: &itor,
 		}
 
-		err := core.ReadSheet(cargo, cmd.OutOrStdout())
+		err := core.ReadSheet(cargo, executor.Progress()+1, cmd.OutOrStdout()) // +1是把讀取表格也算進進度中
 
 		if err != nil {
 			return err
