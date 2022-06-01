@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-const fieldSeparator string = "#" // 欄位分隔字串
+const fieldSeparator = "#" // 欄位分隔字串
 
 // Parser 欄位解析器
 type Parser struct {
