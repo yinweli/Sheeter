@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"testing"
 
-	"Sheeter/internal/util"
 	"Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
@@ -32,7 +31,7 @@ func TestWriteGo(t *testing.T) {
 
 func mockWriteGoCargo() *Cargo {
 	return &Cargo{
-		Progress: util.NewProgressBar("test", ioutil.Discard),
+		Progress: NewProgress(0, "test", ioutil.Discard),
 		Element: &Element{
 			Excel: "real.xlsx",
 			Sheet: "data",

@@ -2,7 +2,6 @@ package build
 
 import (
 	"Sheeter/internal/command/build/core"
-	"Sheeter/internal/util"
 
 	"github.com/spf13/cobra"
 )
@@ -35,14 +34,18 @@ func execute(cmd *cobra.Command, args []string) error {
 	} // if
 
 	for _, itor := range config.Elements {
-		progress := util.NewProgressBar(itor.GetFullName(), cmd.OutOrStdout())
 		cargo := &core.Cargo{
-			Progress: progress,
-			Global:   &config.Global,
-			Element:  &itor,
+			Global:  &config.Global,
+			Element: &itor,
 		}
-		task := executor.Count() + 1 // + 1 是包括讀取設定與表格這項工作
-		err = core.ReadSheet(cargo, task)
+
+		err := core.ReadSheet(cargo, cmd.OutOrStdout())
+
+		if err != nil {
+			return err
+		} // if
+
+		err = core.ReadContent(cargo)
 
 		if err != nil {
 			return err
@@ -54,7 +57,7 @@ func execute(cmd *cobra.Command, args []string) error {
 			return err
 		} // if
 
-		_ = progress.Finish()
+		cargo.Progress.Finish()
 	} // for
 
 	return nil

@@ -6,7 +6,6 @@ import (
 	"path/filepath"
 	"testing"
 
-	"Sheeter/internal/util"
 	"Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
@@ -45,7 +44,7 @@ func TestWriteCppFailed(t *testing.T) {
 
 func mockWriteCppCargo() *Cargo {
 	return &Cargo{
-		Progress: util.NewProgressBar("test", ioutil.Discard),
+		Progress: NewProgress(0, "test", ioutil.Discard),
 		Global: &Global{
 			CppLibraryPath: "nlohmann/json.hpp",
 		},
