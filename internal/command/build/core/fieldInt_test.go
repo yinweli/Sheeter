@@ -8,7 +8,6 @@ import (
 
 func TestFieldInt(t *testing.T) {
 	field := FieldInt{}
-
 	assert.Equal(t, "int", field.TypeExcel())
 	assert.Equal(t, "int32_t", field.TypeCpp())
 	assert.Equal(t, "int", field.TypeCs())

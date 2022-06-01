@@ -8,7 +8,6 @@ import (
 
 func TestFieldBool(t *testing.T) {
 	field := FieldBool{}
-
 	assert.Equal(t, "bool", field.TypeExcel())
 	assert.Equal(t, "bool", field.TypeCpp())
 	assert.Equal(t, "bool", field.TypeCs())

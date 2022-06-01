@@ -8,7 +8,6 @@ import (
 
 func TestFieldPkey(t *testing.T) {
 	field := FieldPkey{}
-
 	assert.Equal(t, "pkey", field.TypeExcel())
 	assert.Equal(t, CppNamespace+"::pkey", field.TypeCpp())
 	assert.Equal(t, "int", field.TypeCs())

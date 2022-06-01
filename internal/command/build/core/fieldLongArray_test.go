@@ -10,7 +10,6 @@ import (
 
 func TestFieldLongArray(t *testing.T) {
 	field := FieldLongArray{}
-
 	assert.Equal(t, "longArray", field.TypeExcel())
 	assert.Equal(t, "std::vector<int64_t>", field.TypeCpp())
 	assert.Equal(t, "List<long>", field.TypeCs())

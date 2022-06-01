@@ -10,7 +10,6 @@ import (
 
 func TestFieldFloatArray(t *testing.T) {
 	field := FieldFloatArray{}
-
 	assert.Equal(t, "floatArray", field.TypeExcel())
 	assert.Equal(t, "std::vector<float>", field.TypeCpp())
 	assert.Equal(t, "List<float>", field.TypeCs())
