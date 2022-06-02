@@ -2,14 +2,13 @@ package core
 
 import (
 	"fmt"
-	"io"
 	"path"
 
 	"github.com/xuri/excelize/v2"
 )
 
 // ReadSheet 讀取表格
-func ReadSheet(cargo *Cargo, progress int, writer io.Writer) error {
+func ReadSheet(cargo *Cargo) error {
 	file, err := excelize.OpenFile(path.Join(cargo.Global.ExcelPath, cargo.Element.Excel))
 
 	if err != nil {
@@ -31,7 +30,6 @@ func ReadSheet(cargo *Cargo, progress int, writer io.Writer) error {
 	} // if
 
 	cargo.Sheets = sheets
-	cargo.Progress = NewProgress(progress*cargo.Sheets.Size(), cargo.LogName(), writer)
 
 	return nil
 }

@@ -15,8 +15,14 @@ func TestWriteJson(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
+	writeJson := &WriteJson{}
+	assert.Equal(t, "json", writeJson.LongName())
+	assert.Equal(t, "j", writeJson.ShortName())
+	assert.Equal(t, "generate json file", writeJson.Note())
+	assert.Equal(t, 99+2, writeJson.Progress(99))
+
 	cargo := mockWriteJsonCargo()
-	path, err := WriteJson(cargo)
+	path, err := writeJson.Execute(cargo)
 	assert.Nil(t, err)
 	assert.Equal(t, filepath.Join(OutputPathJson, "realData.json"), path)
 	assert.FileExists(t, path)
@@ -33,11 +39,12 @@ func TestWriteJsonFailed(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
+	writeJson := &WriteJson{}
 	cargo := mockWriteJsonCargo()
 	cargo.Columns = []*Column{
 		{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{"x", "2", "3"}},
 	}
-	_, err := WriteJson(cargo)
+	_, err := writeJson.Execute(cargo)
 	assert.NotNil(t, err)
 
 	err = os.RemoveAll(OutputPathJson)

@@ -15,8 +15,14 @@ func TestWriteCs(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
+	writeCs := &WriteCs{}
+	assert.Equal(t, "cs", writeCs.LongName())
+	assert.Equal(t, "s", writeCs.ShortName())
+	assert.Equal(t, "generate cs file", writeCs.Note())
+	assert.Equal(t, 2, writeCs.Progress(0))
+
 	cargo := mockWriteCsCargo()
-	path, err := WriteCs(cargo)
+	path, err := writeCs.Execute(cargo)
 	assert.Nil(t, err)
 	assert.Equal(t, filepath.Join(OutputPathCs, "realData.cs"), path)
 	assert.FileExists(t, path)

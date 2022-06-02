@@ -15,11 +15,11 @@ func NewCommand() *cobra.Command {
 		Args:  cobra.ExactArgs(1),
 		RunE:  execute,
 	}
-	executor = core.NewExecutor(cmd, []core.ExecData{
-		{LongName: "json", ShortName: "j", Note: "generate json file", ExecFunc: core.WriteJson, Progress: true},
-		{LongName: "cpp", ShortName: "c", Note: "generate cpp file", ExecFunc: core.WriteCpp, Progress: false},
-		{LongName: "cs", ShortName: "s", Note: "generate cs file", ExecFunc: core.WriteCs, Progress: false},
-		{LongName: "go", ShortName: "g", Note: "generate go file", ExecFunc: core.WriteGo, Progress: false},
+	jobs = core.NewJobs(cmd, []core.Job{
+		&core.WriteJson{},
+		&core.WriteCpp{},
+		&core.WriteCs{},
+		&core.WriteGo{},
 	})
 
 	return cmd
@@ -39,11 +39,15 @@ func execute(cmd *cobra.Command, args []string) error {
 			Element: &itor,
 		}
 
-		err := core.ReadSheet(cargo, executor.Progress()+1, cmd.OutOrStdout()) // +1是把讀取表格也算進進度中
+		err := core.ReadSheet(cargo)
 
 		if err != nil {
 			return err
 		} // if
+
+		sheetSize := cargo.Sheets.Size()
+		progressValue := jobs.Progress(sheetSize) + sheetSize // + sheetSize是把讀取表格也算進進度中
+		cargo.Progress = core.NewProgress(progressValue, cargo.LogName(), cmd.OutOrStdout())
 
 		err = core.ReadContent(cargo)
 
@@ -51,7 +55,7 @@ func execute(cmd *cobra.Command, args []string) error {
 			return err
 		} // if
 
-		err = executor.Run(cargo)
+		err = jobs.Execute(cargo)
 
 		if err != nil {
 			return err
@@ -63,4 +67,4 @@ func execute(cmd *cobra.Command, args []string) error {
 	return nil
 }
 
-var executor *core.Executor // 執行者物件
+var jobs *core.Jobs // 工作列表
