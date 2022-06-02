@@ -15,8 +15,14 @@ func TestWriteCpp(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
+	writeCpp := &WriteCpp{}
+	assert.Equal(t, "cpp", writeCpp.LongName())
+	assert.Equal(t, "c", writeCpp.ShortName())
+	assert.Equal(t, "generate cpp file", writeCpp.Note())
+	assert.Equal(t, 2, writeCpp.Progress(0))
+
 	cargo := mockWriteCppCargo()
-	path, err := WriteCpp(cargo)
+	path, err := writeCpp.Execute(cargo)
 	assert.Nil(t, err)
 	assert.Equal(t, filepath.Join(OutputPathCpp, "realData.hpp"), path)
 	assert.FileExists(t, path)
@@ -33,9 +39,10 @@ func TestWriteCppFailed(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
+	writeCpp := &WriteCpp{}
 	cargo := mockWriteCppCargo()
 	cargo.Global = nil
-	_, err := WriteCpp(cargo)
+	_, err := writeCpp.Execute(cargo)
 	assert.NotNil(t, err)
 
 	err = os.RemoveAll(OutputPathCpp)

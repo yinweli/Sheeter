@@ -1,7 +1,6 @@
 package core
 
 import (
-	"io/ioutil"
 	"testing"
 
 	"Sheeter/testdata"
@@ -11,9 +10,8 @@ import (
 
 func TestReadSheet(t *testing.T) {
 	cargo := mockReadSheetCargo()
-	err := ReadSheet(cargo, 0, ioutil.Discard)
+	err := ReadSheet(cargo)
 	assert.Nil(t, err)
-	assert.NotNil(t, cargo.Progress)
 	assert.NotNil(t, cargo.Sheets)
 	assert.Equal(t, 12, len(cargo.Sheets))
 	assert.Equal(t, 16, len(cargo.Sheets[0]))
@@ -22,23 +20,23 @@ func TestReadSheet(t *testing.T) {
 
 	cargo = mockReadSheetCargo()
 	cargo.Global.ExcelPath = ""
-	err = ReadSheet(cargo, 0, ioutil.Discard)
+	err = ReadSheet(cargo)
 	assert.NotNil(t, err)
 
 	cargo = mockReadSheetCargo()
 	cargo.Element.Excel = testdata.DefectExcel
 	cargo.Element.Sheet = testdata.DefectSheet
-	err = ReadSheet(cargo, 0, ioutil.Discard)
+	err = ReadSheet(cargo)
 	assert.NotNil(t, err)
 
 	cargo = mockReadSheetCargo()
 	cargo.Element.Excel = testdata.UnknownExcel
-	err = ReadSheet(cargo, 0, ioutil.Discard)
+	err = ReadSheet(cargo)
 	assert.NotNil(t, err)
 
 	cargo = mockReadSheetCargo()
 	cargo.Element.Sheet = testdata.UnknownSheet
-	err = ReadSheet(cargo, 0, ioutil.Discard)
+	err = ReadSheet(cargo)
 	assert.NotNil(t, err)
 }
 

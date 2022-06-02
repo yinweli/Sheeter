@@ -15,8 +15,14 @@ func TestWriteGo(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
+	writeGo := &WriteGo{}
+	assert.Equal(t, "go", writeGo.LongName())
+	assert.Equal(t, "g", writeGo.ShortName())
+	assert.Equal(t, "generate go file", writeGo.Note())
+	assert.Equal(t, 3, writeGo.Progress(0))
+
 	cargo := mockWriteGoCargo()
-	path, err := WriteGo(cargo)
+	path, err := writeGo.Execute(cargo)
 	assert.Nil(t, err)
 	assert.Equal(t, filepath.Join(OutputPathGo, "realData.go"), path)
 	assert.FileExists(t, path)
@@ -49,7 +55,7 @@ func mockWriteGoString() string {
 
 package sheeter
 
-const RealDataFileName string = "realData.json" // json file name
+const RealDataFileName = "realData.json" // json file name
 
 type RealData struct {
 	Name0 int32  // note0
