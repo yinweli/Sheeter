@@ -12,8 +12,8 @@ func TestFieldInt(t *testing.T) {
 	assert.Equal(t, "int32_t", field.TypeCpp())
 	assert.Equal(t, "int", field.TypeCs())
 	assert.Equal(t, "int32", field.TypeGo())
-	assert.Equal(t, true, field.Show())
-	assert.Equal(t, false, field.PrimaryKey())
+	assert.Equal(t, true, field.IsShow())
+	assert.Equal(t, false, field.IsPkey())
 
 	result, err := field.Transform("999")
 	assert.Nil(t, err)

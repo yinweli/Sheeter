@@ -12,8 +12,8 @@ func TestFieldDouble(t *testing.T) {
 	assert.Equal(t, "double", field.TypeCpp())
 	assert.Equal(t, "double", field.TypeCs())
 	assert.Equal(t, "float64", field.TypeGo())
-	assert.Equal(t, true, field.Show())
-	assert.Equal(t, false, field.PrimaryKey())
+	assert.Equal(t, true, field.IsShow())
+	assert.Equal(t, false, field.IsPkey())
 
 	result, err := field.Transform("0.99999999")
 	assert.Nil(t, err)

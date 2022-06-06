@@ -58,6 +58,6 @@ using System.Collections.Generic;
 namespace {{csNamespace}} {
     public class {{.StructName}} { {{setline .Columns}}
         public const string fileName = "{{.JsonFileName}}";
-{{range .Columns}}{{if .Field.Show}}        public {{.Field.TypeCs}} {{.MemberName}}; // {{.Note}}{{newline}}{{end}}{{end}}
+{{range .Columns}}{{if .Field.IsShow}}        public {{.Field.TypeCs}} {{.MemberName}}; // {{.Note}}{{newline}}{{end}}{{end}}
     }
 } // namespace {{csNamespace}}`

@@ -26,13 +26,13 @@ func (this *FieldDoubleArray) TypeGo() string {
 	return "[]float64"
 }
 
-// Show 是否顯示
-func (this *FieldDoubleArray) Show() bool {
+// IsShow 是否顯示
+func (this *FieldDoubleArray) IsShow() bool {
 	return true
 }
 
-// PrimaryKey 是否是主要索引
-func (this *FieldDoubleArray) PrimaryKey() bool {
+// IsPkey 是否是主要索引
+func (this *FieldDoubleArray) IsPkey() bool {
 	return false
 }
 

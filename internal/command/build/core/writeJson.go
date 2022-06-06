@@ -36,7 +36,7 @@ func (this *WriteJson) Execute(cargo *Cargo) (filePath string, err error) {
 	var jsonMaps []JsonMap
 
 	for _, itor := range cargo.Columns {
-		if itor.Field.Show() {
+		if itor.Field.IsShow() {
 			for row, data := range itor.Datas {
 				value, err := itor.Field.Transform(data)
 

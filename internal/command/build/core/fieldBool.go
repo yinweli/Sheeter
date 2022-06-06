@@ -26,13 +26,13 @@ func (this *FieldBool) TypeGo() string {
 	return "bool"
 }
 
-// Show 是否顯示
-func (this *FieldBool) Show() bool {
+// IsShow 是否顯示
+func (this *FieldBool) IsShow() bool {
 	return true
 }
 
-// PrimaryKey 是否是主要索引
-func (this *FieldBool) PrimaryKey() bool {
+// IsPkey 是否是主要索引
+func (this *FieldBool) IsPkey() bool {
 	return false
 }
 

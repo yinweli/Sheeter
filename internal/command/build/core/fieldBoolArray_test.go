@@ -14,8 +14,8 @@ func TestFieldBoolArray(t *testing.T) {
 	assert.Equal(t, "std::vector<bool>", field.TypeCpp())
 	assert.Equal(t, "List<bool>", field.TypeCs())
 	assert.Equal(t, "[]bool", field.TypeGo())
-	assert.Equal(t, true, field.Show())
-	assert.Equal(t, false, field.PrimaryKey())
+	assert.Equal(t, true, field.IsShow())
+	assert.Equal(t, false, field.IsPkey())
 
 	result, err := field.Transform(testdata.BoolString())
 	assert.Nil(t, err)

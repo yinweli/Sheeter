@@ -28,13 +28,13 @@ func (this *FieldInt) TypeGo() string {
 	return "int32"
 }
 
-// Show 是否顯示
-func (this *FieldInt) Show() bool {
+// IsShow 是否顯示
+func (this *FieldInt) IsShow() bool {
 	return true
 }
 
-// PrimaryKey 是否是主要索引
-func (this *FieldInt) PrimaryKey() bool {
+// IsPkey 是否是主要索引
+func (this *FieldInt) IsPkey() bool {
 	return false
 }
 

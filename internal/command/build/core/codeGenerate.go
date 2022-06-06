@@ -49,7 +49,7 @@ func setline(columns []*Column) string {
 	maxline = 0
 
 	for _, itor := range columns {
-		if itor.Field.Show() {
+		if itor.Field.IsShow() {
 			maxline++
 		} // if
 	} // for

@@ -28,13 +28,13 @@ func (this *FieldLong) TypeGo() string {
 	return "int64"
 }
 
-// Show 是否顯示
-func (this *FieldLong) Show() bool {
+// IsShow 是否顯示
+func (this *FieldLong) IsShow() bool {
 	return true
 }
 
-// PrimaryKey 是否是主要索引
-func (this *FieldLong) PrimaryKey() bool {
+// IsPkey 是否是主要索引
+func (this *FieldLong) IsPkey() bool {
 	return false
 }
 

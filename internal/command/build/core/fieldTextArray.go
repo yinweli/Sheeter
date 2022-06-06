@@ -26,13 +26,13 @@ func (this *FieldTextArray) TypeGo() string {
 	return "[]string"
 }
 
-// Show 是否顯示
-func (this *FieldTextArray) Show() bool {
+// IsShow 是否顯示
+func (this *FieldTextArray) IsShow() bool {
 	return true
 }
 
-// PrimaryKey 是否是主要索引
-func (this *FieldTextArray) PrimaryKey() bool {
+// IsPkey 是否是主要索引
+func (this *FieldTextArray) IsPkey() bool {
 	return false
 }
 
