@@ -51,7 +51,7 @@ func buildColumns(cargo *Cargo) (pkey *Column, err error) {
 			return nil, fmt.Errorf("field parse failed: %s [%s : %s]", cargo.LogName(), itor, err)
 		} // if
 
-		if field.PrimaryKey() && pkey != nil {
+		if field.IsPkey() && pkey != nil {
 			return nil, fmt.Errorf("too many pkey: %s", cargo.LogName())
 		} // if
 
@@ -60,7 +60,7 @@ func buildColumns(cargo *Cargo) (pkey *Column, err error) {
 			Field: field,
 		}
 
-		if field.PrimaryKey() {
+		if field.IsPkey() {
 			pkey = column
 		} // if
 

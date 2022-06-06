@@ -26,13 +26,13 @@ func (this *FieldIntArray) TypeGo() string {
 	return "[]int32"
 }
 
-// Show 是否顯示
-func (this *FieldIntArray) Show() bool {
+// IsShow 是否顯示
+func (this *FieldIntArray) IsShow() bool {
 	return true
 }
 
-// PrimaryKey 是否是主要索引
-func (this *FieldIntArray) PrimaryKey() bool {
+// IsPkey 是否是主要索引
+func (this *FieldIntArray) IsPkey() bool {
 	return false
 }
 

@@ -12,8 +12,8 @@ func TestFieldLong(t *testing.T) {
 	assert.Equal(t, "int64_t", field.TypeCpp())
 	assert.Equal(t, "long", field.TypeCs())
 	assert.Equal(t, "int64", field.TypeGo())
-	assert.Equal(t, true, field.Show())
-	assert.Equal(t, false, field.PrimaryKey())
+	assert.Equal(t, true, field.IsShow())
+	assert.Equal(t, false, field.IsPkey())
 
 	result, err := field.Transform("999999999999")
 	assert.Nil(t, err)

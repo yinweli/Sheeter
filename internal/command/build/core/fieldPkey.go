@@ -26,13 +26,13 @@ func (this *FieldPkey) TypeGo() string {
 	return "int"
 }
 
-// Show 是否顯示
-func (this *FieldPkey) Show() bool {
+// IsShow 是否顯示
+func (this *FieldPkey) IsShow() bool {
 	return true
 }
 
-// PrimaryKey 是否是主要索引
-func (this *FieldPkey) PrimaryKey() bool {
+// IsPkey 是否是主要索引
+func (this *FieldPkey) IsPkey() bool {
 	return true
 }
 

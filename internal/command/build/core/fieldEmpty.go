@@ -24,13 +24,13 @@ func (this *FieldEmpty) TypeGo() string {
 	return ""
 }
 
-// Show 是否顯示
-func (this *FieldEmpty) Show() bool {
+// IsShow 是否顯示
+func (this *FieldEmpty) IsShow() bool {
 	return false
 }
 
-// PrimaryKey 是否是主要索引
-func (this *FieldEmpty) PrimaryKey() bool {
+// IsPkey 是否是主要索引
+func (this *FieldEmpty) IsPkey() bool {
 	return false
 }
 

@@ -66,5 +66,5 @@ package {{goPackage}}
 const {{.StructName}}FileName = "{{.JsonFileName}}" // json file name
 
 type {{.StructName}} struct { {{setline .Columns}}
-{{range .Columns}}{{if .Field.Show}}    {{.MemberName}} {{.Field.TypeGo}} // {{.Note}}{{newline}}{{end}}{{end}}
+{{range .Columns}}{{if .Field.IsShow}}    {{.MemberName}} {{.Field.TypeGo}} // {{.Note}}{{newline}}{{end}}{{end}}
 }`
