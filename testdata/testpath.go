@@ -8,12 +8,12 @@ import (
 
 /***** 測試路徑 *****/
 
-var RootPath string // 根路徑
-
 // Path 取得測試路徑
 func Path(path string) string {
 	return filepath.Join(RootPath, path)
 }
+
+var RootPath string // 根路徑
 
 /***** 變更工作目錄 *****/
 
