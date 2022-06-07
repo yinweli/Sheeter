@@ -64,8 +64,8 @@ func TestJobs_State(t *testing.T) {
 }
 
 func TestNewJobs(t *testing.T) {
-	executor := NewJobs(&cobra.Command{}, []Job{})
-	assert.NotNil(t, executor)
+	jobs := NewJobs(&cobra.Command{}, []Job{})
+	assert.NotNil(t, jobs)
 }
 
 type testJob struct {
