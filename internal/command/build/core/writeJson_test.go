@@ -15,11 +15,11 @@ func TestWriteJson(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
-	writeJson := &WriteJson{}
-	assert.Equal(t, "json", writeJson.LongName())
-	assert.Equal(t, "j", writeJson.ShortName())
+	writeJson := mockWriteJson()
+	assert.Equal(t, "json", writeJson.Long())
+	assert.Equal(t, "j", writeJson.Short())
 	assert.Equal(t, "generate json file", writeJson.Note())
-	assert.Equal(t, 99+2, writeJson.Progress(99))
+	assert.Equal(t, 99+2, writeJson.Calc(99))
 
 	cargo := mockWriteJsonCargo()
 	path, err := writeJson.Execute(cargo)
@@ -39,7 +39,7 @@ func TestWriteJsonFailed(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
-	writeJson := &WriteJson{}
+	writeJson := mockWriteJson()
 	cargo := mockWriteJsonCargo()
 	cargo.Columns = []*Column{
 		{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{"x", "2", "3"}},
@@ -49,6 +49,10 @@ func TestWriteJsonFailed(t *testing.T) {
 
 	err = os.RemoveAll(OutputPathJson)
 	assert.Nil(t, err)
+}
+
+func mockWriteJson() *WriteJson {
+	return &WriteJson{}
 }
 
 func mockWriteJsonCargo() *Cargo {

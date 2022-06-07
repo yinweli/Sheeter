@@ -2,14 +2,14 @@ package core
 
 import (
 	"io/ioutil"
-	"os"
 	"testing"
 
+	"github.com/schollz/progressbar/v3"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestProgress(t *testing.T) {
-	progress := NewProgress(1000, "", os.Stdout)
+	progress := mockProgress(1000)
 	percent := 0.0
 
 	for i := 0; i <= 1000; i++ {
@@ -20,7 +20,7 @@ func TestProgress(t *testing.T) {
 
 	assert.True(t, progress.bar.IsFinished())
 
-	progress = NewProgress(1000, "", ioutil.Discard)
+	progress = mockProgress(1000)
 	progress.Finish()
 	assert.True(t, progress.bar.IsFinished())
 }
@@ -28,4 +28,13 @@ func TestProgress(t *testing.T) {
 func TestNewProgress(t *testing.T) {
 	progress := NewProgress(0, "", ioutil.Discard)
 	assert.NotNil(t, progress)
+}
+
+func mockProgress(max int) *Progress {
+	return &Progress{
+		bar: progressbar.NewOptions(
+			max,
+			progressbar.OptionSetWriter(ioutil.Discard),
+		),
+	}
 }

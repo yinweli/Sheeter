@@ -10,13 +10,13 @@ import (
 type WriteCpp struct {
 }
 
-// LongName 取得長名稱
-func (this *WriteCpp) LongName() string {
+// Long 取得長名稱
+func (this *WriteCpp) Long() string {
 	return "cpp"
 }
 
-// ShortName 取得短名稱
-func (this *WriteCpp) ShortName() string {
+// Short 取得短名稱
+func (this *WriteCpp) Short() string {
 	return "c"
 }
 
@@ -25,8 +25,8 @@ func (this *WriteCpp) Note() string {
 	return "generate cpp file"
 }
 
-// Progress 取得進度值
-func (this *WriteCpp) Progress(sheetSize int) int {
+// Calc 計算進度值
+func (this *WriteCpp) Calc(sheetSize int) int {
 	return 2
 }
 

@@ -7,7 +7,7 @@ import (
 )
 
 func TestFieldLong(t *testing.T) {
-	field := FieldLong{}
+	field := mockFieldLong()
 	assert.Equal(t, "long", field.TypeExcel())
 	assert.Equal(t, "int64_t", field.TypeCpp())
 	assert.Equal(t, "long", field.TypeCs())
@@ -21,4 +21,8 @@ func TestFieldLong(t *testing.T) {
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err)
+}
+
+func mockFieldLong() *FieldLong {
+	return &FieldLong{}
 }

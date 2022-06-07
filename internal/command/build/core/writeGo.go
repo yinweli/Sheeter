@@ -11,13 +11,13 @@ import (
 type WriteGo struct {
 }
 
-// LongName 取得長名稱
-func (this *WriteGo) LongName() string {
+// Long 取得長名稱
+func (this *WriteGo) Long() string {
 	return "go"
 }
 
-// ShortName 取得短名稱
-func (this *WriteGo) ShortName() string {
+// Short 取得短名稱
+func (this *WriteGo) Short() string {
 	return "g"
 }
 
@@ -26,8 +26,8 @@ func (this *WriteGo) Note() string {
 	return "generate go file"
 }
 
-// Progress 取得進度值
-func (this *WriteGo) Progress(sheetSize int) int {
+// Calc 計算進度值
+func (this *WriteGo) Calc(sheetSize int) int {
 	return 3
 }
 

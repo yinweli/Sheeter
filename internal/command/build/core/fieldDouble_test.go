@@ -7,7 +7,7 @@ import (
 )
 
 func TestFieldDouble(t *testing.T) {
-	field := FieldDouble{}
+	field := mockFieldDouble()
 	assert.Equal(t, "double", field.TypeExcel())
 	assert.Equal(t, "double", field.TypeCpp())
 	assert.Equal(t, "double", field.TypeCs())
@@ -21,4 +21,8 @@ func TestFieldDouble(t *testing.T) {
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err)
+}
+
+func mockFieldDouble() *FieldDouble {
+	return &FieldDouble{}
 }

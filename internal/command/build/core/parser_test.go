@@ -7,16 +7,12 @@ import (
 )
 
 func TestParser(t *testing.T) {
-	parser := Parser{
-		fields: make(map[string]Field),
-	}
-	fieldBool := &FieldBool{}
+	parser := mockParser()
 
-	parser.Add(fieldBool)
-	result, ok := parser.fields[fieldBool.TypeExcel()]
+	parser.Add(&FieldBool{})
+	field, ok := parser.fields[(&FieldBool{}).TypeExcel()]
 	assert.True(t, ok)
-	assert.NotNil(t, result)
-	assert.Equal(t, fieldBool.TypeExcel(), result.TypeExcel())
+	assert.NotNil(t, field)
 
 	name, field, err := parser.Parse("real#bool")
 	assert.Nil(t, err)
@@ -33,4 +29,10 @@ func TestParser(t *testing.T) {
 func TestNewParser(t *testing.T) {
 	parser := NewParser()
 	assert.NotNil(t, parser)
+}
+
+func mockParser() *Parser {
+	return &Parser{
+		fields: map[string]Field{},
+	}
 }

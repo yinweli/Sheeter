@@ -9,7 +9,7 @@ import (
 )
 
 func TestFieldText(t *testing.T) {
-	field := FieldText{}
+	field := mockFieldText()
 	assert.Equal(t, "text", field.TypeExcel())
 	assert.Equal(t, "std::string", field.TypeCpp())
 	assert.Equal(t, "string", field.TypeCs())
@@ -20,4 +20,8 @@ func TestFieldText(t *testing.T) {
 	result, err := field.Transform(testdata.Text)
 	assert.Nil(t, err)
 	assert.Equal(t, testdata.Text, result)
+}
+
+func mockFieldText() *FieldText {
+	return &FieldText{}
 }

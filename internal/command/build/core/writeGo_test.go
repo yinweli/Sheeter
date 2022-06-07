@@ -15,11 +15,11 @@ func TestWriteGo(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
-	writeGo := &WriteGo{}
-	assert.Equal(t, "go", writeGo.LongName())
-	assert.Equal(t, "g", writeGo.ShortName())
+	writeGo := mockWriteGo()
+	assert.Equal(t, "go", writeGo.Long())
+	assert.Equal(t, "g", writeGo.Short())
 	assert.Equal(t, "generate go file", writeGo.Note())
-	assert.Equal(t, 3, writeGo.Progress(0))
+	assert.Equal(t, 3, writeGo.Calc(0))
 
 	cargo := mockWriteGoCargo()
 	path, err := writeGo.Execute(cargo)
@@ -33,6 +33,10 @@ func TestWriteGo(t *testing.T) {
 
 	err = os.RemoveAll(OutputPathGo)
 	assert.Nil(t, err)
+}
+
+func mockWriteGo() *WriteGo {
+	return &WriteGo{}
 }
 
 func mockWriteGoCargo() *Cargo {

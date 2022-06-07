@@ -8,8 +8,6 @@ const RealExcel = "real.xlsx"
 const RealSheet = "Data"
 const DefectExcel = "defect.xlsx"
 const DefectSheet = "Data"
-const UnknownExcel = "????.xlsx"
-const UnknownSheet = "????"
 const Text = "this a string"
 
 // BoolString 取得測試字串

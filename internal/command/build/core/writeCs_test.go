@@ -15,11 +15,11 @@ func TestWriteCs(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
-	writeCs := &WriteCs{}
-	assert.Equal(t, "cs", writeCs.LongName())
-	assert.Equal(t, "s", writeCs.ShortName())
+	writeCs := mockWriteCs()
+	assert.Equal(t, "cs", writeCs.Long())
+	assert.Equal(t, "s", writeCs.Short())
 	assert.Equal(t, "generate cs file", writeCs.Note())
-	assert.Equal(t, 2, writeCs.Progress(0))
+	assert.Equal(t, 2, writeCs.Calc(0))
 
 	cargo := mockWriteCsCargo()
 	path, err := writeCs.Execute(cargo)
@@ -33,6 +33,10 @@ func TestWriteCs(t *testing.T) {
 
 	err = os.RemoveAll(OutputPathCs)
 	assert.Nil(t, err)
+}
+
+func mockWriteCs() *WriteCs {
+	return &WriteCs{}
 }
 
 func mockWriteCsCargo() *Cargo {

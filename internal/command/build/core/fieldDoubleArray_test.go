@@ -9,7 +9,7 @@ import (
 )
 
 func TestFieldDoubleArray(t *testing.T) {
-	field := FieldDoubleArray{}
+	field := mockFieldDoubleArray()
 	assert.Equal(t, "doubleArray", field.TypeExcel())
 	assert.Equal(t, "std::vector<double>", field.TypeCpp())
 	assert.Equal(t, "List<double>", field.TypeCs())
@@ -23,4 +23,8 @@ func TestFieldDoubleArray(t *testing.T) {
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err)
+}
+
+func mockFieldDoubleArray() *FieldDoubleArray {
+	return &FieldDoubleArray{}
 }

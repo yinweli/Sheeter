@@ -3,21 +3,19 @@ package core
 import (
 	"testing"
 
-	"Sheeter/testdata"
-
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCargo(t *testing.T) {
 	cargo := mockCargo()
-	assert.Equal(t, "real.xlsx(Data)", cargo.LogName())
-	assert.Equal(t, "RealData", cargo.StructName())
-	assert.Equal(t, "realData.json", cargo.JsonFileName())
-	assert.Equal(t, "realData.hpp", cargo.CppFileName())
-	assert.Equal(t, "realData.cs", cargo.CsFileName())
-	assert.Equal(t, "realData.go", cargo.GoFileName())
-	assert.Equal(t, "realData.test", cargo.fileName("test"))
-	assert.Equal(t, "real", cargo.excelName())
+	assert.Equal(t, "excel.xlsx(sheet)", cargo.LogName())
+	assert.Equal(t, "ExcelSheet", cargo.StructName())
+	assert.Equal(t, "excelSheet.json", cargo.JsonFileName())
+	assert.Equal(t, "excelSheet.hpp", cargo.CppFileName())
+	assert.Equal(t, "excelSheet.cs", cargo.CsFileName())
+	assert.Equal(t, "excelSheet.go", cargo.GoFileName())
+	assert.Equal(t, "excelSheet.test", cargo.fileName("test"))
+	assert.Equal(t, "excel", cargo.excelName())
 }
 
 func TestSheets(t *testing.T) {
@@ -43,8 +41,8 @@ func TestColumn(t *testing.T) {
 func mockCargo() *Cargo {
 	return &Cargo{
 		Element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.RealSheet,
+			Excel: "excel.xlsx",
+			Sheet: "sheet",
 		},
 		Columns: []*Column{
 			{Name: "test"},

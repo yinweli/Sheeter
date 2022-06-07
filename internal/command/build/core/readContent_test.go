@@ -125,8 +125,8 @@ func mockReadContentCargo() *Cargo {
 			LineOfData:  3,
 		},
 		Element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.RealSheet,
+			Excel: "excel.xlsx",
+			Sheet: "sheet",
 		},
 		Sheets: Sheets{
 			{"name0#pkey", "name1#int", "name2#int"},

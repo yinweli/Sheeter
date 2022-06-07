@@ -7,7 +7,7 @@ import (
 )
 
 func TestFieldFloat(t *testing.T) {
-	field := FieldFloat{}
+	field := mockFieldFloat()
 	assert.Equal(t, "float", field.TypeExcel())
 	assert.Equal(t, "float", field.TypeCpp())
 	assert.Equal(t, "float", field.TypeCs())
@@ -21,4 +21,8 @@ func TestFieldFloat(t *testing.T) {
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err)
+}
+
+func mockFieldFloat() *FieldFloat {
+	return &FieldFloat{}
 }

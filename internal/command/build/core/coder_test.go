@@ -11,7 +11,7 @@ func TestCoder(t *testing.T) {
 	coder.Template = "{{cppNamespace}}#{{.StructName}}"
 	result, err := coder.Execute()
 	assert.Nil(t, err)
-	assert.Equal(t, "Sheeter#TestExcelTestSheet", string(result[:]))
+	assert.Equal(t, "Sheeter#ExcelSheet", string(result[:]))
 
 	coder = mockCoder()
 	coder.Template = "{{{.Unknown}}"
@@ -74,8 +74,8 @@ func mockCoder() *Coder {
 	return &Coder{
 		Cargo: &Cargo{
 			Element: &Element{
-				Excel: "testExcel",
-				Sheet: "testSheet",
+				Excel: "excel.xlsx",
+				Sheet: "sheet",
 			},
 		},
 	}

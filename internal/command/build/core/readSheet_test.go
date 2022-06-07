@@ -30,12 +30,12 @@ func TestReadSheet(t *testing.T) {
 	assert.NotNil(t, err)
 
 	cargo = mockReadSheetCargo()
-	cargo.Element.Excel = testdata.UnknownExcel
+	cargo.Element.Excel = "?????"
 	err = ReadSheet(cargo)
 	assert.NotNil(t, err)
 
 	cargo = mockReadSheetCargo()
-	cargo.Element.Sheet = testdata.UnknownSheet
+	cargo.Element.Sheet = "?????"
 	err = ReadSheet(cargo)
 	assert.NotNil(t, err)
 }
