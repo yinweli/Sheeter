@@ -33,7 +33,7 @@ func (this *WriteCs) Progress(sheetSize int) int {
 // Execute 執行工作
 func (this *WriteCs) Execute(cargo *Cargo) (filePath string, err error) {
 	cargo.Progress.Add(1)
-	bytes, err := CodeGenerate(codeCs, cargo)
+	bytes, err := NewCoder(codeCs, cargo).Execute()
 
 	if err != nil {
 		return "", fmt.Errorf("convert cs failed: %s [%s]", cargo.LogName(), err)

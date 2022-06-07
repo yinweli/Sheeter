@@ -34,7 +34,7 @@ func (this *WriteGo) Progress(sheetSize int) int {
 // Execute 執行工作
 func (this *WriteGo) Execute(cargo *Cargo) (filePath string, err error) {
 	cargo.Progress.Add(1)
-	bytes, err := CodeGenerate(codeGo, cargo)
+	bytes, err := NewCoder(codeGo, cargo).Execute()
 
 	if err != nil {
 		return "", fmt.Errorf("convert go failed: %s [%s]", cargo.LogName(), err)
