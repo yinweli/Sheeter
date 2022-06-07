@@ -32,9 +32,10 @@ sheeter build xxxx.yaml
 浮點數數值在輸出到json格式時, 會因為浮點數精度的問題造成錯誤. 例如表格中原本是0.1, 輸出到json變成0.10000000149011612
 
 # TODO
-* 浮點數轉換由strconv.ParseFloat改用strconv.FormatFloat
-* 浮點數精度改由設定檔指定或是在欄位上指定
-* Jobs機制放棄介面, 改用結構加上函式指標, 應該會比較單純
-* 加上writeProto格式
-* 事前檢查機制(可能要加到Jobs中), 要檢查是否有安裝Go/Protoc
+* 多執行緒版本
 * 讓BOM機制有效
+* 事前檢查機制(可能要加到Jobs中), 要檢查是否有安裝Go/Protoc
+* Jobs機制放棄介面, 改用結構加上函式指標, 應該會比較單純
+* 浮點數精度改由設定檔指定或是在欄位上指定
+* 浮點數轉換由strconv.ParseFloat改用strconv.FormatFloat
+* 加上writeProto格式
