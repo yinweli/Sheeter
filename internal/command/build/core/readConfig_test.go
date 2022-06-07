@@ -19,6 +19,6 @@ func TestReadConfig(t *testing.T) {
 	result, err = ReadConfig(testdata.Path(testdata.DefectConfig))
 	assert.NotNil(t, err)
 
-	result, err = ReadConfig(testdata.Path(testdata.UnknownConfig))
+	result, err = ReadConfig(testdata.Path("?????"))
 	assert.NotNil(t, err)
 }

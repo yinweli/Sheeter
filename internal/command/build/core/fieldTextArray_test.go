@@ -9,7 +9,7 @@ import (
 )
 
 func TestFieldTextArray(t *testing.T) {
-	field := FieldTextArray{}
+	field := mockFieldTextArray()
 	assert.Equal(t, "textArray", field.TypeExcel())
 	assert.Equal(t, "std::vector<std::string>", field.TypeCpp())
 	assert.Equal(t, "List<string>", field.TypeCs())
@@ -20,4 +20,8 @@ func TestFieldTextArray(t *testing.T) {
 	result, err := field.Transform(testdata.StringString())
 	assert.Nil(t, err)
 	assert.Equal(t, testdata.StringArray(), result)
+}
+
+func mockFieldTextArray() *FieldTextArray {
+	return &FieldTextArray{}
 }

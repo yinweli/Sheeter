@@ -7,7 +7,7 @@ import (
 )
 
 func TestFieldEmpty(t *testing.T) {
-	field := FieldEmpty{}
+	field := mockFieldEmpty()
 	assert.Equal(t, "empty", field.TypeExcel())
 	assert.Equal(t, "", field.TypeCpp())
 	assert.Equal(t, "", field.TypeCs())
@@ -18,4 +18,8 @@ func TestFieldEmpty(t *testing.T) {
 	result, err := field.Transform("test")
 	assert.Nil(t, err)
 	assert.Nil(t, result)
+}
+
+func mockFieldEmpty() *FieldEmpty {
+	return &FieldEmpty{}
 }

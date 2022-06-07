@@ -10,13 +10,13 @@ import (
 type WriteCs struct {
 }
 
-// LongName 取得長名稱
-func (this *WriteCs) LongName() string {
+// Long 取得長名稱
+func (this *WriteCs) Long() string {
 	return "cs"
 }
 
-// ShortName 取得短名稱
-func (this *WriteCs) ShortName() string {
+// Short 取得短名稱
+func (this *WriteCs) Short() string {
 	return "s"
 }
 
@@ -25,8 +25,8 @@ func (this *WriteCs) Note() string {
 	return "generate cs file"
 }
 
-// Progress 取得進度值
-func (this *WriteCs) Progress(sheetSize int) int {
+// Calc 計算進度值
+func (this *WriteCs) Calc(sheetSize int) int {
 	return 2
 }
 

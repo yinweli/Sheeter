@@ -9,7 +9,7 @@ import (
 )
 
 func TestFieldIntArray(t *testing.T) {
-	field := FieldIntArray{}
+	field := mockFieldIntArray()
 	assert.Equal(t, "intArray", field.TypeExcel())
 	assert.Equal(t, "std::vector<int32_t>", field.TypeCpp())
 	assert.Equal(t, "List<int>", field.TypeCs())
@@ -23,4 +23,8 @@ func TestFieldIntArray(t *testing.T) {
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err)
+}
+
+func mockFieldIntArray() *FieldIntArray {
+	return &FieldIntArray{}
 }

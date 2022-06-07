@@ -9,7 +9,7 @@ import (
 )
 
 func TestFieldLongArray(t *testing.T) {
-	field := FieldLongArray{}
+	field := mockFieldLongArray()
 	assert.Equal(t, "longArray", field.TypeExcel())
 	assert.Equal(t, "std::vector<int64_t>", field.TypeCpp())
 	assert.Equal(t, "List<long>", field.TypeCs())
@@ -23,4 +23,8 @@ func TestFieldLongArray(t *testing.T) {
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err)
+}
+
+func mockFieldLongArray() *FieldLongArray {
+	return &FieldLongArray{}
 }

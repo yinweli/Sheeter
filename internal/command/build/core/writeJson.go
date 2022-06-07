@@ -11,13 +11,13 @@ import (
 type WriteJson struct {
 }
 
-// LongName 取得長名稱
-func (this *WriteJson) LongName() string {
+// Long 取得長名稱
+func (this *WriteJson) Long() string {
 	return "json"
 }
 
-// ShortName 取得短名稱
-func (this *WriteJson) ShortName() string {
+// Short 取得短名稱
+func (this *WriteJson) Short() string {
 	return "j"
 }
 
@@ -26,8 +26,8 @@ func (this *WriteJson) Note() string {
 	return "generate json file"
 }
 
-// Progress 取得進度值
-func (this *WriteJson) Progress(sheetSize int) int {
+// Calc 計算進度值
+func (this *WriteJson) Calc(sheetSize int) int {
 	return sheetSize + 2
 }
 

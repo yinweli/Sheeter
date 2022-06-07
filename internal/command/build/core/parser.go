@@ -37,7 +37,7 @@ func (this *Parser) Parse(input string) (name string, field Field, err error) {
 // NewParser 建立欄位解析器
 func NewParser() *Parser {
 	parser := &Parser{
-		fields: make(map[string]Field),
+		fields: map[string]Field{},
 	}
 	parser.Add(&FieldBool{})
 	parser.Add(&FieldBoolArray{})

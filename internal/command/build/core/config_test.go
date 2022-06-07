@@ -67,16 +67,16 @@ func TestGlobal(t *testing.T) {
 func mockConfig() *Config {
 	return &Config{
 		Global: Global{
-			ExcelPath:      "test",
-			CppLibraryPath: "nlohmann",
+			ExcelPath:      "excel",
+			CppLibraryPath: "cpp",
 			Bom:            true,
 			LineOfField:    1,
 			LineOfNote:     2,
 			LineOfData:     3,
 		},
 		Elements: []Element{{
-			Excel: "Test.xlsx",
-			Sheet: "Data",
+			Excel: "excel.xlsx",
+			Sheet: "sheet",
 		}},
 	}
 }

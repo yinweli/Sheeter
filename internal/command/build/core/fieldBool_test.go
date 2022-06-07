@@ -7,7 +7,7 @@ import (
 )
 
 func TestFieldBool(t *testing.T) {
-	field := FieldBool{}
+	field := mockFieldBool()
 	assert.Equal(t, "bool", field.TypeExcel())
 	assert.Equal(t, "bool", field.TypeCpp())
 	assert.Equal(t, "bool", field.TypeCs())
@@ -21,4 +21,8 @@ func TestFieldBool(t *testing.T) {
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err)
+}
+
+func mockFieldBool() *FieldBool {
+	return &FieldBool{}
 }

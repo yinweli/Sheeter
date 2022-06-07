@@ -9,7 +9,7 @@ import (
 )
 
 func TestFieldBoolArray(t *testing.T) {
-	field := FieldBoolArray{}
+	field := mockFieldBoolArray()
 	assert.Equal(t, "boolArray", field.TypeExcel())
 	assert.Equal(t, "std::vector<bool>", field.TypeCpp())
 	assert.Equal(t, "List<bool>", field.TypeCs())
@@ -23,4 +23,8 @@ func TestFieldBoolArray(t *testing.T) {
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err)
+}
+
+func mockFieldBoolArray() *FieldBoolArray {
+	return &FieldBoolArray{}
 }

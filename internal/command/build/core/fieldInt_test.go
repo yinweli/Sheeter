@@ -7,7 +7,7 @@ import (
 )
 
 func TestFieldInt(t *testing.T) {
-	field := FieldInt{}
+	field := mockFieldInt()
 	assert.Equal(t, "int", field.TypeExcel())
 	assert.Equal(t, "int32_t", field.TypeCpp())
 	assert.Equal(t, "int", field.TypeCs())
@@ -21,4 +21,8 @@ func TestFieldInt(t *testing.T) {
 
 	result, err = field.Transform("fake")
 	assert.NotNil(t, err)
+}
+
+func mockFieldInt() *FieldInt {
+	return &FieldInt{}
 }
