@@ -15,7 +15,6 @@ func NewCommand() *cobra.Command {
 		Args:  cobra.ExactArgs(1),
 		RunE:  execute,
 	}
-	core.NewJobs().Flag(cmd)
 
 	return cmd
 }
@@ -29,35 +28,11 @@ func execute(cmd *cobra.Command, args []string) error {
 	} // if
 
 	for _, itor := range config.Elements {
-		cargo := &core.Cargo{
-			Global:  &config.Global,
-			Element: &itor,
-		}
-
-		err := core.ReadSheet(cargo)
+		err := core.Task(&config.Global, &itor, cmd.OutOrStdout())
 
 		if err != nil {
 			return err
 		} // if
-
-		jobs := core.NewJobs()
-		sheetSize := cargo.Sheets.Size()
-		progressValue := jobs.Calc(cmd, sheetSize) + sheetSize // + sheetSize是把讀取表格也算進進度中
-		cargo.Progress = core.NewProgress(progressValue, cargo.LogName(), cmd.OutOrStdout())
-
-		err = core.ReadContent(cargo)
-
-		if err != nil {
-			return err
-		} // if
-
-		err = jobs.Execute(cmd, cargo)
-
-		if err != nil {
-			return err
-		} // if
-
-		cargo.Progress.Finish()
 	} // for
 
 	return nil

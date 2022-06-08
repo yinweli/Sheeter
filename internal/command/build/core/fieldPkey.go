@@ -23,7 +23,7 @@ func (this *FieldPkey) TypeCs() string {
 
 // TypeGo 取得go欄位類型
 func (this *FieldPkey) TypeGo() string {
-	return "int"
+	return "int32"
 }
 
 // IsShow 是否顯示

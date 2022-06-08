@@ -7,76 +7,35 @@ import (
 )
 
 func TestCoder(t *testing.T) {
-	coder := mockCoder()
-	coder.Template = "{{cppNamespace}}#{{.StructName}}"
-	result, err := coder.Execute()
+	ctx := mockCoderContext()
+	result, err := Coder("{{.StructName}}#{{.CppNamespace}}", ctx)
 	assert.Nil(t, err)
-	assert.Equal(t, "Sheeter#ExcelSheet", string(result[:]))
+	assert.Equal(t, "ExcelSheet#Sheeter", string(result[:]))
 
-	coder = mockCoder()
-	coder.Template = "{{{.Unknown}}"
-	result, err = coder.Execute()
+	ctx = mockCoderContext()
+	result, err = Coder("{{setline .Columns}}{{newline}}{{newline}}{{newline}}{{newline}}", ctx)
+	assert.Nil(t, err)
+	assert.Equal(t, "\n\n", string(result[:]))
+
+	ctx = mockCoderContext()
+	result, err = Coder("{{{.Unknown}}", ctx)
 	assert.NotNil(t, err)
 
-	coder = mockCoder()
-	coder.Template = "{{cppNamespace}}#{{.StructName}}"
-	coder.Cargo = nil
-	result, err = coder.Execute()
+	ctx = mockCoderContext()
+	result, err = Coder("{{{.Unknown}}", nil)
 	assert.NotNil(t, err)
-
-	coder = mockCoder()
-	assert.Equal(t, CppNamespace, coder.cppNamespace())
-	assert.Equal(t, CsNamespace, coder.csNamespace())
-	assert.Equal(t, GoPackage, coder.goPackage())
-
-	coder = mockCoder()
-	coder.setline([]*Column{
-		{Note: "note0", Name: "name0", Field: &FieldInt{}},
-	})
-	assert.Equal(t, "", coder.newline())
-
-	coder = mockCoder()
-	coder.setline([]*Column{
-		{Note: "note0", Name: "name0", Field: &FieldInt{}},
-		{Note: "note1", Name: "name1", Field: &FieldInt{}},
-	})
-	assert.Equal(t, "\n", coder.newline())
-	assert.Equal(t, "", coder.newline())
-
-	coder = mockCoder()
-	coder.setline([]*Column{
-		{Note: "note0", Name: "name0", Field: &FieldInt{}},
-		{Note: "note1", Name: "name1", Field: &FieldInt{}},
-		{Note: "note2", Name: "name2", Field: &FieldInt{}},
-	})
-	assert.Equal(t, "\n", coder.newline())
-	assert.Equal(t, "\n", coder.newline())
-	assert.Equal(t, "", coder.newline())
-
-	coder = mockCoder()
-	coder.setline([]*Column{
-		{Note: "note0", Name: "name0", Field: &FieldInt{}},
-		{Note: "note1", Name: "name1", Field: &FieldInt{}},
-		{Note: "note2", Name: "name2", Field: &FieldInt{}},
-		{Note: "note3", Name: "name3", Field: &FieldEmpty{}},
-	})
-	assert.Equal(t, "\n", coder.newline())
-	assert.Equal(t, "\n", coder.newline())
-	assert.Equal(t, "", coder.newline())
 }
 
-func TestNewCoder(t *testing.T) {
-	coder := NewCoder("", nil)
-	assert.NotNil(t, coder)
-}
-
-func mockCoder() *Coder {
-	return &Coder{
-		Cargo: &Cargo{
-			Element: &Element{
-				Excel: "excel.xlsx",
-				Sheet: "sheet",
-			},
+func mockCoderContext() *Context {
+	return &Context{
+		Element: &Element{
+			Excel: "excel.xlsx",
+			Sheet: "sheet",
+		},
+		Columns: []*Column{
+			{Note: "note0", Name: "name0", Field: &FieldInt{}},
+			{Note: "note1", Name: "name1", Field: &FieldInt{}},
+			{Note: "note2", Name: "name2", Field: &FieldInt{}},
 		},
 	}
 }
