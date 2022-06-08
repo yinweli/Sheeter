@@ -45,3 +45,35 @@ func NewProgress(max int, desc string, writer io.Writer) *Progress {
 
 	return &Progress{bar: bar}
 }
+
+// NewProgressBytes 建立位元組進度條
+func NewProgressBytes(max int64, desc string, writer io.Writer) *progressbar.ProgressBar {
+	bar := progressbar.NewOptions64(
+		max,
+		progressbar.OptionSetDescription(fmt.Sprintf("%-20s", desc)),
+		progressbar.OptionSetWriter(writer),
+		progressbar.OptionSetWidth(20),
+		progressbar.OptionThrottle(65*time.Millisecond),
+		progressbar.OptionShowBytes(true),
+	)
+	_ = bar.RenderBlank()
+
+	return bar
+}
+
+// NewProgressCount 建立計數進度條
+func NewProgressCount(max int64, desc string, writer io.Writer) *progressbar.ProgressBar {
+	bar := progressbar.NewOptions64(
+		max,
+		progressbar.OptionSetDescription(fmt.Sprintf("%-20s", desc)),
+		progressbar.OptionSetWriter(writer),
+		progressbar.OptionSetWidth(20),
+		progressbar.OptionThrottle(65*time.Millisecond),
+		progressbar.OptionOnCompletion(func() {
+			fmt.Printf("\n%s complete!\n", desc)
+		}),
+	)
+	_ = bar.RenderBlank()
+
+	return bar
+}

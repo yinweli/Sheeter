@@ -22,8 +22,6 @@ func NewCommand() *cobra.Command {
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) error {
-	// TODO:
-
 	config, err := core.ReadConfig(args[0])
 
 	if err != nil {

@@ -30,6 +30,16 @@ func TestNewProgress(t *testing.T) {
 	assert.NotNil(t, progress)
 }
 
+func TestNewProgressBytes(t *testing.T) {
+	progress := NewProgressBytes(0, "", ioutil.Discard)
+	assert.NotNil(t, progress)
+}
+
+func TestNewProgressCount(t *testing.T) {
+	progress := NewProgressCount(0, "", ioutil.Discard)
+	assert.NotNil(t, progress)
+}
+
 func mockProgress(max int) *Progress {
 	return &Progress{
 		bar: progressbar.NewOptions(
