@@ -11,7 +11,7 @@ func TestFieldPkey(t *testing.T) {
 	assert.Equal(t, "pkey", field.TypeExcel())
 	assert.Equal(t, CppNamespace+"::pkey", field.TypeCpp())
 	assert.Equal(t, "int", field.TypeCs())
-	assert.Equal(t, "int", field.TypeGo())
+	assert.Equal(t, "int32", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, true, field.IsPkey())
 

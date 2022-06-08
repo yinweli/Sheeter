@@ -3,7 +3,7 @@ package util
 import (
 	"io/ioutil"
 	"os"
-	"path/filepath"
+	"path"
 	"testing"
 
 	"Sheeter/testdata"
@@ -15,21 +15,22 @@ func TestFileWrite(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
-	path := "test"
-	name := "test.txt"
+	filePath := "test/test.txt"
 	input := []byte(testdata.Text)
 
-	filePath, err := FileWrite(path, name, input)
+	err := FileWrite(filePath, input)
 	assert.Nil(t, err)
-	assert.Equal(t, filepath.Join(path, name), filePath)
 
 	bytes, err := ioutil.ReadFile(filePath)
 	assert.Nil(t, err)
 	assert.Equal(t, input, bytes)
 
-	filePath, err = FileWrite(path, "", input)
+	err = FileWrite("????/????.txt", input)
 	assert.NotNil(t, err)
 
-	err = os.RemoveAll(path)
+	err = FileWrite("????.txt", input)
+	assert.NotNil(t, err)
+
+	err = os.RemoveAll(path.Dir(filePath))
 	assert.Nil(t, err)
 }

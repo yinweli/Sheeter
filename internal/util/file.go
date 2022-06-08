@@ -4,23 +4,22 @@ import (
 	"io/fs"
 	"io/ioutil"
 	"os"
-	"path/filepath"
+	"path"
 )
 
-// FileWrite 寫入檔案
-func FileWrite(path string, name string, bytes []byte) (filePath string, err error) {
-	err = os.MkdirAll(path, os.ModePerm)
+// FileWrite 寫入檔案, 如果有需要會建立目錄
+func FileWrite(filePath string, bytes []byte) error {
+	err := os.MkdirAll(path.Dir(filePath), os.ModePerm)
 
 	if err != nil {
-		return "", err
+		return err
 	} // if
 
-	filePath = filepath.Join(path, name)
 	err = ioutil.WriteFile(filePath, bytes, fs.ModePerm)
 
 	if err != nil {
-		return "", err
+		return err
 	} // if
 
-	return filePath, nil
+	return nil
 }

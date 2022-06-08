@@ -6,16 +6,20 @@ import (
 	"runtime"
 )
 
-/***** 測試路徑 *****/
+func init() {
+	_, file, _, ok := runtime.Caller(0)
+
+	if ok == false {
+		panic("get testdata rootPath failed")
+	}
+
+	RootPath = filepath.Dir(file)
+}
 
 // Path 取得測試路徑
 func Path(path string) string {
 	return filepath.Join(RootPath, path)
 }
-
-var RootPath string // 根路徑
-
-/***** 變更工作目錄 *****/
 
 // ChangeWorkDir 變更工作目錄到測試目錄
 func ChangeWorkDir() string {
@@ -43,14 +47,4 @@ func RestoreWorkDir(dir string) {
 	} // if
 }
 
-/***** 初始執行 *****/
-
-func init() {
-	_, file, _, ok := runtime.Caller(0)
-
-	if ok == false {
-		panic("can't get root")
-	}
-
-	RootPath = filepath.Dir(file)
-}
+var RootPath string // 根路徑
