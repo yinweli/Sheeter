@@ -22,7 +22,7 @@ namespace {{.CsNamespace}} {
 
 // TaskJsonCs 輸出json/cs
 func TaskJsonCs(ctx *Context) error {
-	bytes, err := Coder(jsonCsCode, ctx)
+	bytes, err := ctx.GenerateCode(jsonCsCode)
 
 	if err != nil {
 		return fmt.Errorf("generate cs failed: %s [%s]", ctx.LogName(), err)
@@ -34,6 +34,5 @@ func TaskJsonCs(ctx *Context) error {
 		return fmt.Errorf("write to cs failed: %s [%s]", ctx.LogName(), err)
 	} // if
 
-	_ = ctx.Progress.Add(1)
 	return nil
 }

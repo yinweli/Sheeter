@@ -5,7 +5,6 @@ import (
 	"os"
 	"testing"
 
-	"Sheeter/internal/util"
 	"Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
@@ -35,15 +34,15 @@ func TestTaskJsonCs(t *testing.T) {
 
 func mockTaskJsonCsContext() *Context {
 	return &Context{
-		Progress: util.NewProgress(0, "", ioutil.Discard),
+		// Progress: util.NewProgress(0, "", ioutil.Discard),
 		Element: &Element{
 			Excel: "excel.xlsx",
 			Sheet: "sheet",
 		},
 		Columns: []*Column{
-			{Note: "note0", Name: "name0", Field: &FieldPkey{}},
-			{Note: "note1", Name: "name1", Field: &FieldBool{}},
-			{Note: "note2", Name: "name2", Field: &FieldText{}},
+			{Name: "name0", Note: "note0", Field: &FieldPkey{}},
+			{Name: "name1", Note: "note1", Field: &FieldBool{}},
+			{Name: "name2", Note: "note2", Field: &FieldText{}},
 		},
 	}
 }

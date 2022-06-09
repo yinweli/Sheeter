@@ -57,13 +57,6 @@ func TestConfig(t *testing.T) {
 	assert.NotNil(t, err)
 }
 
-func TestGlobal(t *testing.T) {
-	config := mockConfig()
-	assert.Equal(t, config.Global.LineOfField-1, config.Global.GetLineOfField())
-	assert.Equal(t, config.Global.LineOfNote-1, config.Global.GetLineOfNote())
-	assert.Equal(t, config.Global.LineOfData-1, config.Global.GetLineOfData())
-}
-
 func mockConfig() *Config {
 	return &Config{
 		Global: Global{
