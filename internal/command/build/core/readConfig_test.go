@@ -13,10 +13,10 @@ func TestReadConfig(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, result)
 
-	result, err = ReadConfig(testdata.Path(testdata.FakeConfig))
+	result, err = ReadConfig(testdata.Path(testdata.Defect1Config))
 	assert.NotNil(t, err)
 
-	result, err = ReadConfig(testdata.Path(testdata.DefectConfig))
+	result, err = ReadConfig(testdata.Path(testdata.Defect2Config))
 	assert.NotNil(t, err)
 
 	result, err = ReadConfig(testdata.Path("?????"))

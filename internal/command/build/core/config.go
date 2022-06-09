@@ -63,21 +63,6 @@ type Global struct {
 	LineOfData     int    `yaml:"lineOfData"`     // 資料起始行號(1為起始行)
 }
 
-// GetLineOfField 取得欄位行號
-func (this *Global) GetLineOfField() int {
-	return this.LineOfField - 1
-}
-
-// GetLineOfNote 取得註解行號
-func (this *Global) GetLineOfNote() int {
-	return this.LineOfNote - 1
-}
-
-// GetLineOfData 取得資料起始行號
-func (this *Global) GetLineOfData() int {
-	return this.LineOfData - 1
-}
-
 // Element 項目設定
 type Element struct {
 	Excel string `yaml:"excel"` // excel檔案名稱

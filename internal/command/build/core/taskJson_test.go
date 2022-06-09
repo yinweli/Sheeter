@@ -16,25 +16,39 @@ func TestTaskJson(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	ctx := mockTaskJsonContext()
+	ctx.Excel = testdata.GetTestExcel(testdata.RealExcel)
 	err := TaskJson(ctx)
 	assert.Nil(t, err)
-	assert.FileExists(t, ctx.JsonFilePath())
-
 	bytes, err := ioutil.ReadFile(ctx.JsonFilePath())
 	assert.Nil(t, err)
 	assert.Equal(t, mockTaskJsonString(), string(bytes[:]))
+	util.SilentClose(ctx.Excel)
 
 	ctx = mockTaskJsonContext()
-	ctx.Columns = []*Column{
-		{Note: "note0", Name: "name0", Field: &FieldInt{}, Datas: []string{"x", "2", "3"}},
-	}
+	ctx.Global.LineOfData = 10
+	ctx.Excel = testdata.GetTestExcel(testdata.RealExcel)
+	err = TaskJson(ctx)
+	assert.Nil(t, err)
+	util.SilentClose(ctx.Excel)
+
+	ctx = mockTaskJsonContext()
+	ctx.Excel = testdata.GetTestExcel(testdata.Defect9Excel)
 	err = TaskJson(ctx)
 	assert.NotNil(t, err)
+	util.SilentClose(ctx.Excel)
+
+	ctx = mockTaskJsonContext()
+	ctx.Excel = testdata.GetTestExcel(testdata.Defect10Excel)
+	err = TaskJson(ctx)
+	assert.NotNil(t, err)
+	util.SilentClose(ctx.Excel)
 
 	ctx = mockTaskJsonContext()
 	ctx.Element.Excel = "?????.xlsx"
+	ctx.Excel = testdata.GetTestExcel(testdata.RealExcel)
 	err = TaskJson(ctx)
 	assert.NotNil(t, err)
+	util.SilentClose(ctx.Excel)
 
 	err = os.RemoveAll(PathJson)
 	assert.Nil(t, err)
@@ -42,15 +56,18 @@ func TestTaskJson(t *testing.T) {
 
 func mockTaskJsonContext() *Context {
 	return &Context{
-		Progress: util.NewProgress(0, "", ioutil.Discard),
+		Global: &Global{
+			LineOfData: 3,
+		},
 		Element: &Element{
-			Excel: "excel.xlsx",
-			Sheet: "sheet",
+			Excel: testdata.RealExcel,
+			Sheet: testdata.SheetName,
 		},
 		Columns: []*Column{
-			{Note: "note0", Name: "name0", Field: &FieldPkey{}, Datas: []string{"1", "2", "3"}},
-			{Note: "note1", Name: "name1", Field: &FieldBool{}, Datas: []string{"false", "true", "false"}},
-			{Note: "note2", Name: "name2", Field: &FieldText{}, Datas: []string{"text1", "text2", "text3"}},
+			{Name: "name0", Field: &FieldPkey{}},
+			{Name: "name1", Field: &FieldBool{}},
+			{Name: "name2", Field: &FieldInt{}},
+			{Name: "name3", Field: &FieldText{}},
 		},
 	}
 }
@@ -59,18 +76,21 @@ func mockTaskJsonString() string {
 	return `[
     {
         "name0": 1,
-        "name1": false,
-        "name2": "text1"
+        "name1": true,
+        "name2": 1,
+        "name3": "a"
     },
     {
         "name0": 2,
-        "name1": true,
-        "name2": "text2"
+        "name1": false,
+        "name2": 2,
+        "name3": "b"
     },
     {
         "name0": 3,
-        "name1": false,
-        "name2": "text3"
+        "name1": true,
+        "name2": 3,
+        "name3": "c"
     }
 ]`
 }

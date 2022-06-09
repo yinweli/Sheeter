@@ -1,38 +1,27 @@
 package core
 
-import "io"
+import "Sheeter/internal/util"
 
 // Task 執行工作
-func Task(global *Global, element *Element, writer io.Writer) error {
+func Task(global *Global, element *Element) error {
 	ctx := &Context{
 		Global:  global,
 		Element: element,
 	}
-	err := TaskExcel(ctx, writer)
+	err := TaskExcel(ctx)
+	defer util.SilentClose(ctx.Excel)
 
 	if err != nil {
 		return err
 	} // if
 
-	err = TaskColumns(ctx)
+	err = TaskFields(ctx)
 
 	if err != nil {
 		return err
 	} // if
 
 	err = TaskNotes(ctx)
-
-	if err != nil {
-		return err
-	} // if
-
-	err = TaskDatas(ctx)
-
-	if err != nil {
-		return err
-	} // if
-
-	err = TaskPkeyCheck(ctx)
 
 	if err != nil {
 		return err
@@ -62,6 +51,5 @@ func Task(global *Global, element *Element, writer io.Writer) error {
 		return err
 	} // if
 
-	_ = ctx.Progress.Finish()
 	return nil
 }

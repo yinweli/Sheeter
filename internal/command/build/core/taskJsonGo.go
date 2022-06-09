@@ -21,7 +21,7 @@ type {{.StructName}} struct { {{setline .Columns}}
 
 // TaskJsonGo 輸出json/go
 func TaskJsonGo(ctx *Context) error {
-	bytes, err := Coder(jsonGoCode, ctx)
+	bytes, err := ctx.GenerateCode(jsonGoCode)
 
 	if err != nil {
 		return fmt.Errorf("generate go failed: %s [%s]", ctx.LogName(), err)
@@ -40,6 +40,5 @@ func TaskJsonGo(ctx *Context) error {
 		return fmt.Errorf("format go failed: %s [%s]", ctx.LogName(), err)
 	} // if
 
-	_ = ctx.Progress.Add(1)
 	return nil
 }

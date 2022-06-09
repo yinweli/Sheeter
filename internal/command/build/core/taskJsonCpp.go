@@ -54,7 +54,7 @@ inline void to_json(json& _j, const struct {{.CppNamespace}}::{{.StructName}}& _
 
 // TaskJsonCpp 輸出json/c++
 func TaskJsonCpp(ctx *Context) error {
-	bytes, err := Coder(jsonCppCode, ctx)
+	bytes, err := ctx.GenerateCode(jsonCppCode)
 
 	if err != nil {
 		return fmt.Errorf("generate cpp failed: %s [%s]", ctx.LogName(), err)
@@ -66,6 +66,5 @@ func TaskJsonCpp(ctx *Context) error {
 		return fmt.Errorf("write to cpp failed: %s [%s]", ctx.LogName(), err)
 	} // if
 
-	_ = ctx.Progress.Add(1)
 	return nil
 }

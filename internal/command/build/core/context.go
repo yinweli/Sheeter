@@ -1,14 +1,16 @@
 package core
 
 import (
+	"bytes"
 	"fmt"
 	"path"
 	"path/filepath"
 	"strings"
+	"text/template"
 
 	"Sheeter/internal/util"
 
-	"github.com/schollz/progressbar/v3"
+	"github.com/xuri/excelize/v2"
 )
 
 const PathJson = "json"         // 輸出路徑: json
@@ -31,12 +33,10 @@ const GoPackage = "sheeter"     // go包名
 
 // Context 工作資料
 type Context struct {
-	Global   *Global                  // 全域設定
-	Element  *Element                 // 項目設定
-	Progress *progressbar.ProgressBar // 進度條
-	Sheets   Sheets                   // 表格列表
-	Columns  []*Column                // 欄位列表
-	Pkey     *Column                  // 主要索引欄位
+	Global  *Global        // 全域設定
+	Element *Element       // 項目設定
+	Excel   *excelize.File // excel物件
+	Columns []*Column      // 欄位列表
 }
 
 // LogName 取得紀錄名稱
@@ -162,6 +162,99 @@ func (this *Context) GoPackage() string {
 	return GoPackage
 }
 
+// GetRows 取得表格行資料, line從1起算
+func (this *Context) GetRows(line int) *excelize.Rows {
+	if line <= 0 {
+		return nil
+	} // if
+
+	rows, err := this.Excel.Rows(this.Element.Sheet)
+
+	if err != nil {
+		return nil
+	} // if
+
+	for l := 0; l < line; l++ {
+		if rows.Next() == false { // 注意! 最少要一次才能定位到第1行; 所以若line=0, 則取不到資料
+			util.SilentClose(rows)
+			return nil
+		} // if
+	} // for
+
+	return rows
+}
+
+// GetCols 取得表格行內容, line從1起算
+func (this *Context) GetCols(line int) []string {
+	rows := this.GetRows(line)
+
+	if rows == nil {
+		return nil
+	} // if
+
+	defer util.SilentClose(rows)
+	cols, err := rows.Columns()
+
+	if err != nil {
+		return nil
+	} // if
+
+	if cols == nil {
+		cols = []string{} // 如果取得空行, 就回傳個空切片吧
+	} // if
+
+	return cols
+}
+
+// IsSheetExists 表格是否存在
+func (this *Context) IsSheetExists() bool {
+	return this.Excel.GetSheetIndex(this.Element.Sheet) != -1
+}
+
+// GenerateCode 產生程式碼
+func (this *Context) GenerateCode(code string) (results []byte, err error) {
+	maxline := 0
+	curline := 0
+	temp, err := template.New("generateCode").Funcs(template.FuncMap{
+		"setline": func(columns []*Column) string {
+			maxline = 0
+
+			for _, itor := range columns {
+				if itor.Field.IsShow() {
+					maxline++
+				} // if
+			} // for
+
+			maxline = maxline - 1 // 減一是為了避免多換一次新行
+			curline = 0
+			return ""
+		},
+		"newline": func() string {
+			result := ""
+
+			if maxline > curline {
+				result = "\n"
+			} // if
+
+			curline++
+			return result
+		},
+	}).Parse(code)
+
+	if err != nil {
+		return nil, err
+	} // if
+
+	buffer := &bytes.Buffer{}
+	err = temp.Execute(buffer, this)
+
+	if err != nil {
+		return nil, err
+	} // if
+
+	return buffer.Bytes(), nil
+}
+
 // fileName 取得檔案名稱
 func (this *Context) fileName(ext string) string {
 	excelName := util.FirstLower(this.excelName())
@@ -175,26 +268,11 @@ func (this *Context) excelName() string {
 	return strings.TrimSuffix(this.Element.Excel, filepath.Ext(this.Element.Excel))
 }
 
-// Sheets 表格列表
-type Sheets [][]string
-
-// Size 取得表格數量
-func (this *Sheets) Size() int {
-	count := 0
-
-	for _, itor := range *this {
-		count = count + len(itor)
-	} // for
-
-	return count
-}
-
 // Column 欄位資料
 type Column struct {
-	Note  string   // 欄位註解
-	Name  string   // 欄位名稱
-	Field Field    // 欄位類型
-	Datas []string // 資料列表
+	Name  string // 欄位名稱
+	Note  string // 欄位註解
+	Field Field  // 欄位類型
 }
 
 // ColumnName 取得欄位名稱

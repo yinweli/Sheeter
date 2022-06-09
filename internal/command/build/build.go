@@ -28,7 +28,7 @@ func execute(cmd *cobra.Command, args []string) error {
 	} // if
 
 	for _, itor := range config.Elements {
-		err := core.Task(&config.Global, &itor, cmd.OutOrStdout())
+		err := core.Task(&config.Global, &itor)
 
 		if err != nil {
 			return err
