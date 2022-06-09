@@ -1,17 +1,17 @@
 package version
 
 import (
+	"Sheeter/internal"
+
 	"github.com/spf13/cobra"
 )
-
-const version = "1.0.4" // 版本字串
 
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "version",
-		Short: "show version",
-		Long:  "show version",
+		Short: "version for sheeter",
+		Long:  "version for sheeter",
 		Run:   execute,
 	}
 
@@ -20,5 +20,5 @@ func NewCommand() *cobra.Command {
 
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
-	cmd.Printf("%s\n", version)
+	cmd.Printf("%s version %s\n", internal.Title, internal.Version)
 }

@@ -1,18 +1,18 @@
 package main
 
 import (
+	"Sheeter/internal"
 	"Sheeter/internal/command/build"
 	"Sheeter/internal/command/version"
 
 	"github.com/spf13/cobra"
 )
 
-const title = "sheeter" // 程式名稱
-
 func main() {
 	rootCommand := cobra.Command{
-		Use:  title,
-		Long: "Sheeter used to convert excel file to json file, and generate code of data structure",
+		Use:     internal.Title,
+		Long:    "Sheeter used to convert excel file to json file, and generate code of data structure",
+		Version: internal.Version,
 	}
 	rootCommand.AddCommand(build.NewCommand())
 	rootCommand.AddCommand(version.NewCommand())
