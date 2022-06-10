@@ -1,7 +1,6 @@
 package build
 
 import (
-	"fmt"
 	"os/exec"
 
 	"Sheeter/internal/command/build/core"
@@ -27,14 +26,14 @@ func execute(cmd *cobra.Command, args []string) {
 	err := exec.Command("go").Run()
 
 	if err != nil {
-		cmd.Println(fmt.Errorf("not install go, download from https://go.dev/dl/"))
+		cmd.Println(err)
 		return
 	} // if
 
 	err = exec.Command("protoc").Run()
 
 	if err != nil {
-		cmd.Println(fmt.Errorf("not install protoc, download from https://github.com/protocolbuffers/protobuf/releases"))
+		cmd.Println(err)
 		return
 	} // if
 
