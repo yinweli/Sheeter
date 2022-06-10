@@ -33,8 +33,7 @@ func (this *Task) executeJsonGo() error {
 		return fmt.Errorf("write to go failed: %s [%s]", this.logName(), err)
 	} // if
 
-	cmd := exec.Command("go", "fmt", this.jsonGoFilePath())
-	err = cmd.Run()
+	err = exec.Command("go", "fmt", this.jsonGoFilePath()).Run()
 
 	if err != nil {
 		return fmt.Errorf("format go failed: %s [%s]", this.logName(), err)
