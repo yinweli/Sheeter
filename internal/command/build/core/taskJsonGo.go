@@ -27,7 +27,7 @@ func (this *Task) executeJsonGo() error {
 		return fmt.Errorf("generate go failed: %s [%s]", this.logName(), err)
 	} // if
 
-	err = util.FileWrite(this.jsonGoFilePath(), bytes)
+	err = util.FileWrite(this.jsonGoFilePath(), bytes, this.global.Bom)
 
 	if err != nil {
 		return fmt.Errorf("write to go failed: %s [%s]", this.logName(), err)

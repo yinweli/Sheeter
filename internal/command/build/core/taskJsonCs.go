@@ -28,7 +28,7 @@ func (this *Task) executeJsonCs() error {
 		return fmt.Errorf("generate cs failed: %s [%s]", this.logName(), err)
 	} // if
 
-	err = util.FileWrite(this.jsonCsFilePath(), bytes)
+	err = util.FileWrite(this.jsonCsFilePath(), bytes, this.global.Bom)
 
 	if err != nil {
 		return fmt.Errorf("write to cs failed: %s [%s]", this.logName(), err)
