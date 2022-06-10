@@ -13,29 +13,38 @@ func NewCommand() *cobra.Command {
 		Short: "build sheet",
 		Long:  "build all the sheet in the configuration",
 		Args:  cobra.ExactArgs(1),
-		RunE:  execute,
+		Run:   execute,
 	}
 
 	return cmd
 }
 
 // execute 執行命令
-func execute(cmd *cobra.Command, args []string) error {
+func execute(cmd *cobra.Command, args []string) {
 	config, err := core.ReadConfig(args[0])
 
 	if err != nil {
-		return err
+		cmd.Println(err)
+		return
 	} // if
 
-	// TODO: 測試多執行緒版本
+	count := len(config.Elements)
+	signaler := make(chan error, 1)
 
 	for _, itor := range config.Elements {
-		err := core.NewTask(&config.Global, &itor).Execute()
-
-		if err != nil {
-			return err
-		} // if
+		go taskRoutine(config.Global, itor, signaler)
 	} // for
 
-	return nil
+	for i := 0; i < count; i++ {
+		err := <-signaler
+
+		if err != nil {
+			cmd.Println(err)
+		} // if
+	} // for
+}
+
+// taskRoutine 多執行緒包裝函式
+func taskRoutine(global core.Global, element core.Element, signaler chan<- error) {
+	signaler <- core.NewTask(&global, &element).Execute()
 }
