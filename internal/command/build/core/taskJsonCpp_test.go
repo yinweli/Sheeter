@@ -14,34 +14,34 @@ func TestTaskJsonCpp(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
-	ctx := mockTaskJsonCppContext()
-	err := TaskJsonCpp(ctx)
+	task := mockTaskJsonCpp()
+	err := task.executeJsonCpp()
 	assert.Nil(t, err)
-	bytes, err := ioutil.ReadFile(ctx.JsonCppFilePath())
+	bytes, err := ioutil.ReadFile(task.jsonCppFilePath())
 	assert.Nil(t, err)
 	assert.Equal(t, mockTaskJsonCppString(), string(bytes[:]))
+	task.close()
 
-	ctx = mockTaskJsonCppContext()
-	ctx.Element.Excel = "?????.xlsx"
-	err = TaskJsonCpp(ctx)
+	task = mockTaskJsonCpp()
+	task.element.Excel = "?????.xlsx"
+	err = task.executeJsonCpp()
 	assert.NotNil(t, err)
+	task.close()
 
-	err = os.RemoveAll(PathJsonCpp)
+	err = os.RemoveAll(pathJsonCpp)
 	assert.Nil(t, err)
 }
 
-func mockTaskJsonCppContext() *Context {
-	return &Context{
-		Global: &Global{
-			ExcelPath:      testdata.RootPath,
+func mockTaskJsonCpp() *Task {
+	return &Task{
+		global: &Global{
 			CppLibraryPath: "nlohmann/json.hpp",
-			LineOfField:    1,
 		},
-		Element: &Element{
+		element: &Element{
 			Excel: testdata.RealExcel,
 			Sheet: testdata.SheetName,
 		},
-		Columns: []*Column{
+		columns: []*Column{
 			{Name: "name0", Note: "note0", Field: &FieldPkey{}},
 			{Name: "name1", Note: "note1", Field: &FieldBool{}},
 			{Name: "name2", Note: "note2", Field: &FieldInt{}},

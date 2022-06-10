@@ -5,7 +5,6 @@ import (
 	"os"
 	"testing"
 
-	"Sheeter/internal/util"
 	"Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
@@ -15,55 +14,55 @@ func TestTaskJson(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
-	ctx := mockTaskJsonContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.RealExcel)
-	err := TaskJson(ctx)
+	task := mockTaskJson()
+	task.excel = testdata.GetTestExcel(testdata.RealExcel)
+	err := task.executeJson()
 	assert.Nil(t, err)
-	bytes, err := ioutil.ReadFile(ctx.JsonFilePath())
+	bytes, err := ioutil.ReadFile(task.jsonFilePath())
 	assert.Nil(t, err)
 	assert.Equal(t, mockTaskJsonString(), string(bytes[:]))
-	util.SilentClose(ctx.Excel)
+	task.close()
 
-	ctx = mockTaskJsonContext()
-	ctx.Global.LineOfData = 10
-	ctx.Excel = testdata.GetTestExcel(testdata.RealExcel)
-	err = TaskJson(ctx)
+	task = mockTaskJson()
+	task.global.LineOfData = 10
+	task.excel = testdata.GetTestExcel(testdata.RealExcel)
+	err = task.executeJson()
 	assert.Nil(t, err)
-	util.SilentClose(ctx.Excel)
+	task.close()
 
-	ctx = mockTaskJsonContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.Defect9Excel)
-	err = TaskJson(ctx)
+	task = mockTaskJson()
+	task.excel = testdata.GetTestExcel(testdata.Defect10Excel)
+	err = task.executeJson()
 	assert.NotNil(t, err)
-	util.SilentClose(ctx.Excel)
+	task.close()
 
-	ctx = mockTaskJsonContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.Defect10Excel)
-	err = TaskJson(ctx)
+	task = mockTaskJson()
+	task.excel = testdata.GetTestExcel(testdata.Defect11Excel)
+	err = task.executeJson()
 	assert.NotNil(t, err)
-	util.SilentClose(ctx.Excel)
+	task.close()
 
-	ctx = mockTaskJsonContext()
-	ctx.Element.Excel = "?????.xlsx"
-	ctx.Excel = testdata.GetTestExcel(testdata.RealExcel)
-	err = TaskJson(ctx)
+	task = mockTaskJson()
+	task.element.Excel = "?????.xlsx"
+	task.excel = testdata.GetTestExcel(testdata.RealExcel)
+	err = task.executeJson()
 	assert.NotNil(t, err)
-	util.SilentClose(ctx.Excel)
+	task.close()
 
-	err = os.RemoveAll(PathJson)
+	err = os.RemoveAll(pathJson)
 	assert.Nil(t, err)
 }
 
-func mockTaskJsonContext() *Context {
-	return &Context{
-		Global: &Global{
+func mockTaskJson() *Task {
+	return &Task{
+		global: &Global{
 			LineOfData: 3,
 		},
-		Element: &Element{
+		element: &Element{
 			Excel: testdata.RealExcel,
 			Sheet: testdata.SheetName,
 		},
-		Columns: []*Column{
+		columns: []*Column{
 			{Name: "name0", Field: &FieldPkey{}},
 			{Name: "name1", Field: &FieldBool{}},
 			{Name: "name2", Field: &FieldInt{}},

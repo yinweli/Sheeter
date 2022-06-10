@@ -3,78 +3,84 @@ package core
 import (
 	"testing"
 
-	"Sheeter/internal/util"
 	"Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestTaskFields(t *testing.T) {
-	ctx := mockTaskFieldsContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.RealExcel)
-	err := TaskFields(ctx)
+	task := mockTaskFields()
+	task.excel = testdata.GetTestExcel(testdata.RealExcel)
+	err := task.executeFields()
 	assert.Nil(t, err)
-	assert.Equal(t, 4, len(ctx.Columns))
-	assert.Equal(t, "name0", ctx.Columns[0].Name)
-	assert.Equal(t, (&FieldPkey{}).TypeExcel(), ctx.Columns[0].Field.TypeExcel())
-	assert.Equal(t, "name1", ctx.Columns[1].Name)
-	assert.Equal(t, (&FieldBool{}).TypeExcel(), ctx.Columns[1].Field.TypeExcel())
-	assert.Equal(t, "name2", ctx.Columns[2].Name)
-	assert.Equal(t, (&FieldInt{}).TypeExcel(), ctx.Columns[2].Field.TypeExcel())
-	assert.Equal(t, "name3", ctx.Columns[3].Name)
-	assert.Equal(t, (&FieldText{}).TypeExcel(), ctx.Columns[3].Field.TypeExcel())
-	util.SilentClose(ctx.Excel)
+	assert.Equal(t, 4, len(task.columns))
+	assert.Equal(t, "name0", task.columns[0].Name)
+	assert.Equal(t, (&FieldPkey{}).TypeExcel(), task.columns[0].Field.TypeExcel())
+	assert.Equal(t, "name1", task.columns[1].Name)
+	assert.Equal(t, (&FieldBool{}).TypeExcel(), task.columns[1].Field.TypeExcel())
+	assert.Equal(t, "name2", task.columns[2].Name)
+	assert.Equal(t, (&FieldInt{}).TypeExcel(), task.columns[2].Field.TypeExcel())
+	assert.Equal(t, "name3", task.columns[3].Name)
+	assert.Equal(t, (&FieldText{}).TypeExcel(), task.columns[3].Field.TypeExcel())
+	task.close()
 
-	ctx = mockTaskFieldsContext()
-	ctx.Global.LineOfField = 10
-	ctx.Excel = testdata.GetTestExcel(testdata.RealExcel)
-	err = TaskFields(ctx)
+	task = mockTaskFields()
+	task.global.LineOfField = 10
+	task.excel = testdata.GetTestExcel(testdata.RealExcel)
+	err = task.executeFields()
 	assert.NotNil(t, err)
-	util.SilentClose(ctx.Excel)
+	task.close()
 
-	ctx = mockTaskFieldsContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.Defect3Excel)
-	err = TaskFields(ctx)
-	assert.NotNil(t, err)
-	util.SilentClose(ctx.Excel)
+	task = mockTaskFields()
+	task.excel = testdata.GetTestExcel(testdata.Defect3Excel)
+	err = task.executeFields()
+	assert.Nil(t, err)
+	assert.Equal(t, 4, len(task.columns))
+	task.close()
 
-	ctx = mockTaskFieldsContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.Defect4Excel)
-	err = TaskFields(ctx)
+	task = mockTaskFields()
+	task.excel = testdata.GetTestExcel(testdata.Defect4Excel)
+	err = task.executeFields()
 	assert.NotNil(t, err)
-	util.SilentClose(ctx.Excel)
+	task.close()
 
-	ctx = mockTaskFieldsContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.Defect5Excel)
-	err = TaskFields(ctx)
+	task = mockTaskFields()
+	task.excel = testdata.GetTestExcel(testdata.Defect5Excel)
+	err = task.executeFields()
 	assert.NotNil(t, err)
-	util.SilentClose(ctx.Excel)
+	task.close()
 
-	ctx = mockTaskFieldsContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.Defect6Excel)
-	err = TaskFields(ctx)
+	task = mockTaskFields()
+	task.excel = testdata.GetTestExcel(testdata.Defect6Excel)
+	err = task.executeFields()
 	assert.NotNil(t, err)
-	util.SilentClose(ctx.Excel)
+	task.close()
 
-	ctx = mockTaskFieldsContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.Defect7Excel)
-	err = TaskFields(ctx)
+	task = mockTaskFields()
+	task.excel = testdata.GetTestExcel(testdata.Defect7Excel)
+	err = task.executeFields()
 	assert.NotNil(t, err)
-	util.SilentClose(ctx.Excel)
+	task.close()
 
-	ctx = mockTaskFieldsContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.Defect8Excel)
-	err = TaskFields(ctx)
+	task = mockTaskFields()
+	task.excel = testdata.GetTestExcel(testdata.Defect8Excel)
+	err = task.executeFields()
 	assert.NotNil(t, err)
-	util.SilentClose(ctx.Excel)
+	task.close()
+
+	task = mockTaskFields()
+	task.excel = testdata.GetTestExcel(testdata.Defect9Excel)
+	err = task.executeFields()
+	assert.NotNil(t, err)
+	task.close()
 }
 
-func mockTaskFieldsContext() *Context {
-	return &Context{
-		Global: &Global{
+func mockTaskFields() *Task {
+	return &Task{
+		global: &Global{
 			LineOfField: 1,
 		},
-		Element: &Element{
+		element: &Element{
 			Excel: testdata.RealExcel,
 			Sheet: testdata.SheetName,
 		},

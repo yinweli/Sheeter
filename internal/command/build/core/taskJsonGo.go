@@ -10,34 +10,34 @@ import (
 // jsonGoCode json/go程式碼模板
 const jsonGoCode = `// generation by sheeter ^o<
 
-package {{.GoPackage}}
+package {{$.GoPackage}}
 
-const {{.StructName}}FileName = "{{.JsonFileName}}" // json file name
+const {{$.StructName}}FileName = "{{$.JsonFileName}}" // json file name
 
-type {{.StructName}} struct { {{setline .Columns}}
-{{range .Columns}}{{if .Field.IsShow}}    {{.ColumnName}} {{.Field.TypeGo}} // {{.Note}}{{newline}}{{end}}{{end}}
+type {{$.StructName}} struct { {{$.SetLine}}
+{{range .Columns}}{{if .Field.IsShow}}    {{$.ColumnName .Name}} {{.Field.TypeGo}} // {{.Note}}{{$.NewLine}}{{end}}{{end}}
 }
 `
 
-// TaskJsonGo 輸出json/go
-func TaskJsonGo(ctx *Context) error {
-	bytes, err := ctx.GenerateCode(jsonGoCode)
+// executeJsonGo 輸出json/go
+func (this *Task) executeJsonGo() error {
+	bytes, err := NewCoder(this.columns, this.global.CppLibraryPath, this.jsonFileName(), this.structName()).Generate(jsonGoCode)
 
 	if err != nil {
-		return fmt.Errorf("generate go failed: %s [%s]", ctx.LogName(), err)
+		return fmt.Errorf("generate go failed: %s [%s]", this.logName(), err)
 	} // if
 
-	err = util.FileWrite(ctx.JsonGoFilePath(), bytes)
+	err = util.FileWrite(this.jsonGoFilePath(), bytes)
 
 	if err != nil {
-		return fmt.Errorf("write to go failed: %s [%s]", ctx.LogName(), err)
+		return fmt.Errorf("write to go failed: %s [%s]", this.logName(), err)
 	} // if
 
-	cmd := exec.Command("go", "fmt", ctx.JsonGoFilePath())
+	cmd := exec.Command("go", "fmt", this.jsonGoFilePath())
 	err = cmd.Run()
 
 	if err != nil {
-		return fmt.Errorf("format go failed: %s [%s]", ctx.LogName(), err)
+		return fmt.Errorf("format go failed: %s [%s]", this.logName(), err)
 	} // if
 
 	return nil

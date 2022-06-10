@@ -14,35 +14,38 @@ func TestTaskJsonCs(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
-	ctx := mockTaskJsonCsContext()
-	err := TaskJsonCs(ctx)
+	task := mockTaskJsonCs()
+	err := task.executeJsonCs()
 	assert.Nil(t, err)
-	assert.FileExists(t, ctx.JsonCsFilePath())
-
-	bytes, err := ioutil.ReadFile(ctx.JsonCsFilePath())
+	bytes, err := ioutil.ReadFile(task.jsonCsFilePath())
 	assert.Nil(t, err)
 	assert.Equal(t, mockTaskJsonCsString(), string(bytes[:]))
+	task.close()
 
-	ctx = mockTaskJsonCsContext()
-	ctx.Element.Excel = "?????.xlsx"
-	err = TaskJsonCs(ctx)
+	task = mockTaskJsonCs()
+	task.element.Excel = "?????.xlsx"
+	err = task.executeJsonCs()
 	assert.NotNil(t, err)
+	task.close()
 
-	err = os.RemoveAll(PathJsonCs)
+	err = os.RemoveAll(pathJsonCs)
 	assert.Nil(t, err)
 }
 
-func mockTaskJsonCsContext() *Context {
-	return &Context{
-		// Progress: util.NewProgress(0, "", ioutil.Discard),
-		Element: &Element{
-			Excel: "excel.xlsx",
-			Sheet: "sheet",
+func mockTaskJsonCs() *Task {
+	return &Task{
+		global: &Global{
+			CppLibraryPath: "nlohmann/json.hpp",
 		},
-		Columns: []*Column{
+		element: &Element{
+			Excel: testdata.RealExcel,
+			Sheet: testdata.SheetName,
+		},
+		columns: []*Column{
 			{Name: "name0", Note: "note0", Field: &FieldPkey{}},
 			{Name: "name1", Note: "note1", Field: &FieldBool{}},
-			{Name: "name2", Note: "note2", Field: &FieldText{}},
+			{Name: "name2", Note: "note2", Field: &FieldInt{}},
+			{Name: "name3", Note: "note3", Field: &FieldText{}},
 		},
 	}
 }
@@ -54,11 +57,12 @@ using System;
 using System.Collections.Generic;
 
 namespace Sheeter {
-    public class ExcelSheet { 
-        public const string fileName = "excelSheet.json";
+    public class RealData { 
+        public const string fileName = "realData.json";
         public int Name0; // note0
         public bool Name1; // note1
-        public string Name2; // note2
+        public int Name2; // note2
+        public string Name3; // note3
     }
 } // namespace Sheeter
 `

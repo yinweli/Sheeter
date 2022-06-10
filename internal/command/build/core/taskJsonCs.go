@@ -12,26 +12,26 @@ const jsonCsCode = `// generation by sheeter ^o<
 using System;
 using System.Collections.Generic;
 
-namespace {{.CsNamespace}} {
-    public class {{.StructName}} { {{setline .Columns}}
-        public const string fileName = "{{.JsonFileName}}";
-{{range .Columns}}{{if .Field.IsShow}}        public {{.Field.TypeCs}} {{.ColumnName}}; // {{.Note}}{{newline}}{{end}}{{end}}
+namespace {{$.CsNamespace}} {
+    public class {{$.StructName}} { {{$.SetLine}}
+        public const string fileName = "{{$.JsonFileName}}";
+{{range .Columns}}{{if .Field.IsShow}}        public {{.Field.TypeCs}} {{$.ColumnName .Name}}; // {{.Note}}{{$.NewLine}}{{end}}{{end}}
     }
-} // namespace {{.CsNamespace}}
+} // namespace {{$.CsNamespace}}
 `
 
-// TaskJsonCs 輸出json/cs
-func TaskJsonCs(ctx *Context) error {
-	bytes, err := ctx.GenerateCode(jsonCsCode)
+// executeJsonCs 輸出json/cs
+func (this *Task) executeJsonCs() error {
+	bytes, err := NewCoder(this.columns, this.global.CppLibraryPath, this.jsonFileName(), this.structName()).Generate(jsonCsCode)
 
 	if err != nil {
-		return fmt.Errorf("generate cs failed: %s [%s]", ctx.LogName(), err)
+		return fmt.Errorf("generate cs failed: %s [%s]", this.logName(), err)
 	} // if
 
-	err = util.FileWrite(ctx.JsonCsFilePath(), bytes)
+	err = util.FileWrite(this.jsonCsFilePath(), bytes)
 
 	if err != nil {
-		return fmt.Errorf("write to cs failed: %s [%s]", ctx.LogName(), err)
+		return fmt.Errorf("write to cs failed: %s [%s]", this.logName(), err)
 	} // if
 
 	return nil

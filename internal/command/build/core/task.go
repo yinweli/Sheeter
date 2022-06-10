@@ -1,55 +1,83 @@
 package core
 
-import "Sheeter/internal/util"
+import (
+	"github.com/xuri/excelize/v2"
+)
 
-// Task 執行工作
-func Task(global *Global, element *Element) error {
-	ctx := &Context{
-		Global:  global,
-		Element: element,
-	}
-	err := TaskExcel(ctx)
-	defer util.SilentClose(ctx.Excel)
+// Task 工作資料
+type Task struct {
+	global  *Global        // 全域設定
+	element *Element       // 項目設定
+	excel   *excelize.File // excel物件
+	columns []*Column      // 欄位列表
+}
 
-	if err != nil {
-		return err
-	} // if
-
-	err = TaskFields(ctx)
-
-	if err != nil {
-		return err
-	} // if
-
-	err = TaskNotes(ctx)
+// Execute 執行工作
+func (this *Task) Execute() error {
+	defer this.close()
+	err := this.executeExcel()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = TaskJson(ctx)
+	err = this.executeFields()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = TaskJsonCpp(ctx)
+	err = this.executeNotes()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = TaskJsonCs(ctx)
+	err = this.executeJson()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = TaskJsonGo(ctx)
+	err = this.executeJsonCpp()
+
+	if err != nil {
+		return err
+	} // if
+
+	err = this.executeJsonCs()
+
+	if err != nil {
+		return err
+	} // if
+
+	err = this.executeJsonGo()
 
 	if err != nil {
 		return err
 	} // if
 
 	return nil
+}
+
+// close 結束工作
+func (this *Task) close() {
+	if this.excel != nil {
+		_ = this.excel.Close()
+	} // if
+}
+
+// NewTask 建立工作資料
+func NewTask(global *Global, element *Element) *Task {
+	return &Task{
+		global:  global,
+		element: element,
+	}
+}
+
+// Column 欄位資料
+type Column struct {
+	Name  string // 欄位名稱
+	Note  string // 欄位註解
+	Field Field  // 欄位類型
 }
