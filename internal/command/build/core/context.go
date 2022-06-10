@@ -109,32 +109,32 @@ func (this *Context) ProtoBytesFilePath() string {
 	return path.Join(PathProto, this.ProtoBytesFileName())
 }
 
-// ProtoCppFileName 取得proto/c++檔名 // TODO: 搞不好不需要QQ
+// ProtoCppFileName 取得proto/c++檔名
 func (this *Context) ProtoCppFileName() string {
 	return this.fileName(ExtCpp)
 }
 
-// ProtoCppFilePath 取得proto/c++檔名路徑 // TODO: 搞不好不需要QQ
+// ProtoCppFilePath 取得proto/c++檔名路徑
 func (this *Context) ProtoCppFilePath() string {
 	return path.Join(PathProtoCpp, this.ProtoCppFileName())
 }
 
-// ProtoCsFileName 取得proto/c#檔名 // TODO: 搞不好不需要QQ
+// ProtoCsFileName 取得proto/c#檔名
 func (this *Context) ProtoCsFileName() string {
 	return this.fileName(ExtCs)
 }
 
-// ProtoCsFilePath 取得proto/c#檔名路徑 // TODO: 搞不好不需要QQ
+// ProtoCsFilePath 取得proto/c#檔名路徑
 func (this *Context) ProtoCsFilePath() string {
 	return path.Join(PathProtoCs, this.ProtoCsFileName())
 }
 
-// ProtoGoFileName 取得proto/go檔名 // TODO: 搞不好不需要QQ
+// ProtoGoFileName 取得proto/go檔名
 func (this *Context) ProtoGoFileName() string {
 	return this.fileName(ExtGo)
 }
 
-// ProtoGoFilePath 取得proto/go檔名路徑 // TODO: 搞不好不需要QQ
+// ProtoGoFilePath 取得proto/go檔名路徑
 func (this *Context) ProtoGoFilePath() string {
 	return path.Join(PathProtoGo, this.ProtoGoFileName())
 }

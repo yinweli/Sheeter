@@ -14,13 +14,16 @@ func TaskFields(ctx *Context) error {
 		return fmt.Errorf("fields not found: %s", ctx.LogName())
 	} // if
 
-	parser := NewParser()
 	names := hashset.New()
 	pkey := false
 	ctx.Columns = []*Column{} // 把欄位列表清空, 避免不必要的問題
 
 	for _, itor := range fields {
-		name, field, err := parser.Parse(itor)
+		if len(itor) <= 0 {
+			break
+		} // if
+
+		name, field, err := ParseField(itor)
 
 		if err != nil {
 			return fmt.Errorf("field parser failed: %s [%s : %s]", ctx.LogName(), itor, err)
