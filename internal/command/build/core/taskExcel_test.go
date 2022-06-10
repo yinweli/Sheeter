@@ -9,38 +9,43 @@ import (
 )
 
 func TestTaskExcel(t *testing.T) {
-	ctx := mockTaskExcelContext()
-	err := TaskExcel(ctx)
+	task := mockTaskExcel()
+	err := task.executeExcel()
 	assert.Nil(t, err)
-	assert.NotNil(t, ctx.Excel)
+	assert.NotNil(t, task.excel)
+	task.close()
 
-	ctx = mockTaskExcelContext()
-	ctx.Global.ExcelPath = ""
-	err = TaskExcel(ctx)
+	task = mockTaskExcel()
+	task.global.ExcelPath = ""
+	err = task.executeExcel()
 	assert.NotNil(t, err)
+	task.close()
 
-	ctx = mockTaskExcelContext()
-	ctx.Element.Excel = testdata.Defect2Excel
-	err = TaskExcel(ctx)
+	task = mockTaskExcel()
+	task.element.Excel = testdata.Defect2Excel
+	err = task.executeExcel()
 	assert.NotNil(t, err)
+	task.close()
 
-	ctx = mockTaskExcelContext()
-	ctx.Element.Excel = "?????"
-	err = TaskExcel(ctx)
+	task = mockTaskExcel()
+	task.element.Excel = "?????"
+	err = task.executeExcel()
 	assert.NotNil(t, err)
+	task.close()
 
-	ctx = mockTaskExcelContext()
-	ctx.Element.Sheet = "?????"
-	err = TaskExcel(ctx)
+	task = mockTaskExcel()
+	task.element.Sheet = "?????"
+	err = task.executeExcel()
 	assert.NotNil(t, err)
+	task.close()
 }
 
-func mockTaskExcelContext() *Context {
-	return &Context{
-		Global: &Global{
+func mockTaskExcel() *Task {
+	return &Task{
+		global: &Global{
 			ExcelPath: testdata.RootPath,
 		},
-		Element: &Element{
+		element: &Element{
 			Excel: testdata.RealExcel,
 			Sheet: testdata.SheetName,
 		},

@@ -3,41 +3,40 @@ package core
 import (
 	"testing"
 
-	"Sheeter/internal/util"
 	"Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestTaskNotes(t *testing.T) {
-	ctx := mockTaskNotesContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.RealExcel)
-	err := TaskNotes(ctx)
+	task := mockTaskNotes()
+	task.excel = testdata.GetTestExcel(testdata.RealExcel)
+	err := task.executeNotes()
 	assert.Nil(t, err)
-	assert.Equal(t, "note0", ctx.Columns[0].Note)
-	assert.Equal(t, "note1", ctx.Columns[1].Note)
-	assert.Equal(t, "note2", ctx.Columns[2].Note)
-	assert.Equal(t, "note3", ctx.Columns[3].Note)
-	util.SilentClose(ctx.Excel)
+	assert.Equal(t, "note0", task.columns[0].Note)
+	assert.Equal(t, "note1", task.columns[1].Note)
+	assert.Equal(t, "note2", task.columns[2].Note)
+	assert.Equal(t, "note3", task.columns[3].Note)
+	task.close()
 
-	ctx = mockTaskNotesContext()
-	ctx.Excel = testdata.GetTestExcel(testdata.RealExcel)
-	ctx.Global.LineOfNote = 10
-	err = TaskNotes(ctx)
+	task = mockTaskNotes()
+	task.excel = testdata.GetTestExcel(testdata.RealExcel)
+	task.global.LineOfNote = 10
+	err = task.executeNotes()
 	assert.NotNil(t, err)
-	util.SilentClose(ctx.Excel)
+	task.close()
 }
 
-func mockTaskNotesContext() *Context {
-	return &Context{
-		Global: &Global{
+func mockTaskNotes() *Task {
+	return &Task{
+		global: &Global{
 			LineOfNote: 2,
 		},
-		Element: &Element{
+		element: &Element{
 			Excel: testdata.RealExcel,
 			Sheet: testdata.SheetName,
 		},
-		Columns: []*Column{
+		columns: []*Column{
 			{Name: "name0", Field: &FieldPkey{}},
 			{Name: "name1", Field: &FieldBool{}},
 			{Name: "name2", Field: &FieldInt{}},

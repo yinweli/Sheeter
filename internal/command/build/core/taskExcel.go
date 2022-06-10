@@ -4,30 +4,28 @@ import (
 	"fmt"
 	"os"
 
-	"Sheeter/internal/util"
-
 	"github.com/xuri/excelize/v2"
 )
 
-// TaskExcel 讀取excel檔案並獲取表格列表
-func TaskExcel(ctx *Context) error {
-	file, err := os.Open(ctx.ExcelFilePath())
+// executeExcel 讀取excel檔案並獲取表格列表
+func (this *Task) executeExcel() error {
+	file, err := os.Open(this.excelFilePath())
 
 	if err != nil {
-		return fmt.Errorf("file open failed/file not found: %s", ctx.LogName())
+		return fmt.Errorf("file open failed/file not found: %s", this.logName())
 	} // if
 
-	defer util.SilentClose(file)
+	defer func() { _ = file.Close() }()
 	excel, err := excelize.OpenReader(file)
 
 	if err != nil {
-		return fmt.Errorf("excel read failed: %s", ctx.LogName())
+		return fmt.Errorf("excel read failed: %s", this.logName())
 	} // if
 
-	ctx.Excel = excel
+	this.excel = excel
 
-	if ctx.IsSheetExists() == false {
-		return fmt.Errorf("sheet not found: %s", ctx.LogName())
+	if this.sheetExists() == false {
+		return fmt.Errorf("sheet not found: %s", this.logName())
 	} // if
 
 	return nil

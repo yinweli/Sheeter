@@ -14,35 +14,38 @@ func TestTaskJsonGo(t *testing.T) {
 	dir := testdata.ChangeWorkDir()
 	defer testdata.RestoreWorkDir(dir)
 
-	ctx := mockTaskJsonGoContext()
-	err := TaskJsonGo(ctx)
+	task := mockTaskJsonGo()
+	err := task.executeJsonGo()
 	assert.Nil(t, err)
-	assert.FileExists(t, ctx.JsonGoFilePath())
-
-	bytes, err := ioutil.ReadFile(ctx.JsonGoFilePath())
+	bytes, err := ioutil.ReadFile(task.jsonGoFilePath())
 	assert.Nil(t, err)
 	assert.Equal(t, mockTaskJsonGoString(), string(bytes[:]))
+	task.close()
 
-	ctx = mockTaskJsonGoContext()
-	ctx.Element.Excel = "?????.xlsx"
-	err = TaskJsonGo(ctx)
+	task = mockTaskJsonGo()
+	task.element.Excel = "?????.xlsx"
+	err = task.executeJsonGo()
 	assert.NotNil(t, err)
+	task.close()
 
-	err = os.RemoveAll(PathJsonGo)
+	err = os.RemoveAll(pathJsonGo)
 	assert.Nil(t, err)
 }
 
-func mockTaskJsonGoContext() *Context {
-	return &Context{
-		// Progress: util.NewProgress(0, "", ioutil.Discard),
-		Element: &Element{
-			Excel: "excel.xlsx",
-			Sheet: "sheet",
+func mockTaskJsonGo() *Task {
+	return &Task{
+		global: &Global{
+			CppLibraryPath: "nlohmann/json.hpp",
 		},
-		Columns: []*Column{
+		element: &Element{
+			Excel: testdata.RealExcel,
+			Sheet: testdata.SheetName,
+		},
+		columns: []*Column{
 			{Name: "name0", Note: "note0", Field: &FieldPkey{}},
 			{Name: "name1", Note: "note1", Field: &FieldBool{}},
-			{Name: "name2", Note: "note2", Field: &FieldText{}},
+			{Name: "name2", Note: "note2", Field: &FieldInt{}},
+			{Name: "name3", Note: "note3", Field: &FieldText{}},
 		},
 	}
 }
@@ -52,12 +55,13 @@ func mockTaskJsonGoString() string {
 
 package sheeter
 
-const ExcelSheetFileName = "excelSheet.json" // json file name
+const RealDataFileName = "realData.json" // json file name
 
-type ExcelSheet struct {
+type RealData struct {
 	Name0 int32  // note0
 	Name1 bool   // note1
-	Name2 string // note2
+	Name2 int32  // note2
+	Name3 string // note3
 }
 `
 }

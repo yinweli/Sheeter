@@ -17,9 +17,9 @@ const jsonCppCode = `// generation by sheeter ^o<
 #include <string>
 #include <vector>
 
-#include "{{.Global.CppLibraryPath}}"
+#include "{{$.CppLibraryPath}}"
 
-namespace {{.CppNamespace}} {
+namespace {{$.CppNamespace}} {
 using nlohmann::json;
 
 #ifndef PKEY
@@ -27,43 +27,43 @@ using nlohmann::json;
 using pkey = int32_t;
 #endif // !PKEY
 
-struct {{.StructName}} { {{setline .Columns}}
-{{range .Columns}}{{if .Field.IsShow}}    {{.Field.TypeCpp}} {{.ColumnName}}; // {{.Note}}{{newline}}{{end}}{{end}}
+struct {{.StructName}} { {{$.SetLine}}
+{{range .Columns}}{{if .Field.IsShow}}    {{.Field.TypeCpp}} {{$.ColumnName .Name}}; // {{.Note}}{{$.NewLine}}{{end}}{{end}}
 
     static std::string get_filename() {
-        return "{{.JsonFileName}}"
+        return "{{$.JsonFileName}}"
     }
 };
 
 inline json get_untyped(const json& j, const char* property) {
     return j.find(property) != j.end() ? j.at(property).get<json>() : json();
 }
-} // namespace {{.CppNamespace}}
+} // namespace {{$.CppNamespace}}
 
 namespace nlohmann {
-inline void from_json(const json& _j, struct {{.CppNamespace}}::{{.StructName}}& _x) { {{setline .Columns}}
-{{range .Columns}}{{if .Field.IsShow}}    _x.{{.ColumnName}} = _j.at("{{.ColumnName}}").get<{{.Field.TypeCpp}}>();{{newline}}{{end}}{{end}}
+inline void from_json(const json& _j, struct {{$.CppNamespace}}::{{$.StructName}}& _x) { {{$.SetLine}}
+{{range .Columns}}{{if .Field.IsShow}}    _x.{{$.ColumnName .Name}} = _j.at("{{$.ColumnName .Name}}").get<{{.Field.TypeCpp}}>();{{$.NewLine}}{{end}}{{end}}
 }
 
-inline void to_json(json& _j, const struct {{.CppNamespace}}::{{.StructName}}& _x) { {{setline .Columns}}
+inline void to_json(json& _j, const struct {{$.CppNamespace}}::{{$.StructName}}& _x) { {{$.SetLine}}
     _j = json::object();
-{{range .Columns}}{{if .Field.IsShow}}    _j["{{.ColumnName}}"] = _x.{{.ColumnName}};{{newline}}{{end}}{{end}}
+{{range .Columns}}{{if .Field.IsShow}}    _j["{{$.ColumnName .Name}}"] = _x.{{$.ColumnName .Name}};{{$.NewLine}}{{end}}{{end}}
 }
 } // namespace nlohmann
 `
 
-// TaskJsonCpp 輸出json/c++
-func TaskJsonCpp(ctx *Context) error {
-	bytes, err := ctx.GenerateCode(jsonCppCode)
+// executeJsonCpp 輸出json/c++
+func (this *Task) executeJsonCpp() error {
+	bytes, err := NewCoder(this.columns, this.global.CppLibraryPath, this.jsonFileName(), this.structName()).Generate(jsonCppCode)
 
 	if err != nil {
-		return fmt.Errorf("generate cpp failed: %s [%s]", ctx.LogName(), err)
+		return fmt.Errorf("generate cpp failed: %s [%s]", this.logName(), err)
 	} // if
 
-	err = util.FileWrite(ctx.JsonCppFilePath(), bytes)
+	err = util.FileWrite(this.jsonCppFilePath(), bytes)
 
 	if err != nil {
-		return fmt.Errorf("write to cpp failed: %s [%s]", ctx.LogName(), err)
+		return fmt.Errorf("write to cpp failed: %s [%s]", this.logName(), err)
 	} // if
 
 	return nil
