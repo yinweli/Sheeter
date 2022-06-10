@@ -3,8 +3,6 @@ package core
 import (
 	"testing"
 
-	"Sheeter/testdata"
-
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,12 +14,10 @@ func TestFieldIntArray(t *testing.T) {
 	assert.Equal(t, "[]int32", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
-
-	result, err := field.Transform(testdata.Int32String())
+	result, err := field.Transform("123,456,789")
 	assert.Nil(t, err)
-	assert.Equal(t, testdata.Int32Array(), result)
-
-	result, err = field.Transform("fake")
+	assert.Equal(t, []int64{123, 456, 789}, result)
+	result, err = field.Transform("?????")
 	assert.NotNil(t, err)
 }
 

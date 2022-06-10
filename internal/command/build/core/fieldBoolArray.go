@@ -40,5 +40,5 @@ func (this *FieldBoolArray) IsPkey() bool {
 
 // Transform 字串轉換
 func (this *FieldBoolArray) Transform(input string) (result interface{}, err error) {
-	return util.StringToBoolArray(input)
+	return util.StrToBoolArray(input)
 }

@@ -3,8 +3,6 @@ package core
 import (
 	"testing"
 
-	"Sheeter/testdata"
-
 	"github.com/stretchr/testify/assert"
 )
 
@@ -16,10 +14,9 @@ func TestFieldTextArray(t *testing.T) {
 	assert.Equal(t, "[]string", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
-
-	result, err := field.Transform(testdata.StringString())
+	result, err := field.Transform("ball,book,pack")
 	assert.Nil(t, err)
-	assert.Equal(t, testdata.StringArray(), result)
+	assert.Equal(t, []string{"ball", "book", "pack"}, result)
 }
 
 func mockFieldTextArray() *FieldTextArray {

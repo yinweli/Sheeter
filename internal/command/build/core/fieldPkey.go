@@ -1,6 +1,8 @@
 package core
 
-import "strconv"
+import (
+	"Sheeter/internal/util"
+)
 
 // FieldPkey 主要索引
 type FieldPkey struct {
@@ -38,5 +40,5 @@ func (this *FieldPkey) IsPkey() bool {
 
 // Transform 字串轉換
 func (this *FieldPkey) Transform(input string) (result interface{}, err error) {
-	return strconv.Atoi(input)
+	return util.StrToInt(input)
 }

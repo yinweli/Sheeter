@@ -14,12 +14,10 @@ func TestFieldFloat(t *testing.T) {
 	assert.Equal(t, "float32", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
-
-	result, err := field.Transform("0.9999")
+	result, err := field.Transform("0.000001")
 	assert.Nil(t, err)
-	assert.InDelta(t, 0.9999, result, 0.0001)
-
-	result, err = field.Transform("fake")
+	assert.Equal(t, 0.000001, result)
+	result, err = field.Transform("?????")
 	assert.NotNil(t, err)
 }
 

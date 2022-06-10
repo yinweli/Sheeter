@@ -38,5 +38,5 @@ func (this *FieldLongArray) IsPkey() bool {
 
 // Transform 字串轉換
 func (this *FieldLongArray) Transform(input string) (result interface{}, err error) {
-	return util.StringToInt64Array(input)
+	return util.StrToIntArray(input)
 }

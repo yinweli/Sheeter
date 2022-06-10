@@ -1,6 +1,8 @@
 package core
 
-import "strconv"
+import (
+	"Sheeter/internal/util"
+)
 
 // FieldBool 布林值
 type FieldBool struct {
@@ -38,5 +40,5 @@ func (this *FieldBool) IsPkey() bool {
 
 // Transform 字串轉換
 func (this *FieldBool) Transform(input string) (result interface{}, err error) {
-	return strconv.ParseBool(input)
+	return util.StrToBool(input)
 }
