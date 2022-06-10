@@ -61,7 +61,7 @@ func (this *Task) executeJson() error {
 		return fmt.Errorf("convert json failed: %s [%s]", this.logName(), err)
 	} // if
 
-	err = util.FileWrite(this.jsonFilePath(), bytes)
+	err = util.FileWrite(this.jsonFilePath(), bytes, this.global.Bom)
 
 	if err != nil {
 		return fmt.Errorf("write to json failed: %s [%s]", this.logName(), err)
