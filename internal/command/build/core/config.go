@@ -2,6 +2,9 @@ package core
 
 import (
 	"fmt"
+	"io/ioutil"
+
+	"gopkg.in/yaml.v3"
 )
 
 // Config 編譯設定
@@ -67,4 +70,28 @@ type Global struct {
 type Element struct {
 	Excel string `yaml:"excel"` // excel檔案名稱
 	Sheet string `yaml:"sheet"` // excel表單名稱
+}
+
+// ReadConfig 讀取設定
+func ReadConfig(fileName string) (result *Config, err error) {
+	bytes, err := ioutil.ReadFile(fileName)
+
+	if err != nil {
+		return nil, err
+	} // if
+
+	result = &Config{}
+	err = yaml.Unmarshal(bytes, result)
+
+	if err != nil {
+		return nil, err
+	} // if
+
+	err = result.Check()
+
+	if err != nil {
+		return nil, err
+	} // if
+
+	return result, nil
 }

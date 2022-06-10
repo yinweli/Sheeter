@@ -27,6 +27,8 @@ func execute(cmd *cobra.Command, args []string) error {
 		return err
 	} // if
 
+	// TODO: 測試多執行緒版本
+
 	for _, itor := range config.Elements {
 		err := core.Task(&config.Global, &itor)
 
