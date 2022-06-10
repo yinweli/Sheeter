@@ -1,7 +1,7 @@
 package core
 
 import (
-	"strconv"
+	"Sheeter/internal/util"
 )
 
 // FieldLong 64位元整數
@@ -40,5 +40,5 @@ func (this *FieldLong) IsPkey() bool {
 
 // Transform 字串轉換
 func (this *FieldLong) Transform(input string) (result interface{}, err error) {
-	return strconv.ParseInt(input, 10, 64)
+	return util.StrToInt(input)
 }

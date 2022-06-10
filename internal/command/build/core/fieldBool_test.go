@@ -14,12 +14,10 @@ func TestFieldBool(t *testing.T) {
 	assert.Equal(t, "bool", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
-
 	result, err := field.Transform("true")
 	assert.Nil(t, err)
 	assert.Equal(t, true, result)
-
-	result, err = field.Transform("fake")
+	result, err = field.Transform("?????")
 	assert.NotNil(t, err)
 }
 

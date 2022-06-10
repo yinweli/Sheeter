@@ -14,12 +14,10 @@ func TestFieldPkey(t *testing.T) {
 	assert.Equal(t, "int32", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, true, field.IsPkey())
-
-	result, err := field.Transform("999")
+	result, err := field.Transform("123456789")
 	assert.Nil(t, err)
-	assert.Equal(t, 999, result)
-
-	result, err = field.Transform("fake")
+	assert.Equal(t, int64(123456789), result)
+	result, err = field.Transform("?????")
 	assert.NotNil(t, err)
 }
 

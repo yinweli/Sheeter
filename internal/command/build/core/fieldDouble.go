@@ -1,6 +1,8 @@
 package core
 
-import "strconv"
+import (
+	"Sheeter/internal/util"
+)
 
 // FieldDouble 64位元浮點數
 type FieldDouble struct {
@@ -38,5 +40,5 @@ func (this *FieldDouble) IsPkey() bool {
 
 // Transform 字串轉換
 func (this *FieldDouble) Transform(input string) (result interface{}, err error) {
-	return strconv.ParseFloat(input, 64)
+	return util.StrToFloat(input)
 }

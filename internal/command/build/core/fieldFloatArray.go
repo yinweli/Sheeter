@@ -38,5 +38,5 @@ func (this *FieldFloatArray) IsPkey() bool {
 
 // Transform 字串轉換
 func (this *FieldFloatArray) Transform(input string) (result interface{}, err error) {
-	return util.StringToFloat32Array(input)
+	return util.StrToFloatArray(input)
 }

@@ -38,5 +38,5 @@ func (this *FieldTextArray) IsPkey() bool {
 
 // Transform 字串轉換
 func (this *FieldTextArray) Transform(input string) (result interface{}, err error) {
-	return util.StringToStringArray(input), nil
+	return util.StrToStrArray(input), nil
 }

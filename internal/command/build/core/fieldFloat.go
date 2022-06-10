@@ -1,6 +1,8 @@
 package core
 
-import "strconv"
+import (
+	"Sheeter/internal/util"
+)
 
 // FieldFloat 32位元浮點數
 type FieldFloat struct {
@@ -38,5 +40,5 @@ func (this *FieldFloat) IsPkey() bool {
 
 // Transform 字串轉換
 func (this *FieldFloat) Transform(input string) (result interface{}, err error) {
-	return strconv.ParseFloat(input, 32)
+	return util.StrToFloat(input)
 }

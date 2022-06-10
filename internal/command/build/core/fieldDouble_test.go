@@ -14,12 +14,10 @@ func TestFieldDouble(t *testing.T) {
 	assert.Equal(t, "float64", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
-
-	result, err := field.Transform("0.99999999")
+	result, err := field.Transform("0.000001")
 	assert.Nil(t, err)
-	assert.InDelta(t, 0.99999999, result, 0.00000001)
-
-	result, err = field.Transform("fake")
+	assert.Equal(t, 0.000001, result)
+	result, err = field.Transform("?????")
 	assert.NotNil(t, err)
 }
 
