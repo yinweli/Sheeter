@@ -35,6 +35,7 @@ sheeter build xxxx.yaml
 * 多執行緒版本
 * 讓BOM機制有效
 * 事前檢查機制(可能要加到Jobs中), 要檢查是否有安裝Go/Protoc
-* * 浮點數轉換由strconv.ParseFloat改用strconv.FormatFloat
+* 浮點數轉換由strconv.ParseFloat改用strconv.FormatFloat
 * 浮點數精度改由設定檔指定或是在欄位上指定
 * 加上writeProto格式
+* 加上進度條顯示
