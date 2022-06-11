@@ -28,9 +28,5 @@ sheeter build xxxx.yaml
 | text        | 字串                  |
 | textArray   | 以逗號分隔的字串陣列          |
 
-# 已知問題
-浮點數數值在輸出到json格式時, 會因為浮點數精度的問題造成錯誤. 例如表格中原本是0.1, 輸出到json變成0.10000000149011612
-
 # TODO
 * 加上writeProto格式
-* 加上進度條顯示

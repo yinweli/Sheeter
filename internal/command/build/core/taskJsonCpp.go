@@ -66,5 +66,6 @@ func (this *Task) executeJsonCpp() error {
 		return fmt.Errorf("write to cpp failed: %s [%s]", this.logName(), err)
 	} // if
 
+	this.bar.IncrBy(taskProgressM)
 	return nil
 }

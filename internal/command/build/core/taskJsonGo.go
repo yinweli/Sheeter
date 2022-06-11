@@ -39,5 +39,6 @@ func (this *Task) executeJsonGo() error {
 		return fmt.Errorf("format go failed: %s [%s]", this.logName(), err)
 	} // if
 
+	this.bar.IncrBy(taskProgressM)
 	return nil
 }
