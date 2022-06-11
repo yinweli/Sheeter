@@ -29,4 +29,14 @@ sheeter build xxxx.yaml
 | textArray   | 以逗號分隔的字串陣列          |
 
 # TODO
-* 加上writeProto格式
+* 產生proto message
+* 產生proto bytes data
+* 產生proto/c++ code
+* 產生proto/cs code
+* 產生proto/go code
+* 新增json/c++驗證子專案
+* 新增json/cs驗證子專案
+* 新增json/go驗證子專案
+* 新增proto/c++驗證子專案
+* 新增proto/cs驗證子專案
+* 新增proto/go驗證子專案
