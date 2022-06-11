@@ -20,6 +20,9 @@ func (this *Task) executeExcel() error {
 		return fmt.Errorf("sheet not found: %s", this.logName())
 	} // if
 
-	this.bar.IncrBy(taskProgressM)
+	if this.bar != nil {
+		this.bar.IncrBy(taskProgressM)
+	} // if
+
 	return nil
 }

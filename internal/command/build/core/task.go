@@ -65,7 +65,10 @@ func (this *Task) Execute() error {
 		return err
 	} // if
 
-	this.bar.SetTotal(100, true) // 讓進度條顯示完成
+	if this.bar != nil {
+		this.bar.SetTotal(100, true) // 讓進度條顯示完成
+	} // if
+
 	return nil
 }
 

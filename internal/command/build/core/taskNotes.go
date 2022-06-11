@@ -18,6 +18,9 @@ func (this *Task) executeNotes() error {
 		} // if
 	} // for
 
-	this.bar.IncrBy(taskProgressS)
+	if this.bar != nil {
+		this.bar.IncrBy(taskProgressS)
+	} // if
+
 	return nil
 }

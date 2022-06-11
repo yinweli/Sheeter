@@ -67,6 +67,9 @@ func (this *Task) executeJson() error {
 		return fmt.Errorf("write to json failed: %s [%s]", this.logName(), err)
 	} // if
 
-	this.bar.IncrBy(taskProgressL)
+	if this.bar != nil {
+		this.bar.IncrBy(taskProgressL)
+	} // if
+
 	return nil
 }
