@@ -125,7 +125,7 @@ func TestTask(t *testing.T) {
 }
 
 func TestNewTask(t *testing.T) {
-	task := NewTask(nil, nil)
+	task := NewTask(nil, nil, nil)
 	assert.NotNil(t, task)
 }
 

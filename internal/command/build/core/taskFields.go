@@ -53,6 +53,9 @@ func (this *Task) executeFields() error {
 		return fmt.Errorf("pkey not found: %s", this.logName())
 	} // if
 
-	this.bar.IncrBy(taskProgressS)
+	if this.bar != nil {
+		this.bar.IncrBy(taskProgressS)
+	} // if
+
 	return nil
 }
