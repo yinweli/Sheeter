@@ -1,13 +1,21 @@
 package core
 
 import (
+	"github.com/vbauerster/mpb/v7"
 	"github.com/xuri/excelize/v2"
 )
+
+// TaskProgress 工作進度值
+const TaskProgress = taskProgressM + taskProgressS + taskProgressS + taskProgressL + taskProgressM + taskProgressM + taskProgressM
+const taskProgressS = 1 // 小型工作進度值
+const taskProgressM = 3 // 中型工作進度值
+const taskProgressL = 5 // 大型工作進度值
 
 // Task 工作資料
 type Task struct {
 	global  *Global        // 全域設定
 	element *Element       // 項目設定
+	bar     *mpb.Bar       // 進度條物件
 	excel   *excelize.File // excel物件
 	columns []*Column      // 欄位列表
 }
@@ -57,6 +65,7 @@ func (this *Task) Execute() error {
 		return err
 	} // if
 
+	this.bar.SetTotal(100, true) // 讓進度條顯示完成
 	return nil
 }
 
@@ -68,10 +77,11 @@ func (this *Task) close() {
 }
 
 // NewTask 建立工作資料
-func NewTask(global *Global, element *Element) *Task {
+func NewTask(global *Global, element *Element, bar *mpb.Bar) *Task {
 	return &Task{
 		global:  global,
 		element: element,
+		bar:     bar,
 	}
 }
 

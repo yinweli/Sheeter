@@ -34,5 +34,6 @@ func (this *Task) executeJsonCs() error {
 		return fmt.Errorf("write to cs failed: %s [%s]", this.logName(), err)
 	} // if
 
+	this.bar.IncrBy(taskProgressM)
 	return nil
 }

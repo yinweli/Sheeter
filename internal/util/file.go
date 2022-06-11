@@ -27,3 +27,14 @@ func FileWrite(filePath string, bytes []byte, bom bool) error {
 
 	return nil
 }
+
+// FileSize 取得檔案長度
+func FileSize(file *os.File) int64 {
+	stat, err := file.Stat()
+
+	if err != nil {
+		return 0
+	} // if
+
+	return stat.Size()
+}
