@@ -27,7 +27,7 @@ elements:
 ```
 
 # 如何寫excel檔案
-![excel_example](Docs/excel_example.jpg)
+![excel](Docs/excel.jpg)
 
 ## 欄位行
 欄位的格式為`名稱#格式`, 空格之後的欄位不會輸出
@@ -56,6 +56,16 @@ elements:
 依照格式填寫相應的內容即可, 其中`empty, text, textArray`這三種格式允許空格, 其他格式的空格會造成錯誤  
 另外空表格(也就是沒有任何資料行)是允許的
 
+## 轉換檔名規則
+如果excel檔案名稱為example.xlsx, 表格名稱為data
+json檔案名稱: exampleData.json
+json的c++檔案名稱: exampleData.hpp
+json的c++結構名稱: ExampleData
+json的c#檔案名稱: exampleData.cs
+json的c#結構名稱: ExampleData
+json的go檔案名稱: exampleData.go
+json的go結構名稱: ExampleData
+
 ## 其他的限制
 * 表格必須有欄位行與註解行, 但是可以不需要有資料行
 * 欄位行與註解行必須在資料行之前
@@ -64,7 +74,124 @@ elements:
 * 表格只能有一個`pkey`欄位
 * `pkey`欄位中的內容不能重複
 * 欄位名稱不能重複(包括`empty`欄位)
-* 系統必須安裝`Go`與`Go fmt`
+* 系統得先安裝`go`與`go fmt`
+
+# 轉換範例
+![範例excel檔案內容](Docs/example_excel.jpg)
+
+json檔案
+```
+[
+    {
+        "name0": 1,
+        "name1": true,
+        "name2": 1,
+        "name3": "a"
+    },
+    {
+        "name0": 2,
+        "name1": false,
+        "name2": 2,
+        "name3": "b"
+    },
+    {
+        "name0": 3,
+        "name1": true,
+        "name2": 3,
+        "name3": "c"
+    }
+]
+```
+
+json/c++檔案
+```
+// generation by sheeter ^o<
+// use nlohmann json library
+// github: https://github.com/nlohmann/json
+
+#pragma once
+
+#include <stdint.h>
+#include <string>
+#include <vector>
+
+#include "nlohmann"
+
+namespace Sheeter {
+using nlohmann::json;
+
+#ifndef PKEY
+#define PKEY
+using pkey = int32_t;
+#endif // !PKEY
+
+struct RealData { 
+    Sheeter::pkey Name0; // note0
+    bool Name1; // note1
+    int32_t Name2; // note2
+    std::string Name3; // note3
+
+    static std::string get_filename() {
+        return "realData.json"
+    }
+};
+
+inline json get_untyped(const json& j, const char* property) {
+    return j.find(property) != j.end() ? j.at(property).get<json>() : json();
+}
+} // namespace Sheeter
+
+namespace nlohmann {
+inline void from_json(const json& _j, struct Sheeter::RealData& _x) { 
+    _x.Name0 = _j.at("Name0").get<Sheeter::pkey>();
+    _x.Name1 = _j.at("Name1").get<bool>();
+    _x.Name2 = _j.at("Name2").get<int32_t>();
+    _x.Name3 = _j.at("Name3").get<std::string>();
+}
+
+inline void to_json(json& _j, const struct Sheeter::RealData& _x) { 
+    _j = json::object();
+    _j["Name0"] = _x.Name0;
+    _j["Name1"] = _x.Name1;
+    _j["Name2"] = _x.Name2;
+    _j["Name3"] = _x.Name3;
+}
+} // namespace nlohmann
+```
+
+json/c#檔案
+```
+// generation by sheeter ^o<
+
+using System;
+using System.Collections.Generic;
+
+namespace Sheeter {
+    public class RealData { 
+        public const string fileName = "realData.json";
+        public int Name0; // note0
+        public bool Name1; // note1
+        public int Name2; // note2
+        public string Name3; // note3
+    }
+} // namespace Sheeter
+```
+
+json/go檔案
+```
+// generation by sheeter ^o<
+
+package sheeter
+
+const RealDataFileName = "realData.json" // json file name
+
+type RealData struct {
+	Name0 int32  // note0
+	Name1 bool   // note1
+	Name2 int32  // note2
+	Name3 string // note3
+}
+```
 
 # 專案目錄說明
 * Sheeter: 轉檔工具專案
