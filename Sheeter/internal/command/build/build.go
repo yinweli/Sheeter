@@ -37,13 +37,6 @@ func execute(cmd *cobra.Command, args []string) {
 		return
 	} // if
 
-	err = exec.Command("protoc").Run() // 檢查是否有安裝protoc
-
-	if err != nil {
-		cmd.Println(err)
-		return
-	} // if
-
 	config, err := core.ReadConfig(args[0])
 
 	if err != nil {
