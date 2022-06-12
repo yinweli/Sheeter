@@ -5,13 +5,13 @@
 
 # 如何執行
 配置好yaml格式的設定檔與excel檔案  
-執行 sheeter build 設定檔.yaml
+執行`> sheeter build 設定檔.yaml`
 
 # 如何寫設定檔
 ```
 global:
   excelPath: .\                     # excel檔案的路徑
-  cppLibraryPath: nlohmann/json.hpp # c++使用的json函式庫路徑
+  cppLibraryPath: nlohmann/json.hpp # c++使用的nlohmann/json函式庫路徑
   bom: true                         # 輸出的檔案是否含BOM
   lineOfField: 1                    # excel表格中欄位行位置, 從1起算
   lineOfNote: 2                     # excel表格中註解行位置, 從1起算
@@ -57,14 +57,14 @@ elements:
 另外空表格(也就是沒有任何資料行)是允許的
 
 ## 轉換檔名規則
-如果excel檔案名稱為example.xlsx, 表格名稱為data  
-json檔案名稱: exampleData.json  
-json的c++檔案名稱: exampleData.hpp  
-json的c++結構名稱: ExampleData  
-json的c#檔案名稱: exampleData.cs  
-json的c#結構名稱: ExampleData  
-json的go檔案名稱: exampleData.go  
-json的go結構名稱: ExampleData  
+如果excel檔案名稱為`example.xlsx`, 表格名稱為`data`  
+* json檔案名稱: `exampleData.json`
+* json的c++檔案名稱: `exampleData.hpp`
+* json的c++結構名稱: `ExampleData`
+* json的c#檔案名稱: `exampleData.cs`
+* json的c#結構名稱: `ExampleData`
+* json的go檔案名稱: `exampleData.go`
+* json的go結構名稱: `ExampleData`
 
 ## 其他的限制
 * 系統得先安裝`go`與`go fmt`
