@@ -76,6 +76,10 @@ elements:
 * 表格只能有一個`pkey`欄位
 * `pkey`欄位中的內容不能重複
 * 欄位名稱不能重複(包括`empty`欄位)
+* c++程式碼的命名空間為`Sheeter`
+* c#程式碼的命名空間為`Sheeter`
+* go程式碼的軟體包名為`sheeter`
+    * 這代表你得把產生出來的go程式碼放在`\sheeter`目錄下
 
 # 轉換範例
 ![範例excel檔案內容](Docs/example_excel.jpg)
