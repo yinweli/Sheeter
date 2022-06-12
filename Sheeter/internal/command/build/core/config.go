@@ -39,10 +39,6 @@ func (this *Config) Check() error {
 		return fmt.Errorf("global: LineOfNote(%d) >= LineOfData(%d)", this.Global.LineOfNote, this.Global.LineOfData)
 	} // if
 
-	if len(this.Elements) <= 0 {
-		return fmt.Errorf("elements empty")
-	} // if
-
 	for _, itor := range this.Elements {
 		if itor.Excel == "" {
 			return fmt.Errorf("element: excel empty")
