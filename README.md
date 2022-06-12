@@ -67,7 +67,7 @@ elements:
 * json的go結構名稱: `ExampleData`
 
 ## 其他的限制
-* 系統得先安裝`go`與`go fmt`
+* 系統得先安裝`go`與`gofmt`
 * c++結構使用nlohmann的json函式庫(https://github.com/nlohmann/json)
 * 表格必須有欄位行與註解行, 但是可以不需要有資料行
 * 欄位行與註解行必須在資料行之前
@@ -199,14 +199,15 @@ type RealData struct {
 * Docs: 說明文件
 
 # TODO
+* 經由設定檔指定go與gofmt路徑
+* 新增json/c++驗證子專案
+* 新增json/cs驗證子專案
+* 新增json/go驗證子專案
 * 產生proto message
 * 產生proto bytes data
 * 產生proto/c++ code
 * 產生proto/cs code
 * 產生proto/go code
-* 新增json/c++驗證子專案
-* 新增json/cs驗證子專案
-* 新增json/go驗證子專案
 * 新增proto/c++驗證子專案
 * 新增proto/cs驗證子專案
 * 新增proto/go驗證子專案
