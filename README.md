@@ -10,16 +10,16 @@
 # 如何寫設定檔
 ```
 global:
-  excelPath: .\                 # excel檔案的路徑
-  cppLibraryPath: nlohmann\json # c++使用的json函式庫路徑
-  bom: true                     # 輸出的檔案是否含BOM
-  lineOfField: 1                # excel表格中欄位行位置, 從1起算
-  lineOfNote: 2                 # excel表格中註解行位置, 從1起算
-  lineOfData: 3                 # excel表格中資料從哪行開始, 從1起算
+  excelPath: .\                     # excel檔案的路徑
+  cppLibraryPath: nlohmann/json.hpp # c++使用的json函式庫路徑
+  bom: true                         # 輸出的檔案是否含BOM
+  lineOfField: 1                    # excel表格中欄位行位置, 從1起算
+  lineOfNote: 2                     # excel表格中註解行位置, 從1起算
+  lineOfData: 3                     # excel表格中資料從哪行開始, 從1起算
 
 elements:
-  - excel: excel1.xlsx          # 要轉換的excel檔名
-    sheet: Data                 # 要轉換的表格名稱
+  - excel: excel1.xlsx              # 要轉換的excel檔名
+    sheet: Data                     # 要轉換的表格名稱
   - excel: excel2.xlsx
     sheet: Data
   - excel: excel3.xlsx
@@ -53,20 +53,22 @@ elements:
 單行註解, 若為空格就輸出空註解
 
 ## 資料行
-依照格式填寫相應的內容即可, 其中`empty, text, textArray`這三種格式允許空格, 其他格式的空格會造成錯誤  
+依照格式填寫相應的內容即可, 其中`empty`, `text`, `textArray`這三種格式允許空格, 其他格式的空格會造成錯誤  
 另外空表格(也就是沒有任何資料行)是允許的
 
 ## 轉換檔名規則
-如果excel檔案名稱為example.xlsx, 表格名稱為data
-json檔案名稱: exampleData.json
-json的c++檔案名稱: exampleData.hpp
-json的c++結構名稱: ExampleData
-json的c#檔案名稱: exampleData.cs
-json的c#結構名稱: ExampleData
-json的go檔案名稱: exampleData.go
-json的go結構名稱: ExampleData
+如果excel檔案名稱為example.xlsx, 表格名稱為data  
+json檔案名稱: exampleData.json  
+json的c++檔案名稱: exampleData.hpp  
+json的c++結構名稱: ExampleData  
+json的c#檔案名稱: exampleData.cs  
+json的c#結構名稱: ExampleData  
+json的go檔案名稱: exampleData.go  
+json的go結構名稱: ExampleData  
 
 ## 其他的限制
+* 系統得先安裝`go`與`go fmt`
+* c++結構使用nlohmann的json函式庫(https://github.com/nlohmann/json)
 * 表格必須有欄位行與註解行, 但是可以不需要有資料行
 * 欄位行與註解行必須在資料行之前
 * 設定檔中必須設定好欄位行, 註解行, 資料行的位置; 設定時要注意行數是從1開始的
@@ -74,7 +76,6 @@ json的go結構名稱: ExampleData
 * 表格只能有一個`pkey`欄位
 * `pkey`欄位中的內容不能重複
 * 欄位名稱不能重複(包括`empty`欄位)
-* 系統得先安裝`go`與`go fmt`
 
 # 轉換範例
 ![範例excel檔案內容](Docs/example_excel.jpg)
@@ -115,7 +116,7 @@ json/c++檔案
 #include <string>
 #include <vector>
 
-#include "nlohmann"
+#include "nlohmann/json.hpp"
 
 namespace Sheeter {
 using nlohmann::json;
