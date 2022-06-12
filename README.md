@@ -27,7 +27,7 @@ elements:
 ```
 
 # 如何寫excel檔案
-![excel_example](docs/excel_example.jpg)
+![excel_example](Docs/excel_example.jpg)
 
 ## 欄位行
 欄位的格式為`名稱#格式`, 空格之後的欄位不會輸出
