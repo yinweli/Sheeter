@@ -44,11 +44,6 @@ func TestConfig(t *testing.T) {
 	assert.NotNil(t, err)
 
 	config = mockConfig()
-	config.Elements = []Element{}
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
 	config.Elements[0].Excel = ""
 	err = config.Check()
 	assert.NotNil(t, err)
