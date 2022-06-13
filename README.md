@@ -4,7 +4,7 @@
 轉換時會自動產生c++/c#/go的結構程式碼, 就不必再手寫了  
 
 # 前一個版本
-這個專案的前身是![Sheet](https://github.com/yinweli/Sheet)  
+這個專案的前身是[Sheet](https://github.com/yinweli/Sheet)  
 
 # 如何安裝
 首先要安裝Go(https://go.dev/dl/)  
