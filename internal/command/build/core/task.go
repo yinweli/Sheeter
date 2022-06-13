@@ -1,6 +1,8 @@
 package core
 
 import (
+	"time"
+
 	"github.com/vbauerster/mpb/v7"
 	"github.com/xuri/excelize/v2"
 )
@@ -67,6 +69,7 @@ func (this *Task) Execute() error {
 
 	if this.bar != nil {
 		this.bar.SetTotal(100, true) // 讓進度條顯示完成
+		time.Sleep(time.Millisecond) // 讓進度條有時間畫圖
 	} // if
 
 	return nil

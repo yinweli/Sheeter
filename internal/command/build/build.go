@@ -6,6 +6,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/hako/durafmt"
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/command/build/core"
 
@@ -81,5 +82,5 @@ func execute(cmd *cobra.Command, args []string) {
 		} // if
 	} // for
 
-	cmd.Printf("%s done, usage time=%s\n", internal.Title, time.Since(startTime))
+	cmd.Printf("%s done, usage time=%s\n", internal.Title, durafmt.Parse(time.Since(startTime)))
 }
