@@ -1,7 +1,7 @@
 package core
 
 import (
-	"Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // FieldFloat 32位元浮點數

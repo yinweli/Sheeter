@@ -1,9 +1,9 @@
 package main
 
 import (
-	"Sheeter/internal"
-	"Sheeter/internal/command/build"
-	"Sheeter/internal/command/version"
+	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/command/build"
+	"github.com/yinweli/Sheeter/internal/command/version"
 
 	"github.com/spf13/cobra"
 )

@@ -1,6 +1,6 @@
 package core
 
-import "Sheeter/internal/util"
+import "github.com/yinweli/Sheeter/internal/util"
 
 // FieldDoubleArray 64位元浮點數陣列
 type FieldDoubleArray struct {

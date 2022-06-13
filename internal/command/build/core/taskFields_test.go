@@ -3,7 +3,7 @@ package core
 import (
 	"testing"
 
-	"Sheeter/testdata"
+	"github.com/yinweli/Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
 )

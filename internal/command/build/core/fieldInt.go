@@ -1,7 +1,7 @@
 package core
 
 import (
-	"Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // FieldInt 32位元整數

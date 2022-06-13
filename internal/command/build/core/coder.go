@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"text/template"
 
-	"Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 const CppNamespace = "Sheeter" // c++命名空間名稱

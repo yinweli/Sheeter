@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/util"
 
 	"github.com/xuri/excelize/v2"
 )

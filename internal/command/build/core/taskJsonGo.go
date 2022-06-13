@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os/exec"
 
-	"Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // jsonGoCode json/go程式碼模板
