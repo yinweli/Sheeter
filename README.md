@@ -3,6 +3,13 @@
 用於將按照格式做好的excel轉換為json格式  
 轉換時會自動產生c++/c#/go的結構程式碼, 就不必再手寫了  
 
+# 前一個版本
+這個專案的前身是Sheet(https://github.com/yinweli/Sheet)這個專案  
+
+# 如何安裝
+首先要安裝Go(https://go.dev/dl/)  
+然後在指令行執行`> `
+
 # 如何執行
 配置好yaml格式的設定檔與excel檔案  
 執行`> sheeter build 設定檔.yaml`
@@ -27,7 +34,7 @@ elements:
 ```
 
 # 如何寫excel檔案
-![excel](Docs/excel.jpg)
+![excel](.readme/excel.jpg)
 
 ## 欄位行
 欄位的格式為`名稱#格式`, 空格之後的欄位不會輸出
@@ -82,7 +89,7 @@ elements:
     * 這代表你得把產生出來的go程式碼放在`\sheeter`目錄下
 
 # 轉換範例
-![範例excel檔案內容](Docs/example_excel.jpg)
+![範例excel檔案內容](.readme/example_excel.jpg)
 
 json檔案
 ```
@@ -198,9 +205,8 @@ type RealData struct {
 }
 ```
 
-# 專案目錄說明
-* Sheeter: 轉檔工具專案
-* Docs: 說明文件
+# 其他目錄說明
+* .readme: 存放說明文件的連結檔案
 
 # TODO
 * 經由設定檔指定go與gofmt路徑
