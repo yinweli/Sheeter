@@ -8,11 +8,17 @@
 
 # 如何安裝
 首先要安裝Go(https://go.dev/dl/)  
-然後在終端執行`> go install github.com/yinweli/Sheeter/cmd/sheeter@latest`
+然後在終端執行
+```
+go install github.com/yinweli/Sheeter/cmd/sheeter@latest
+```
 
 # 如何執行
 配置好yaml格式的設定檔與excel檔案  
-然後在終端執行`> sheeter build 設定檔.yaml`
+然後在終端執行
+```
+sheeter build 設定檔.yaml
+```
 
 # 如何寫設定檔
 ```
