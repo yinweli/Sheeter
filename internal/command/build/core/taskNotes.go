@@ -1,6 +1,8 @@
 package core
 
-import "fmt"
+import (
+	"fmt"
+)
 
 // executeExcel 建立欄位註解
 func (this *Task) executeNotes() error {

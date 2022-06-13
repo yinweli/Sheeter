@@ -7,12 +7,11 @@ import (
 	"time"
 
 	"github.com/hako/durafmt"
-	"github.com/yinweli/Sheeter/internal"
-	"github.com/yinweli/Sheeter/internal/command/build/core"
-
 	"github.com/spf13/cobra"
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
+	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/command/build/core"
 )
 
 // NewCommand 建立命令物件

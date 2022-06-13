@@ -1,6 +1,8 @@
 package core
 
-import "github.com/yinweli/Sheeter/internal/util"
+import (
+	"github.com/yinweli/Sheeter/internal/util"
+)
 
 // FieldTextArray 字串陣列
 type FieldTextArray struct {

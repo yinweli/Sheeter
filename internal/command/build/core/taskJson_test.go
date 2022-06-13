@@ -5,9 +5,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/yinweli/Sheeter/testdata"
-
 	"github.com/stretchr/testify/assert"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestTaskJson(t *testing.T) {
