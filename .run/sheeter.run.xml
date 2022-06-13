@@ -2,9 +2,9 @@
   <configuration default="false" name="sheeter" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="Sheeter" />
     <working_directory value="$PROJECT_DIR$/bin" />
-    <kind value="FILE" />
-    <package value="Sheeter" />
-    <directory value="$PROJECT_DIR$" />
+    <kind value="DIRECTORY" />
+    <package value="C:\Work\Sheeter\cmd" />
+    <directory value="$PROJECT_DIR$/cmd" />
     <filePath value="$PROJECT_DIR$/cmd/sheeter.go" />
     <output_directory value="$PROJECT_DIR$/bin" />
     <method v="2" />
