@@ -212,6 +212,7 @@ type RealData struct {
 * .readme: 存放說明文件的連結檔案
 
 # TODO
+* 變更專案目錄結構, 讓子專案有地方可以放
 * 新增json/c++驗證子專案
 * 新增json/cs驗證子專案
 * 新增json/go驗證子專案
