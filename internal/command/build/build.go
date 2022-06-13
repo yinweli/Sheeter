@@ -6,8 +6,8 @@ import (
 	"sync"
 	"time"
 
-	"Sheeter/internal"
-	"Sheeter/internal/command/build/core"
+	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/command/build/core"
 
 	"github.com/spf13/cobra"
 	"github.com/vbauerster/mpb/v7"

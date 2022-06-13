@@ -1,6 +1,6 @@
 package core
 
-import "Sheeter/internal/util"
+import "github.com/yinweli/Sheeter/internal/util"
 
 // FieldIntArray 32位元整數陣列
 type FieldIntArray struct {

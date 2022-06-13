@@ -1,7 +1,7 @@
 package core
 
 import (
-	"Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // FieldDouble 64位元浮點數

@@ -1,7 +1,7 @@
 package version
 
 import (
-	"Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal"
 
 	"github.com/spf13/cobra"
 )

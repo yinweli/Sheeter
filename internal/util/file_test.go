@@ -6,7 +6,7 @@ import (
 	"path"
 	"testing"
 
-	"Sheeter/testdata"
+	"github.com/yinweli/Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
 )

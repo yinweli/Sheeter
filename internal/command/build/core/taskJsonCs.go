@@ -3,7 +3,7 @@ package core
 import (
 	"fmt"
 
-	"Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // jsonCsCode json/c#程式碼模板

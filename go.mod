@@ -1,4 +1,4 @@
-module Sheeter
+module github.com/yinweli/Sheeter
 
 go 1.18
 
