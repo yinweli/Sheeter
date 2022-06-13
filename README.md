@@ -1,21 +1,19 @@
 # Sheeter
-用Go做成的excel轉換工具  
+以Go做成的excel轉換工具, 前身是[Sheet](https://github.com/yinweli/Sheet)  
 用於將按照格式做好的excel轉換為json格式  
 轉換時會自動產生c++/c#/go的結構程式碼, 就不必再手寫了  
 
-# 前一個版本
-這個專案的前身是[Sheet](https://github.com/yinweli/Sheet)  
+# 事前安裝
+安裝[Go](https://go.dev/dl/)  
 
 # 如何安裝
-首先要安裝Go(https://go.dev/dl/)  
-然後在終端執行
+在終端執行
 ```
 go install github.com/yinweli/Sheeter/cmd/sheeter@latest
 ```
 
 # 如何執行
-配置好yaml格式的設定檔與excel檔案  
-然後在終端執行
+配置好yaml格式的設定檔與excel檔案, 然後在終端執行
 ```
 sheeter build 設定檔.yaml
 ```
@@ -80,7 +78,6 @@ elements:
 * json的go結構名稱: `ExampleData`
 
 ## 其他的限制
-* 系統得先安裝`go`與`gofmt`
 * c++結構使用nlohmann的json函式庫(https://github.com/nlohmann/json)
 * 表格必須有欄位行與註解行, 但是可以不需要有資料行
 * 欄位行與註解行必須在資料行之前
@@ -215,7 +212,6 @@ type RealData struct {
 * .readme: 存放說明文件的連結檔案
 
 # TODO
-* 經由設定檔指定go與gofmt路徑
 * 新增json/c++驗證子專案
 * 新增json/cs驗證子專案
 * 新增json/go驗證子專案
