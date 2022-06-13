@@ -6,9 +6,8 @@ import (
 	"path"
 	"testing"
 
-	"github.com/yinweli/Sheeter/testdata"
-
 	"github.com/stretchr/testify/assert"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestFileWrite(t *testing.T) {

@@ -6,9 +6,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/yinweli/Sheeter/internal/util"
-
 	"github.com/xuri/excelize/v2"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 const pathJson = "json"         // 輸出路徑: json
