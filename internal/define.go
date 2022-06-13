@@ -1,4 +1,4 @@
 package internal
 
-const Title = "sheeter" // 程式名稱
-const Version = "1.0.9" // 版本字串
+const Title = "sheeter"  // 程式名稱
+const Version = "1.0.10" // 版本字串
