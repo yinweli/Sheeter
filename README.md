@@ -245,3 +245,4 @@ type RealData struct {
 * 新增proto/c++驗證子專案
 * 新增proto/cs驗證子專案
 * 新增proto/go驗證子專案
+* 新增lua驗證子專案
