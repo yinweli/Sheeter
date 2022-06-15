@@ -213,7 +213,6 @@ type RealData struct {
 * .readme: 存放說明文件的連結檔案
 
 # TODO
-* 變更專案目錄結構, 讓子專案有地方可以放
 * 變更輸出的json格式要比照
   {
   "1010001" : {"id":1010001,"name":"M4A1","short_name":"M4A1","Test":[{"is_plural":0,"Testdd":[{"max_plural_num":100000000,"rarity":1},{"max_plural_num":100000000,"rarity":1}],"desc":"各种军事组织广泛使用的突击步枪，性能稳定，适合新手。","color":0,"desc_list": [92,23,35]}],"resource":1010001,"type":1,"up_shelves_time":1439262000,"off_shelves_time":1597287600,"is_time_limit":0},

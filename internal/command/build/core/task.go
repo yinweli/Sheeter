@@ -8,7 +8,7 @@ import (
 )
 
 // TaskProgress 工作進度值
-const TaskProgress = taskProgressM + taskProgressS + taskProgressL + taskProgressM + taskProgressM + taskProgressM
+const TaskProgress = taskProgressM + taskProgressS + taskProgressL + taskProgressM + taskProgressM + taskProgressM + taskProgressM
 const taskProgressS = 1 // 小型工作進度值
 const taskProgressM = 3 // 中型工作進度值
 const taskProgressL = 5 // 大型工作進度值
