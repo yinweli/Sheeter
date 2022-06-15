@@ -96,12 +96,6 @@ func TestTask(t *testing.T) {
 	task.close()
 
 	task = mockTask()
-	task.element.Excel = testdata.Defect11Excel
-	err = task.Execute()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTask()
 	task.element.Excel = "?????.xlsx"
 	err = task.Execute()
 	assert.NotNil(t, err)
