@@ -10,20 +10,17 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-const pathJson = "json"         // 輸出路徑: json
-const pathJsonCpp = "jsonCpp"   // 輸出路徑: json/c++
-const pathJsonCs = "jsonCs"     // 輸出路徑: json/c#
-const pathJsonGo = "jsonGo"     // 輸出路徑: json/go
-const pathProto = "proto"       // 輸出路徑: proto
-const pathProtoCpp = "protoCpp" // 輸出路徑: proto/c++
-const pathProtoCs = "protoCs"   // 輸出路徑: proto/c#
-const pathProtoGo = "protoGo"   // 輸出路徑: proto/go
-const extJson = "json"          // 副檔名: json
-const extProto = "proto"        // 副檔名: proto
-const extBytes = "bytes"        // 副檔名: bytes
-const extCpp = "hpp"            // 副檔名: c++
-const extCs = "cs"              // 副檔名: c#
-const extGo = "go"              // 副檔名: go
+const pathJson = "json"       // 輸出路徑: json
+const pathJsonCs = "jsonCs"   // 輸出路徑: json/c#
+const pathJsonGo = "jsonGo"   // 輸出路徑: json/go
+const pathProto = "proto"     // 輸出路徑: proto
+const pathProtoCs = "protoCs" // 輸出路徑: proto/c#
+const pathProtoGo = "protoGo" // 輸出路徑: proto/go
+const extJson = "json"        // 副檔名: json
+const extProto = "proto"      // 副檔名: proto
+const extBytes = "bytes"      // 副檔名: bytes
+const extCs = "cs"            // 副檔名: c#
+const extGo = "go"            // 副檔名: go
 
 // logName 取得紀錄名稱
 func (this *Task) logName() string {
@@ -45,11 +42,6 @@ func (this *Task) jsonFilePath() string {
 	return path.Join(pathJson, this.jsonFileName())
 }
 
-// jsonCppFilePath 取得json/c++檔名路徑
-func (this *Task) jsonCppFilePath() string {
-	return path.Join(pathJsonCpp, this.fileName(extCpp))
-}
-
 // jsonCsFilePath 取得json/c#檔名路徑
 func (this *Task) jsonCsFilePath() string {
 	return path.Join(pathJsonCs, this.fileName(extCs))
@@ -68,11 +60,6 @@ func (this *Task) protoFilePath() string {
 // protoBytesFilePath 取得proto資料檔名路徑
 func (this *Task) protoBytesFilePath() string {
 	return path.Join(pathProto, this.fileName(extBytes))
-}
-
-// protoCppFilePath 取得proto/c++檔名路徑
-func (this *Task) protoCppFilePath() string {
-	return path.Join(pathProtoCpp, this.fileName(extCpp))
 }
 
 // protoCsFilePath 取得proto/c#檔名路徑

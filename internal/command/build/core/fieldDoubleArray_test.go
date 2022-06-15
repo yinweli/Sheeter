@@ -9,7 +9,6 @@ import (
 func TestFieldDoubleArray(t *testing.T) {
 	field := mockFieldDoubleArray()
 	assert.Equal(t, "doubleArray", field.TypeExcel())
-	assert.Equal(t, "std::vector<double>", field.TypeCpp())
 	assert.Equal(t, "List<double>", field.TypeCs())
 	assert.Equal(t, "[]float64", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())

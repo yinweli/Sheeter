@@ -13,11 +13,6 @@ func (this *FieldBoolArray) TypeExcel() string {
 	return "boolArray"
 }
 
-// TypeCpp 取得c++欄位類型
-func (this *FieldBoolArray) TypeCpp() string {
-	return "std::vector<bool>"
-}
-
 // TypeCs 取得c#欄位類型
 func (this *FieldBoolArray) TypeCs() string {
 	return "List<bool>"

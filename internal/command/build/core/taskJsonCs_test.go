@@ -33,9 +33,7 @@ func TestTaskJsonCs(t *testing.T) {
 
 func mockTaskJsonCs() *Task {
 	return &Task{
-		global: &Global{
-			CppLibraryPath: "nlohmann/json.hpp",
-		},
+		global: &Global{},
 		element: &Element{
 			Excel: testdata.RealExcel,
 			Sheet: testdata.SheetName,

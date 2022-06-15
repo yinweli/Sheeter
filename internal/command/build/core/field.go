@@ -15,9 +15,6 @@ type Field interface {
 	// TypeExcel 取得excel欄位類型
 	TypeExcel() string
 
-	// TypeCpp 取得c++欄位類型
-	TypeCpp() string
-
 	// TypeCs 取得c#欄位類型
 	TypeCs() string
 

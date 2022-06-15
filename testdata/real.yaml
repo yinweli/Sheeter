@@ -1,6 +1,5 @@
 global:
   excelPath: .\
-  cppLibraryPath: nlohmann
   bom: true
   lineOfField: 1
   lineOfNote: 2

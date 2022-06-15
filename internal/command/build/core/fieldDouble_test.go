@@ -9,7 +9,6 @@ import (
 func TestFieldDouble(t *testing.T) {
 	field := mockFieldDouble()
 	assert.Equal(t, "double", field.TypeExcel())
-	assert.Equal(t, "double", field.TypeCpp())
 	assert.Equal(t, "double", field.TypeCs())
 	assert.Equal(t, "float64", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())

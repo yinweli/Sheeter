@@ -15,10 +15,6 @@ type Config struct {
 
 // Check 檢查設定是否正確
 func (this *Config) Check() error {
-	if this.Global.CppLibraryPath == "" {
-		return fmt.Errorf("global: cppLibraryPath empty")
-	} // if
-
 	if this.Global.LineOfField <= 0 {
 		return fmt.Errorf("global: LineOfField <= 0")
 	} // if
@@ -54,12 +50,11 @@ func (this *Config) Check() error {
 
 // Global 全域設定
 type Global struct {
-	ExcelPath      string `yaml:"excelPath"`      // 來源excel路徑
-	CppLibraryPath string `yaml:"cppLibraryPath"` // c++函式庫路徑
-	Bom            bool   `yaml:"bom"`            // 輸出的檔案是否使用順序標記(BOM)
-	LineOfField    int    `yaml:"lineOfField"`    // 欄位行號(1為起始行)
-	LineOfNote     int    `yaml:"lineOfNote"`     // 註解行號(1為起始行)
-	LineOfData     int    `yaml:"lineOfData"`     // 資料起始行號(1為起始行)
+	ExcelPath   string `yaml:"excelPath"`   // 來源excel路徑
+	Bom         bool   `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
+	LineOfField int    `yaml:"lineOfField"` // 欄位行號(1為起始行)
+	LineOfNote  int    `yaml:"lineOfNote"`  // 註解行號(1為起始行)
+	LineOfData  int    `yaml:"lineOfData"`  // 資料起始行號(1為起始行)
 }
 
 // Element 項目設定

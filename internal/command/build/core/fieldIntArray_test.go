@@ -9,7 +9,6 @@ import (
 func TestFieldIntArray(t *testing.T) {
 	field := mockFieldIntArray()
 	assert.Equal(t, "intArray", field.TypeExcel())
-	assert.Equal(t, "std::vector<int32_t>", field.TypeCpp())
 	assert.Equal(t, "List<int>", field.TypeCs())
 	assert.Equal(t, "[]int32", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())

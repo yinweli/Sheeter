@@ -13,11 +13,6 @@ func (this *FieldInt) TypeExcel() string {
 	return "int"
 }
 
-// TypeCpp 取得c++欄位類型
-func (this *FieldInt) TypeCpp() string {
-	return "int32_t"
-}
-
 // TypeCs 取得c#欄位類型
 func (this *FieldInt) TypeCs() string {
 	return "int"

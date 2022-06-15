@@ -13,11 +13,6 @@ func (this *FieldDoubleArray) TypeExcel() string {
 	return "doubleArray"
 }
 
-// TypeCpp 取得c++欄位類型
-func (this *FieldDoubleArray) TypeCpp() string {
-	return "std::vector<double>"
-}
-
 // TypeCs 取得c#欄位類型
 func (this *FieldDoubleArray) TypeCs() string {
 	return "List<double>"

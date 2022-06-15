@@ -13,11 +13,6 @@ func (this *FieldDouble) TypeExcel() string {
 	return "double"
 }
 
-// TypeCpp 取得c++欄位類型
-func (this *FieldDouble) TypeCpp() string {
-	return "double"
-}
-
 // TypeCs 取得c#欄位類型
 func (this *FieldDouble) TypeCs() string {
 	return "double"

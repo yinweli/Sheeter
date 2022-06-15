@@ -9,7 +9,6 @@ import (
 func TestFieldText(t *testing.T) {
 	field := mockFieldText()
 	assert.Equal(t, "text", field.TypeExcel())
-	assert.Equal(t, "std::string", field.TypeCpp())
 	assert.Equal(t, "string", field.TypeCs())
 	assert.Equal(t, "string", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())

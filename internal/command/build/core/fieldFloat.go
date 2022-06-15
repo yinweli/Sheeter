@@ -13,11 +13,6 @@ func (this *FieldFloat) TypeExcel() string {
 	return "float"
 }
 
-// TypeCpp 取得c++欄位類型
-func (this *FieldFloat) TypeCpp() string {
-	return "float"
-}
-
 // TypeCs 取得c#欄位類型
 func (this *FieldFloat) TypeCs() string {
 	return "float"
