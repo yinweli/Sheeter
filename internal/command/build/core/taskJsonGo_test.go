@@ -49,7 +49,6 @@ func mockTaskJsonGo() *Task {
 
 func mockTaskJsonGoString() string {
 	return `// generation by sheeter ^o<
-
 package sheeter
 
 const RealDataFileName = "realData.json" // json file name
@@ -60,5 +59,7 @@ type RealData struct {
 	Name2 int32  ` + "`json:\"name2\"`" + ` // note2
 	Name3 string ` + "`json:\"name3\"`" + ` // note3
 }
+
+type RealDataMap = map[int]RealData
 `
 }
