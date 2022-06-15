@@ -61,9 +61,9 @@ func (this *Task) Execute() error {
 		return err
 	} // if
 
-	if this.bar != nil {
-		this.bar.SetTotal(100, true) // 讓進度條顯示完成
-		time.Sleep(time.Millisecond) // 讓進度條有時間畫圖
+	if this.bar != nil { // 讓進度條顯示完成並且有時間畫圖
+		this.bar.SetTotal(100, true)
+		time.Sleep(10 * time.Millisecond)
 	} // if
 
 	return nil
