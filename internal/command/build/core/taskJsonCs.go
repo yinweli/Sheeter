@@ -15,7 +15,7 @@ using System.Collections.Generic;
 namespace {{$.CsNamespace}} {
     public class {{$.StructName}} { {{$.SetLine}}
         public const string fileName = "{{$.JsonFileName}}";
-{{range .Columns}}{{if .Field.IsShow}}        public {{.Field.TypeCs}} {{$.ColumnName .Name}}; // {{.Note}}{{$.NewLine}}{{end}}{{end}}
+{{range .Columns}}{{if .Field.IsShow}}        public {{.Field.TypeCs}} {{.Name}}; // {{.Note}}{{$.NewLine}}{{end}}{{end}}
     }
 } // namespace {{$.CsNamespace}}
 `
