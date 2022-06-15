@@ -1,11 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="sheeter test" type="GoTestRunConfiguration" factoryName="Go Test">
+  <configuration default="false" name="sheeter test" type="GoTestRunConfiguration" factoryName="Go Test" singleton="false">
     <module name="Sheeter" />
     <working_directory value="$PROJECT_DIR$" />
     <go_parameters value="-i" />
     <kind value="DIRECTORY" />
     <directory value="$PROJECT_DIR$" />
     <filePath value="$PROJECT_DIR$" />
+    <output_directory value="$PROJECT_DIR$/bin" />
     <framework value="gotest" />
     <method v="2" />
   </configuration>
