@@ -109,8 +109,6 @@ func TestTask(t *testing.T) {
 
 	err = os.RemoveAll(pathJson)
 	assert.Nil(t, err)
-	err = os.RemoveAll(pathJsonCpp)
-	assert.Nil(t, err)
 	err = os.RemoveAll(pathJsonCs)
 	assert.Nil(t, err)
 	err = os.RemoveAll(pathJsonGo)
@@ -125,11 +123,10 @@ func TestNewTask(t *testing.T) {
 func mockTask() *Task {
 	return &Task{
 		global: &Global{
-			ExcelPath:      testdata.RootPath,
-			CppLibraryPath: "nlohmann/json.hpp",
-			LineOfField:    1,
-			LineOfNote:     2,
-			LineOfData:     3,
+			ExcelPath:   testdata.RootPath,
+			LineOfField: 1,
+			LineOfNote:  2,
+			LineOfData:  3,
 		},
 		element: &Element{
 			Excel: testdata.RealExcel,

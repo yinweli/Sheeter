@@ -1,7 +1,7 @@
 # Sheeter
 以Go做成的excel轉換工具, 前身是[Sheet](https://github.com/yinweli/Sheet)  
 用於將按照格式做好的excel轉換為json格式  
-轉換時會自動產生c++/c#/go的結構程式碼, 就不必再手寫了  
+轉換時會自動產生c#/go的結構程式碼, 就不必再手寫了  
 
 # 事前安裝
 安裝[Go](https://go.dev/dl/)  
@@ -22,7 +22,6 @@ sheeter build 設定檔.yaml
 ```
 global:
   excelPath: .\                     # excel檔案的路徑
-  cppLibraryPath: nlohmann/json.hpp # c++使用的nlohmann/json函式庫路徑
   bom: true                         # 輸出的檔案是否含BOM
   lineOfField: 1                    # excel表格中欄位行位置, 從1起算
   lineOfNote: 2                     # excel表格中註解行位置, 從1起算
@@ -71,15 +70,12 @@ elements:
 ## 轉換檔名規則
 如果excel檔案名稱為`example.xlsx`, 表格名稱為`data`  
 * json檔案名稱: `exampleData.json`
-* json的c++檔案名稱: `exampleData.hpp`
-* json的c++結構名稱: `ExampleData`
 * json的c#檔案名稱: `exampleData.cs`
 * json的c#結構名稱: `ExampleData`
 * json的go檔案名稱: `exampleData.go`
 * json的go結構名稱: `ExampleData`
 
 ## 其他的限制
-* c++結構使用nlohmann的json函式庫(https://github.com/nlohmann/json)
 * 表格必須有欄位行與註解行, 但是可以不需要有資料行
 * 欄位行與註解行必須在資料行之前
 * 設定檔中必須設定好欄位行, 註解行, 資料行的位置; 設定時要注意行數是從1開始的
@@ -87,7 +83,6 @@ elements:
 * 表格只能有一個`pkey`欄位
 * `pkey`欄位中的內容不能重複
 * 欄位名稱不能重複(包括`empty`欄位)
-* c++程式碼的命名空間為`Sheeter`
 * c#程式碼的命名空間為`Sheeter`
 * go程式碼的軟體包名為`sheeter`
     * 這代表你得把產生出來的go程式碼放在`\sheeter`目錄下
@@ -117,62 +112,6 @@ json檔案
         "name3": "c"
     }
 ]
-```
-
-json/c++檔案
-```
-// generation by sheeter ^o<
-// use nlohmann json library
-// github: https://github.com/nlohmann/json
-
-#pragma once
-
-#include <stdint.h>
-#include <string>
-#include <vector>
-
-#include "nlohmann/json.hpp"
-
-namespace Sheeter {
-using nlohmann::json;
-
-#ifndef PKEY
-#define PKEY
-using pkey = int32_t;
-#endif // !PKEY
-
-struct RealData { 
-    Sheeter::pkey Name0; // note0
-    bool Name1; // note1
-    int32_t Name2; // note2
-    std::string Name3; // note3
-
-    static std::string get_filename() {
-        return "realData.json"
-    }
-};
-
-inline json get_untyped(const json& j, const char* property) {
-    return j.find(property) != j.end() ? j.at(property).get<json>() : json();
-}
-} // namespace Sheeter
-
-namespace nlohmann {
-inline void from_json(const json& _j, struct Sheeter::RealData& _x) { 
-    _x.Name0 = _j.at("Name0").get<Sheeter::pkey>();
-    _x.Name1 = _j.at("Name1").get<bool>();
-    _x.Name2 = _j.at("Name2").get<int32_t>();
-    _x.Name3 = _j.at("Name3").get<std::string>();
-}
-
-inline void to_json(json& _j, const struct Sheeter::RealData& _x) { 
-    _j = json::object();
-    _j["Name0"] = _x.Name0;
-    _j["Name1"] = _x.Name1;
-    _j["Name2"] = _x.Name2;
-    _j["Name3"] = _x.Name3;
-}
-} // namespace nlohmann
 ```
 
 json/c#檔案
@@ -231,18 +170,14 @@ type RealData struct {
   [1010005] = {id=1010005,name="RFB-死神",short_name="RFB-死神",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=3},{max_plural_num=100000000,rarity=3}},desc="采用无托设计的突击步枪，后坐力小，射击稳定。",color=0,desc_list= {92,23,35}}},resource=1010005,type=1,up_shelves_time=1439262001,off_shelves_time=1597287600,is_time_limit=0},
   [1010006] = {id=1010006,name="银河轻骑士",short_name="银河轻骑士",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=3},{max_plural_num=100000000,rarity=3}},desc="发射特殊子弹，在穿透掩体后，还能造成可怕的伤害。",color=0,desc_list= {92,23,35}}},resource=1010006,type=1,up_shelves_time=1439262002,off_shelves_time=1597287600,is_time_limit=0},
   }
-* 變更json/c++, 增加 map<pkey, 資料結構> 的型態
 * 變更json/cs, 增加 map<pkey, 資料結構> 的型態
 * 變更json/go, 增加 map[pkey]資料結構 的型態
-* 新增json/c++驗證子專案
 * 新增json/cs驗證子專案
 * 新增json/go驗證子專案
 * 產生proto message
 * 產生proto bytes data
-* 產生proto/c++ code
 * 產生proto/cs code
 * 產生proto/go code
-* 新增proto/c++驗證子專案
 * 新增proto/cs驗證子專案
 * 新增proto/go驗證子專案
 * 新增lua驗證子專案

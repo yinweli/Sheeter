@@ -9,7 +9,6 @@ import (
 func TestFieldLong(t *testing.T) {
 	field := mockFieldLong()
 	assert.Equal(t, "long", field.TypeExcel())
-	assert.Equal(t, "int64_t", field.TypeCpp())
 	assert.Equal(t, "long", field.TypeCs())
 	assert.Equal(t, "int64", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())

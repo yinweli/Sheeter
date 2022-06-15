@@ -13,11 +13,6 @@ func (this *FieldIntArray) TypeExcel() string {
 	return "intArray"
 }
 
-// TypeCpp 取得c++欄位類型
-func (this *FieldIntArray) TypeCpp() string {
-	return "std::vector<int32_t>"
-}
-
 // TypeCs 取得c#欄位類型
 func (this *FieldIntArray) TypeCs() string {
 	return "List<int>"

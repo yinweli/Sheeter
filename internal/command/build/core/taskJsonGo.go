@@ -21,7 +21,7 @@ type {{$.StructName}} struct { {{$.SetLine}}
 
 // executeJsonGo 輸出json/go
 func (this *Task) executeJsonGo() error {
-	bytes, err := NewCoder(this.columns, this.global.CppLibraryPath, this.jsonFileName(), this.structName()).Generate(jsonGoCode)
+	bytes, err := NewCoder(this.columns, this.jsonFileName(), this.structName()).Generate(jsonGoCode)
 
 	if err != nil {
 		return fmt.Errorf("generate go failed: %s [%s]", this.logName(), err)

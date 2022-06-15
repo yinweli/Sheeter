@@ -9,7 +9,6 @@ import (
 func TestFieldInt(t *testing.T) {
 	field := mockFieldInt()
 	assert.Equal(t, "int", field.TypeExcel())
-	assert.Equal(t, "int32_t", field.TypeCpp())
 	assert.Equal(t, "int", field.TypeCs())
 	assert.Equal(t, "int32", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())

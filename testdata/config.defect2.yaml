@@ -1,6 +1,5 @@
 global:
   excelPath: test
-  cppLibraryPath: test
   bom: true
   lineOfField: 1
   lineOfNote: 4 # 故意寫錯

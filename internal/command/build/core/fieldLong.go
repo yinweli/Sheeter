@@ -13,11 +13,6 @@ func (this *FieldLong) TypeExcel() string {
 	return "long"
 }
 
-// TypeCpp 取得c++欄位類型
-func (this *FieldLong) TypeCpp() string {
-	return "int64_t"
-}
-
 // TypeCs 取得c#欄位類型
 func (this *FieldLong) TypeCs() string {
 	return "long"

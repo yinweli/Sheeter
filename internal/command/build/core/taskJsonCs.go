@@ -22,7 +22,7 @@ namespace {{$.CsNamespace}} {
 
 // executeJsonCs 輸出json/cs
 func (this *Task) executeJsonCs() error {
-	bytes, err := NewCoder(this.columns, this.global.CppLibraryPath, this.jsonFileName(), this.structName()).Generate(jsonCsCode)
+	bytes, err := NewCoder(this.columns, this.jsonFileName(), this.structName()).Generate(jsonCsCode)
 
 	if err != nil {
 		return fmt.Errorf("generate cs failed: %s [%s]", this.logName(), err)

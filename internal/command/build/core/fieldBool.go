@@ -13,11 +13,6 @@ func (this *FieldBool) TypeExcel() string {
 	return "bool"
 }
 
-// TypeCpp 取得c++欄位類型
-func (this *FieldBool) TypeCpp() string {
-	return "bool"
-}
-
 // TypeCs 取得c#欄位類型
 func (this *FieldBool) TypeCs() string {
 	return "bool"

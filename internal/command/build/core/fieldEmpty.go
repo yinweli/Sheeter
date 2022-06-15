@@ -9,11 +9,6 @@ func (this *FieldEmpty) TypeExcel() string {
 	return "empty"
 }
 
-// TypeCpp 取得c++欄位類型
-func (this *FieldEmpty) TypeCpp() string {
-	return ""
-}
-
 // TypeCs 取得c#欄位類型
 func (this *FieldEmpty) TypeCs() string {
 	return ""

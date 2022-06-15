@@ -13,11 +13,6 @@ func (this *FieldPkey) TypeExcel() string {
 	return "pkey"
 }
 
-// TypeCpp 取得c++欄位類型
-func (this *FieldPkey) TypeCpp() string {
-	return CppNamespace + "::pkey" // pkey型態宣告在命名空間中
-}
-
 // TypeCs 取得c#欄位類型
 func (this *FieldPkey) TypeCs() string {
 	return "int"

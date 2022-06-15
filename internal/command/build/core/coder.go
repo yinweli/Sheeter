@@ -7,18 +7,16 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-const CppNamespace = "Sheeter" // c++命名空間名稱
-const CsNamespace = "Sheeter"  // c#命名空間名稱
-const GoPackage = "sheeter"    // go包名
+const CsNamespace = "Sheeter" // c#命名空間名稱
+const GoPackage = "sheeter"   // go包名
 
 // Coder 程式碼產生器
 type Coder struct {
-	Columns        []*Column // 欄位列表, 由於要用到程式碼樣板中, 所以得要公開
-	cppLibraryPath string    // c++函式庫路徑
-	jsonFileName   string    // json檔名
-	structName     string    // 結構名稱
-	maxline        int       // 最大行數
-	curline        int       // 當前行數
+	Columns      []*Column // 欄位列表, 由於要用到程式碼樣板中, 所以得要公開
+	jsonFileName string    // json檔名
+	structName   string    // 結構名稱
+	maxline      int       // 最大行數
+	curline      int       // 當前行數
 }
 
 // Generate 程式碼產生
@@ -39,11 +37,6 @@ func (this *Coder) Generate(code string) (results []byte, err error) {
 	return buffer.Bytes(), nil
 }
 
-// CppLibraryPath 取得c++函式庫路徑
-func (this *Coder) CppLibraryPath() string {
-	return this.cppLibraryPath
-}
-
 // JsonFileName 取得json檔名
 func (this *Coder) JsonFileName() string {
 	return this.jsonFileName
@@ -52,11 +45,6 @@ func (this *Coder) JsonFileName() string {
 // StructName 取得結構名稱
 func (this *Coder) StructName() string {
 	return this.structName
-}
-
-// CppNamespace 取得c++命名空間名稱
-func (this *Coder) CppNamespace() string {
-	return CppNamespace
 }
 
 // CsNamespace 取得c#命名空間名稱
@@ -97,13 +85,12 @@ func (this *Coder) FirstLower(input string) string {
 }
 
 // NewCoder 建立程式碼產生器
-func NewCoder(columns []*Column, cppLibraryPath string, jsonFileName string, structName string) *Coder {
+func NewCoder(columns []*Column, jsonFileName string, structName string) *Coder {
 	return &Coder{
-		Columns:        columns,
-		cppLibraryPath: cppLibraryPath,
-		jsonFileName:   jsonFileName,
-		structName:     structName,
-		maxline:        calcMaxLine(columns),
+		Columns:      columns,
+		jsonFileName: jsonFileName,
+		structName:   structName,
+		maxline:      calcMaxLine(columns),
 	}
 }
 

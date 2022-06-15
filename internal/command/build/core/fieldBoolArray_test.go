@@ -9,7 +9,6 @@ import (
 func TestFieldBoolArray(t *testing.T) {
 	field := mockFieldBoolArray()
 	assert.Equal(t, "boolArray", field.TypeExcel())
-	assert.Equal(t, "std::vector<bool>", field.TypeCpp())
 	assert.Equal(t, "List<bool>", field.TypeCs())
 	assert.Equal(t, "[]bool", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())

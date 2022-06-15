@@ -13,11 +13,6 @@ func TestConfig(t *testing.T) {
 	assert.Nil(t, err)
 
 	config = mockConfig()
-	config.Global.CppLibraryPath = ""
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
 	config.Global.LineOfField = 0
 	err = config.Check()
 	assert.NotNil(t, err)
@@ -71,12 +66,11 @@ func TestReadConfig(t *testing.T) {
 func mockConfig() *Config {
 	return &Config{
 		Global: Global{
-			ExcelPath:      "excel",
-			CppLibraryPath: "cpp",
-			Bom:            true,
-			LineOfField:    1,
-			LineOfNote:     2,
-			LineOfData:     3,
+			ExcelPath:   "excel",
+			Bom:         true,
+			LineOfField: 1,
+			LineOfNote:  2,
+			LineOfData:  3,
 		},
 		Elements: []Element{{
 			Excel: "excel.xlsx",
