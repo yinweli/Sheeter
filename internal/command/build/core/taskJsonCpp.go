@@ -31,7 +31,7 @@ struct {{.StructName}} { {{$.SetLine}}
 {{range .Columns}}{{if .Field.IsShow}}    {{.Field.TypeCpp}} {{$.ColumnName .Name}}; // {{.Note}}{{$.NewLine}}{{end}}{{end}}
 
     static std::string get_filename() {
-        return "{{$.JsonFileName}}"
+        return "{{$.JsonFileName}}";
     }
 };
 
