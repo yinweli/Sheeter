@@ -10,7 +10,8 @@ import (
 const jsonPrefix = ""     // json前綴
 const jsonIndent = "    " // json縮排
 
-type JsonMap map[string]interface{} // json資料列表型態
+type box map[string]interface{} // 資料箱形態
+type boxMap map[string]box      // 資料箱列表形態
 
 // executeJson 輸出json
 func (this *Task) executeJson() error {
@@ -21,8 +22,8 @@ func (this *Task) executeJson() error {
 	} // if
 
 	defer func() { _ = rows.Close() }()
-	var jsonMap []JsonMap
-	var row = 0
+	boxMap := make(boxMap)
+	row := this.global.LineOfData
 
 	for ok := true; ok; ok = rows.Next() {
 		datas, _ := rows.Columns()
@@ -32,30 +33,38 @@ func (this *Task) executeJson() error {
 		} // if
 
 		count := len(datas)
-		jsonMap = append(jsonMap, JsonMap{})
+		box := make(box)
+		pkey := ""
 
 		for col, itor := range this.columns {
-			if itor.Field.IsShow() {
-				var data string
-
-				if col >= 0 && col < count {
-					data = datas[col]
-				} // if
-
-				value, err := itor.Field.Transform(data)
-
-				if err != nil {
-					return fmt.Errorf("convert value failed: %s [%d(%s) : %s]", this.logName(), row, itor.Name, err)
-				} // if
-
-				jsonMap[row][itor.Name] = value
+			if itor.Field.IsShow() == false {
+				continue
 			} // if
+
+			var data string
+
+			if col >= 0 && col < count {
+				data = datas[col]
+			} // if
+
+			if itor.Field.IsPkey() {
+				pkey = data
+			} // if
+
+			value, err := itor.Field.Transform(data)
+
+			if err != nil {
+				return fmt.Errorf("convert value failed: %s [%d(%s) : %s]", this.logName(), row, itor.Name, err)
+			} // if
+
+			box[itor.Name] = value
 		} // for
 
+		boxMap[pkey] = box
 		row++
 	} // for
 
-	bytes, err := json.MarshalIndent(jsonMap, jsonPrefix, jsonIndent)
+	bytes, err := json.MarshalIndent(boxMap, jsonPrefix, jsonIndent)
 
 	if err != nil {
 		return fmt.Errorf("convert json failed: %s [%s]", this.logName(), err)

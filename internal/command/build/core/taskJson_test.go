@@ -65,24 +65,24 @@ func mockTaskJson() *Task {
 }
 
 func mockTaskJsonString() string {
-	return `[
-    {
+	return `{
+    "1": {
         "name0": 1,
         "name1": true,
         "name2": 1,
         "name3": "a"
     },
-    {
+    "2": {
         "name0": 2,
         "name1": false,
         "name2": 2,
         "name3": "b"
     },
-    {
+    "3": {
         "name0": 3,
         "name1": true,
         "name2": 3,
         "name3": "c"
     }
-]`
+}`
 }
