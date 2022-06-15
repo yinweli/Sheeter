@@ -9,7 +9,6 @@ import (
 
 // jsonGoCode json/go程式碼模板
 const jsonGoCode = `// generation by sheeter ^o<
-
 package {{$.GoPackage}}
 
 const {{$.StructName}}FileName = "{{$.JsonFileName}}" // json file name
@@ -17,6 +16,8 @@ const {{$.StructName}}FileName = "{{$.JsonFileName}}" // json file name
 type {{$.StructName}} struct { {{$.SetLine}}
 {{range .Columns}}{{if .Field.IsShow}}    {{$.FirstUpper .Name}} {{.Field.TypeGo}} ` + "`json:\"{{.Name}}\"`" + ` // {{.Note}}{{$.NewLine}}{{end}}{{end}}
 }
+
+type {{$.StructName}}Map = map[int]{{$.StructName}}
 `
 
 // executeJsonGo 輸出json/go
