@@ -49,6 +49,12 @@ func (this *Task) Execute() error {
 		return err
 	} // if
 
+	err = this.executeJsonCpp()
+
+	if err != nil {
+		return err
+	} // if
+
 	err = this.executeJsonCs()
 
 	if err != nil {
