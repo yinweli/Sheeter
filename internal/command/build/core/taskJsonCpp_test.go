@@ -70,6 +70,8 @@ using nlohmann::json;
 using pkey = int32_t;
 #endif // !PKEY
 
+using RealDataMaps = std::map<pkey, struct RealData>;
+
 struct RealData { 
     Sheeter::pkey name0; // note0
     bool name1; // note1
@@ -87,6 +89,10 @@ inline json get_untyped(const json& j, const char* property) {
 } // namespace Sheeter
 
 namespace nlohmann {
+inline void from_json(const json& _j, Sheeter::RealDataMaps& _x) {
+    _j.get_to(_x);
+}
+
 inline void from_json(const json& _j, struct Sheeter::RealData& _x) { 
     _x.name0 = _j.at("name0").get<Sheeter::pkey>();
     _x.name1 = _j.at("name1").get<bool>();
