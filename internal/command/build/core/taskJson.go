@@ -28,7 +28,7 @@ func (this *Task) executeJson() error {
 		datas, _ := rows.Columns()
 
 		if datas == nil {
-			return fmt.Errorf("empty line: %s [%d]", this.logName(), row)
+			break // 碰到空行就結束了
 		} // if
 
 		count := len(datas)
