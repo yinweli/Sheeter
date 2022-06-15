@@ -15,7 +15,7 @@ package {{$.GoPackage}}
 const {{$.StructName}}FileName = "{{$.JsonFileName}}" // json file name
 
 type {{$.StructName}} struct { {{$.SetLine}}
-{{range .Columns}}{{if .Field.IsShow}}    {{$.ColumnName .Name}} {{.Field.TypeGo}} // {{.Note}}{{$.NewLine}}{{end}}{{end}}
+{{range .Columns}}{{if .Field.IsShow}}    {{$.FirstUpper .Name}} {{.Field.TypeGo}} ` + "`json:\"{{.Name}}\"`" + ` // {{.Note}}{{$.NewLine}}{{end}}{{end}}
 }
 `
 

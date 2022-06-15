@@ -58,10 +58,10 @@ using System.Collections.Generic;
 namespace Sheeter {
     public class RealData { 
         public const string fileName = "realData.json";
-        public int Name0; // note0
-        public bool Name1; // note1
-        public int Name2; // note2
-        public string Name3; // note3
+        public int name0; // note0
+        public bool name1; // note1
+        public int name2; // note2
+        public string name3; // note3
     }
 } // namespace Sheeter
 `

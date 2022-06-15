@@ -86,9 +86,14 @@ func (this *Coder) NewLine() string {
 	return ""
 }
 
-// ColumnName 取得欄位名稱
-func (this *Coder) ColumnName(name string) string {
-	return util.FirstUpper(name)
+// FirstUpper 首字大寫
+func (this *Coder) FirstUpper(input string) string {
+	return util.FirstUpper(input)
+}
+
+// FirstLower 首字小寫
+func (this *Coder) FirstLower(input string) string {
+	return util.FirstLower(input)
 }
 
 // NewCoder 建立程式碼產生器

@@ -57,10 +57,10 @@ package sheeter
 const RealDataFileName = "realData.json" // json file name
 
 type RealData struct {
-	Name0 int32  // note0
-	Name1 bool   // note1
-	Name2 int32  // note2
-	Name3 string // note3
+	Name0 int32  ` + "`json:\"name0\"`" + ` // note0
+	Name1 bool   ` + "`json:\"name1\"`" + ` // note1
+	Name2 int32  ` + "`json:\"name2\"`" + ` // note2
+	Name3 string ` + "`json:\"name3\"`" + ` // note3
 }
 `
 }

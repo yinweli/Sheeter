@@ -16,7 +16,7 @@ func TestCoder(t *testing.T) {
 	jsonFileName := "test2"
 	structName := "test3"
 	coder := NewCoder(columns, cppLibraryPath, jsonFileName, structName)
-	bytes, err := coder.Generate("{{.CppLibraryPath}}#{{.JsonFileName}}#{{.StructName}}#{{.CppNamespace}}#{{.CsNamespace}}#{{.GoPackage}}#{{.ColumnName \"testColumn\"}}")
+	bytes, err := coder.Generate("{{.CppLibraryPath}}#{{.JsonFileName}}#{{.StructName}}#{{.CppNamespace}}#{{.CsNamespace}}#{{.GoPackage}}#{{.FirstUpper \"testColumn\"}}")
 	assert.Nil(t, err)
 	assert.Equal(t, "test1#test2#test3#Sheeter#Sheeter#sheeter#TestColumn", string(bytes[:]))
 	bytes, err = coder.Generate("{{{}}")
@@ -33,7 +33,8 @@ func TestCoder(t *testing.T) {
 	assert.Equal(t, "\n", coder.NewLine())
 	assert.Equal(t, "", coder.NewLine())
 	assert.Equal(t, "", coder.NewLine())
-	assert.Equal(t, "TestColumn", coder.ColumnName("testColumn"))
+	assert.Equal(t, "TestColumn", coder.FirstUpper("testColumn"))
+	assert.Equal(t, "testColumn", coder.FirstLower("TestColumn"))
 }
 
 func TestNewCoder(t *testing.T) {
