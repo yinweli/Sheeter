@@ -27,6 +27,8 @@ using nlohmann::json;
 using pkey = int32_t;
 #endif // !PKEY
 
+using {{$.StructName}}Maps = std::map<pkey, struct {{$.StructName}}>;
+
 struct {{.StructName}} { {{$.SetLine}}
 {{range .Columns}}{{if .Field.IsShow}}    {{.Field.TypeCpp}} {{.Name}}; // {{.Note}}{{$.NewLine}}{{end}}{{end}}
 
@@ -41,6 +43,10 @@ inline json get_untyped(const json& j, const char* property) {
 } // namespace {{$.CppNamespace}}
 
 namespace nlohmann {
+inline void from_json(const json& _j, {{$.CppNamespace}}::{{$.StructName}}Maps& _x) {
+    _j.get_to(_x);
+}
+
 inline void from_json(const json& _j, struct {{$.CppNamespace}}::{{$.StructName}}& _x) { {{$.SetLine}}
 {{range .Columns}}{{if .Field.IsShow}}    _x.{{.Name}} = _j.at("{{.Name}}").get<{{.Field.TypeCpp}}>();{{$.NewLine}}{{end}}{{end}}
 }
