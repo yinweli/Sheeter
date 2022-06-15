@@ -49,7 +49,7 @@ func mockTaskJsonCs() *Task {
 
 func mockTaskJsonCsString() string {
 	return `// generation by sheeter ^o<
-
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -60,6 +60,10 @@ namespace Sheeter {
         public bool name1; // note1
         public int name2; // note2
         public string name3; // note3
+
+        public static Dictionary<int, RealData> Parse(string json) {
+            return JsonConvert.DeserializeObject<Dictionary<int, RealData>>(json);
+        }
     }
 } // namespace Sheeter
 `
