@@ -3,11 +3,8 @@
 用於將按照格式做好的excel轉換為json格式  
 轉換時會自動產生c#/go的結構程式碼, 就不必再手寫了  
 
-# 事前安裝
-安裝[Go](https://go.dev/dl/)  
-
 # 如何安裝
-在終端執行
+先安裝[Go](https://go.dev/dl/), 然後在終端執行
 ```
 go install github.com/yinweli/Sheeter/cmd/sheeter@latest
 ```
@@ -174,14 +171,14 @@ func (this *RealDataMap) ParseBytes(b []byte) error {
 * .readme: 存放說明文件的連結檔案
 
 # TODO
-* 新增輸出lua格式
-  ExcelData={
-  [1010001] = {id=1010001,name="M4A1",short_name="M4A1",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=1},{max_plural_num=100000000,rarity=1}},desc="各种军事组织广泛使用的突击步枪，性能稳定，适合新手。",color=0,desc_list= {92,23,35}}},resource=1010001,type=1,up_shelves_time=1439262000,off_shelves_time=1597287600,is_time_limit=0},
-  [1010002] = {id=1010002,name="AR6游骑兵",short_name="AR6游骑兵",Test={{is_plural=1,Testdd={{max_plural_num=100000000,rarity=2},{max_plural_num=100000000,rarity=2}},desc="新一代标准不强，杀伤力提高，射击稳定",color=0,desc_list= {92,23,35}}},resource=1010002,type=1,up_shelves_time=1439262000,off_shelves_time=1597287600,is_time_limit=0},
-  [1010003] = {id=1010003,name="Kar-M",short_name="Kar-M",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=2},{max_plural_num=100000000,rarity=2}},desc="拥有大容量的弹夹的突击步枪，具有更加持续的连射火力。",color=0,desc_list= {92,23,35}}},resource=1010003,type=1,up_shelves_time=1439262000,off_shelves_time=1597287600,is_time_limit=0},
-  [1010004] = {id=1010004,name="亡魂SCAR",short_name="亡魂SCAR",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=3},{max_plural_num=100000000,rarity=3}},desc="射速极快的突击步枪，单位时间内能向目标发射更多的子弹。",color=0,desc_list= {92,23,35}}},resource=1010004,type=1,up_shelves_time=1439262000,off_shelves_time=1597287600,is_time_limit=0},
-  [1010005] = {id=1010005,name="RFB-死神",short_name="RFB-死神",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=3},{max_plural_num=100000000,rarity=3}},desc="采用无托设计的突击步枪，后坐力小，射击稳定。",color=0,desc_list= {92,23,35}}},resource=1010005,type=1,up_shelves_time=1439262001,off_shelves_time=1597287600,is_time_limit=0},
-  [1010006] = {id=1010006,name="银河轻骑士",short_name="银河轻骑士",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=3},{max_plural_num=100000000,rarity=3}},desc="发射特殊子弹，在穿透掩体后，还能造成可怕的伤害。",color=0,desc_list= {92,23,35}}},resource=1010006,type=1,up_shelves_time=1439262002,off_shelves_time=1597287600,is_time_limit=0},
+* 新增輸出lua格式  
+  ExcelData={  
+  [1010001] = {id=1010001,name="M4A1",short_name="M4A1",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=1},{max_plural_num=100000000,rarity=1}},desc="各种军事组织广泛使用的突击步枪，性能稳定，适合新手。",color=0,desc_list= {92,23,35}}},resource=1010001,type=1,up_shelves_time=1439262000,off_shelves_time=1597287600,is_time_limit=0},  
+  [1010002] = {id=1010002,name="AR6游骑兵",short_name="AR6游骑兵",Test={{is_plural=1,Testdd={{max_plural_num=100000000,rarity=2},{max_plural_num=100000000,rarity=2}},desc="新一代标准不强，杀伤力提高，射击稳定",color=0,desc_list= {92,23,35}}},resource=1010002,type=1,up_shelves_time=1439262000,off_shelves_time=1597287600,is_time_limit=0},  
+  [1010003] = {id=1010003,name="Kar-M",short_name="Kar-M",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=2},{max_plural_num=100000000,rarity=2}},desc="拥有大容量的弹夹的突击步枪，具有更加持续的连射火力。",color=0,desc_list= {92,23,35}}},resource=1010003,type=1,up_shelves_time=1439262000,off_shelves_time=1597287600,is_time_limit=0},  
+  [1010004] = {id=1010004,name="亡魂SCAR",short_name="亡魂SCAR",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=3},{max_plural_num=100000000,rarity=3}},desc="射速极快的突击步枪，单位时间内能向目标发射更多的子弹。",color=0,desc_list= {92,23,35}}},resource=1010004,type=1,up_shelves_time=1439262000,off_shelves_time=1597287600,is_time_limit=0},  
+  [1010005] = {id=1010005,name="RFB-死神",short_name="RFB-死神",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=3},{max_plural_num=100000000,rarity=3}},desc="采用无托设计的突击步枪，后坐力小，射击稳定。",color=0,desc_list= {92,23,35}}},resource=1010005,type=1,up_shelves_time=1439262001,off_shelves_time=1597287600,is_time_limit=0},  
+  [1010006] = {id=1010006,name="银河轻骑士",short_name="银河轻骑士",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=3},{max_plural_num=100000000,rarity=3}},desc="发射特殊子弹，在穿透掩体后，还能造成可怕的伤害。",color=0,desc_list= {92,23,35}}},resource=1010006,type=1,up_shelves_time=1439262002,off_shelves_time=1597287600,is_time_limit=0},  
   }
 * 產生proto message
 * 產生proto bytes data
