@@ -22,7 +22,7 @@ sheeter build 設定檔.yaml
 ```
 global:
   excelPath: .\                     # excel檔案的路徑
-  bom: true                         # 輸出的檔案是否含BOM
+  bom: true                         # 輸出的檔案是否要用BOM
   lineOfField: 1                    # excel表格中欄位行位置, 從1起算
   lineOfNote: 2                     # excel表格中註解行位置, 從1起算
   lineOfData: 3                     # excel表格中資料從哪行開始, 從1起算
@@ -84,6 +84,7 @@ elements:
 * `pkey`欄位中的內容不能重複
 * 欄位名稱不能重複(包括`empty`欄位)
 * c#程式碼的命名空間為`Sheeter`
+* c#程式碼使用Newtonsoft.Json來轉換json
 * go程式碼的軟體包名為`sheeter`
     * 這代表你得把產生出來的go程式碼放在`\sheeter`目錄下
 
@@ -92,42 +93,52 @@ elements:
 
 json檔案
 ```
-[
-    {
+{
+    "1": {
         "name0": 1,
         "name1": true,
         "name2": 1,
         "name3": "a"
     },
-    {
+    "2": {
         "name0": 2,
         "name1": false,
         "name2": 2,
         "name3": "b"
     },
-    {
+    "3": {
         "name0": 3,
         "name1": true,
         "name2": 3,
         "name3": "c"
     }
-]
+}
 ```
 
 json/c#檔案
 ```
 // generation by sheeter ^o<
-
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Sheeter {
     public class RealData { 
         public const string fileName = "realData.json";
-        public int Name0; // note0
-        public bool Name1; // note1
-        public int Name2; // note2
-        public string Name3; // note3
+        public int name0; // note0
+        public bool name1; // note1
+        public int name2; // note2
+        public string name3; // note3
+
+        public static Dictionary<int, RealData> Parse(string s) {
+            return JsonConvert.DeserializeObject<Dictionary<int, RealData>>(s);
+        }
+
+        public static Dictionary<int, RealData> Parse(byte[] b)
+        {
+            return Parse(Encoding.UTF8.GetString(b));
+        }
     }
 } // namespace Sheeter
 ```
@@ -135,16 +146,27 @@ namespace Sheeter {
 json/go檔案
 ```
 // generation by sheeter ^o<
-
 package sheeter
+
+import "encoding/json"
 
 const RealDataFileName = "realData.json" // json file name
 
 type RealData struct {
-	Name0 int32  // note0
-	Name1 bool   // note1
-	Name2 int32  // note2
-	Name3 string // note3
+	Name0 int32  `json:"name0"` // note0
+	Name1 bool   `json:"name1"` // note1
+	Name2 int32  `json:"name2"` // note2
+	Name3 string `json:"name3"` // note3
+}
+
+type RealDataMap map[int]RealData
+
+func (this *RealDataMap) ParseString(s string) error {
+	return json.Unmarshal([]byte(s), this)
+}
+
+func (this *RealDataMap) ParseBytes(b []byte) error {
+	return json.Unmarshal(b, this)
 }
 ```
 
@@ -152,15 +174,6 @@ type RealData struct {
 * .readme: 存放說明文件的連結檔案
 
 # TODO
-* 變更輸出的json格式要比照
-  {
-  "1010001" : {"id":1010001,"name":"M4A1","short_name":"M4A1","Test":[{"is_plural":0,"Testdd":[{"max_plural_num":100000000,"rarity":1},{"max_plural_num":100000000,"rarity":1}],"desc":"各种军事组织广泛使用的突击步枪，性能稳定，适合新手。","color":0,"desc_list": [92,23,35]}],"resource":1010001,"type":1,"up_shelves_time":1439262000,"off_shelves_time":1597287600,"is_time_limit":0},
-  "1010002" : {"id":1010002,"name":"AR6游骑兵","short_name":"AR6游骑兵","Test":[{"is_plural":1,"Testdd":[{"max_plural_num":100000000,"rarity":2},{"max_plural_num":100000000,"rarity":2}],"desc":"新一代标准不强，杀伤力提高，射击稳定","color":0,"desc_list": [92,23,35]}],"resource":1010002,"type":1,"up_shelves_time":1439262000,"off_shelves_time":1597287600,"is_time_limit":0},
-  "1010003" : {"id":1010003,"name":"Kar-M","short_name":"Kar-M","Test":[{"is_plural":0,"Testdd":[{"max_plural_num":100000000,"rarity":2},{"max_plural_num":100000000,"rarity":2}],"desc":"拥有大容量的弹夹的突击步枪，具有更加持续的连射火力。","color":0,"desc_list": [92,23,35]}],"resource":1010003,"type":1,"up_shelves_time":1439262000,"off_shelves_time":1597287600,"is_time_limit":0},
-  "1010004" : {"id":1010004,"name":"亡魂SCAR","short_name":"亡魂SCAR","Test":[{"is_plural":0,"Testdd":[{"max_plural_num":100000000,"rarity":3},{"max_plural_num":100000000,"rarity":3}],"desc":"射速极快的突击步枪，单位时间内能向目标发射更多的子弹。","color":0,"desc_list": [92,23,35]}],"resource":1010004,"type":1,"up_shelves_time":1439262000,"off_shelves_time":1597287600,"is_time_limit":0},
-  "1010005" : {"id":1010005,"name":"RFB-死神","short_name":"RFB-死神","Test":[{"is_plural":0,"Testdd":[{"max_plural_num":100000000,"rarity":3},{"max_plural_num":100000000,"rarity":3}],"desc":"采用无托设计的突击步枪，后坐力小，射击稳定。","color":0,"desc_list": [92,23,35]}],"resource":1010005,"type":1,"up_shelves_time":1439262001,"off_shelves_time":1597287600,"is_time_limit":0},
-  "1010006" : {"id":1010006,"name":"银河轻骑士","short_name":"银河轻骑士","Test":[{"is_plural":0,"Testdd":[{"max_plural_num":100000000,"rarity":3},{"max_plural_num":100000000,"rarity":3}],"desc":"发射特殊子弹，在穿透掩体后，还能造成可怕的伤害。","color":0,"desc_list": [92,23,35]}],"resource":1010006,"type":1,"up_shelves_time":1439262002,"off_shelves_time":1597287600,"is_time_limit":0},
-  }
 * 新增輸出lua格式
   ExcelData={
   [1010001] = {id=1010001,name="M4A1",short_name="M4A1",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=1},{max_plural_num=100000000,rarity=1}},desc="各种军事组织广泛使用的突击步枪，性能稳定，适合新手。",color=0,desc_list= {92,23,35}}},resource=1010001,type=1,up_shelves_time=1439262000,off_shelves_time=1597287600,is_time_limit=0},
@@ -170,10 +183,6 @@ type RealData struct {
   [1010005] = {id=1010005,name="RFB-死神",short_name="RFB-死神",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=3},{max_plural_num=100000000,rarity=3}},desc="采用无托设计的突击步枪，后坐力小，射击稳定。",color=0,desc_list= {92,23,35}}},resource=1010005,type=1,up_shelves_time=1439262001,off_shelves_time=1597287600,is_time_limit=0},
   [1010006] = {id=1010006,name="银河轻骑士",short_name="银河轻骑士",Test={{is_plural=0,Testdd={{max_plural_num=100000000,rarity=3},{max_plural_num=100000000,rarity=3}},desc="发射特殊子弹，在穿透掩体后，还能造成可怕的伤害。",color=0,desc_list= {92,23,35}}},resource=1010006,type=1,up_shelves_time=1439262002,off_shelves_time=1597287600,is_time_limit=0},
   }
-* 變更json/cs, 增加 map<pkey, 資料結構> 的型態
-* 變更json/go, 增加 map[pkey]資料結構 的型態
-* 新增json/cs驗證子專案
-* 新增json/go驗證子專案
 * 產生proto message
 * 產生proto bytes data
 * 產生proto/cs code
