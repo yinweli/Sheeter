@@ -80,6 +80,7 @@ elements:
 * 表格只能有一個`pkey`欄位
 * `pkey`欄位中的內容不能重複
 * 欄位名稱不能重複(包括`empty`欄位)
+* 表格中寫布林值時, 請寫true/false
 * c#程式碼的命名空間為`Sheeter`
 * c#程式碼使用Newtonsoft.Json來轉換json
 * go程式碼的軟體包名為`sheeter`
@@ -114,7 +115,7 @@ json檔案
 
 json/c#檔案
 ```
-// generation by sheeter ^o<
+// generation by sheeter ^o<, from real.xlsx(Data)
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -142,7 +143,7 @@ namespace Sheeter {
 
 json/go檔案
 ```
-// generation by sheeter ^o<
+// generation by sheeter ^o<, from real.xlsx(Data)
 package sheeter
 
 import "encoding/json"
@@ -150,10 +151,10 @@ import "encoding/json"
 const RealDataFileName = "realData.json" // json file name
 
 type RealData struct {
-	Name0 int32  `json:"name0"` // note0
-	Name1 bool   `json:"name1"` // note1
-	Name2 int32  `json:"name2"` // note2
-	Name3 string `json:"name3"` // note3
+	Name0 int32  ` + "`json:\"name0\"`" + ` // note0
+	Name1 bool   ` + "`json:\"name1\"`" + ` // note1
+	Name2 int32  ` + "`json:\"name2\"`" + ` // note2
+	Name3 string ` + "`json:\"name3\"`" + ` // note3
 }
 
 type RealDataMap map[int]RealData

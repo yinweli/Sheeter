@@ -54,7 +54,7 @@ func (this *Task) executeJson() error {
 			value, err := itor.Field.ToJsonValue(data)
 
 			if err != nil {
-				return fmt.Errorf("convert value failed: %s [%d(%s) : %s]", this.logName(), row, itor.Name, err)
+				return fmt.Errorf("convert value failed: %s [%d(%s) : %s]", this.originalName(), row, itor.Name, err)
 			} // if
 
 			box[itor.Name] = value
@@ -67,13 +67,13 @@ func (this *Task) executeJson() error {
 	bytes, err := json.MarshalIndent(boxMap, jsonPrefix, jsonIndent)
 
 	if err != nil {
-		return fmt.Errorf("convert json failed: %s [%s]", this.logName(), err)
+		return fmt.Errorf("convert json failed: %s [%s]", this.originalName(), err)
 	} // if
 
 	err = util.FileWrite(this.jsonFilePath(), bytes, this.global.Bom)
 
 	if err != nil {
-		return fmt.Errorf("write to json failed: %s [%s]", this.logName(), err)
+		return fmt.Errorf("write to json failed: %s [%s]", this.originalName(), err)
 	} // if
 
 	if this.bar != nil {

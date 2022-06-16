@@ -7,7 +7,7 @@ import (
 )
 
 // jsonCsCode json/c#程式碼模板
-const jsonCsCode = `// generation by sheeter ^o<
+const jsonCsCode = `// generation by sheeter ^o<, from {{$.OriginalName}}
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -32,16 +32,24 @@ namespace {{$.CsNamespace}} {
 
 // executeJsonCs 輸出json/cs
 func (this *Task) executeJsonCs() error {
-	bytes, err := NewCoder(this.columns, this.jsonFileName(), this.structName()).Generate(jsonCsCode)
+	stemplateCode := STemplateCode{
+		STemplate: STemplate{
+			OriginalName: this.originalName(),
+			StructName:   this.structName(),
+		},
+		JsonFileName: this.jsonFileName(),
+		Columns:      this.columns,
+	}
+	bytes, err := stemplateCode.Generate(jsonCsCode)
 
 	if err != nil {
-		return fmt.Errorf("generate cs failed: %s [%s]", this.logName(), err)
+		return fmt.Errorf("generate cs failed: %s [%s]", this.originalName(), err)
 	} // if
 
 	err = util.FileWrite(this.jsonCsFilePath(), bytes, this.global.Bom)
 
 	if err != nil {
-		return fmt.Errorf("write to cs failed: %s [%s]", this.logName(), err)
+		return fmt.Errorf("write to cs failed: %s [%s]", this.originalName(), err)
 	} // if
 
 	if this.bar != nil {

@@ -37,3 +37,8 @@ func (this *FieldTextArray) IsPkey() bool {
 func (this *FieldTextArray) ToJsonValue(input string) (result interface{}, err error) {
 	return util.StrToStrArray(input), nil
 }
+
+// ToLuaValue 轉換為lua值
+func (this *FieldTextArray) ToLuaValue(input string) (result string, err error) {
+	return util.LuaArrayWrapper(input), nil
+}

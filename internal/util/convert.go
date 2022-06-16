@@ -6,6 +6,8 @@ import (
 )
 
 const arraySeparator = "," // 陣列分隔字串
+const frontBracket = "{"   //
+const backBracket = "}"    //
 
 // FirstUpper 字串首字母大寫
 func FirstUpper(input string) string {
@@ -50,7 +52,7 @@ func StrToInt(input string) (result int64, err error) {
 	return strconv.ParseInt(input, 10, 64)
 }
 
-// StrToIntArray 字串轉位元整數陣列
+// StrToIntArray 字串轉整數陣列
 func StrToIntArray(input string) (results []int64, err error) {
 	for _, itor := range strings.Split(input, arraySeparator) {
 		result, err := StrToInt(itor)
@@ -70,7 +72,7 @@ func StrToFloat(input string) (result float64, err error) {
 	return strconv.ParseFloat(input, 64)
 }
 
-// StrToFloatArray 字串轉位元浮點數陣列
+// StrToFloatArray 字串轉浮點數陣列
 func StrToFloatArray(input string) (results []float64, err error) {
 	for _, itor := range strings.Split(input, arraySeparator) {
 		result, err := StrToFloat(itor)
@@ -88,4 +90,9 @@ func StrToFloatArray(input string) (results []float64, err error) {
 // StrToStrArray 字串轉為字串陣列
 func StrToStrArray(input string) []string {
 	return strings.Split(input, arraySeparator)
+}
+
+// LuaArrayWrapper 包裝lua陣列字串
+func LuaArrayWrapper(input string) string {
+	return frontBracket + input + backBracket
 }

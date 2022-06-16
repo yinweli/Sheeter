@@ -12,16 +12,18 @@ func TestCoder(t *testing.T) {
 		{Field: &FieldInt{}},
 		{Field: &FieldEmpty{}},
 	}
+	originalName := "test1"
 	jsonFileName := "test2"
 	structName := "test3"
-	coder := NewCoder(columns, jsonFileName, structName)
-	bytes, err := coder.Generate("{{.JsonFileName}}#{{.StructName}}#{{.CsNamespace}}#{{.GoPackage}}#{{.FirstUpper \"testColumn\"}}")
+	coder := NewCoder(columns, originalName, jsonFileName, structName)
+	bytes, err := coder.Generate("{{.OriginalName}}#{{.JsonFileName}}#{{.StructName}}#{{.CsNamespace}}#{{.GoPackage}}#{{.FirstUpper \"testColumn\"}}")
 	assert.Nil(t, err)
-	assert.Equal(t, "test2#test3#Sheeter#sheeter#TestColumn", string(bytes[:]))
+	assert.Equal(t, "test1#test2#test3#Sheeter#sheeter#TestColumn", string(bytes[:]))
 	bytes, err = coder.Generate("{{{}}")
 	assert.NotNil(t, err)
 	bytes, err = coder.Generate("{{.Unknown}}")
 	assert.NotNil(t, err)
+	assert.Equal(t, originalName, coder.OriginalName())
 	assert.Equal(t, jsonFileName, coder.JsonFileName())
 	assert.Equal(t, structName, coder.StructName())
 	assert.Equal(t, CsNamespace, coder.CsNamespace())
@@ -35,7 +37,7 @@ func TestCoder(t *testing.T) {
 }
 
 func TestNewCoder(t *testing.T) {
-	coder := NewCoder(nil, "", "")
+	coder := NewCoder(nil, "", "", "")
 	assert.NotNil(t, coder)
 }
 

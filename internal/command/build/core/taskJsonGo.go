@@ -8,7 +8,7 @@ import (
 )
 
 // jsonGoCode json/go程式碼模板
-const jsonGoCode = `// generation by sheeter ^o<
+const jsonGoCode = `// generation by sheeter ^o<, from {{$.OriginalName}}
 package {{$.GoPackage}}
 
 import "encoding/json"
@@ -32,22 +32,22 @@ func (this *{{$.StructName}}Map) ParseBytes(b []byte) error {
 
 // executeJsonGo 輸出json/go
 func (this *Task) executeJsonGo() error {
-	bytes, err := NewCoder(this.columns, this.jsonFileName(), this.structName()).Generate(jsonGoCode)
+	bytes, err := NewCoder(this.columns, this.originalName(), this.jsonFileName(), this.structName()).Generate(jsonGoCode)
 
 	if err != nil {
-		return fmt.Errorf("generate go failed: %s [%s]", this.logName(), err)
+		return fmt.Errorf("generate go failed: %s [%s]", this.originalName(), err)
 	} // if
 
 	err = util.FileWrite(this.jsonGoFilePath(), bytes, this.global.Bom)
 
 	if err != nil {
-		return fmt.Errorf("write to go failed: %s [%s]", this.logName(), err)
+		return fmt.Errorf("write to go failed: %s [%s]", this.originalName(), err)
 	} // if
 
 	err = exec.Command("go", "fmt", this.jsonGoFilePath()).Run()
 
 	if err != nil {
-		return fmt.Errorf("format go failed: %s [%s]", this.logName(), err)
+		return fmt.Errorf("format go failed: %s [%s]", this.originalName(), err)
 	} // if
 
 	if this.bar != nil {

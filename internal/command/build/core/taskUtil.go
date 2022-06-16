@@ -16,14 +16,16 @@ const pathJsonGo = "jsonGo"   // 輸出路徑: json/go
 const pathProto = "proto"     // 輸出路徑: proto
 const pathProtoCs = "protoCs" // 輸出路徑: proto/c#
 const pathProtoGo = "protoGo" // 輸出路徑: proto/go
+const pathLua = "lua"         // 輸出路徑: lua
 const extJson = "json"        // 副檔名: json
 const extProto = "proto"      // 副檔名: proto
 const extBytes = "bytes"      // 副檔名: bytes
 const extCs = "cs"            // 副檔名: c#
 const extGo = "go"            // 副檔名: go
+const extLua = "lua"          // 副檔名: lua
 
-// logName 取得紀錄名稱
-func (this *Task) logName() string {
+// originalName 取得原始名稱
+func (this *Task) originalName() string {
 	return fmt.Sprintf("%s(%s)", this.element.Excel, this.element.Sheet)
 }
 
@@ -70,6 +72,11 @@ func (this *Task) protoCsFilePath() string {
 // protoGoFilePath 取得proto/go檔名路徑
 func (this *Task) protoGoFilePath() string {
 	return path.Join(pathProtoGo, this.fileName(extGo))
+}
+
+// luaFilePath 取得lua檔名路徑
+func (this *Task) luaFilePath() string {
+	return path.Join(pathLua, this.fileName(extLua))
 }
 
 // fileName 取得檔案名稱
@@ -120,8 +127,8 @@ func (this *Task) getRows(line int) *excelize.Rows {
 	return rows
 }
 
-// getCols 取得表格行內容, line從1起算
-func (this *Task) getCols(line int) []string {
+// getRowContent 取得表格行內容, line從1起算
+func (this *Task) getRowContent(line int) []string {
 	rows := this.getRows(line)
 
 	if rows == nil {
