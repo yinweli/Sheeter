@@ -48,8 +48,13 @@ func mockTaskJsonGo() *Task {
 }
 
 func mockTaskJsonGoString() string {
+	// 由於Go程式碼會經由gofmt整理過, 因此會把縮排從空格改成tab
+	// 寫測試的時候要注意, 免得老是弄錯
+
 	return `// generation by sheeter ^o<
 package sheeter
+
+import "encoding/json"
 
 const RealDataFileName = "realData.json" // json file name
 
@@ -60,6 +65,14 @@ type RealData struct {
 	Name3 string ` + "`json:\"name3\"`" + ` // note3
 }
 
-type RealDataMap = map[int]RealData
+type RealDataMap map[int]RealData
+
+func (this *RealDataMap) ParseString(s string) error {
+	return json.Unmarshal([]byte(s), this)
+}
+
+func (this *RealDataMap) ParseBytes(b []byte) error {
+	return json.Unmarshal(b, this)
+}
 `
 }

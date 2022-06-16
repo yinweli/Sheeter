@@ -52,6 +52,7 @@ func mockTaskJsonCsString() string {
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Sheeter {
     public class RealData { 
@@ -61,8 +62,13 @@ namespace Sheeter {
         public int name2; // note2
         public string name3; // note3
 
-        public static Dictionary<int, RealData> Parse(string json) {
-            return JsonConvert.DeserializeObject<Dictionary<int, RealData>>(json);
+        public static Dictionary<int, RealData> Parse(string s) {
+            return JsonConvert.DeserializeObject<Dictionary<int, RealData>>(s);
+        }
+
+        public static Dictionary<int, RealData> Parse(byte[] b)
+        {
+            return Parse(Encoding.UTF8.GetString(b));
         }
     }
 } // namespace Sheeter
