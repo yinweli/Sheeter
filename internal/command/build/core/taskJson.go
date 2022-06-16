@@ -51,7 +51,7 @@ func (this *Task) executeJson() error {
 				pkey = data
 			} // if
 
-			value, err := itor.Field.Transform(data)
+			value, err := itor.Field.ToJsonValue(data)
 
 			if err != nil {
 				return fmt.Errorf("convert value failed: %s [%d(%s) : %s]", this.logName(), row, itor.Name, err)
