@@ -13,7 +13,7 @@ func TestFieldEmpty(t *testing.T) {
 	assert.Equal(t, "", field.TypeGo())
 	assert.Equal(t, false, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
-	result, err := field.Transform("test")
+	result, err := field.ToJsonValue("test")
 	assert.Nil(t, err)
 	assert.Nil(t, result)
 }

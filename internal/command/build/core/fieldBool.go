@@ -33,7 +33,7 @@ func (this *FieldBool) IsPkey() bool {
 	return false
 }
 
-// Transform 字串轉換
-func (this *FieldBool) Transform(input string) (result interface{}, err error) {
+// ToJsonValue 轉換為json值
+func (this *FieldBool) ToJsonValue(input string) (result interface{}, err error) {
 	return util.StrToBool(input)
 }

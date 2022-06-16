@@ -33,7 +33,7 @@ func (this *FieldTextArray) IsPkey() bool {
 	return false
 }
 
-// Transform 字串轉換
-func (this *FieldTextArray) Transform(input string) (result interface{}, err error) {
+// ToJsonValue 轉換為json值
+func (this *FieldTextArray) ToJsonValue(input string) (result interface{}, err error) {
 	return util.StrToStrArray(input), nil
 }

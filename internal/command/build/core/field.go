@@ -27,8 +27,8 @@ type Field interface {
 	// IsPkey 是否是主要索引
 	IsPkey() bool
 
-	// Transform 字串轉換
-	Transform(input string) (result interface{}, err error)
+	// ToJsonValue 轉換為json值
+	ToJsonValue(input string) (result interface{}, err error)
 }
 
 // ParseField 解析字串為欄位

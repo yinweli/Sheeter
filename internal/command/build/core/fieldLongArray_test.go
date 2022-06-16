@@ -13,10 +13,10 @@ func TestFieldLongArray(t *testing.T) {
 	assert.Equal(t, "[]int64", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
-	result, err := field.Transform("123,456,789")
+	result, err := field.ToJsonValue("123,456,789")
 	assert.Nil(t, err)
 	assert.Equal(t, []int64{123, 456, 789}, result)
-	result, err = field.Transform("?????")
+	result, err = field.ToJsonValue("?????")
 	assert.NotNil(t, err)
 }
 
