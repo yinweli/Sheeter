@@ -11,13 +11,23 @@ import (
 const jsonGoCode = `// generation by sheeter ^o<
 package {{$.GoPackage}}
 
+import "encoding/json"
+
 const {{$.StructName}}FileName = "{{$.JsonFileName}}" // json file name
 
 type {{$.StructName}} struct { {{$.SetLine}}
 {{range .Columns}}{{if .Field.IsShow}}    {{$.FirstUpper .Name}} {{.Field.TypeGo}} ` + "`json:\"{{.Name}}\"`" + ` // {{.Note}}{{$.NewLine}}{{end}}{{end}}
 }
 
-type {{$.StructName}}Map = map[int]{{$.StructName}}
+type {{$.StructName}}Map map[int]{{$.StructName}}
+
+func (this *{{$.StructName}}Map) ParseString(s string) error {
+    return json.Unmarshal([]byte(s), this)
+}
+
+func (this *{{$.StructName}}Map) ParseBytes(b []byte) error {
+    return json.Unmarshal(b, this)
+}
 `
 
 // executeJsonGo 輸出json/go

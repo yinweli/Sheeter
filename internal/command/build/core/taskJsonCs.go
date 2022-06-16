@@ -11,14 +11,20 @@ const jsonCsCode = `// generation by sheeter ^o<
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace {{$.CsNamespace}} {
     public class {{$.StructName}} { {{$.SetLine}}
         public const string fileName = "{{$.JsonFileName}}";
 {{range .Columns}}{{if .Field.IsShow}}        public {{.Field.TypeCs}} {{.Name}}; // {{.Note}}{{$.NewLine}}{{end}}{{end}}
 
-        public static Dictionary<int, {{$.StructName}}> Parse(string json) {
-            return JsonConvert.DeserializeObject<Dictionary<int, {{$.StructName}}>>(json);
+        public static Dictionary<int, {{$.StructName}}> Parse(string s) {
+            return JsonConvert.DeserializeObject<Dictionary<int, {{$.StructName}}>>(s);
+        }
+
+        public static Dictionary<int, {{$.StructName}}> Parse(byte[] b)
+        {
+            return Parse(Encoding.UTF8.GetString(b));
         }
     }
 } // namespace {{$.CsNamespace}}
