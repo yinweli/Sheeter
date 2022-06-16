@@ -11,13 +11,13 @@ func (this *Task) executeExcel() error {
 	excel, err := excelize.OpenFile(this.excelFilePath())
 
 	if err != nil {
-		return fmt.Errorf("excel read failed: %s", this.logName())
+		return fmt.Errorf("excel read failed: %s", this.originalName())
 	} // if
 
 	this.excel = excel
 
 	if this.sheetExists() == false {
-		return fmt.Errorf("sheet not found: %s", this.logName())
+		return fmt.Errorf("sheet not found: %s", this.originalName())
 	} // if
 
 	if this.bar != nil {

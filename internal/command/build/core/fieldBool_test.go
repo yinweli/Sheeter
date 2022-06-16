@@ -13,10 +13,17 @@ func TestFieldBool(t *testing.T) {
 	assert.Equal(t, "bool", field.TypeGo())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
+
 	result, err := field.ToJsonValue("true")
 	assert.Nil(t, err)
 	assert.Equal(t, true, result)
 	result, err = field.ToJsonValue("?????")
+	assert.NotNil(t, err)
+
+	result, err = field.ToLuaValue("true")
+	assert.Nil(t, err)
+	assert.Equal(t, "true", result)
+	result, err = field.ToLuaValue("?????")
 	assert.NotNil(t, err)
 }
 

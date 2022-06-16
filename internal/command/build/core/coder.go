@@ -7,12 +7,10 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-const CsNamespace = "Sheeter" // c#命名空間名稱
-const GoPackage = "sheeter"   // go包名
-
 // Coder 程式碼產生器
 type Coder struct {
 	Columns      []*Column // 欄位列表, 由於要用到程式碼樣板中, 所以得要公開
+	originalName string    // 原始名稱
 	jsonFileName string    // json檔名
 	structName   string    // 結構名稱
 	maxline      int       // 最大行數
@@ -35,6 +33,11 @@ func (this *Coder) Generate(code string) (results []byte, err error) {
 	} // if
 
 	return buffer.Bytes(), nil
+}
+
+// OriginalName 取得原始名稱
+func (this *Coder) OriginalName() string {
+	return this.originalName
 }
 
 // JsonFileName 取得json檔名
@@ -85,9 +88,10 @@ func (this *Coder) FirstLower(input string) string {
 }
 
 // NewCoder 建立程式碼產生器
-func NewCoder(columns []*Column, jsonFileName string, structName string) *Coder {
+func NewCoder(columns []*Column, originalName string, jsonFileName string, structName string) *Coder {
 	return &Coder{
 		Columns:      columns,
+		originalName: originalName,
 		jsonFileName: jsonFileName,
 		structName:   structName,
 		maxline:      calcMaxLine(columns),

@@ -8,10 +8,10 @@ import (
 
 // executeFields 建立欄位列表
 func (this *Task) executeFields() error {
-	fields := this.getCols(this.global.LineOfField)
+	fields := this.getRowContent(this.global.LineOfField)
 
 	if fields == nil {
-		return fmt.Errorf("fields not found: %s", this.logName())
+		return fmt.Errorf("fields not found: %s", this.originalName())
 	} // if
 
 	names := hashset.New()
@@ -26,17 +26,17 @@ func (this *Task) executeFields() error {
 		name, field, err := ParseField(itor)
 
 		if err != nil {
-			return fmt.Errorf("field parser failed: %s [%s : %s]", this.logName(), itor, err)
+			return fmt.Errorf("field parser failed: %s [%s : %s]", this.originalName(), itor, err)
 		} // if
 
 		if names.Contains(name) {
-			return fmt.Errorf("name duplicate: %s [%s]", this.logName(), itor)
+			return fmt.Errorf("name duplicate: %s [%s]", this.originalName(), itor)
 		} // if
 
 		names.Add(name)
 
 		if field.IsPkey() && pkey {
-			return fmt.Errorf("pkey duplicate: %s [%s]", this.logName(), itor)
+			return fmt.Errorf("pkey duplicate: %s [%s]", this.originalName(), itor)
 		} // if
 
 		if field.IsPkey() {
@@ -50,7 +50,7 @@ func (this *Task) executeFields() error {
 	} // for
 
 	if pkey == false { // 這裡其實也順便檢查了沒有欄位的問題
-		return fmt.Errorf("pkey not found: %s", this.logName())
+		return fmt.Errorf("pkey not found: %s", this.originalName())
 	} // if
 
 	if this.bar != nil {

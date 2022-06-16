@@ -29,6 +29,9 @@ type Field interface {
 
 	// ToJsonValue 轉換為json值
 	ToJsonValue(input string) (result interface{}, err error)
+
+	// ToLuaValue 轉換為lua值
+	ToLuaValue(input string) (result string, err error)
 }
 
 // ParseField 解析字串為欄位

@@ -6,10 +6,10 @@ import (
 
 // executeExcel 建立欄位註解
 func (this *Task) executeNotes() error {
-	notes := this.getCols(this.global.LineOfNote)
+	notes := this.getRowContent(this.global.LineOfNote)
 
 	if notes == nil {
-		return fmt.Errorf("note line not found: %s", this.logName())
+		return fmt.Errorf("note line not found: %s", this.originalName())
 	} // if
 
 	count := len(notes)
