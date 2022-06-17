@@ -37,3 +37,10 @@ func (this *STemplate) FirstUpper(input string) string {
 func (this *STemplate) FirstLower(input string) string {
 	return util.FirstLower(input)
 }
+
+func NewSTemplate(originalName string, structName string) *STemplate {
+	return &STemplate{
+		OriginalName: originalName,
+		StructName:   structName,
+	}
+}

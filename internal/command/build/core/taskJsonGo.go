@@ -32,7 +32,15 @@ func (this *{{$.StructName}}Map) ParseBytes(b []byte) error {
 
 // executeJsonGo 輸出json/go
 func (this *Task) executeJsonGo() error {
-	bytes, err := NewCoder(this.columns, this.originalName(), this.jsonFileName(), this.structName()).Generate(jsonGoCode)
+	stemplateCode := STemplateCode{
+		STemplate: STemplate{
+			OriginalName: this.originalName(),
+			StructName:   this.structName(),
+		},
+		JsonFileName: this.jsonFileName(),
+		Columns:      this.columns,
+	}
+	bytes, err := stemplateCode.Generate(jsonGoCode)
 
 	if err != nil {
 		return fmt.Errorf("generate go failed: %s [%s]", this.originalName(), err)

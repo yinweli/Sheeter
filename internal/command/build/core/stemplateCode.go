@@ -54,3 +54,11 @@ func (this *STemplateCode) Generate(code string) (results []byte, err error) {
 
 	return buffer.Bytes(), nil
 }
+
+func NewSTemplateCode(originalName string, structName string) *STemplateCode {
+	return &STemplateCode{
+		STemplate:    *NewSTemplate(originalName, structName),
+		JsonFileName: "",
+		Columns:      nil,
+	}
+}
