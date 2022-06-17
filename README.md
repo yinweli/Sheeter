@@ -188,3 +188,53 @@ func (this *RealDataMap) ParseBytes(b []byte) error {
 * 新增proto/cs驗證子專案
 * 新增proto/go驗證子專案
 * 新增lua驗證子專案
+
+# 改進方向
+excel => json schema (自己來)
+excel => json data (自己來)
+json => c++ (quicktype)
+json => c# (quicktype)
+json => go (quicktype)
+json => lua ?
+
+表格名稱用 描述|表格名 的方式比較好, 程式內只使用表格名來製作檔案 ex: 英雄表|Hero, 道具表|Item
+表格結構仍然不使用結構(欄位格式不好弄)
+轉換程式碼的方式改用quicktype工具
+
+** how to install quicktype
+1.install npm
+https://nodejs.org/en/
+
+2.+npm to path
+
+3.install quicktype
+npm install -g quicktype
+
+** quicktype >> c++
+quicktype --src verifyData.json --src-lang json --top-level verifyDatas
+          --out verifyData.hpp --lang c++
+          --namespace sheeter
+
+** quicktype >> c#
+quicktype --src verifyData.json --src-lang json --top-level verifyDatas
+          --out verifyData.hpp --lang cs
+          --namespace sheeter
+          --array-type array
+
+** quicktype >> go
+quicktype --src verifyData.json --src-lang json --top-level verifyDatas
+          --out verifyData.go --lang go
+          --package sheeter
+          
+** other ref
+c# code for json to lua 
+https://github.com/yomunsam/Json2LuaTable/blob/master/Json2Lua/Program.cs
+
+lua code for lua table to file
+http://lua-users.org/wiki/SaveTableToFile
+
+json to lua table
+https://github.com/layeh/gopher-json
+
+quicktype
+https://github.com/yomunsam/Json2LuaTable/blob/master/Json2Lua/Program.cs
