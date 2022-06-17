@@ -190,51 +190,64 @@ func (this *RealDataMap) ParseBytes(b []byte) error {
 * 新增lua驗證子專案
 
 # 改進方向
-excel => json schema (自己來)
-excel => json data (自己來)
-json => c++ (quicktype)
-json => c# (quicktype)
-json => go (quicktype)
-json => lua ?
+excel => json schema (自己來)  
+excel => json data (自己來)  
+json => c++ (quicktype)  
+json => c# (quicktype)  
+json => go (quicktype)  
+json => lua ?  
 
-表格名稱用 描述|表格名 的方式比較好, 程式內只使用表格名來製作檔案 ex: 英雄表|Hero, 道具表|Item
-表格結構仍然不使用結構(欄位格式不好弄)
-轉換程式碼的方式改用quicktype工具
+表格名稱用 描述|表格名 的方式比較好, 程式內只使用表格名來製作檔案 ex: 英雄表|Hero, 道具表|Item  
+表格結構仍然不使用結構(欄位格式不好弄)  
+轉換程式碼的方式改用quicktype工具  
 
-** how to install quicktype
-1.install npm
-https://nodejs.org/en/
+** how to install quicktype  
+1.install npm  
+https://nodejs.org/en/  
+2.+npm to path  
+3.install quicktype  
+npm install -g quicktype  
 
-2.+npm to path
+** quicktype >> c++  
+quicktype --src verifyData.json --src-lang json --top-level verifyDatas  
+          --out verifyData.hpp --lang c++  
+          --namespace sheeter  
+          --code-format with-struct  
+          --const-style west-const  
+          --type-style pascal-case  
+          --member-style camel-case  
+          --enumerator-style camel-case  
+          --source-style multi-source  
+          --include-location global-include  
 
-3.install quicktype
-npm install -g quicktype
+** quicktype >> c#  
+quicktype --src verifyData.json --src-lang json --top-level verifyDatas  
+          --out verifyData.hpp --lang cs  
+          --namespace sheeter  
+          --array-type array  
+          --features attributes-only  
 
-** quicktype >> c++
-quicktype --src verifyData.json --src-lang json --top-level verifyDatas
-          --out verifyData.hpp --lang c++
-          --namespace sheeter
+** quicktype >> go  
+quicktype --src verifyData.json --src-lang json --top-level verifyDatas  
+          --out verifyData.go --lang go  
+          --package sheeter  
+          --just-types-and-package  
 
-** quicktype >> c#
-quicktype --src verifyData.json --src-lang json --top-level verifyDatas
-          --out verifyData.hpp --lang cs
-          --namespace sheeter
-          --array-type array
-
-** quicktype >> go
-quicktype --src verifyData.json --src-lang json --top-level verifyDatas
-          --out verifyData.go --lang go
-          --package sheeter
+** quicktype >> java
+quicktype --src verifyData.json --src-lang json --top-level verifyDatas  
+          --out verifyData.java --lang java  
+          --package sheeter  
+          --just-types  
           
 ** other ref
-c# code for json to lua 
-https://github.com/yomunsam/Json2LuaTable/blob/master/Json2Lua/Program.cs
+c# code for json to lua   
+https://github.com/yomunsam/Json2LuaTable  
 
-lua code for lua table to file
-http://lua-users.org/wiki/SaveTableToFile
+lua code for lua table to file  
+http://lua-users.org/wiki/SaveTableToFile  
 
-json to lua table
-https://github.com/layeh/gopher-json
+json to lua table  
+https://github.com/layeh/gopher-json  
 
-quicktype
-https://github.com/yomunsam/Json2LuaTable/blob/master/Json2Lua/Program.cs
+quicktype  
+https://github.com/quicktype/quicktype  
