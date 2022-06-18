@@ -8,9 +8,7 @@ import (
 
 func TestFieldPkey(t *testing.T) {
 	field := mockFieldPkey()
-	assert.Equal(t, "pkey", field.TypeExcel())
-	assert.Equal(t, "int", field.TypeCs())
-	assert.Equal(t, "int32", field.TypeGo())
+	assert.Equal(t, "pkey", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, true, field.IsPkey())
 

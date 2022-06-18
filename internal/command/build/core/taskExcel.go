@@ -21,7 +21,7 @@ func (this *Task) executeExcel() error {
 	} // if
 
 	if this.bar != nil {
-		this.bar.IncrBy(taskProgressM)
+		this.bar.Increment()
 	} // if
 
 	return nil

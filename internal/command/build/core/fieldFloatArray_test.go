@@ -8,9 +8,7 @@ import (
 
 func TestFieldFloatArray(t *testing.T) {
 	field := mockFieldFloatArray()
-	assert.Equal(t, "floatArray", field.TypeExcel())
-	assert.Equal(t, "List<float>", field.TypeCs())
-	assert.Equal(t, "[]float32", field.TypeGo())
+	assert.Equal(t, "floatArray", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
 

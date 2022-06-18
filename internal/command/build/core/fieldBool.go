@@ -8,18 +8,8 @@ import (
 type FieldBool struct {
 }
 
-// TypeExcel 取得excel欄位類型
-func (this *FieldBool) TypeExcel() string {
-	return "bool"
-}
-
-// TypeCs 取得c#欄位類型
-func (this *FieldBool) TypeCs() string {
-	return "bool"
-}
-
-// TypeGo 取得go欄位類型
-func (this *FieldBool) TypeGo() string {
+// Type 取得excel欄位類型
+func (this *FieldBool) Type() string {
 	return "bool"
 }
 

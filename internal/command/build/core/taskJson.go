@@ -77,7 +77,7 @@ func (this *Task) executeJson() error {
 	} // if
 
 	if this.bar != nil {
-		this.bar.IncrBy(taskProgressL)
+		this.bar.Increment()
 	} // if
 
 	return nil

@@ -8,19 +8,9 @@ import (
 type FieldInt struct {
 }
 
-// TypeExcel 取得excel欄位類型
-func (this *FieldInt) TypeExcel() string {
+// Type 取得excel欄位類型
+func (this *FieldInt) Type() string {
 	return "int"
-}
-
-// TypeCs 取得c#欄位類型
-func (this *FieldInt) TypeCs() string {
-	return "int"
-}
-
-// TypeGo 取得go欄位類型
-func (this *FieldInt) TypeGo() string {
-	return "int32"
 }
 
 // IsShow 是否顯示

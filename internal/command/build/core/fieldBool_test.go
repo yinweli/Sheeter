@@ -8,9 +8,7 @@ import (
 
 func TestFieldBool(t *testing.T) {
 	field := mockFieldBool()
-	assert.Equal(t, "bool", field.TypeExcel())
-	assert.Equal(t, "bool", field.TypeCs())
-	assert.Equal(t, "bool", field.TypeGo())
+	assert.Equal(t, "bool", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
 

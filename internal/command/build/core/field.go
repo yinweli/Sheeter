@@ -12,14 +12,8 @@ const fieldSeparator = "#" // 欄位分隔字串
 
 // Field 欄位介面
 type Field interface {
-	// TypeExcel 取得excel欄位類型
-	TypeExcel() string
-
-	// TypeCs 取得c#欄位類型
-	TypeCs() string
-
-	// TypeGo 取得go欄位類型
-	TypeGo() string
+	// Type 取得excel欄位類型
+	Type() string
 
 	// IsShow 是否顯示
 	IsShow() bool
@@ -43,7 +37,7 @@ func ParseField(input string) (name string, field Field, err error) {
 	} // if
 
 	for _, itor := range fields {
-		if itor.TypeExcel() == tokens[1] {
+		if itor.Type() == tokens[1] {
 			return tokens[0], itor, nil
 		} // if
 	} // for
@@ -51,7 +45,7 @@ func ParseField(input string) (name string, field Field, err error) {
 	return "", nil, fmt.Errorf("field not found: %s", input)
 }
 
-// 欄位列表選擇用slice而非map, 是因為map要加入項目需要指定索引, 而Field的索引應該是TypeExcel函式
+// 欄位列表選擇用slice而非map, 是因為map要加入項目需要指定索引, 而Field的索引應該是Type函式
 // 這會造成初始化的時候的麻煩, 加上欄位解析次數應該很少, 所以用slice對於效率的衝擊應該還好
 
 // fields 欄位列表
@@ -62,12 +56,8 @@ var fields = []Field{
 	&FieldBoolArray{},
 	&FieldInt{},
 	&FieldIntArray{},
-	&FieldLong{},
-	&FieldLongArray{},
 	&FieldFloat{},
 	&FieldFloatArray{},
-	&FieldDouble{},
-	&FieldDoubleArray{},
 	&FieldText{},
 	&FieldTextArray{},
 }

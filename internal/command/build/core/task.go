@@ -1,17 +1,13 @@
 package core
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/vbauerster/mpb/v7"
+	"github.com/vbauerster/mpb/v7/decor"
 	"github.com/xuri/excelize/v2"
 )
-
-// TaskProgress 工作進度值
-const TaskProgress = taskProgressL + taskProgressL + taskProgressM + taskProgressM + taskProgressM + taskProgressS + taskProgressS
-const taskProgressS = 1 // 小型工作進度值
-const taskProgressM = 3 // 中型工作進度值
-const taskProgressL = 5 // 大型工作進度值
 
 // Task 工作資料
 type Task struct {
@@ -23,49 +19,39 @@ type Task struct {
 }
 
 // Execute 執行工作
-func (this *Task) Execute() error {
+func (this *Task) Execute(progress *mpb.Progress) error {
 	defer this.close()
+
+	this.bar = progress.AddBar(
+		7, // 目前Task中有7項任務要進行
+		mpb.PrependDecorators(
+			decor.Name(fmt.Sprintf("%-20s", this.originalName())),
+			decor.Percentage(decor.WCSyncSpace),
+		),
+		mpb.AppendDecorators(
+			decor.OnComplete(decor.Spinner(nil), "complete"),
+		),
+	)
+
 	err := this.executeExcel()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = this.executeFields()
+	err = this.executeColumn()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = this.executeNotes()
+	err = this.executeSchema()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = this.executeJson()
-
-	if err != nil {
-		return err
-	} // if
-
-	err = this.executeJsonCs()
-
-	if err != nil {
-		return err
-	} // if
-
-	err = this.executeJsonGo()
-
-	if err != nil {
-		return err
-	} // if
-
-	err = this.executeLua()
-
-	if err != nil {
-		return err
-	} // if
+	// TODO: schema -> json -> json cs -> json go -> lua
 
 	if this.bar != nil { // 讓進度條顯示完成並且有時間畫圖
 		this.bar.SetTotal(100, true)
@@ -83,11 +69,10 @@ func (this *Task) close() {
 }
 
 // NewTask 建立工作資料
-func NewTask(global *Global, element *Element, bar *mpb.Bar) *Task {
+func NewTask(global *Global, element *Element) *Task {
 	return &Task{
 		global:  global,
 		element: element,
-		bar:     bar,
 	}
 }
 

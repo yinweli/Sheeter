@@ -4,19 +4,9 @@ package core
 type FieldText struct {
 }
 
-// TypeExcel 取得excel欄位類型
-func (this *FieldText) TypeExcel() string {
+// Type 取得excel欄位類型
+func (this *FieldText) Type() string {
 	return "text"
-}
-
-// TypeCs 取得c#欄位類型
-func (this *FieldText) TypeCs() string {
-	return "string"
-}
-
-// TypeGo 取得go欄位類型
-func (this *FieldText) TypeGo() string {
-	return "string"
 }
 
 // IsShow 是否顯示

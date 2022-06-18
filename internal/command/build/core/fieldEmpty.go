@@ -4,19 +4,9 @@ package core
 type FieldEmpty struct {
 }
 
-// TypeExcel 取得excel欄位類型
-func (this *FieldEmpty) TypeExcel() string {
+// Type 取得excel欄位類型
+func (this *FieldEmpty) Type() string {
 	return "empty"
-}
-
-// TypeCs 取得c#欄位類型
-func (this *FieldEmpty) TypeCs() string {
-	return ""
-}
-
-// TypeGo 取得go欄位類型
-func (this *FieldEmpty) TypeGo() string {
-	return ""
 }
 
 // IsShow 是否顯示
