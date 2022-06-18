@@ -8,9 +8,7 @@ import (
 
 func TestFieldText(t *testing.T) {
 	field := mockFieldText()
-	assert.Equal(t, "text", field.TypeExcel())
-	assert.Equal(t, "string", field.TypeCs())
-	assert.Equal(t, "string", field.TypeGo())
+	assert.Equal(t, "text", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
 

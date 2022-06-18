@@ -8,19 +8,9 @@ import (
 type FieldTextArray struct {
 }
 
-// TypeExcel 取得excel欄位類型
-func (this *FieldTextArray) TypeExcel() string {
+// Type 取得excel欄位類型
+func (this *FieldTextArray) Type() string {
 	return "textArray"
-}
-
-// TypeCs 取得c#欄位類型
-func (this *FieldTextArray) TypeCs() string {
-	return "List<string>"
-}
-
-// TypeGo 取得go欄位類型
-func (this *FieldTextArray) TypeGo() string {
-	return "[]string"
 }
 
 // IsShow 是否顯示

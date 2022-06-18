@@ -8,19 +8,9 @@ import (
 type FieldFloat struct {
 }
 
-// TypeExcel 取得excel欄位類型
-func (this *FieldFloat) TypeExcel() string {
+// Type 取得excel欄位類型
+func (this *FieldFloat) Type() string {
 	return "float"
-}
-
-// TypeCs 取得c#欄位類型
-func (this *FieldFloat) TypeCs() string {
-	return "float"
-}
-
-// TypeGo 取得go欄位類型
-func (this *FieldFloat) TypeGo() string {
-	return "float32"
 }
 
 // IsShow 是否顯示

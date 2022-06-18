@@ -1,7 +1,6 @@
 package build
 
 import (
-	"fmt"
 	"os/exec"
 	"sync"
 	"time"
@@ -9,7 +8,6 @@ import (
 	"github.com/hako/durafmt"
 	"github.com/spf13/cobra"
 	"github.com/vbauerster/mpb/v7"
-	"github.com/vbauerster/mpb/v7/decor"
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/command/build/core"
 )
@@ -54,21 +52,10 @@ func execute(cmd *cobra.Command, args []string) {
 	for _, itor := range config.Elements {
 		global := config.Global
 		element := itor
-		name := fmt.Sprintf("%s(%s)", element.Excel, element.Sheet)
-		bar := progress.AddBar(
-			core.TaskProgress,
-			mpb.PrependDecorators(
-				decor.Name(fmt.Sprintf("%-20s", name)),
-				decor.Percentage(decor.WCSyncSpace),
-			),
-			mpb.AppendDecorators(
-				decor.OnComplete(decor.Spinner(nil), "complete"),
-			),
-		)
 
 		go func() {
 			defer signaler.Done()
-			messenger <- core.NewTask(&global, &element, bar).Execute()
+			messenger <- core.NewTask(&global, &element).Execute(progress)
 		}()
 	} // for
 

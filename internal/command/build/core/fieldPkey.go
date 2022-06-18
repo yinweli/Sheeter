@@ -8,19 +8,9 @@ import (
 type FieldPkey struct {
 }
 
-// TypeExcel 取得excel欄位類型
-func (this *FieldPkey) TypeExcel() string {
+// Type 取得excel欄位類型
+func (this *FieldPkey) Type() string {
 	return "pkey"
-}
-
-// TypeCs 取得c#欄位類型
-func (this *FieldPkey) TypeCs() string {
-	return "int"
-}
-
-// TypeGo 取得go欄位類型
-func (this *FieldPkey) TypeGo() string {
-	return "int32"
 }
 
 // IsShow 是否顯示

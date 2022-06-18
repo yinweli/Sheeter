@@ -188,6 +188,23 @@ func (this *RealDataMap) ParseBytes(b []byte) error {
 * 新增proto/cs驗證子專案
 * 新增proto/go驗證子專案
 * 新增lua驗證子專案
+* 表格名稱用 描述|表格名 的方式比較好, 程式內只使用表格名來製作檔案 ex: 英雄表|Hero, 道具表|Item
+* quicktype >> c++  
+  --src verifyData.json --src-lang json --top-level verifyDatas  
+  --out verifyData.hpp --lang c++  
+  --namespace sheeter  
+  --code-format with-struct  
+  --const-style west-const  
+  --type-style pascal-case  
+  --member-style camel-case  
+  --enumerator-style camel-case  
+  --source-style multi-source  
+  --include-location global-include  
+* quicktype >> java  
+  --src verifyData.json --src-lang json --top-level verifyDatas  
+  --out verifyData.java --lang java  
+  --package sheeter  
+  --just-types  
 
 # 改進方向
 excel => json schema (自己來)  
@@ -208,21 +225,9 @@ https://nodejs.org/en/
 3.install quicktype  
 npm install -g quicktype  
 
-** quicktype >> c++  
-quicktype --src verifyData.json --src-lang json --top-level verifyDatas  
-          --out verifyData.hpp --lang c++  
-          --namespace sheeter  
-          --code-format with-struct  
-          --const-style west-const  
-          --type-style pascal-case  
-          --member-style camel-case  
-          --enumerator-style camel-case  
-          --source-style multi-source  
-          --include-location global-include  
-
 ** quicktype >> c#  
 quicktype --src verifyData.json --src-lang json --top-level verifyDatas  
-          --out verifyData.hpp --lang cs  
+          --out verifyData.cs --lang cs  
           --namespace sheeter  
           --array-type array  
           --features attributes-only  
@@ -233,12 +238,6 @@ quicktype --src verifyData.json --src-lang json --top-level verifyDatas
           --package sheeter  
           --just-types-and-package  
 
-** quicktype >> java
-quicktype --src verifyData.json --src-lang json --top-level verifyDatas  
-          --out verifyData.java --lang java  
-          --package sheeter  
-          --just-types  
-          
 ** other ref
 c# code for json to lua   
 https://github.com/yomunsam/Json2LuaTable  

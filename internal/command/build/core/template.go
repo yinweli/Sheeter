@@ -2,8 +2,8 @@ package core
 
 import "github.com/yinweli/Sheeter/internal/util"
 
-// STemplate 產生器樣板
-type STemplate struct {
+// Template 產生器樣板
+type Template struct {
 	OriginalName string // 原始名稱
 	StructName   string // 結構名稱
 	maxline      int    // 最大行數
@@ -11,14 +11,14 @@ type STemplate struct {
 }
 
 // SetLine 設置行數
-func (this *STemplate) SetLine(maxline int) string {
+func (this *Template) SetLine(maxline int) string {
 	this.maxline = maxline
 	this.curline = 0
 	return ""
 }
 
 // NewLine 換行輸出
-func (this *STemplate) NewLine() string {
+func (this *Template) NewLine() string {
 	defer func() { this.curline++ }()
 
 	if this.maxline > this.curline {
@@ -29,17 +29,18 @@ func (this *STemplate) NewLine() string {
 }
 
 // FirstUpper 首字大寫
-func (this *STemplate) FirstUpper(input string) string {
+func (this *Template) FirstUpper(input string) string {
 	return util.FirstUpper(input)
 }
 
 // FirstLower 首字小寫
-func (this *STemplate) FirstLower(input string) string {
+func (this *Template) FirstLower(input string) string {
 	return util.FirstLower(input)
 }
 
-func NewSTemplate(originalName string, structName string) *STemplate {
-	return &STemplate{
+// NewTemplate 建立產生器樣板
+func NewTemplate(originalName string, structName string) Template {
+	return Template{
 		OriginalName: originalName,
 		StructName:   structName,
 	}

@@ -10,6 +10,7 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
+const pathSchema = "schema"   // 輸出路徑: 架構
 const pathJson = "json"       // 輸出路徑: json
 const pathJsonCs = "jsonCs"   // 輸出路徑: json/c#
 const pathJsonGo = "jsonGo"   // 輸出路徑: json/go
@@ -17,6 +18,7 @@ const pathProto = "proto"     // 輸出路徑: proto
 const pathProtoCs = "protoCs" // 輸出路徑: proto/c#
 const pathProtoGo = "protoGo" // 輸出路徑: proto/go
 const pathLua = "lua"         // 輸出路徑: lua
+const extSchema = "schema"    // 副檔名: 架構
 const extJson = "json"        // 副檔名: json
 const extProto = "proto"      // 副檔名: proto
 const extBytes = "bytes"      // 副檔名: bytes
@@ -32,6 +34,11 @@ func (this *Task) originalName() string {
 // excelFilePath 取得excel檔名路徑
 func (this *Task) excelFilePath() string {
 	return path.Join(this.global.ExcelPath, this.element.Excel)
+}
+
+// schemaFilePath 取得架構檔名路徑
+func (this *Task) schemaFilePath() string {
+	return path.Join(pathSchema, this.fileName(extSchema))
 }
 
 // jsonFileName 取得json檔名

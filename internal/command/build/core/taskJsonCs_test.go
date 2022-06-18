@@ -1,7 +1,6 @@
 package core
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -14,16 +13,8 @@ func TestTaskJsonCs(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	task := mockTaskJsonCs()
-	err := task.executeJsonCs()
-	assert.Nil(t, err)
-	bytes, err := ioutil.ReadFile(task.jsonCsFilePath())
-	assert.Nil(t, err)
-	assert.Equal(t, mockTaskJsonCsString(), string(bytes[:]))
-	task.close()
-
-	task = mockTaskJsonCs()
 	task.element.Excel = "?????.xlsx"
-	err = task.executeJsonCs()
+	err := task.executeJsonCs()
 	assert.NotNil(t, err)
 	task.close()
 
@@ -45,32 +36,4 @@ func mockTaskJsonCs() *Task {
 			{Name: "name3", Note: "note3", Field: &FieldText{}},
 		},
 	}
-}
-
-func mockTaskJsonCsString() string {
-	return `// generation by sheeter ^o<, from real.xlsx(Data)
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Sheeter {
-    public class RealData { 
-        public const string fileName = "realData.json";
-        public int name0; // note0
-        public bool name1; // note1
-        public int name2; // note2
-        public string name3; // note3
-
-        public static Dictionary<int, RealData> Parse(string s) {
-            return JsonConvert.DeserializeObject<Dictionary<int, RealData>>(s);
-        }
-
-        public static Dictionary<int, RealData> Parse(byte[] b)
-        {
-            return Parse(Encoding.UTF8.GetString(b));
-        }
-    }
-} // namespace Sheeter
-`
 }
