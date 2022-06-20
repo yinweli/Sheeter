@@ -20,9 +20,9 @@ func (this *Task) executeColumn() error {
 		return fmt.Errorf("note line not found: %s", this.originalName())
 	} // if
 
-	names := hashset.New()
-	pkey := false
 	this.columns = []*Column{} // 把欄位列表清空, 避免不必要的問題
+	this.pkey = nil            // 把主要索引欄位清空, 避免不必要的問題
+	names := hashset.New()
 
 	for col, itor := range fields {
 		if len(itor) <= 0 { // 一旦遇到空格, 就結束建立欄位列表
@@ -41,12 +41,8 @@ func (this *Task) executeColumn() error {
 
 		names.Add(name)
 
-		if field.IsPkey() && pkey {
+		if field.IsPkey() && this.pkey != nil {
 			return fmt.Errorf("pkey duplicate: %s [%s]", this.originalName(), itor)
-		} // if
-
-		if field.IsPkey() {
-			pkey = true
 		} // if
 
 		note := ""
@@ -55,14 +51,20 @@ func (this *Task) executeColumn() error {
 			note = notes[col]
 		} // if
 
-		this.columns = append(this.columns, &Column{
+		column := &Column{
 			Name:  name,
 			Note:  note,
 			Field: field,
-		})
+		}
+
+		this.columns = append(this.columns, column)
+
+		if field.IsPkey() {
+			this.pkey = column
+		} // if
 	} // for
 
-	if pkey == false { // 這裡其實也順便檢查了沒有欄位的問題
+	if this.pkey == nil { // 這裡其實也順便檢查了沒有欄位的問題
 		return fmt.Errorf("pkey not found: %s", this.originalName())
 	} // if
 

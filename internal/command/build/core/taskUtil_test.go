@@ -10,20 +10,8 @@ import (
 func TestTaskUtil(t *testing.T) {
 	task := mockTaskUtil()
 	assert.Equal(t, "real.xlsx(Data)", task.originalName())
-	assert.Equal(t, "path/real.xlsx", task.excelFilePath())
-	assert.Equal(t, "schema/realData.schema", task.schemaFilePath())
-	assert.Equal(t, "realData.json", task.jsonFileName())
-	assert.Equal(t, "json/realData.json", task.jsonFilePath())
-	assert.Equal(t, "jsonCs/realData.cs", task.jsonCsFilePath())
-	assert.Equal(t, "jsonGo/realData.go", task.jsonGoFilePath())
-	assert.Equal(t, "proto/realData.proto", task.protoFilePath())
-	assert.Equal(t, "proto/realData.bytes", task.protoBytesFilePath())
-	assert.Equal(t, "protoCs/realData.cs", task.protoCsFilePath())
-	assert.Equal(t, "protoGo/realData.go", task.protoGoFilePath())
-	assert.Equal(t, "lua/realData.lua", task.luaFilePath())
-	assert.Equal(t, "realData.test", task.fileName("test"))
-	assert.Equal(t, "real", task.excelName())
 	assert.Equal(t, "RealData", task.structName())
+	assert.Equal(t, "real", task.excelName())
 	task.close()
 
 	task = mockTaskUtil()
@@ -65,9 +53,6 @@ func TestTaskUtil(t *testing.T) {
 
 func mockTaskUtil() *Task {
 	return &Task{
-		global: &Global{
-			ExcelPath: "path",
-		},
 		element: &Element{
 			Excel: testdata.RealExcel,
 			Sheet: testdata.SheetName,

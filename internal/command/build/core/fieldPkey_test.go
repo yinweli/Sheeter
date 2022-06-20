@@ -11,6 +11,7 @@ func TestFieldPkey(t *testing.T) {
 	assert.Equal(t, "pkey", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, true, field.IsPkey())
+	assert.Equal(t, int64(0), field.ToJsonDefault())
 
 	result, err := field.ToJsonValue("123456789")
 	assert.Nil(t, err)

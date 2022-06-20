@@ -35,6 +35,13 @@ func execute(cmd *cobra.Command, args []string) {
 		return
 	} // if
 
+	err = exec.Command("quicktype", "--version").Run() // 檢查是否有安裝quicktype
+
+	if err != nil {
+		cmd.Println(err)
+		return
+	} // if
+
 	config, err := core.ReadConfig(args[0])
 
 	if err != nil {

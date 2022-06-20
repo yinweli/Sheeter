@@ -11,6 +11,7 @@ func TestFieldIntArray(t *testing.T) {
 	assert.Equal(t, "intArray", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
+	assert.Equal(t, []int64{}, field.ToJsonDefault())
 
 	result, err := field.ToJsonValue("123,456,789")
 	assert.Nil(t, err)

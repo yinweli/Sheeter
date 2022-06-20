@@ -23,6 +23,11 @@ func (this *FieldInt) IsPkey() bool {
 	return false
 }
 
+// ToJsonDefault 轉換為預設json值
+func (this *FieldInt) ToJsonDefault() interface{} {
+	return int64(0)
+}
+
 // ToJsonValue 轉換為json值
 func (this *FieldInt) ToJsonValue(input string) (result interface{}, err error) {
 	return util.StrToInt(input)

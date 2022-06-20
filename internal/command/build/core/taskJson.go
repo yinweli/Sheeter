@@ -1,20 +1,19 @@
 package core
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"github.com/yinweli/Sheeter/internal/util"
 )
-
-const jsonPrefix = ""     // json前綴
-const jsonIndent = "    " // json縮排
 
 type box map[string]interface{} // 資料箱形態
 type boxMap map[string]box      // 資料箱列表形態
 
 // executeJson 輸出json
 func (this *Task) executeJson() error {
+	type jsonBox = map[string]interface{} // json資料箱
+	type jsonBoxs = map[string]jsonBox    // json資料箱列表
+
 	rows := this.getRows(this.global.LineOfData)
 
 	if rows == nil {
@@ -64,13 +63,7 @@ func (this *Task) executeJson() error {
 		row++
 	} // for
 
-	bytes, err := json.MarshalIndent(boxMap, jsonPrefix, jsonIndent)
-
-	if err != nil {
-		return fmt.Errorf("convert json failed: %s [%s]", this.originalName(), err)
-	} // if
-
-	err = util.FileWrite(this.jsonFilePath(), bytes, this.global.Bom)
+	err := util.JsonWrite(boxMap, this.jsonFilePath(), this.global.Bom)
 
 	if err != nil {
 		return fmt.Errorf("write to json failed: %s [%s]", this.originalName(), err)
