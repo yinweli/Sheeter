@@ -19,7 +19,6 @@ const Defect8Excel = "excel.defect8.xlsx"
 const Defect9Excel = "excel.defect9.xlsx"
 const Defect10Excel = "excel.defect10.xlsx"
 const SheetName = "Data"
-const Text = "this a string"
 
 // GetTestExcel 取得測試excel
 func GetTestExcel(name string) *excelize.File {

@@ -11,6 +11,7 @@ func TestFieldFloat(t *testing.T) {
 	assert.Equal(t, "float", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
+	assert.Equal(t, float64(0), field.ToJsonDefault())
 
 	result, err := field.ToJsonValue("0.123456")
 	assert.Nil(t, err)

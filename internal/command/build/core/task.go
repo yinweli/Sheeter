@@ -16,6 +16,7 @@ type Task struct {
 	bar     *mpb.Bar       // 進度條物件
 	excel   *excelize.File // excel物件
 	columns []*Column      // 欄位列表
+	pkey    *Column        // 主要索引欄位
 }
 
 // Execute 執行工作
@@ -45,13 +46,7 @@ func (this *Task) Execute(progress *mpb.Progress) error {
 		return err
 	} // if
 
-	err = this.executeSchema()
-
-	if err != nil {
-		return err
-	} // if
-
-	// TODO: schema -> json -> json cs -> json go -> lua
+	// TODO: lua -> json -> json cs -> json go
 
 	if this.bar != nil { // 讓進度條顯示完成並且有時間畫圖
 		this.bar.SetTotal(100, true)
