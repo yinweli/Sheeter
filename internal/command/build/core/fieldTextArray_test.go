@@ -11,7 +11,6 @@ func TestFieldTextArray(t *testing.T) {
 	assert.Equal(t, "textArray", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
-	assert.Equal(t, []string{}, field.ToJsonDefault())
 
 	result, err := field.ToJsonValue("ball,book,pack")
 	assert.Nil(t, err)

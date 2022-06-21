@@ -1,7 +1,7 @@
 package build
 
 import (
-	"os/exec"
+	"fmt"
 	"sync"
 	"time"
 
@@ -10,6 +10,7 @@ import (
 	"github.com/vbauerster/mpb/v7"
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/command/build/core"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // NewCommand 建立命令物件
@@ -28,17 +29,12 @@ func NewCommand() *cobra.Command {
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
 	startTime := time.Now()
-	err := exec.Command("go", "version").Run() // 檢查是否有安裝go
 
-	if err != nil {
-		cmd.Println(err)
-		return
-	} // if
+	check := true
+	check = installCheck(cmd, "go") && check        // 檢查是否有安裝go
+	check = installCheck(cmd, "quicktype") && check // 檢查是否有安裝quicktype
 
-	err = exec.Command("quicktype", "--version").Run() // 檢查是否有安裝quicktype
-
-	if err != nil {
-		cmd.Println(err)
+	if check == false {
 		return
 	} // if
 
@@ -76,4 +72,16 @@ func execute(cmd *cobra.Command, args []string) {
 	} // for
 
 	cmd.Printf("%s done, usage time=%s\n", internal.Title, durafmt.Parse(time.Since(startTime)))
+}
+
+// installCheck 檢查是否有安裝軟體
+func installCheck(cmd *cobra.Command, name string) bool {
+	err := util.ShellExist(name)
+
+	if err != nil {
+		cmd.Println(fmt.Errorf("`%s` not installed\n%s", name, err))
+		return false
+	} // if
+
+	return true
 }

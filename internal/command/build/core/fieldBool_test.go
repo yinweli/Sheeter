@@ -11,7 +11,6 @@ func TestFieldBool(t *testing.T) {
 	assert.Equal(t, "bool", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
-	assert.Equal(t, false, field.ToJsonDefault())
 
 	result, err := field.ToJsonValue("true")
 	assert.Nil(t, err)

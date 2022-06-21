@@ -11,6 +11,7 @@ func TestTaskUtil(t *testing.T) {
 	task := mockTaskUtil()
 	assert.Equal(t, "real.xlsx(Data)", task.originalName())
 	assert.Equal(t, "RealData", task.structName())
+	assert.Equal(t, "sheeter", task.namespace())
 	assert.Equal(t, "real", task.excelName())
 	task.close()
 
@@ -36,11 +37,11 @@ func TestTaskUtil(t *testing.T) {
 	task.close()
 
 	task = mockTaskUtil()
-	task.excel = testdata.GetTestExcel(testdata.Defect1Excel)
+	task.excel = testdata.GetTestExcel(testdata.RealExcel)
 	cols := task.getRowContent(1)
-	assert.Equal(t, []string{"name0#pkey", "name1#bool", "name2#int", "name3#text"}, cols)
+	assert.Equal(t, []string{"name0#pkey", "name1#bool", "name2#int", "name3#text", "empty#empty"}, cols)
 	cols = task.getRowContent(2)
-	assert.Equal(t, []string{}, cols)
+	assert.Equal(t, []string{"note0", "note1", "note2", "note3", "empty"}, cols)
 	cols = task.getRowContent(0)
 	assert.Nil(t, cols)
 	cols = task.getRowContent(10)

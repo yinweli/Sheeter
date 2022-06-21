@@ -23,11 +23,6 @@ func (this *FieldFloatArray) IsPkey() bool {
 	return false
 }
 
-// ToJsonDefault 轉換為預設json值
-func (this *FieldFloatArray) ToJsonDefault() interface{} {
-	return []float64{}
-}
-
 // ToJsonValue 轉換為json值
 func (this *FieldFloatArray) ToJsonValue(input string) (result interface{}, err error) {
 	return util.StrToFloatArray(input)

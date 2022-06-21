@@ -1,27 +1,27 @@
 package core
 
 import (
+	"encoding/json"
 	"fmt"
-
-	"github.com/yinweli/Sheeter/internal/util"
+	"io/fs"
+	"io/ioutil"
+	"os"
+	"path"
 )
-
-type box map[string]interface{} // 資料箱形態
-type boxMap map[string]box      // 資料箱列表形態
 
 // executeJson 輸出json
 func (this *Task) executeJson() error {
-	type jsonBox = map[string]interface{} // json資料箱
-	type jsonBoxs = map[string]jsonBox    // json資料箱列表
+	type jsonObj = map[string]interface{} // json物件型態
+	type jsonObjs = map[string]jsonObj    // json列表型態
 
 	rows := this.getRows(this.global.LineOfData)
 
 	if rows == nil {
-		return nil // 找不到資料行, 除了錯誤, 也有可能是碰到空表格
+		return fmt.Errorf("generate json failed: %s\nsheet is empty", this.originalName())
 	} // if
 
 	defer func() { _ = rows.Close() }()
-	boxMap := make(boxMap)
+	objs := make(jsonObjs)
 	row := this.global.LineOfData
 
 	for ok := true; ok; ok = rows.Next() {
@@ -31,8 +31,7 @@ func (this *Task) executeJson() error {
 			break // 碰到空行就結束了
 		} // if
 
-		count := len(datas)
-		box := make(box)
+		obj := make(jsonObj)
 		pkey := ""
 
 		for col, itor := range this.columns {
@@ -42,7 +41,7 @@ func (this *Task) executeJson() error {
 
 			var data string
 
-			if col >= 0 && col < count {
+			if col >= 0 && col < len(datas) { // 資料的數量可能因為空白格的關係會短缺, 所以要檢查一下
 				data = datas[col]
 			} // if
 
@@ -53,24 +52,51 @@ func (this *Task) executeJson() error {
 			value, err := itor.Field.ToJsonValue(data)
 
 			if err != nil {
-				return fmt.Errorf("convert value failed: %s [%d(%s) : %s]", this.originalName(), row, itor.Name, err)
+				return fmt.Errorf("generate json failed: %s [%d(%s)]\n%s", this.originalName(), row, itor.Name, err)
 			} // if
 
-			box[itor.Name] = value
+			obj[itor.Name] = value
 		} // for
 
-		boxMap[pkey] = box
+		objs[pkey] = obj
 		row++
 	} // for
 
-	err := util.JsonWrite(boxMap, this.jsonFilePath(), this.global.Bom)
+	err := jsonWrite(objs, this.jsonFilePath(), this.global.Bom)
 
 	if err != nil {
-		return fmt.Errorf("write to json failed: %s [%s]", this.originalName(), err)
+		return fmt.Errorf("generate json failed: %s\n%s", this.originalName(), err)
 	} // if
 
 	if this.bar != nil {
 		this.bar.Increment()
+	} // if
+
+	return nil
+}
+
+// jsonWrite 寫入json檔案, 如果有需要會建立目錄
+func jsonWrite(value any, filePath string, bom bool) error {
+	bytes, err := json.MarshalIndent(value, "", "    ")
+
+	if err != nil {
+		return err
+	} // if
+
+	err = os.MkdirAll(path.Dir(filePath), os.ModePerm)
+
+	if err != nil {
+		return err
+	} // if
+
+	if bom {
+		bytes = append([]byte{0xEF, 0xBB, 0xBF}[:], bytes[:]...)
+	} // if
+
+	err = ioutil.WriteFile(filePath, bytes, fs.ModePerm)
+
+	if err != nil {
+		return err
 	} // if
 
 	return nil

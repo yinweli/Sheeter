@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/xuri/excelize/v2"
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
@@ -20,6 +21,11 @@ func (this *Task) structName() string {
 	sheetName := util.FirstUpper(this.element.Sheet)
 
 	return excelName + sheetName
+}
+
+// namespace 取得命名空間名稱
+func (this *Task) namespace() string {
+	return internal.Title
 }
 
 // excelName 取得沒有副檔名的excel名稱

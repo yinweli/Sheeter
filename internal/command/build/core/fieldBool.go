@@ -23,11 +23,6 @@ func (this *FieldBool) IsPkey() bool {
 	return false
 }
 
-// ToJsonDefault 轉換為預設json值
-func (this *FieldBool) ToJsonDefault() interface{} {
-	return false
-}
-
 // ToJsonValue 轉換為json值
 func (this *FieldBool) ToJsonValue(input string) (result interface{}, err error) {
 	return util.StrToBool(input)

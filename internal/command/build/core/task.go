@@ -16,7 +16,6 @@ type Task struct {
 	bar     *mpb.Bar       // 進度條物件
 	excel   *excelize.File // excel物件
 	columns []*Column      // 欄位列表
-	pkey    *Column        // 主要索引欄位
 }
 
 // Execute 執行工作
@@ -24,7 +23,7 @@ func (this *Task) Execute(progress *mpb.Progress) error {
 	defer this.close()
 
 	this.bar = progress.AddBar(
-		7, // 目前Task中有7項任務要進行
+		5, // 最大進度值為工作數量
 		mpb.PrependDecorators(
 			decor.Name(fmt.Sprintf("%-20s", this.originalName())),
 			decor.Percentage(decor.WCSyncSpace),
@@ -46,7 +45,25 @@ func (this *Task) Execute(progress *mpb.Progress) error {
 		return err
 	} // if
 
-	// TODO: lua -> json -> json cs -> json go
+	err = this.executeJson()
+
+	if err != nil {
+		return err
+	} // if
+
+	err = this.executeJsonCs()
+
+	if err != nil {
+		return err
+	} // if
+
+	err = this.executeJsonGo()
+
+	if err != nil {
+		return err
+	} // if
+
+	// TODO: json -> json cs -> json go -> lua
 
 	if this.bar != nil { // 讓進度條顯示完成並且有時間畫圖
 		this.bar.SetTotal(100, true)

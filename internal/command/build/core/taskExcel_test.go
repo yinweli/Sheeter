@@ -21,7 +21,7 @@ func TestTaskExcel(t *testing.T) {
 	task.close()
 
 	task = mockTaskExcel()
-	task.element.Excel = testdata.Defect2Excel
+	task.element.Excel = testdata.Defect1Excel
 	err = task.executeExcel()
 	assert.NotNil(t, err)
 	task.close()

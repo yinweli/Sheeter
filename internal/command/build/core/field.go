@@ -21,9 +21,6 @@ type Field interface {
 	// IsPkey 是否是主要索引
 	IsPkey() bool
 
-	// ToJsonDefault 轉換為預設json值
-	ToJsonDefault() interface{}
-
 	// ToJsonValue 轉換為json值
 	ToJsonValue(input string) (result interface{}, err error)
 
