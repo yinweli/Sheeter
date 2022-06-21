@@ -1,6 +1,7 @@
 package core
 
 import (
+	"io/ioutil"
 	"os"
 	"testing"
 
@@ -13,11 +14,23 @@ func TestTaskJsonCs(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	task := mockTaskJsonCs()
+	err := task.executeJsonSchema()
+	assert.Nil(t, err)
+	err = task.executeJsonCs()
+	assert.Nil(t, err)
+	bytes, err := ioutil.ReadFile(task.jsonCsFilePath())
+	assert.Nil(t, err)
+	assert.Equal(t, mockTaskJsonCsString(), string(bytes[:]))
+	task.close()
+
+	task = mockTaskJsonCs()
 	task.element.Excel = "?????.xlsx"
-	err := task.executeJsonCs()
+	err = task.executeJsonCs()
 	assert.NotNil(t, err)
 	task.close()
 
+	err = os.RemoveAll(pathSchema)
+	assert.Nil(t, err)
 	err = os.RemoveAll(pathJsonCs)
 	assert.Nil(t, err)
 }
@@ -36,4 +49,32 @@ func mockTaskJsonCs() *Task {
 			{Name: "name3", Note: "note3", Field: &FieldText{}},
 		},
 	}
+}
+
+func mockTaskJsonCsString() string {
+	return `namespace sheeter
+{
+    using System;
+    using System.Collections.Generic;
+
+    using System.Globalization;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Converters;
+
+    public partial class RealData
+    {
+        [JsonProperty("name0")]
+        public long Name0 { get; set; }
+
+        [JsonProperty("name1")]
+        public bool Name1 { get; set; }
+
+        [JsonProperty("name2")]
+        public long Name2 { get; set; }
+
+        [JsonProperty("name3")]
+        public string Name3 { get; set; }
+    }
+}
+`
 }
