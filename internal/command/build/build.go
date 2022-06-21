@@ -31,8 +31,8 @@ func execute(cmd *cobra.Command, args []string) {
 	startTime := time.Now()
 
 	check := true
-	check = installCheck(cmd, "go") && check        // 檢查是否有安裝go
-	check = installCheck(cmd, "quicktype") && check // 檢查是否有安裝quicktype
+	check = thirdPartyInstalled(cmd, "go") && check        // 檢查是否有安裝go
+	check = thirdPartyInstalled(cmd, "quicktype") && check // 檢查是否有安裝quicktype
 
 	if check == false {
 		return
@@ -74,8 +74,8 @@ func execute(cmd *cobra.Command, args []string) {
 	cmd.Printf("%s done, usage time=%s\n", internal.Title, durafmt.Parse(time.Since(startTime)))
 }
 
-// installCheck 檢查是否有安裝軟體
-func installCheck(cmd *cobra.Command, name string) bool {
+// thirdPartyInstalled 檢查第三方軟體
+func thirdPartyInstalled(cmd *cobra.Command, name string) bool {
 	err := util.ShellExist(name)
 
 	if err != nil {
