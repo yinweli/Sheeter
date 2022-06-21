@@ -103,6 +103,8 @@ func TestTask(t *testing.T) {
 	assert.NotNil(t, err)
 	task.close()
 
+	err = os.RemoveAll(pathSchema)
+	assert.Nil(t, err)
 	err = os.RemoveAll(pathJson)
 	assert.Nil(t, err)
 	err = os.RemoveAll(pathJsonCs)

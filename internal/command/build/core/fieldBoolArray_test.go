@@ -11,6 +11,7 @@ func TestFieldBoolArray(t *testing.T) {
 	assert.Equal(t, "boolArray", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
+	assert.Equal(t, []bool{}, field.ToJsonDefault())
 
 	result, err := field.ToJsonValue("true,false,true,false,true")
 	assert.Nil(t, err)

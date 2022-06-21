@@ -7,18 +7,25 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-const extJson = "json"      // 副檔名: json
-const extCs = "cs"          // 副檔名: c#
-const extGo = "go"          // 副檔名: go
-const extLua = "lua"        // 副檔名: lua
-const pathJson = "json"     // 輸出路徑: json
-const pathJsonCs = "jsonCs" // 輸出路徑: json/c#
-const pathJsonGo = "jsonGo" // 輸出路徑: json/go
-const pathLua = "lua"       // 輸出路徑: lua
+const extJsonSchema = "json.schema" // 副檔名: json架構
+const extJson = "json"              // 副檔名: json
+const extCs = "cs"                  // 副檔名: c#
+const extGo = "go"                  // 副檔名: go
+const extLua = "lua"                // 副檔名: lua
+const pathSchema = "schema"         // 輸出路徑: 架構
+const pathJson = "json"             // 輸出路徑: json
+const pathJsonCs = "jsonCs"         // 輸出路徑: json/c#
+const pathJsonGo = "jsonGo"         // 輸出路徑: json/go
+const pathLua = "lua"               // 輸出路徑: lua
 
 // excelFilePath 取得excel檔名路徑
 func (this *Task) excelFilePath() string {
 	return path.Join(this.global.ExcelPath, this.element.Excel)
+}
+
+// jsonSchemaFilePath 取得json架構檔名路徑
+func (this *Task) jsonSchemaFilePath() string {
+	return path.Join(pathSchema, this.fileName(extJsonSchema))
 }
 
 // jsonFileName 取得json檔名

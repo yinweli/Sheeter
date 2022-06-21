@@ -1,19 +1,13 @@
 package core
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/fs"
-	"io/ioutil"
-	"os"
-	"path"
+
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // executeJson 輸出json
 func (this *Task) executeJson() error {
-	type jsonObj = map[string]interface{} // json物件型態
-	type jsonObjs = map[string]jsonObj    // json列表型態
-
 	rows := this.getRows(this.global.LineOfData)
 
 	if rows == nil {
@@ -21,7 +15,7 @@ func (this *Task) executeJson() error {
 	} // if
 
 	defer func() { _ = rows.Close() }()
-	objs := make(jsonObjs)
+	objs := make(util.JsonObjs)
 	row := this.global.LineOfData
 
 	for ok := true; ok; ok = rows.Next() {
@@ -31,7 +25,7 @@ func (this *Task) executeJson() error {
 			break // 碰到空行就結束了
 		} // if
 
-		obj := make(jsonObj)
+		obj := make(util.JsonObj)
 		pkey := ""
 
 		for col, itor := range this.columns {
@@ -62,7 +56,7 @@ func (this *Task) executeJson() error {
 		row++
 	} // for
 
-	err := jsonWrite(objs, this.jsonFilePath(), this.global.Bom)
+	err := util.JsonWrite(objs, this.jsonFilePath(), this.global.Bom)
 
 	if err != nil {
 		return fmt.Errorf("generate json failed: %s\n%s", this.originalName(), err)
@@ -70,33 +64,6 @@ func (this *Task) executeJson() error {
 
 	if this.bar != nil {
 		this.bar.Increment()
-	} // if
-
-	return nil
-}
-
-// jsonWrite 寫入json檔案, 如果有需要會建立目錄
-func jsonWrite(value any, filePath string, bom bool) error {
-	bytes, err := json.MarshalIndent(value, "", "    ")
-
-	if err != nil {
-		return err
-	} // if
-
-	err = os.MkdirAll(path.Dir(filePath), os.ModePerm)
-
-	if err != nil {
-		return err
-	} // if
-
-	if bom {
-		bytes = append([]byte{0xEF, 0xBB, 0xBF}[:], bytes[:]...)
-	} // if
-
-	err = ioutil.WriteFile(filePath, bytes, fs.ModePerm)
-
-	if err != nil {
-		return err
 	} // if
 
 	return nil

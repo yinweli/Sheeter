@@ -10,6 +10,7 @@ import (
 func TestTaskPath(t *testing.T) {
 	task := mockTaskPath()
 	assert.Equal(t, "path/real.xlsx", task.excelFilePath())
+	assert.Equal(t, "schema/realData.json", task.jsonSchemaFilePath())
 	assert.Equal(t, "realData.json", task.jsonFileName())
 	assert.Equal(t, "json/realData.json", task.jsonFilePath())
 	assert.Equal(t, "jsonCs/realData.cs", task.jsonCsFilePath())

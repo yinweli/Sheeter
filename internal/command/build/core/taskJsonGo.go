@@ -17,7 +17,7 @@ func (this *Task) executeJsonGo() error {
 	} // if
 
 	err, detail := util.ShellRun("quicktype", []string{
-		"--src", this.jsonFilePath(),
+		"--src", this.jsonSchemaFilePath(),
 		"--src-lang", "json",
 		"--out", this.jsonGoFilePath(),
 		"--lang", "go",

@@ -11,6 +11,7 @@ func TestFieldText(t *testing.T) {
 	assert.Equal(t, "text", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
+	assert.Equal(t, "", field.ToJsonDefault())
 
 	result, err := field.ToJsonValue("ball,book,pack")
 	assert.Nil(t, err)
