@@ -11,6 +11,7 @@ func TestFieldEmpty(t *testing.T) {
 	assert.Equal(t, "empty", field.Type())
 	assert.Equal(t, false, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
+	assert.Equal(t, nil, field.ToJsonDefault())
 
 	result, err := field.ToJsonValue("test")
 	assert.Nil(t, err)

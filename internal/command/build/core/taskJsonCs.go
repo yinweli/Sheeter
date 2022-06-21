@@ -17,7 +17,7 @@ func (this *Task) executeJsonCs() error {
 	} // if
 
 	err, detail := util.ShellRun("quicktype", []string{
-		"--src", this.jsonFilePath(),
+		"--src", this.jsonSchemaFilePath(),
 		"--src-lang", "json",
 		"--out", this.jsonCsFilePath(),
 		"--lang", "cs",

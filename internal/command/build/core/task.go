@@ -23,7 +23,7 @@ func (this *Task) Execute(progress *mpb.Progress) error {
 	defer this.close()
 
 	this.bar = progress.AddBar(
-		5, // 最大進度值為工作數量
+		6, // 最大進度值為工作數量
 		mpb.PrependDecorators(
 			decor.Name(fmt.Sprintf("%-20s", this.originalName())),
 			decor.Percentage(decor.WCSyncSpace),
@@ -46,6 +46,12 @@ func (this *Task) Execute(progress *mpb.Progress) error {
 	} // if
 
 	err = this.executeJson()
+
+	if err != nil {
+		return err
+	} // if
+
+	err = this.executeJsonSchema()
 
 	if err != nil {
 		return err

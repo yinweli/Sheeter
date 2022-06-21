@@ -1,10 +1,8 @@
 package core
 
 import (
-	"encoding/json"
 	"io/ioutil"
 	"os"
-	"path"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -43,35 +41,14 @@ func TestTaskJson(t *testing.T) {
 	assert.NotNil(t, err)
 	task.close()
 
+	task = mockTaskJson()
+	task.element.Sheet = "?????"
+	task.excel = testdata.GetTestExcel(testdata.RealExcel)
+	err = task.executeJson()
+	assert.NotNil(t, err)
+	task.close()
+
 	err = os.RemoveAll(pathJson)
-	assert.Nil(t, err)
-}
-
-func TestJsonWrite(t *testing.T) {
-	dir := testdata.ChangeWorkDir()
-	defer testdata.RestoreWorkDir(dir)
-
-	filePath := "json/test.txt"
-	value := map[string]string{"data": "value"}
-	jsons, _ := json.MarshalIndent(value, "", "    ")
-
-	err := jsonWrite(value, filePath, true)
-	assert.Nil(t, err)
-
-	err = jsonWrite(value, filePath, false)
-	assert.Nil(t, err)
-
-	bytes, err := ioutil.ReadFile(filePath)
-	assert.Nil(t, err)
-	assert.Equal(t, jsons, bytes)
-
-	err = jsonWrite(value, "????/????.txt", false)
-	assert.NotNil(t, err)
-
-	err = jsonWrite(value, "????.txt", false)
-	assert.NotNil(t, err)
-
-	err = os.RemoveAll(path.Dir(filePath))
 	assert.Nil(t, err)
 }
 

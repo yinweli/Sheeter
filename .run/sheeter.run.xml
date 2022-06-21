@@ -2,7 +2,6 @@
   <configuration default="false" name="sheeter" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="Sheeter" />
     <working_directory value="$PROJECT_DIR$/bin" />
-    <parameters value="build real.yaml" />
     <kind value="DIRECTORY" />
     <package value="C:\Work\Sheeter\cmd" />
     <directory value="$PROJECT_DIR$/cmd/sheeter" />
