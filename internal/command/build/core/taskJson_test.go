@@ -29,12 +29,6 @@ func TestTaskJson(t *testing.T) {
 	task.close()
 
 	task = mockTaskJson()
-	task.excel = testdata.GetTestExcel(testdata.Defect10Excel)
-	err = task.executeJson()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskJson()
 	task.element.Excel = "?????.xlsx"
 	task.excel = testdata.GetTestExcel(testdata.RealExcel)
 	err = task.executeJson()

@@ -1,6 +1,7 @@
 package core
 
 import (
+	"io/ioutil"
 	"os"
 	"testing"
 
@@ -13,11 +14,23 @@ func TestTaskJsonGo(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	task := mockTaskJsonGo()
+	err := task.executeJsonSchema()
+	assert.Nil(t, err)
+	err = task.executeJsonGo()
+	assert.Nil(t, err)
+	bytes, err := ioutil.ReadFile(task.jsonGoFilePath())
+	assert.Nil(t, err)
+	assert.Equal(t, mockTaskJsonGoString(), string(bytes[:]))
+	task.close()
+
+	task = mockTaskJsonGo()
 	task.element.Excel = "?????.xlsx"
-	err := task.executeJsonGo()
+	err = task.executeJsonGo()
 	assert.NotNil(t, err)
 	task.close()
 
+	err = os.RemoveAll(pathSchema)
+	assert.Nil(t, err)
 	err = os.RemoveAll(pathJsonGo)
 	assert.Nil(t, err)
 }
@@ -36,4 +49,16 @@ func mockTaskJsonGo() *Task {
 			{Name: "name3", Note: "note3", Field: &FieldText{}},
 		},
 	}
+}
+
+func mockTaskJsonGoString() string {
+	return `package sheeter
+
+type RealData struct {
+	Name0 int64  ` + "`json:\"name0\"`" + `
+	Name1 bool   ` + "`json:\"name1\"`" + `
+	Name2 int64  ` + "`json:\"name2\"`" + `
+	Name3 string ` + "`json:\"name3\"`" + `
+}
+`
 }
