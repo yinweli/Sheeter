@@ -44,9 +44,9 @@ func TestTask(t *testing.T) {
 	task.close()
 
 	task = mockTask()
-	task.element.Excel = testdata.Defect2Excel
+	task.element.Excel = testdata.Defect2Excel // 測試其實會成功
 	err = task.Execute(progress)
-	assert.NotNil(t, err)
+	assert.Nil(t, err)
 	task.close()
 
 	task = mockTask()
@@ -92,12 +92,6 @@ func TestTask(t *testing.T) {
 	task.close()
 
 	task = mockTask()
-	task.element.Excel = testdata.Defect10Excel
-	err = task.Execute(progress)
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTask()
 	task.element.Excel = "?????.xlsx"
 	err = task.Execute(progress)
 	assert.NotNil(t, err)
@@ -109,13 +103,13 @@ func TestTask(t *testing.T) {
 	assert.NotNil(t, err)
 	task.close()
 
-	err = os.RemoveAll(pathSchema)
-	assert.Nil(t, err)
 	err = os.RemoveAll(pathJson)
 	assert.Nil(t, err)
 	err = os.RemoveAll(pathJsonCs)
 	assert.Nil(t, err)
 	err = os.RemoveAll(pathJsonGo)
+	assert.Nil(t, err)
+	err = os.RemoveAll(pathLua)
 	assert.Nil(t, err)
 }
 

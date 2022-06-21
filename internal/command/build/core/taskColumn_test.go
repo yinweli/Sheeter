@@ -12,7 +12,7 @@ func TestTaskColumn(t *testing.T) {
 	task.excel = testdata.GetTestExcel(testdata.RealExcel)
 	err := task.executeColumn()
 	assert.Nil(t, err)
-	assert.Equal(t, 4, len(task.columns))
+	assert.Equal(t, 5, len(task.columns))
 	assert.Equal(t, "name0", task.columns[0].Name)
 	assert.Equal(t, "note0", task.columns[0].Note)
 	assert.Equal(t, (&FieldPkey{}).Type(), task.columns[0].Field.Type())
@@ -25,6 +25,9 @@ func TestTaskColumn(t *testing.T) {
 	assert.Equal(t, "name3", task.columns[3].Name)
 	assert.Equal(t, "note3", task.columns[3].Note)
 	assert.Equal(t, (&FieldText{}).Type(), task.columns[3].Field.Type())
+	assert.Equal(t, "empty", task.columns[4].Name)
+	assert.Equal(t, "empty", task.columns[4].Note)
+	assert.Equal(t, (&FieldEmpty{}).Type(), task.columns[4].Field.Type())
 	task.close()
 
 	task = mockTaskColumn()
@@ -42,10 +45,16 @@ func TestTaskColumn(t *testing.T) {
 	task.close()
 
 	task = mockTaskColumn()
-	task.excel = testdata.GetTestExcel(testdata.Defect3Excel)
+	task.excel = testdata.GetTestExcel(testdata.Defect2Excel)
 	err = task.executeColumn()
 	assert.Nil(t, err)
 	assert.Equal(t, 4, len(task.columns))
+	task.close()
+
+	task = mockTaskColumn()
+	task.excel = testdata.GetTestExcel(testdata.Defect3Excel)
+	err = task.executeColumn()
+	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTaskColumn()
@@ -74,12 +83,6 @@ func TestTaskColumn(t *testing.T) {
 
 	task = mockTaskColumn()
 	task.excel = testdata.GetTestExcel(testdata.Defect8Excel)
-	err = task.executeColumn()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskColumn()
-	task.excel = testdata.GetTestExcel(testdata.Defect9Excel)
 	err = task.executeColumn()
 	assert.NotNil(t, err)
 	task.close()

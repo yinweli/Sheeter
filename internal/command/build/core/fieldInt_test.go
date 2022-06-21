@@ -11,7 +11,6 @@ func TestFieldInt(t *testing.T) {
 	assert.Equal(t, "int", field.Type())
 	assert.Equal(t, true, field.IsShow())
 	assert.Equal(t, false, field.IsPkey())
-	assert.Equal(t, int64(0), field.ToJsonDefault())
 
 	result, err := field.ToJsonValue("123456789")
 	assert.Nil(t, err)
