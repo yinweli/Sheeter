@@ -23,7 +23,7 @@ func (this *Task) Run(progress *mpb.Progress) error {
 	defer this.close()
 
 	this.bar = progress.AddBar(
-		6, // 最大進度值為工作數量
+		7, // 最大進度值為工作數量
 		mpb.PrependDecorators(
 			decor.Name(fmt.Sprintf("%-20s", this.originalName())),
 			decor.Percentage(decor.WCSyncSpace),
@@ -69,7 +69,11 @@ func (this *Task) Run(progress *mpb.Progress) error {
 		return err
 	} // if
 
-	// TODO: lua
+	err = this.runLua()
+
+	if err != nil {
+		return err
+	} // if
 
 	if this.bar != nil { // 讓進度條顯示完成並且有時間畫圖
 		this.bar.SetTotal(100, true)

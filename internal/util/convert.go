@@ -6,8 +6,6 @@ import (
 )
 
 const arraySeparator = "," // 陣列分隔字串
-const frontBracket = "{"   //
-const backBracket = "}"    //
 
 // FirstUpper 字串首字母大寫
 func FirstUpper(input string) string {
@@ -90,9 +88,4 @@ func StrToFloatArray(input string) (results []float64, err error) {
 // StrToStrArray 字串轉為字串陣列
 func StrToStrArray(input string) []string {
 	return strings.Split(input, arraySeparator)
-}
-
-// LuaArrayWrapper 包裝lua陣列字串
-func LuaArrayWrapper(input string) string {
-	return frontBracket + input + backBracket
 }
