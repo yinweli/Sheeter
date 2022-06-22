@@ -8,10 +8,10 @@ import (
 
 // runJson 輸出json
 func (this *Task) runJson() error {
-	rows := this.getRows(this.global.LineOfData)
+	rows, err := this.getRows(this.global.LineOfData)
 
-	if rows == nil {
-		return fmt.Errorf("generate json failed: %s\nsheet is empty", this.originalName())
+	if err != nil {
+		return fmt.Errorf("generate json failed: %s\ndata line not found", this.originalName())
 	} // if
 
 	defer func() { _ = rows.Close() }()
@@ -56,7 +56,7 @@ func (this *Task) runJson() error {
 		row++
 	} // for
 
-	err := util.JsonWrite(objs, this.jsonFilePath(), this.global.Bom)
+	err = util.JsonWrite(objs, this.jsonFilePath(), this.global.Bom)
 
 	if err != nil {
 		return fmt.Errorf("generate json failed: %s\n%s", this.originalName(), err)

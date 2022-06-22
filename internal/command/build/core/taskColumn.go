@@ -8,15 +8,15 @@ import (
 
 // runColumn 建立欄位列表
 func (this *Task) runColumn() error {
-	fields := this.getRowContent(this.global.LineOfField)
+	fields, err := this.getRowContent(this.global.LineOfField)
 
-	if fields == nil {
+	if err != nil {
 		return fmt.Errorf("read column failed: %s\nfield line not found", this.originalName())
 	} // if
 
-	notes := this.getRowContent(this.global.LineOfNote)
+	notes, err := this.getRowContent(this.global.LineOfNote)
 
-	if notes == nil {
+	if err != nil {
 		return fmt.Errorf("read column failed: %s\nnote line not found", this.originalName())
 	} // if
 
