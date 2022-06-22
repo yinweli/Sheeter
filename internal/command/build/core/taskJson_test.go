@@ -23,6 +23,15 @@ func TestTaskJson(t *testing.T) {
 	task.close()
 
 	task = mockTaskJson()
+	task.excel = testdata.GetTestExcel(testdata.EmptyExcel)
+	err = task.runJson()
+	assert.Nil(t, err)
+	bytes, err = ioutil.ReadFile(task.jsonFilePath())
+	assert.Nil(t, err)
+	assert.Equal(t, "{}", string(bytes[:]))
+	task.close()
+
+	task = mockTaskJson()
 	task.excel = testdata.GetTestExcel(testdata.Defect9Excel)
 	err = task.runJson()
 	assert.NotNil(t, err)
