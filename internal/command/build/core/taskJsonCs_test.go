@@ -29,6 +29,12 @@ func TestTaskJsonCs(t *testing.T) {
 	assert.NotNil(t, err)
 	task.close()
 
+	task = mockTaskJsonCs()
+	task.element.Sheet = "?????"
+	err = task.runJsonCs()
+	assert.NotNil(t, err)
+	task.close()
+
 	err = os.RemoveAll(pathSchema)
 	assert.Nil(t, err)
 	err = os.RemoveAll(pathJsonCs)

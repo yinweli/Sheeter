@@ -29,6 +29,12 @@ func TestTaskJsonGo(t *testing.T) {
 	assert.NotNil(t, err)
 	task.close()
 
+	task = mockTaskJsonGo()
+	task.element.Sheet = "?????"
+	err = task.runJsonGo()
+	assert.NotNil(t, err)
+	task.close()
+
 	err = os.RemoveAll(pathSchema)
 	assert.Nil(t, err)
 	err = os.RemoveAll(pathJsonGo)
