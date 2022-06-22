@@ -79,16 +79,17 @@ elements:
 * json的c#結構名稱: ExampleData
 * json的go程式碼: jsonGo\exampleData.go
 * json的go結構名稱: ExampleData
+* lua資料檔案: lua\exampleData.lua
 
 ## 其他的限制
 * 表格必須有欄位行與註解行, 但是可以不需要有資料行
 * 欄位行與註解行必須在資料行之前
-* 設定檔中必須設定好欄位行, 註解行, 資料行的位置; 設定時要注意行數是從1開始的
+* 設定檔中必須設定好欄位行, 註解行, 資料行的位置
+* 設定檔中行數是從1開始的
 * 表格必須有`pkey`欄位
 * 表格只能有一個`pkey`欄位
 * `pkey`欄位中的內容不能重複
 * 欄位名稱不能重複(包括`empty`欄位)
-* 表格中寫布林值時, 請寫true/false
 * c#程式碼的命名空間為`sheeter`
 * c#程式碼使用Newtonsoft.Json來轉換json
 * go程式碼的軟體包名為`sheeter`
@@ -159,6 +160,15 @@ type RealData struct {
 	Name1 bool   `json:"name1"`
 	Name2 int64  `json:"name2"`
 	Name3 string `json:"name3"`
+}
+```
+
+lua檔案
+```
+RealData = { 
+[1] = { name0 = 1, name1 = true, name2 = 1, name3 = "a",  },
+[2] = { name0 = 2, name1 = false, name2 = 2, name3 = "b",  },
+[3] = { name0 = 3, name1 = true, name2 = 3, name3 = "c",  },
 }
 ```
 
