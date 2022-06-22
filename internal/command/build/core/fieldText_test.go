@@ -19,7 +19,7 @@ func TestFieldText(t *testing.T) {
 
 	result, err = field.ToLuaValue("ball,book,pack")
 	assert.Nil(t, err)
-	assert.Equal(t, "ball,book,pack", result)
+	assert.Equal(t, "\"ball,book,pack\"", result)
 }
 
 func mockFieldText() *FieldText {
