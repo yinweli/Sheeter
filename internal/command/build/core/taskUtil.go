@@ -38,46 +38,54 @@ func (this *Task) sheetExists() bool {
 	return this.excel.GetSheetIndex(this.element.Sheet) != -1
 }
 
-// getRows 取得表格行資料, line從1起算
-func (this *Task) getRows(line int) *excelize.Rows {
-	if line <= 0 {
-		return nil
+// getRows 取得表格行資料, line從1起算; 如果該行不存在, 回傳成功並取得最後一行物件
+func (this *Task) getRows(line int) (rows *excelize.Rows, err error) {
+	if line <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
+		return nil, fmt.Errorf("row <= 0")
+	} // if
+
+	rows, err = this.excel.Rows(this.element.Sheet)
+
+	if err != nil {
+		return nil, err
+	} // if
+
+	for l := 0; l < line; l++ {
+		rows.Next()
+	} // for
+
+	return rows, nil
+}
+
+// getRowContent 取得表格行內容, line從1起算; 如果該行不存在, 回傳失敗
+func (this *Task) getRowContent(line int) (cols []string, err error) {
+	if line <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
+		return nil, fmt.Errorf("row <= 0")
 	} // if
 
 	rows, err := this.excel.Rows(this.element.Sheet)
 
 	if err != nil {
-		return nil
-	} // if
-
-	for l := 0; l < line; l++ {
-		if rows.Next() == false { // 注意! 最少要一次才能定位到第1行; 所以若line=0, 則取不到資料
-			_ = rows.Close()
-			return nil
-		} // if
-	} // for
-
-	return rows
-}
-
-// getRowContent 取得表格行內容, line從1起算
-func (this *Task) getRowContent(line int) []string {
-	rows := this.getRows(line)
-
-	if rows == nil {
-		return nil
+		return nil, err
 	} // if
 
 	defer func() { _ = rows.Close() }()
-	cols, err := rows.Columns()
+
+	for l := 0; l < line; l++ {
+		if rows.Next() == false {
+			return nil, fmt.Errorf("row not found")
+		} // if
+	} // for
+
+	cols, err = rows.Columns()
 
 	if err != nil {
-		return nil
+		return nil, err
 	} // if
 
 	if cols == nil {
 		cols = []string{} // 如果取得空行, 就回傳個空切片吧
 	} // if
 
-	return cols
+	return cols, nil
 }
