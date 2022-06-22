@@ -35,9 +35,9 @@ func (this *FieldBoolArray) ToJsonValue(input string) (result interface{}, err e
 
 // ToLuaValue 轉換為lua值
 func (this *FieldBoolArray) ToLuaValue(input string) (result string, err error) {
-	if _, err := util.StrToBoolArray(input); err != nil {
+	if result, err = util.LuaBoolArray(input); err != nil {
 		return "", err
 	} // if
 
-	return util.LuaArrayWrapper(input), nil
+	return util.LuaWrapperArray(result), nil
 }

@@ -8,7 +8,7 @@ import (
 
 // runJsonSchema 輸出json架構
 func (this *Task) runJsonSchema() error {
-	obj := make(util.JsonObj)
+	obj := util.JsonObj{}
 
 	for _, itor := range this.columns {
 		if itor.Field.IsShow() {

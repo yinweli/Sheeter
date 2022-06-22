@@ -2,10 +2,6 @@ package util
 
 import (
 	"encoding/json"
-	"io/fs"
-	"io/ioutil"
-	"os"
-	"path"
 )
 
 type JsonObj = map[string]interface{} // json物件型態
@@ -19,17 +15,7 @@ func JsonWrite(value any, filePath string, bom bool) error {
 		return err
 	} // if
 
-	err = os.MkdirAll(path.Dir(filePath), os.ModePerm)
-
-	if err != nil {
-		return err
-	} // if
-
-	if bom {
-		bytes = append([]byte{0xEF, 0xBB, 0xBF}[:], bytes[:]...)
-	} // if
-
-	err = ioutil.WriteFile(filePath, bytes, fs.ModePerm)
+	err = FileWrite(filePath, bytes, bom)
 
 	if err != nil {
 		return err

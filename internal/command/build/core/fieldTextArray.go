@@ -37,5 +37,5 @@ func (this *FieldTextArray) ToJsonValue(input string) (result interface{}, err e
 
 // ToLuaValue 轉換為lua值
 func (this *FieldTextArray) ToLuaValue(input string) (result string, err error) {
-	return util.LuaArrayWrapper("\"" + strings.Join(util.StrToStrArray(input), "\",\"") + "\""), nil
+	return util.LuaWrapperArray(util.LuaWrapperString(strings.Join(util.StrToStrArray(input), "\",\""))), nil
 }

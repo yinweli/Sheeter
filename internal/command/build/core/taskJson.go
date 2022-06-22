@@ -8,15 +8,15 @@ import (
 
 // runJson 輸出json
 func (this *Task) runJson() error {
-	rows, err := this.getRows(this.global.LineOfData)
+	row := this.global.LineOfData
+	rows, err := this.getRows(row)
 
 	if err != nil {
 		return fmt.Errorf("generate json failed: %s\ndata line not found", this.originalName())
 	} // if
 
 	defer func() { _ = rows.Close() }()
-	objs := make(util.JsonObjs)
-	row := this.global.LineOfData
+	objs := util.JsonObjs{}
 
 	for ok := true; ok; ok = rows.Next() {
 		datas, _ := rows.Columns()
@@ -25,8 +25,8 @@ func (this *Task) runJson() error {
 			break // 碰到空行就結束了
 		} // if
 
-		obj := make(util.JsonObj)
 		pkey := ""
+		obj := util.JsonObj{}
 
 		for col, itor := range this.columns {
 			if itor.Field.IsShow() == false {
@@ -46,7 +46,7 @@ func (this *Task) runJson() error {
 			value, err := itor.Field.ToJsonValue(data)
 
 			if err != nil {
-				return fmt.Errorf("generate json failed: %s [%d(%s)]\n%s", this.originalName(), row, itor.Name, err)
+				return fmt.Errorf("generate json failed: %s [%s:%d]\n%s", this.originalName(), itor.Name, row, err)
 			} // if
 
 			obj[itor.Name] = value

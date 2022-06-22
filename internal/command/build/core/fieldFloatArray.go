@@ -39,5 +39,5 @@ func (this *FieldFloatArray) ToLuaValue(input string) (result string, err error)
 		return "", err
 	} // if
 
-	return util.LuaArrayWrapper(input), nil
+	return util.LuaWrapperArray(input), nil
 }
