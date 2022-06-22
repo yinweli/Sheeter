@@ -31,5 +31,5 @@ func (this *FieldText) ToJsonValue(input string) (result interface{}, err error)
 
 // ToLuaValue 轉換為lua值
 func (this *FieldText) ToLuaValue(input string) (result string, err error) {
-	return input, nil
+	return "\"" + input + "\"", nil
 }
