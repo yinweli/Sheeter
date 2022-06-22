@@ -1,7 +1,7 @@
 # sheeter
 以go做成的excel轉換工具, 前身是[sheet](https://github.com/yinweli/Sheet)  
 用於將按照格式做好的excel轉換為json格式  
-轉換時會自動產生c#/go的結構程式碼, 就不必再手寫了  
+轉換時會自動產生程式碼, 就不必再手寫了  
 
 # 如何安裝
 * 安裝[go](https://go.dev/dl/)
