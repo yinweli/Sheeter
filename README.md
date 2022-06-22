@@ -182,7 +182,6 @@ RealData = {
 * 產生proto bytes data
 * 產生proto/cs code
 * 產生proto/go code
-* 表格名稱用 描述|表格名 的方式比較好, 程式內只使用表格名來製作檔案 ex: 英雄表|Hero, 道具表|Item
 * quicktype >> c++  
   --src verifyData.json --src-lang json --top-level verifyDatas  
   --out verifyData.hpp --lang c++  
