@@ -14,7 +14,7 @@ func TestTaskJsonSchema(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	task := mockTaskJsonSchema()
-	err := task.executeJsonSchema()
+	err := task.runJsonSchema()
 	assert.Nil(t, err)
 	bytes, err := ioutil.ReadFile(task.jsonSchemaFilePath())
 	assert.Nil(t, err)

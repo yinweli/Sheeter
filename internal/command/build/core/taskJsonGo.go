@@ -8,8 +8,8 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-// executeJsonGo 輸出json/go
-func (this *Task) executeJsonGo() error {
+// runJsonGo 輸出json/go
+func (this *Task) runJsonGo() error {
 	err := os.MkdirAll(path.Dir(this.jsonGoFilePath()), os.ModePerm)
 
 	if err != nil {

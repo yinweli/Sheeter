@@ -14,9 +14,9 @@ func TestTaskJsonCs(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	task := mockTaskJsonCs()
-	err := task.executeJsonSchema()
+	err := task.runJsonSchema()
 	assert.Nil(t, err)
-	err = task.executeJsonCs()
+	err = task.runJsonCs()
 	assert.Nil(t, err)
 	bytes, err := ioutil.ReadFile(task.jsonCsFilePath())
 	assert.Nil(t, err)
@@ -25,7 +25,7 @@ func TestTaskJsonCs(t *testing.T) {
 
 	task = mockTaskJsonCs()
 	task.element.Excel = "?????.xlsx"
-	err = task.executeJsonCs()
+	err = task.runJsonCs()
 	assert.NotNil(t, err)
 	task.close()
 
