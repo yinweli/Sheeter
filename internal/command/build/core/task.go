@@ -18,8 +18,8 @@ type Task struct {
 	columns []*Column      // 欄位列表
 }
 
-// Execute 執行工作
-func (this *Task) Execute(progress *mpb.Progress) error {
+// Run 執行工作
+func (this *Task) Run(progress *mpb.Progress) error {
 	defer this.close()
 
 	this.bar = progress.AddBar(
@@ -33,43 +33,43 @@ func (this *Task) Execute(progress *mpb.Progress) error {
 		),
 	)
 
-	err := this.executeExcel()
+	err := this.runExcel()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = this.executeColumn()
+	err = this.runColumn()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = this.executeJson()
+	err = this.runJson()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = this.executeJsonSchema()
+	err = this.runJsonSchema()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = this.executeJsonCs()
+	err = this.runJsonCs()
 
 	if err != nil {
 		return err
 	} // if
 
-	err = this.executeJsonGo()
+	err = this.runJsonGo()
 
 	if err != nil {
 		return err
 	} // if
 
-	// TODO: json -> json cs -> json go -> lua
+	// TODO: lua
 
 	if this.bar != nil { // 讓進度條顯示完成並且有時間畫圖
 		this.bar.SetTotal(100, true)

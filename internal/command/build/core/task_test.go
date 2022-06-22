@@ -15,91 +15,91 @@ func TestTask(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	task := mockTask()
-	err := task.Execute(progress)
+	err := task.Run(progress)
 	assert.Nil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.global.ExcelPath = "?????"
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.global.LineOfField = 10
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.global.LineOfNote = 10
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.element.Excel = testdata.Defect1Excel
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.element.Excel = testdata.Defect2Excel // 測試其實會成功
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.Nil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.element.Excel = testdata.Defect3Excel
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.element.Excel = testdata.Defect4Excel
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.element.Excel = testdata.Defect5Excel
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.element.Excel = testdata.Defect6Excel
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.element.Excel = testdata.Defect7Excel
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.element.Excel = testdata.Defect8Excel
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.element.Excel = testdata.Defect9Excel
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.element.Excel = "?????.xlsx"
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
 	task.element.Sheet = "?????"
-	err = task.Execute(progress)
+	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 

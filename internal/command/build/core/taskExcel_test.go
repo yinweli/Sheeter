@@ -9,32 +9,32 @@ import (
 
 func TestTaskExcel(t *testing.T) {
 	task := mockTaskExcel()
-	err := task.executeExcel()
+	err := task.runExcel()
 	assert.Nil(t, err)
 	assert.NotNil(t, task.excel)
 	task.close()
 
 	task = mockTaskExcel()
 	task.global.ExcelPath = ""
-	err = task.executeExcel()
+	err = task.runExcel()
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTaskExcel()
 	task.element.Excel = testdata.Defect1Excel
-	err = task.executeExcel()
+	err = task.runExcel()
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTaskExcel()
 	task.element.Excel = "?????"
-	err = task.executeExcel()
+	err = task.runExcel()
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTaskExcel()
 	task.element.Sheet = "?????"
-	err = task.executeExcel()
+	err = task.runExcel()
 	assert.NotNil(t, err)
 	task.close()
 }

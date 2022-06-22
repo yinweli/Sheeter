@@ -6,8 +6,8 @@ import (
 	"github.com/emirpasic/gods/sets/hashset"
 )
 
-// executeColumn 建立欄位列表
-func (this *Task) executeColumn() error {
+// runColumn 建立欄位列表
+func (this *Task) runColumn() error {
 	fields := this.getRowContent(this.global.LineOfField)
 
 	if fields == nil {

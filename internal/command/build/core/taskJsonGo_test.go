@@ -14,9 +14,9 @@ func TestTaskJsonGo(t *testing.T) {
 	defer testdata.RestoreWorkDir(dir)
 
 	task := mockTaskJsonGo()
-	err := task.executeJsonSchema()
+	err := task.runJsonSchema()
 	assert.Nil(t, err)
-	err = task.executeJsonGo()
+	err = task.runJsonGo()
 	assert.Nil(t, err)
 	bytes, err := ioutil.ReadFile(task.jsonGoFilePath())
 	assert.Nil(t, err)
@@ -25,7 +25,7 @@ func TestTaskJsonGo(t *testing.T) {
 
 	task = mockTaskJsonGo()
 	task.element.Excel = "?????.xlsx"
-	err = task.executeJsonGo()
+	err = task.runJsonGo()
 	assert.NotNil(t, err)
 	task.close()
 

@@ -6,8 +6,8 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-// executeJsonSchema 輸出json架構
-func (this *Task) executeJsonSchema() error {
+// runJsonSchema 輸出json架構
+func (this *Task) runJsonSchema() error {
 	obj := make(util.JsonObj)
 
 	for _, itor := range this.columns {

@@ -58,7 +58,7 @@ func execute(cmd *cobra.Command, args []string) {
 
 		go func() {
 			defer signaler.Done()
-			messenger <- core.NewTask(&global, &element).Execute(progress)
+			messenger <- core.NewTask(&global, &element).Run(progress)
 		}()
 	} // for
 
