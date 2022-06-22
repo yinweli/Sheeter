@@ -13,7 +13,7 @@
   ```
 * 安裝[sheeter](https://github.com/yinweli/sheeter), 在終端執行以下命令
   ```
-  go install github.com/yinweli/sheeter/cmd/sheeter@latest
+  go install github.com/yinweli/Sheeter/cmd/sheeter@latest
   ```
 
 # 如何執行
