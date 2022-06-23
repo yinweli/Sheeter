@@ -1,4 +1,4 @@
-# sheeter
+# Sheeter
 以go做成的excel轉換工具, 前身是 [sheet](https://github.com/yinweli/Sheet)  
 將以指定格式做好的excel轉換為json, 再利用 [quicktype](https://github.com/quicktype/quicktype) 轉換出程式碼  
 
