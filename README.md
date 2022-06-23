@@ -1,17 +1,17 @@
 # sheeter
-以go做成的excel轉換工具, 前身是[sheet](https://github.com/yinweli/Sheet)  
-用於將按照格式做好的excel轉換為json格式  
-轉換時會自動產生程式碼, 就不必再手寫了  
+以go做成的excel轉換工具, 前身是 [sheet](https://github.com/yinweli/Sheet)  
+用於將按照格式做好的excel轉換為json檔案  
+再利用 [quicktype](https://github.com/quicktype/quicktype) 轉換出程式碼  
 
 # 如何安裝
-* 安裝[go](https://go.dev/dl/)
-* 安裝[node.js](https://nodejs.org/en/), 這會順便安裝npm
+* 安裝 [go](https://go.dev/dl/)
+* 安裝 [node.js](https://nodejs.org/en/), 這會順便安裝npm
 * 把npm的路徑加入系統環境變數的path中
-* 安裝[quicktype](https://www.npmjs.com/package/quicktype), 在終端執行以下命令
+* 安裝 [quicktype](https://www.npmjs.com/package/quicktype), 在終端執行以下命令
   ```
   npm install -g quicktype
   ```
-* 安裝[sheeter](https://github.com/yinweli/sheeter), 在終端執行以下命令
+* 安裝 [sheeter](https://github.com/yinweli/sheeter), 在終端執行以下命令
   ```
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
   ```
@@ -91,9 +91,9 @@ elements:
 * `pkey`欄位中的內容不能重複
 * 欄位名稱不能重複(包括`empty`欄位)
 * c#程式碼的命名空間為`sheeter`
-* c#程式碼使用Newtonsoft.Json來轉換json
+* c#程式碼使用`Newtonsoft.Json`來轉換json
 * go程式碼的軟體包名為`sheeter`
-    * 這代表你得把產生出來的go程式碼放在`\sheeter`目錄下
+    * 這代表你得把產生出來的go程式碼放在`sheeter`目錄下
 
 # 轉換範例
 ![範例excel檔案內容](.readme/example.jpg)
