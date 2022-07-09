@@ -15,6 +15,11 @@ func (this *Task) originalName() string {
 	return fmt.Sprintf("%s(%s)", this.element.Excel, this.element.Sheet)
 }
 
+// namespace 取得命名空間名稱
+func (this *Task) namespace() string {
+	return internal.Title
+}
+
 // structName 取得結構名稱
 func (this *Task) structName() string {
 	excelName := util.FirstUpper(this.excelName())
@@ -26,11 +31,6 @@ func (this *Task) structName() string {
 // readerName 取得讀取器名稱
 func (this *Task) readerName() string {
 	return this.structName() + "Reader"
-}
-
-// namespace 取得命名空間名稱
-func (this *Task) namespace() string {
-	return internal.Title
 }
 
 // excelName 取得沒有副檔名的excel名稱
