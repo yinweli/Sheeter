@@ -1,9 +1,7 @@
 package core
 
 import (
-	"bytes"
 	"fmt"
-	"text/template"
 
 	"github.com/yinweli/Sheeter/internal/util"
 )
@@ -12,9 +10,8 @@ const luaCode = `{{$.StructName}} = { {{range $Pkey, $Data := $.Objs}}
 [{{$Pkey}}] = { {{range $Name, $Value := $Data}}{{$Name}} = {{$Value}}, {{end}} },{{end}}
 }`
 
-// luaData lua產生資料
-type luaData struct {
-	util.TempTool
+// TmplLua lua模板資料
+type TmplLua struct {
 	StructName string       // 結構名稱
 	Objs       util.LuaObjs // 內容資料列表
 }
@@ -69,18 +66,10 @@ func (this *Task) runLua() error {
 		row++
 	} // for
 
-	temp, err := template.New("luaCode").Parse(luaCode)
-
-	if err != nil {
-		return fmt.Errorf("generate lua failed: %s\n%s", this.originalName(), err)
-	} // if
-
-	buffer := &bytes.Buffer{}
-	data := &luaData{
+	buffer, err := util.TmplExecute("lua", luaCode, &TmplLua{
 		StructName: this.structName(),
 		Objs:       objs,
-	}
-	err = temp.Execute(buffer, data)
+	})
 
 	if err != nil {
 		return fmt.Errorf("generate lua failed: %s\n%s", this.originalName(), err)
