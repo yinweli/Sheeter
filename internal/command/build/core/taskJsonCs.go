@@ -8,7 +8,7 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-// runJsonCs 輸出json/cs
+// runJsonCs 輸出json-cs
 func (this *Task) runJsonCs() error {
 	err := os.MkdirAll(path.Dir(this.jsonCsFilePath()), os.ModePerm)
 
