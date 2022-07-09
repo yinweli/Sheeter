@@ -54,6 +54,11 @@ func (this *Task) jsonGoFilePath() string {
 	return path.Join(pathJsonGo, this.fileName(extGo))
 }
 
+// jsonGoReaderFilePath 取得json-go讀取器檔名路徑
+func (this *Task) jsonGoReaderFilePath() string {
+	return path.Join(pathJsonGo, this.fileName(midReader, extGo))
+}
+
 // luaFilePath 取得lua檔名路徑
 func (this *Task) luaFilePath() string {
 	return path.Join(pathLua, this.fileName(extLua))

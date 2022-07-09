@@ -75,6 +75,12 @@ func (this *Task) Run(progress *mpb.Progress) error {
 		return err
 	} // if
 
+	err = this.runJsonGoReader()
+
+	if err != nil {
+		return err
+	} // if
+
 	err = this.runLua()
 
 	if err != nil {
