@@ -1,22 +1,23 @@
 package core
 
 import (
-	"fmt"
 	"path"
+	"strings"
 
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-const extJsonSchema = "json.schema" // 副檔名: json架構
-const extJson = "json"              // 副檔名: json
-const extCs = "cs"                  // 副檔名: c#
-const extGo = "go"                  // 副檔名: go
-const extLua = "lua"                // 副檔名: lua
 const pathSchema = "schema"         // 輸出路徑: 架構
 const pathJson = "json"             // 輸出路徑: json
 const pathJsonCs = "jsonCs"         // 輸出路徑: json-c#
 const pathJsonGo = "jsonGo"         // 輸出路徑: json-go
 const pathLua = "lua"               // 輸出路徑: lua
+const reader = "reader"             // 讀取器名稱
+const extJsonSchema = "json.schema" // 副檔名: json架構
+const extJson = "json"              // 副檔名: json
+const extCs = "cs"                  // 副檔名: c#
+const extGo = "go"                  // 副檔名: go
+const extLua = "lua"                // 副檔名: lua
 
 // excelFilePath 取得excel檔名路徑
 func (this *Task) excelFilePath() string {
@@ -43,6 +44,11 @@ func (this *Task) jsonCsFilePath() string {
 	return path.Join(pathJsonCs, this.fileName(extCs))
 }
 
+// jsonCsReaderFilePath 取得json-c#讀取器檔名路徑
+func (this *Task) jsonCsReaderFilePath() string {
+	return path.Join(pathJsonCs, this.fileName(reader, extCs))
+}
+
 // jsonGoFilePath 取得json-go檔名路徑
 func (this *Task) jsonGoFilePath() string {
 	return path.Join(pathJsonGo, this.fileName(extGo))
@@ -54,9 +60,14 @@ func (this *Task) luaFilePath() string {
 }
 
 // fileName 取得檔案名稱
-func (this *Task) fileName(ext string) string {
+func (this *Task) fileName(ext ...string) string {
 	excelName := util.FirstLower(this.excelName())
 	sheetName := util.FirstUpper(this.element.Sheet)
 
-	return fmt.Sprintf("%s%s.%s", excelName, sheetName, ext)
+	var fileNames []string
+
+	fileNames = append(fileNames, excelName+sheetName)
+	fileNames = append(fileNames, ext...)
+
+	return strings.Join(fileNames, ".")
 }
