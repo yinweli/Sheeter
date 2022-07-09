@@ -18,6 +18,6 @@ func NewCommand() *cobra.Command {
 }
 
 // execute 執行命令
-func execute(cmd *cobra.Command, args []string) {
+func execute(cmd *cobra.Command, _ []string) {
 	cmd.Printf("%s version %s\n", internal.Title, internal.Version)
 }
