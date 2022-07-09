@@ -121,7 +121,7 @@ json檔案
 }
 ```
 
-json/c#檔案
+json-c#檔案
 ```
 namespace sheeter
 {
@@ -150,7 +150,7 @@ namespace sheeter
 
 ```
 
-json/go檔案
+json-go檔案
 ```
 package sheeter
 
