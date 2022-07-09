@@ -2,26 +2,31 @@ package util
 
 import (
 	"bytes"
-	"fmt"
 	"text/template"
 )
 
-// TmplExecute 生產模板內容
-func TmplExecute(name string, content string, data any) (buffer *bytes.Buffer, err error) {
-	temp, err := template.New(name).Parse(content)
+// TmplWrite 寫入模板檔案, 如果有需要會建立目錄
+func TmplWrite(filePath string, bom bool, content string, data any) error {
+	tmpl, err := template.New(filePath).Parse(content)
 
 	if err != nil {
-		return nil, fmt.Errorf("parse template failed: %s\n%s", name, err)
+		return err
 	} // if
 
-	buffer = &bytes.Buffer{}
-	err = temp.Execute(buffer, data)
+	buffer := &bytes.Buffer{}
+	err = tmpl.Execute(buffer, data)
 
 	if err != nil {
-		return nil, fmt.Errorf("execute template failed: %s\n%s", name, err)
+		return err
 	} // if
 
-	return buffer, nil
+	err = FileWrite(filePath, buffer.Bytes(), bom)
+
+	if err != nil {
+		return err
+	} // if
+
+	return nil
 }
 
 // TmplLine 換行模板工具, 模板資料包含此結構可以獲得換行功能

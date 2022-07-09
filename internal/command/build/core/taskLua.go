@@ -66,16 +66,10 @@ func (this *Task) runLua() error {
 		row++
 	} // for
 
-	buffer, err := util.TmplExecute("lua", luaContent, &TmplLua{
+	err = util.TmplWrite(this.luaFilePath(), this.global.Bom, luaContent, &TmplLua{
 		StructName: this.structName(),
 		Objs:       objs,
 	})
-
-	if err != nil {
-		return fmt.Errorf("generate lua failed: %s\n%s", this.originalName(), err)
-	} // if
-
-	err = util.FileWrite(this.luaFilePath(), buffer.Bytes(), this.global.Bom)
 
 	if err != nil {
 		return fmt.Errorf("generate lua failed: %s\n%s", this.originalName(), err)
