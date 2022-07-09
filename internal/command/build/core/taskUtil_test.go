@@ -11,6 +11,7 @@ func TestTaskUtil(t *testing.T) {
 	task := mockTaskUtil()
 	assert.Equal(t, "real.xlsx(Data)", task.originalName())
 	assert.Equal(t, "RealData", task.structName())
+	assert.Equal(t, "RealDataReader", task.readerName())
 	assert.Equal(t, "sheeter", task.namespace())
 	assert.Equal(t, "real", task.excelName())
 	task.close()

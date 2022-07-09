@@ -23,6 +23,11 @@ func (this *Task) structName() string {
 	return excelName + sheetName
 }
 
+// readerName 取得讀取器名稱
+func (this *Task) readerName() string {
+	return this.structName() + "Reader"
+}
+
 // namespace 取得命名空間名稱
 func (this *Task) namespace() string {
 	return internal.Title
