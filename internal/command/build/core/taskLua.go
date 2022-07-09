@@ -6,7 +6,7 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-const luaCode = `{{$.StructName}} = { {{range $Pkey, $Data := $.Objs}}
+const luaContent = `{{$.StructName}} = { {{range $Pkey, $Data := $.Objs}}
 [{{$Pkey}}] = { {{range $Name, $Value := $Data}}{{$Name}} = {{$Value}}, {{end}} },{{end}}
 }`
 
@@ -66,7 +66,7 @@ func (this *Task) runLua() error {
 		row++
 	} // for
 
-	buffer, err := util.TmplExecute("lua", luaCode, &TmplLua{
+	buffer, err := util.TmplExecute("lua", luaContent, &TmplLua{
 		StructName: this.structName(),
 		Objs:       objs,
 	})
