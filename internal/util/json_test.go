@@ -19,20 +19,20 @@ func TestJsonWrite(t *testing.T) {
 	value := map[string]string{"data": "value"}
 	jsons, _ := json.MarshalIndent(value, "", "    ")
 
-	err := JsonWrite(value, filePath, true)
+	err := JsonWrite(filePath, true, value)
 	assert.Nil(t, err)
 
-	err = JsonWrite(value, filePath, false)
+	err = JsonWrite(filePath, false, value)
 	assert.Nil(t, err)
 
 	bytes, err := ioutil.ReadFile(filePath)
 	assert.Nil(t, err)
 	assert.Equal(t, jsons, bytes)
 
-	err = JsonWrite(value, "????/????.txt", false)
+	err = JsonWrite("????/????.txt", false, value)
 	assert.NotNil(t, err)
 
-	err = JsonWrite(value, "????.txt", false)
+	err = JsonWrite("????.txt", false, value)
 	assert.NotNil(t, err)
 
 	err = os.RemoveAll(path.Dir(filePath))
