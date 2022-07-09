@@ -1,20 +1,44 @@
 package util
 
 import (
+	"io/ioutil"
+	"os"
+	"path"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestTmplExecute(t *testing.T) {
+func TestTmplWrite(t *testing.T) {
+	dir := testdata.ChangeWorkDir()
+	defer testdata.RestoreWorkDir(dir)
 
-	buffer, err := TmplExecute("tmpl", "{{$.Value}}", TmplTest{Value: "Value"})
+	filePath := "tmpl/test.txt"
+	content := "{{$.Value}}"
+	tmplTest := &TmplTest{Value: "Value"}
+
+	err := TmplWrite(filePath, true, content, tmplTest)
 	assert.Nil(t, err)
-	assert.Equal(t, "Value", buffer.String())
-	buffer, err = TmplExecute("tmpl", "{{{$.Value}}", nil)
+
+	err = TmplWrite(filePath, false, content, tmplTest)
+	assert.Nil(t, err)
+
+	bytes, err := ioutil.ReadFile(filePath)
+	assert.Nil(t, err)
+	assert.Equal(t, []byte("Value"), bytes)
+
+	err = TmplWrite(filePath, false, "{{{$.Value}}", nil)
 	assert.NotNil(t, err)
-	buffer, err = TmplExecute("tmpl", "{{$.Value}}", "nothing!")
+
+	err = TmplWrite(filePath, false, content, "nothing!")
 	assert.NotNil(t, err)
+
+	err = TmplWrite("?????", false, content, tmplTest)
+	assert.NotNil(t, err)
+
+	err = os.RemoveAll(path.Dir(filePath))
+	assert.Nil(t, err)
 }
 
 type TmplTest struct {
