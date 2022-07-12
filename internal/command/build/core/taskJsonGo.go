@@ -8,7 +8,7 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-// runJsonGo 輸出json-go
+// runJsonGo 輸出json-go, 由於quicktype對於結構命名有不一致的問題, 所以採取資料結構由quicktype執行, 而資料列表由模板執行的方式
 func (this *Task) runJsonGo() error {
 	err := os.MkdirAll(path.Dir(this.jsonGoFilePath()), os.ModePerm)
 

@@ -88,6 +88,13 @@ func TestTaskColumn(t *testing.T) {
 	task.close()
 }
 
+func TestColumn(t *testing.T) {
+	assert.Equal(t, "a", column([]string{"a", "b", "c"}, 0))
+	assert.Equal(t, "b", column([]string{"a", "b", "c"}, 1))
+	assert.Equal(t, "c", column([]string{"a", "b", "c"}, 2))
+	assert.Equal(t, "", column([]string{"a", "b", "c"}, 3))
+}
+
 func mockTaskColumn() *Task {
 	return &Task{
 		global: &Global{
