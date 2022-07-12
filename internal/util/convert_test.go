@@ -7,11 +7,6 @@ import (
 )
 
 func TestConvert(t *testing.T) {
-	assert.Equal(t, "", FirstUpper(""))
-	assert.Equal(t, "TestString", FirstUpper("testString"))
-	assert.Equal(t, "", FirstLower(""))
-	assert.Equal(t, "testString", FirstLower("TestString"))
-
 	value1, err := StrToBool("true")
 	assert.Nil(t, err)
 	assert.Equal(t, true, value1)

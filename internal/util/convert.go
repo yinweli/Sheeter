@@ -7,24 +7,6 @@ import (
 
 const arraySeparator = "," // 陣列分隔字串
 
-// FirstUpper 字串首字母大寫
-func FirstUpper(input string) string {
-	if input == "" {
-		return ""
-	} // if
-
-	return strings.ToUpper(input[:1]) + input[1:]
-}
-
-// FirstLower 字串首字母小寫
-func FirstLower(input string) string {
-	if input == "" {
-		return ""
-	} // if
-
-	return strings.ToLower(input[:1]) + input[1:]
-}
-
 // StrToBool 字串轉布林值
 func StrToBool(input string) (result bool, err error) {
 	return strconv.ParseBool(input)

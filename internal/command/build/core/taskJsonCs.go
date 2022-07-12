@@ -8,7 +8,7 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-// runJsonCs 輸出json-cs
+// runJsonCs 輸出json-cs, 由於quicktype對於結構命名有不一致的問題, 所以採取資料結構由quicktype執行, 而資料列表由模板執行的方式
 func (this *Task) runJsonCs() error {
 	err := os.MkdirAll(path.Dir(this.jsonCsFilePath()), os.ModePerm)
 

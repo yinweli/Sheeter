@@ -218,6 +218,7 @@ RealData = {
 
 # TODO
 * 解析結構化excel
+* 嘗試在unix系統跑看看是否正常
 * 產生proto message
 * 產生proto bytes data
 * 產生proto/cs code
