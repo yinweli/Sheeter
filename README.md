@@ -239,3 +239,7 @@ RealData = {
   --out verifyData.java --lang java  
   --package sheeter  
   --just-types  
+
+# 結構化失敗的教訓
+* 結構化要做的事情有 jsonSchema變更, json變更, lua變更(這個很容易忘記)
+* 透過自訂語法要做到json物件變更真心難(而且還有lua物件也是要改)
