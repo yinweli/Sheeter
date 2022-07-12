@@ -10,8 +10,8 @@ linters-settings:
   dupl:
     threshold: 100
   funlen:
-    lines: 100
-    statements: 50
+    lines: 200
+    statements: 150
   goconst:
     min-len: 2
     min-occurrences: 2
@@ -78,10 +78,13 @@ linters-settings:
       - encoding/*
       - github.com/pkg/*
       - golang.org/x/sync/singleflight
-    gosimple:
-      checks: ["all", "-S1002"]
+  gosimple:
+    checks: ["all", "-S1002"]
   stylecheck:
     checks: ["all", "-ST1006"]
+    initialisms: ["ACL", "API", "ASCII", "CPU", "CSS", "DNS", "EOF", "GUID", "HTML", "HTTP", "HTTPS", "ID", "IP", "QPS", "RAM", "RPC", "SLA", "SMTP", "SQL", "SSH", "TCP", "TLS", "TTL", "UDP", "UI", "GID", "UID", "UUID", "URI", "URL", "UTF8", "VM", "XML", "XMPP", "XSRF", "XSS", "SIP", "RTP", "AMQP", "DB", "TS"]
+  whitespace:
+    multi-func: true
 
 linters:
   disable-all: true

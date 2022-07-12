@@ -22,7 +22,8 @@ namespace {{$.Namespace}} {
             return JsonConvert.DeserializeObject<Dictionary<string, {{$.StructName}}>>(data);
         }
     }
-}`
+}
+`
 
 // runJsonCsReader 輸出json-cs讀取器, 由於quicktype對於結構命名有不一致的問題, 所以採取資料結構由quicktype執行, 而資料列表由模板執行的方式
 func (this *Task) runJsonCsReader() error {

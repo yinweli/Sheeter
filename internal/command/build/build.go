@@ -12,6 +12,8 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
+const barWidth = 40 // 進度條寬度
+
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
@@ -46,7 +48,7 @@ func execute(cmd *cobra.Command, args []string) {
 
 	count := len(config.Elements)
 	signaler := sync.WaitGroup{}
-	progress := mpb.New(mpb.WithWidth(40), mpb.WithWaitGroup(&signaler))
+	progress := mpb.New(mpb.WithWidth(barWidth), mpb.WithWaitGroup(&signaler))
 	errors := make(chan error, count) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
 
 	signaler.Add(count)

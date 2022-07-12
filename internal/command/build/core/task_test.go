@@ -20,7 +20,7 @@ func TestTask(t *testing.T) {
 	task.close()
 
 	task = mockTask()
-	task.global.ExcelPath = "?????"
+	task.global.ExcelPath = testdata.UnknownStr
 	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
@@ -92,13 +92,13 @@ func TestTask(t *testing.T) {
 	task.close()
 
 	task = mockTask()
-	task.element.Excel = "?????.xlsx"
+	task.element.Excel = testdata.UnknownExcel
 	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTask()
-	task.element.Sheet = "?????"
+	task.element.Sheet = testdata.UnknownStr
 	err = task.Run(progress)
 	assert.NotNil(t, err)
 	task.close()

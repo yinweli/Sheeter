@@ -20,17 +20,17 @@ func TestTaskJsonCs(t *testing.T) {
 	assert.Nil(t, err)
 	bytes, err := ioutil.ReadFile(task.jsonCsFilePath())
 	assert.Nil(t, err)
-	assert.Equal(t, mockTaskJsonCsString(), string(bytes[:]))
+	assert.Equal(t, mockTaskJsonCsString(), string(bytes))
 	task.close()
 
 	task = mockTaskJsonCs()
-	task.element.Excel = "?????.xlsx"
+	task.element.Excel = testdata.UnknownExcel
 	err = task.runJsonCs()
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTaskJsonCs()
-	task.element.Sheet = "?????"
+	task.element.Sheet = testdata.UnknownStr
 	err = task.runJsonCs()
 	assert.NotNil(t, err)
 	task.close()

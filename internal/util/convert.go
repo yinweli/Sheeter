@@ -7,6 +7,7 @@ import (
 )
 
 const arraySeparator = "," // 陣列分隔字串
+const bit64 = 64           // 64位元
 
 // StrToBool 字串轉布林值
 func StrToBool(input string) (result bool, err error) {
@@ -36,7 +37,7 @@ func StrToBoolArray(input string) (results []bool, err error) {
 
 // StrToInt 字串轉整數
 func StrToInt(input string) (result int64, err error) {
-	result, err = strconv.ParseInt(input, 10, 64)
+	result, err = strconv.ParseInt(input, 10, bit64)
 
 	if err != nil {
 		return 0, fmt.Errorf("str to int failed: %w", err)
@@ -62,7 +63,7 @@ func StrToIntArray(input string) (results []int64, err error) {
 
 // StrToFloat 字串轉浮點數
 func StrToFloat(input string) (result float64, err error) {
-	result, err = strconv.ParseFloat(input, 64)
+	result, err = strconv.ParseFloat(input, bit64)
 
 	if err != nil {
 		return 0, fmt.Errorf("str to float failed: %w", err)

@@ -18,7 +18,7 @@ func TestTaskJsonSchema(t *testing.T) {
 	assert.Nil(t, err)
 	bytes, err := ioutil.ReadFile(task.jsonSchemaFilePath())
 	assert.Nil(t, err)
-	assert.Equal(t, mockTaskJsonSchemaString(), string(bytes[:]))
+	assert.Equal(t, mockTaskJsonSchemaString(), string(bytes))
 	task.close()
 
 	err = os.RemoveAll(pathSchema)

@@ -25,7 +25,7 @@ func (this *Task) runColumn() error {
 	pkey := false
 
 	for col, itor := range fieldLine {
-		if len(itor) <= 0 { // 一旦遇到空格, 就結束建立欄位列表
+		if itor == "" { // 一旦遇到空欄位, 就結束建立欄位列表
 			break
 		} // if
 

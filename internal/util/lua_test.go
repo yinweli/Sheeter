@@ -25,7 +25,7 @@ func TestLua(t *testing.T) {
 	value1, err = LuaBool("0")
 	assert.Nil(t, err)
 	assert.Equal(t, "false", value1)
-	value1, err = LuaBool("?????")
+	_, err = LuaBool("?????")
 	assert.NotNil(t, err)
 
 	value2, err := LuaBoolArray("true,false,true,false,true")
@@ -37,7 +37,7 @@ func TestLua(t *testing.T) {
 	value2, err = LuaBoolArray("1,0,1,0,1")
 	assert.Nil(t, err)
 	assert.Equal(t, "true,false,true,false,true", value2)
-	value2, err = LuaBoolArray("???,???,???,???,???")
+	_, err = LuaBoolArray("???,???,???,???,???")
 	assert.NotNil(t, err)
 
 	value10 := LuaWrapperArray("testString")
