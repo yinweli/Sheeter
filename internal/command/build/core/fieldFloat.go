@@ -1,6 +1,8 @@
 package core
 
 import (
+	"fmt"
+
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
@@ -30,13 +32,19 @@ func (this *FieldFloat) ToJsonDefault() interface{} {
 
 // ToJsonValue 轉換為json值
 func (this *FieldFloat) ToJsonValue(input string) (result interface{}, err error) {
-	return util.StrToFloat(input)
+	result, err = util.StrToFloat(input)
+
+	if err != nil {
+		return nil, fmt.Errorf("to json value failed: %w", err)
+	} // if
+
+	return result, nil
 }
 
 // ToLuaValue 轉換為lua值
 func (this *FieldFloat) ToLuaValue(input string) (result string, err error) {
 	if _, err := util.StrToFloat(input); err != nil {
-		return "", err
+		return "", fmt.Errorf("to lua value failed: %w", err)
 	} // if
 
 	return input, nil

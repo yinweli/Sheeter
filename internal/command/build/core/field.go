@@ -12,7 +12,7 @@ func ParseField(input string) (name string, field Field, err error) {
 	before, after, ok := strings.Cut(input, "#") // 欄位字串以'#'符號分割為名稱與欄位
 
 	if ok == false {
-		return "", nil, fmt.Errorf("field format error: %s", input)
+		return "", nil, fmt.Errorf("field format failed: %s", input)
 	} // if
 
 	if util.VariableCheck(before) == false {

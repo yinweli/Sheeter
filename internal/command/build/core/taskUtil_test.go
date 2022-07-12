@@ -33,10 +33,10 @@ func TestTaskUtil(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, rows)
 	_ = rows.Close()
-	rows, err = task.getRows(0)
+	_, err = task.getRows(0)
 	assert.NotNil(t, err)
 	task.element.Sheet = "?????"
-	rows, err = task.getRows(1)
+	_, err = task.getRows(1)
 	assert.NotNil(t, err)
 	task.close()
 

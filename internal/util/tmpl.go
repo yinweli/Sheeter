@@ -2,6 +2,7 @@ package util
 
 import (
 	"bytes"
+	"fmt"
 	"text/template"
 )
 
@@ -10,20 +11,20 @@ func TmplWrite(filePath string, bom bool, content string, data any) error {
 	tmpl, err := template.New(filePath).Parse(content)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("tmpl write failed: %w", err)
 	} // if
 
 	buffer := &bytes.Buffer{}
 	err = tmpl.Execute(buffer, data)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("tmpl write failed: %w", err)
 	} // if
 
 	err = FileWrite(filePath, buffer.Bytes(), bom)
 
 	if err != nil {
-		return err
+		return fmt.Errorf("tmpl write failed: %w", err)
 	} // if
 
 	return nil

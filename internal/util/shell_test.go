@@ -7,12 +7,11 @@ import (
 )
 
 func TestShellRun(t *testing.T) {
-	err, detail := ShellRun("echo", "value")
-	assert.Nil(t, err)
-	assert.Equal(t, "", detail)
+	assert.Nil(t, ShellRun("echo", "value"))
+	assert.NotNil(t, ShellRun("unknown"))
 }
 
 func TestShellExist(t *testing.T) {
-	assert.Nil(t, ShellExist("go"))
-	assert.NotNil(t, ShellExist("x"))
+	assert.True(t, ShellExist("go"))
+	assert.False(t, ShellExist("unknown"))
 }

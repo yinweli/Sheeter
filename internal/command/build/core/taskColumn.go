@@ -32,7 +32,7 @@ func (this *Task) runColumn() error {
 		name, field, err := ParseField(itor)
 
 		if err != nil {
-			return fmt.Errorf("read column failed: %s [%s]\nfield parser failed\n%s", this.originalName(), itor, err)
+			return fmt.Errorf("read column failed: %s [%s]\nfield parser failed\n%w", this.originalName(), itor, err)
 		} // if
 
 		if duplicateField.Check(name) == false { // 欄位名稱不可重複

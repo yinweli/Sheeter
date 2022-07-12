@@ -52,7 +52,7 @@ func (this *Task) getRows(line int) (rows *excelize.Rows, err error) {
 	rows, err = this.excel.Rows(this.element.Sheet)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("get rows failed: %w", err)
 	} // if
 
 	for l := 0; l < line; l++ {
@@ -71,7 +71,7 @@ func (this *Task) getRowContent(line int) (cols []string, err error) {
 	rows, err := this.excel.Rows(this.element.Sheet)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("get rows failed: %w", err)
 	} // if
 
 	defer func() { _ = rows.Close() }()
@@ -85,7 +85,7 @@ func (this *Task) getRowContent(line int) (cols []string, err error) {
 	cols, err = rows.Columns()
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("get columns failed: %w", err)
 	} // if
 
 	if cols == nil {

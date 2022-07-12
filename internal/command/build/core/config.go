@@ -68,20 +68,20 @@ func ReadConfig(fileName string) (result *Config, err error) {
 	bytes, err := ioutil.ReadFile(fileName)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("read config failed: %w", err)
 	} // if
 
 	result = &Config{}
 	err = yaml.Unmarshal(bytes, result)
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("read config failed: %w", err)
 	} // if
 
 	err = result.Check()
 
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("read config failed: %w", err)
 	} // if
 
 	return result, nil

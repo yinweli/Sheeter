@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -9,7 +10,13 @@ const arraySeparator = "," // 陣列分隔字串
 
 // StrToBool 字串轉布林值
 func StrToBool(input string) (result bool, err error) {
-	return strconv.ParseBool(input)
+	result, err = strconv.ParseBool(input)
+
+	if err != nil {
+		return false, fmt.Errorf("str to bool failed: %w", err)
+	} // if
+
+	return result, nil
 }
 
 // StrToBoolArray 字串轉布林值陣列
@@ -29,7 +36,13 @@ func StrToBoolArray(input string) (results []bool, err error) {
 
 // StrToInt 字串轉整數
 func StrToInt(input string) (result int64, err error) {
-	return strconv.ParseInt(input, 10, 64)
+	result, err = strconv.ParseInt(input, 10, 64)
+
+	if err != nil {
+		return 0, fmt.Errorf("str to int failed: %w", err)
+	} // if
+
+	return result, nil
 }
 
 // StrToIntArray 字串轉整數陣列
@@ -49,7 +62,13 @@ func StrToIntArray(input string) (results []int64, err error) {
 
 // StrToFloat 字串轉浮點數
 func StrToFloat(input string) (result float64, err error) {
-	return strconv.ParseFloat(input, 64)
+	result, err = strconv.ParseFloat(input, 64)
+
+	if err != nil {
+		return 0, fmt.Errorf("str to float failed: %w", err)
+	} // if
+
+	return result, nil
 }
 
 // StrToFloatArray 字串轉浮點數陣列

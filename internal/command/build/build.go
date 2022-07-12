@@ -1,7 +1,6 @@
 package build
 
 import (
-	"fmt"
 	"sync"
 	"time"
 
@@ -76,10 +75,8 @@ func execute(cmd *cobra.Command, args []string) {
 
 // thirdPartyInstalled 檢查第三方軟體
 func thirdPartyInstalled(cmd *cobra.Command, name string) bool {
-	err := util.ShellExist(name)
-
-	if err != nil {
-		cmd.Println(fmt.Errorf("`%s` not installed\n%s", name, err))
+	if util.ShellExist(name) == false {
+		cmd.Printf("%s not installed\n", name)
 		return false
 	} // if
 
