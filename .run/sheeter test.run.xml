@@ -6,7 +6,6 @@
     <kind value="DIRECTORY" />
     <directory value="$PROJECT_DIR$" />
     <filePath value="$PROJECT_DIR$" />
-    <output_directory value="$PROJECT_DIR$/bin" />
     <framework value="gotest" />
     <method v="2" />
   </configuration>

@@ -7,7 +7,7 @@ import (
 )
 
 func TestShellRun(t *testing.T) {
-	assert.Nil(t, ShellRun("echo", "value"))
+	assert.Nil(t, ShellRun("go", "version"))
 	assert.NotNil(t, ShellRun("unknown"))
 }
 
