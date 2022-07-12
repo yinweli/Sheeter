@@ -9,6 +9,9 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
+const maxTask = 9                      // 最大工作數量
+const drawTime = 10 * time.Millisecond // 畫圖時間
+
 // Task 工作資料
 type Task struct {
 	global  *Global        // 全域設定
@@ -23,7 +26,7 @@ func (this *Task) Run(progress *mpb.Progress) error {
 	defer this.close()
 
 	this.bar = progress.AddBar(
-		8, // 最大進度值為工作數量
+		maxTask,
 		mpb.PrependDecorators(
 			decor.Name(fmt.Sprintf("%-20s", this.originalName())),
 			decor.Percentage(decor.WCSyncSpace),
@@ -88,8 +91,8 @@ func (this *Task) Run(progress *mpb.Progress) error {
 	} // if
 
 	if this.bar != nil { // 讓進度條顯示完成並且有時間畫圖
-		this.bar.SetTotal(100, true)
-		time.Sleep(10 * time.Millisecond)
+		this.bar.SetTotal(maxTask, true)
+		time.Sleep(drawTime)
 	} // if
 
 	return nil

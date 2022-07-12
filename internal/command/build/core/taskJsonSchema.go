@@ -19,7 +19,7 @@ func (this *Task) runJsonSchema() error {
 	err := util.JsonWrite(this.jsonSchemaFilePath(), this.global.Bom, obj)
 
 	if err != nil {
-		return fmt.Errorf("generate schema json failed: %s\n%s", this.originalName(), err)
+		return fmt.Errorf("generate schema json failed: %s\n%w", this.originalName(), err)
 	} // if
 
 	if this.bar != nil {

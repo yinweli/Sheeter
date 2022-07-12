@@ -1,7 +1,6 @@
 package core
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -16,19 +15,19 @@ func TestCsReader(t *testing.T) {
 	task := mockTaskCsReader()
 	err := task.runJsonCsReader()
 	assert.Nil(t, err)
-	bytes, err := ioutil.ReadFile(task.jsonCsReaderFilePath())
+	bytes, err := os.ReadFile(task.jsonCsReaderFilePath())
 	assert.Nil(t, err)
-	assert.Equal(t, mockTaskCsReaderString(), string(bytes[:]))
+	assert.Equal(t, mockTaskCsReaderString(), string(bytes))
 	task.close()
 
 	task = mockTaskCsReader()
-	task.element.Excel = "?????.xlsx"
+	task.element.Excel = testdata.UnknownExcel
 	err = task.runJsonCsReader()
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTaskCsReader()
-	task.element.Sheet = "?????"
+	task.element.Sheet = testdata.UnknownStr
 	err = task.runJsonCsReader()
 	assert.NotNil(t, err)
 	task.close()
@@ -63,5 +62,6 @@ namespace sheeter {
             return JsonConvert.DeserializeObject<Dictionary<string, RealData>>(data);
         }
     }
-}`
+}
+`
 }

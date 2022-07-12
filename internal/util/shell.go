@@ -2,21 +2,28 @@ package util
 
 import (
 	"bytes"
+	"fmt"
 	"os/exec"
 )
 
 // ShellRun 執行shell命令
-func ShellRun(name string, args ...string) (err error, detail string) {
+func ShellRun(name string, args ...string) error {
 	buffer := &bytes.Buffer{}
 	cmd := exec.Command(name, args...)
 	cmd.Stderr = buffer
 
-	return cmd.Run(), buffer.String()
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("shell run failed: %w", err)
+	} // if
+
+	return nil
 }
 
 // ShellExist shell命令是否存在
-func ShellExist(name string) error {
-	_, err := exec.LookPath(name)
+func ShellExist(name string) bool {
+	if _, err := exec.LookPath(name); err != nil {
+		return false
+	} // if
 
-	return err
+	return true
 }

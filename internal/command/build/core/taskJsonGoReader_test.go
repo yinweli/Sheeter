@@ -1,7 +1,6 @@
 package core
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -16,19 +15,19 @@ func TestGoReader(t *testing.T) {
 	task := mockTaskGoReader()
 	err := task.runJsonGoReader()
 	assert.Nil(t, err)
-	bytes, err := ioutil.ReadFile(task.jsonGoReaderFilePath())
+	bytes, err := os.ReadFile(task.jsonGoReaderFilePath())
 	assert.Nil(t, err)
-	assert.Equal(t, mockTaskGoReaderString(), string(bytes[:]))
+	assert.Equal(t, mockTaskGoReaderString(), string(bytes))
 	task.close()
 
 	task = mockTaskGoReader()
-	task.element.Excel = "?????.xlsx"
+	task.element.Excel = testdata.UnknownExcel
 	err = task.runJsonGoReader()
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTaskGoReader()
-	task.element.Sheet = "?????"
+	task.element.Sheet = testdata.UnknownStr
 	err = task.runJsonGoReader()
 	assert.NotNil(t, err)
 	task.close()
@@ -62,5 +61,6 @@ func (this *RealDataReader) JsonFileName() string {
 
 func (this *RealDataReader) FromJson(data []byte) error {
     return json.Unmarshal(data, this)
-}`
+}
+`
 }

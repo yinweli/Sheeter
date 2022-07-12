@@ -1,20 +1,27 @@
 package util
 
 import (
+	"fmt"
 	"strconv"
 	"strings"
 )
 
-const arraySeparator = "," // 陣列分隔字串
+const separateArray = "," // 陣列分隔字串
 
 // StrToBool 字串轉布林值
 func StrToBool(input string) (result bool, err error) {
-	return strconv.ParseBool(input)
+	result, err = strconv.ParseBool(input)
+
+	if err != nil {
+		return false, fmt.Errorf("str to bool failed: %w", err)
+	} // if
+
+	return result, nil
 }
 
 // StrToBoolArray 字串轉布林值陣列
 func StrToBoolArray(input string) (results []bool, err error) {
-	for _, itor := range strings.Split(input, arraySeparator) {
+	for _, itor := range strings.Split(input, separateArray) {
 		result, err := StrToBool(itor)
 
 		if err != nil {
@@ -29,12 +36,18 @@ func StrToBoolArray(input string) (results []bool, err error) {
 
 // StrToInt 字串轉整數
 func StrToInt(input string) (result int64, err error) {
-	return strconv.ParseInt(input, 10, 64)
+	result, err = strconv.ParseInt(input, 10, 64)
+
+	if err != nil {
+		return 0, fmt.Errorf("str to int failed: %w", err)
+	} // if
+
+	return result, nil
 }
 
 // StrToIntArray 字串轉整數陣列
 func StrToIntArray(input string) (results []int64, err error) {
-	for _, itor := range strings.Split(input, arraySeparator) {
+	for _, itor := range strings.Split(input, separateArray) {
 		result, err := StrToInt(itor)
 
 		if err != nil {
@@ -49,12 +62,18 @@ func StrToIntArray(input string) (results []int64, err error) {
 
 // StrToFloat 字串轉浮點數
 func StrToFloat(input string) (result float64, err error) {
-	return strconv.ParseFloat(input, 64)
+	result, err = strconv.ParseFloat(input, 64)
+
+	if err != nil {
+		return 0, fmt.Errorf("str to float failed: %w", err)
+	} // if
+
+	return result, nil
 }
 
 // StrToFloatArray 字串轉浮點數陣列
 func StrToFloatArray(input string) (results []float64, err error) {
-	for _, itor := range strings.Split(input, arraySeparator) {
+	for _, itor := range strings.Split(input, separateArray) {
 		result, err := StrToFloat(itor)
 
 		if err != nil {
@@ -69,5 +88,5 @@ func StrToFloatArray(input string) (results []float64, err error) {
 
 // StrToStrArray 字串轉為字串陣列
 func StrToStrArray(input string) []string {
-	return strings.Split(input, arraySeparator)
+	return strings.Split(input, separateArray)
 }

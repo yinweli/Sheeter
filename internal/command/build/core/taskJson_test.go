@@ -1,7 +1,6 @@
 package core
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -17,18 +16,18 @@ func TestTaskJson(t *testing.T) {
 	task.excel = testdata.GetTestExcel(testdata.RealExcel)
 	err := task.runJson()
 	assert.Nil(t, err)
-	bytes, err := ioutil.ReadFile(task.jsonFilePath())
+	bytes, err := os.ReadFile(task.jsonFilePath())
 	assert.Nil(t, err)
-	assert.Equal(t, mockTaskJsonString(), string(bytes[:]))
+	assert.Equal(t, mockTaskJsonString(), string(bytes))
 	task.close()
 
 	task = mockTaskJson()
 	task.excel = testdata.GetTestExcel(testdata.EmptyExcel)
 	err = task.runJson()
 	assert.Nil(t, err)
-	bytes, err = ioutil.ReadFile(task.jsonFilePath())
+	bytes, err = os.ReadFile(task.jsonFilePath())
 	assert.Nil(t, err)
-	assert.Equal(t, "{}", string(bytes[:]))
+	assert.Equal(t, "{}", string(bytes))
 	task.close()
 
 	task = mockTaskJson()
@@ -38,14 +37,14 @@ func TestTaskJson(t *testing.T) {
 	task.close()
 
 	task = mockTaskJson()
-	task.element.Excel = "?????.xlsx"
+	task.element.Excel = testdata.UnknownExcel
 	task.excel = testdata.GetTestExcel(testdata.RealExcel)
 	err = task.runJson()
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTaskJson()
-	task.element.Sheet = "?????"
+	task.element.Sheet = testdata.UnknownStr
 	task.excel = testdata.GetTestExcel(testdata.RealExcel)
 	err = task.runJson()
 	assert.NotNil(t, err)

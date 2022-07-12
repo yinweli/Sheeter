@@ -27,13 +27,13 @@ func TestTaskExcel(t *testing.T) {
 	task.close()
 
 	task = mockTaskExcel()
-	task.element.Excel = "?????"
+	task.element.Excel = testdata.UnknownStr
 	err = task.runExcel()
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTaskExcel()
-	task.element.Sheet = "?????"
+	task.element.Sheet = testdata.UnknownStr
 	err = task.runExcel()
 	assert.NotNil(t, err)
 	task.close()

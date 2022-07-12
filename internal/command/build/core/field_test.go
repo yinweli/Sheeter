@@ -11,13 +11,10 @@ func TestParseField(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, "real", name)
 	assert.Equal(t, (&FieldBool{}).Type(), field.Type())
-
-	name, field, err = ParseField("fa-ke#fake")
+	_, _, err = ParseField("fa-ke#fake")
 	assert.NotNil(t, err)
-
-	name, field, err = ParseField("fake#fake")
+	_, _, err = ParseField("fake#fake")
 	assert.NotNil(t, err)
-
-	name, field, err = ParseField("unknown")
+	_, _, err = ParseField("unknown")
 	assert.NotNil(t, err)
 }

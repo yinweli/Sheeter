@@ -46,7 +46,7 @@ func (this *Task) runJson() error {
 			value, err := itor.Field.ToJsonValue(data)
 
 			if err != nil {
-				return fmt.Errorf("generate json failed: %s [%s:%d]\n%s", this.originalName(), itor.Name, row, err)
+				return fmt.Errorf("generate json failed: %s [%s:%d]\n%w", this.originalName(), itor.Name, row, err)
 			} // if
 
 			obj[itor.Name] = value
@@ -59,7 +59,7 @@ func (this *Task) runJson() error {
 	err = util.JsonWrite(this.jsonFilePath(), this.global.Bom, objs)
 
 	if err != nil {
-		return fmt.Errorf("generate json failed: %s\n%s", this.originalName(), err)
+		return fmt.Errorf("generate json failed: %s\n%w", this.originalName(), err)
 	} // if
 
 	if this.bar != nil {

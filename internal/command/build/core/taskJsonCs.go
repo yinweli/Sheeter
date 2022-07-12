@@ -13,10 +13,10 @@ func (this *Task) runJsonCs() error {
 	err := os.MkdirAll(path.Dir(this.jsonCsFilePath()), os.ModePerm)
 
 	if err != nil {
-		return fmt.Errorf("generate c# failed: %s\n%s", this.originalName(), err)
+		return fmt.Errorf("generate c# failed: %s\n%w", this.originalName(), err)
 	} // if
 
-	err, detail := util.ShellRun("quicktype", []string{
+	err = util.ShellRun("quicktype", []string{
 		"--src", this.jsonSchemaFilePath(),
 		"--src-lang", "json",
 		"--out", this.jsonCsFilePath(),
@@ -28,7 +28,7 @@ func (this *Task) runJsonCs() error {
 	}...)
 
 	if err != nil {
-		return fmt.Errorf("generate c# failed: %s\n%s", this.originalName(), detail)
+		return fmt.Errorf("generate c# failed: %s\n%w", this.originalName(), err)
 	} // if
 
 	if this.bar != nil {

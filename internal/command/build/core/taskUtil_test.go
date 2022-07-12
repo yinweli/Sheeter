@@ -19,7 +19,7 @@ func TestTaskUtil(t *testing.T) {
 	task = mockTaskUtil()
 	task.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.True(t, task.sheetExists())
-	task.element.Sheet = "?????"
+	task.element.Sheet = testdata.UnknownStr
 	assert.False(t, task.sheetExists())
 	task.close()
 
@@ -33,10 +33,10 @@ func TestTaskUtil(t *testing.T) {
 	assert.Nil(t, err)
 	assert.NotNil(t, rows)
 	_ = rows.Close()
-	rows, err = task.getRows(0)
+	_, err = task.getRows(0)
 	assert.NotNil(t, err)
-	task.element.Sheet = "?????"
-	rows, err = task.getRows(1)
+	task.element.Sheet = testdata.UnknownStr
+	_, err = task.getRows(1)
 	assert.NotNil(t, err)
 	task.close()
 
@@ -48,12 +48,12 @@ func TestTaskUtil(t *testing.T) {
 	cols, err = task.getRowContent(2)
 	assert.Nil(t, err)
 	assert.Equal(t, []string{"note0", "note1", "note2", "note3", "empty"}, cols)
-	cols, err = task.getRowContent(10)
+	_, err = task.getRowContent(10)
 	assert.NotNil(t, err)
-	cols, err = task.getRowContent(0)
+	_, err = task.getRowContent(0)
 	assert.NotNil(t, err)
-	task.element.Sheet = "?????"
-	cols, err = task.getRowContent(1)
+	task.element.Sheet = testdata.UnknownStr
+	_, err = task.getRowContent(1)
 	assert.NotNil(t, err)
 	task.close()
 }

@@ -25,14 +25,14 @@ func (this *Task) runColumn() error {
 	pkey := false
 
 	for col, itor := range fieldLine {
-		if len(itor) <= 0 { // 一旦遇到空格, 就結束建立欄位列表
+		if itor == "" { // 一旦遇到空欄位, 就結束建立欄位列表
 			break
 		} // if
 
 		name, field, err := ParseField(itor)
 
 		if err != nil {
-			return fmt.Errorf("read column failed: %s [%s]\nfield parser failed\n%s", this.originalName(), itor, err)
+			return fmt.Errorf("read column failed: %s [%s]\nfield parser failed\n%w", this.originalName(), itor, err)
 		} // if
 
 		if duplicateField.Check(name) == false { // 欄位名稱不可重複

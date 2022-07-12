@@ -22,7 +22,7 @@ func FirstLower(input string) string {
 
 // VariableCheck 變數名稱檢查
 func VariableCheck(input string) bool {
-	if len(input) <= 0 { // 變數名稱不能為空
+	if input == "" { // 變數名稱不能為空
 		return false
 	} // if
 

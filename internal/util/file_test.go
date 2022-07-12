@@ -1,7 +1,6 @@
 package util
 
 import (
-	"io/ioutil"
 	"os"
 	"path"
 	"testing"
@@ -23,7 +22,7 @@ func TestFileWrite(t *testing.T) {
 	err = FileWrite(filePath, input, false)
 	assert.Nil(t, err)
 
-	bytes, err := ioutil.ReadFile(filePath)
+	bytes, err := os.ReadFile(filePath)
 	assert.Nil(t, err)
 	assert.Equal(t, input, bytes)
 

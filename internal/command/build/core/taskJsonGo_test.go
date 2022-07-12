@@ -1,7 +1,6 @@
 package core
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -18,19 +17,19 @@ func TestTaskJsonGo(t *testing.T) {
 	assert.Nil(t, err)
 	err = task.runJsonGo()
 	assert.Nil(t, err)
-	bytes, err := ioutil.ReadFile(task.jsonGoFilePath())
+	bytes, err := os.ReadFile(task.jsonGoFilePath())
 	assert.Nil(t, err)
-	assert.Equal(t, mockTaskJsonGoString(), string(bytes[:]))
+	assert.Equal(t, mockTaskJsonGoString(), string(bytes))
 	task.close()
 
 	task = mockTaskJsonGo()
-	task.element.Excel = "?????.xlsx"
+	task.element.Excel = testdata.UnknownExcel
 	err = task.runJsonGo()
 	assert.NotNil(t, err)
 	task.close()
 
 	task = mockTaskJsonGo()
-	task.element.Sheet = "?????"
+	task.element.Sheet = testdata.UnknownStr
 	err = task.runJsonGo()
 	assert.NotNil(t, err)
 	task.close()

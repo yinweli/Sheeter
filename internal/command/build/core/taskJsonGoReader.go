@@ -21,15 +21,8 @@ func (this *{{$.ReaderName}}) JsonFileName() string {
 
 func (this *{{$.ReaderName}}) FromJson(data []byte) error {
     return json.Unmarshal(data, this)
-}`
-
-// TmplGoReader json-go讀取器模板資料
-type TmplGoReader struct {
-	JsonFileName string // json檔名
-	Namespace    string // 命名空間
-	StructName   string // 結構名稱
-	ReaderName   string // 讀取器名稱
 }
+`
 
 // runJsonGoReader 輸出json-go讀取器, 由於quicktype對於結構命名有不一致的問題, 所以採取資料結構由quicktype執行, 而資料列表由模板執行的方式
 func (this *Task) runJsonGoReader() error {
@@ -41,7 +34,7 @@ func (this *Task) runJsonGoReader() error {
 	})
 
 	if err != nil {
-		return fmt.Errorf("generate goReader failed: %s\n%s", this.originalName(), err)
+		return fmt.Errorf("generate goReader failed: %s\n%w", this.originalName(), err)
 	} // if
 
 	if this.bar != nil {
@@ -49,4 +42,12 @@ func (this *Task) runJsonGoReader() error {
 	} // if
 
 	return nil
+}
+
+// TmplGoReader json-go讀取器模板資料
+type TmplGoReader struct {
+	JsonFileName string // json檔名
+	Namespace    string // 命名空間
+	StructName   string // 結構名稱
+	ReaderName   string // 讀取器名稱
 }
