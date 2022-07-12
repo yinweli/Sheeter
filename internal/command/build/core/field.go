@@ -3,12 +3,33 @@ package core
 import (
 	"fmt"
 	"strings"
+
+	"github.com/yinweli/Sheeter/internal/util"
 )
+
+// ParseField 解析字串為欄位, 格式為 name#field
+func ParseField(input string) (name string, field Field, err error) {
+	before, after, ok := strings.Cut(input, "#") // 欄位字串以'#'符號分割為名稱與欄位
+
+	if ok == false {
+		return "", nil, fmt.Errorf("field format error: %s", input)
+	} // if
+
+	if util.VariableCheck(before) == false {
+		return "", nil, fmt.Errorf("name invalid: %s", input)
+	} // if
+
+	for _, itor := range fields {
+		if itor.Type() == after {
+			return before, itor, nil
+		} // if
+	} // for
+
+	return "", nil, fmt.Errorf("field not found: %s", input)
+}
 
 // 實作新的欄位結構需要: 製作欄位結構, 實作欄位介面函式, 把結構加入到fields全域變數中
 // 欄位資料在多執行緒環境下, 可能會造成讀寫衝突, 所以在製作新的欄位結構時, 要注意不可以在欄位結構中儲存任何資料
-
-const fieldSeparator = "#" // 欄位分隔字串
 
 // Field 欄位介面
 type Field interface {
@@ -29,23 +50,6 @@ type Field interface {
 
 	// ToLuaValue 轉換為lua值
 	ToLuaValue(input string) (result string, err error)
-}
-
-// ParseField 解析字串為欄位
-func ParseField(input string) (name string, field Field, err error) {
-	tokens := strings.Split(input, fieldSeparator)
-
-	if len(tokens) != 2 {
-		return "", nil, fmt.Errorf("parse failed: %s", input)
-	} // if
-
-	for _, itor := range fields {
-		if itor.Type() == tokens[1] {
-			return tokens[0], itor, nil
-		} // if
-	} // for
-
-	return "", nil, fmt.Errorf("field not found: %s", input)
 }
 
 // 欄位列表選擇用slice而非map, 是因為map要加入項目需要指定索引, 而Field的索引應該是Type函式

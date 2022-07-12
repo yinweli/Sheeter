@@ -48,7 +48,7 @@ func execute(cmd *cobra.Command, args []string) {
 	count := len(config.Elements)
 	signaler := sync.WaitGroup{}
 	progress := mpb.New(mpb.WithWidth(40), mpb.WithWaitGroup(&signaler))
-	messenger := make(chan error, count) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
+	errors := make(chan error, count) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
 
 	signaler.Add(count)
 
@@ -58,14 +58,14 @@ func execute(cmd *cobra.Command, args []string) {
 
 		go func() {
 			defer signaler.Done()
-			messenger <- core.NewTask(&global, &element).Run(progress)
+			errors <- core.NewTask(&global, &element).Run(progress)
 		}()
 	} // for
 
 	signaler.Wait()
-	close(messenger) // 先關閉結果通訊通道, 免得下面的for變成無限迴圈
+	close(errors) // 先關閉結果通訊通道, 免得下面的for變成無限迴圈
 
-	for itor := range messenger {
+	for itor := range errors {
 		if itor != nil {
 			cmd.Println(itor)
 		} // if

@@ -8,7 +8,7 @@ import (
 
 func TestShellRun(t *testing.T) {
 	err, detail := ShellRun("echo", "value")
-	assert.NotNil(t, err)
+	assert.Nil(t, err)
 	assert.Equal(t, "", detail)
 }
 
