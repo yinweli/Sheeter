@@ -3,7 +3,6 @@ package util
 import (
 	"fmt"
 	"io/fs"
-	"io/ioutil"
 	"os"
 	"path"
 )
@@ -17,10 +16,10 @@ func FileWrite(filePath string, bytes []byte, bom bool) error {
 	} // if
 
 	if bom {
-		bytes = append([]byte{0xEF, 0xBB, 0xBF}, bytes[:]...)
+		bytes = append([]byte{0xEF, 0xBB, 0xBF}, bytes...)
 	} // if
 
-	err = ioutil.WriteFile(filePath, bytes, fs.ModePerm)
+	err = os.WriteFile(filePath, bytes, fs.ModePerm)
 
 	if err != nil {
 		return fmt.Errorf("file write failed: %w", err)

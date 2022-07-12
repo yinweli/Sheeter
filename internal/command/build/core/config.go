@@ -2,7 +2,7 @@ package core
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 
 	"gopkg.in/yaml.v3"
 )
@@ -65,7 +65,7 @@ type Element struct {
 
 // ReadConfig 讀取設定
 func ReadConfig(fileName string) (result *Config, err error) {
-	bytes, err := ioutil.ReadFile(fileName)
+	bytes, err := os.ReadFile(fileName)
 
 	if err != nil {
 		return nil, fmt.Errorf("read config failed: %w", err)

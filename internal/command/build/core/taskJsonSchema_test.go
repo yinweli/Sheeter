@@ -1,7 +1,6 @@
 package core
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -16,7 +15,7 @@ func TestTaskJsonSchema(t *testing.T) {
 	task := mockTaskJsonSchema()
 	err := task.runJsonSchema()
 	assert.Nil(t, err)
-	bytes, err := ioutil.ReadFile(task.jsonSchemaFilePath())
+	bytes, err := os.ReadFile(task.jsonSchemaFilePath())
 	assert.Nil(t, err)
 	assert.Equal(t, mockTaskJsonSchemaString(), string(bytes))
 	task.close()

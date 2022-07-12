@@ -1,7 +1,6 @@
 package core
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -16,7 +15,7 @@ func TestCsReader(t *testing.T) {
 	task := mockTaskCsReader()
 	err := task.runJsonCsReader()
 	assert.Nil(t, err)
-	bytes, err := ioutil.ReadFile(task.jsonCsReaderFilePath())
+	bytes, err := os.ReadFile(task.jsonCsReaderFilePath())
 	assert.Nil(t, err)
 	assert.Equal(t, mockTaskCsReaderString(), string(bytes))
 	task.close()

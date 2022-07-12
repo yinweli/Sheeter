@@ -1,7 +1,6 @@
 package core
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -17,7 +16,7 @@ func TestTaskJson(t *testing.T) {
 	task.excel = testdata.GetTestExcel(testdata.RealExcel)
 	err := task.runJson()
 	assert.Nil(t, err)
-	bytes, err := ioutil.ReadFile(task.jsonFilePath())
+	bytes, err := os.ReadFile(task.jsonFilePath())
 	assert.Nil(t, err)
 	assert.Equal(t, mockTaskJsonString(), string(bytes))
 	task.close()
@@ -26,7 +25,7 @@ func TestTaskJson(t *testing.T) {
 	task.excel = testdata.GetTestExcel(testdata.EmptyExcel)
 	err = task.runJson()
 	assert.Nil(t, err)
-	bytes, err = ioutil.ReadFile(task.jsonFilePath())
+	bytes, err = os.ReadFile(task.jsonFilePath())
 	assert.Nil(t, err)
 	assert.Equal(t, "{}", string(bytes))
 	task.close()

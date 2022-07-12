@@ -2,7 +2,6 @@ package util
 
 import (
 	"encoding/json"
-	"io/ioutil"
 	"os"
 	"path"
 	"testing"
@@ -25,7 +24,7 @@ func TestJsonWrite(t *testing.T) {
 	err = JsonWrite(filePath, false, value)
 	assert.Nil(t, err)
 
-	bytes, err := ioutil.ReadFile(filePath)
+	bytes, err := os.ReadFile(filePath)
 	assert.Nil(t, err)
 	assert.Equal(t, jsons, bytes)
 

@@ -1,7 +1,6 @@
 package util
 
 import (
-	"io/ioutil"
 	"os"
 	"path"
 	"testing"
@@ -24,7 +23,7 @@ func TestTmplWrite(t *testing.T) {
 	err = TmplWrite(filePath, false, content, tmplTest)
 	assert.Nil(t, err)
 
-	bytes, err := ioutil.ReadFile(filePath)
+	bytes, err := os.ReadFile(filePath)
 	assert.Nil(t, err)
 	assert.Equal(t, []byte("Value"), bytes)
 
