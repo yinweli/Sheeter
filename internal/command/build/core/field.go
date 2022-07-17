@@ -9,7 +9,9 @@ import (
 
 // ParseField 解析字串為欄位, 格式為 name#field
 func ParseField(input string) (name string, field Field, err error) {
-	before, after, ok := strings.Cut(input, "#") // 欄位字串以'#'符號分割為名稱與欄位
+	const separate = "#" // 欄位字串以'#'符號分割為名稱與欄位
+
+	before, after, ok := strings.Cut(input, separate)
 
 	if ok == false {
 		return "", nil, fmt.Errorf("field format failed: %s", input)
