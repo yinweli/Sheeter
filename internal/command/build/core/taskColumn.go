@@ -21,7 +21,7 @@ func (this *Task) runColumn() error {
 	} // if
 
 	this.columns = []*Column{} // 把欄位列表清空, 避免不必要的問題
-	duplicateField := util.Duplicate{}
+	duplicateField := util.NewDuplicate()
 	pkey := false
 
 	for col, itor := range fieldLine {
