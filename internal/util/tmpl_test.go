@@ -52,14 +52,8 @@ func (this *SuiteTmpl) check(filepath string, expected []byte) {
 func (this *SuiteTmpl) TestTmplWrite() {
 	assert.Nil(this.T(), TmplWrite(this.filePathReal, this.tmplContent, this.tmplDatas, false))
 	this.check(this.filePathReal, this.tmplBytes)
-}
-
-func (this *SuiteTmpl) TestTmplWriteBom() {
 	assert.Nil(this.T(), TmplWrite(this.filePathReal, this.tmplContent, this.tmplDatas, true))
 	this.check(this.filePathReal, this.tmplBytesBom)
-}
-
-func (this *SuiteTmpl) TestTmplWriteFailed() {
 	assert.NotNil(this.T(), TmplWrite(this.filePathReal, "{{{$.Value}}", nil, false))
 	assert.NotNil(this.T(), TmplWrite(this.filePathReal, this.tmplContent, "nothing!", false))
 	assert.NotNil(this.T(), TmplWrite(this.filePathFake1, this.tmplContent, this.tmplDatas, false))

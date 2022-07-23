@@ -48,14 +48,8 @@ func (this *SuiteFileWrite) check(filepath string, expected []byte) {
 func (this *SuiteFileWrite) TestFileWrite() {
 	assert.Nil(this.T(), FileWrite(this.filePathReal, this.fileBytes, false))
 	this.check(this.filePathReal, this.fileBytes)
-}
-
-func (this *SuiteFileWrite) TestFileWriteBom() {
 	assert.Nil(this.T(), FileWrite(this.filePathReal, this.fileBytes, true))
 	this.check(this.filePathReal, this.fileBytesBom)
-}
-
-func (this *SuiteFileWrite) TestFileWriteFailed() {
 	assert.NotNil(this.T(), FileWrite(this.filePathFake1, this.fileBytes, false))
 	assert.NotNil(this.T(), FileWrite(this.filePathFake2, this.fileBytes, false))
 }
