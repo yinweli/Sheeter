@@ -16,25 +16,25 @@ func TestFileWrite(t *testing.T) {
 
 type SuiteFileWrite struct {
 	suite.Suite
-	workDir          string
-	realFilePath     string
-	realFileBytes    []byte
-	realFileBytesBom []byte
-	fakeFilePath1    string
-	fakeFilePath2    string
+	workDir       string
+	filePathReal  string
+	filePathFake1 string
+	filePathFake2 string
+	fileBytes     []byte
+	fileBytesBom  []byte
 }
 
 func (this *SuiteFileWrite) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.realFilePath = "test/test.txt"
-	this.realFileBytes = []byte("this is a string")
-	this.realFileBytesBom = append(bomprefix, this.realFileBytes...)
-	this.fakeFilePath1 = "????.txt"
-	this.fakeFilePath2 = "????/????.txt"
+	this.filePathReal = "test/test.txt"
+	this.filePathFake1 = "????.txt"
+	this.filePathFake2 = "????/????.txt"
+	this.fileBytes = []byte("this is a string")
+	this.fileBytesBom = append(bomPrefix, this.fileBytes...)
 }
 
 func (this *SuiteFileWrite) TearDownSuite() {
-	_ = os.RemoveAll(path.Dir(this.realFilePath))
+	_ = os.RemoveAll(path.Dir(this.filePathReal))
 	testdata.RestoreWorkDir(this.workDir)
 }
 
@@ -45,16 +45,16 @@ func (this *SuiteFileWrite) check(filepath string, expected []byte) {
 }
 
 func (this *SuiteFileWrite) TestFileWrite() {
-	assert.Nil(this.T(), FileWrite(this.realFilePath, this.realFileBytes, false))
-	this.check(this.realFilePath, this.realFileBytes)
+	assert.Nil(this.T(), FileWrite(this.filePathReal, this.fileBytes, false))
+	this.check(this.filePathReal, this.fileBytes)
 }
 
 func (this *SuiteFileWrite) TestFileWriteBom() {
-	assert.Nil(this.T(), FileWrite(this.realFilePath, this.realFileBytes, true))
-	this.check(this.realFilePath, this.realFileBytesBom)
+	assert.Nil(this.T(), FileWrite(this.filePathReal, this.fileBytes, true))
+	this.check(this.filePathReal, this.fileBytesBom)
 }
 
 func (this *SuiteFileWrite) TestFileWriteFailed() {
-	assert.NotNil(this.T(), FileWrite(this.fakeFilePath1, this.realFileBytes, false))
-	assert.NotNil(this.T(), FileWrite(this.fakeFilePath2, this.realFileBytes, false))
+	assert.NotNil(this.T(), FileWrite(this.filePathFake1, this.fileBytes, false))
+	assert.NotNil(this.T(), FileWrite(this.filePathFake2, this.fileBytes, false))
 }
