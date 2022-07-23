@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestLua(t *testing.T) {
+func TestLua(t *testing.T) { // TODO: Suite做到這!
 	value1, err := LuaBool("true")
 	assert.Nil(t, err)
 	assert.Equal(t, "true", value1)
