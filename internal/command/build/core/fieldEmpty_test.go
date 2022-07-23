@@ -4,24 +4,49 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestFieldEmpty(t *testing.T) { // TODO: 做到這邊
-	field := mockFieldEmpty()
-	assert.Equal(t, "empty", field.Type())
-	assert.Equal(t, false, field.IsShow())
-	assert.Equal(t, false, field.IsPkey())
-	assert.Equal(t, nil, field.ToJsonDefault())
-
-	result, err := field.ToJsonValue("test")
-	assert.Nil(t, err)
-	assert.Nil(t, result)
-
-	result, err = field.ToLuaValue("test")
-	assert.Nil(t, err)
-	assert.Equal(t, "", result)
+func TestFieldEmpty(t *testing.T) {
+	suite.Run(t, new(SuiteFieldEmpty))
 }
 
-func mockFieldEmpty() *FieldEmpty {
+type SuiteFieldEmpty struct {
+	suite.Suite
+}
+
+func (this *SuiteFieldEmpty) target() *FieldEmpty {
 	return &FieldEmpty{}
+}
+
+func (this *SuiteFieldEmpty) TestType() {
+	assert.Equal(this.T(), "empty", this.target().Type())
+}
+
+func (this *SuiteFieldEmpty) TestIsShow() {
+	assert.Equal(this.T(), false, this.target().IsShow())
+}
+
+func (this *SuiteFieldEmpty) TestIsPkey() {
+	assert.Equal(this.T(), false, this.target().IsPkey())
+}
+
+func (this *SuiteFieldEmpty) TestToJsonDefault() {
+	assert.Equal(this.T(), nil, this.target().ToJsonDefault())
+}
+
+func (this *SuiteFieldEmpty) TestToJsonValue() {
+	target := this.target()
+
+	result, err := target.ToJsonValue("test")
+	assert.Nil(this.T(), err)
+	assert.Nil(this.T(), result)
+}
+
+func (this *SuiteFieldEmpty) TestToLuaValue() {
+	target := this.target()
+
+	result, err := target.ToLuaValue("test")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "", result)
 }
