@@ -31,7 +31,7 @@ func (this *SuiteDuplicate) target() *Duplicate {
 	}
 }
 
-func (this *SuiteDuplicate) TestDuplicate() {
+func (this *SuiteDuplicate) TestCheck() {
 	target := this.target()
 
 	assert.True(this.T(), target.Check(this.item1))
