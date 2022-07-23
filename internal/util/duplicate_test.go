@@ -9,7 +9,6 @@ import (
 )
 
 func TestDuplicate(t *testing.T) {
-
 	suite.Run(t, new(SuiteDuplicate))
 }
 

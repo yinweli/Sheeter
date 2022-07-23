@@ -85,8 +85,6 @@ func (this *SuiteConvert) TestStrToFloatArray() {
 }
 
 func (this *SuiteConvert) TestStrToStrArray() {
-	value := StrToStrArray("ball,book,pack")
-	assert.Equal(this.T(), []string{"ball", "book", "pack"}, value)
-	value = StrToStrArray("ball#book#pack")
-	assert.Equal(this.T(), []string{"ball#book#pack"}, value)
+	assert.Equal(this.T(), []string{"ball", "book", "pack"}, StrToStrArray("ball,book,pack"))
+	assert.Equal(this.T(), []string{"ball#book#pack"}, StrToStrArray("ball#book#pack"))
 }
