@@ -26,7 +26,7 @@ func LuaBool(input string) (result string, err error) {
 func LuaBoolArray(input string) (result string, err error) {
 	var values []string
 
-	for _, itor := range strings.Split(input, arraySeparator) {
+	for _, itor := range strings.Split(input, separateArray) {
 		value, err := LuaBool(itor)
 
 		if err != nil {
@@ -36,7 +36,7 @@ func LuaBoolArray(input string) (result string, err error) {
 		values = append(values, value)
 	} // for
 
-	return strings.Join(values, arraySeparator), nil
+	return strings.Join(values, separateArray), nil
 }
 
 // LuaWrapperArray 包裝lua陣列
