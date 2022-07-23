@@ -7,6 +7,8 @@ import (
 	"path"
 )
 
+var bomprefix = []byte{0xEF, 0xBB, 0xBF} // bom前置資料
+
 // FileWrite 寫入檔案, 如果有需要會建立目錄
 func FileWrite(filePath string, bytes []byte, bom bool) error {
 	err := os.MkdirAll(path.Dir(filePath), os.ModePerm)
@@ -16,7 +18,7 @@ func FileWrite(filePath string, bytes []byte, bom bool) error {
 	} // if
 
 	if bom {
-		bytes = append([]byte{0xEF, 0xBB, 0xBF}, bytes...)
+		bytes = append(bomprefix, bytes...)
 	} // if
 
 	err = os.WriteFile(filePath, bytes, fs.ModePerm)

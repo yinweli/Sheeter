@@ -6,32 +6,55 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestFileWrite(t *testing.T) {
-	dir := testdata.ChangeWorkDir()
-	defer testdata.RestoreWorkDir(dir)
+	suite.Run(t, new(SuiteFileWrite))
+}
 
-	filePath := "test/test.txt"
-	input := []byte("this is a string")
+type SuiteFileWrite struct {
+	suite.Suite
+	workDir          string
+	realFilePath     string
+	realFileBytes    []byte
+	realFileBytesBom []byte
+	fakeFilePath1    string
+	fakeFilePath2    string
+}
 
-	err := FileWrite(filePath, input, true)
-	assert.Nil(t, err)
+func (this *SuiteFileWrite) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+	this.realFilePath = "test/test.txt"
+	this.realFileBytes = []byte("this is a string")
+	this.realFileBytesBom = append(bomprefix, this.realFileBytes...)
+	this.fakeFilePath1 = "????.txt"
+	this.fakeFilePath2 = "????/????.txt"
+}
 
-	err = FileWrite(filePath, input, false)
-	assert.Nil(t, err)
+func (this *SuiteFileWrite) TearDownSuite() {
+	_ = os.RemoveAll(path.Dir(this.realFilePath))
+	testdata.RestoreWorkDir(this.workDir)
+}
 
-	bytes, err := os.ReadFile(filePath)
-	assert.Nil(t, err)
-	assert.Equal(t, input, bytes)
+func (this *SuiteFileWrite) check(filepath string, expected []byte) {
+	actual, err := os.ReadFile(filepath)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), expected, actual)
+}
 
-	err = FileWrite("????/????.txt", input, false)
-	assert.NotNil(t, err)
+func (this *SuiteFileWrite) TestFileWrite() {
+	assert.Nil(this.T(), FileWrite(this.realFilePath, this.realFileBytes, false))
+	this.check(this.realFilePath, this.realFileBytes)
+}
 
-	err = FileWrite("????.txt", input, false)
-	assert.NotNil(t, err)
+func (this *SuiteFileWrite) TestFileWriteBom() {
+	assert.Nil(this.T(), FileWrite(this.realFilePath, this.realFileBytes, true))
+	this.check(this.realFilePath, this.realFileBytesBom)
+}
 
-	err = os.RemoveAll(path.Dir(filePath))
-	assert.Nil(t, err)
+func (this *SuiteFileWrite) TestFileWriteFailed() {
+	assert.NotNil(this.T(), FileWrite(this.fakeFilePath1, this.realFileBytes, false))
+	assert.NotNil(this.T(), FileWrite(this.fakeFilePath2, this.realFileBytes, false))
 }
