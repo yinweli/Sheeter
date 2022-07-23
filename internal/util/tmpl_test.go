@@ -59,15 +59,9 @@ func (this *SuiteTmpl) TestTmplWriteBom() {
 	this.check(this.filePathReal, this.tmplBytesBom)
 }
 
-func (this *SuiteTmpl) TestTmplWriteContent() {
-	assert.NotNil(this.T(), TmplWrite(this.filePathReal, "{{{$.Value}}", nil, false))
-}
-
-func (this *SuiteTmpl) TestTmplWriteData() {
-	assert.NotNil(this.T(), TmplWrite(this.filePathReal, this.tmplContent, "nothing!", false))
-}
-
 func (this *SuiteTmpl) TestTmplWriteFailed() {
+	assert.NotNil(this.T(), TmplWrite(this.filePathReal, "{{{$.Value}}", nil, false))
+	assert.NotNil(this.T(), TmplWrite(this.filePathReal, this.tmplContent, "nothing!", false))
 	assert.NotNil(this.T(), TmplWrite(this.filePathFake1, this.tmplContent, this.tmplDatas, false))
 	assert.NotNil(this.T(), TmplWrite(this.filePathFake2, this.tmplContent, this.tmplDatas, false))
 }
