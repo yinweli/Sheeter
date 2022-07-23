@@ -26,12 +26,12 @@ func (this *{{$.ReaderName}}) FromJson(data []byte) error {
 
 // runJsonGoReader 輸出json-go讀取器, 由於quicktype對於結構命名有不一致的問題, 所以採取資料結構由quicktype執行, 而資料列表由模板執行的方式
 func (this *Task) runJsonGoReader() error {
-	err := util.TmplWrite(this.jsonGoReaderFilePath(), this.global.Bom, goReaderContent, &TmplGoReader{
+	err := util.TmplWrite(this.jsonGoReaderFilePath(), goReaderContent, &TmplGoReader{
 		JsonFileName: this.jsonFileName(),
 		Namespace:    this.namespace(),
 		StructName:   this.structName(),
 		ReaderName:   this.readerName(),
-	})
+	}, this.global.Bom)
 
 	if err != nil {
 		return fmt.Errorf("generate goReader failed: %s\n%w", this.originalName(), err)

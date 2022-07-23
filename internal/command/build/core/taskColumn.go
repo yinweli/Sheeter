@@ -21,7 +21,7 @@ func (this *Task) runColumn() error {
 	} // if
 
 	this.columns = []*Column{} // 把欄位列表清空, 避免不必要的問題
-	duplicateField := util.Duplicate{}
+	duplicateField := util.NewDuplicate()
 	pkey := false
 
 	for col, itor := range fieldLine {
@@ -47,8 +47,7 @@ func (this *Task) runColumn() error {
 			pkey = true
 		} // if
 
-		note := column(noteLine, col)
-
+		note := fromList(noteLine, col)
 		this.columns = append(this.columns, &Column{
 			Name:  name,
 			Note:  note,
@@ -67,10 +66,10 @@ func (this *Task) runColumn() error {
 	return nil
 }
 
-// column 從欄位列表中取得欄位
-func column(columns []string, col int) string {
-	if col >= 0 && col < len(columns) { // 欄位的數量可能因為空白格的關係會短缺, 所以要檢查一下
-		return columns[col]
+// fromList 從列表中取得項目
+func fromList(lists []string, index int) string {
+	if index >= 0 && index < len(lists) { // 列表的數量可能因為空白格的關係會短缺, 所以要檢查一下
+		return lists[index]
 	} // if
 
 	return ""

@@ -56,7 +56,7 @@ func (this *Task) runJson() error {
 		row++
 	} // for
 
-	err = util.JsonWrite(this.jsonFilePath(), this.global.Bom, objs)
+	err = util.JsonWrite(this.jsonFilePath(), objs, this.global.Bom)
 
 	if err != nil {
 		return fmt.Errorf("generate json failed: %s\n%w", this.originalName(), err)

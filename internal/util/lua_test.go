@@ -4,45 +4,68 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestLua(t *testing.T) {
-	value1, err := LuaBool("true")
-	assert.Nil(t, err)
-	assert.Equal(t, "true", value1)
-	value1, err = LuaBool("false")
-	assert.Nil(t, err)
-	assert.Equal(t, "false", value1)
-	value1, err = LuaBool("TRUE")
-	assert.Nil(t, err)
-	assert.Equal(t, "true", value1)
-	value1, err = LuaBool("FALSE")
-	assert.Nil(t, err)
-	assert.Equal(t, "false", value1)
-	value1, err = LuaBool("1")
-	assert.Nil(t, err)
-	assert.Equal(t, "true", value1)
-	value1, err = LuaBool("0")
-	assert.Nil(t, err)
-	assert.Equal(t, "false", value1)
-	_, err = LuaBool("?????")
-	assert.NotNil(t, err)
+	suite.Run(t, new(SuiteLua))
+}
 
-	value2, err := LuaBoolArray("true,false,true,false,true")
-	assert.Nil(t, err)
-	assert.Equal(t, "true,false,true,false,true", value2)
-	value2, err = LuaBoolArray("TRUE,FALSE,TRUE,FALSE,TRUE")
-	assert.Nil(t, err)
-	assert.Equal(t, "true,false,true,false,true", value2)
-	value2, err = LuaBoolArray("1,0,1,0,1")
-	assert.Nil(t, err)
-	assert.Equal(t, "true,false,true,false,true", value2)
+type SuiteLua struct {
+	suite.Suite
+}
+
+func (this *SuiteLua) TestLuaBool() {
+	value, err := LuaBool("true")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "true", value)
+
+	value, err = LuaBool("false")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "false", value)
+
+	value, err = LuaBool("TRUE")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "true", value)
+
+	value, err = LuaBool("FALSE")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "false", value)
+
+	value, err = LuaBool("1")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "true", value)
+
+	value, err = LuaBool("0")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "false", value)
+
+	_, err = LuaBool(testdata.UnknownStr)
+	assert.NotNil(this.T(), err)
+}
+
+func (this *SuiteLua) TestLuaBoolArray() {
+	value, err := LuaBoolArray("true,false,true,false,true")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "true,false,true,false,true", value)
+
+	value, err = LuaBoolArray("TRUE,FALSE,TRUE,FALSE,TRUE")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "true,false,true,false,true", value)
+
+	value, err = LuaBoolArray("1,0,1,0,1")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "true,false,true,false,true", value)
+
 	_, err = LuaBoolArray("???,???,???,???,???")
-	assert.NotNil(t, err)
+	assert.NotNil(this.T(), err)
+}
 
-	value10 := LuaWrapperArray("testString")
-	assert.Equal(t, "{testString}", value10)
+func (this *SuiteLua) TestLuaWrapperArray() {
+	assert.Equal(this.T(), "{testString}", LuaWrapperArray("testString"))
+}
 
-	value11 := LuaWrapperString("testString")
-	assert.Equal(t, "\"testString\"", value11)
+func (this *SuiteLua) TestLuaWrapperString() {
+	assert.Equal(this.T(), "\"testString\"", LuaWrapperString("testString"))
 }
