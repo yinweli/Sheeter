@@ -119,3 +119,12 @@ type Column struct {
 	Note  string // 欄位註解
 	Field Field  // 欄位類型
 }
+
+// NewColumn 建立欄位資料
+func NewColumn(name string, note string, field Field) *Column {
+	return &Column{
+		Name:  name,
+		Note:  note,
+		Field: field,
+	}
+}

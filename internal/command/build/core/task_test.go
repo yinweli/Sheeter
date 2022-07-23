@@ -116,8 +116,11 @@ func TestTask(t *testing.T) {
 }
 
 func TestNewTask(t *testing.T) {
-	task := NewTask(nil, nil)
-	assert.NotNil(t, task)
+	assert.NotNil(t, NewTask(nil, nil))
+}
+
+func TestNewColumn(t *testing.T) {
+	assert.NotNil(t, NewColumn("", "", nil))
 }
 
 func mockTask() *Task {
