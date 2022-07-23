@@ -4,26 +4,23 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
 func TestStrings(t *testing.T) {
-	assert.Equal(t, "", FirstUpper(""))
-	assert.Equal(t, "TestString", FirstUpper("testString"))
-	assert.Equal(t, "", FirstLower(""))
-	assert.Equal(t, "testString", FirstLower("TestString"))
+	suite.Run(t, new(SuiteStrings))
+}
 
-	assert.True(t, VariableCheck("value"))
-	assert.True(t, VariableCheck("Value"))
-	assert.True(t, VariableCheck("value1"))
-	assert.True(t, VariableCheck("Value1"))
-	assert.True(t, VariableCheck("value_a"))
-	assert.True(t, VariableCheck("value_1"))
-	assert.True(t, VariableCheck("_value"))
-	assert.False(t, VariableCheck(""))
-	assert.False(t, VariableCheck("0value"))
-	assert.False(t, VariableCheck("-value"))
-	assert.False(t, VariableCheck("value-"))
-	assert.False(t, VariableCheck("#value"))
-	assert.False(t, VariableCheck("@value"))
-	assert.False(t, VariableCheck("value{}"))
+type SuiteStrings struct {
+	suite.Suite
+}
+
+func (this *SuiteStrings) TestFirstUpper() {
+	assert.Equal(this.T(), "", FirstUpper(""))
+	assert.Equal(this.T(), "TestString", FirstUpper("testString"))
+}
+
+func (this *SuiteStrings) TestFirstLower() {
+	assert.Equal(this.T(), "", FirstLower(""))
+	assert.Equal(this.T(), "testString", FirstLower("TestString"))
 }
