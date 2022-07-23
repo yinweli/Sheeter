@@ -7,33 +7,57 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestJsonWrite(t *testing.T) {
-	dir := testdata.ChangeWorkDir()
-	defer testdata.RestoreWorkDir(dir)
+	suite.Run(t, new(SuiteJsonWrite))
+}
 
-	filePath := "json/test.txt"
-	value := map[string]string{"data": "value"}
-	jsons, _ := json.MarshalIndent(value, "", "    ")
+type SuiteJsonWrite struct {
+	suite.Suite
+	workDir       string
+	filePathReal  string
+	filePathFake1 string
+	filePathFake2 string
+	jsonDatas     map[string]string
+	jsonBytes     []byte
+	jsonBytesBom  []byte
+}
 
-	err := JsonWrite(filePath, true, value)
-	assert.Nil(t, err)
+func (this *SuiteJsonWrite) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+	this.filePathReal = "json/test.txt"
+	this.filePathFake1 = "????.txt"
+	this.filePathFake2 = "????/????.txt"
+	this.jsonDatas = map[string]string{"data": "value"}
+	this.jsonBytes, _ = json.MarshalIndent(this.jsonDatas, jsonPrefix, jsonIdent)
+	this.jsonBytesBom = append(bomPrefix, this.jsonBytes...)
+}
 
-	err = JsonWrite(filePath, false, value)
-	assert.Nil(t, err)
+func (this *SuiteJsonWrite) TearDownSuite() {
+	_ = os.RemoveAll(path.Dir(this.filePathReal))
+	testdata.RestoreWorkDir(this.workDir)
+}
 
-	bytes, err := os.ReadFile(filePath)
-	assert.Nil(t, err)
-	assert.Equal(t, jsons, bytes)
+func (this *SuiteJsonWrite) check(filepath string, expected []byte) {
+	actual, err := os.ReadFile(filepath)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), expected, actual)
+}
 
-	err = JsonWrite("????/????.txt", false, value)
-	assert.NotNil(t, err)
+func (this *SuiteJsonWrite) TestJsonWrite() {
+	assert.Nil(this.T(), JsonWrite(this.filePathReal, this.jsonDatas, false))
+	this.check(this.filePathReal, this.jsonBytes)
+}
 
-	err = JsonWrite("????.txt", false, value)
-	assert.NotNil(t, err)
+func (this *SuiteJsonWrite) TestJsonWriteBom() {
+	assert.Nil(this.T(), JsonWrite(this.filePathReal, this.jsonDatas, true))
+	this.check(this.filePathReal, this.jsonBytesBom)
+}
 
-	err = os.RemoveAll(path.Dir(filePath))
-	assert.Nil(t, err)
+func (this *SuiteJsonWrite) TestJsonWriteFailed() {
+	assert.NotNil(this.T(), JsonWrite(this.filePathFake1, this.jsonDatas, false))
+	assert.NotNil(this.T(), JsonWrite(this.filePathFake2, this.jsonDatas, false))
 }
