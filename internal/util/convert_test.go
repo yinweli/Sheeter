@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
 func TestConvert(t *testing.T) {
@@ -64,8 +65,27 @@ func TestConvert(t *testing.T) {
 	_, err = StrToFloatArray("?????")
 	assert.NotNil(t, err)
 
-	value7 := StrToStrArray("ball,book,pack")
-	assert.Equal(t, []string{"ball", "book", "pack"}, value7)
-	value7 = StrToStrArray("?????#?????#?????")
-	assert.Equal(t, []string{"?????#?????#?????"}, value7)
+	suite.Run(t, new(SuiteConvert))
+}
+
+type SuiteConvert struct {
+	suite.Suite
+	strArrayRightInput  string
+	strArrayRightOutput []string
+	strArrayErrorInput  string
+	strArrayErrorOutput []string
+}
+
+func (this *SuiteConvert) SetupSuite() {
+	this.strArrayRightInput = "ball,book,pack"
+	this.strArrayRightOutput = []string{"ball", "book", "pack"}
+	this.strArrayErrorInput = "ball#book#pack"
+	this.strArrayErrorOutput = []string{"ball#book#pack"}
+}
+
+func (this *SuiteConvert) TestStrToStrArray() {
+	value := StrToStrArray(this.strArrayRightInput)
+	assert.Equal(this.T(), this.strArrayRightOutput, value)
+	value = StrToStrArray(this.strArrayErrorInput)
+	assert.Equal(this.T(), this.strArrayErrorOutput, value)
 }
