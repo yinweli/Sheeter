@@ -5,6 +5,7 @@ tasks:
   lint:
     cmds:
       - task: install-lint
+      - task: fmt
       - golangci-lint -v run
   
   # 進行代碼測試
