@@ -49,7 +49,9 @@ func (this *SuiteJsonWrite) check(filepath string, expected []byte) {
 func (this *SuiteJsonWrite) TestJsonWrite() {
 	assert.Nil(this.T(), JsonWrite(this.filePathReal, this.jsonDatas, false))
 	this.check(this.filePathReal, this.jsonBytes)
+
 	assert.Nil(this.T(), JsonWrite(this.filePathReal, this.jsonDatas, true))
 	this.check(this.filePathReal, this.jsonBytesBom)
+
 	assert.NotNil(this.T(), JsonWrite(this.filePathFake, this.jsonDatas, false))
 }

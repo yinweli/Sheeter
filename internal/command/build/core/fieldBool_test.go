@@ -36,23 +36,27 @@ func (this *SuiteFieldBool) TestToJsonDefault() {
 }
 
 func (this *SuiteFieldBool) TestToJsonValue() {
-	result, err := this.target().ToJsonValue("true")
+	target := this.target()
+
+	result, err := target.ToJsonValue("true")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), true, result)
-	result, err = this.target().ToJsonValue("false")
+	result, err = target.ToJsonValue("false")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), false, result)
-	_, err = this.target().ToJsonValue("?????")
+	_, err = target.ToJsonValue("?????")
 	assert.NotNil(this.T(), err)
 }
 
 func (this *SuiteFieldBool) TestToLuaValue() {
-	result, err := this.target().ToLuaValue("true")
+	target := this.target()
+
+	result, err := target.ToLuaValue("true")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "true", result)
-	result, err = this.target().ToLuaValue("false")
+	result, err = target.ToLuaValue("false")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "false", result)
-	_, err = this.target().ToLuaValue("?????")
+	_, err = target.ToLuaValue("?????")
 	assert.NotNil(this.T(), err)
 }
