@@ -26,11 +26,12 @@ type SuiteFileWrite struct {
 
 func (this *SuiteFileWrite) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.filePathReal = "test/test.txt"
-	this.filePathFake1 = "????.txt"
-	this.filePathFake2 = "????/????.txt"
+	this.filePathReal = "file/test.file"
+	this.filePathFake1 = "?fake1?.file"
+	this.filePathFake2 = "?fake2?/fake.file"
 	this.fileBytes = []byte("this is a string")
-	this.fileBytesBom = append(bomPrefix, this.fileBytes...)
+	this.fileBytesBom = bomPrefix
+	this.fileBytesBom = append(this.fileBytesBom, this.fileBytes...)
 }
 
 func (this *SuiteFileWrite) TearDownSuite() {

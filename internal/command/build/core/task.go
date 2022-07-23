@@ -121,7 +121,7 @@ type Column struct {
 }
 
 // NewColumn 建立欄位資料
-func NewColumn(name string, note string, field Field) *Column {
+func NewColumn(name, note string, field Field) *Column {
 	return &Column{
 		Name:  name,
 		Note:  note,

@@ -28,13 +28,14 @@ type SuiteTmpl struct {
 
 func (this *SuiteTmpl) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.filePathReal = "tmpl/test.txt"
-	this.filePathFake1 = "????.txt"
-	this.filePathFake2 = "????/????.txt"
+	this.filePathReal = "tmpl/test.tmpl"
+	this.filePathFake1 = "?fake1?.tmpl"
+	this.filePathFake2 = "?fake2?/fake.tmpl"
 	this.tmplContent = "{{$.Value}}"
 	this.tmplDatas = map[string]string{"Value": "Value"}
 	this.tmplBytes = []byte("Value")
-	this.tmplBytesBom = append(bomPrefix, this.tmplBytes...)
+	this.tmplBytesBom = bomPrefix
+	this.tmplBytesBom = append(this.tmplBytesBom, this.tmplBytes...)
 }
 
 func (this *SuiteTmpl) TearDownSuite() {

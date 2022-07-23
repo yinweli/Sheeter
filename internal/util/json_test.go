@@ -28,12 +28,13 @@ type SuiteJsonWrite struct {
 
 func (this *SuiteJsonWrite) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.filePathReal = "json/test.txt"
-	this.filePathFake1 = "????.txt"
-	this.filePathFake2 = "????/????.txt"
+	this.filePathReal = "json/test.json"
+	this.filePathFake1 = "?fake1?.json"
+	this.filePathFake2 = "?fake2?/fake.json"
 	this.jsonDatas = map[string]string{"data": "value"}
 	this.jsonBytes, _ = json.MarshalIndent(this.jsonDatas, jsonPrefix, jsonIdent)
-	this.jsonBytesBom = append(bomPrefix, this.jsonBytes...)
+	this.jsonBytesBom = bomPrefix
+	this.jsonBytesBom = append(this.jsonBytesBom, this.jsonBytes...)
 }
 
 func (this *SuiteJsonWrite) TearDownSuite() {

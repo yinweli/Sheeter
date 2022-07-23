@@ -7,7 +7,7 @@ import (
 )
 
 // TmplWrite 寫入模板檔案, 如果有需要會建立目錄
-func TmplWrite(filePath string, content string, data any, bom bool) error {
+func TmplWrite(filePath, content string, data any, bom bool) error {
 	tmpl, err := template.New(filePath).Parse(content)
 
 	if err != nil {
