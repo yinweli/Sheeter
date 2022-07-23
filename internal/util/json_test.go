@@ -17,20 +17,18 @@ func TestJsonWrite(t *testing.T) {
 
 type SuiteJsonWrite struct {
 	suite.Suite
-	workDir       string
-	filePathReal  string
-	filePathFake1 string
-	filePathFake2 string
-	jsonDatas     map[string]string
-	jsonBytes     []byte
-	jsonBytesBom  []byte
+	workDir      string
+	filePathReal string
+	filePathFake string
+	jsonDatas    map[string]string
+	jsonBytes    []byte
+	jsonBytesBom []byte
 }
 
 func (this *SuiteJsonWrite) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 	this.filePathReal = "json/test.json"
-	this.filePathFake1 = "?fake1?.json"
-	this.filePathFake2 = "?fake2?/fake.json"
+	this.filePathFake = "?json/test.json"
 	this.jsonDatas = map[string]string{"data": "value"}
 	this.jsonBytes, _ = json.MarshalIndent(this.jsonDatas, jsonPrefix, jsonIdent)
 	this.jsonBytesBom = bomPrefix
@@ -53,6 +51,5 @@ func (this *SuiteJsonWrite) TestJsonWrite() {
 	this.check(this.filePathReal, this.jsonBytes)
 	assert.Nil(this.T(), JsonWrite(this.filePathReal, this.jsonDatas, true))
 	this.check(this.filePathReal, this.jsonBytesBom)
-	assert.NotNil(this.T(), JsonWrite(this.filePathFake1, this.jsonDatas, false))
-	assert.NotNil(this.T(), JsonWrite(this.filePathFake2, this.jsonDatas, false))
+	assert.NotNil(this.T(), JsonWrite(this.filePathFake, this.jsonDatas, false))
 }

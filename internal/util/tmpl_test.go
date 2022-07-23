@@ -16,21 +16,19 @@ func TestTmpl(t *testing.T) {
 
 type SuiteTmpl struct {
 	suite.Suite
-	workDir       string
-	filePathReal  string
-	filePathFake1 string
-	filePathFake2 string
-	tmplContent   string
-	tmplDatas     map[string]string
-	tmplBytes     []byte
-	tmplBytesBom  []byte
+	workDir      string
+	filePathReal string
+	filePathFake string
+	tmplContent  string
+	tmplDatas    map[string]string
+	tmplBytes    []byte
+	tmplBytesBom []byte
 }
 
 func (this *SuiteTmpl) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 	this.filePathReal = "tmpl/test.tmpl"
-	this.filePathFake1 = "?fake1?.tmpl"
-	this.filePathFake2 = "?fake2?/fake.tmpl"
+	this.filePathFake = "?tmpl/test.tmpl"
 	this.tmplContent = "{{$.Value}}"
 	this.tmplDatas = map[string]string{"Value": "Value"}
 	this.tmplBytes = []byte("Value")
@@ -56,8 +54,7 @@ func (this *SuiteTmpl) TestTmplWrite() {
 	this.check(this.filePathReal, this.tmplBytesBom)
 	assert.NotNil(this.T(), TmplWrite(this.filePathReal, "{{{$.Value}}", nil, false))
 	assert.NotNil(this.T(), TmplWrite(this.filePathReal, this.tmplContent, "nothing!", false))
-	assert.NotNil(this.T(), TmplWrite(this.filePathFake1, this.tmplContent, this.tmplDatas, false))
-	assert.NotNil(this.T(), TmplWrite(this.filePathFake2, this.tmplContent, this.tmplDatas, false))
+	assert.NotNil(this.T(), TmplWrite(this.filePathFake, this.tmplContent, this.tmplDatas, false))
 }
 
 func TestTmplLine(t *testing.T) {

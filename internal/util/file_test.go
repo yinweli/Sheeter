@@ -16,19 +16,17 @@ func TestFileWrite(t *testing.T) {
 
 type SuiteFileWrite struct {
 	suite.Suite
-	workDir       string
-	filePathReal  string
-	filePathFake1 string
-	filePathFake2 string
-	fileBytes     []byte
-	fileBytesBom  []byte
+	workDir      string
+	filePathReal string
+	filePathFake string
+	fileBytes    []byte
+	fileBytesBom []byte
 }
 
 func (this *SuiteFileWrite) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 	this.filePathReal = "file/test.file"
-	this.filePathFake1 = "?fake1?.file"
-	this.filePathFake2 = "?fake2?/fake.file"
+	this.filePathFake = "?file/test.file"
 	this.fileBytes = []byte("this is a string")
 	this.fileBytesBom = bomPrefix
 	this.fileBytesBom = append(this.fileBytesBom, this.fileBytes...)
@@ -50,6 +48,5 @@ func (this *SuiteFileWrite) TestFileWrite() {
 	this.check(this.filePathReal, this.fileBytes)
 	assert.Nil(this.T(), FileWrite(this.filePathReal, this.fileBytes, true))
 	this.check(this.filePathReal, this.fileBytesBom)
-	assert.NotNil(this.T(), FileWrite(this.filePathFake1, this.fileBytes, false))
-	assert.NotNil(this.T(), FileWrite(this.filePathFake2, this.fileBytes, false))
+	assert.NotNil(this.T(), FileWrite(this.filePathFake, this.fileBytes, false))
 }
