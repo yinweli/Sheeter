@@ -19,8 +19,8 @@ const tokenArray = "{[]" // 階層字串以'{[]'符號開始, 表示為陣列的
 const tokenStruct = "{"  // 階層字串以'{'符號開始, 表示為結構的開始
 const tokenEnd = "}"     // 階層字串以'}'符號開始, 表示為結構/陣列的結束
 
-// ParseLayer 解析字串為階層, 格式為 {name 或 {[]name 或 }
-func ParseLayer(input string) (layer []Layer, back int, err error) { // TODO: layerParse還沒做玩
+// ParseLayer 解析字串為階層, 格式為'{[]name'或'{name'或'}', 以空格分隔
+func ParseLayer(input string) (layer []Layer, back int, err error) {
 	tokens := strings.Fields(input)
 	mode := modeBegin
 
