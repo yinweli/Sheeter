@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestField(t *testing.T) {
@@ -27,6 +28,6 @@ func (this *SuiteField) TestParseField() {
 	_, _, err = ParseField("fake#fake")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseField("?????")
+	_, _, err = ParseField(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }

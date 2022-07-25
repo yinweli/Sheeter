@@ -76,6 +76,6 @@ func (this *SuiteConfig) TestReadConfig() {
 	_, err = ReadConfig(testdata.Path(testdata.Defect2Config))
 	assert.NotNil(this.T(), err)
 
-	_, err = ReadConfig("?????")
+	_, err = ReadConfig(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }

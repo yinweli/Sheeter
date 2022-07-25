@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestLua(t *testing.T) {
@@ -40,7 +41,7 @@ func (this *SuiteLua) TestLuaBool() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "false", value)
 
-	_, err = LuaBool("?????")
+	_, err = LuaBool(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
 

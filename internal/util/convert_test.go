@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestConvert(t *testing.T) {
@@ -40,7 +41,7 @@ func (this *SuiteConvert) TestStrToBool() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), false, value)
 
-	_, err = StrToBool("?????")
+	_, err = StrToBool(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
 
@@ -66,7 +67,7 @@ func (this *SuiteConvert) TestStrToInt() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), int64(123456789), value)
 
-	_, err = StrToInt("?????")
+	_, err = StrToInt(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
 
@@ -75,7 +76,7 @@ func (this *SuiteConvert) TestStrToIntArray() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []int64{123, 456, 789}, value)
 
-	_, err = StrToIntArray("?????")
+	_, err = StrToIntArray(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
 
@@ -84,7 +85,7 @@ func (this *SuiteConvert) TestStrToFloat() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), 0.123456789, value)
 
-	_, err = StrToFloat("?????")
+	_, err = StrToFloat(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
 
@@ -93,7 +94,7 @@ func (this *SuiteConvert) TestStrToFloatArray() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []float64{0.123, 0.456, 0.789}, value)
 
-	_, err = StrToFloatArray("?????")
+	_, err = StrToFloatArray(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
 

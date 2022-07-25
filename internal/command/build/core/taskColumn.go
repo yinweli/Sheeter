@@ -48,7 +48,11 @@ func (this *Task) runColumn() error {
 		} // if
 
 		note := column(noteLine, col)
-		this.columns = append(this.columns, NewColumn(name, note, field))
+		this.columns = append(this.columns, &Column{
+			Name:  name,
+			Note:  note,
+			Field: field,
+		})
 	} // for
 
 	if pkey == false { // 這裡其實也順便檢查了沒有欄位的問題

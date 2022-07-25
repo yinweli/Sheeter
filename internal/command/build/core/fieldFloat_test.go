@@ -5,6 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestFieldFloat(t *testing.T) {
@@ -42,7 +43,7 @@ func (this *SuiteFieldFloat) TestToJsonValue() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), 0.123456, result)
 
-	_, err = target.ToJsonValue("?????")
+	_, err = target.ToJsonValue(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
 
@@ -53,6 +54,6 @@ func (this *SuiteFieldFloat) TestToLuaValue() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "0.123456", result)
 
-	_, err = target.ToLuaValue("?????")
+	_, err = target.ToLuaValue(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
