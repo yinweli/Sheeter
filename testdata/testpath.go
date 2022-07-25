@@ -29,9 +29,7 @@ func ChangeWorkDir() string {
 		panic(err)
 	} // if
 
-	err = os.Chdir(RootPath)
-
-	if err != nil {
+	if err = os.Chdir(RootPath); err != nil {
 		panic(err)
 	} // if
 
@@ -40,9 +38,7 @@ func ChangeWorkDir() string {
 
 // RestoreWorkDir 復原工作目錄
 func RestoreWorkDir(dir string) {
-	err := os.Chdir(dir)
-
-	if err != nil {
+	if err := os.Chdir(dir); err != nil {
 		panic(err)
 	} // if
 }

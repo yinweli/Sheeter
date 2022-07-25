@@ -18,21 +18,21 @@
 # 如何執行
 配置好yaml格式的設定檔與excel檔案, 然後在終端執行
 ```
-sheeter build 設定檔.yaml
+sheeter build --config 設定檔.yaml
 ```
 
 # 如何寫設定檔
 ```
 global:
-  excelPath: .\        # excel檔案的路徑
-  bom: true            # 輸出的檔案是否要用BOM
-  lineOfField: 1       # excel表格中欄位行位置, 從1起算
-  lineOfNote: 2        # excel表格中註解行位置, 從1起算
-  lineOfData: 3        # excel表格中資料從哪行開始, 從1起算
+  bom: true            # 輸出的檔案是否使用順序標記(BOM)
+  lineOfField: 1       # 欄位行號(1為起始行)
+  lineOfLayer: 2       # 階層行號(1為起始行)
+  lineOfNote:  3       # 註解行號(1為起始行)
+  lineOfData:  4       # 資料行號(1為起始行)
 
 elements:
-  - excel: excel1.xlsx # 要轉換的excel檔名
-    sheet: Data        # 要轉換的表格名稱
+  - excel: excel1.xlsx # excel檔案名稱
+    sheet: Data        # excel表單名稱
   - excel: excel2.xlsx
     sheet: Data
   - excel: excel3.xlsx
@@ -40,7 +40,7 @@ elements:
 ```
 
 # 如何寫excel檔案
-![excel](.readme/excel1.jpg)
+![excel](doc/readme/excel.jpg)
 
 ## 欄位行
 欄位的格式為`名稱#格式`, 空格之後的欄位不會輸出  
@@ -51,16 +51,22 @@ elements:
 | pkey        | 表格主要索引, 編號可跳號但是不可重複 |
 | bool        | 布林值                               |
 | boolArray   | 以逗號分隔的布林值陣列               |
-| int         | 32位元整數                           |
-| intArray    | 以逗號分隔的32位元整數陣列           |
-| long        | 64位元整數                           |
-| longArray   | 以逗號分隔的64位元整數陣列           |
-| float       | 32位元浮點數                         |
-| floatArray  | 以逗號分隔的32位元整數陣列           |
-| double      | 64位元浮點數                         |
-| doubleArray | 以逗號分隔的64位元整數陣列           |
+| int         | 64位元整數                           |
+| intArray    | 以逗號分隔的64位元整數陣列           |
+| float       | 64位元浮點數                         |
+| floatArray  | 以逗號分隔的64位元整數陣列           |
 | text        | 字串                                 |
 | textArray   | 以逗號分隔的字串陣列                 |
+
+## 階層行
+欄位結構布局, 格式有`{名稱`, `{[]名稱`, `/`, `}`
+格式之間需用空格分隔
+| 格式        | 說明                                 |
+|:------------|:-------------------------------------|
+| {名稱       | 結構的開始                           |
+| {[]名稱     | 陣列的開始                           |
+| /           | 分隔陣列                             |
+| }           | 結構/陣列結束, 可以連續結束, 如`}}`  |
 
 ## 註解行
 單行註解, 若為空格就輸出空註解
@@ -72,20 +78,19 @@ elements:
 
 ## 轉出檔案路徑與檔案名稱
 如果excel檔案名稱為`example.xlsx`, 表格名稱為`Data`  
-* json架構檔案: schema\exampleData.json.schema
+* json架構檔案: schema\exampleData.schema
 * json資料檔案: json\exampleData.json
-* json的c#程式碼: jsonCs\exampleData.cs
-* json的c#讀取器程式碼: jsonCs\exampleData.reader.cs
+* json的c#程式碼: json-cs\exampleData.cs
+* json的c#讀取器程式碼: json-cs\exampleDataReader.cs
+* json的go程式碼: json-go\exampleData.go
+* json的go讀取器程式碼: json-go\exampleDataReader.go
 * json的c#結構名稱: ExampleData
-* json的go程式碼: jsonGo\exampleData.go
-* json的go讀取器程式碼: jsonGo\exampleData.reader.go
 * json的go結構名稱: ExampleData
-* lua資料檔案: lua\exampleData.lua
 
 ## 其他的限制
-* 表格必須有欄位行與註解行, 但是可以不需要有資料行
-* 欄位行與註解行必須在資料行之前
-* 設定檔中必須設定好欄位行, 註解行, 資料行的位置
+* 表格必須有欄位行, 階層行, 註解行, 但是可以不需要有資料行
+* 欄位行, 階層行, 註解行必須在資料行之前
+* 設定檔中必須設定好欄位行, 階層行, 註解行, 資料行的位置
 * 設定檔中行數是從1開始的
 * 表格必須有`pkey`欄位
 * 表格只能有一個`pkey`欄位
@@ -97,28 +102,70 @@ elements:
     * 這代表你得把產生出來的go程式碼放在`sheeter`目錄下
 
 # 轉換範例
-![範例excel檔案內容](.readme/example.jpg)
+![範例excel檔案內容](doc/readme/excel.jpg)
 
 json檔案
 ```
 {
     "1": {
-        "name0": 1,
-        "name1": true,
-        "name2": 1,
-        "name3": "a"
+        "S": {
+            "A": [
+                {
+                    "name2": 1,
+                    "name3": "a"
+                },
+                {
+                    "name2": 1,
+                    "name3": "a"
+                },
+                {
+                    "name2": 1,
+                    "name3": "a"
+                }
+            ],
+            "name1": true
+        },
+        "name0": 1
     },
     "2": {
-        "name0": 2,
-        "name1": false,
-        "name2": 2,
-        "name3": "b"
+        "S": {
+            "A": [
+                {
+                    "name2": 2,
+                    "name3": "b"
+                },
+                {
+                    "name2": 2,
+                    "name3": "b"
+                },
+                {
+                    "name2": 2,
+                    "name3": "b"
+                }
+            ],
+            "name1": false
+        },
+        "name0": 2
     },
     "3": {
-        "name0": 3,
-        "name1": true,
-        "name2": 3,
-        "name3": "c"
+        "S": {
+            "A": [
+                {
+                    "name2": 3,
+                    "name3": "c"
+                },
+                {
+                    "name2": 3,
+                    "name3": "c"
+                },
+                {
+                    "name2": 3,
+                    "name3": "c"
+                }
+            ],
+            "name1": true
+        },
+        "name0": 3
     }
 }
 ```
@@ -136,12 +183,24 @@ namespace sheeter
 
     public partial class RealData
     {
+        [JsonProperty("S")]
+        public S S { get; set; }
+
         [JsonProperty("name0")]
         public long Name0 { get; set; }
+    }
+
+    public partial class S
+    {
+        [JsonProperty("A")]
+        public A[] A { get; set; }
 
         [JsonProperty("name1")]
         public bool Name1 { get; set; }
+    }
 
+    public partial class A
+    {
         [JsonProperty("name2")]
         public long Name2 { get; set; }
 
@@ -162,7 +221,7 @@ namespace sheeter {
     using Newtonsoft.Json;
 
     public partial class RealDataReader {
-		public static readonly string JsonFileName = "realData.json";
+        public static readonly string JsonPath = "json\realData.json";
 
         public static Dictionary<string, RealData> FromJson(string data) {
             return JsonConvert.DeserializeObject<Dictionary<string, RealData>>(data);
@@ -176,8 +235,16 @@ json-go檔案
 package sheeter
 
 type RealData struct {
-	Name0 int64  `json:"name0"`
-	Name1 bool   `json:"name1"`
+	S     S     `json:"S"`
+	Name0 int64 `json:"name0"`
+}
+
+type S struct {
+	A     []A  `json:"A"`
+	Name1 bool `json:"name1"`
+}
+
+type A struct {
 	Name2 int64  `json:"name2"`
 	Name3 string `json:"name3"`
 }
@@ -193,31 +260,27 @@ import "encoding/json"
 
 type RealDataReader map[string]RealData
 
-func (this *RealDataReader) JsonFileName() string {
-	return "realData.json"
+func (this *RealDataReader) JsonPath() string {
+	return "json\realData.json"
 }
 
 func (this *RealDataReader) FromJson(data []byte) error {
-    return json.Unmarshal(data, this)
+	return json.Unmarshal(data, this)
 }
 ```
 
-lua檔案
-```
--- generated by sheeter, DO NOT EDIT.
-
-RealData = { 
-[1] = { name0 = 1, name1 = true, name2 = 1, name3 = "a",  },
-[2] = { name0 = 2, name1 = false, name2 = 2, name3 = "b",  },
-[3] = { name0 = 3, name1 = true, name2 = 3, name3 = "c",  },
-}
-```
-
-# 其他目錄說明
-* .readme: 存放說明文件的連結檔案
+# 目錄說明
+目錄安排依照[標準 Go 專案目錄結構](https://github.com/golang-standards/project-layout/blob/master/README_zh-TW.md#%E6%A8%99%E6%BA%96-go-%E5%B0%88%E6%A1%88%E7%9B%AE%E9%8C%84%E7%B5%90%E6%A7%8B-standard-go-project-layout)
+| 目錄                 | 說明                                 |
+|:---------------------|:-------------------------------------|
+| doc                  | 說明文件                             |
+| cmd/sheeter          | sheeter的進入點                      |
+| internal/app/sheeter | sheeter的命令程式碼                  |
+| internal/pkg/builds  | 表格轉換核心程式碼                   |
+| internal/pkg/util    | 工具程式碼                           |
+| testdata             | 測試資料                             |
 
 # TODO
-* 解析結構化excel
 * 嘗試在unix系統跑看看是否正常
 * 產生proto message
 * 產生proto bytes data
@@ -239,11 +302,3 @@ RealData = {
   --out verifyData.java --lang java  
   --package sheeter  
   --just-types  
-
-# 結構化失敗的教訓
-* 結構化要做的事情有 jsonSchema變更, json變更, lua變更(這個很容易忘記)
-* 透過自訂語法要做到json物件變更真心難(而且還有lua物件也是要改)
-* 難點1: 結構化格式字串解析, 產出布局資料
-* 難點2: 從布局資料轉換成jsonSchema用的go資料結構
-* 難點3: 從布局資料轉換成json用的go資料結構(而且還要塞真實資料進去)
-* 難點4: 從布局資料轉換成lua用的go資料結構(而且還要塞真實資料進去)
