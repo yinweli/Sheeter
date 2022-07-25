@@ -15,7 +15,7 @@ func TmplWrite(filePath, content string, data any, bom bool) error {
 	} // if
 
 	buffer := &bytes.Buffer{}
-	err = tmpl.Execute(buffer, data)
+	err = tmpl.Execute(buffer, refer)
 
 	if err != nil {
 		return fmt.Errorf("tmpl write failed: %w", err)
