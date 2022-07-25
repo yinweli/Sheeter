@@ -4,29 +4,55 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/stretchr/testify/suite"
 )
 
 func TestFieldIntArray(t *testing.T) {
-	field := mockFieldIntArray()
-	assert.Equal(t, "intArray", field.Type())
-	assert.Equal(t, true, field.IsShow())
-	assert.Equal(t, false, field.IsPkey())
-	assert.Equal(t, []int64{}, field.ToJsonDefault())
-
-	result, err := field.ToJsonValue("123,456,789")
-	assert.Nil(t, err)
-	assert.Equal(t, []int64{123, 456, 789}, result)
-	_, err = field.ToJsonValue(testdata.UnknownStr)
-	assert.NotNil(t, err)
-
-	result, err = field.ToLuaValue("123,456,789")
-	assert.Nil(t, err)
-	assert.Equal(t, "{123,456,789}", result)
-	_, err = field.ToLuaValue(testdata.UnknownStr)
-	assert.NotNil(t, err)
+	suite.Run(t, new(SuiteFieldIntArray))
 }
 
-func mockFieldIntArray() *FieldIntArray {
+type SuiteFieldIntArray struct {
+	suite.Suite
+}
+
+func (this *SuiteFieldIntArray) target() *FieldIntArray {
 	return &FieldIntArray{}
+}
+
+func (this *SuiteFieldIntArray) TestType() {
+	assert.Equal(this.T(), "intArray", this.target().Type())
+}
+
+func (this *SuiteFieldIntArray) TestIsShow() {
+	assert.Equal(this.T(), true, this.target().IsShow())
+}
+
+func (this *SuiteFieldIntArray) TestIsPkey() {
+	assert.Equal(this.T(), false, this.target().IsPkey())
+}
+
+func (this *SuiteFieldIntArray) TestToJsonDefault() {
+	assert.Equal(this.T(), []int64{}, this.target().ToJsonDefault())
+}
+
+func (this *SuiteFieldIntArray) TestToJsonValue() {
+	target := this.target()
+
+	result, err := target.ToJsonValue("123,456,789")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []int64{123, 456, 789}, result)
+
+	_, err = target.ToJsonValue("?????")
+	assert.NotNil(this.T(), err)
+}
+
+func (this *SuiteFieldIntArray) TestToLuaValue() {
+	target := this.target()
+
+	result, err := target.ToLuaValue("123,456,789")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "{123,456,789}", result)
+
+	_, err = target.ToLuaValue("?????")
+	assert.NotNil(this.T(), err)
 }
