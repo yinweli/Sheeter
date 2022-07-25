@@ -4,98 +4,30 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestTaskColumn(t *testing.T) {
-	task := mockTaskColumn()
-	task.excel = testdata.GetTestExcel(testdata.RealExcel)
-	err := task.runColumn()
-	assert.Nil(t, err)
-	assert.Equal(t, 5, len(task.columns))
-	assert.Equal(t, "name0", task.columns[0].Name)
-	assert.Equal(t, "note0", task.columns[0].Note)
-	assert.Equal(t, (&FieldPkey{}).Type(), task.columns[0].Field.Type())
-	assert.Equal(t, "name1", task.columns[1].Name)
-	assert.Equal(t, "note1", task.columns[1].Note)
-	assert.Equal(t, (&FieldBool{}).Type(), task.columns[1].Field.Type())
-	assert.Equal(t, "name2", task.columns[2].Name)
-	assert.Equal(t, "note2", task.columns[2].Note)
-	assert.Equal(t, (&FieldInt{}).Type(), task.columns[2].Field.Type())
-	assert.Equal(t, "name3", task.columns[3].Name)
-	assert.Equal(t, "note3", task.columns[3].Note)
-	assert.Equal(t, (&FieldText{}).Type(), task.columns[3].Field.Type())
-	assert.Equal(t, "empty", task.columns[4].Name)
-	assert.Equal(t, "empty", task.columns[4].Note)
-	assert.Equal(t, (&FieldEmpty{}).Type(), task.columns[4].Field.Type())
-	task.close()
-
-	task = mockTaskColumn()
-	task.global.LineOfField = 10
-	task.excel = testdata.GetTestExcel(testdata.RealExcel)
-	err = task.runColumn()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskColumn()
-	task.excel = testdata.GetTestExcel(testdata.RealExcel)
-	task.global.LineOfNote = 10
-	err = task.runColumn()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskColumn()
-	task.excel = testdata.GetTestExcel(testdata.Defect2Excel)
-	err = task.runColumn()
-	assert.Nil(t, err)
-	assert.Equal(t, 4, len(task.columns))
-	task.close()
-
-	task = mockTaskColumn()
-	task.excel = testdata.GetTestExcel(testdata.Defect3Excel)
-	err = task.runColumn()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskColumn()
-	task.excel = testdata.GetTestExcel(testdata.Defect4Excel)
-	err = task.runColumn()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskColumn()
-	task.excel = testdata.GetTestExcel(testdata.Defect5Excel)
-	err = task.runColumn()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskColumn()
-	task.excel = testdata.GetTestExcel(testdata.Defect6Excel)
-	err = task.runColumn()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskColumn()
-	task.excel = testdata.GetTestExcel(testdata.Defect7Excel)
-	err = task.runColumn()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskColumn()
-	task.excel = testdata.GetTestExcel(testdata.Defect8Excel)
-	err = task.runColumn()
-	assert.NotNil(t, err)
-	task.close()
+	suite.Run(t, new(SuiteTaskColumn))
 }
 
-func TestColumn(t *testing.T) {
-	assert.Equal(t, "a", column([]string{"a", "b", "c"}, 0))
-	assert.Equal(t, "b", column([]string{"a", "b", "c"}, 1))
-	assert.Equal(t, "c", column([]string{"a", "b", "c"}, 2))
-	assert.Equal(t, "", column([]string{"a", "b", "c"}, 3))
+type SuiteTaskColumn struct {
+	suite.Suite
+	columns []*Column
 }
 
-func mockTaskColumn() *Task {
+func (this *SuiteTaskColumn) SetupSuite() {
+	this.columns = []*Column{
+		{Name: "name0", Note: "note0", Field: &FieldPkey{}},
+		{Name: "name1", Note: "note1", Field: &FieldBool{}},
+		{Name: "name2", Note: "note2", Field: &FieldInt{}},
+		{Name: "name3", Note: "note3", Field: &FieldText{}},
+		{Name: "empty", Note: "empty", Field: &FieldEmpty{}},
+	}
+}
+
+func (this *SuiteTaskColumn) target() *Task {
 	return &Task{
 		global: &Global{
 			LineOfField: 1,
@@ -106,4 +38,108 @@ func mockTaskColumn() *Task {
 			Sheet: testdata.SheetName,
 		},
 	}
+}
+
+func (this *SuiteTaskColumn) TestTaskColumn() {
+	target := this.target()
+	defer target.close()
+
+	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	assert.Nil(this.T(), target.runColumn())
+	assert.Equal(this.T(), this.columns, target.columns)
+}
+
+func (this *SuiteTaskColumn) TestTaskColumnLineOfField() {
+	target := this.target()
+	defer target.close()
+
+	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.global.LineOfField = 10
+	assert.NotNil(this.T(), target.runColumn())
+}
+
+func (this *SuiteTaskColumn) TestTaskColumnLineOfNote() {
+	target := this.target()
+	defer target.close()
+
+	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.global.LineOfNote = 10
+	assert.NotNil(this.T(), target.runColumn())
+}
+
+func (this *SuiteTaskColumn) TestTaskColumnExcel2() {
+	target := this.target()
+	defer target.close()
+
+	target.excel = testdata.GetTestExcel(testdata.Defect2Excel)
+	assert.Nil(this.T(), target.runColumn()) // 測試其實會成功
+	assert.Equal(this.T(), 4, len(target.columns))
+}
+
+func (this *SuiteTaskColumn) TestTaskColumnExcel3() {
+	target := this.target()
+	defer target.close()
+
+	target.excel = testdata.GetTestExcel(testdata.Defect3Excel)
+	assert.NotNil(this.T(), target.runColumn())
+}
+
+func (this *SuiteTaskColumn) TestTaskColumnExcel4() {
+	target := this.target()
+	defer target.close()
+
+	target.excel = testdata.GetTestExcel(testdata.Defect4Excel)
+	assert.NotNil(this.T(), target.runColumn())
+}
+
+func (this *SuiteTaskColumn) TestTaskColumnExcel5() {
+	target := this.target()
+	defer target.close()
+
+	target.excel = testdata.GetTestExcel(testdata.Defect5Excel)
+	assert.NotNil(this.T(), target.runColumn())
+}
+
+func (this *SuiteTaskColumn) TestTaskColumnExcel6() {
+	target := this.target()
+	defer target.close()
+
+	target.excel = testdata.GetTestExcel(testdata.Defect6Excel)
+	assert.NotNil(this.T(), target.runColumn())
+}
+
+func (this *SuiteTaskColumn) TestTaskColumnExcel7() {
+	target := this.target()
+	defer target.close()
+
+	target.excel = testdata.GetTestExcel(testdata.Defect7Excel)
+	assert.NotNil(this.T(), target.runColumn())
+}
+
+func (this *SuiteTaskColumn) TestTaskColumnExcel8() {
+	target := this.target()
+	defer target.close()
+
+	target.excel = testdata.GetTestExcel(testdata.Defect8Excel)
+	assert.NotNil(this.T(), target.runColumn())
+}
+
+func TestFromList(t *testing.T) {
+	suite.Run(t, new(SuiteFromList))
+}
+
+type SuiteFromList struct {
+	suite.Suite
+	lists []string
+}
+
+func (this *SuiteFromList) SetupSuite() {
+	this.lists = []string{"a", "b", "c"}
+}
+
+func (this *SuiteFromList) TestFromList() {
+	assert.Equal(this.T(), "a", fromList(this.lists, 0))
+	assert.Equal(this.T(), "b", fromList(this.lists, 1))
+	assert.Equal(this.T(), "c", fromList(this.lists, 2))
+	assert.Equal(this.T(), "", fromList(this.lists, 3))
 }
