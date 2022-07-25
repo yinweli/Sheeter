@@ -4,29 +4,54 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/stretchr/testify/suite"
 )
 
 func TestFieldFloatArray(t *testing.T) {
-	field := mockFieldFloatArray()
-	assert.Equal(t, "floatArray", field.Type())
-	assert.Equal(t, true, field.IsShow())
-	assert.Equal(t, false, field.IsPkey())
-	assert.Equal(t, []float64{}, field.ToJsonDefault())
-
-	result, err := field.ToJsonValue("0.123,0.456,0.789")
-	assert.Nil(t, err)
-	assert.Equal(t, []float64{0.123, 0.456, 0.789}, result)
-	_, err = field.ToJsonValue(testdata.UnknownStr)
-	assert.NotNil(t, err)
-
-	result, err = field.ToLuaValue("0.123,0.456,0.789")
-	assert.Nil(t, err)
-	assert.Equal(t, "{0.123,0.456,0.789}", result)
-	_, err = field.ToLuaValue(testdata.UnknownStr)
-	assert.NotNil(t, err)
+	suite.Run(t, new(SuiteFieldFloatArray))
 }
 
-func mockFieldFloatArray() *FieldFloatArray {
+type SuiteFieldFloatArray struct {
+	suite.Suite
+}
+
+func (this *SuiteFieldFloatArray) target() *FieldFloatArray {
 	return &FieldFloatArray{}
+}
+
+func (this *SuiteFieldFloatArray) TestType() {
+	assert.Equal(this.T(), "floatArray", this.target().Type())
+}
+
+func (this *SuiteFieldFloatArray) TestIsShow() {
+	assert.Equal(this.T(), true, this.target().IsShow())
+}
+
+func (this *SuiteFieldFloatArray) TestIsPkey() {
+	assert.Equal(this.T(), false, this.target().IsPkey())
+}
+
+func (this *SuiteFieldFloatArray) TestToJsonDefault() {
+	assert.Equal(this.T(), []float64{}, this.target().ToJsonDefault())
+}
+
+func (this *SuiteFieldFloatArray) TestToJsonValue() {
+	target := this.target()
+
+	result, err := target.ToJsonValue("0.123,0.456,0.789")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []float64{0.123, 0.456, 0.789}, result)
+
+	_, err = target.ToJsonValue("?????")
+	assert.NotNil(this.T(), err)
+}
+
+func (this *SuiteFieldFloatArray) TestToLuaValue() {
+	target := this.target()
+
+	result, err := target.ToLuaValue("0.123,0.456,0.789")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "{0.123,0.456,0.789}", result)
+	_, err = target.ToLuaValue("?????")
+	assert.NotNil(this.T(), err)
 }
