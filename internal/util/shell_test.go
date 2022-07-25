@@ -4,14 +4,23 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
-func TestShellRun(t *testing.T) {
-	assert.Nil(t, ShellRun("go", "version"))
-	assert.NotNil(t, ShellRun("unknown"))
+func TestShell(t *testing.T) {
+	suite.Run(t, new(SuiteShell))
 }
 
-func TestShellExist(t *testing.T) {
-	assert.True(t, ShellExist("go"))
-	assert.False(t, ShellExist("unknown"))
+type SuiteShell struct {
+	suite.Suite
+}
+
+func (this *SuiteShell) TestShellRun() {
+	assert.Nil(this.T(), ShellRun("go", "version"))
+	assert.NotNil(this.T(), ShellRun("unknown"))
+}
+
+func (this *SuiteShell) TestShellExist() {
+	assert.True(this.T(), ShellExist("go"))
+	assert.False(this.T(), ShellExist("unknown"))
 }

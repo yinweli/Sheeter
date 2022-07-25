@@ -4,24 +4,49 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 )
 
 func TestFieldTextArray(t *testing.T) {
-	field := mockFieldTextArray()
-	assert.Equal(t, "textArray", field.Type())
-	assert.Equal(t, true, field.IsShow())
-	assert.Equal(t, false, field.IsPkey())
-	assert.Equal(t, []string{}, field.ToJsonDefault())
-
-	result, err := field.ToJsonValue("ball,book,pack")
-	assert.Nil(t, err)
-	assert.Equal(t, []string{"ball", "book", "pack"}, result)
-
-	result, err = field.ToLuaValue("ball,book,pack")
-	assert.Nil(t, err)
-	assert.Equal(t, "{\"ball\",\"book\",\"pack\"}", result)
+	suite.Run(t, new(SuiteFieldTextArray))
 }
 
-func mockFieldTextArray() *FieldTextArray {
+type SuiteFieldTextArray struct {
+	suite.Suite
+}
+
+func (this *SuiteFieldTextArray) target() *FieldTextArray {
 	return &FieldTextArray{}
+}
+
+func (this *SuiteFieldTextArray) TestType() {
+	assert.Equal(this.T(), "textArray", this.target().Type())
+}
+
+func (this *SuiteFieldTextArray) TestIsShow() {
+	assert.Equal(this.T(), true, this.target().IsShow())
+}
+
+func (this *SuiteFieldTextArray) TestIsPkey() {
+	assert.Equal(this.T(), false, this.target().IsPkey())
+}
+
+func (this *SuiteFieldTextArray) TestToJsonDefault() {
+	assert.Equal(this.T(), []string{}, this.target().ToJsonDefault())
+}
+
+func (this *SuiteFieldTextArray) TestToJsonValue() {
+	target := this.target()
+
+	result, err := target.ToJsonValue("ball,book,pack")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []string{"ball", "book", "pack"}, result)
+}
+
+func (this *SuiteFieldTextArray) TestToLuaValue() {
+	target := this.target()
+
+	result, err := target.ToLuaValue("ball,book,pack")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "{\"ball\",\"book\",\"pack\"}", result)
 }

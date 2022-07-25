@@ -9,15 +9,17 @@ type Duplicate struct {
 
 // Check 重複檢查, true表示正常, false則否
 func (this *Duplicate) Check(item interface{}) bool {
-	if this.datas == nil {
-		this.datas = hashset.New(item)
-		return true
-	} // if
-
 	if this.datas.Contains(item) {
 		return false
 	} // if
 
 	this.datas.Add(item)
 	return true
+}
+
+// NewDuplicate 建立重複檢查器
+func NewDuplicate() *Duplicate {
+	return &Duplicate{
+		datas: hashset.New(),
+	}
 }

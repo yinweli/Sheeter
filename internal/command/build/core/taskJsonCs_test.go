@@ -5,59 +5,23 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestTaskJsonCs(t *testing.T) {
-	dir := testdata.ChangeWorkDir()
-	defer testdata.RestoreWorkDir(dir)
-
-	task := mockTaskJsonCs()
-	err := task.runJsonSchema()
-	assert.Nil(t, err)
-	err = task.runJsonCs()
-	assert.Nil(t, err)
-	bytes, err := os.ReadFile(task.jsonCsFilePath())
-	assert.Nil(t, err)
-	assert.Equal(t, mockTaskJsonCsString(), string(bytes))
-	task.close()
-
-	task = mockTaskJsonCs()
-	task.element.Excel = testdata.UnknownExcel
-	err = task.runJsonCs()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskJsonCs()
-	task.element.Sheet = testdata.UnknownStr
-	err = task.runJsonCs()
-	assert.NotNil(t, err)
-	task.close()
-
-	err = os.RemoveAll(pathSchema)
-	assert.Nil(t, err)
-	err = os.RemoveAll(pathJsonCs)
-	assert.Nil(t, err)
+	suite.Run(t, new(SuiteTaskJsonCs))
 }
 
-func mockTaskJsonCs() *Task {
-	return &Task{
-		global: &Global{},
-		element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.SheetName,
-		},
-		columns: []*Column{
-			{Name: "name0", Note: "note0", Field: &FieldPkey{}},
-			{Name: "name1", Note: "note1", Field: &FieldBool{}},
-			{Name: "name2", Note: "note2", Field: &FieldInt{}},
-			{Name: "name3", Note: "note3", Field: &FieldText{}},
-		},
-	}
+type SuiteTaskJsonCs struct {
+	suite.Suite
+	workDir   string
+	dataBytes []byte
 }
 
-func mockTaskJsonCsString() string {
-	return `namespace sheeter
+func (this *SuiteTaskJsonCs) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+	this.dataBytes = []byte(`namespace sheeter
 {
     using System;
     using System.Collections.Generic;
@@ -81,5 +45,45 @@ func mockTaskJsonCsString() string {
         public string Name3 { get; set; }
     }
 }
-`
+`)
+}
+
+func (this *SuiteTaskJsonCs) TearDownSuite() {
+	_ = os.RemoveAll(pathSchema)
+	_ = os.RemoveAll(pathJsonCs)
+	testdata.RestoreWorkDir(this.workDir)
+}
+
+func (this *SuiteTaskJsonCs) target() *Task {
+	return &Task{
+		global: &Global{},
+		element: &Element{
+			Excel: testdata.RealExcel,
+			Sheet: testdata.SheetName,
+		},
+		columns: []*Column{
+			{Name: "name0", Note: "note0", Field: &FieldPkey{}},
+			{Name: "name1", Note: "note1", Field: &FieldBool{}},
+			{Name: "name2", Note: "note2", Field: &FieldInt{}},
+			{Name: "name3", Note: "note3", Field: &FieldText{}},
+		},
+	}
+}
+
+func (this *SuiteTaskJsonCs) TestTaskJsonCs() {
+	target := this.target()
+	assert.Nil(this.T(), target.runJsonSchema())
+	assert.Nil(this.T(), target.runJsonCs())
+	testdata.CompareFile(this.T(), target.jsonCsFilePath(), this.dataBytes)
+	target.close()
+
+	target = this.target()
+	target.element.Excel = testdata.UnknownStr
+	assert.NotNil(this.T(), target.runJsonCs())
+	target.close()
+
+	target = this.target()
+	target.element.Sheet = testdata.UnknownStr
+	assert.NotNil(this.T(), target.runJsonCs())
+	target.close()
 }

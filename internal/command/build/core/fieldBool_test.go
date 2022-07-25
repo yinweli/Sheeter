@@ -4,35 +4,60 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestFieldBool(t *testing.T) {
-	field := mockFieldBool()
-	assert.Equal(t, "bool", field.Type())
-	assert.Equal(t, true, field.IsShow())
-	assert.Equal(t, false, field.IsPkey())
-	assert.Equal(t, false, field.ToJsonDefault())
-
-	result, err := field.ToJsonValue("true")
-	assert.Nil(t, err)
-	assert.Equal(t, true, result)
-	result, err = field.ToJsonValue("false")
-	assert.Nil(t, err)
-	assert.Equal(t, false, result)
-	_, err = field.ToJsonValue(testdata.UnknownStr)
-	assert.NotNil(t, err)
-
-	result, err = field.ToLuaValue("true")
-	assert.Nil(t, err)
-	assert.Equal(t, "true", result)
-	result, err = field.ToLuaValue("false")
-	assert.Nil(t, err)
-	assert.Equal(t, "false", result)
-	_, err = field.ToLuaValue(testdata.UnknownStr)
-	assert.NotNil(t, err)
+	suite.Run(t, new(SuiteFieldBool))
 }
 
-func mockFieldBool() *FieldBool {
+type SuiteFieldBool struct {
+	suite.Suite
+}
+
+func (this *SuiteFieldBool) target() *FieldBool {
 	return &FieldBool{}
+}
+
+func (this *SuiteFieldBool) TestType() {
+	assert.Equal(this.T(), "bool", this.target().Type())
+}
+
+func (this *SuiteFieldBool) TestIsShow() {
+	assert.Equal(this.T(), true, this.target().IsShow())
+}
+
+func (this *SuiteFieldBool) TestIsPkey() {
+	assert.Equal(this.T(), false, this.target().IsPkey())
+}
+
+func (this *SuiteFieldBool) TestToJsonDefault() {
+	assert.Equal(this.T(), false, this.target().ToJsonDefault())
+}
+
+func (this *SuiteFieldBool) TestToJsonValue() {
+	target := this.target()
+
+	result, err := target.ToJsonValue("true")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), true, result)
+	result, err = target.ToJsonValue("false")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), false, result)
+	_, err = target.ToJsonValue(testdata.UnknownStr)
+	assert.NotNil(this.T(), err)
+}
+
+func (this *SuiteFieldBool) TestToLuaValue() {
+	target := this.target()
+
+	result, err := target.ToLuaValue("true")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "true", result)
+	result, err = target.ToLuaValue("false")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "false", result)
+	_, err = target.ToLuaValue(testdata.UnknownStr)
+	assert.NotNil(this.T(), err)
 }

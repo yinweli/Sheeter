@@ -4,63 +4,19 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestConfig(t *testing.T) {
-	config := mockConfig()
-	err := config.Check()
-	assert.Nil(t, err)
-
-	config = mockConfig()
-	config.Global.LineOfField = 0
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
-	config.Global.LineOfNote = 0
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
-	config.Global.LineOfData = 0
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
-	config.Global.LineOfField = 3
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
-	config.Global.LineOfNote = 3
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
-	config.Elements[0].Excel = ""
-	err = config.Check()
-	assert.NotNil(t, err)
-
-	config = mockConfig()
-	config.Elements[0].Sheet = ""
-	err = config.Check()
-	assert.NotNil(t, err)
+	suite.Run(t, new(SuiteConfig))
 }
 
-func TestReadConfig(t *testing.T) {
-	result, err := ReadConfig(testdata.Path(testdata.RealConfig))
-	assert.Nil(t, err)
-	assert.NotNil(t, result)
-	_, err = ReadConfig(testdata.Path(testdata.Defect1Config))
-	assert.NotNil(t, err)
-	_, err = ReadConfig(testdata.Path(testdata.Defect2Config))
-	assert.NotNil(t, err)
-	_, err = ReadConfig(testdata.Path(testdata.UnknownStr))
-	assert.NotNil(t, err)
+type SuiteConfig struct {
+	suite.Suite
 }
 
-func mockConfig() *Config {
+func (this *SuiteConfig) target() *Config {
 	return &Config{
 		Global: Global{
 			ExcelPath:   "excel",
@@ -74,4 +30,52 @@ func mockConfig() *Config {
 			Sheet: "sheet",
 		}},
 	}
+}
+
+func (this *SuiteConfig) TestCheck() {
+	target := this.target()
+	assert.Nil(this.T(), target.Check())
+
+	target = this.target()
+	target.Global.LineOfField = 0
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Global.LineOfNote = 0
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Global.LineOfData = 0
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Global.LineOfField = 3
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Global.LineOfNote = 3
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Elements[0].Excel = ""
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Elements[0].Sheet = ""
+	assert.NotNil(this.T(), target.Check())
+}
+
+func (this *SuiteConfig) TestReadConfig() {
+	config, err := ReadConfig(testdata.Path(testdata.RealConfig))
+	assert.Nil(this.T(), err)
+	assert.NotNil(this.T(), config)
+
+	_, err = ReadConfig(testdata.Path(testdata.Defect1Config))
+	assert.NotNil(this.T(), err)
+
+	_, err = ReadConfig(testdata.Path(testdata.Defect2Config))
+	assert.NotNil(this.T(), err)
+
+	_, err = ReadConfig(testdata.UnknownStr)
+	assert.NotNil(this.T(), err)
 }

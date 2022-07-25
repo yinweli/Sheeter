@@ -5,42 +5,40 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestTaskJsonGo(t *testing.T) {
-	dir := testdata.ChangeWorkDir()
-	defer testdata.RestoreWorkDir(dir)
-
-	task := mockTaskJsonGo()
-	err := task.runJsonSchema()
-	assert.Nil(t, err)
-	err = task.runJsonGo()
-	assert.Nil(t, err)
-	bytes, err := os.ReadFile(task.jsonGoFilePath())
-	assert.Nil(t, err)
-	assert.Equal(t, mockTaskJsonGoString(), string(bytes))
-	task.close()
-
-	task = mockTaskJsonGo()
-	task.element.Excel = testdata.UnknownExcel
-	err = task.runJsonGo()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskJsonGo()
-	task.element.Sheet = testdata.UnknownStr
-	err = task.runJsonGo()
-	assert.NotNil(t, err)
-	task.close()
-
-	err = os.RemoveAll(pathSchema)
-	assert.Nil(t, err)
-	err = os.RemoveAll(pathJsonGo)
-	assert.Nil(t, err)
+	suite.Run(t, new(SuiteTaskJsonGo))
 }
 
-func mockTaskJsonGo() *Task {
+type SuiteTaskJsonGo struct {
+	suite.Suite
+	workDir   string
+	dataBytes []byte
+}
+
+func (this *SuiteTaskJsonGo) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+	this.dataBytes = []byte(`package sheeter
+
+type RealData struct {
+	Name0 int64  ` + "`json:\"name0\"`" + `
+	Name1 bool   ` + "`json:\"name1\"`" + `
+	Name2 int64  ` + "`json:\"name2\"`" + `
+	Name3 string ` + "`json:\"name3\"`" + `
+}
+`)
+}
+
+func (this *SuiteTaskJsonGo) TearDownSuite() {
+	_ = os.RemoveAll(pathSchema)
+	_ = os.RemoveAll(pathJsonGo)
+	testdata.RestoreWorkDir(this.workDir)
+}
+
+func (this *SuiteTaskJsonGo) target() *Task {
 	return &Task{
 		global: &Global{},
 		element: &Element{
@@ -56,14 +54,20 @@ func mockTaskJsonGo() *Task {
 	}
 }
 
-func mockTaskJsonGoString() string {
-	return `package sheeter
+func (this *SuiteTaskJsonGo) TestTaskJsonGo() {
+	target := this.target()
+	assert.Nil(this.T(), target.runJsonSchema())
+	assert.Nil(this.T(), target.runJsonGo())
+	testdata.CompareFile(this.T(), target.jsonGoFilePath(), this.dataBytes)
+	target.close()
 
-type RealData struct {
-	Name0 int64  ` + "`json:\"name0\"`" + `
-	Name1 bool   ` + "`json:\"name1\"`" + `
-	Name2 int64  ` + "`json:\"name2\"`" + `
-	Name3 string ` + "`json:\"name3\"`" + `
-}
-`
+	target = this.target()
+	target.element.Excel = testdata.UnknownStr
+	assert.NotNil(this.T(), target.runJsonGo())
+	target.close()
+
+	target = this.target()
+	target.element.Sheet = testdata.UnknownStr
+	assert.NotNil(this.T(), target.runJsonGo())
+	target.close()
 }

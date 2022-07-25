@@ -4,29 +4,56 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestFieldBoolArray(t *testing.T) {
-	field := mockFieldBoolArray()
-	assert.Equal(t, "boolArray", field.Type())
-	assert.Equal(t, true, field.IsShow())
-	assert.Equal(t, false, field.IsPkey())
-	assert.Equal(t, []bool{}, field.ToJsonDefault())
-
-	result, err := field.ToJsonValue("true,false,true,false,true")
-	assert.Nil(t, err)
-	assert.Equal(t, []bool{true, false, true, false, true}, result)
-	_, err = field.ToJsonValue(testdata.UnknownStr)
-	assert.NotNil(t, err)
-
-	result, err = field.ToLuaValue("true,false,true,false,true")
-	assert.Nil(t, err)
-	assert.Equal(t, "{true,false,true,false,true}", result)
-	_, err = field.ToLuaValue(testdata.UnknownStr)
-	assert.NotNil(t, err)
+	suite.Run(t, new(SuiteFieldBoolArray))
 }
 
-func mockFieldBoolArray() *FieldBoolArray {
+type SuiteFieldBoolArray struct {
+	suite.Suite
+}
+
+func (this *SuiteFieldBoolArray) target() *FieldBoolArray {
 	return &FieldBoolArray{}
+}
+
+func (this *SuiteFieldBoolArray) TestType() {
+	assert.Equal(this.T(), "boolArray", this.target().Type())
+}
+
+func (this *SuiteFieldBoolArray) TestIsShow() {
+	assert.Equal(this.T(), true, this.target().IsShow())
+}
+
+func (this *SuiteFieldBoolArray) TestIsPkey() {
+	assert.Equal(this.T(), false, this.target().IsPkey())
+}
+
+func (this *SuiteFieldBoolArray) TestToJsonDefault() {
+	assert.Equal(this.T(), []bool{}, this.target().ToJsonDefault())
+}
+
+func (this *SuiteFieldBoolArray) TestToJsonValue() {
+	target := this.target()
+
+	result, err := target.ToJsonValue("true,false,true,false,true")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []bool{true, false, true, false, true}, result)
+
+	_, err = target.ToJsonValue(testdata.UnknownStr)
+	assert.NotNil(this.T(), err)
+}
+
+func (this *SuiteFieldBoolArray) TestToLuaValue() {
+	target := this.target()
+
+	result, err := target.ToLuaValue("true,false,true,false,true")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "{true,false,true,false,true}", result)
+
+	_, err = target.ToLuaValue(testdata.UnknownStr)
+	assert.NotNil(this.T(), err)
 }

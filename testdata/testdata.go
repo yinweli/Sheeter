@@ -4,12 +4,12 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
+const UnknownStr = "?????"
 const RealConfig = "real.yaml"
 const Defect1Config = "config.defect1.yaml"
 const Defect2Config = "config.defect2.yaml"
 const RealExcel = "real.xlsx"
 const EmptyExcel = "empty.xlsx"
-const UnknownExcel = "?????.xlsx"
 const Defect1Excel = "excel.defect1.xlsx"
 const Defect2Excel = "excel.defect2.xlsx"
 const Defect3Excel = "excel.defect3.xlsx"
@@ -20,7 +20,6 @@ const Defect7Excel = "excel.defect7.xlsx"
 const Defect8Excel = "excel.defect8.xlsx"
 const Defect9Excel = "excel.defect9.xlsx"
 const SheetName = "Data"
-const UnknownStr = "?????"
 
 // GetTestExcel 取得測試excel
 func GetTestExcel(name string) *excelize.File {

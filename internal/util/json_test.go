@@ -7,33 +7,45 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestJsonWrite(t *testing.T) {
-	dir := testdata.ChangeWorkDir()
-	defer testdata.RestoreWorkDir(dir)
+	suite.Run(t, new(SuiteJsonWrite))
+}
 
-	filePath := "json/test.txt"
-	value := map[string]string{"data": "value"}
-	jsons, _ := json.MarshalIndent(value, "", "    ")
+type SuiteJsonWrite struct {
+	suite.Suite
+	workDir      string
+	filePathReal string
+	filePathFake string
+	jsonDatas    map[string]string
+	jsonBytes    []byte
+	jsonBytesBom []byte
+}
 
-	err := JsonWrite(filePath, true, value)
-	assert.Nil(t, err)
+func (this *SuiteJsonWrite) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+	this.filePathReal = "json/test.json"
+	this.filePathFake = "?json/test.json"
+	this.jsonDatas = map[string]string{"data": "value"}
+	this.jsonBytes, _ = json.MarshalIndent(this.jsonDatas, jsonPrefix, jsonIdent)
+	this.jsonBytesBom = bomPrefix
+	this.jsonBytesBom = append(this.jsonBytesBom, this.jsonBytes...)
+}
 
-	err = JsonWrite(filePath, false, value)
-	assert.Nil(t, err)
+func (this *SuiteJsonWrite) TearDownSuite() {
+	_ = os.RemoveAll(path.Dir(this.filePathReal))
+	testdata.RestoreWorkDir(this.workDir)
+}
 
-	bytes, err := os.ReadFile(filePath)
-	assert.Nil(t, err)
-	assert.Equal(t, jsons, bytes)
+func (this *SuiteJsonWrite) TestJsonWrite() {
+	assert.Nil(this.T(), JsonWrite(this.filePathReal, this.jsonDatas, false))
+	testdata.CompareFile(this.T(), this.filePathReal, this.jsonBytes)
 
-	err = JsonWrite("????/????.txt", false, value)
-	assert.NotNil(t, err)
+	assert.Nil(this.T(), JsonWrite(this.filePathReal, this.jsonDatas, true))
+	testdata.CompareFile(this.T(), this.filePathReal, this.jsonBytesBom)
 
-	err = JsonWrite("????.txt", false, value)
-	assert.NotNil(t, err)
-
-	err = os.RemoveAll(path.Dir(filePath))
-	assert.Nil(t, err)
+	assert.NotNil(this.T(), JsonWrite(this.filePathFake, this.jsonDatas, false))
 }

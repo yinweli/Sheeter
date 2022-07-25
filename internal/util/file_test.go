@@ -6,32 +6,43 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestFileWrite(t *testing.T) {
-	dir := testdata.ChangeWorkDir()
-	defer testdata.RestoreWorkDir(dir)
+	suite.Run(t, new(SuiteFileWrite))
+}
 
-	filePath := "test/test.txt"
-	input := []byte("this is a string")
+type SuiteFileWrite struct {
+	suite.Suite
+	workDir      string
+	filePathReal string
+	filePathFake string
+	fileBytes    []byte
+	fileBytesBom []byte
+}
 
-	err := FileWrite(filePath, input, true)
-	assert.Nil(t, err)
+func (this *SuiteFileWrite) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+	this.filePathReal = "file/test.file"
+	this.filePathFake = "?file/test.file"
+	this.fileBytes = []byte("this is a string")
+	this.fileBytesBom = bomPrefix
+	this.fileBytesBom = append(this.fileBytesBom, this.fileBytes...)
+}
 
-	err = FileWrite(filePath, input, false)
-	assert.Nil(t, err)
+func (this *SuiteFileWrite) TearDownSuite() {
+	_ = os.RemoveAll(path.Dir(this.filePathReal))
+	testdata.RestoreWorkDir(this.workDir)
+}
 
-	bytes, err := os.ReadFile(filePath)
-	assert.Nil(t, err)
-	assert.Equal(t, input, bytes)
+func (this *SuiteFileWrite) TestFileWrite() {
+	assert.Nil(this.T(), FileWrite(this.filePathReal, this.fileBytes, false))
+	testdata.CompareFile(this.T(), this.filePathReal, this.fileBytes)
 
-	err = FileWrite("????/????.txt", input, false)
-	assert.NotNil(t, err)
+	assert.Nil(this.T(), FileWrite(this.filePathReal, this.fileBytes, true))
+	testdata.CompareFile(this.T(), this.filePathReal, this.fileBytesBom)
 
-	err = FileWrite("????.txt", input, false)
-	assert.NotNil(t, err)
-
-	err = os.RemoveAll(path.Dir(filePath))
-	assert.Nil(t, err)
+	assert.NotNil(this.T(), FileWrite(this.filePathFake, this.fileBytes, false))
 }
