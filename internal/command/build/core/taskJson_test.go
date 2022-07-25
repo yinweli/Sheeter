@@ -87,14 +87,14 @@ func (this *SuiteTaskJson) TestTaskJson() {
 	target.close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	target.element.Excel = testdata.UnknownStr
+	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runJson())
 	target.close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	target.element.Sheet = testdata.UnknownStr
+	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runJson())
 	target.close()
 }

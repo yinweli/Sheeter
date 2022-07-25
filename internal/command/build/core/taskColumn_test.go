@@ -48,14 +48,14 @@ func (this *SuiteTaskColumn) TestTaskColumn() {
 	target.close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	target.global.LineOfField = 10
+	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runColumn())
 	target.close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	target.global.LineOfNote = 10
+	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runColumn())
 	target.close()
 

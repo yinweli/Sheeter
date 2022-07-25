@@ -5,26 +5,36 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestTaskJsonSchema(t *testing.T) {
-	dir := testdata.ChangeWorkDir()
-	defer testdata.RestoreWorkDir(dir)
-
-	task := mockTaskJsonSchema()
-	err := task.runJsonSchema()
-	assert.Nil(t, err)
-	bytes, err := os.ReadFile(task.jsonSchemaFilePath())
-	assert.Nil(t, err)
-	assert.Equal(t, mockTaskJsonSchemaString(), string(bytes))
-	task.close()
-
-	err = os.RemoveAll(pathSchema)
-	assert.Nil(t, err)
+	suite.Run(t, new(SuiteTaskJsonSchema))
 }
 
-func mockTaskJsonSchema() *Task {
+type SuiteTaskJsonSchema struct {
+	suite.Suite
+	workDir   string
+	dataBytes []byte
+}
+
+func (this *SuiteTaskJsonSchema) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+	this.dataBytes = []byte(`{
+    "name0": 0,
+    "name1": false,
+    "name2": 0,
+    "name3": ""
+}`)
+}
+
+func (this *SuiteTaskJsonSchema) TearDownSuite() {
+	_ = os.RemoveAll(pathSchema)
+	testdata.RestoreWorkDir(this.workDir)
+}
+
+func (this *SuiteTaskJsonSchema) target() *Task {
 	return &Task{
 		global: &Global{},
 		element: &Element{
@@ -40,11 +50,9 @@ func mockTaskJsonSchema() *Task {
 	}
 }
 
-func mockTaskJsonSchemaString() string {
-	return `{
-    "name0": 0,
-    "name1": false,
-    "name2": 0,
-    "name3": ""
-}`
+func (this *SuiteTaskJsonSchema) TestTaskJsonSchema() {
+	target := this.target()
+	assert.Nil(this.T(), target.runJsonSchema())
+	testdata.CompareFile(this.T(), target.jsonSchemaFilePath(), this.dataBytes)
+	target.close()
 }
