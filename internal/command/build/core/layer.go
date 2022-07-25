@@ -6,8 +6,13 @@ import (
 )
 
 const (
-	LayerStruct = iota // 結構階層
-	LayerArray         // 陣列階層
+	LayerArray  = iota // 陣列階層
+	LayerStruct        // 結構階層
+)
+
+const (
+	modeBegin = iota // 開始模式
+	modeEnd          // 結束模式
 )
 
 const tokenArray = "{[]" // 階層字串以'{[]'符號開始, 表示為陣列的開始
@@ -17,24 +22,25 @@ const tokenEnd = "}"     // 階層字串以'}'符號開始, 表示為結構/陣�
 // ParseLayer 解析字串為階層, 格式為 {name 或 {[]name 或 }
 func ParseLayer(input string) (layer []Layer, back int, err error) { // TODO: layerParse還沒做玩
 	tokens := strings.Fields(input)
-	mode := true // 階層模式, true表示是開始模式, false是結束模式; 結束模式下就不可以碰到陣列開始/結構開始, 會視為錯誤
+	mode := modeBegin
 
 	for _, itor := range tokens {
 		switch {
-		case mode && strings.HasPrefix(itor, tokenArray):
+		case mode == modeBegin && strings.HasPrefix(itor,
+			tokenArray): // 由於tokenStruct可能會被辨別為tokenArray的一種, 所以tokenArray要先判斷
 			layer = append(layer, Layer{
 				Name: strings.TrimPrefix(itor, tokenArray),
 				Type: LayerArray,
 			})
 
-		case mode && strings.HasPrefix(itor, tokenStruct):
+		case mode == modeBegin && strings.HasPrefix(itor, tokenStruct):
 			layer = append(layer, Layer{
 				Name: strings.TrimPrefix(itor, tokenStruct),
 				Type: LayerStruct,
 			})
 
 		case strings.HasPrefix(itor, tokenEnd):
-			mode = false
+			mode = modeEnd
 			back++
 
 		default:
