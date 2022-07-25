@@ -41,18 +41,12 @@ func (this *SuiteTmpl) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteTmpl) check(filepath string, expected []byte) {
-	actual, err := os.ReadFile(filepath)
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), expected, actual)
-}
-
 func (this *SuiteTmpl) TestTmplWrite() {
 	assert.Nil(this.T(), TmplWrite(this.filePathReal, this.tmplContent, this.tmplDatas, false))
-	this.check(this.filePathReal, this.tmplBytes)
+	testdata.CompareFile(this.T(), this.filePathReal, this.tmplBytes)
 
 	assert.Nil(this.T(), TmplWrite(this.filePathReal, this.tmplContent, this.tmplDatas, true))
-	this.check(this.filePathReal, this.tmplBytesBom)
+	testdata.CompareFile(this.T(), this.filePathReal, this.tmplBytesBom)
 
 	assert.NotNil(this.T(), TmplWrite(this.filePathReal, "{{{$.Value}}", nil, false))
 	assert.NotNil(this.T(), TmplWrite(this.filePathReal, this.tmplContent, "nothing!", false))

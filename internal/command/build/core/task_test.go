@@ -51,121 +51,78 @@ func (this *SuiteTask) target() *Task {
 
 func (this *SuiteTask) TestTask() {
 	target := this.target()
-	defer target.close()
-
 	assert.Nil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskExcelPath() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.global.ExcelPath = testdata.UnknownStr
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskLineOfField() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.global.LineOfField = 10
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskLineOfNote() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.global.LineOfNote = 10
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskExcel1() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.Defect1Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskExcel2() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.Defect2Excel
 	assert.Nil(this.T(), target.Run(this.progress)) // 測試其實會成功
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskExcel3() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.Defect3Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskExcel4() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.Defect4Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskExcel5() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.Defect5Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskExcel6() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.Defect6Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskExcel7() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.Defect7Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskExcel8() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.Defect8Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskExcel9() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.Defect9Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskUnknownExcel() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.UnknownStr
 	assert.NotNil(this.T(), target.Run(this.progress))
-}
+	target.close()
 
-func (this *SuiteTask) TestTaskUnknownSheet() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), target.Run(this.progress))
+	target.close()
 }
 
 func (this *SuiteTask) TestNewTask() {

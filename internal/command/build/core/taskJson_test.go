@@ -16,13 +16,13 @@ func TestTaskJson(t *testing.T) {
 type SuiteTaskJson struct {
 	suite.Suite
 	workDir    string
-	jsonBytes  []byte
+	dataBytes  []byte
 	emptyBytes []byte
 }
 
 func (this *SuiteTaskJson) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.jsonBytes = []byte(`{
+	this.dataBytes = []byte(`{
     "1": {
         "name0": 1,
         "name1": true,
@@ -68,52 +68,33 @@ func (this *SuiteTaskJson) target() *Task {
 	}
 }
 
-func (this *SuiteTaskJson) check(filepath string, expected []byte) {
-	actual, err := os.ReadFile(filepath)
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), expected, actual)
-}
-
 func (this *SuiteTaskJson) TestTaskJson() {
 	target := this.target()
-	defer target.close()
-
 	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.Nil(this.T(), target.runJson())
-	this.check(target.jsonFilePath(), this.jsonBytes)
-}
+	testdata.CompareFile(this.T(), target.jsonFilePath(), this.dataBytes)
+	target.close()
 
-func (this *SuiteTaskJson) TestTaskJsonExcelEmpty() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.EmptyExcel)
 	assert.Nil(this.T(), target.runJson())
-	this.check(target.jsonFilePath(), this.emptyBytes)
-}
+	testdata.CompareFile(this.T(), target.jsonFilePath(), this.emptyBytes)
+	target.close()
 
-func (this *SuiteTaskJson) TestTaskJsonExcel9() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.Defect9Excel)
 	assert.NotNil(this.T(), target.runJson())
-}
+	target.close()
 
-func (this *SuiteTaskJson) TestTaskJsonUnknownExcel() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	target.element.Excel = testdata.UnknownStr
 	assert.NotNil(this.T(), target.runJson())
-}
+	target.close()
 
-func (this *SuiteTaskJson) TestTaskJsonUnknownSheet() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	target.element.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), target.runJson())
+	target.close()
 }

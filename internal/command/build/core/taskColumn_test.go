@@ -42,86 +42,58 @@ func (this *SuiteTaskColumn) target() *Task {
 
 func (this *SuiteTaskColumn) TestTaskColumn() {
 	target := this.target()
-	defer target.close()
-
 	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.Nil(this.T(), target.runColumn())
 	assert.Equal(this.T(), this.columns, target.columns)
-}
+	target.close()
 
-func (this *SuiteTaskColumn) TestTaskColumnLineOfField() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	target.global.LineOfField = 10
 	assert.NotNil(this.T(), target.runColumn())
-}
+	target.close()
 
-func (this *SuiteTaskColumn) TestTaskColumnLineOfNote() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	target.global.LineOfNote = 10
 	assert.NotNil(this.T(), target.runColumn())
-}
+	target.close()
 
-func (this *SuiteTaskColumn) TestTaskColumnExcel2() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.Defect2Excel)
 	assert.Nil(this.T(), target.runColumn()) // 測試其實會成功
 	assert.Equal(this.T(), 4, len(target.columns))
-}
+	target.close()
 
-func (this *SuiteTaskColumn) TestTaskColumnExcel3() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.Defect3Excel)
 	assert.NotNil(this.T(), target.runColumn())
-}
+	target.close()
 
-func (this *SuiteTaskColumn) TestTaskColumnExcel4() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.Defect4Excel)
 	assert.NotNil(this.T(), target.runColumn())
-}
+	target.close()
 
-func (this *SuiteTaskColumn) TestTaskColumnExcel5() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.Defect5Excel)
 	assert.NotNil(this.T(), target.runColumn())
-}
+	target.close()
 
-func (this *SuiteTaskColumn) TestTaskColumnExcel6() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.Defect6Excel)
 	assert.NotNil(this.T(), target.runColumn())
-}
+	target.close()
 
-func (this *SuiteTaskColumn) TestTaskColumnExcel7() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.Defect7Excel)
 	assert.NotNil(this.T(), target.runColumn())
-}
+	target.close()
 
-func (this *SuiteTaskColumn) TestTaskColumnExcel8() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.Defect8Excel)
 	assert.NotNil(this.T(), target.runColumn())
+	target.close()
 }
 
 func TestFromList(t *testing.T) {

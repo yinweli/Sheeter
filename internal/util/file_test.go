@@ -37,18 +37,12 @@ func (this *SuiteFileWrite) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteFileWrite) check(filepath string, expected []byte) {
-	actual, err := os.ReadFile(filepath)
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), expected, actual)
-}
-
 func (this *SuiteFileWrite) TestFileWrite() {
 	assert.Nil(this.T(), FileWrite(this.filePathReal, this.fileBytes, false))
-	this.check(this.filePathReal, this.fileBytes)
+	testdata.CompareFile(this.T(), this.filePathReal, this.fileBytes)
 
 	assert.Nil(this.T(), FileWrite(this.filePathReal, this.fileBytes, true))
-	this.check(this.filePathReal, this.fileBytesBom)
+	testdata.CompareFile(this.T(), this.filePathReal, this.fileBytesBom)
 
 	assert.NotNil(this.T(), FileWrite(this.filePathFake, this.fileBytes, false))
 }

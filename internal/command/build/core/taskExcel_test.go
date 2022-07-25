@@ -30,40 +30,27 @@ func (this *SuiteTaskExcel) target() *Task {
 
 func (this *SuiteTaskExcel) TestTaskExcel() {
 	target := this.target()
-	defer target.close()
-
 	assert.Nil(this.T(), target.runExcel())
 	assert.NotNil(this.T(), target.excel)
-}
+	target.close()
 
-func (this *SuiteTaskExcel) TestTaskExcelPath() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.global.ExcelPath = ""
 	assert.NotNil(this.T(), target.runExcel())
-}
+	target.close()
 
-func (this *SuiteTaskExcel) TestTaskExcel1() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.Defect1Excel
 	assert.NotNil(this.T(), target.runExcel())
-}
+	target.close()
 
-func (this *SuiteTaskExcel) TestTaskExcelUnknownExcel() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Excel = testdata.UnknownStr
 	assert.NotNil(this.T(), target.runExcel())
-}
+	target.close()
 
-func (this *SuiteTaskExcel) TestTaskExcelUnknownSheet() {
-	target := this.target()
-	defer target.close()
-
+	target = this.target()
 	target.element.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), target.runExcel())
+	target.close()
 }

@@ -40,18 +40,12 @@ func (this *SuiteJsonWrite) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteJsonWrite) check(filepath string, expected []byte) {
-	actual, err := os.ReadFile(filepath)
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), expected, actual)
-}
-
 func (this *SuiteJsonWrite) TestJsonWrite() {
 	assert.Nil(this.T(), JsonWrite(this.filePathReal, this.jsonDatas, false))
-	this.check(this.filePathReal, this.jsonBytes)
+	testdata.CompareFile(this.T(), this.filePathReal, this.jsonBytes)
 
 	assert.Nil(this.T(), JsonWrite(this.filePathReal, this.jsonDatas, true))
-	this.check(this.filePathReal, this.jsonBytesBom)
+	testdata.CompareFile(this.T(), this.filePathReal, this.jsonBytesBom)
 
 	assert.NotNil(this.T(), JsonWrite(this.filePathFake, this.jsonDatas, false))
 }
