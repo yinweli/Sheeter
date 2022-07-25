@@ -5,7 +5,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestFieldBoolArray(t *testing.T) {
@@ -43,7 +42,7 @@ func (this *SuiteFieldBoolArray) TestToJsonValue() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []bool{true, false, true, false, true}, result)
 
-	_, err = target.ToJsonValue(testdata.UnknownStr)
+	_, err = target.ToJsonValue("?????")
 	assert.NotNil(this.T(), err)
 }
 
@@ -54,6 +53,6 @@ func (this *SuiteFieldBoolArray) TestToLuaValue() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "{true,false,true,false,true}", result)
 
-	_, err = target.ToLuaValue(testdata.UnknownStr)
+	_, err = target.ToLuaValue("?????")
 	assert.NotNil(this.T(), err)
 }

@@ -27,6 +27,6 @@ func (this *SuiteField) TestParseField() {
 	_, _, err = ParseField("fake#fake")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseField("unknown")
+	_, _, err = ParseField("?????")
 	assert.NotNil(this.T(), err)
 }
