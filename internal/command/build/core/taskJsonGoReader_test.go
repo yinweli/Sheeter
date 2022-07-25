@@ -21,7 +21,7 @@ func TestGoReader(t *testing.T) {
 	task.close()
 
 	task = mockTaskGoReader()
-	task.element.Excel = testdata.UnknownExcel
+	task.element.Excel = testdata.UnknownStr
 	err = task.runJsonGoReader()
 	assert.NotNil(t, err)
 	task.close()

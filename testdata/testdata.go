@@ -5,8 +5,6 @@ import (
 )
 
 const UnknownStr = "?????"
-const UnknownExcel = "?????.xlsx"
-const UnknownSheet = "?????"
 const RealConfig = "real.yaml"
 const Defect1Config = "config.defect1.yaml"
 const Defect2Config = "config.defect2.yaml"

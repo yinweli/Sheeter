@@ -156,7 +156,7 @@ func (this *SuiteTask) TestTaskUnknownExcel() {
 	target := this.target()
 	defer target.close()
 
-	target.element.Excel = testdata.UnknownExcel
+	target.element.Excel = testdata.UnknownStr
 	assert.NotNil(this.T(), target.Run(this.progress))
 }
 
@@ -164,7 +164,7 @@ func (this *SuiteTask) TestTaskUnknownSheet() {
 	target := this.target()
 	defer target.close()
 
-	target.element.Sheet = testdata.UnknownSheet
+	target.element.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), target.Run(this.progress))
 }
 

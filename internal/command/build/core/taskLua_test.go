@@ -37,7 +37,7 @@ func TestTaskLua(t *testing.T) {
 	task.close()
 
 	task = mockTaskLua()
-	task.element.Excel = testdata.UnknownExcel
+	task.element.Excel = testdata.UnknownStr
 	task.excel = testdata.GetTestExcel(testdata.RealExcel)
 	err = task.runLua()
 	assert.NotNil(t, err)

@@ -4,42 +4,19 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/suite"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestTaskExcel(t *testing.T) {
-	task := mockTaskExcel()
-	err := task.runExcel()
-	assert.Nil(t, err)
-	assert.NotNil(t, task.excel)
-	task.close()
-
-	task = mockTaskExcel()
-	task.global.ExcelPath = ""
-	err = task.runExcel()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskExcel()
-	task.element.Excel = testdata.Defect1Excel
-	err = task.runExcel()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskExcel()
-	task.element.Excel = testdata.UnknownStr
-	err = task.runExcel()
-	assert.NotNil(t, err)
-	task.close()
-
-	task = mockTaskExcel()
-	task.element.Sheet = testdata.UnknownStr
-	err = task.runExcel()
-	assert.NotNil(t, err)
-	task.close()
+	suite.Run(t, new(SuiteTaskExcel))
 }
 
-func mockTaskExcel() *Task {
+type SuiteTaskExcel struct {
+	suite.Suite
+}
+
+func (this *SuiteTaskExcel) target() *Task {
 	return &Task{
 		global: &Global{
 			ExcelPath: testdata.RootPath,
@@ -49,4 +26,44 @@ func mockTaskExcel() *Task {
 			Sheet: testdata.SheetName,
 		},
 	}
+}
+
+func (this *SuiteTaskExcel) TestTaskExcel() {
+	target := this.target()
+	defer target.close()
+
+	assert.Nil(this.T(), target.runExcel())
+	assert.NotNil(this.T(), target.excel)
+}
+
+func (this *SuiteTaskExcel) TestTaskExcelPath() {
+	target := this.target()
+	defer target.close()
+
+	target.global.ExcelPath = ""
+	assert.NotNil(this.T(), target.runExcel())
+}
+
+func (this *SuiteTaskExcel) TestTaskExcel1() {
+	target := this.target()
+	defer target.close()
+
+	target.element.Excel = testdata.Defect1Excel
+	assert.NotNil(this.T(), target.runExcel())
+}
+
+func (this *SuiteTaskExcel) TestTaskExcelUnknownExcel() {
+	target := this.target()
+	defer target.close()
+
+	target.element.Excel = testdata.UnknownStr
+	assert.NotNil(this.T(), target.runExcel())
+}
+
+func (this *SuiteTaskExcel) TestTaskExcelUnknownSheet() {
+	target := this.target()
+	defer target.close()
+
+	target.element.Sheet = testdata.UnknownStr
+	assert.NotNil(this.T(), target.runExcel())
 }

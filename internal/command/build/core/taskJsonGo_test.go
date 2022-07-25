@@ -23,7 +23,7 @@ func TestTaskJsonGo(t *testing.T) {
 	task.close()
 
 	task = mockTaskJsonGo()
-	task.element.Excel = testdata.UnknownExcel
+	task.element.Excel = testdata.UnknownStr
 	err = task.runJsonGo()
 	assert.NotNil(t, err)
 	task.close()

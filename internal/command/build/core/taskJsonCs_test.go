@@ -23,7 +23,7 @@ func TestTaskJsonCs(t *testing.T) {
 	task.close()
 
 	task = mockTaskJsonCs()
-	task.element.Excel = testdata.UnknownExcel
+	task.element.Excel = testdata.UnknownStr
 	err = task.runJsonCs()
 	assert.NotNil(t, err)
 	task.close()

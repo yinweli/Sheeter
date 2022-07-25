@@ -37,7 +37,7 @@ func TestTaskJson(t *testing.T) {
 	task.close()
 
 	task = mockTaskJson()
-	task.element.Excel = testdata.UnknownExcel
+	task.element.Excel = testdata.UnknownStr
 	task.excel = testdata.GetTestExcel(testdata.RealExcel)
 	err = task.runJson()
 	assert.NotNil(t, err)

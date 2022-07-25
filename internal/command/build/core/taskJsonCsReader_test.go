@@ -21,7 +21,7 @@ func TestCsReader(t *testing.T) {
 	task.close()
 
 	task = mockTaskCsReader()
-	task.element.Excel = testdata.UnknownExcel
+	task.element.Excel = testdata.UnknownStr
 	err = task.runJsonCsReader()
 	assert.NotNil(t, err)
 	task.close()
