@@ -4,29 +4,55 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/stretchr/testify/suite"
 )
 
 func TestFieldPkey(t *testing.T) {
-	field := mockFieldPkey()
-	assert.Equal(t, "pkey", field.Type())
-	assert.Equal(t, true, field.IsShow())
-	assert.Equal(t, true, field.IsPkey())
-	assert.Equal(t, int64(0), field.ToJsonDefault())
-
-	result, err := field.ToJsonValue("123456789")
-	assert.Nil(t, err)
-	assert.Equal(t, int64(123456789), result)
-	_, err = field.ToJsonValue(testdata.UnknownStr)
-	assert.NotNil(t, err)
-
-	result, err = field.ToLuaValue("123456789")
-	assert.Nil(t, err)
-	assert.Equal(t, "123456789", result)
-	_, err = field.ToLuaValue(testdata.UnknownStr)
-	assert.NotNil(t, err)
+	suite.Run(t, new(SuiteFieldPkey))
 }
 
-func mockFieldPkey() *FieldPkey {
+type SuiteFieldPkey struct {
+	suite.Suite
+}
+
+func (this *SuiteFieldPkey) target() *FieldPkey {
 	return &FieldPkey{}
+}
+
+func (this *SuiteFieldPkey) TestType() {
+	assert.Equal(this.T(), "pkey", this.target().Type())
+}
+
+func (this *SuiteFieldPkey) TestIsShow() {
+	assert.Equal(this.T(), true, this.target().IsShow())
+}
+
+func (this *SuiteFieldPkey) TestIsPkey() {
+	assert.Equal(this.T(), true, this.target().IsPkey())
+}
+
+func (this *SuiteFieldPkey) TestToJsonDefault() {
+	assert.Equal(this.T(), int64(0), this.target().ToJsonDefault())
+}
+
+func (this *SuiteFieldPkey) TestToJsonValue() {
+	target := this.target()
+
+	result, err := target.ToJsonValue("123456789")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), int64(123456789), result)
+
+	_, err = target.ToJsonValue("?????")
+	assert.NotNil(this.T(), err)
+}
+
+func (this *SuiteFieldPkey) TestToLuaValue() {
+	target := this.target()
+
+	result, err := target.ToLuaValue("123456789")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "123456789", result)
+
+	_, err = target.ToLuaValue("?????")
+	assert.NotNil(this.T(), err)
 }
