@@ -19,3 +19,14 @@ func FirstLower(input string) string {
 
 	return strings.ToLower(input[:1]) + input[1:]
 }
+
+// AllSame 檢查字串是否由相同字元組成
+func AllSame(input string) bool {
+	for _, itor := range input {
+		if itor != int32(input[0]) {
+			return false
+		} // if
+	} // for
+
+	return true
+}

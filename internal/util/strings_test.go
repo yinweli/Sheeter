@@ -24,3 +24,9 @@ func (this *SuiteStrings) TestFirstLower() {
 	assert.Equal(this.T(), "", FirstLower(""))
 	assert.Equal(this.T(), "testString", FirstLower("TestString"))
 }
+
+func (this *SuiteStrings) TestAllSame() {
+	assert.Equal(this.T(), true, AllSame(""))
+	assert.Equal(this.T(), true, AllSame("aaaaa"))
+	assert.Equal(this.T(), false, AllSame("aa1aa"))
+}
