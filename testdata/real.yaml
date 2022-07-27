@@ -2,8 +2,9 @@ global:
   excelPath: .\
   bom: true
   lineOfField: 1
-  lineOfNote: 2
-  lineOfData: 3
+  lineOfLayer: 2
+  lineOfNote: 3
+  lineOfData: 4
 
 elements:
   - excel: real.xlsx

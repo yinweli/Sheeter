@@ -22,14 +22,14 @@ const tokenStruct = "{"  // 階層字串以'{'符號開始, 表示為結構的�
 const tokenEnd = "}"     // 階層字串以'}'符號開始, 表示為結構/陣列的結束
 
 // ParseLayer 解析字串為階層, 格式為'{[]name'或'{name'或'}', 以空格分隔
-func ParseLayer(input string) (layer []Layer, back int, err error) {
+func ParseLayer(input string) (layers []Layer, back int, err error) {
 	tokens := strings.Fields(input)
 	mode := modeBegin
 
 	for _, itor := range tokens {
 		if mode == modeBegin && strings.HasPrefix(itor, tokenArray) { // tokenArray要先判斷, 不然會有錯誤
 			if name := strings.TrimPrefix(itor, tokenArray); util.VariableCheck(name) {
-				layer = append(layer, Layer{
+				layers = append(layers, Layer{
 					Name: name,
 					Type: LayerArray,
 				})
@@ -39,7 +39,7 @@ func ParseLayer(input string) (layer []Layer, back int, err error) {
 
 		if mode == modeBegin && strings.HasPrefix(itor, tokenStruct) {
 			if name := strings.TrimPrefix(itor, tokenStruct); util.VariableCheck(name) {
-				layer = append(layer, Layer{
+				layers = append(layers, Layer{
 					Name: name,
 					Type: LayerStruct,
 				})
@@ -56,13 +56,13 @@ func ParseLayer(input string) (layer []Layer, back int, err error) {
 		goto failed
 	} // for
 
-	for _, itor := range layer {
+	for _, itor := range layers {
 		if itor.Name == "" {
 			goto failed
 		} // if
 	} // for
 
-	return layer, back, nil
+	return layers, back, nil
 
 failed:
 	return nil, 0, fmt.Errorf("layer format failed: %s", input)

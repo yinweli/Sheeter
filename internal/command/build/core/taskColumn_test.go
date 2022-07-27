@@ -31,7 +31,8 @@ func (this *SuiteTaskColumn) target() *Task {
 	return &Task{
 		global: &Global{
 			LineOfField: 1,
-			LineOfNote:  2,
+			LineOfLayer: 2,
+			LineOfNote:  3,
 		},
 		element: &Element{
 			Excel: testdata.RealExcel,

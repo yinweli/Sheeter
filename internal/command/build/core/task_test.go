@@ -39,8 +39,9 @@ func (this *SuiteTask) target() *Task {
 		global: &Global{
 			ExcelPath:   testdata.RootPath,
 			LineOfField: 1,
+			LineOfLayer: 2,
 			LineOfNote:  2,
-			LineOfData:  3,
+			LineOfData:  4,
 		},
 		element: &Element{
 			Excel: testdata.RealExcel,

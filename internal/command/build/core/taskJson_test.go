@@ -53,7 +53,7 @@ func (this *SuiteTaskJson) TearDownSuite() {
 func (this *SuiteTaskJson) target() *Task {
 	return &Task{
 		global: &Global{
-			LineOfData: 3,
+			LineOfData: 4,
 		},
 		element: &Element{
 			Excel: testdata.RealExcel,

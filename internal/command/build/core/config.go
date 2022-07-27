@@ -19,6 +19,10 @@ func (this *Config) Check() error {
 		return fmt.Errorf("global: LineOfField <= 0")
 	} // if
 
+	if this.Global.LineOfLayer <= 0 {
+		return fmt.Errorf("global: LineOfLayer <= 0")
+	} // if
+
 	if this.Global.LineOfNote <= 0 {
 		return fmt.Errorf("global: LineOfNote <= 0")
 	} // if
@@ -29,6 +33,10 @@ func (this *Config) Check() error {
 
 	if this.Global.LineOfField >= this.Global.LineOfData {
 		return fmt.Errorf("global: LineOfField(%d) >= LineOfData(%d)", this.Global.LineOfField, this.Global.LineOfData)
+	} // if
+
+	if this.Global.LineOfLayer >= this.Global.LineOfData {
+		return fmt.Errorf("global: LineOfLayer(%d) >= LineOfData(%d)", this.Global.LineOfLayer, this.Global.LineOfData)
 	} // if
 
 	if this.Global.LineOfNote >= this.Global.LineOfData {
@@ -53,6 +61,7 @@ type Global struct {
 	ExcelPath   string `yaml:"excelPath"`   // 來源excel路徑
 	Bom         bool   `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
 	LineOfField int    `yaml:"lineOfField"` // 欄位行號(1為起始行)
+	LineOfLayer int    `yaml:"lineOfLayer"` // 階層行號(1為起始行)
 	LineOfNote  int    `yaml:"lineOfNote"`  // 註解行號(1為起始行)
 	LineOfData  int    `yaml:"lineOfData"`  // 資料起始行號(1為起始行)
 }

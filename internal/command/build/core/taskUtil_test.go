@@ -89,7 +89,7 @@ func (this *SuiteTaskUtil) TestGetRowContent() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []string{"name0#pkey", "name1#bool", "name2#int", "name3#text", "empty#empty"}, cols)
 
-	cols, err = target.getRowContent(2)
+	cols, err = target.getRowContent(3)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []string{"note0", "note1", "note2", "note3", "empty"}, cols)
 

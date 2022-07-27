@@ -22,8 +22,9 @@ func (this *SuiteConfig) target() *Config {
 			ExcelPath:   "excel",
 			Bom:         true,
 			LineOfField: 1,
-			LineOfNote:  2,
-			LineOfData:  3,
+			LineOfLayer: 2,
+			LineOfNote:  3,
+			LineOfData:  4,
 		},
 		Elements: []Element{{
 			Excel: "excel.xlsx",
@@ -41,6 +42,10 @@ func (this *SuiteConfig) TestCheck() {
 	assert.NotNil(this.T(), target.Check())
 
 	target = this.target()
+	target.Global.LineOfLayer = 0
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
 	target.Global.LineOfNote = 0
 	assert.NotNil(this.T(), target.Check())
 
@@ -49,11 +54,15 @@ func (this *SuiteConfig) TestCheck() {
 	assert.NotNil(this.T(), target.Check())
 
 	target = this.target()
-	target.Global.LineOfField = 3
+	target.Global.LineOfField = 4
 	assert.NotNil(this.T(), target.Check())
 
 	target = this.target()
-	target.Global.LineOfNote = 3
+	target.Global.LineOfLayer = 4
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Global.LineOfNote = 4
 	assert.NotNil(this.T(), target.Check())
 
 	target = this.target()

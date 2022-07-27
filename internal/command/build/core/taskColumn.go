@@ -2,8 +2,6 @@ package core
 
 import (
 	"fmt"
-
-	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // runColumn 建立欄位列表
@@ -14,6 +12,12 @@ func (this *Task) runColumn() error {
 		return fmt.Errorf("read column failed: %s\nfield line not found", this.originalName())
 	} // if
 
+	layerLine, err := this.getRowContent(this.global.LineOfLayer)
+
+	if err != nil {
+		return fmt.Errorf("read column failed: %s\nlayer line not found", this.originalName())
+	} // if
+
 	noteLine, err := this.getRowContent(this.global.LineOfNote)
 
 	if err != nil {
@@ -21,7 +25,8 @@ func (this *Task) runColumn() error {
 	} // if
 
 	this.columns = []*Column{} // 把欄位列表清空, 避免不必要的問題
-	duplicateField := util.NewDuplicate()
+	duplField := NewDuplField()
+	duplLayer := NewDuplLayer()
 	pkey := false
 
 	for col, itor := range fieldLine {
@@ -35,7 +40,7 @@ func (this *Task) runColumn() error {
 			return fmt.Errorf("read column failed: %s [%s]\nfield parser failed\n%w", this.originalName(), itor, err)
 		} // if
 
-		if duplicateField.Check(name) == false { // 欄位名稱不可重複
+		if duplField.Check(name) == false {
 			return fmt.Errorf("read column failed: %s [%s]\nfield duplicate", this.originalName(), itor)
 		} // if
 
@@ -45,6 +50,18 @@ func (this *Task) runColumn() error {
 
 		if field.IsPkey() {
 			pkey = true
+		} // if
+
+		layer := fromList(layerLine, col)
+		layers, _, err := ParseLayer(layer)
+
+		if err != nil {
+			return fmt.Errorf("read column failed: %s [%s]\nlayer parser failed\n%w", this.originalName(), itor,
+				err)
+		} // if
+
+		if duplLayer.Check(layers...) == false {
+			return fmt.Errorf("read column failed: %s [%s]\nfield duplicate", this.originalName(), itor)
 		} // if
 
 		note := fromList(noteLine, col)

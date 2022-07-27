@@ -43,7 +43,7 @@ func (this *SuiteTaskLua) TearDownSuite() {
 func (this *SuiteTaskLua) target() *Task {
 	return &Task{
 		global: &Global{
-			LineOfData: 3,
+			LineOfData: 4,
 		},
 		element: &Element{
 			Excel: testdata.RealExcel,

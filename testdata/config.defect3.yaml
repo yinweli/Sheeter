@@ -2,9 +2,9 @@ global:
   excelPath: test
   bom: true
   lineOfField: 1
-  lineOfLayer: 4 # 故意寫錯
-  lineOfNote: 3
-  lineOfData: 2
+  lineOfLayer: 2
+  lineOfNote: 4 # 故意寫錯
+  lineOfData: 3
 
 elements:
   - excel: test

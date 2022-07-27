@@ -1,4 +1,4 @@
-package util
+package core
 
 import (
 	"testing"
@@ -8,30 +8,30 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-func TestDuplicate(t *testing.T) {
-	suite.Run(t, new(SuiteDuplicate))
+func TestDuplField(t *testing.T) {
+	suite.Run(t, new(SuiteDuplField))
 }
 
-type SuiteDuplicate struct {
+type SuiteDuplField struct {
 	suite.Suite
 	item1 string
 	item2 string
 	item3 string
 }
 
-func (this *SuiteDuplicate) SetupSuite() {
+func (this *SuiteDuplField) SetupSuite() {
 	this.item1 = "001"
 	this.item2 = "001/002"
 	this.item3 = "001/002/003"
 }
 
-func (this *SuiteDuplicate) target() *Duplicate {
-	return &Duplicate{
-		datas: hashset.New(),
+func (this *SuiteDuplField) target() *DuplField {
+	return &DuplField{
+		dupls: hashset.New(),
 	}
 }
 
-func (this *SuiteDuplicate) TestCheck() {
+func (this *SuiteDuplField) TestCheck() {
 	target := this.target()
 
 	assert.True(this.T(), target.Check(this.item1))
@@ -42,6 +42,6 @@ func (this *SuiteDuplicate) TestCheck() {
 	assert.False(this.T(), target.Check(this.item3))
 }
 
-func (this *SuiteDuplicate) TestNewDuplicate() {
-	assert.NotNil(this.T(), NewDuplicate())
+func (this *SuiteDuplField) TestNewDuplField() {
+	assert.NotNil(this.T(), NewDuplField())
 }
