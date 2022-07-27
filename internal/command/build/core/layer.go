@@ -3,6 +3,8 @@ package core
 import (
 	"fmt"
 	"strings"
+
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 const (
@@ -25,30 +27,45 @@ func ParseLayer(input string) (layer []Layer, back int, err error) {
 	mode := modeBegin
 
 	for _, itor := range tokens {
-		switch {
-		case mode == modeBegin && strings.HasPrefix(itor,
-			tokenArray): // 由於tokenStruct可能會被辨別為tokenArray的一種, 所以tokenArray要先判斷
-			layer = append(layer, Layer{
-				Name: strings.TrimPrefix(itor, tokenArray),
-				Type: LayerArray,
-			})
+		if mode == modeBegin && strings.HasPrefix(itor, tokenArray) { // tokenArray要先判斷, 不然會有錯誤
+			if name := strings.TrimPrefix(itor, tokenArray); util.VariableCheck(name) {
+				layer = append(layer, Layer{
+					Name: name,
+					Type: LayerArray,
+				})
+				continue
+			} // if
+		} // if
 
-		case mode == modeBegin && strings.HasPrefix(itor, tokenStruct):
-			layer = append(layer, Layer{
-				Name: strings.TrimPrefix(itor, tokenStruct),
-				Type: LayerStruct,
-			})
+		if mode == modeBegin && strings.HasPrefix(itor, tokenStruct) {
+			if name := strings.TrimPrefix(itor, tokenStruct); util.VariableCheck(name) {
+				layer = append(layer, Layer{
+					Name: name,
+					Type: LayerStruct,
+				})
+				continue
+			} // if
+		} // if
 
-		case strings.HasPrefix(itor, tokenEnd):
+		if strings.HasPrefix(itor, tokenEnd) && util.AllSame(itor) {
 			mode = modeEnd
-			back++
+			back += len(itor)
+			continue
+		} // if
 
-		default:
-			return nil, 0, fmt.Errorf("layer format failed: %s", input)
-		} // switch
+		goto failed
+	} // for
+
+	for _, itor := range layer {
+		if itor.Name == "" {
+			goto failed
+		} // if
 	} // for
 
 	return layer, back, nil
+
+failed:
+	return nil, 0, fmt.Errorf("layer format failed: %s", input)
 }
 
 // Layer 階層資料
