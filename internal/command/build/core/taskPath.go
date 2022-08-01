@@ -69,8 +69,7 @@ func (this *Task) fileName(ext ...string) string {
 	excelName := util.FirstLower(this.excelName())
 	sheetName := util.FirstUpper(this.element.Sheet)
 
-	var fileNames []string
-
+	fileNames := []string{}
 	fileNames = append(fileNames, excelName+sheetName)
 	fileNames = append(fileNames, ext...)
 

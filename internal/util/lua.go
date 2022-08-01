@@ -24,7 +24,7 @@ func LuaBool(input string) (result string, err error) {
 
 // LuaBoolArray 轉換為lua布林值陣列
 func LuaBoolArray(input string) (result string, err error) {
-	var values []string
+	values := []string{}
 
 	for _, itor := range strings.Split(input, separateArray) {
 		value, err := LuaBool(itor)

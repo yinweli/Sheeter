@@ -40,7 +40,7 @@ func (this *Task) runLua() error {
 				continue
 			} // if
 
-			var data string
+			data := ""
 
 			if col >= 0 && col < len(datas) { // 資料的數量可能因為空白格的關係會短缺, 所以要檢查一下
 				data = datas[col]
