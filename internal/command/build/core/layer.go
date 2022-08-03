@@ -29,7 +29,7 @@ func ParseLayer(input string) (layers []Layer, back int, err error) {
 	mode := modeBegin
 	divider := 0
 
-	for index, itor := range tokens {
+	for i, itor := range tokens {
 		if mode == modeBegin && strings.HasPrefix(itor, tokenArray) { // tokenArray要先判斷, 不然會有錯誤
 			if name := strings.TrimPrefix(itor, tokenArray); util.VariableCheck(name) {
 				layers = append(layers, Layer{
@@ -50,7 +50,7 @@ func ParseLayer(input string) (layers []Layer, back int, err error) {
 			} // if
 		} // if
 
-		if mode == modeBegin && strings.HasPrefix(itor, tokenDivider) && divider == 0 && index == 0 {
+		if mode == modeBegin && strings.HasPrefix(itor, tokenDivider) && divider == 0 && i == 0 {
 			if name := strings.TrimPrefix(itor, tokenDivider); name == "" {
 				layers = append(layers, Layer{
 					Type: LayerDivider,
