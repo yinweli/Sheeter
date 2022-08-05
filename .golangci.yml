@@ -29,7 +29,7 @@ linters-settings:
       - whyNoLint
       - wrapperFunc
   gocyclo:
-    min-complexity: 15
+    min-complexity: 50
   goimports:
     local-prefixes: github.com/golangci/golangci-lint
   gomnd:

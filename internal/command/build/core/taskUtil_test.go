@@ -17,12 +17,12 @@ type SuiteTaskUtil struct {
 }
 
 func (this *SuiteTaskUtil) target() *Task {
-	return &Task{
-		element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.SheetName,
-		},
+	target := NewTask(nil, nil)
+	target.element = &Element{
+		Excel: testdata.RealExcel,
+		Sheet: testdata.SheetName,
 	}
+	return target
 }
 
 func (this *SuiteTaskUtil) TestOriginalName() {

@@ -51,21 +51,21 @@ func (this *SuiteTaskJson) TearDownSuite() {
 }
 
 func (this *SuiteTaskJson) target() *Task {
-	return &Task{
-		global: &Global{
-			LineOfData: 4,
-		},
-		element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.SheetName,
-		},
-		columns: []*Column{
-			{Name: "name0", Field: &FieldPkey{}},
-			{Name: "name1", Field: &FieldBool{}},
-			{Name: "name2", Field: &FieldInt{}},
-			{Name: "name3", Field: &FieldText{}},
-		},
+	target := NewTask(nil, nil)
+	target.global = &Global{
+		LineOfData: 4,
 	}
+	target.element = &Element{
+		Excel: testdata.RealExcel,
+		Sheet: testdata.SheetName,
+	}
+	target.columns = []*Column{
+		{Name: "name0", Field: &FieldPkey{}},
+		{Name: "name1", Field: &FieldBool{}},
+		{Name: "name2", Field: &FieldInt{}},
+		{Name: "name3", Field: &FieldText{}},
+	}
+	return target
 }
 
 func (this *SuiteTaskJson) TestTaskJson() {

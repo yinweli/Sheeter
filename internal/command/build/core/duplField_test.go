@@ -25,9 +25,7 @@ func (this *SuiteDuplField) SetupSuite() {
 }
 
 func (this *SuiteDuplField) target() *duplField {
-	return &duplField{
-		datas: map[string]bool{},
-	}
+	return NewDuplField()
 }
 
 func (this *SuiteDuplField) TestCheck() {

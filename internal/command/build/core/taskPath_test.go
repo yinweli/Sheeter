@@ -17,15 +17,15 @@ type SuiteTaskPath struct {
 }
 
 func (this *SuiteTaskPath) target() *Task {
-	return &Task{
-		global: &Global{
-			ExcelPath: "path",
-		},
-		element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.SheetName,
-		},
+	target := NewTask(nil, nil)
+	target.global = &Global{
+		ExcelPath: "path",
 	}
+	target.element = &Element{
+		Excel: testdata.RealExcel,
+		Sheet: testdata.SheetName,
+	}
+	return target
 }
 
 func (this *SuiteTaskPath) TestExcelFilePath() {

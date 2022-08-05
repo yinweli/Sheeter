@@ -45,13 +45,13 @@ func (this *SuiteTaskJsonGoReader) TearDownSuite() {
 }
 
 func (this *SuiteTaskJsonGoReader) target() *Task {
-	return &Task{
-		global: &Global{},
-		element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.SheetName,
-		},
+	target := NewTask(nil, nil)
+	target.global = &Global{}
+	target.element = &Element{
+		Excel: testdata.RealExcel,
+		Sheet: testdata.SheetName,
 	}
+	return target
 }
 
 func (this *SuiteTaskJsonGoReader) TestTaskJsonGoReader() {

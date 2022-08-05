@@ -60,45 +60,45 @@ func (this *SuiteLayer) TestParseLayer() {
 	assert.Equal(this.T(), "name5", layer[5].Name)
 	assert.Equal(this.T(), 5, back)
 
-	layer, back, err = ParseLayer("{ name1")
+	_, _, err = ParseLayer("{ name1")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("{[] name1")
+	_, _, err = ParseLayer("{[] name1")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("{[name1")
+	_, _, err = ParseLayer("{[name1")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("{]name1")
+	_, _, err = ParseLayer("{]name1")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("{name1+")
+	_, _, err = ParseLayer("{name1+")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("{name1 } {name2")
+	_, _, err = ParseLayer("{name1 } {name2")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("{name1 }{name2")
+	_, _, err = ParseLayer("{name1 }{name2")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("{name1 }name2")
+	_, _, err = ParseLayer("{name1 }name2")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("{name1 name2")
+	_, _, err = ParseLayer("{name1 name2")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("} {name1 ")
+	_, _, err = ParseLayer("} {name1 ")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("{name1 /")
+	_, _, err = ParseLayer("{name1 /")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("/ /")
+	_, _, err = ParseLayer("/ /")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer("/name1")
+	_, _, err = ParseLayer("/name1")
 	assert.NotNil(this.T(), err)
 
-	layer, back, err = ParseLayer(testdata.UnknownStr)
+	_, _, err = ParseLayer(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }

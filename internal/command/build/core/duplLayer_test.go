@@ -27,9 +27,7 @@ func (this *SuiteDuplLayer) SetupSuite() {
 }
 
 func (this *SuiteDuplLayer) target() *duplLayer {
-	return &duplLayer{
-		datas: map[string]int{},
-	}
+	return NewDuplLayer()
 }
 
 func (this *SuiteDuplLayer) TestCheck() {

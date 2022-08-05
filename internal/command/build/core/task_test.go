@@ -35,19 +35,19 @@ func (this *SuiteTask) TearDownSuite() {
 }
 
 func (this *SuiteTask) target() *Task {
-	return &Task{
-		global: &Global{
-			ExcelPath:   testdata.RootPath,
-			LineOfField: 1,
-			LineOfLayer: 2,
-			LineOfNote:  2,
-			LineOfData:  4,
-		},
-		element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.SheetName,
-		},
+	target := NewTask(nil, nil)
+	target.global = &Global{
+		ExcelPath:   testdata.RootPath,
+		LineOfField: 1,
+		LineOfLayer: 2,
+		LineOfNote:  2,
+		LineOfData:  4,
 	}
+	target.element = &Element{
+		Excel: testdata.RealExcel,
+		Sheet: testdata.SheetName,
+	}
+	return target
 }
 
 func (this *SuiteTask) TestTask() {

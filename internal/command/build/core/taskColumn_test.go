@@ -28,17 +28,17 @@ func (this *SuiteTaskColumn) SetupSuite() {
 }
 
 func (this *SuiteTaskColumn) target() *Task {
-	return &Task{
-		global: &Global{
-			LineOfField: 1,
-			LineOfLayer: 2,
-			LineOfNote:  3,
-		},
-		element: &Element{
-			Excel: testdata.RealExcel,
-			Sheet: testdata.SheetName,
-		},
+	target := NewTask(nil, nil)
+	target.global = &Global{
+		LineOfField: 1,
+		LineOfLayer: 2,
+		LineOfNote:  3,
 	}
+	target.element = &Element{
+		Excel: testdata.RealExcel,
+		Sheet: testdata.SheetName,
+	}
+	return target
 }
 
 func (this *SuiteTaskColumn) TestTaskColumn() {

@@ -32,6 +32,7 @@ func (this *layoutStacker) PushStructA() bool {
 		if layout, ok := last.Value.(layoutArray); ok {
 			object := layoutStruct{}
 			layout = append(layout, object)
+			last.Value = layout
 			this.datas.PushBack(object)
 			return true
 		} // if

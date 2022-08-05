@@ -12,7 +12,7 @@ type LayoutBuilder struct {
 }
 
 // Add 新增布局
-func (this *LayoutBuilder) Add(name string, note string, field Field, layers []Layer, back int) error {
+func (this *LayoutBuilder) Add(name, note string, field Field, layers []Layer, back int) error {
 	if this.duplField.Check(name) == false {
 		return fmt.Errorf("field duplicate")
 	} // if
