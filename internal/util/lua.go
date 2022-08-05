@@ -4,6 +4,8 @@ import (
 	"strings"
 )
 
+// TODO: 放棄對Lua的支持, 準備刪除吧!
+
 type LuaObj = map[string]string  // lua物件型態
 type LuaObjs = map[string]LuaObj // lua列表型態
 

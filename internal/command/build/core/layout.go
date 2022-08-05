@@ -1,100 +1,126 @@
 package core
 
-// TODO: d n p i j 這些都是結構(節點)名稱, column其實只要記錄他屬於哪個結構(節點)就好
-//       當然也有不屬於結構(節點)的column, 那就是屬於root節點的
-//       結構(節點)不可以同名卻不同類型(陣列/結構)
-//       還是要有地方紀錄結構(節點)的上下屬資料, 才有辦法做layout
-//       最後layout要有能力產出可以裝資料的結構(或是投入資料, 他幫你組裝並丟出物件)
+import (
+	"fmt"
+)
 
-// TODO: layer stack
-// TODO: layout stack
-
-/*
-layout stack: 後進先出堆疊
-    先加一個 root map 到堆疊中
-    然後依照布局增加陣列/map進去堆疊去
-    back的時候會從堆疊中移除最後元素
-
-+------+------+------+------+------+------+------+------+------+------+------+------+
-|col1  |col2  |col3  |col4  |col5  |col6  |col7  |col8  |col9  |col10 |col11 |col12 |
-+------+------+------+------+------+------+------+------+------+------+------+------+
-|       {d     {[]n          /          }} {j          } {p                       }}|
-+------+------+------+------+------+------+------+------+------+------+------+------+
-|       {d     {[]n   {i          } {j          }      } {p                       }}|
-+------+------+------+------+------+------+------+------+------+------+------+------+
-|{[]d   {x          }        {y         }} /      {x          }        {y         }}|
-+------+------+------+------+------+------+------+------+------+------+------+------+
-
-layer: before, self, after
-
-開始之前要加入rootMap                # map { }
-col1: 最後元素新增 col1:值           # map { col1 }
-col2: 最後元素新增 d:map             # map { col1, d map { } }
-      最後元素新增 col2:值           # map { col1, d map { col2 } }
-col3: 最後元素新增 n:陣列            # map { col1, d map { col2, n[] { } } }
-      最後元素新增 陣列元素          # map { col1, d map { col2, n[] { map { } } } }
-      最後元素新增 col3:值           # map { col1, d map { col2, n[] { map { col3 } } } }
-col4: 最後元素新增 col4:值           # map { col1, d map { col2, n[] { map { col3, col4 } } } }
-col5: 最後元素新增 陣列元素          # map { col1, d map { col2, n[] { map { col3, col4 }, map { } } } }
-      最後元素新增 col5:值           # map { col1, d map { col2, n[] { map { col3, col4 }, map { col5 } } } }
-col6: 最後元素新增 col6:值           # map { col1, d map { col2, n[] { map { col3, col4 }, map { col5, col6 } } } }
-      彈出最後元素                   # map { col1, d map { col2, n[] { } } }
-      因為最後元素是陣列, 多彈出一次 # map { col1, d map { col2 } }
-      彈出最後元素                   # map { col1 }
-*/
-
-// Builder 布局建立器
-type Builder struct {
-	duplField duplField // 欄位重複檢查器
-	duplLayer duplLayer // 階層重複檢查器
-	layouts   []layout  // 布局列表
+// LayoutBuilder 布局建立器
+type LayoutBuilder struct {
+	duplField *duplField // 欄位重複檢查器
+	duplLayer *duplLayer // 階層重複檢查器
+	layouts   []Layout   // 布局列表
 }
 
 // Add 新增布局
-func (this *Builder) Add() {
+func (this *LayoutBuilder) Add(name string, note string, field Field, layers []Layer, back int) error {
+	if this.duplField.Check(name) == false {
+		return fmt.Errorf("field duplicate")
+	} // if
 
-}
+	if field == nil {
+		return fmt.Errorf("field nil")
+	} // if
 
-// Pack 打包資料
-func (this *Builder) Pack() map[string]interface{} {
+	if this.duplLayer.Check(layers...) == false {
+		return fmt.Errorf("layer duplicate")
+	} // if
+
+	if back < 0 {
+		return fmt.Errorf("back < 0")
+	} // if
+
+	this.layouts = append(this.layouts, Layout{
+		Name:   name,
+		Note:   note,
+		Field:  field,
+		Layers: layers,
+		Back:   back,
+	})
 	return nil
 }
 
-// layout 布局資料
-type layout struct {
-	name   string
-	action int
-}
+// Pack 打包資料
+func (this *LayoutBuilder) Pack(datas []string) (packs map[string]interface{}, pkey string, err error) {
+	stacker := NewLayoutStacker()
 
-// duplField 欄位重複檢查器
-type duplField struct {
-	datas map[string]bool // 資料列表
-}
-
-// Check 重複檢查
-func (this *duplField) Check(field string) bool {
-	if _, ok := this.datas[field]; ok {
-		return false
-	} // if
-
-	this.datas[field] = true
-	return true
-}
-
-// duplLayer 階層重複檢查器
-type duplLayer struct {
-	datas map[string]int // 資料列表
-}
-
-// Check 重複檢查
-func (this *duplLayer) Check(layers ...Layer) bool {
-	for _, itor := range layers {
-		if type_, ok := this.datas[itor.Name]; ok {
-			return type_ == itor.Type
+	for i, itor := range this.layouts {
+		if itor.Field.IsShow() == false {
+			continue
 		} // if
 
-		this.datas[itor.Name] = itor.Type
+		data := ""
+
+		if i >= 0 && i < len(datas) { // 資料的數量可能因為空白格的關係會短缺, 所以要檢查一下
+			data = datas[i]
+		} // if
+
+		if itor.Field.IsPkey() {
+			if pkey != "" {
+				return nil, "", fmt.Errorf("pkey duplicate: %s", itor.Name)
+			} // if
+
+			pkey = data
+		} // if
+
+		value, err := itor.Field.ToJsonValue(data)
+
+		if err != nil {
+			return nil, "", fmt.Errorf("value error: %s\n%w", itor.Name, err)
+		} // if
+
+		for _, layer := range itor.Layers {
+			if layer.Type == LayerArray {
+				if stacker.PushArray(layer.Name) == false || stacker.PushStructA() == false {
+					return nil, "", fmt.Errorf("fromat error: %s", itor.Name)
+				} // if
+			} // if
+
+			if layer.Type == LayerStruct {
+				if stacker.PushStructS(layer.Name) == false {
+					return nil, "", fmt.Errorf("fromat error: %s", itor.Name)
+				} // if
+			} // if
+
+			if layer.Type == LayerDivider {
+				stacker.Pop(1, false)
+
+				if stacker.PushStructA() == false {
+					return nil, "", fmt.Errorf("fromat error: %s", itor.Name)
+				} // if
+			} // if
+
+			return nil, "", fmt.Errorf("layer unknown: %s", itor.Name)
+		} // for
+
+		if stacker.PushValue(itor.Name, value) == false {
+			return nil, "", fmt.Errorf("fromat error: %s", itor.Name)
+		} // if
+
+		stacker.Pop(itor.Back, true)
 	} // for
 
-	return true
+	return stacker.Result(), pkey, nil
+}
+
+// Layouts 取得布局列表
+func (this *LayoutBuilder) Layouts() []Layout {
+	return this.layouts
+}
+
+// Layout 布局資料
+type Layout struct {
+	Name   string  // 欄位名稱
+	Note   string  // 欄位註解
+	Field  Field   // 欄位類型
+	Layers []Layer // 階層列表
+	Back   int     // 倒退數量
+}
+
+// NewLayoutBuilder 建立布局建立器
+func NewLayoutBuilder() *LayoutBuilder {
+	return &LayoutBuilder{
+		duplField: NewDuplField(),
+		duplLayer: NewDuplLayer(),
+		layouts:   []Layout{},
+	}
 }

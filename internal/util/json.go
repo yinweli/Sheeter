@@ -7,8 +7,8 @@ import (
 const jsonPrefix = ""    // json前綴字串
 const jsonIdent = "    " // json縮排字串
 
-type JsonObj = map[string]interface{} // json物件型態
-type JsonObjs = map[string]JsonObj    // json列表型態
+type JsonObj = map[string]interface{} // json物件型態 // TODO: 可能因為layout而消失
+type JsonObjs = map[string]JsonObj    // json列表型態 // TODO: 可能因為layout而消失
 
 // JsonWrite 寫入json檔案, 如果有需要會建立目錄
 func JsonWrite(filePath string, value any, bom bool) error {

@@ -1,6 +1,8 @@
 package util
 
-import "strings"
+import (
+	"strings"
+)
 
 // FirstUpper 字串首字母大寫
 func FirstUpper(input string) string {
