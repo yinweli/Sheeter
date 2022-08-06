@@ -77,7 +77,7 @@ func execute(cmd *cobra.Command, args []string) {
 	cmd.Printf("%s done, usage time=%s\n", internal.Title, durafmt.Parse(time.Since(startTime)))
 }
 
-// readConfig 讀取設定
+// readConfig 讀取設定 TODO: 考慮合併進去buildall
 func readConfig(fileName string) (result *config, err error) {
 	bytes, err := os.ReadFile(fileName)
 

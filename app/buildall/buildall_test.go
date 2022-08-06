@@ -10,6 +10,8 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
+// TODO: 要記得做buildall的測試
+
 func TestConfig(t *testing.T) {
 	suite.Run(t, new(SuiteConfig))
 }
