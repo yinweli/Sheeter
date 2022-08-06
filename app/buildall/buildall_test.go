@@ -3,7 +3,6 @@ package buildall
 import (
 	"testing"
 
-	"github.com/yinweli/Sheeter/internal/build/tasks"
 	"github.com/yinweli/Sheeter/testdata"
 
 	"github.com/stretchr/testify/assert"
@@ -18,23 +17,6 @@ func TestConfig(t *testing.T) {
 
 type SuiteConfig struct {
 	suite.Suite
-}
-
-func (this *SuiteConfig) target() *config {
-	return &config{
-		Global: tasks.Global{
-			ExcelPath:   "excel",
-			Bom:         true,
-			LineOfField: 1,
-			LineOfLayer: 2,
-			LineOfNote:  3,
-			LineOfData:  4,
-		},
-		Elements: []tasks.Element{{
-			Excel: "excel.xlsx",
-			Sheet: "sheet",
-		}},
-	}
 }
 
 func (this *SuiteConfig) TestReadConfig() {

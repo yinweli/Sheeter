@@ -8,7 +8,7 @@ import (
 
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/build/tasks"
-	"github.com/yinweli/Sheeter/internal/build/thirdParty"
+	"github.com/yinweli/Sheeter/internal/build/thirdparty"
 
 	"github.com/hako/durafmt"
 	"github.com/spf13/cobra"
@@ -34,7 +34,7 @@ func NewCommand() *cobra.Command {
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
 	startTime := time.Now()
-	err := thirdParty.Check()
+	err := thirdparty.Check()
 
 	if err != nil {
 		cmd.Println(err)
@@ -78,14 +78,14 @@ func execute(cmd *cobra.Command, args []string) {
 }
 
 // readConfig 讀取設定 TODO: 考慮合併進去buildall
-func readConfig(fileName string) (result *config, err error) {
+func readConfig(fileName string) (result *Config, err error) {
 	bytes, err := os.ReadFile(fileName)
 
 	if err != nil {
 		return nil, fmt.Errorf("read config failed: %w", err)
 	} // if
 
-	result = &config{}
+	result = &Config{}
 
 	if err = yaml.Unmarshal(bytes, result); err != nil {
 		return nil, fmt.Errorf("read config failed: %w", err)
@@ -104,8 +104,8 @@ func readConfig(fileName string) (result *config, err error) {
 	return result, nil
 }
 
-// config 編譯設定
-type config struct {
+// Config 編譯設定
+type Config struct {
 	Global   tasks.Global    `yaml:"global"`   // 全域設定
 	Elements []tasks.Element `yaml:"elements"` // 項目設定列表
 }
