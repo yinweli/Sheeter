@@ -56,8 +56,8 @@ func execute(cmd *cobra.Command, args []string) {
 	} // if
 
 	count := len(config.Elements)
-	signaler := sync.WaitGroup{}
 	errors := make(chan error, count) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
+	signaler := sync.WaitGroup{}
 	progress := mpb.New(mpb.WithWidth(barWidth), mpb.WithWaitGroup(&signaler))
 
 	signaler.Add(count)
@@ -102,7 +102,7 @@ type Config struct {
 
 // Global 全域設定
 type Global struct {
-	Path        string `yaml:"excelPath"`   // 來源excel路徑 TODO: excelPath改名為path
+	Path        string `yaml:"excelPath"`   // 來源excel路徑 TODO: yaml:"excelPath"改名為yaml:"path"
 	Bom         bool   `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
 	LineOfField int    `yaml:"lineOfField"` // 欄位行號(1為起始行)
 	LineOfLayer int    `yaml:"lineOfLayer"` // 階層行號(1為起始行)
