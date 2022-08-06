@@ -14,7 +14,7 @@ func (this *Task) runExcel() error {
 		return fmt.Errorf("read excel failed: %s", this.originalName())
 	} // if
 
-	this.excel = excel
+	this.xlsfile = excel
 
 	if this.sheetExists() == false {
 		return fmt.Errorf("read excel failed: %s\nsheet not found", this.originalName())

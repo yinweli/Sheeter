@@ -25,7 +25,7 @@ type Task struct {
 	Excel       string         // excel檔案名稱
 	Sheet       string         // excel表單名稱
 	bar         *mpb.Bar       // 進度條物件
-	excel       *excelize.File // excel物件
+	xlsfile     *excelize.File // excel物件
 	columns     []*Column      // 欄位列表
 }
 
@@ -135,8 +135,8 @@ func (this *Task) check() error {
 
 // close 結束工作
 func (this *Task) close() {
-	if this.excel != nil {
-		_ = this.excel.Close()
+	if this.xlsfile != nil {
+		_ = this.xlsfile.Close()
 	} // if
 }
 

@@ -41,7 +41,7 @@ func (this *Task) excelName() string {
 
 // sheetExists 表格是否存在
 func (this *Task) sheetExists() bool {
-	return this.excel.GetSheetIndex(this.Sheet) != -1
+	return this.xlsfile.GetSheetIndex(this.Sheet) != -1
 }
 
 // getRows 取得表格行資料, line從1起算; 如果該行不存在, 回傳成功並取得最後一行物件
@@ -50,7 +50,7 @@ func (this *Task) getRows(line int) (rows *excelize.Rows, err error) {
 		return nil, fmt.Errorf("row <= 0")
 	} // if
 
-	rows, err = this.excel.Rows(this.Sheet)
+	rows, err = this.xlsfile.Rows(this.Sheet)
 
 	if err != nil {
 		return nil, fmt.Errorf("get rows failed: %w", err)
@@ -69,7 +69,7 @@ func (this *Task) getRowContent(line int) (cols []string, err error) {
 		return nil, fmt.Errorf("row <= 0")
 	} // if
 
-	rows, err := this.excel.Rows(this.Sheet)
+	rows, err := this.xlsfile.Rows(this.Sheet)
 
 	if err != nil {
 		return nil, fmt.Errorf("get rows failed: %w", err)

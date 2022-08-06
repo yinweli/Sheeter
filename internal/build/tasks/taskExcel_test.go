@@ -29,7 +29,7 @@ func (this *SuiteTaskExcel) target() *Task {
 func (this *SuiteTaskExcel) TestTaskExcel() {
 	target := this.target()
 	assert.Nil(this.T(), target.runExcel())
-	assert.NotNil(this.T(), target.excel)
+	assert.NotNil(this.T(), target.xlsfile)
 	target.close()
 
 	target = this.target()

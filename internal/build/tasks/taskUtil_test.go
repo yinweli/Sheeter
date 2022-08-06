@@ -48,7 +48,7 @@ func (this *SuiteTaskUtil) TestExcelName() {
 func (this *SuiteTaskUtil) TestSheetExists() {
 	target := this.target()
 
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
 	assert.True(this.T(), target.sheetExists())
 
 	target.Sheet = testdata.UnknownStr
@@ -59,7 +59,7 @@ func (this *SuiteTaskUtil) TestSheetExists() {
 
 func (this *SuiteTaskUtil) TestGetRows() {
 	target := this.target()
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
 
 	rows, err := target.getRows(1)
 	assert.Nil(this.T(), err)
@@ -83,7 +83,7 @@ func (this *SuiteTaskUtil) TestGetRows() {
 
 func (this *SuiteTaskUtil) TestGetRowContent() {
 	target := this.target()
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
 
 	cols, err := target.getRowContent(1)
 	assert.Nil(this.T(), err)

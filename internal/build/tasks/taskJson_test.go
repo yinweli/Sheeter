@@ -69,31 +69,31 @@ func (this *SuiteTaskJson) target() *Task {
 
 func (this *SuiteTaskJson) TestTaskJson() {
 	target := this.target()
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
 	assert.Nil(this.T(), target.runJson())
 	testdata.CompareFile(this.T(), target.jsonFilePath(), this.dataBytes)
 	target.close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.EmptyExcel)
+	target.xlsfile = testdata.GetTestExcel(testdata.EmptyExcel)
 	assert.Nil(this.T(), target.runJson())
 	testdata.CompareFile(this.T(), target.jsonFilePath(), this.emptyBytes)
 	target.close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.Defect9Excel)
+	target.xlsfile = testdata.GetTestExcel(testdata.Defect9Excel)
 	assert.NotNil(this.T(), target.runJson())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.UnknownStr
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runJson())
 	target.close()
 
 	target = this.target()
 	target.Sheet = testdata.UnknownStr
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runJson())
 	target.close()
 }

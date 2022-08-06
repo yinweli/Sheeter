@@ -59,31 +59,31 @@ func (this *SuiteTaskLua) target() *Task {
 
 func (this *SuiteTaskLua) TestTaskLua() {
 	target := this.target()
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
 	assert.Nil(this.T(), target.runLua())
 	testdata.CompareFile(this.T(), target.luaFilePath(), this.dataBytes)
 	target.close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.EmptyExcel)
+	target.xlsfile = testdata.GetTestExcel(testdata.EmptyExcel)
 	assert.Nil(this.T(), target.runLua())
 	testdata.CompareFile(this.T(), target.luaFilePath(), this.emptyBytes)
 	target.close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.Defect9Excel)
+	target.xlsfile = testdata.GetTestExcel(testdata.Defect9Excel)
 	assert.NotNil(this.T(), target.runLua())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.UnknownStr
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runLua())
 	target.close()
 
 	target = this.target()
 	target.Sheet = testdata.UnknownStr
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runLua())
 	target.close()
 }
