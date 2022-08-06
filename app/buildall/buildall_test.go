@@ -1,10 +1,11 @@
-package tasks
+package buildall
 
 import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/yinweli/Sheeter/internal/build/tasks"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -18,7 +19,7 @@ type SuiteConfig struct {
 
 func (this *SuiteConfig) target() *Config {
 	return &Config{
-		Global: Global{
+		Global: tasks.Global{
 			ExcelPath:   "excel",
 			Bom:         true,
 			LineOfField: 1,
@@ -26,11 +27,26 @@ func (this *SuiteConfig) target() *Config {
 			LineOfNote:  3,
 			LineOfData:  4,
 		},
-		Elements: []Element{{
+		Elements: []tasks.Element{{
 			Excel: "excel.xlsx",
 			Sheet: "sheet",
 		}},
 	}
+}
+
+func (this *SuiteConfig) TestReadConfig() {
+	config, err := ReadConfig(testdata.Path(testdata.RealConfig))
+	assert.Nil(this.T(), err)
+	assert.NotNil(this.T(), config)
+
+	_, err = ReadConfig(testdata.Path(testdata.Defect1Config))
+	assert.NotNil(this.T(), err)
+
+	_, err = ReadConfig(testdata.Path(testdata.Defect2Config))
+	assert.NotNil(this.T(), err)
+
+	_, err = ReadConfig(testdata.UnknownStr)
+	assert.NotNil(this.T(), err)
 }
 
 func (this *SuiteConfig) TestCheck() {
@@ -72,19 +88,4 @@ func (this *SuiteConfig) TestCheck() {
 	target = this.target()
 	target.Elements[0].Sheet = ""
 	assert.NotNil(this.T(), target.Check())
-}
-
-func (this *SuiteConfig) TestReadConfig() {
-	config, err := ReadConfig(testdata.Path(testdata.RealConfig))
-	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), config)
-
-	_, err = ReadConfig(testdata.Path(testdata.Defect1Config))
-	assert.NotNil(this.T(), err)
-
-	_, err = ReadConfig(testdata.Path(testdata.Defect2Config))
-	assert.NotNil(this.T(), err)
-
-	_, err = ReadConfig(testdata.UnknownStr)
-	assert.NotNil(this.T(), err)
 }

@@ -1,6 +1,8 @@
 package buildall
 
 import (
+	"fmt"
+	"os"
 	"sync"
 	"time"
 
@@ -10,6 +12,7 @@ import (
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/build/tasks"
 	"github.com/yinweli/Sheeter/internal/build/thirdParty"
+	"gopkg.in/yaml.v3"
 )
 
 const barWidth = 40 // 進度條寬度
@@ -35,7 +38,7 @@ func execute(cmd *cobra.Command, args []string) {
 		return
 	} // if
 
-	config, err := tasks.ReadConfig(args[0])
+	config, err := ReadConfig(args[0])
 
 	if err != nil {
 		cmd.Println(err)
@@ -69,4 +72,77 @@ func execute(cmd *cobra.Command, args []string) {
 	} // for
 
 	cmd.Printf("%s done, usage time=%s\n", internal.Title, durafmt.Parse(time.Since(startTime)))
+}
+
+// ReadConfig 讀取設定
+func ReadConfig(fileName string) (result *Config, err error) {
+	bytes, err := os.ReadFile(fileName)
+
+	if err != nil {
+		return nil, fmt.Errorf("read config failed: %w", err)
+	} // if
+
+	result = &Config{}
+	err = yaml.Unmarshal(bytes, result)
+
+	if err != nil {
+		return nil, fmt.Errorf("read config failed: %w", err)
+	} // if
+
+	err = result.Check()
+
+	if err != nil {
+		return nil, fmt.Errorf("read config failed: %w", err)
+	} // if
+
+	return result, nil
+}
+
+// Config 編譯設定
+type Config struct {
+	Global   tasks.Global    `yaml:"global"`   // 全域設定
+	Elements []tasks.Element `yaml:"elements"` // 項目設定列表
+}
+
+// Check 檢查設定是否正確
+func (this *Config) Check() error {
+	if this.Global.LineOfField <= 0 {
+		return fmt.Errorf("global: LineOfField <= 0")
+	} // if
+
+	if this.Global.LineOfLayer <= 0 {
+		return fmt.Errorf("global: LineOfLayer <= 0")
+	} // if
+
+	if this.Global.LineOfNote <= 0 {
+		return fmt.Errorf("global: LineOfNote <= 0")
+	} // if
+
+	if this.Global.LineOfData <= 0 {
+		return fmt.Errorf("global: LineOfData <= 0")
+	} // if
+
+	if this.Global.LineOfField >= this.Global.LineOfData {
+		return fmt.Errorf("global: LineOfField(%d) >= LineOfData(%d)", this.Global.LineOfField, this.Global.LineOfData)
+	} // if
+
+	if this.Global.LineOfLayer >= this.Global.LineOfData {
+		return fmt.Errorf("global: LineOfLayer(%d) >= LineOfData(%d)", this.Global.LineOfLayer, this.Global.LineOfData)
+	} // if
+
+	if this.Global.LineOfNote >= this.Global.LineOfData {
+		return fmt.Errorf("global: LineOfNote(%d) >= LineOfData(%d)", this.Global.LineOfNote, this.Global.LineOfData)
+	} // if
+
+	for _, itor := range this.Elements {
+		if itor.Excel == "" {
+			return fmt.Errorf("element: excel empty")
+		} // if
+
+		if itor.Sheet == "" {
+			return fmt.Errorf("element: sheet empty")
+		} // if
+	} // for
+
+	return nil
 }

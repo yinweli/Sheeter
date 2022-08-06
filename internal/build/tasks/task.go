@@ -120,3 +120,19 @@ type Column struct {
 	Note  string       // 欄位註解
 	Field fields.Field // 欄位類型
 }
+
+// Global 全域設定
+type Global struct {
+	ExcelPath   string `yaml:"excelPath"`   // 來源excel路徑
+	Bom         bool   `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
+	LineOfField int    `yaml:"lineOfField"` // 欄位行號(1為起始行)
+	LineOfLayer int    `yaml:"lineOfLayer"` // 階層行號(1為起始行)
+	LineOfNote  int    `yaml:"lineOfNote"`  // 註解行號(1為起始行)
+	LineOfData  int    `yaml:"lineOfData"`  // 資料起始行號(1為起始行)
+}
+
+// Element 項目設定
+type Element struct {
+	Excel string `yaml:"excel"` // excel檔案名稱
+	Sheet string `yaml:"sheet"` // excel表單名稱
+}
