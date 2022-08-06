@@ -9,7 +9,7 @@ import (
 	"github.com/vbauerster/mpb/v7"
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/build/tasks"
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/build/thirdParty"
 )
 
 const barWidth = 40 // 進度條寬度
@@ -31,11 +31,7 @@ func NewCommand() *cobra.Command {
 func execute(cmd *cobra.Command, args []string) {
 	startTime := time.Now()
 
-	check := true
-	check = thirdPartyInstalled(cmd, "go") && check        // 檢查是否有安裝go
-	check = thirdPartyInstalled(cmd, "quicktype") && check // 檢查是否有安裝quicktype
-
-	if check == false {
+	if thirdParty.Check(cmd.Println) == false {
 		return
 	} // if
 
@@ -73,14 +69,4 @@ func execute(cmd *cobra.Command, args []string) {
 	} // for
 
 	cmd.Printf("%s done, usage time=%s\n", internal.Title, durafmt.Parse(time.Since(startTime)))
-}
-
-// thirdPartyInstalled 檢查第三方軟體
-func thirdPartyInstalled(cmd *cobra.Command, name string) bool {
-	if util.ShellExist(name) == false {
-		cmd.Printf("%s not installed\n", name)
-		return false
-	} // if
-
-	return true
 }
