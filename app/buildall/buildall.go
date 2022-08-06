@@ -8,7 +8,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/vbauerster/mpb/v7"
 	"github.com/yinweli/Sheeter/internal"
-	"github.com/yinweli/Sheeter/internal/build"
+	"github.com/yinweli/Sheeter/internal/build/tasks"
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
@@ -39,7 +39,7 @@ func execute(cmd *cobra.Command, args []string) {
 		return
 	} // if
 
-	config, err := build.ReadConfig(args[0])
+	config, err := tasks.ReadConfig(args[0])
 
 	if err != nil {
 		cmd.Println(err)
@@ -59,7 +59,7 @@ func execute(cmd *cobra.Command, args []string) {
 
 		go func() {
 			defer signaler.Done()
-			errors <- build.NewTask(&global, &element).Run(progress)
+			errors <- tasks.NewTask(&global, &element).Run(progress)
 		}()
 	} // for
 
