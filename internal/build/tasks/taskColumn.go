@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/yinweli/Sheeter/internal/build/fields"
+	"github.com/yinweli/Sheeter/internal/build/layers"
 	"github.com/yinweli/Sheeter/internal/build/layouts"
 )
 
@@ -56,7 +57,7 @@ func (this *Task) runColumn() error {
 		} // if
 
 		layer := fromList(layerLine, col)
-		layers, _, err := layers2.ParseLayer(layer)
+		layers, _, err := layers.ParseLayer(layer)
 
 		if err != nil {
 			return fmt.Errorf("read column failed: %s [%s]\nlayer parser failed\n%w", this.originalName(), itor,
