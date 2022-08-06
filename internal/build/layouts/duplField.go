@@ -6,12 +6,12 @@ type duplField struct {
 }
 
 // Check 重複檢查
-func (this *duplField) Check(field string) bool {
-	if _, ok := this.datas[field]; ok {
+func (this *duplField) Check(item string) bool {
+	if _, ok := this.datas[item]; ok {
 		return false
 	} // if
 
-	this.datas[field] = true
+	this.datas[item] = true
 	return true
 }
 

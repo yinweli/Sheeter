@@ -10,8 +10,8 @@ type duplLayer struct {
 }
 
 // Check 重複檢查
-func (this *duplLayer) Check(layers ...layers.Layer) bool {
-	for _, itor := range layers {
+func (this *duplLayer) Check(items ...layers.Layer) bool {
+	for _, itor := range items {
 		if type_, ok := this.datas[itor.Name]; ok {
 			return type_ == itor.Type
 		} // if
