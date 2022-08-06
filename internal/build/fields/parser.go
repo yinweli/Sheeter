@@ -9,8 +9,8 @@ import (
 
 const separateField = "#" // 欄位字串以'#'符號分割為名稱與欄位
 
-// ParseField 解析字串為欄位, 格式為 name#field
-func ParseField(input string) (name string, field Field, err error) {
+// Parser 欄位解析, 格式為 name#field
+func Parser(input string) (name string, field Field, err error) {
 	before, after, ok := strings.Cut(input, separateField)
 
 	if ok == false {

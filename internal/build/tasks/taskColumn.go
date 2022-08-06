@@ -5,7 +5,6 @@ import (
 
 	"github.com/yinweli/Sheeter/internal/build/fields"
 	"github.com/yinweli/Sheeter/internal/build/layers"
-	"github.com/yinweli/Sheeter/internal/build/layouts"
 )
 
 // runColumn 建立欄位列表
@@ -29,8 +28,6 @@ func (this *Task) runColumn() error {
 	} // if
 
 	this.columns = []*Column{} // 把欄位列表清空, 避免不必要的問題
-	duplField := layouts.NewDuplField()
-	duplLayer := layouts.NewDuplLayer()
 	pkey := false
 
 	for col, itor := range fieldLine {
@@ -38,14 +35,10 @@ func (this *Task) runColumn() error {
 			break
 		} // if
 
-		name, field, err := fields.ParseField(itor)
+		name, field, err := fields.Parser(itor)
 
 		if err != nil {
 			return fmt.Errorf("read column failed: %s [%s]\nfield parser failed\n%w", this.originalName(), itor, err)
-		} // if
-
-		if duplField.Check(name) == false {
-			return fmt.Errorf("read column failed: %s [%s]\nfield duplicate", this.originalName(), itor)
 		} // if
 
 		if field.IsPkey() && pkey { // 只能有一個主要索引
@@ -57,15 +50,11 @@ func (this *Task) runColumn() error {
 		} // if
 
 		layer := fromList(layerLine, col)
-		layers, _, err := layers.ParseLayer(layer)
+		_, _, err = layers.Parser(layer)
 
 		if err != nil {
 			return fmt.Errorf("read column failed: %s [%s]\nlayer parser failed\n%w", this.originalName(), itor,
 				err)
-		} // if
-
-		if duplLayer.Check(layers...) == false {
-			return fmt.Errorf("read column failed: %s [%s]\nfield duplicate", this.originalName(), itor)
 		} // if
 
 		note := fromList(noteLine, col)

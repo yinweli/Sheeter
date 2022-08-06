@@ -7,11 +7,11 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-func TestLayoutStacker(t *testing.T) {
-	suite.Run(t, new(SuiteLayoutStacker))
+func TestStacker(t *testing.T) {
+	suite.Run(t, new(SuiteStacker))
 }
 
-type SuiteLayoutStacker struct {
+type SuiteStacker struct {
 	suite.Suite
 	name1  string
 	name2  string
@@ -19,18 +19,18 @@ type SuiteLayoutStacker struct {
 	value2 string
 }
 
-func (this *SuiteLayoutStacker) SetupSuite() {
+func (this *SuiteStacker) SetupSuite() {
 	this.name1 = "name1"
 	this.name2 = "name2"
 	this.value1 = "value1"
 	this.value2 = "value2"
 }
 
-func (this *SuiteLayoutStacker) target() *layoutStacker {
-	return NewLayoutStacker()
+func (this *SuiteStacker) target() *stacker {
+	return NewStacker()
 }
 
-func (this *SuiteLayoutStacker) TestPushArray() {
+func (this *SuiteStacker) TestPushArray() {
 	target := this.target()
 
 	assert.True(this.T(), target.PushArray(this.name1))
@@ -39,7 +39,7 @@ func (this *SuiteLayoutStacker) TestPushArray() {
 	assert.False(this.T(), target.PushArray(this.name2))
 }
 
-func (this *SuiteLayoutStacker) TestPushStructA() {
+func (this *SuiteStacker) TestPushStructA() {
 	target := this.target()
 
 	assert.True(this.T(), target.PushArray(this.name1))
@@ -50,7 +50,7 @@ func (this *SuiteLayoutStacker) TestPushStructA() {
 	assert.False(this.T(), target.PushStructA())
 }
 
-func (this *SuiteLayoutStacker) TestPushStructS() {
+func (this *SuiteStacker) TestPushStructS() {
 	target := this.target()
 
 	assert.True(this.T(), target.PushStructS(this.name1))
@@ -61,7 +61,7 @@ func (this *SuiteLayoutStacker) TestPushStructS() {
 	assert.False(this.T(), target.PushStructA())
 }
 
-func (this *SuiteLayoutStacker) TestPushValue() {
+func (this *SuiteStacker) TestPushValue() {
 	target := this.target()
 
 	assert.True(this.T(), target.PushValue(this.name1, this.value1))
@@ -72,7 +72,7 @@ func (this *SuiteLayoutStacker) TestPushValue() {
 	assert.False(this.T(), target.PushValue(this.name2, this.value1))
 }
 
-func (this *SuiteLayoutStacker) TestPop() {
+func (this *SuiteStacker) TestPop() {
 	target := this.target()
 
 	assert.True(this.T(), target.PushArray(this.name1))
@@ -90,7 +90,7 @@ func (this *SuiteLayoutStacker) TestPop() {
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
 }
 
-func (this *SuiteLayoutStacker) TestClosure() {
+func (this *SuiteStacker) TestClosure() {
 	target := this.target()
 
 	assert.True(this.T(), target.PushArray(this.name1))
@@ -100,12 +100,12 @@ func (this *SuiteLayoutStacker) TestClosure() {
 	assert.True(this.T(), target.Closure())
 }
 
-func (this *SuiteLayoutStacker) TestResult() {
+func (this *SuiteStacker) TestResult() {
 	target := this.target()
 
 	assert.IsType(this.T(), layoutStruct{}, target.Result())
 }
 
-func (this *SuiteLayoutStacker) TestNewLayoutStacker() {
-	assert.NotNil(this.T(), NewLayoutStacker())
+func (this *SuiteStacker) TestNewStacker() {
+	assert.NotNil(this.T(), NewStacker())
 }

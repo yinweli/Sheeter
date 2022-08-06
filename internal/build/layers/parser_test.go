@@ -18,33 +18,33 @@ type SuiteLayer struct {
 }
 
 func (this *SuiteLayer) TestParseLayer() {
-	layer, back, err := ParseLayer("{[]name1")
+	layer, back, err := Parser("{[]name1")
 	assert.Nil(this.T(), err)
 	assert.Len(this.T(), layer, 1)
 	assert.Equal(this.T(), LayerArray, layer[0].Type)
 	assert.Equal(this.T(), "name1", layer[0].Name)
 	assert.Equal(this.T(), 0, back)
 
-	layer, back, err = ParseLayer("{name1")
+	layer, back, err = Parser("{name1")
 	assert.Nil(this.T(), err)
 	assert.Len(this.T(), layer, 1)
 	assert.Equal(this.T(), LayerStruct, layer[0].Type)
 	assert.Equal(this.T(), "name1", layer[0].Name)
 	assert.Equal(this.T(), 0, back)
 
-	layer, back, err = ParseLayer("/")
+	layer, back, err = Parser("/")
 	assert.Nil(this.T(), err)
 	assert.Len(this.T(), layer, 1)
 	assert.Equal(this.T(), LayerDivider, layer[0].Type)
 	assert.Equal(this.T(), "", layer[0].Name)
 	assert.Equal(this.T(), 0, back)
 
-	layer, back, err = ParseLayer("}")
+	layer, back, err = Parser("}")
 	assert.Nil(this.T(), err)
 	assert.Len(this.T(), layer, 0)
 	assert.Equal(this.T(), 1, back)
 
-	layer, back, err = ParseLayer("/ {[]name1 {name2 {[]name3 {name4 {name5 }}}}}")
+	layer, back, err = Parser("/ {[]name1 {name2 {[]name3 {name4 {name5 }}}}}")
 	assert.Nil(this.T(), err)
 	assert.Len(this.T(), layer, 6)
 	assert.Equal(this.T(), LayerDivider, layer[0].Type)
@@ -61,45 +61,45 @@ func (this *SuiteLayer) TestParseLayer() {
 	assert.Equal(this.T(), "name5", layer[5].Name)
 	assert.Equal(this.T(), 5, back)
 
-	_, _, err = ParseLayer("{ name1")
+	_, _, err = Parser("{ name1")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("{[] name1")
+	_, _, err = Parser("{[] name1")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("{[name1")
+	_, _, err = Parser("{[name1")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("{]name1")
+	_, _, err = Parser("{]name1")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("{name1+")
+	_, _, err = Parser("{name1+")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("{name1 } {name2")
+	_, _, err = Parser("{name1 } {name2")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("{name1 }{name2")
+	_, _, err = Parser("{name1 }{name2")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("{name1 }name2")
+	_, _, err = Parser("{name1 }name2")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("{name1 name2")
+	_, _, err = Parser("{name1 name2")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("} {name1 ")
+	_, _, err = Parser("} {name1 ")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("{name1 /")
+	_, _, err = Parser("{name1 /")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("/ /")
+	_, _, err = Parser("/ /")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer("/name1")
+	_, _, err = Parser("/name1")
 	assert.NotNil(this.T(), err)
 
-	_, _, err = ParseLayer(testdata.UnknownStr)
+	_, _, err = Parser(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }

@@ -7,24 +7,24 @@ import (
 	"github.com/yinweli/Sheeter/internal/build/layers"
 )
 
-// LayoutBuilder 布局建立器
-type LayoutBuilder struct {
-	duplField *duplField // 欄位重複檢查器
-	duplLayer *duplLayer // 階層重複檢查器
-	layouts   []Layout   // 布局列表
+// Parser 布局解析器
+type Parser struct {
+	names   map[string]bool // 名稱列表
+	layers  map[string]int  // 階層列表
+	layouts []Layout        // 布局列表
 }
 
 // Add 新增布局
-func (this *LayoutBuilder) Add(name, note string, field fields.Field, layers []layers.Layer, back int) error {
-	if this.duplField.Check(name) == false {
-		return fmt.Errorf("field duplicate")
+func (this *Parser) Add(name, note string, field fields.Field, layer []layers.Layer, back int) error {
+	if this.checkName(name) == false {
+		return fmt.Errorf("name duplicate")
 	} // if
 
 	if field == nil {
 		return fmt.Errorf("field nil")
 	} // if
 
-	if this.duplLayer.Check(layers...) == false {
+	if this.checkLayer(layer...) == false {
 		return fmt.Errorf("layer duplicate")
 	} // if
 
@@ -36,15 +36,15 @@ func (this *LayoutBuilder) Add(name, note string, field fields.Field, layers []l
 		Name:   name,
 		Note:   note,
 		Field:  field,
-		Layers: layers,
+		Layers: layer,
 		Back:   back,
 	})
 	return nil
 }
 
 // Pack 打包資料
-func (this *LayoutBuilder) Pack(datas []string) (packs map[string]interface{}, pkey string, err error) {
-	stacker := NewLayoutStacker()
+func (this *Parser) Pack(datas []string) (packs map[string]interface{}, pkey string, err error) {
+	stacker := NewStacker()
 
 	for i, itor := range this.layouts {
 		if itor.Field.IsShow() == false {
@@ -106,8 +106,31 @@ func (this *LayoutBuilder) Pack(datas []string) (packs map[string]interface{}, p
 }
 
 // Layouts 取得布局列表
-func (this *LayoutBuilder) Layouts() []Layout {
+func (this *Parser) Layouts() []Layout {
 	return this.layouts
+}
+
+// checkName 名稱檢查
+func (this *Parser) checkName(field string) bool {
+	if _, ok := this.names[field]; ok {
+		return false
+	} // if
+
+	this.names[field] = true
+	return true
+}
+
+// checkLayer 階層檢查
+func (this *Parser) checkLayer(layer ...layers.Layer) bool {
+	for _, itor := range layer {
+		if type_, ok := this.layers[itor.Name]; ok {
+			return type_ == itor.Type
+		} // if
+
+		this.layers[itor.Name] = itor.Type
+	} // for
+
+	return true
 }
 
 // Layout 布局資料
@@ -119,11 +142,11 @@ type Layout struct {
 	Back   int            // 倒退數量
 }
 
-// NewLayoutBuilder 建立布局建立器
-func NewLayoutBuilder() *LayoutBuilder {
-	return &LayoutBuilder{
-		duplField: NewDuplField(),
-		duplLayer: NewDuplLayer(),
-		layouts:   []Layout{},
+// NewParser 建立布局解析器
+func NewParser() *Parser {
+	return &Parser{
+		names:   map[string]bool{},
+		layers:  map[string]int{},
+		layouts: []Layout{},
 	}
 }

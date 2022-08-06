@@ -4,8 +4,8 @@ import (
 	"container/list"
 )
 
-// layoutStacker 布局堆疊器
-type layoutStacker struct {
+// stacker 布局堆疊器
+type stacker struct {
 	datas *list.List // 資料列表
 }
 
@@ -13,7 +13,7 @@ type layoutStruct = map[string]interface{} // 結構布局類型
 type layoutArray = []layoutStruct          // 陣列布局類型
 
 // PushArray 新增陣列元素
-func (this *layoutStacker) PushArray(name string) bool {
+func (this *stacker) PushArray(name string) bool {
 	if last := this.datas.Back(); last != nil {
 		if layout, ok := last.Value.(layoutStruct); ok {
 			object := layoutArray{}
@@ -27,7 +27,7 @@ func (this *layoutStacker) PushArray(name string) bool {
 }
 
 // PushStructA 新增結構元素到陣列中
-func (this *layoutStacker) PushStructA() bool {
+func (this *stacker) PushStructA() bool {
 	if last := this.datas.Back(); last != nil {
 		if layout, ok := last.Value.(layoutArray); ok {
 			object := layoutStruct{}
@@ -42,7 +42,7 @@ func (this *layoutStacker) PushStructA() bool {
 }
 
 // PushStructS 新增結構元素到結構中
-func (this *layoutStacker) PushStructS(name string) bool {
+func (this *stacker) PushStructS(name string) bool {
 	if last := this.datas.Back(); last != nil {
 		if layout, ok := last.Value.(layoutStruct); ok {
 			object := layoutStruct{}
@@ -56,7 +56,7 @@ func (this *layoutStacker) PushStructS(name string) bool {
 }
 
 // PushValue 新增值元素
-func (this *layoutStacker) PushValue(name string, value interface{}) bool {
+func (this *stacker) PushValue(name string, value interface{}) bool {
 	if last := this.datas.Back(); last != nil {
 		if layout, ok := last.Value.(layoutStruct); ok {
 			layout[name] = value
@@ -68,7 +68,7 @@ func (this *layoutStacker) PushValue(name string, value interface{}) bool {
 }
 
 // Pop 移除元素
-func (this *layoutStacker) Pop(count int, removeArray bool) {
+func (this *stacker) Pop(count int, removeArray bool) {
 	for i := 0; i < count; i++ {
 		if last := this.datas.Back(); last != nil {
 			this.datas.Remove(last)
@@ -85,12 +85,12 @@ func (this *layoutStacker) Pop(count int, removeArray bool) {
 }
 
 // Closure 取得是否閉合
-func (this *layoutStacker) Closure() bool {
+func (this *stacker) Closure() bool {
 	return this.datas.Len() == 1
 }
 
 // Result 取得結果
-func (this *layoutStacker) Result() layoutStruct {
+func (this *stacker) Result() layoutStruct {
 	if result, ok := this.datas.Front().Value.(layoutStruct); ok {
 		return result
 	} // if
@@ -98,9 +98,9 @@ func (this *layoutStacker) Result() layoutStruct {
 	return nil
 }
 
-// NewLayoutStacker 建立布局堆疊器
-func NewLayoutStacker() *layoutStacker {
-	stacker := &layoutStacker{
+// NewStacker 建立布局堆疊器
+func NewStacker() *stacker {
+	stacker := &stacker{
 		datas: list.New(),
 	}
 	stacker.datas.PushBack(layoutStruct{}) // 布局堆疊器從一個結構開始
