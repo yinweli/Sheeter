@@ -3,41 +3,40 @@ package fields
 import (
 	"testing"
 
-	"github.com/yinweli/Sheeter/testdata"
-
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestFieldFloatArray(t *testing.T) {
-	suite.Run(t, new(SuiteFieldFloatArray))
+func TestFloatArray(t *testing.T) {
+	suite.Run(t, new(SuiteFloatArray))
 }
 
-type SuiteFieldFloatArray struct {
+type SuiteFloatArray struct {
 	suite.Suite
 }
 
-func (this *SuiteFieldFloatArray) target() *FieldFloatArray {
-	return &FieldFloatArray{}
+func (this *SuiteFloatArray) target() *FloatArray {
+	return &FloatArray{}
 }
 
-func (this *SuiteFieldFloatArray) TestType() {
+func (this *SuiteFloatArray) TestType() {
 	assert.Equal(this.T(), "floatArray", this.target().Type())
 }
 
-func (this *SuiteFieldFloatArray) TestIsShow() {
+func (this *SuiteFloatArray) TestIsShow() {
 	assert.Equal(this.T(), true, this.target().IsShow())
 }
 
-func (this *SuiteFieldFloatArray) TestIsPkey() {
+func (this *SuiteFloatArray) TestIsPkey() {
 	assert.Equal(this.T(), false, this.target().IsPkey())
 }
 
-func (this *SuiteFieldFloatArray) TestToJsonDefault() {
+func (this *SuiteFloatArray) TestToJsonDefault() {
 	assert.Equal(this.T(), []float64{}, this.target().ToJsonDefault())
 }
 
-func (this *SuiteFieldFloatArray) TestToJsonValue() {
+func (this *SuiteFloatArray) TestToJsonValue() {
 	target := this.target()
 
 	result, err := target.ToJsonValue("0.123,0.456,0.789")
@@ -48,7 +47,7 @@ func (this *SuiteFieldFloatArray) TestToJsonValue() {
 	assert.NotNil(this.T(), err)
 }
 
-func (this *SuiteFieldFloatArray) TestToLuaValue() {
+func (this *SuiteFloatArray) TestToLuaValue() {
 	target := this.target()
 
 	result, err := target.ToLuaValue("0.123,0.456,0.789")

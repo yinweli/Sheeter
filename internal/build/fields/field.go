@@ -59,14 +59,14 @@ type Field interface {
 
 // fields 欄位列表
 var fields = []Field{
-	&FieldEmpty{},
-	&FieldPkey{},
-	&FieldBool{},
-	&FieldBoolArray{},
-	&FieldInt{},
-	&FieldIntArray{},
-	&FieldFloat{},
-	&FieldFloatArray{},
-	&FieldText{},
-	&FieldTextArray{},
+	&Empty{},
+	&Pkey{},
+	&Bool{},
+	&BoolArray{},
+	&Int{},
+	&IntArray{},
+	&Float{},
+	&FloatArray{},
+	&Text{},
+	&TextArray{},
 }

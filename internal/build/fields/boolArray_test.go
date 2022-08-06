@@ -3,41 +3,40 @@ package fields
 import (
 	"testing"
 
-	"github.com/yinweli/Sheeter/testdata"
-
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestFieldBoolArray(t *testing.T) {
-	suite.Run(t, new(SuiteFieldBoolArray))
+func TestBoolArray(t *testing.T) {
+	suite.Run(t, new(SuiteBoolArray))
 }
 
-type SuiteFieldBoolArray struct {
+type SuiteBoolArray struct {
 	suite.Suite
 }
 
-func (this *SuiteFieldBoolArray) target() *FieldBoolArray {
-	return &FieldBoolArray{}
+func (this *SuiteBoolArray) target() *BoolArray {
+	return &BoolArray{}
 }
 
-func (this *SuiteFieldBoolArray) TestType() {
+func (this *SuiteBoolArray) TestType() {
 	assert.Equal(this.T(), "boolArray", this.target().Type())
 }
 
-func (this *SuiteFieldBoolArray) TestIsShow() {
+func (this *SuiteBoolArray) TestIsShow() {
 	assert.Equal(this.T(), true, this.target().IsShow())
 }
 
-func (this *SuiteFieldBoolArray) TestIsPkey() {
+func (this *SuiteBoolArray) TestIsPkey() {
 	assert.Equal(this.T(), false, this.target().IsPkey())
 }
 
-func (this *SuiteFieldBoolArray) TestToJsonDefault() {
+func (this *SuiteBoolArray) TestToJsonDefault() {
 	assert.Equal(this.T(), []bool{}, this.target().ToJsonDefault())
 }
 
-func (this *SuiteFieldBoolArray) TestToJsonValue() {
+func (this *SuiteBoolArray) TestToJsonValue() {
 	target := this.target()
 
 	result, err := target.ToJsonValue("true,false,true,false,true")
@@ -48,7 +47,7 @@ func (this *SuiteFieldBoolArray) TestToJsonValue() {
 	assert.NotNil(this.T(), err)
 }
 
-func (this *SuiteFieldBoolArray) TestToLuaValue() {
+func (this *SuiteBoolArray) TestToLuaValue() {
 	target := this.target()
 
 	result, err := target.ToLuaValue("true,false,true,false,true")

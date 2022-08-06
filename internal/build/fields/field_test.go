@@ -21,7 +21,7 @@ func (this *SuiteField) TestParseField() {
 	name, field, err := ParseField("real#bool")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "real", name)
-	assert.Equal(this.T(), (&FieldBool{}).Type(), field.Type())
+	assert.Equal(this.T(), (&Bool{}).Type(), field.Type())
 
 	_, _, err = ParseField("fa-ke#fake")
 	assert.NotNil(this.T(), err)

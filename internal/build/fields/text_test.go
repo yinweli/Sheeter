@@ -7,35 +7,35 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-func TestFieldText(t *testing.T) {
-	suite.Run(t, new(SuiteFieldText))
+func TestText(t *testing.T) {
+	suite.Run(t, new(SuiteText))
 }
 
-type SuiteFieldText struct {
+type SuiteText struct {
 	suite.Suite
 }
 
-func (this *SuiteFieldText) target() *FieldText {
-	return &FieldText{}
+func (this *SuiteText) target() *Text {
+	return &Text{}
 }
 
-func (this *SuiteFieldText) TestType() {
+func (this *SuiteText) TestType() {
 	assert.Equal(this.T(), "text", this.target().Type())
 }
 
-func (this *SuiteFieldText) TestIsShow() {
+func (this *SuiteText) TestIsShow() {
 	assert.Equal(this.T(), true, this.target().IsShow())
 }
 
-func (this *SuiteFieldText) TestIsPkey() {
+func (this *SuiteText) TestIsPkey() {
 	assert.Equal(this.T(), false, this.target().IsPkey())
 }
 
-func (this *SuiteFieldText) TestToJsonDefault() {
+func (this *SuiteText) TestToJsonDefault() {
 	assert.Equal(this.T(), "", this.target().ToJsonDefault())
 }
 
-func (this *SuiteFieldText) TestToJsonValue() {
+func (this *SuiteText) TestToJsonValue() {
 	target := this.target()
 
 	result, err := target.ToJsonValue("ball,book,pack")
@@ -43,7 +43,7 @@ func (this *SuiteFieldText) TestToJsonValue() {
 	assert.Equal(this.T(), "ball,book,pack", result)
 }
 
-func (this *SuiteFieldText) TestToLuaValue() {
+func (this *SuiteText) TestToLuaValue() {
 	target := this.target()
 
 	result, err := target.ToLuaValue("ball,book,pack")

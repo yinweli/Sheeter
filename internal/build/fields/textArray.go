@@ -6,36 +6,36 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-// FieldTextArray 字串陣列
-type FieldTextArray struct {
+// TextArray 字串陣列
+type TextArray struct {
 }
 
 // Type 取得excel欄位類型
-func (this *FieldTextArray) Type() string {
+func (this *TextArray) Type() string {
 	return "textArray"
 }
 
 // IsShow 是否顯示
-func (this *FieldTextArray) IsShow() bool {
+func (this *TextArray) IsShow() bool {
 	return true
 }
 
 // IsPkey 是否是主要索引
-func (this *FieldTextArray) IsPkey() bool {
+func (this *TextArray) IsPkey() bool {
 	return false
 }
 
 // ToJsonDefault 轉換為json預設值
-func (this *FieldTextArray) ToJsonDefault() interface{} {
+func (this *TextArray) ToJsonDefault() interface{} {
 	return []string{}
 }
 
 // ToJsonValue 轉換為json值
-func (this *FieldTextArray) ToJsonValue(input string) (result interface{}, err error) {
+func (this *TextArray) ToJsonValue(input string) (result interface{}, err error) {
 	return util.StrToStrArray(input), nil
 }
 
 // ToLuaValue 轉換為lua值
-func (this *FieldTextArray) ToLuaValue(input string) (result string, err error) {
+func (this *TextArray) ToLuaValue(input string) (result string, err error) {
 	return util.LuaWrapperArray(util.LuaWrapperString(strings.Join(util.StrToStrArray(input), "\",\""))), nil
 }

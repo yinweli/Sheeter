@@ -7,35 +7,35 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-func TestFieldTextArray(t *testing.T) {
-	suite.Run(t, new(SuiteFieldTextArray))
+func TestTextArray(t *testing.T) {
+	suite.Run(t, new(SuiteTextArray))
 }
 
-type SuiteFieldTextArray struct {
+type SuiteTextArray struct {
 	suite.Suite
 }
 
-func (this *SuiteFieldTextArray) target() *FieldTextArray {
-	return &FieldTextArray{}
+func (this *SuiteTextArray) target() *TextArray {
+	return &TextArray{}
 }
 
-func (this *SuiteFieldTextArray) TestType() {
+func (this *SuiteTextArray) TestType() {
 	assert.Equal(this.T(), "textArray", this.target().Type())
 }
 
-func (this *SuiteFieldTextArray) TestIsShow() {
+func (this *SuiteTextArray) TestIsShow() {
 	assert.Equal(this.T(), true, this.target().IsShow())
 }
 
-func (this *SuiteFieldTextArray) TestIsPkey() {
+func (this *SuiteTextArray) TestIsPkey() {
 	assert.Equal(this.T(), false, this.target().IsPkey())
 }
 
-func (this *SuiteFieldTextArray) TestToJsonDefault() {
+func (this *SuiteTextArray) TestToJsonDefault() {
 	assert.Equal(this.T(), []string{}, this.target().ToJsonDefault())
 }
 
-func (this *SuiteFieldTextArray) TestToJsonValue() {
+func (this *SuiteTextArray) TestToJsonValue() {
 	target := this.target()
 
 	result, err := target.ToJsonValue("ball,book,pack")
@@ -43,7 +43,7 @@ func (this *SuiteFieldTextArray) TestToJsonValue() {
 	assert.Equal(this.T(), []string{"ball", "book", "pack"}, result)
 }
 
-func (this *SuiteFieldTextArray) TestToLuaValue() {
+func (this *SuiteTextArray) TestToLuaValue() {
 	target := this.target()
 
 	result, err := target.ToLuaValue("ball,book,pack")

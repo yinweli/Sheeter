@@ -3,41 +3,40 @@ package fields
 import (
 	"testing"
 
-	"github.com/yinweli/Sheeter/testdata"
-
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestFieldIntArray(t *testing.T) {
-	suite.Run(t, new(SuiteFieldIntArray))
+func TestIntArray(t *testing.T) {
+	suite.Run(t, new(SuiteIntArray))
 }
 
-type SuiteFieldIntArray struct {
+type SuiteIntArray struct {
 	suite.Suite
 }
 
-func (this *SuiteFieldIntArray) target() *FieldIntArray {
-	return &FieldIntArray{}
+func (this *SuiteIntArray) target() *IntArray {
+	return &IntArray{}
 }
 
-func (this *SuiteFieldIntArray) TestType() {
+func (this *SuiteIntArray) TestType() {
 	assert.Equal(this.T(), "intArray", this.target().Type())
 }
 
-func (this *SuiteFieldIntArray) TestIsShow() {
+func (this *SuiteIntArray) TestIsShow() {
 	assert.Equal(this.T(), true, this.target().IsShow())
 }
 
-func (this *SuiteFieldIntArray) TestIsPkey() {
+func (this *SuiteIntArray) TestIsPkey() {
 	assert.Equal(this.T(), false, this.target().IsPkey())
 }
 
-func (this *SuiteFieldIntArray) TestToJsonDefault() {
+func (this *SuiteIntArray) TestToJsonDefault() {
 	assert.Equal(this.T(), []int64{}, this.target().ToJsonDefault())
 }
 
-func (this *SuiteFieldIntArray) TestToJsonValue() {
+func (this *SuiteIntArray) TestToJsonValue() {
 	target := this.target()
 
 	result, err := target.ToJsonValue("123,456,789")
@@ -48,7 +47,7 @@ func (this *SuiteFieldIntArray) TestToJsonValue() {
 	assert.NotNil(this.T(), err)
 }
 
-func (this *SuiteFieldIntArray) TestToLuaValue() {
+func (this *SuiteIntArray) TestToLuaValue() {
 	target := this.target()
 
 	result, err := target.ToLuaValue("123,456,789")

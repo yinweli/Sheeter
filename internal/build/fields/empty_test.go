@@ -7,35 +7,35 @@ import (
 	"github.com/stretchr/testify/suite"
 )
 
-func TestFieldEmpty(t *testing.T) {
-	suite.Run(t, new(SuiteFieldEmpty))
+func TestEmpty(t *testing.T) {
+	suite.Run(t, new(SuiteEmpty))
 }
 
-type SuiteFieldEmpty struct {
+type SuiteEmpty struct {
 	suite.Suite
 }
 
-func (this *SuiteFieldEmpty) target() *FieldEmpty {
-	return &FieldEmpty{}
+func (this *SuiteEmpty) target() *Empty {
+	return &Empty{}
 }
 
-func (this *SuiteFieldEmpty) TestType() {
+func (this *SuiteEmpty) TestType() {
 	assert.Equal(this.T(), "empty", this.target().Type())
 }
 
-func (this *SuiteFieldEmpty) TestIsShow() {
+func (this *SuiteEmpty) TestIsShow() {
 	assert.Equal(this.T(), false, this.target().IsShow())
 }
 
-func (this *SuiteFieldEmpty) TestIsPkey() {
+func (this *SuiteEmpty) TestIsPkey() {
 	assert.Equal(this.T(), false, this.target().IsPkey())
 }
 
-func (this *SuiteFieldEmpty) TestToJsonDefault() {
+func (this *SuiteEmpty) TestToJsonDefault() {
 	assert.Equal(this.T(), nil, this.target().ToJsonDefault())
 }
 
-func (this *SuiteFieldEmpty) TestToJsonValue() {
+func (this *SuiteEmpty) TestToJsonValue() {
 	target := this.target()
 
 	result, err := target.ToJsonValue("test")
@@ -43,7 +43,7 @@ func (this *SuiteFieldEmpty) TestToJsonValue() {
 	assert.Nil(this.T(), result)
 }
 
-func (this *SuiteFieldEmpty) TestToLuaValue() {
+func (this *SuiteEmpty) TestToLuaValue() {
 	target := this.target()
 
 	result, err := target.ToLuaValue("test")

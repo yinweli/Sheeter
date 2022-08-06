@@ -6,32 +6,32 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-// FieldPkey 主要索引
-type FieldPkey struct {
+// Pkey 主要索引
+type Pkey struct {
 }
 
 // Type 取得excel欄位類型
-func (this *FieldPkey) Type() string {
+func (this *Pkey) Type() string {
 	return "pkey"
 }
 
 // IsShow 是否顯示
-func (this *FieldPkey) IsShow() bool {
+func (this *Pkey) IsShow() bool {
 	return true
 }
 
 // IsPkey 是否是主要索引
-func (this *FieldPkey) IsPkey() bool {
+func (this *Pkey) IsPkey() bool {
 	return true
 }
 
 // ToJsonDefault 轉換為json預設值
-func (this *FieldPkey) ToJsonDefault() interface{} {
+func (this *Pkey) ToJsonDefault() interface{} {
 	return int64(0)
 }
 
 // ToJsonValue 轉換為json值
-func (this *FieldPkey) ToJsonValue(input string) (result interface{}, err error) {
+func (this *Pkey) ToJsonValue(input string) (result interface{}, err error) {
 	result, err = util.StrToInt(input)
 
 	if err != nil {
@@ -42,7 +42,7 @@ func (this *FieldPkey) ToJsonValue(input string) (result interface{}, err error)
 }
 
 // ToLuaValue 轉換為lua值
-func (this *FieldPkey) ToLuaValue(input string) (result string, err error) {
+func (this *Pkey) ToLuaValue(input string) (result string, err error) {
 	if _, err := util.StrToInt(input); err != nil {
 		return "", fmt.Errorf("to lua value failed: %w", err)
 	} // if

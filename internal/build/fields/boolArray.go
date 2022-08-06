@@ -6,32 +6,32 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-// FieldBoolArray 布林值陣列
-type FieldBoolArray struct {
+// BoolArray 布林值陣列
+type BoolArray struct {
 }
 
 // Type 取得excel欄位類型
-func (this *FieldBoolArray) Type() string {
+func (this *BoolArray) Type() string {
 	return "boolArray"
 }
 
 // IsShow 是否顯示
-func (this *FieldBoolArray) IsShow() bool {
+func (this *BoolArray) IsShow() bool {
 	return true
 }
 
 // IsPkey 是否是主要索引
-func (this *FieldBoolArray) IsPkey() bool {
+func (this *BoolArray) IsPkey() bool {
 	return false
 }
 
 // ToJsonDefault 轉換為json預設值
-func (this *FieldBoolArray) ToJsonDefault() interface{} {
+func (this *BoolArray) ToJsonDefault() interface{} {
 	return []bool{}
 }
 
 // ToJsonValue 轉換為json值
-func (this *FieldBoolArray) ToJsonValue(input string) (result interface{}, err error) {
+func (this *BoolArray) ToJsonValue(input string) (result interface{}, err error) {
 	result, err = util.StrToBoolArray(input)
 
 	if err != nil {
@@ -42,7 +42,7 @@ func (this *FieldBoolArray) ToJsonValue(input string) (result interface{}, err e
 }
 
 // ToLuaValue 轉換為lua值
-func (this *FieldBoolArray) ToLuaValue(input string) (result string, err error) {
+func (this *BoolArray) ToLuaValue(input string) (result string, err error) {
 	if result, err = util.LuaBoolArray(input); err != nil {
 		return "", fmt.Errorf("to lua value failed: %w", err)
 	} // if

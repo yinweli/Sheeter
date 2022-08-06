@@ -45,10 +45,10 @@ func (this *SuiteTaskJsonGo) target() *Task {
 		Excel: testdata.RealExcel,
 		Sheet: testdata.SheetName,
 		columns: []*Column{
-			{Name: "name0", Note: "note0", Field: &fields.FieldPkey{}},
-			{Name: "name1", Note: "note1", Field: &fields.FieldBool{}},
-			{Name: "name2", Note: "note2", Field: &fields.FieldInt{}},
-			{Name: "name3", Note: "note3", Field: &fields.FieldText{}},
+			{Name: "name0", Note: "note0", Field: &fields.Pkey{}},
+			{Name: "name1", Note: "note1", Field: &fields.Bool{}},
+			{Name: "name2", Note: "note2", Field: &fields.Int{}},
+			{Name: "name3", Note: "note3", Field: &fields.Text{}},
 		},
 	}
 	return target

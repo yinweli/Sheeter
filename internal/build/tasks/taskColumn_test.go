@@ -21,11 +21,11 @@ type SuiteTaskColumn struct {
 
 func (this *SuiteTaskColumn) SetupSuite() {
 	this.columns = []*Column{
-		{Name: "name0", Note: "note0", Field: &fields.FieldPkey{}},
-		{Name: "name1", Note: "note1", Field: &fields.FieldBool{}},
-		{Name: "name2", Note: "note2", Field: &fields.FieldInt{}},
-		{Name: "name3", Note: "note3", Field: &fields.FieldText{}},
-		{Name: "empty", Note: "empty", Field: &fields.FieldEmpty{}},
+		{Name: "name0", Note: "note0", Field: &fields.Pkey{}},
+		{Name: "name1", Note: "note1", Field: &fields.Bool{}},
+		{Name: "name2", Note: "note2", Field: &fields.Int{}},
+		{Name: "name3", Note: "note3", Field: &fields.Text{}},
+		{Name: "empty", Note: "empty", Field: &fields.Empty{}},
 	}
 }
 
