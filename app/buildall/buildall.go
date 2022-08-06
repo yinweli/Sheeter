@@ -33,12 +33,14 @@ func NewCommand() *cobra.Command {
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
 	startTime := time.Now()
+	err := thirdParty.Check()
 
-	if thirdParty.Check(cmd.Println) == false {
+	if err != nil {
+		cmd.Println(err)
 		return
 	} // if
 
-	config, err := ReadConfig(args[0])
+	config, err := readConfig(args[0])
 
 	if err != nil {
 		cmd.Println(err)
@@ -74,22 +76,22 @@ func execute(cmd *cobra.Command, args []string) {
 	cmd.Printf("%s done, usage time=%s\n", internal.Title, durafmt.Parse(time.Since(startTime)))
 }
 
-// ReadConfig 讀取設定
-func ReadConfig(fileName string) (result *Config, err error) {
+// readConfig 讀取設定
+func readConfig(fileName string) (result *config, err error) {
 	bytes, err := os.ReadFile(fileName)
 
 	if err != nil {
 		return nil, fmt.Errorf("read config failed: %w", err)
 	} // if
 
-	result = &Config{}
+	result = &config{}
 	err = yaml.Unmarshal(bytes, result)
 
 	if err != nil {
 		return nil, fmt.Errorf("read config failed: %w", err)
 	} // if
 
-	err = result.Check()
+	err = result.check()
 
 	if err != nil {
 		return nil, fmt.Errorf("read config failed: %w", err)
@@ -98,14 +100,14 @@ func ReadConfig(fileName string) (result *Config, err error) {
 	return result, nil
 }
 
-// Config 編譯設定
-type Config struct {
+// config 編譯設定
+type config struct {
 	Global   tasks.Global    `yaml:"global"`   // 全域設定
 	Elements []tasks.Element `yaml:"elements"` // 項目設定列表
 }
 
-// Check 檢查設定是否正確
-func (this *Config) Check() error {
+// check 檢查設定是否正確
+func (this *config) check() error {
 	if this.Global.LineOfField <= 0 {
 		return fmt.Errorf("global: LineOfField <= 0")
 	} // if
