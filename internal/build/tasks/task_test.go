@@ -36,177 +36,132 @@ func (this *SuiteTask) TearDownSuite() {
 }
 
 func (this *SuiteTask) target() *Task {
-	target := NewTask(nil, nil)
-	target.global = &Global{
-		ExcelPath:   testdata.RootPath,
+	target := &Task{
+		Path:        testdata.RootPath,
+		Bom:         true,
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  2,
 		LineOfData:  4,
-	}
-	target.element = &Element{
-		Excel: testdata.RealExcel,
-		Sheet: testdata.SheetName,
+		Excel:       testdata.RealExcel,
+		Sheet:       testdata.SheetName,
 	}
 	return target
 }
 
-func (this *SuiteTask) TestTask() {
+func (this *SuiteTask) TestRun() {
 	target := this.target()
 	assert.Nil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.global.ExcelPath = testdata.UnknownStr
+	target.Path = testdata.UnknownStr
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.global.LineOfField = 10
+	target.LineOfField = 10
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.global.LineOfNote = 10
+	target.LineOfNote = 10
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.Defect1Excel
+	target.Excel = testdata.Defect1Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.Defect2Excel
+	target.Excel = testdata.Defect2Excel
 	assert.Nil(this.T(), target.Run(this.progress)) // 測試其實會成功
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.Defect3Excel
+	target.Excel = testdata.Defect3Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.Defect4Excel
+	target.Excel = testdata.Defect4Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.Defect5Excel
+	target.Excel = testdata.Defect5Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.Defect6Excel
+	target.Excel = testdata.Defect6Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.Defect7Excel
+	target.Excel = testdata.Defect7Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.Defect8Excel
+	target.Excel = testdata.Defect8Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.Defect9Excel
+	target.Excel = testdata.Defect9Excel
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.UnknownStr
+	target.Excel = testdata.UnknownStr
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 
 	target = this.target()
-	target.element.Sheet = testdata.UnknownStr
+	target.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), target.Run(this.progress))
 	target.close()
 }
 
-func (this *SuiteTask) TestNewTask() {
-	assert.NotNil(this.T(), NewTask(nil, nil))
-}
-
-func TestGlobal(t *testing.T) {
-	suite.Run(t, new(SuiteGlobal))
-}
-
-type SuiteGlobal struct {
-	suite.Suite
-}
-
-func (this *SuiteGlobal) target() *Global {
-	return &Global{
-		ExcelPath:   "excel",
-		Bom:         true,
-		LineOfField: 1,
-		LineOfLayer: 2,
-		LineOfNote:  3,
-		LineOfData:  4,
-	}
-}
-
-func (this *SuiteGlobal) TestCheck() {
+func (this *SuiteTask) TestCheck() {
 	target := this.target()
-	assert.Nil(this.T(), target.Check())
+	assert.Nil(this.T(), target.check())
 
 	target = this.target()
 	target.LineOfField = 0
-	assert.NotNil(this.T(), target.Check())
+	assert.NotNil(this.T(), target.check())
 
 	target = this.target()
 	target.LineOfLayer = 0
-	assert.NotNil(this.T(), target.Check())
+	assert.NotNil(this.T(), target.check())
 
 	target = this.target()
 	target.LineOfNote = 0
-	assert.NotNil(this.T(), target.Check())
+	assert.NotNil(this.T(), target.check())
 
 	target = this.target()
 	target.LineOfData = 0
-	assert.NotNil(this.T(), target.Check())
+	assert.NotNil(this.T(), target.check())
 
 	target = this.target()
 	target.LineOfField = 4
-	assert.NotNil(this.T(), target.Check())
+	assert.NotNil(this.T(), target.check())
 
 	target = this.target()
 	target.LineOfLayer = 4
-	assert.NotNil(this.T(), target.Check())
+	assert.NotNil(this.T(), target.check())
 
 	target = this.target()
 	target.LineOfNote = 4
-	assert.NotNil(this.T(), target.Check())
-}
-
-func TestElement(t *testing.T) {
-	suite.Run(t, new(SuiteElement))
-}
-
-type SuiteElement struct {
-	suite.Suite
-}
-
-func (this *SuiteElement) target() *Element {
-	return &Element{
-		Excel: "excel.xlsx",
-		Sheet: "sheet",
-	}
-}
-
-func (this *SuiteElement) TestCheck() {
-	target := this.target()
-	assert.Nil(this.T(), target.Check())
+	assert.NotNil(this.T(), target.check())
 
 	target = this.target()
 	target.Excel = ""
-	assert.NotNil(this.T(), target.Check())
+	assert.NotNil(this.T(), target.check())
 
 	target = this.target()
 	target.Sheet = ""
-	assert.NotNil(this.T(), target.Check())
+	assert.NotNil(this.T(), target.check())
 }

@@ -10,19 +10,19 @@ import (
 
 // runColumn 建立欄位列表
 func (this *Task) runColumn() error {
-	fieldLine, err := this.getRowContent(this.global.LineOfField)
+	fieldLine, err := this.getRowContent(this.LineOfField)
 
 	if err != nil {
 		return fmt.Errorf("read column failed: %s\nfield line not found", this.originalName())
 	} // if
 
-	layerLine, err := this.getRowContent(this.global.LineOfLayer)
+	layerLine, err := this.getRowContent(this.LineOfLayer)
 
 	if err != nil {
 		return fmt.Errorf("read column failed: %s\nlayer line not found", this.originalName())
 	} // if
 
-	noteLine, err := this.getRowContent(this.global.LineOfNote)
+	noteLine, err := this.getRowContent(this.LineOfNote)
 
 	if err != nil {
 		return fmt.Errorf("read column failed: %s\nnote line not found", this.originalName())

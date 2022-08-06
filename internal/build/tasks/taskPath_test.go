@@ -18,11 +18,8 @@ type SuiteTaskPath struct {
 }
 
 func (this *SuiteTaskPath) target() *Task {
-	target := NewTask(nil, nil)
-	target.global = &Global{
-		ExcelPath: "path",
-	}
-	target.element = &Element{
+	target := &Task{
+		Path:  "path",
 		Excel: testdata.RealExcel,
 		Sheet: testdata.SheetName,
 	}

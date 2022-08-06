@@ -13,7 +13,7 @@ import (
 
 // originalName 取得原始名稱
 func (this *Task) originalName() string {
-	return fmt.Sprintf("%s(%s)", this.element.Excel, this.element.Sheet)
+	return fmt.Sprintf("%s(%s)", this.Excel, this.Sheet)
 }
 
 // namespace 取得命名空間名稱
@@ -24,7 +24,7 @@ func (this *Task) namespace() string {
 // structName 取得結構名稱
 func (this *Task) structName() string {
 	excelName := util.FirstUpper(this.excelName())
-	sheetName := util.FirstUpper(this.element.Sheet)
+	sheetName := util.FirstUpper(this.Sheet)
 
 	return excelName + sheetName
 }
@@ -36,12 +36,12 @@ func (this *Task) readerName() string {
 
 // excelName 取得沒有副檔名的excel名稱
 func (this *Task) excelName() string {
-	return strings.TrimSuffix(this.element.Excel, filepath.Ext(this.element.Excel))
+	return strings.TrimSuffix(this.Excel, filepath.Ext(this.Excel))
 }
 
 // sheetExists 表格是否存在
 func (this *Task) sheetExists() bool {
-	return this.excel.GetSheetIndex(this.element.Sheet) != -1
+	return this.excel.GetSheetIndex(this.Sheet) != -1
 }
 
 // getRows 取得表格行資料, line從1起算; 如果該行不存在, 回傳成功並取得最後一行物件
@@ -50,7 +50,7 @@ func (this *Task) getRows(line int) (rows *excelize.Rows, err error) {
 		return nil, fmt.Errorf("row <= 0")
 	} // if
 
-	rows, err = this.excel.Rows(this.element.Sheet)
+	rows, err = this.excel.Rows(this.Sheet)
 
 	if err != nil {
 		return nil, fmt.Errorf("get rows failed: %w", err)
@@ -69,7 +69,7 @@ func (this *Task) getRowContent(line int) (cols []string, err error) {
 		return nil, fmt.Errorf("row <= 0")
 	} // if
 
-	rows, err := this.excel.Rows(this.element.Sheet)
+	rows, err := this.excel.Rows(this.Sheet)
 
 	if err != nil {
 		return nil, fmt.Errorf("get rows failed: %w", err)

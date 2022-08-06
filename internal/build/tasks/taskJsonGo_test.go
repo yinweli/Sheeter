@@ -41,17 +41,15 @@ func (this *SuiteTaskJsonGo) TearDownSuite() {
 }
 
 func (this *SuiteTaskJsonGo) target() *Task {
-	target := NewTask(nil, nil)
-	target.global = &Global{}
-	target.element = &Element{
+	target := &Task{
 		Excel: testdata.RealExcel,
 		Sheet: testdata.SheetName,
-	}
-	target.columns = []*Column{
-		{Name: "name0", Note: "note0", Field: &fields.FieldPkey{}},
-		{Name: "name1", Note: "note1", Field: &fields.FieldBool{}},
-		{Name: "name2", Note: "note2", Field: &fields.FieldInt{}},
-		{Name: "name3", Note: "note3", Field: &fields.FieldText{}},
+		columns: []*Column{
+			{Name: "name0", Note: "note0", Field: &fields.FieldPkey{}},
+			{Name: "name1", Note: "note1", Field: &fields.FieldBool{}},
+			{Name: "name2", Note: "note2", Field: &fields.FieldInt{}},
+			{Name: "name3", Note: "note3", Field: &fields.FieldText{}},
+		},
 	}
 	return target
 }
@@ -64,12 +62,12 @@ func (this *SuiteTaskJsonGo) TestTaskJsonGo() {
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.UnknownStr
+	target.Excel = testdata.UnknownStr
 	assert.NotNil(this.T(), target.runJsonGo())
 	target.close()
 
 	target = this.target()
-	target.element.Sheet = testdata.UnknownStr
+	target.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), target.runJsonGo())
 	target.close()
 }

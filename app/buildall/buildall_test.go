@@ -3,9 +3,6 @@ package buildall
 import (
 	"testing"
 
-	"github.com/yinweli/Sheeter/testdata"
-
-	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 )
 
@@ -19,6 +16,7 @@ type SuiteConfig struct {
 	suite.Suite
 }
 
+/*
 func (this *SuiteConfig) TestReadConfig() {
 	config, err := readConfig(testdata.Path(testdata.RealConfig))
 	assert.Nil(this.T(), err)
@@ -33,3 +31,4 @@ func (this *SuiteConfig) TestReadConfig() {
 	_, err = readConfig(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
+*/

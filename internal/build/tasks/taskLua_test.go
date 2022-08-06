@@ -43,19 +43,16 @@ func (this *SuiteTaskLua) TearDownSuite() {
 }
 
 func (this *SuiteTaskLua) target() *Task {
-	target := NewTask(nil, nil)
-	target.global = &Global{
+	target := &Task{
 		LineOfData: 4,
-	}
-	target.element = &Element{
-		Excel: testdata.RealExcel,
-		Sheet: testdata.SheetName,
-	}
-	target.columns = []*Column{
-		{Name: "name0", Field: &fields.FieldPkey{}},
-		{Name: "name1", Field: &fields.FieldBool{}},
-		{Name: "name2", Field: &fields.FieldInt{}},
-		{Name: "name3", Field: &fields.FieldText{}},
+		Excel:      testdata.RealExcel,
+		Sheet:      testdata.SheetName,
+		columns: []*Column{
+			{Name: "name0", Field: &fields.FieldPkey{}},
+			{Name: "name1", Field: &fields.FieldBool{}},
+			{Name: "name2", Field: &fields.FieldInt{}},
+			{Name: "name3", Field: &fields.FieldText{}},
+		},
 	}
 	return target
 }
@@ -79,13 +76,13 @@ func (this *SuiteTaskLua) TestTaskLua() {
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.UnknownStr
+	target.Excel = testdata.UnknownStr
 	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runLua())
 	target.close()
 
 	target = this.target()
-	target.element.Sheet = testdata.UnknownStr
+	target.Sheet = testdata.UnknownStr
 	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runLua())
 	target.close()

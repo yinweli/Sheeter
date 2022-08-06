@@ -18,11 +18,8 @@ type SuiteTaskExcel struct {
 }
 
 func (this *SuiteTaskExcel) target() *Task {
-	target := NewTask(nil, nil)
-	target.global = &Global{
-		ExcelPath: testdata.RootPath,
-	}
-	target.element = &Element{
+	target := &Task{
+		Path:  testdata.RootPath,
 		Excel: testdata.RealExcel,
 		Sheet: testdata.SheetName,
 	}
@@ -36,22 +33,22 @@ func (this *SuiteTaskExcel) TestTaskExcel() {
 	target.close()
 
 	target = this.target()
-	target.global.ExcelPath = ""
+	target.Path = ""
 	assert.NotNil(this.T(), target.runExcel())
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.Defect1Excel
+	target.Excel = testdata.Defect1Excel
 	assert.NotNil(this.T(), target.runExcel())
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.UnknownStr
+	target.Excel = testdata.UnknownStr
 	assert.NotNil(this.T(), target.runExcel())
 	target.close()
 
 	target = this.target()
-	target.element.Sheet = testdata.UnknownStr
+	target.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), target.runExcel())
 	target.close()
 }

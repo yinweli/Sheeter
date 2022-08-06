@@ -37,14 +37,21 @@ func execute(cmd *cobra.Command, args []string) {
 	err := thirdparty.Check()
 
 	if err != nil {
-		cmd.Println(err)
+		cmd.Println(fmt.Errorf("thirdparty failed: %w", err))
 		return
 	} // if
 
-	config, err := readConfig(args[0])
+	bytes, err := os.ReadFile(args[0])
 
 	if err != nil {
-		cmd.Println(err)
+		cmd.Println(fmt.Errorf("read config failed: %w", err))
+		return
+	} // if
+
+	config := &Config{}
+
+	if err = yaml.Unmarshal(bytes, config); err != nil {
+		cmd.Println(fmt.Errorf("read config failed: %w", err))
 		return
 	} // if
 
@@ -61,7 +68,17 @@ func execute(cmd *cobra.Command, args []string) {
 
 		go func() {
 			defer signaler.Done()
-			errors <- tasks.NewTask(&global, &element).Run(progress)
+			task := &tasks.Task{
+				Path:        global.Path,
+				Bom:         global.Bom,
+				LineOfField: global.LineOfField,
+				LineOfLayer: global.LineOfLayer,
+				LineOfNote:  global.LineOfNote,
+				LineOfData:  global.LineOfData,
+				Excel:       element.Excel,
+				Sheet:       element.Sheet,
+			}
+			errors <- task.Run(progress)
 		}()
 	} // for
 
@@ -77,35 +94,24 @@ func execute(cmd *cobra.Command, args []string) {
 	cmd.Printf("%s done, usage time=%s\n", internal.Title, durafmt.Parse(time.Since(startTime)))
 }
 
-// readConfig 讀取設定 TODO: 考慮合併進去buildall
-func readConfig(fileName string) (result *Config, err error) {
-	bytes, err := os.ReadFile(fileName)
-
-	if err != nil {
-		return nil, fmt.Errorf("read config failed: %w", err)
-	} // if
-
-	result = &Config{}
-
-	if err = yaml.Unmarshal(bytes, result); err != nil {
-		return nil, fmt.Errorf("read config failed: %w", err)
-	} // if
-
-	if err = result.Global.Check(); err != nil {
-		return nil, fmt.Errorf("read config failed: %w", err)
-	} // if
-
-	for _, itor := range result.Elements {
-		if err = itor.Check(); err != nil {
-			return nil, fmt.Errorf("read config failed: %w", err)
-		} // if
-	} // for
-
-	return result, nil
-}
-
 // Config 編譯設定
 type Config struct {
-	Global   tasks.Global    `yaml:"global"`   // 全域設定
-	Elements []tasks.Element `yaml:"elements"` // 項目設定列表
+	Global   Global    `yaml:"global"`   // 全域設定
+	Elements []Element `yaml:"elements"` // 項目設定列表
+}
+
+// Global 全域設定
+type Global struct {
+	Path        string `yaml:"excelPath"`   // 來源excel路徑 TODO: excelPath改名為path
+	Bom         bool   `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
+	LineOfField int    `yaml:"lineOfField"` // 欄位行號(1為起始行)
+	LineOfLayer int    `yaml:"lineOfLayer"` // 階層行號(1為起始行)
+	LineOfNote  int    `yaml:"lineOfNote"`  // 註解行號(1為起始行)
+	LineOfData  int    `yaml:"lineOfData"`  // 資料起始行號(1為起始行)
+}
+
+// Element 項目設定
+type Element struct {
+	Excel string `yaml:"excel"` // excel檔案名稱
+	Sheet string `yaml:"sheet"` // excel表單名稱
 }

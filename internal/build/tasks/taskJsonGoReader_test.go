@@ -46,9 +46,7 @@ func (this *SuiteTaskJsonGoReader) TearDownSuite() {
 }
 
 func (this *SuiteTaskJsonGoReader) target() *Task {
-	target := NewTask(nil, nil)
-	target.global = &Global{}
-	target.element = &Element{
+	target := &Task{
 		Excel: testdata.RealExcel,
 		Sheet: testdata.SheetName,
 	}
@@ -62,12 +60,12 @@ func (this *SuiteTaskJsonGoReader) TestTaskJsonGoReader() {
 	target.close()
 
 	target = this.target()
-	target.element.Excel = testdata.UnknownStr
+	target.Excel = testdata.UnknownStr
 	assert.NotNil(this.T(), target.runJsonGoReader())
 	target.close()
 
 	target = this.target()
-	target.element.Sheet = testdata.UnknownStr
+	target.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), target.runJsonGoReader())
 	target.close()
 }

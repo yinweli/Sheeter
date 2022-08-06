@@ -30,15 +30,12 @@ func (this *SuiteTaskColumn) SetupSuite() {
 }
 
 func (this *SuiteTaskColumn) target() *Task {
-	target := NewTask(nil, nil)
-	target.global = &Global{
+	target := &Task{
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
-	}
-	target.element = &Element{
-		Excel: testdata.RealExcel,
-		Sheet: testdata.SheetName,
+		Excel:       testdata.RealExcel,
+		Sheet:       testdata.SheetName,
 	}
 	return target
 }
@@ -51,13 +48,13 @@ func (this *SuiteTaskColumn) TestTaskColumn() {
 	target.close()
 
 	target = this.target()
-	target.global.LineOfField = 10
+	target.LineOfField = 10
 	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runColumn())
 	target.close()
 
 	target = this.target()
-	target.global.LineOfNote = 10
+	target.LineOfNote = 10
 	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.NotNil(this.T(), target.runColumn())
 	target.close()

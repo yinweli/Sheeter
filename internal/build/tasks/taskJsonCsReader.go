@@ -32,7 +32,7 @@ func (this *Task) runJsonCsReader() error {
 		Namespace:    this.namespace(),
 		StructName:   this.structName(),
 		ReaderName:   this.readerName(),
-	}, this.global.Bom)
+	}, this.Bom)
 
 	if err != nil {
 		return fmt.Errorf("generate csReader failed: %s\n%w", this.originalName(), err)

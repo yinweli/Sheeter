@@ -18,8 +18,7 @@ type SuiteTaskUtil struct {
 }
 
 func (this *SuiteTaskUtil) target() *Task {
-	target := NewTask(nil, nil)
-	target.element = &Element{
+	target := &Task{
 		Excel: testdata.RealExcel,
 		Sheet: testdata.SheetName,
 	}
@@ -52,7 +51,7 @@ func (this *SuiteTaskUtil) TestSheetExists() {
 	target.excel = testdata.GetTestExcel(testdata.RealExcel)
 	assert.True(this.T(), target.sheetExists())
 
-	target.element.Sheet = testdata.UnknownStr
+	target.Sheet = testdata.UnknownStr
 	assert.False(this.T(), target.sheetExists())
 
 	target.close()
@@ -75,7 +74,7 @@ func (this *SuiteTaskUtil) TestGetRows() {
 	_, err = target.getRows(0)
 	assert.NotNil(this.T(), err)
 
-	target.element.Sheet = testdata.UnknownStr
+	target.Sheet = testdata.UnknownStr
 	_, err = target.getRows(1)
 	assert.NotNil(this.T(), err)
 
@@ -100,7 +99,7 @@ func (this *SuiteTaskUtil) TestGetRowContent() {
 	_, err = target.getRowContent(0)
 	assert.NotNil(this.T(), err)
 
-	target.element.Sheet = testdata.UnknownStr
+	target.Sheet = testdata.UnknownStr
 	_, err = target.getRowContent(1)
 	assert.NotNil(this.T(), err)
 

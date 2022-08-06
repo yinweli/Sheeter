@@ -31,7 +31,7 @@ func (this *Task) runJsonGoReader() error {
 		Namespace:    this.namespace(),
 		StructName:   this.structName(),
 		ReaderName:   this.readerName(),
-	}, this.global.Bom)
+	}, this.Bom)
 
 	if err != nil {
 		return fmt.Errorf("generate goReader failed: %s\n%w", this.originalName(), err)

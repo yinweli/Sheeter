@@ -37,17 +37,15 @@ func (this *SuiteTaskJsonSchema) TearDownSuite() {
 }
 
 func (this *SuiteTaskJsonSchema) target() *Task {
-	target := NewTask(nil, nil)
-	target.global = &Global{}
-	target.element = &Element{
+	target := &Task{
 		Excel: testdata.RealExcel,
 		Sheet: testdata.SheetName,
-	}
-	target.columns = []*Column{
-		{Name: "name0", Field: &fields.FieldPkey{}},
-		{Name: "name1", Field: &fields.FieldBool{}},
-		{Name: "name2", Field: &fields.FieldInt{}},
-		{Name: "name3", Field: &fields.FieldText{}},
+		columns: []*Column{
+			{Name: "name0", Field: &fields.FieldPkey{}},
+			{Name: "name1", Field: &fields.FieldBool{}},
+			{Name: "name2", Field: &fields.FieldInt{}},
+			{Name: "name3", Field: &fields.FieldText{}},
+		},
 	}
 	return target
 }

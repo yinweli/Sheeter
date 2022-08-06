@@ -8,7 +8,7 @@ import (
 
 // runJson 輸出json
 func (this *Task) runJson() error {
-	row := this.global.LineOfData
+	row := this.LineOfData
 	rows, err := this.getRows(row)
 
 	if err != nil {
@@ -56,7 +56,7 @@ func (this *Task) runJson() error {
 		row++
 	} // for
 
-	err = util.JsonWrite(this.jsonFilePath(), objs, this.global.Bom)
+	err = util.JsonWrite(this.jsonFilePath(), objs, this.Bom)
 
 	if err != nil {
 		return fmt.Errorf("generate json failed: %s\n%w", this.originalName(), err)

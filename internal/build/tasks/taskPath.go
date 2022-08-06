@@ -21,7 +21,7 @@ const extLua = "lua"                // 副檔名: lua
 
 // excelFilePath 取得excel檔名路徑
 func (this *Task) excelFilePath() string {
-	return path.Join(this.global.ExcelPath, this.element.Excel)
+	return path.Join(this.Path, this.Excel)
 }
 
 // jsonSchemaFilePath 取得json架構檔名路徑
@@ -67,7 +67,7 @@ func (this *Task) luaFilePath() string {
 // fileName 取得檔案名稱
 func (this *Task) fileName(ext ...string) string {
 	excelName := util.FirstLower(this.excelName())
-	sheetName := util.FirstUpper(this.element.Sheet)
+	sheetName := util.FirstUpper(this.Sheet)
 
 	fileNames := []string{}
 	fileNames = append(fileNames, excelName+sheetName)
