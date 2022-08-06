@@ -16,7 +16,7 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const barWidth = 40 // 進度條寬度
+const barWidth = 40 // 進度條寬度 TODO: 考慮獨立成mpb產生器?
 
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
