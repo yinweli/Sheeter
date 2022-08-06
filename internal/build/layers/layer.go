@@ -30,7 +30,7 @@ func ParseLayer(input string) (layers []Layer, back int, err error) {
 	divider := false
 
 	for i, itor := range tokens {
-		if mode == modeBegin && strings.HasPrefix(itor, tokenArray) { // tokenArray要先判斷, 不然會有錯誤
+		if mode == modeBegin && strings.HasPrefix(itor, tokenArray) { // tokenArray要比tokenStruct先判斷, 不然會有錯誤
 			if name := strings.TrimPrefix(itor, tokenArray); util.VariableCheck(name) {
 				layers = append(layers, Layer{
 					Name: name,
