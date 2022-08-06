@@ -3,9 +3,10 @@ package layouts
 import (
 	"testing"
 
+	"github.com/yinweli/Sheeter/internal/build/layers"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	"github.com/yinweli/Sheeter/internal/build/layers"
 )
 
 func TestDuplLayer(t *testing.T) {

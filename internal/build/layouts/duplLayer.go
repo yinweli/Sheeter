@@ -1,6 +1,8 @@
 package layouts
 
-import "github.com/yinweli/Sheeter/internal/build/layers"
+import (
+	"github.com/yinweli/Sheeter/internal/build/layers"
+)
 
 // duplLayer 階層重複檢查器
 type duplLayer struct {

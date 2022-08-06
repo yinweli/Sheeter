@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/yinweli/Sheeter/internal/build/fields"
-	layers2 "github.com/yinweli/Sheeter/internal/build/layers"
 	"github.com/yinweli/Sheeter/internal/build/layouts"
 )
 

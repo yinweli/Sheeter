@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/yinweli/Sheeter/internal/build/fields"
+
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
 	"github.com/xuri/excelize/v2"
-	"github.com/yinweli/Sheeter/internal/build/fields"
 )
 
 const maxTask = 9                      // 最大工作數量

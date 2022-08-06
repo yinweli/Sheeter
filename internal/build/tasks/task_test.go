@@ -4,10 +4,11 @@ import (
 	"os"
 	"testing"
 
+	"github.com/yinweli/Sheeter/testdata"
+
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 	"github.com/vbauerster/mpb/v7"
-	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestTask(t *testing.T) {

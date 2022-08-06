@@ -1,10 +1,11 @@
 package main
 
 import (
-	"github.com/spf13/cobra"
 	"github.com/yinweli/Sheeter/app/buildall"
 	"github.com/yinweli/Sheeter/app/version"
 	"github.com/yinweli/Sheeter/internal"
+
+	"github.com/spf13/cobra"
 )
 
 func main() {

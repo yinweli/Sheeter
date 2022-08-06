@@ -6,12 +6,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/hako/durafmt"
-	"github.com/spf13/cobra"
-	"github.com/vbauerster/mpb/v7"
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/build/tasks"
 	"github.com/yinweli/Sheeter/internal/build/thirdParty"
+
+	"github.com/hako/durafmt"
+	"github.com/spf13/cobra"
+	"github.com/vbauerster/mpb/v7"
 	"gopkg.in/yaml.v3"
 )
 
