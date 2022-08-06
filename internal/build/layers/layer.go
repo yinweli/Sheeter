@@ -27,7 +27,7 @@ const tokenEnd = "}"     // 以'}'符號開始, 表示為結構/陣列的結束
 func ParseLayer(input string) (layers []Layer, back int, err error) {
 	tokens := strings.Fields(input)
 	mode := modeBegin
-	divider := 0
+	divider := false
 
 	for i, itor := range tokens {
 		if mode == modeBegin && strings.HasPrefix(itor, tokenArray) { // tokenArray要先判斷, 不然會有錯誤
@@ -50,12 +50,12 @@ func ParseLayer(input string) (layers []Layer, back int, err error) {
 			} // if
 		} // if
 
-		if mode == modeBegin && strings.HasPrefix(itor, tokenDivider) && divider == 0 && i == 0 {
+		if mode == modeBegin && strings.HasPrefix(itor, tokenDivider) && divider == false && i == 0 {
 			if name := strings.TrimPrefix(itor, tokenDivider); name == "" {
 				layers = append(layers, Layer{
 					Type: LayerDivider,
 				})
-				divider++
+				divider = true
 				continue
 			} // if
 		} // if

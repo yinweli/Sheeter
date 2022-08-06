@@ -8,11 +8,11 @@ import (
 
 // TODO: 要記得做buildall的測試
 
-func TestConfig(t *testing.T) {
-	suite.Run(t, new(SuiteConfig))
+func TestBuildAll(t *testing.T) {
+	suite.Run(t, new(SuiteBuildAll))
 }
 
-type SuiteConfig struct {
+type SuiteBuildAll struct {
 	suite.Suite
 }
 
