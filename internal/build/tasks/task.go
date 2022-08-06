@@ -132,8 +132,54 @@ type Global struct {
 	LineOfData  int    `yaml:"lineOfData"`  // 資料起始行號(1為起始行)
 }
 
+// Check 檢查設定是否正確
+func (this *Global) Check() error {
+	if this.LineOfField <= 0 {
+		return fmt.Errorf("global: LineOfField <= 0")
+	} // if
+
+	if this.LineOfLayer <= 0 {
+		return fmt.Errorf("global: LineOfLayer <= 0")
+	} // if
+
+	if this.LineOfNote <= 0 {
+		return fmt.Errorf("global: LineOfNote <= 0")
+	} // if
+
+	if this.LineOfData <= 0 {
+		return fmt.Errorf("global: LineOfData <= 0")
+	} // if
+
+	if this.LineOfField >= this.LineOfData {
+		return fmt.Errorf("global: LineOfField(%d) >= LineOfData(%d)", this.LineOfField, this.LineOfData)
+	} // if
+
+	if this.LineOfLayer >= this.LineOfData {
+		return fmt.Errorf("global: LineOfLayer(%d) >= LineOfData(%d)", this.LineOfLayer, this.LineOfData)
+	} // if
+
+	if this.LineOfNote >= this.LineOfData {
+		return fmt.Errorf("global: LineOfNote(%d) >= LineOfData(%d)", this.LineOfNote, this.LineOfData)
+	} // if
+
+	return nil
+}
+
 // Element 項目設定
 type Element struct {
 	Excel string `yaml:"excel"` // excel檔案名稱
 	Sheet string `yaml:"sheet"` // excel表單名稱
+}
+
+// Check 檢查設定是否正確
+func (this *Element) Check() error {
+	if this.Excel == "" {
+		return fmt.Errorf("element: excel empty")
+	} // if
+
+	if this.Sheet == "" {
+		return fmt.Errorf("element: sheet empty")
+	} // if
+
+	return nil
 }

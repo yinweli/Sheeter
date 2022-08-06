@@ -130,3 +130,83 @@ func (this *SuiteTask) TestTask() {
 func (this *SuiteTask) TestNewTask() {
 	assert.NotNil(this.T(), NewTask(nil, nil))
 }
+
+func TestGlobal(t *testing.T) {
+	suite.Run(t, new(SuiteGlobal))
+}
+
+type SuiteGlobal struct {
+	suite.Suite
+}
+
+func (this *SuiteGlobal) target() *Global {
+	return &Global{
+		ExcelPath:   "excel",
+		Bom:         true,
+		LineOfField: 1,
+		LineOfLayer: 2,
+		LineOfNote:  3,
+		LineOfData:  4,
+	}
+}
+
+func (this *SuiteGlobal) TestCheck() {
+	target := this.target()
+	assert.Nil(this.T(), target.Check())
+
+	target = this.target()
+	target.LineOfField = 0
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.LineOfLayer = 0
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.LineOfNote = 0
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.LineOfData = 0
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.LineOfField = 4
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.LineOfLayer = 4
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.LineOfNote = 4
+	assert.NotNil(this.T(), target.Check())
+}
+
+func TestElement(t *testing.T) {
+	suite.Run(t, new(SuiteElement))
+}
+
+type SuiteElement struct {
+	suite.Suite
+}
+
+func (this *SuiteElement) target() *Element {
+	return &Element{
+		Excel: "excel.xlsx",
+		Sheet: "sheet",
+	}
+}
+
+func (this *SuiteElement) TestCheck() {
+	target := this.target()
+	assert.Nil(this.T(), target.Check())
+
+	target = this.target()
+	target.Excel = ""
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Sheet = ""
+	assert.NotNil(this.T(), target.Check())
+}

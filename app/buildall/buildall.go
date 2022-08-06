@@ -50,8 +50,8 @@ func execute(cmd *cobra.Command, args []string) {
 
 	count := len(config.Elements)
 	signaler := sync.WaitGroup{}
-	progress := mpb.New(mpb.WithWidth(barWidth), mpb.WithWaitGroup(&signaler))
 	errors := make(chan error, count) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
+	progress := mpb.New(mpb.WithWidth(barWidth), mpb.WithWaitGroup(&signaler))
 
 	signaler.Add(count)
 
@@ -86,17 +86,20 @@ func readConfig(fileName string) (result *config, err error) {
 	} // if
 
 	result = &config{}
-	err = yaml.Unmarshal(bytes, result)
 
-	if err != nil {
+	if err = yaml.Unmarshal(bytes, result); err != nil {
 		return nil, fmt.Errorf("read config failed: %w", err)
 	} // if
 
-	err = result.check()
-
-	if err != nil {
+	if err = result.Global.Check(); err != nil {
 		return nil, fmt.Errorf("read config failed: %w", err)
 	} // if
+
+	for _, itor := range result.Elements {
+		if err = itor.Check(); err != nil {
+			return nil, fmt.Errorf("read config failed: %w", err)
+		} // if
+	} // for
 
 	return result, nil
 }
@@ -105,47 +108,4 @@ func readConfig(fileName string) (result *config, err error) {
 type config struct {
 	Global   tasks.Global    `yaml:"global"`   // 全域設定
 	Elements []tasks.Element `yaml:"elements"` // 項目設定列表
-}
-
-// check 檢查設定是否正確
-func (this *config) check() error {
-	if this.Global.LineOfField <= 0 {
-		return fmt.Errorf("global: LineOfField <= 0")
-	} // if
-
-	if this.Global.LineOfLayer <= 0 {
-		return fmt.Errorf("global: LineOfLayer <= 0")
-	} // if
-
-	if this.Global.LineOfNote <= 0 {
-		return fmt.Errorf("global: LineOfNote <= 0")
-	} // if
-
-	if this.Global.LineOfData <= 0 {
-		return fmt.Errorf("global: LineOfData <= 0")
-	} // if
-
-	if this.Global.LineOfField >= this.Global.LineOfData {
-		return fmt.Errorf("global: LineOfField(%d) >= LineOfData(%d)", this.Global.LineOfField, this.Global.LineOfData)
-	} // if
-
-	if this.Global.LineOfLayer >= this.Global.LineOfData {
-		return fmt.Errorf("global: LineOfLayer(%d) >= LineOfData(%d)", this.Global.LineOfLayer, this.Global.LineOfData)
-	} // if
-
-	if this.Global.LineOfNote >= this.Global.LineOfData {
-		return fmt.Errorf("global: LineOfNote(%d) >= LineOfData(%d)", this.Global.LineOfNote, this.Global.LineOfData)
-	} // if
-
-	for _, itor := range this.Elements {
-		if itor.Excel == "" {
-			return fmt.Errorf("element: excel empty")
-		} // if
-
-		if itor.Sheet == "" {
-			return fmt.Errorf("element: sheet empty")
-		} // if
-	} // for
-
-	return nil
 }
