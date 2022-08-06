@@ -13,11 +13,6 @@ const (
 	LayerDivider        // 陣列隔線
 )
 
-const (
-	modeBegin = iota // 開始模式
-	modeEnd          // 結束模式
-)
-
 const tokenArray = "{[]" // 以'{[]'符號開始, 表示為陣列的開始
 const tokenStruct = "{"  // 以'{'符號開始, 表示為結構的開始
 const tokenDivider = "/" // 以'/'符號開始, 表示為陣列的分隔, 必須在階層字串的最開始, 並且只能出現一次
@@ -26,11 +21,11 @@ const tokenEnd = "}"     // 以'}'符號開始, 表示為結構/陣列的結束
 // ParseLayer 解析字串為階層, 格式為'{[]name'或'/'或'{name'或'}', 以空格分隔
 func ParseLayer(input string) (layers []Layer, back int, err error) {
 	tokens := strings.Fields(input)
-	mode := modeBegin
-	divider := false
+	locate := false  // 位置旗標, false表示前置位置, true表示後置位置
+	divider := false // 陣列隔線旗標, false表示沒有出現, true表示已經出現
 
 	for i, itor := range tokens {
-		if mode == modeBegin && strings.HasPrefix(itor, tokenArray) { // tokenArray要比tokenStruct先判斷, 不然會有錯誤
+		if locate == false && strings.HasPrefix(itor, tokenArray) { // tokenArray要比tokenStruct先判斷, 不然會有錯誤
 			if name := strings.TrimPrefix(itor, tokenArray); util.VariableCheck(name) {
 				layers = append(layers, Layer{
 					Name: name,
@@ -40,7 +35,7 @@ func ParseLayer(input string) (layers []Layer, back int, err error) {
 			} // if
 		} // if
 
-		if mode == modeBegin && strings.HasPrefix(itor, tokenStruct) {
+		if locate == false && strings.HasPrefix(itor, tokenStruct) {
 			if name := strings.TrimPrefix(itor, tokenStruct); util.VariableCheck(name) {
 				layers = append(layers, Layer{
 					Name: name,
@@ -50,7 +45,7 @@ func ParseLayer(input string) (layers []Layer, back int, err error) {
 			} // if
 		} // if
 
-		if mode == modeBegin && strings.HasPrefix(itor, tokenDivider) && divider == false && i == 0 {
+		if locate == false && strings.HasPrefix(itor, tokenDivider) && divider == false && i == 0 {
 			if name := strings.TrimPrefix(itor, tokenDivider); name == "" {
 				layers = append(layers, Layer{
 					Type: LayerDivider,
@@ -61,7 +56,7 @@ func ParseLayer(input string) (layers []Layer, back int, err error) {
 		} // if
 
 		if strings.HasPrefix(itor, tokenEnd) && util.AllSame(itor) {
-			mode = modeEnd
+			locate = true
 			back += len(itor)
 			continue
 		} // if
