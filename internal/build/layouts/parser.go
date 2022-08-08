@@ -9,27 +9,39 @@ import (
 
 // Parser 布局解析器
 type Parser struct {
-	names   map[string]bool // 名稱列表
-	layers  map[string]int  // 階層列表
-	layouts []Layout        // 布局列表
+	checkName  checkName  // 名稱檢查器
+	checkLayer checkLayer // 階層檢查器
+	layouts    []Layout   // 布局列表
 }
 
 // Add 新增布局
 func (this *Parser) Add(name, note string, field fields.Field, layer []layers.Layer, back int) error {
-	if this.checkName(name) == false {
-		return fmt.Errorf("name duplicate")
+	if name == "" {
+		return fmt.Errorf("name empty")
+	} // if
+
+	if this.checkName.check(name) == false {
+		return fmt.Errorf("name duplicate: %s", name)
 	} // if
 
 	if field == nil {
-		return fmt.Errorf("field nil")
+		return fmt.Errorf("field nil: %s", name)
 	} // if
 
-	if this.checkLayer(layer...) == false {
-		return fmt.Errorf("layer duplicate")
+	if field.IsPkey() {
+		for _, itor := range this.layouts {
+			if itor.Field.IsPkey() {
+				return fmt.Errorf("pkey duplicate: %s", name)
+			} // if
+		} // for
+	} // if
+
+	if this.checkLayer.check(layer...) == false {
+		return fmt.Errorf("layer duplicate: %s", name)
 	} // if
 
 	if back < 0 {
-		return fmt.Errorf("back < 0")
+		return fmt.Errorf("back < 0: %s", name)
 	} // if
 
 	this.layouts = append(this.layouts, Layout{
@@ -58,10 +70,6 @@ func (this *Parser) Pack(datas []string) (packs map[string]interface{}, pkey str
 		} // if
 
 		if itor.Field.IsPkey() {
-			if pkey != "" {
-				return nil, "", fmt.Errorf("pkey duplicate: %s", itor.Name)
-			} // if
-
 			pkey = data
 		} // if
 
@@ -102,35 +110,16 @@ func (this *Parser) Pack(datas []string) (packs map[string]interface{}, pkey str
 		stacker.Pop(itor.Back, true)
 	} // for
 
+	if stacker.Closure() == false {
+		return nil, "", fmt.Errorf("not closure")
+	} // if
+
 	return stacker.Result(), pkey, nil
 }
 
 // Layouts 取得布局列表
 func (this *Parser) Layouts() []Layout {
 	return this.layouts
-}
-
-// checkName 名稱檢查
-func (this *Parser) checkName(field string) bool {
-	if _, ok := this.names[field]; ok {
-		return false
-	} // if
-
-	this.names[field] = true
-	return true
-}
-
-// checkLayer 階層檢查
-func (this *Parser) checkLayer(layer ...layers.Layer) bool {
-	for _, itor := range layer {
-		if type_, ok := this.layers[itor.Name]; ok {
-			return type_ == itor.Type
-		} // if
-
-		this.layers[itor.Name] = itor.Type
-	} // for
-
-	return true
 }
 
 // Layout 布局資料
@@ -145,8 +134,8 @@ type Layout struct {
 // NewParser 建立布局解析器
 func NewParser() *Parser {
 	return &Parser{
-		names:   map[string]bool{},
-		layers:  map[string]int{},
-		layouts: []Layout{},
+		checkName:  checkName{},
+		checkLayer: checkLayer{},
+		layouts:    []Layout{},
 	}
 }
