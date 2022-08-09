@@ -9,14 +9,12 @@ import (
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/build/tasks"
 	"github.com/yinweli/Sheeter/internal/build/thirdparty"
+	"github.com/yinweli/Sheeter/internal/util"
 
 	"github.com/hako/durafmt"
 	"github.com/spf13/cobra"
-	"github.com/vbauerster/mpb/v7"
 	"gopkg.in/yaml.v3"
 )
-
-const barWidth = 40 // 進度條寬度 TODO: 考慮獨立成mpb產生器?
 
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
@@ -58,7 +56,7 @@ func execute(cmd *cobra.Command, args []string) {
 	count := len(config.Elements)
 	errors := make(chan error, count) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
 	signaler := sync.WaitGroup{}
-	progress := mpb.New(mpb.WithWidth(barWidth), mpb.WithWaitGroup(&signaler))
+	progress := util.NewMpb(&signaler)
 
 	signaler.Add(count)
 
