@@ -92,7 +92,7 @@ func (this *Task) Run(progress *mpb.Progress) error {
 	return nil
 }
 
-// check 檢查工作
+// check 檢查工作 TODO: 改成公開函式, 讓build/buildall從外部執行檢查, 這樣只要執行一次就好了(而非現在的每次task.Run都跑)
 func (this *Task) check() error {
 	if this.LineOfField <= 0 {
 		return fmt.Errorf("lineOfField <= 0")
