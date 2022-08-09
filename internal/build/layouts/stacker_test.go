@@ -34,7 +34,7 @@ func (this *SuiteStacker) TestPushArray() {
 	target := this.target()
 
 	assert.True(this.T(), target.PushArray(this.name1))
-	assert.IsType(this.T(), layoutArray{}, target.datas.Back().Value)
+	assert.IsType(this.T(), &layoutArray{}, target.datas.Back().Value)
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Prev().Value)
 	assert.False(this.T(), target.PushArray(this.name2))
 }
@@ -45,7 +45,7 @@ func (this *SuiteStacker) TestPushStructA() {
 	assert.True(this.T(), target.PushArray(this.name1))
 	assert.True(this.T(), target.PushStructA())
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
-	assert.IsType(this.T(), layoutArray{}, target.datas.Back().Prev().Value)
+	assert.IsType(this.T(), &layoutArray{}, target.datas.Back().Prev().Value)
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Prev().Prev().Value)
 	assert.False(this.T(), target.PushStructA())
 }
@@ -79,7 +79,7 @@ func (this *SuiteStacker) TestPop() {
 	assert.True(this.T(), target.PushStructA())
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
 	target.Pop(1, false)
-	assert.IsType(this.T(), layoutArray{}, target.datas.Back().Value)
+	assert.IsType(this.T(), &layoutArray{}, target.datas.Back().Value)
 	target.Pop(1, false)
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
 

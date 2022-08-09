@@ -15,121 +15,87 @@ func TestParser(t *testing.T) {
 
 type SuiteParser struct {
 	suite.Suite
-	item1      *Layout
-	item2      *Layout
-	item3      *Layout
-	item4      *Layout
-	itemName   *Layout
-	itemField  *Layout
-	itemPkey   *Layout
-	itemLayer1 *Layout
-	itemLayer2 *Layout
-	itemBack   *Layout
+	fieldPkey    fields.Field
+	fieldInt     fields.Field
+	layerStruct  []layers.Layer
+	layerArray   []layers.Layer
+	layerDivider []layers.Layer
+	layerFailed  []layers.Layer
+	layerEmpty   []layers.Layer
+	packs        map[string]interface{}
+	data         []string
+	dataJson     []string
 }
 
 func (this *SuiteParser) SetupSuite() {
-	this.item1 = &Layout{
-		Name:   "name1",
-		Note:   "note1",
-		Field:  &fields.Pkey{},
-		Layers: []layers.Layer{{Name: "array", Type: layers.LayerArray}, {Name: "struct", Type: layers.LayerStruct}},
-		Back:   0,
+	this.fieldPkey = &fields.Pkey{}
+	this.fieldInt = &fields.Int{}
+	this.layerStruct, _, _ = layers.Parser("{S")
+	this.layerArray, _, _ = layers.Parser("{[]N")
+	this.layerDivider, _, _ = layers.Parser("/")
+	this.layerFailed, _, _ = layers.Parser("{[]S")
+	this.layerEmpty = []layers.Layer{}
+	this.packs = map[string]interface{}{
+		"S": map[string]interface{}{
+			"n1": int64(1),
+			"N": &[]map[string]interface{}{
+				{"a1": int64(2), "a2": int64(3)},
+				{"a1": int64(4), "a2": int64(5)},
+			},
+		},
 	}
-	this.item2 = &Layout{
-		Name:   "name2",
-		Note:   "note2",
-		Field:  &fields.Int{},
-		Layers: []layers.Layer{},
-		Back:   1,
-	}
-	this.item3 = &Layout{
-		Name:   "name3",
-		Note:   "note3",
-		Field:  &fields.Int{},
-		Layers: []layers.Layer{{Name: "", Type: layers.LayerDivider}, {Name: "struct", Type: layers.LayerStruct}},
-		Back:   0,
-	}
-	this.item4 = &Layout{
-		Name:   "name4",
-		Note:   "note4",
-		Field:  &fields.Int{},
-		Layers: []layers.Layer{},
-		Back:   2,
-	}
-	this.itemName = &Layout{
-		Name:   "",
-		Note:   "",
-		Field:  nil,
-		Layers: nil,
-		Back:   0,
-	}
-	this.itemField = &Layout{
-		Name:   "nameField",
-		Note:   "",
-		Field:  nil,
-		Layers: nil,
-		Back:   0,
-	}
-	this.itemPkey = &Layout{
-		Name:   "namePkey",
-		Note:   "",
-		Field:  &fields.Pkey{},
-		Layers: []layers.Layer{},
-		Back:   0,
-	}
-	this.itemLayer1 = &Layout{
-		Name:   "nameLayer1",
-		Note:   "",
-		Field:  &fields.Int{},
-		Layers: []layers.Layer{{Name: "data", Type: layers.LayerDivider}},
-		Back:   0,
-	}
-	this.itemLayer2 = &Layout{
-		Name:   "nameLayer2",
-		Note:   "",
-		Field:  &fields.Int{},
-		Layers: []layers.Layer{{Name: "data", Type: layers.LayerStruct}},
-		Back:   0,
-	}
-	this.itemBack = &Layout{
-		Name:   "nameBack",
-		Note:   "",
-		Field:  &fields.Int{},
-		Layers: []layers.Layer{},
-		Back:   -1,
-	}
+	this.data = []string{"0", "1", "2", "3", "4", "5"}
+	this.dataJson = []string{"0", "a", "2", "3", "4", "5"}
 }
 
 func (this *SuiteParser) target() *Parser {
 	return NewParser()
 }
 
-func (this *SuiteParser) add(parser *Parser, layout *Layout) error {
-	return parser.Add(layout.Name, layout.Note, layout.Field, layout.Layers, layout.Back)
-}
-
 func (this *SuiteParser) TestAdd() {
 	target := this.target()
 
-	assert.Nil(this.T(), this.add(target, this.item1))
-	assert.Nil(this.T(), this.add(target, this.item2))
-	assert.Nil(this.T(), this.add(target, this.item3))
-	assert.Nil(this.T(), this.add(target, this.item4))
-	assert.NotNil(this.T(), this.add(target, this.itemName))
-	assert.NotNil(this.T(), this.add(target, this.item1))
-	assert.NotNil(this.T(), this.add(target, this.itemField))
-	assert.NotNil(this.T(), this.add(target, this.itemPkey))
-	assert.Nil(this.T(), this.add(target, this.itemLayer1))
-	assert.NotNil(this.T(), this.add(target, this.itemLayer2))
-	assert.NotNil(this.T(), this.add(target, this.itemBack))
+	assert.Nil(this.T(), target.Add("n1", "", this.fieldPkey, this.layerStruct, 0))
+	assert.Nil(this.T(), target.Add("n2", "", this.fieldInt, this.layerArray, 0))
+	assert.Nil(this.T(), target.Add("n3", "", this.fieldInt, this.layerEmpty, 0))
+	assert.Nil(this.T(), target.Add("n4", "", this.fieldInt, this.layerDivider, 0))
+	assert.Nil(this.T(), target.Add("n5", "", this.fieldInt, this.layerEmpty, 2))
+	assert.NotNil(this.T(), target.Add("", "", nil, nil, 0))
+	assert.NotNil(this.T(), target.Add("n6", "", nil, nil, 0))
+	assert.NotNil(this.T(), target.Add("n7", "", this.fieldPkey, nil, 0))
+	assert.NotNil(this.T(), target.Add("n8", "", this.fieldInt, this.layerFailed, 0))
+	assert.NotNil(this.T(), target.Add("n8", "", this.fieldInt, this.layerEmpty, -1))
 }
 
 func (this *SuiteParser) TestPack() {
-	// TODO: 做到這裡!
+	target := this.target()
+
+	assert.Nil(this.T(), target.Add("n0", "", &fields.Empty{}, this.layerEmpty, 0))
+	assert.Nil(this.T(), target.Add("n1", "", this.fieldPkey, this.layerStruct, 0))
+	assert.Nil(this.T(), target.Add("a1", "", this.fieldInt, this.layerArray, 0))
+	assert.Nil(this.T(), target.Add("a2", "", this.fieldInt, this.layerEmpty, 0))
+	assert.Nil(this.T(), target.Add("a1", "", this.fieldInt, this.layerDivider, 0))
+	assert.Nil(this.T(), target.Add("a2", "", this.fieldInt, this.layerEmpty, 2))
+
+	packs, pkey, err := target.Pack(this.data)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "1", pkey)
+	assert.Equal(this.T(), this.packs, packs)
+
+	_, _, err = target.Pack(this.dataJson)
+	assert.NotNil(this.T(), err)
 }
 
 func (this *SuiteParser) TestLayouts() {
+	target := this.target()
 
+	assert.Nil(this.T(), target.Add("n0", "", &fields.Empty{}, this.layerEmpty, 0))
+	assert.Nil(this.T(), target.Add("n1", "", this.fieldPkey, this.layerStruct, 0))
+	assert.Nil(this.T(), target.Add("a1", "", this.fieldInt, this.layerArray, 0))
+	assert.Nil(this.T(), target.Add("a2", "", this.fieldInt, this.layerEmpty, 0))
+	assert.Nil(this.T(), target.Add("a1", "", this.fieldInt, this.layerDivider, 0))
+	assert.Nil(this.T(), target.Add("a2", "", this.fieldInt, this.layerEmpty, 2))
+	assert.NotNil(this.T(), target.Layouts())
 }
 
 func (this *SuiteParser) TestNewParser() {

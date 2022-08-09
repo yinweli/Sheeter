@@ -16,7 +16,7 @@ type layoutArray = []layoutStruct          // 陣列布局類型
 func (this *stacker) PushArray(name string) bool {
 	if last := this.datas.Back(); last != nil {
 		if layout, ok := last.Value.(layoutStruct); ok {
-			object := layoutArray{}
+			object := &layoutArray{}
 			layout[name] = object
 			this.datas.PushBack(object)
 			return true
@@ -29,9 +29,9 @@ func (this *stacker) PushArray(name string) bool {
 // PushStructA 新增結構元素到陣列中
 func (this *stacker) PushStructA() bool {
 	if last := this.datas.Back(); last != nil {
-		if layout, ok := last.Value.(layoutArray); ok {
+		if layout, ok := last.Value.(*layoutArray); ok {
 			object := layoutStruct{}
-			layout = append(layout, object)
+			*layout = append(*layout, object)
 			last.Value = layout
 			this.datas.PushBack(object)
 			return true
@@ -76,7 +76,7 @@ func (this *stacker) Pop(count int, removeArray bool) {
 
 		if removeArray { // 如果移除元素後, 發現最後是陣列元素, 就多移除一次
 			if last := this.datas.Back(); last != nil {
-				if _, ok := last.Value.(layoutArray); ok {
+				if _, ok := last.Value.(*layoutArray); ok {
 					this.datas.Remove(last)
 				} // if
 			} // if

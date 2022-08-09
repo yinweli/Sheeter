@@ -9,19 +9,14 @@ import (
 
 // Parser 布局解析器
 type Parser struct {
-	checkName  checkName  // 名稱檢查器
-	checkLayer checkLayer // 階層檢查器
-	layouts    []Layout   // 布局列表
+	checker checker  // 階層檢查器
+	layouts []Layout // 布局列表
 }
 
 // Add 新增布局
 func (this *Parser) Add(name, note string, field fields.Field, layer []layers.Layer, back int) error {
 	if name == "" {
 		return fmt.Errorf("name empty")
-	} // if
-
-	if this.checkName.check(name) == false {
-		return fmt.Errorf("name duplicate: %s", name)
 	} // if
 
 	if field == nil {
@@ -36,7 +31,7 @@ func (this *Parser) Add(name, note string, field fields.Field, layer []layers.La
 		} // for
 	} // if
 
-	if this.checkLayer.check(layer...) == false {
+	if this.checker.check(layer...) == false {
 		return fmt.Errorf("layer duplicate: %s", name)
 	} // if
 
@@ -84,12 +79,16 @@ func (this *Parser) Pack(datas []string) (packs map[string]interface{}, pkey str
 				if stacker.PushArray(layer.Name) == false || stacker.PushStructA() == false {
 					return nil, "", fmt.Errorf("fromat error: %s", itor.Name)
 				} // if
+
+				continue
 			} // if
 
 			if layer.Type == layers.LayerStruct {
 				if stacker.PushStructS(layer.Name) == false {
 					return nil, "", fmt.Errorf("fromat error: %s", itor.Name)
 				} // if
+
+				continue
 			} // if
 
 			if layer.Type == layers.LayerDivider {
@@ -98,6 +97,8 @@ func (this *Parser) Pack(datas []string) (packs map[string]interface{}, pkey str
 				if stacker.PushStructA() == false {
 					return nil, "", fmt.Errorf("fromat error: %s", itor.Name)
 				} // if
+
+				continue
 			} // if
 
 			return nil, "", fmt.Errorf("layer unknown: %s", itor.Name)
@@ -134,8 +135,7 @@ type Layout struct {
 // NewParser 建立布局解析器
 func NewParser() *Parser {
 	return &Parser{
-		checkName:  checkName{},
-		checkLayer: checkLayer{},
-		layouts:    []Layout{},
+		checker: checker{},
+		layouts: []Layout{},
 	}
 }

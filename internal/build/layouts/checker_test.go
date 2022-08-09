@@ -8,11 +8,11 @@ import (
 	"github.com/yinweli/Sheeter/internal/build/layers"
 )
 
-func TestCheckLayer(t *testing.T) {
-	suite.Run(t, new(SuiteCheckLayer))
+func TestChecker(t *testing.T) {
+	suite.Run(t, new(SuiteChecker))
 }
 
-type SuiteCheckLayer struct {
+type SuiteChecker struct {
 	suite.Suite
 	item1 layers.Layer
 	item2 layers.Layer
@@ -20,7 +20,7 @@ type SuiteCheckLayer struct {
 	item4 layers.Layer
 }
 
-func (this *SuiteCheckLayer) SetupSuite() {
+func (this *SuiteChecker) SetupSuite() {
 	this.item1 = layers.Layer{
 		Name: "name1",
 		Type: 1,
@@ -39,11 +39,11 @@ func (this *SuiteCheckLayer) SetupSuite() {
 	}
 }
 
-func (this *SuiteCheckLayer) target() *checkLayer {
-	return &checkLayer{}
+func (this *SuiteChecker) target() *checker {
+	return &checker{}
 }
 
-func (this *SuiteCheckLayer) TestCheck() {
+func (this *SuiteChecker) TestCheck() {
 	target := this.target()
 
 	assert.True(this.T(), target.check(this.item1))
