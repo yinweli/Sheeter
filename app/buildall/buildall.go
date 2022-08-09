@@ -8,7 +8,6 @@ import (
 
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/build/tasks"
-	"github.com/yinweli/Sheeter/internal/build/thirdparty"
 	"github.com/yinweli/Sheeter/internal/util"
 
 	"github.com/hako/durafmt"
@@ -32,10 +31,14 @@ func NewCommand() *cobra.Command {
 // execute 執行命令
 func execute(cmd *cobra.Command, args []string) {
 	startTime := time.Now()
-	err := thirdparty.Check()
 
-	if err != nil {
-		cmd.Println(fmt.Errorf("thirdparty failed: %w", err))
+	if util.ShellExist("go") == false {
+		cmd.Println(fmt.Errorf("`go` not installed"))
+		return
+	} // if
+
+	if util.ShellExist("quicktype") == false {
+		cmd.Println(fmt.Errorf("`quicktype` not installed"))
 		return
 	} // if
 
