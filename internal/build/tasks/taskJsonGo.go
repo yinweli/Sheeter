@@ -13,7 +13,7 @@ func (this *Task) jsonGo() error {
 	err := os.MkdirAll(path.Dir(this.jsonGoFilePath()), os.ModePerm)
 
 	if err != nil {
-		return fmt.Errorf("generate go failed: %s\n%w", this.originalName(), err)
+		return fmt.Errorf("generate go failed: %s\n%w", this.targetName(), err)
 	} // if
 
 	err = util.ShellRun("quicktype", []string{
@@ -27,13 +27,13 @@ func (this *Task) jsonGo() error {
 	}...)
 
 	if err != nil {
-		return fmt.Errorf("generate go failed: %s\n%w", this.originalName(), err)
+		return fmt.Errorf("generate go failed: %s\n%w", this.targetName(), err)
 	} // if
 
 	err = util.ShellRun("go", "fmt", this.jsonGoFilePath())
 
 	if err != nil {
-		return fmt.Errorf("generate go failed: %s\n%w", this.originalName(), err)
+		return fmt.Errorf("generate go failed: %s\n%w", this.targetName(), err)
 	} // if
 
 	if this.bar != nil {

@@ -35,7 +35,7 @@ func (this *Task) jsonCsReader() error {
 	}, this.Bom)
 
 	if err != nil {
-		return fmt.Errorf("generate csReader failed: %s\n%w", this.originalName(), err)
+		return fmt.Errorf("generate csReader failed: %s\n%w", this.targetName(), err)
 	} // if
 
 	if this.bar != nil {

@@ -11,7 +11,7 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-const maxTask = 9                      // 最大工作數量
+const maxTask = 8                      // 最大工作數量
 const drawTime = 10 * time.Millisecond // 畫圖時間
 
 // Task 工作資料
@@ -41,7 +41,7 @@ func (this *Task) Run() error {
 	this.bar = this.Progress.AddBar(
 		maxTask,
 		mpb.PrependDecorators(
-			decor.Name(fmt.Sprintf("%-20s", this.originalName())),
+			decor.Name(fmt.Sprintf("%-20s", this.targetName())),
 			decor.Percentage(decor.WCSyncSpace),
 		),
 		mpb.AppendDecorators(

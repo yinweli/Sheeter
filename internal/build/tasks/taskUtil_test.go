@@ -25,8 +25,8 @@ func (this *SuiteTaskUtil) target() *Task {
 	return target
 }
 
-func (this *SuiteTaskUtil) TestOriginalName() {
-	assert.Equal(this.T(), "real.xlsx(Data)", this.target().originalName())
+func (this *SuiteTaskUtil) TestTargetName() {
+	assert.Equal(this.T(), "real.xlsx(Data)", this.target().targetName())
 }
 
 func (this *SuiteTaskUtil) TestNamespace() {

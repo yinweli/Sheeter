@@ -34,7 +34,7 @@ func (this *Task) jsonGoReader() error {
 	}, this.Bom)
 
 	if err != nil {
-		return fmt.Errorf("generate goReader failed: %s\n%w", this.originalName(), err)
+		return fmt.Errorf("generate goReader failed: %s\n%w", this.targetName(), err)
 	} // if
 
 	if this.bar != nil {

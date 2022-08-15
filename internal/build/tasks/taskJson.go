@@ -12,7 +12,7 @@ func (this *Task) json() error {
 	rows, err := this.getRows(row)
 
 	if err != nil {
-		return fmt.Errorf("generate json failed: %s\ndata line not found", this.originalName())
+		return fmt.Errorf("generate json failed: %s\ndata line not found", this.targetName())
 	} // if
 
 	defer func() { _ = rows.Close() }()
@@ -46,7 +46,7 @@ func (this *Task) json() error {
 			value, err := itor.Field.ToJsonValue(data)
 
 			if err != nil {
-				return fmt.Errorf("generate json failed: %s [%s:%d]\n%w", this.originalName(), itor.Name, row, err)
+				return fmt.Errorf("generate json failed: %s [%s:%d]\n%w", this.targetName(), itor.Name, row, err)
 			} // if
 
 			obj[itor.Name] = value
@@ -59,7 +59,7 @@ func (this *Task) json() error {
 	err = util.JsonWrite(this.jsonFilePath(), objs, this.Bom)
 
 	if err != nil {
-		return fmt.Errorf("generate json failed: %s\n%w", this.originalName(), err)
+		return fmt.Errorf("generate json failed: %s\n%w", this.targetName(), err)
 	} // if
 
 	if this.bar != nil {

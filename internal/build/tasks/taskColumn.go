@@ -13,19 +13,19 @@ func (this *Task) column() error {
 	fieldLine, err := this.getRowContent(this.LineOfField)
 
 	if err != nil {
-		return fmt.Errorf("read column failed: %s\nfield line not found", this.originalName())
+		return fmt.Errorf("column failed: %s\nfield line not found", this.targetName())
 	} // if
 
 	layerLine, err := this.getRowContent(this.LineOfLayer)
 
 	if err != nil {
-		return fmt.Errorf("read column failed: %s\nlayer line not found", this.originalName())
+		return fmt.Errorf("column failed: %s\nlayer line not found", this.targetName())
 	} // if
 
 	noteLine, err := this.getRowContent(this.LineOfNote)
 
 	if err != nil {
-		return fmt.Errorf("read column failed: %s\nnote line not found", this.originalName())
+		return fmt.Errorf("column failed: %s\nnote line not found", this.targetName())
 	} // if
 
 	this.builder = layouts.NewBuilder()
@@ -38,32 +38,30 @@ func (this *Task) column() error {
 		name, field, err := fields.Parser(itor)
 
 		if err != nil {
-			return fmt.Errorf("read column failed: %s [%s]\nfield parser failed\n%w", this.originalName(), itor, err)
+			return fmt.Errorf("column failed: %s[%s]\nfield parser failed\n%w", this.targetName(), itor, err)
 		} // if
 
 		layer, back, err := layers.Parser(catch(layerLine, col))
 
 		if err != nil {
-			return fmt.Errorf("read column failed: %s [%s]\nlayer parser failed\n%w", this.originalName(), itor,
-				err)
+			return fmt.Errorf("column failed: %s[%s]\nlayer parser failed\n%w", this.targetName(), itor, err)
 		} // if
 
 		note := catch(noteLine, col)
 
 		if err := this.builder.Add(name, note, field, layer, back); err != nil {
-			return fmt.Errorf("read column failed: %s [%s]\nadd to builder failed\n%w", this.originalName(), itor,
-				err)
+			return fmt.Errorf("column failed: %s[%s]\nadd to builder failed\n%w", this.targetName(), itor, err)
 		} // if
 	} // for
 
 	pkeyCount := this.builder.PkeyCount()
 
 	if pkeyCount > 1 {
-		return fmt.Errorf("read column failed: %s\npkey duplicate", this.originalName())
+		return fmt.Errorf("column failed: %s\npkey duplicate", this.targetName())
 	} // if
 
 	if pkeyCount <= 0 {
-		return fmt.Errorf("read column failed: %s\npkey not found", this.originalName())
+		return fmt.Errorf("column failed: %s\npkey not found", this.targetName())
 	} // if
 
 	if this.bar != nil {

@@ -11,8 +11,8 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-// originalName 取得原始名稱
-func (this *Task) originalName() string {
+// targetName 取得目標名稱
+func (this *Task) targetName() string {
 	return fmt.Sprintf("%s(%s)", this.Excel, this.Sheet)
 }
 
