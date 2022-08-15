@@ -46,14 +46,3 @@ func (this *SuiteBoolArray) TestToJsonValue() {
 	_, err = target.ToJsonValue(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
-
-func (this *SuiteBoolArray) TestToLuaValue() {
-	target := this.target()
-
-	result, err := target.ToLuaValue("true,false,true,false,true")
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), "{true,false,true,false,true}", result)
-
-	_, err = target.ToLuaValue(testdata.UnknownStr)
-	assert.NotNil(this.T(), err)
-}

@@ -50,9 +50,9 @@ func (this *SuiteTaskJsonSchema) target() *Task {
 	return target
 }
 
-func (this *SuiteTaskJsonSchema) TestTaskJsonSchema() {
+func (this *SuiteTaskJsonSchema) TestJsonSchema() {
 	target := this.target()
-	assert.Nil(this.T(), target.runJsonSchema())
+	assert.Nil(this.T(), target.jsonSchema())
 	testdata.CompareFile(this.T(), target.jsonSchemaFilePath(), this.dataBytes)
 	target.close()
 }

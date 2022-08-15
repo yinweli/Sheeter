@@ -6,8 +6,8 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-// runJson 輸出json
-func (this *Task) runJson() error {
+// json 輸出json
+func (this *Task) json() error {
 	row := this.LineOfData
 	rows, err := this.getRows(row)
 

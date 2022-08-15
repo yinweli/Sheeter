@@ -48,16 +48,3 @@ func (this *SuiteBool) TestToJsonValue() {
 	_, err = target.ToJsonValue(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
-
-func (this *SuiteBool) TestToLuaValue() {
-	target := this.target()
-
-	result, err := target.ToLuaValue("true")
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), "true", result)
-	result, err = target.ToLuaValue("false")
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), "false", result)
-	_, err = target.ToLuaValue(testdata.UnknownStr)
-	assert.NotNil(this.T(), err)
-}

@@ -53,19 +53,19 @@ func (this *SuiteTaskJsonGoReader) target() *Task {
 	return target
 }
 
-func (this *SuiteTaskJsonGoReader) TestTaskJsonGoReader() {
+func (this *SuiteTaskJsonGoReader) TestJsonGoReader() {
 	target := this.target()
-	assert.Nil(this.T(), target.runJsonGoReader())
+	assert.Nil(this.T(), target.jsonGoReader())
 	testdata.CompareFile(this.T(), target.jsonGoReaderFilePath(), this.dataBytes)
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.UnknownStr
-	assert.NotNil(this.T(), target.runJsonGoReader())
+	assert.NotNil(this.T(), target.jsonGoReader())
 	target.close()
 
 	target = this.target()
 	target.Sheet = testdata.UnknownStr
-	assert.NotNil(this.T(), target.runJsonGoReader())
+	assert.NotNil(this.T(), target.jsonGoReader())
 	target.close()
 }

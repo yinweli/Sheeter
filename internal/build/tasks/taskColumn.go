@@ -5,10 +5,11 @@ import (
 
 	"github.com/yinweli/Sheeter/internal/build/fields"
 	"github.com/yinweli/Sheeter/internal/build/layers"
+	"github.com/yinweli/Sheeter/internal/build/layouts"
 )
 
-// runColumn 建立欄位列表
-func (this *Task) runColumn() error {
+// column 建立欄位列表
+func (this *Task) column() error {
 	fieldLine, err := this.getRowContent(this.LineOfField)
 
 	if err != nil {
@@ -27,8 +28,7 @@ func (this *Task) runColumn() error {
 		return fmt.Errorf("read column failed: %s\nnote line not found", this.originalName())
 	} // if
 
-	this.columns = []*Column{} // 把欄位列表清空, 避免不必要的問題
-	pkey := false
+	this.builder = layouts.NewBuilder()
 
 	for col, itor := range fieldLine {
 		if itor == "" { // 一旦遇到空欄位, 就結束建立欄位列表
@@ -41,31 +41,28 @@ func (this *Task) runColumn() error {
 			return fmt.Errorf("read column failed: %s [%s]\nfield parser failed\n%w", this.originalName(), itor, err)
 		} // if
 
-		if field.IsPkey() && pkey { // 只能有一個主要索引
-			return fmt.Errorf("read column failed: %s [%s]\npkey duplicate", this.originalName(), itor)
-		} // if
-
-		if field.IsPkey() {
-			pkey = true
-		} // if
-
-		layer := fromList(layerLine, col)
-		_, _, err = layers.Parser(layer)
+		layer, back, err := layers.Parser(catch(layerLine, col))
 
 		if err != nil {
 			return fmt.Errorf("read column failed: %s [%s]\nlayer parser failed\n%w", this.originalName(), itor,
 				err)
 		} // if
 
-		note := fromList(noteLine, col)
-		this.columns = append(this.columns, &Column{
-			Name:  name,
-			Note:  note,
-			Field: field,
-		})
+		note := catch(noteLine, col)
+
+		if err := this.builder.Add(name, note, field, layer, back); err != nil {
+			return fmt.Errorf("read column failed: %s [%s]\nadd to builder failed\n%w", this.originalName(), itor,
+				err)
+		} // if
 	} // for
 
-	if pkey == false { // 這裡其實也順便檢查了沒有欄位的問題
+	pkeyCount := this.builder.PkeyCount()
+
+	if pkeyCount > 1 {
+		return fmt.Errorf("read column failed: %s\npkey duplicate", this.originalName())
+	} // if
+
+	if pkeyCount <= 0 {
 		return fmt.Errorf("read column failed: %s\npkey not found", this.originalName())
 	} // if
 
@@ -76,8 +73,8 @@ func (this *Task) runColumn() error {
 	return nil
 }
 
-// fromList 從列表中取得項目
-func fromList(lists []string, index int) string {
+// catch 從列表中取得項目
+func catch(lists []string, index int) string {
 	if index >= 0 && index < len(lists) { // 列表的數量可能因為空白格的關係會短缺, 所以要檢查一下
 		return lists[index]
 	} // if

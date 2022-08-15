@@ -46,14 +46,3 @@ func (this *SuiteFloat) TestToJsonValue() {
 	_, err = target.ToJsonValue(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
-
-func (this *SuiteFloat) TestToLuaValue() {
-	target := this.target()
-
-	result, err := target.ToLuaValue("0.123456")
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), "0.123456", result)
-
-	_, err = target.ToLuaValue(testdata.UnknownStr)
-	assert.NotNil(this.T(), err)
-}

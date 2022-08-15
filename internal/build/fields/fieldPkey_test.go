@@ -46,14 +46,3 @@ func (this *SuitePkey) TestToJsonValue() {
 	_, err = target.ToJsonValue(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
-
-func (this *SuitePkey) TestToLuaValue() {
-	target := this.target()
-
-	result, err := target.ToLuaValue("123456789")
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), "123456789", result)
-
-	_, err = target.ToLuaValue(testdata.UnknownStr)
-	assert.NotNil(this.T(), err)
-}

@@ -26,29 +26,29 @@ func (this *SuiteTaskExcel) target() *Task {
 	return target
 }
 
-func (this *SuiteTaskExcel) TestTaskExcel() {
+func (this *SuiteTaskExcel) TestExcel() {
 	target := this.target()
-	assert.Nil(this.T(), target.runExcel())
+	assert.Nil(this.T(), target.excel())
 	assert.NotNil(this.T(), target.xlsfile)
 	target.close()
 
 	target = this.target()
 	target.Path = ""
-	assert.NotNil(this.T(), target.runExcel())
+	assert.NotNil(this.T(), target.excel())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.Defect1Excel
-	assert.NotNil(this.T(), target.runExcel())
+	assert.NotNil(this.T(), target.excel())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.UnknownStr
-	assert.NotNil(this.T(), target.runExcel())
+	assert.NotNil(this.T(), target.excel())
 	target.close()
 
 	target = this.target()
 	target.Sheet = testdata.UnknownStr
-	assert.NotNil(this.T(), target.runExcel())
+	assert.NotNil(this.T(), target.excel())
 	target.close()
 }

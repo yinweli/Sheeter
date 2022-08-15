@@ -42,11 +42,3 @@ func (this *SuiteText) TestToJsonValue() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "ball,book,pack", result)
 }
-
-func (this *SuiteText) TestToLuaValue() {
-	target := this.target()
-
-	result, err := target.ToLuaValue("ball,book,pack")
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), "\"ball,book,pack\"", result)
-}

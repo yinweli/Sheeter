@@ -40,12 +40,3 @@ func (this *Int) ToJsonValue(input string) (result interface{}, err error) {
 
 	return result, nil
 }
-
-// ToLuaValue 轉換為lua值
-func (this *Int) ToLuaValue(input string) (result string, err error) {
-	if _, err := util.StrToInt(input); err != nil {
-		return "", fmt.Errorf("to lua value failed: %w", err)
-	} // if
-
-	return input, nil
-}

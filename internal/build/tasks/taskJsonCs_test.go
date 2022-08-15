@@ -70,20 +70,20 @@ func (this *SuiteTaskJsonCs) target() *Task {
 	return target
 }
 
-func (this *SuiteTaskJsonCs) TestTaskJsonCs() {
+func (this *SuiteTaskJsonCs) TestJsonCs() {
 	target := this.target()
-	assert.Nil(this.T(), target.runJsonSchema())
-	assert.Nil(this.T(), target.runJsonCs())
+	assert.Nil(this.T(), target.jsonSchema())
+	assert.Nil(this.T(), target.jsonCs())
 	testdata.CompareFile(this.T(), target.jsonCsFilePath(), this.dataBytes)
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.UnknownStr
-	assert.NotNil(this.T(), target.runJsonCs())
+	assert.NotNil(this.T(), target.jsonCs())
 	target.close()
 
 	target = this.target()
 	target.Sheet = testdata.UnknownStr
-	assert.NotNil(this.T(), target.runJsonCs())
+	assert.NotNil(this.T(), target.jsonCs())
 	target.close()
 }

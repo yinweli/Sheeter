@@ -58,10 +58,6 @@ func (this *SuiteTaskPath) TestJsonGoReaderFilePath() {
 	assert.Equal(this.T(), "jsonGo/realData.reader.go", this.target().jsonGoReaderFilePath())
 }
 
-func (this *SuiteTaskPath) TestLuaFilePath() {
-	assert.Equal(this.T(), "lua/realData.lua", this.target().luaFilePath())
-}
-
 func (this *SuiteTaskPath) TestFileName() {
 	assert.Equal(this.T(), "realData.test1.test2.test3", this.target().fileName("test1", "test2", "test3"))
 }

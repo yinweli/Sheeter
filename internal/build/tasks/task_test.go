@@ -17,13 +17,11 @@ func TestTask(t *testing.T) {
 
 type SuiteTask struct {
 	suite.Suite
-	workDir  string
-	progress *mpb.Progress
+	workDir string
 }
 
 func (this *SuiteTask) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.progress = mpb.New(mpb.WithOutput(nil))
 }
 
 func (this *SuiteTask) TearDownSuite() {
@@ -31,7 +29,6 @@ func (this *SuiteTask) TearDownSuite() {
 	_ = os.RemoveAll(pathJson)
 	_ = os.RemoveAll(pathJsonCs)
 	_ = os.RemoveAll(pathJsonGo)
-	_ = os.RemoveAll(pathLua)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
@@ -45,83 +42,84 @@ func (this *SuiteTask) target() *Task {
 		LineOfData:  4,
 		Excel:       testdata.RealExcel,
 		Sheet:       testdata.SheetName,
+		Progress:    mpb.New(mpb.WithOutput(nil)),
 	}
 	return target
 }
 
 func (this *SuiteTask) TestRun() {
 	target := this.target()
-	assert.Nil(this.T(), target.Run(this.progress))
+	assert.Nil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.Path = testdata.UnknownStr
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.LineOfField = 10
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.LineOfNote = 10
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.Defect1Excel
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.Defect2Excel
-	assert.Nil(this.T(), target.Run(this.progress)) // 測試其實會成功
+	assert.Nil(this.T(), target.Run()) // 測試其實會成功
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.Defect3Excel
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.Defect4Excel
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.Defect5Excel
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.Defect6Excel
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.Defect7Excel
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.Defect8Excel
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.Defect9Excel
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.UnknownStr
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 
 	target = this.target()
 	target.Sheet = testdata.UnknownStr
-	assert.NotNil(this.T(), target.Run(this.progress))
+	assert.NotNil(this.T(), target.Run())
 	target.close()
 }
 

@@ -11,13 +11,11 @@ const pathSchema = "schema"         // 輸出路徑: 架構
 const pathJson = "json"             // 輸出路徑: json
 const pathJsonCs = "jsonCs"         // 輸出路徑: json-c#
 const pathJsonGo = "jsonGo"         // 輸出路徑: json-go
-const pathLua = "lua"               // 輸出路徑: lua
 const midReader = "reader"          // 中間名: 讀取器
 const extJsonSchema = "json.schema" // 副檔名: json架構
 const extJson = "json"              // 副檔名: json
 const extCs = "cs"                  // 副檔名: c#
 const extGo = "go"                  // 副檔名: go
-const extLua = "lua"                // 副檔名: lua
 
 // excelFilePath 取得excel檔名路徑
 func (this *Task) excelFilePath() string {
@@ -57,11 +55,6 @@ func (this *Task) jsonGoFilePath() string {
 // jsonGoReaderFilePath 取得json-go讀取器檔名路徑
 func (this *Task) jsonGoReaderFilePath() string {
 	return path.Join(pathJsonGo, this.fileName(midReader, extGo))
-}
-
-// luaFilePath 取得lua檔名路徑
-func (this *Task) luaFilePath() string {
-	return path.Join(pathLua, this.fileName(extLua))
 }
 
 // fileName 取得檔案名稱

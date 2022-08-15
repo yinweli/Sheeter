@@ -27,85 +27,85 @@ func (this *SuiteStacker) SetupSuite() {
 }
 
 func (this *SuiteStacker) target() *stacker {
-	return NewStacker()
+	return newStacker()
 }
 
 func (this *SuiteStacker) TestPushArray() {
 	target := this.target()
 
-	assert.True(this.T(), target.PushArray(this.name1))
+	assert.True(this.T(), target.pushArray(this.name1))
 	assert.IsType(this.T(), &layoutArray{}, target.datas.Back().Value)
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Prev().Value)
-	assert.False(this.T(), target.PushArray(this.name2))
+	assert.False(this.T(), target.pushArray(this.name2))
 }
 
 func (this *SuiteStacker) TestPushStructA() {
 	target := this.target()
 
-	assert.True(this.T(), target.PushArray(this.name1))
-	assert.True(this.T(), target.PushStructA())
+	assert.True(this.T(), target.pushArray(this.name1))
+	assert.True(this.T(), target.pushStructA())
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
 	assert.IsType(this.T(), &layoutArray{}, target.datas.Back().Prev().Value)
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Prev().Prev().Value)
-	assert.False(this.T(), target.PushStructA())
+	assert.False(this.T(), target.pushStructA())
 }
 
 func (this *SuiteStacker) TestPushStructS() {
 	target := this.target()
 
-	assert.True(this.T(), target.PushStructS(this.name1))
-	assert.True(this.T(), target.PushStructS(this.name2))
+	assert.True(this.T(), target.pushStructS(this.name1))
+	assert.True(this.T(), target.pushStructS(this.name2))
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Prev().Value)
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Prev().Prev().Value)
-	assert.False(this.T(), target.PushStructA())
+	assert.False(this.T(), target.pushStructA())
 }
 
 func (this *SuiteStacker) TestPushValue() {
 	target := this.target()
 
-	assert.True(this.T(), target.PushValue(this.name1, this.value1))
+	assert.True(this.T(), target.pushValue(this.name1, this.value1))
 	last, ok := target.datas.Back().Value.(layoutStruct)
 	assert.True(this.T(), ok)
 	assert.Equal(this.T(), this.value1, last[this.name1])
-	assert.True(this.T(), target.PushArray(this.name2))
-	assert.False(this.T(), target.PushValue(this.name2, this.value1))
+	assert.True(this.T(), target.pushArray(this.name2))
+	assert.False(this.T(), target.pushValue(this.name2, this.value1))
 }
 
 func (this *SuiteStacker) TestPop() {
 	target := this.target()
 
-	assert.True(this.T(), target.PushArray(this.name1))
-	assert.True(this.T(), target.PushStructA())
+	assert.True(this.T(), target.pushArray(this.name1))
+	assert.True(this.T(), target.pushStructA())
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
-	target.Pop(1, false)
+	target.pop(1, false)
 	assert.IsType(this.T(), &layoutArray{}, target.datas.Back().Value)
-	target.Pop(1, false)
+	target.pop(1, false)
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
 
-	assert.True(this.T(), target.PushArray(this.name1))
-	assert.True(this.T(), target.PushStructA())
+	assert.True(this.T(), target.pushArray(this.name1))
+	assert.True(this.T(), target.pushStructA())
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
-	target.Pop(1, true)
+	target.pop(1, true)
 	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
 }
 
 func (this *SuiteStacker) TestClosure() {
 	target := this.target()
 
-	assert.True(this.T(), target.PushArray(this.name1))
-	assert.True(this.T(), target.PushStructA())
-	assert.False(this.T(), target.Closure())
-	target.Pop(1, true)
-	assert.True(this.T(), target.Closure())
+	assert.True(this.T(), target.pushArray(this.name1))
+	assert.True(this.T(), target.pushStructA())
+	assert.False(this.T(), target.closure())
+	target.pop(1, true)
+	assert.True(this.T(), target.closure())
 }
 
 func (this *SuiteStacker) TestResult() {
 	target := this.target()
 
-	assert.IsType(this.T(), layoutStruct{}, target.Result())
+	assert.IsType(this.T(), layoutStruct{}, target.result())
 }
 
 func (this *SuiteStacker) TestNewStacker() {
-	assert.NotNil(this.T(), NewStacker())
+	assert.NotNil(this.T(), newStacker())
 }

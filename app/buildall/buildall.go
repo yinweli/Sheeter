@@ -69,7 +69,7 @@ func execute(cmd *cobra.Command, args []string) {
 
 		go func() {
 			defer signaler.Done()
-			task := &tasks.Task{
+			task := tasks.Task{
 				Path:        global.Path,
 				Bom:         global.Bom,
 				LineOfField: global.LineOfField,
@@ -78,8 +78,9 @@ func execute(cmd *cobra.Command, args []string) {
 				LineOfData:  global.LineOfData,
 				Excel:       element.Excel,
 				Sheet:       element.Sheet,
+				Progress:    progress,
 			}
-			errors <- task.Run(progress)
+			errors <- task.Run()
 		}()
 	} // for
 

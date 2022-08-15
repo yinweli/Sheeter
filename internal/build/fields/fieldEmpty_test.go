@@ -42,11 +42,3 @@ func (this *SuiteEmpty) TestToJsonValue() {
 	assert.Nil(this.T(), err)
 	assert.Nil(this.T(), result)
 }
-
-func (this *SuiteEmpty) TestToLuaValue() {
-	target := this.target()
-
-	result, err := target.ToLuaValue("test")
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), "", result)
-}

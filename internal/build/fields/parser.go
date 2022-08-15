@@ -49,9 +49,6 @@ type Field interface {
 
 	// ToJsonValue 轉換為json值
 	ToJsonValue(input string) (result interface{}, err error)
-
-	// ToLuaValue 轉換為lua值
-	ToLuaValue(input string) (result string, err error)
 }
 
 // 欄位列表選擇用slice而非map, 是因為map要加入項目需要指定索引, 而Field的索引應該是Type函式

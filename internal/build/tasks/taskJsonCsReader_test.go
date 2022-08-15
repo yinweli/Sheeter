@@ -54,19 +54,19 @@ func (this *SuiteTaskJsonCsReader) target() *Task {
 	return target
 }
 
-func (this *SuiteTaskJsonCsReader) TestTaskJsonCsReader() {
+func (this *SuiteTaskJsonCsReader) TestJsonCsReader() {
 	target := this.target()
-	assert.Nil(this.T(), target.runJsonCsReader())
+	assert.Nil(this.T(), target.jsonCsReader())
 	testdata.CompareFile(this.T(), target.jsonCsReaderFilePath(), this.dataBytes)
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.UnknownStr
-	assert.NotNil(this.T(), target.runJsonCsReader())
+	assert.NotNil(this.T(), target.jsonCsReader())
 	target.close()
 
 	target = this.target()
 	target.Sheet = testdata.UnknownStr
-	assert.NotNil(this.T(), target.runJsonCsReader())
+	assert.NotNil(this.T(), target.jsonCsReader())
 	target.close()
 }

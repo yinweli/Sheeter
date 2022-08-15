@@ -28,8 +28,3 @@ func (this *Empty) ToJsonDefault() interface{} {
 func (this *Empty) ToJsonValue(input string) (result interface{}, err error) {
 	return nil, nil
 }
-
-// ToLuaValue 轉換為lua值
-func (this *Empty) ToLuaValue(input string) (result string, err error) {
-	return "", nil
-}

@@ -54,20 +54,20 @@ func (this *SuiteTaskJsonGo) target() *Task {
 	return target
 }
 
-func (this *SuiteTaskJsonGo) TestTaskJsonGo() {
+func (this *SuiteTaskJsonGo) TestJsonGo() {
 	target := this.target()
-	assert.Nil(this.T(), target.runJsonSchema())
-	assert.Nil(this.T(), target.runJsonGo())
+	assert.Nil(this.T(), target.jsonSchema())
+	assert.Nil(this.T(), target.jsonGo())
 	testdata.CompareFile(this.T(), target.jsonGoFilePath(), this.dataBytes)
 	target.close()
 
 	target = this.target()
 	target.Excel = testdata.UnknownStr
-	assert.NotNil(this.T(), target.runJsonGo())
+	assert.NotNil(this.T(), target.jsonGo())
 	target.close()
 
 	target = this.target()
 	target.Sheet = testdata.UnknownStr
-	assert.NotNil(this.T(), target.runJsonGo())
+	assert.NotNil(this.T(), target.jsonGo())
 	target.close()
 }

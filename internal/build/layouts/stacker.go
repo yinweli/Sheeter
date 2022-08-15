@@ -12,8 +12,8 @@ type stacker struct {
 type layoutStruct = map[string]interface{} // 結構布局類型
 type layoutArray = []layoutStruct          // 陣列布局類型
 
-// PushArray 新增陣列元素
-func (this *stacker) PushArray(name string) bool {
+// pushArray 新增陣列元素
+func (this *stacker) pushArray(name string) bool {
 	if last := this.datas.Back(); last != nil {
 		if layout, ok := last.Value.(layoutStruct); ok {
 			object := &layoutArray{}
@@ -26,8 +26,8 @@ func (this *stacker) PushArray(name string) bool {
 	return false
 }
 
-// PushStructA 新增結構元素到陣列中
-func (this *stacker) PushStructA() bool {
+// pushStructA 新增結構元素到陣列中
+func (this *stacker) pushStructA() bool {
 	if last := this.datas.Back(); last != nil {
 		if layout, ok := last.Value.(*layoutArray); ok {
 			object := layoutStruct{}
@@ -41,8 +41,8 @@ func (this *stacker) PushStructA() bool {
 	return false
 }
 
-// PushStructS 新增結構元素到結構中
-func (this *stacker) PushStructS(name string) bool {
+// pushStructS 新增結構元素到結構中
+func (this *stacker) pushStructS(name string) bool {
 	if last := this.datas.Back(); last != nil {
 		if layout, ok := last.Value.(layoutStruct); ok {
 			object := layoutStruct{}
@@ -55,8 +55,8 @@ func (this *stacker) PushStructS(name string) bool {
 	return false
 }
 
-// PushValue 新增值元素
-func (this *stacker) PushValue(name string, value interface{}) bool {
+// pushValue 新增值元素
+func (this *stacker) pushValue(name string, value interface{}) bool {
 	if last := this.datas.Back(); last != nil {
 		if layout, ok := last.Value.(layoutStruct); ok {
 			layout[name] = value
@@ -67,8 +67,8 @@ func (this *stacker) PushValue(name string, value interface{}) bool {
 	return false
 }
 
-// Pop 移除元素
-func (this *stacker) Pop(count int, removeArray bool) {
+// pop 移除元素
+func (this *stacker) pop(count int, removeArray bool) {
 	for i := 0; i < count; i++ {
 		if last := this.datas.Back(); last != nil {
 			this.datas.Remove(last)
@@ -84,13 +84,13 @@ func (this *stacker) Pop(count int, removeArray bool) {
 	} // for
 }
 
-// Closure 取得是否閉合
-func (this *stacker) Closure() bool {
+// closure 取得是否閉合
+func (this *stacker) closure() bool {
 	return this.datas.Len() == 1
 }
 
-// Result 取得結果
-func (this *stacker) Result() layoutStruct {
+// result 取得結果
+func (this *stacker) result() layoutStruct {
 	if result, ok := this.datas.Front().Value.(layoutStruct); ok {
 		return result
 	} // if
@@ -98,8 +98,8 @@ func (this *stacker) Result() layoutStruct {
 	return nil
 }
 
-// NewStacker 建立布局堆疊器
-func NewStacker() *stacker {
+// newStacker 建立布局堆疊器
+func newStacker() *stacker {
 	stacker := &stacker{
 		datas: list.New(),
 	}

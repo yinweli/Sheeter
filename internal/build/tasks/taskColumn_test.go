@@ -40,59 +40,59 @@ func (this *SuiteTaskColumn) target() *Task {
 	return target
 }
 
-func (this *SuiteTaskColumn) TestTaskColumn() {
+func (this *SuiteTaskColumn) TestColumn() {
 	target := this.target()
 	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
-	assert.Nil(this.T(), target.runColumn())
+	assert.Nil(this.T(), target.column())
 	assert.Equal(this.T(), this.columns, target.columns)
 	target.close()
 
 	target = this.target()
 	target.LineOfField = 10
 	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
-	assert.NotNil(this.T(), target.runColumn())
+	assert.NotNil(this.T(), target.column())
 	target.close()
 
 	target = this.target()
 	target.LineOfNote = 10
 	target.xlsfile = testdata.GetTestExcel(testdata.RealExcel)
-	assert.NotNil(this.T(), target.runColumn())
+	assert.NotNil(this.T(), target.column())
 	target.close()
 
 	target = this.target()
 	target.xlsfile = testdata.GetTestExcel(testdata.Defect2Excel)
-	assert.Nil(this.T(), target.runColumn()) // 測試其實會成功
+	assert.Nil(this.T(), target.column()) // 測試其實會成功
 	assert.Equal(this.T(), 4, len(target.columns))
 	target.close()
 
 	target = this.target()
 	target.xlsfile = testdata.GetTestExcel(testdata.Defect3Excel)
-	assert.NotNil(this.T(), target.runColumn())
+	assert.NotNil(this.T(), target.column())
 	target.close()
 
 	target = this.target()
 	target.xlsfile = testdata.GetTestExcel(testdata.Defect4Excel)
-	assert.NotNil(this.T(), target.runColumn())
+	assert.NotNil(this.T(), target.column())
 	target.close()
 
 	target = this.target()
 	target.xlsfile = testdata.GetTestExcel(testdata.Defect5Excel)
-	assert.NotNil(this.T(), target.runColumn())
+	assert.NotNil(this.T(), target.column())
 	target.close()
 
 	target = this.target()
 	target.xlsfile = testdata.GetTestExcel(testdata.Defect6Excel)
-	assert.NotNil(this.T(), target.runColumn())
+	assert.NotNil(this.T(), target.column())
 	target.close()
 
 	target = this.target()
 	target.xlsfile = testdata.GetTestExcel(testdata.Defect7Excel)
-	assert.NotNil(this.T(), target.runColumn())
+	assert.NotNil(this.T(), target.column())
 	target.close()
 
 	target = this.target()
 	target.xlsfile = testdata.GetTestExcel(testdata.Defect8Excel)
-	assert.NotNil(this.T(), target.runColumn())
+	assert.NotNil(this.T(), target.column())
 	target.close()
 }
 
@@ -110,8 +110,8 @@ func (this *SuiteFromList) SetupSuite() {
 }
 
 func (this *SuiteFromList) TestFromList() {
-	assert.Equal(this.T(), "a", fromList(this.lists, 0))
-	assert.Equal(this.T(), "b", fromList(this.lists, 1))
-	assert.Equal(this.T(), "c", fromList(this.lists, 2))
-	assert.Equal(this.T(), "", fromList(this.lists, 3))
+	assert.Equal(this.T(), "a", catch(this.lists, 0))
+	assert.Equal(this.T(), "b", catch(this.lists, 1))
+	assert.Equal(this.T(), "c", catch(this.lists, 2))
+	assert.Equal(this.T(), "", catch(this.lists, 3))
 }

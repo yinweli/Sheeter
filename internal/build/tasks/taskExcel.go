@@ -6,8 +6,8 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-// runExcel 讀取excel檔案並獲取表格列表
-func (this *Task) runExcel() error {
+// excel 讀取excel檔案並獲取表格列表
+func (this *Task) excel() error {
 	excel, err := excelize.OpenFile(this.excelFilePath())
 
 	if err != nil {
