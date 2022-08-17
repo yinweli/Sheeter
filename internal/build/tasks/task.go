@@ -12,7 +12,7 @@ import (
 )
 
 const maxTask = 8                      // 最大工作數量
-const drawTime = 10 * time.Millisecond // 畫圖時間
+const drawTime = 10 * time.Millisecond // 進度條繪製時間
 
 // Task 工作資料
 type Task struct {
@@ -49,9 +49,7 @@ func (this *Task) Run() error {
 		),
 	)
 
-    // TODO: 做到這邊
-    // TODO: taskxxxx改名吧 -> xxxx
-    // TODO: fieldxxx改名吧 -> xxxx
+	// TODO: 做到這邊
 
 	if err := this.excel(); err != nil {
 		return err
