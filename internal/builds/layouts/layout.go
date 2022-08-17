@@ -3,9 +3,18 @@ package layouts
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/internal/build/fields"
-	"github.com/yinweli/Sheeter/internal/build/layers"
+	"github.com/yinweli/Sheeter/internal/builds/fields"
+	"github.com/yinweli/Sheeter/internal/builds/layers"
 )
+
+// Layout 布局資料
+type Layout struct {
+	Name   string         // 欄位名稱
+	Note   string         // 欄位註解
+	Field  fields.Field   // 欄位類型
+	Layers []layers.Layer // 階層列表
+	Back   int            // 倒退數量
+}
 
 // Builder 布局建造器
 type Builder struct {
@@ -16,19 +25,19 @@ type Builder struct {
 // Add 新增布局
 func (this *Builder) Add(name, note string, field fields.Field, layer []layers.Layer, back int) error {
 	if name == "" {
-		return fmt.Errorf("name empty")
+		return fmt.Errorf("add builder failed, name empty")
 	} // if
 
 	if field == nil {
-		return fmt.Errorf("field nil: %s", name)
+		return fmt.Errorf("%s: add builder failed, field nil", name)
 	} // if
 
 	if this.checker.check(layer...) == false {
-		return fmt.Errorf("layer duplicate: %s", name)
+		return fmt.Errorf("%s: add builder failed, layer duplicate", name)
 	} // if
 
 	if back < 0 {
-		return fmt.Errorf("back < 0: %s", name)
+		return fmt.Errorf("%s: add builder failed, back < 0", name)
 	} // if
 
 	this.layouts = append(this.layouts, Layout{
@@ -42,7 +51,7 @@ func (this *Builder) Add(name, note string, field fields.Field, layer []layers.L
 }
 
 // Pack 打包資料
-func (this *Builder) Pack(datas []string) (packs map[string]interface{}, pkey string, err error) {
+func (this *Builder) Pack(datas []string, preset bool) (packs map[string]interface{}, pkey string, err error) {
 	stacker := newStacker()
 
 	for i, itor := range this.layouts {
@@ -63,13 +72,13 @@ func (this *Builder) Pack(datas []string) (packs map[string]interface{}, pkey st
 		value, err := itor.Field.ToJsonValue(data)
 
 		if err != nil {
-			return nil, "", fmt.Errorf("value error: %s\n%w", itor.Name, err)
+			return nil, "", fmt.Errorf("%s: pack builder failed, value error: %w", itor.Name, err)
 		} // if
 
 		for _, layer := range itor.Layers {
 			if layer.Type == layers.LayerArray {
 				if stacker.pushArray(layer.Name) == false || stacker.pushStructA() == false {
-					return nil, "", fmt.Errorf("fromat error: %s", itor.Name)
+					return nil, "", fmt.Errorf("%s: pack builder failed, invalid format", itor.Name)
 				} // if
 
 				continue
@@ -77,7 +86,7 @@ func (this *Builder) Pack(datas []string) (packs map[string]interface{}, pkey st
 
 			if layer.Type == layers.LayerStruct {
 				if stacker.pushStructS(layer.Name) == false {
-					return nil, "", fmt.Errorf("fromat error: %s", itor.Name)
+					return nil, "", fmt.Errorf("%s: pack builder failed, invalid format", itor.Name)
 				} // if
 
 				continue
@@ -87,24 +96,24 @@ func (this *Builder) Pack(datas []string) (packs map[string]interface{}, pkey st
 				stacker.pop(1, false)
 
 				if stacker.pushStructA() == false {
-					return nil, "", fmt.Errorf("fromat error: %s", itor.Name)
+					return nil, "", fmt.Errorf("%s: pack builder failed, invalid format", itor.Name)
 				} // if
 
 				continue
 			} // if
 
-			return nil, "", fmt.Errorf("layer unknown: %s", itor.Name)
+			return nil, "", fmt.Errorf("%s: pack builder failed, unknown layer", itor.Name)
 		} // for
 
 		if stacker.pushValue(itor.Name, value) == false {
-			return nil, "", fmt.Errorf("fromat error: %s", itor.Name)
+			return nil, "", fmt.Errorf("%s: pack builder failed, push value", itor.Name)
 		} // if
 
 		stacker.pop(itor.Back, true)
 	} // for
 
 	if stacker.closure() == false {
-		return nil, "", fmt.Errorf("not closure")
+		return nil, "", fmt.Errorf("pack builder failed, not closure")
 	} // if
 
 	return stacker.result(), pkey, nil
@@ -126,15 +135,6 @@ func (this *Builder) PkeyCount() int {
 	} // for
 
 	return count
-}
-
-// Layout 布局資料
-type Layout struct {
-	Name   string         // 欄位名稱
-	Note   string         // 欄位註解
-	Field  fields.Field   // 欄位類型
-	Layers []layers.Layer // 階層列表
-	Back   int            // 倒退數量
 }
 
 // NewBuilder 建立布局建造器

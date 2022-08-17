@@ -1,4 +1,4 @@
-package contents
+package builds
 
 import (
 	"testing"
@@ -132,4 +132,53 @@ func (this *SuiteContent) TestExcelName() {
 
 func (this *SuiteContent) TestFileName() {
 	assert.Equal(this.T(), "realData.test1.test2.test3", this.target().fileName("test1", "test2", "test3"))
+}
+
+func (this *SuiteContent) TestGetRows() {
+	target := this.target()
+	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+
+	rows, err := target.getRows(1)
+	assert.Nil(this.T(), err)
+	assert.NotNil(this.T(), rows)
+	_ = rows.Close()
+
+	rows, err = target.getRows(10)
+	assert.Nil(this.T(), err)
+	assert.NotNil(this.T(), rows)
+	_ = rows.Close()
+
+	_, err = target.getRows(0)
+	assert.NotNil(this.T(), err)
+
+	target.Sheet = testdata.UnknownStr
+	_, err = target.getRows(1)
+	assert.NotNil(this.T(), err)
+
+	target.close()
+}
+
+func (this *SuiteContent) TestGetRowContent() {
+	target := this.target()
+	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+
+	cols, err := target.getColumns(1)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []string{"name0#pkey", "name1#bool", "name2#int", "name3#text", "empty#empty"}, cols)
+
+	cols, err = target.getColumns(3)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []string{"note0", "note1", "note2", "note3", "empty"}, cols)
+
+	_, err = target.getColumns(10)
+	assert.NotNil(this.T(), err)
+
+	_, err = target.getColumns(0)
+	assert.NotNil(this.T(), err)
+
+	target.Sheet = testdata.UnknownStr
+	_, err = target.getColumns(1)
+	assert.NotNil(this.T(), err)
+
+	target.close()
 }

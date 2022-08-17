@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	"github.com/yinweli/Sheeter/internal/build/layers"
+	"github.com/yinweli/Sheeter/internal/builds/layers"
 )
 
 func TestChecker(t *testing.T) {

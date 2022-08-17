@@ -7,29 +7,6 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-const separateField = "#" // 欄位字串以'#'符號分割為名稱與欄位
-
-// Parser 欄位解析, 格式為 name#field
-func Parser(input string) (name string, field Field, err error) {
-	before, after, ok := strings.Cut(input, separateField)
-
-	if ok == false {
-		return "", nil, fmt.Errorf("field format failed: %s", input)
-	} // if
-
-	if util.VariableCheck(before) == false {
-		return "", nil, fmt.Errorf("name invalid: %s", input)
-	} // if
-
-	for _, itor := range fields {
-		if itor.Type() == after {
-			return before, itor, nil
-		} // if
-	} // for
-
-	return "", nil, fmt.Errorf("field not found: %s", input)
-}
-
 // 實作新的欄位結構需要: 製作欄位結構, 實作欄位介面函式, 把結構加入到fields全域變數中
 // 欄位資料在多執行緒環境下, 可能會造成讀寫衝突, 所以在製作新的欄位結構時, 要注意不可以在欄位結構中儲存任何資料
 
@@ -44,11 +21,8 @@ type Field interface {
 	// IsPkey 是否是主要索引
 	IsPkey() bool
 
-	// ToJsonDefault 轉換為json預設值
-	ToJsonDefault() interface{}
-
 	// ToJsonValue 轉換為json值
-	ToJsonValue(input string) (result interface{}, err error)
+	ToJsonValue(input string, preset bool) (result interface{}, err error)
 }
 
 // 欄位列表選擇用slice而非map, 是因為map要加入項目需要指定索引, 而Field的索引應該是Type函式
@@ -66,4 +40,27 @@ var fields = []Field{
 	&FloatArray{},
 	&Text{},
 	&TextArray{},
+}
+
+const separateField = "#" // 欄位字串以'#'符號分割為名稱與欄位
+
+// Parser 欄位解析, 格式為 name#field
+func Parser(input string) (name string, field Field, err error) {
+	before, after, ok := strings.Cut(input, separateField)
+
+	if ok == false {
+		return "", nil, fmt.Errorf("%s: parser field failed, invalid format", input)
+	} // if
+
+	if util.VariableCheck(before) == false {
+		return "", nil, fmt.Errorf("%s: parser field failed, invalid name", input)
+	} // if
+
+	for _, itor := range fields {
+		if itor.Type() == after {
+			return before, itor, nil
+		} // if
+	} // for
+
+	return "", nil, fmt.Errorf("%s: parser field failed, field not found", input)
 }

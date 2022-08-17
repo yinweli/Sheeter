@@ -1,6 +1,8 @@
 package layouts
 
-import "github.com/yinweli/Sheeter/internal/build/layers"
+import (
+	"github.com/yinweli/Sheeter/internal/builds/layers"
+)
 
 // checker 階層檢查器
 type checker map[string]int

@@ -7,6 +7,12 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
+// Layer 階層資料
+type Layer struct {
+	Name string // 階層名稱
+	Type int    // 階層類型
+}
+
 const (
 	LayerArray   = iota // 陣列階層
 	LayerStruct         // 結構階層
@@ -73,11 +79,5 @@ func Parser(input string) (layers []Layer, back int, err error) {
 	return layers, back, nil
 
 failed:
-	return nil, 0, fmt.Errorf("layer format failed: %s", input)
-}
-
-// Layer 階層資料
-type Layer struct {
-	Name string // 階層名稱
-	Type int    // 階層類型
+	return nil, 0, fmt.Errorf("%s: parser layer failed, invalid format", input)
 }

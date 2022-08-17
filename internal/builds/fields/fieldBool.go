@@ -25,18 +25,17 @@ func (this *Bool) IsPkey() bool {
 	return false
 }
 
-// ToJsonDefault 轉換為json預設值
-func (this *Bool) ToJsonDefault() interface{} {
-	return false
-}
-
 // ToJsonValue 轉換為json值
-func (this *Bool) ToJsonValue(input string) (result interface{}, err error) {
-	result, err = util.StrToBool(input)
+func (this *Bool) ToJsonValue(input string, preset bool) (result interface{}, err error) {
+	if preset == false {
+		result, err = util.StrToBool(input)
 
-	if err != nil {
-		return nil, fmt.Errorf("to json value failed: %w", err)
+		if err != nil {
+			return nil, fmt.Errorf("to json value failed: %w", err)
+		} // if
+
+		return result, nil
+	} else {
+		return false, nil
 	} // if
-
-	return result, nil
 }

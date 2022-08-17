@@ -1,4 +1,4 @@
-package contents
+package builds
 
 import (
 	"fmt"
@@ -6,7 +6,9 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/xuri/excelize/v2"
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/builds/layouts"
 	"github.com/yinweli/Sheeter/internal/util"
 
 	"github.com/vbauerster/mpb/v7"
@@ -24,57 +26,59 @@ const extGo = "go"           // 副檔名: go
 
 // Content 內容資料
 type Content struct {
-	Path        string        // 來源excel路徑
-	Bom         bool          // 輸出的檔案是否使用順序標記(BOM)
-	LineOfField int           // 欄位行號(1為起始行)
-	LineOfLayer int           // 階層行號(1為起始行)
-	LineOfNote  int           // 註解行號(1為起始行)
-	LineOfData  int           // 資料起始行號(1為起始行)
-	Excel       string        // excel檔案名稱
-	Sheet       string        // excel表單名稱
-	Progress    *mpb.Progress // 進度條產生器
+	Path        string           // 來源excel路徑
+	Bom         bool             // 輸出的檔案是否使用順序標記(BOM)
+	LineOfField int              // 欄位行號(1為起始行)
+	LineOfLayer int              // 階層行號(1為起始行)
+	LineOfNote  int              // 註解行號(1為起始行)
+	LineOfData  int              // 資料起始行號(1為起始行)
+	Excel       string           // excel檔案名稱
+	Sheet       string           // excel表單名稱
+	Progress    *mpb.Progress    // 進度條產生器
+	excel       *excelize.File   // excel物件
+	builder     *layouts.Builder // 布局建造器
 }
 
 // Check 檢查工作
 func (this *Content) Check() error {
 	if this.LineOfField <= 0 {
-		return fmt.Errorf("lineOfField <= 0")
+		return fmt.Errorf("content failed, lineOfField <= 0")
 	} // if
 
 	if this.LineOfLayer <= 0 {
-		return fmt.Errorf("lineOfLayer <= 0")
+		return fmt.Errorf("content failed, lineOfLayer <= 0")
 	} // if
 
 	if this.LineOfNote <= 0 {
-		return fmt.Errorf("lineOfNote <= 0")
+		return fmt.Errorf("content failed, lineOfNote <= 0")
 	} // if
 
 	if this.LineOfData <= 0 {
-		return fmt.Errorf("lineOfData <= 0")
+		return fmt.Errorf("content failed, lineOfData <= 0")
 	} // if
 
 	if this.LineOfField >= this.LineOfData {
-		return fmt.Errorf("lineOfField(%d) >= lineOfData(%d)", this.LineOfField, this.LineOfData)
+		return fmt.Errorf("content failed, lineOfField(%d) >= lineOfData(%d)", this.LineOfField, this.LineOfData)
 	} // if
 
 	if this.LineOfLayer >= this.LineOfData {
-		return fmt.Errorf("lineOfLayer(%d) >= lineOfData(%d)", this.LineOfLayer, this.LineOfData)
+		return fmt.Errorf("content failed, lineOfLayer(%d) >= lineOfData(%d)", this.LineOfLayer, this.LineOfData)
 	} // if
 
 	if this.LineOfNote >= this.LineOfData {
-		return fmt.Errorf("lineOfNote(%d) >= lineOfData(%d)", this.LineOfNote, this.LineOfData)
+		return fmt.Errorf("content failed, lineOfNote(%d) >= lineOfData(%d)", this.LineOfNote, this.LineOfData)
 	} // if
 
 	if this.Excel == "" {
-		return fmt.Errorf("excel empty")
+		return fmt.Errorf("content failed, excel empty")
 	} // if
 
 	if this.Sheet == "" {
-		return fmt.Errorf("sheet empty")
+		return fmt.Errorf("content failed, sheet empty")
 	} // if
 
 	if this.Progress == nil {
-		return fmt.Errorf("progress nil")
+		return fmt.Errorf("content failed, progress nil")
 	} // if
 
 	return nil
@@ -158,4 +162,63 @@ func (this *Content) fileName(ext ...string) string {
 	fileNames = append(fileNames, ext...)
 
 	return strings.Join(fileNames, ".")
+}
+
+// getRows 取得表格行資料, line從1起算; 如果該行不存在, 回傳成功並取得最後一行物件
+func (this *Content) getRows(line int) (rows *excelize.Rows, err error) {
+	if line <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
+		return nil, fmt.Errorf("get row failed, row <= 0")
+	} // if
+
+	rows, err = this.excel.Rows(this.Sheet)
+
+	if err != nil {
+		return nil, fmt.Errorf("get row failed, %w", err)
+	} // if
+
+	for l := 0; l < line; l++ {
+		rows.Next()
+	} // for
+
+	return rows, nil
+}
+
+// getColumns 取得表格行內容, line從1起算; 如果該行不存在, 回傳失敗
+func (this *Content) getColumns(line int) (cols []string, err error) {
+	if line <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
+		return nil, fmt.Errorf("get columns failed, row <= 0")
+	} // if
+
+	rows, err := this.excel.Rows(this.Sheet)
+
+	if err != nil {
+		return nil, fmt.Errorf("get columns failed, %w", err)
+	} // if
+
+	defer func() { _ = rows.Close() }()
+
+	for l := 0; l < line; l++ {
+		if rows.Next() == false {
+			return nil, fmt.Errorf("get columns failed, row not found")
+		} // if
+	} // for
+
+	cols, err = rows.Columns()
+
+	if err != nil {
+		return nil, fmt.Errorf("get columns failed, invalid columns, %w", err)
+	} // if
+
+	if cols == nil {
+		cols = []string{} // 如果取得空行, 就回傳個空切片吧
+	} // if
+
+	return cols, nil
+}
+
+// close 關閉excel物件
+func (this *Content) close() {
+	if this.excel != nil {
+		_ = this.excel.Close()
+	} // if
 }
