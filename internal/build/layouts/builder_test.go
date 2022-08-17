@@ -98,6 +98,14 @@ func (this *SuiteBuilder) TestLayouts() {
 	assert.NotNil(this.T(), target.Layouts())
 }
 
+func (this *SuiteBuilder) TestPkeyCount() {
+	target := this.target()
+
+	assert.Equal(this.T(), 0, target.PkeyCount())
+	assert.Nil(this.T(), target.Add("n0", "", &fields.Empty{}, this.layerEmpty, 0))
+	assert.Equal(this.T(), 1, target.PkeyCount())
+}
+
 func (this *SuiteBuilder) TestNewBuilder() {
 	assert.NotNil(this.T(), NewBuilder())
 }

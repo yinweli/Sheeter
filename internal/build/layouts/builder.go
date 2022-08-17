@@ -115,7 +115,7 @@ func (this *Builder) Layouts() []Layout {
 	return this.layouts
 }
 
-// PkeyCount 主要索引數量 // TODO: 單元測試還沒做
+// PkeyCount 主要索引數量
 func (this *Builder) PkeyCount() int {
 	count := 0
 
