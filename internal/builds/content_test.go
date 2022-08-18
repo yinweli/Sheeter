@@ -79,7 +79,7 @@ func (this *SuiteContent) TestCheck() {
 }
 
 func (this *SuiteContent) TestExcelFilePath() {
-	assert.Equal(this.T(), "testdata/real.xlsx", this.target().ExcelFilePath())
+	assert.Equal(this.T(), testdata.RootPath+"/real.xlsx", this.target().ExcelFilePath())
 }
 
 func (this *SuiteContent) TestSchemaFilePath() {

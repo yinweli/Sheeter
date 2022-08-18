@@ -8,16 +8,13 @@ import (
 
 // writeSchema 輸出json架構
 func writeSchema(content *Content) error {
-	objs := map[string]interface{}{}
-	packs, pkey, err := content.builder.Pack([]string{}, true)
+	packs, _, err := content.builder.Pack([]string{}, true)
 
 	if err != nil {
 		return fmt.Errorf("%s: write json schema failed: %w", content.TargetName(), err)
 	} // if
 
-	objs[pkey] = packs
-
-	if err = util.JsonWrite(content.SchemaFilePath(), objs, content.Bom); err != nil {
+	if err = util.JsonWrite(content.SchemaFilePath(), packs, content.Bom); err != nil {
 		return fmt.Errorf("%s: write json schema failed: %w", content.TargetName(), err)
 	} // if
 

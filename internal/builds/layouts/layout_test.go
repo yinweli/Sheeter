@@ -75,9 +75,8 @@ func (this *SuiteBuilder) TestAdd() {
 	assert.Nil(this.T(), target.Add("n5", "", this.fieldInt, this.layerNone, 2))
 	assert.NotNil(this.T(), target.Add("", "", nil, nil, 0))
 	assert.NotNil(this.T(), target.Add("n6", "", nil, nil, 0))
-	assert.NotNil(this.T(), target.Add("n7", "", this.fieldPkey, nil, 0))
-	assert.NotNil(this.T(), target.Add("n8", "", this.fieldInt, this.layerDuplicate, 0))
-	assert.NotNil(this.T(), target.Add("n8", "", this.fieldInt, this.layerNone, -1))
+	assert.NotNil(this.T(), target.Add("n7", "", this.fieldInt, this.layerDuplicate, 0))
+	assert.NotNil(this.T(), target.Add("n7", "", this.fieldInt, this.layerNone, -1))
 }
 
 func (this *SuiteBuilder) TestPack() {

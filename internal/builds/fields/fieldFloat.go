@@ -27,7 +27,7 @@ func (this *Float) IsPkey() bool {
 
 // ToJsonValue 轉換為json值
 func (this *Float) ToJsonValue(input string, preset bool) (result interface{}, err error) {
-	if preset == false {
+	if preset {
 		return float64(0), nil
 	} // if
 

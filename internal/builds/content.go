@@ -144,7 +144,7 @@ func (this *Content) StructName() string {
 
 // ReaderName 取得讀取器名稱
 func (this *Content) ReaderName() string {
-	return this.StructName() + midReader
+	return this.StructName() + util.FirstUpper(midReader)
 }
 
 // ExcelName 取得沒有副檔名的excel名稱

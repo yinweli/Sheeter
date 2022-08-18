@@ -29,9 +29,7 @@ namespace {{$.Namespace}} {
 
 // writeJsonCs 輸出json-c#代碼
 func writeJsonCs(content *Content) error {
-	err := os.MkdirAll(path.Dir(content.JsonCsFilePath()), os.ModePerm)
-
-	if err != nil {
+	if err := os.MkdirAll(path.Dir(content.JsonCsFilePath()), os.ModePerm); err != nil {
 		return fmt.Errorf("%s: write json cs failed: %w", content.TargetName(), err)
 	} // if
 
@@ -46,7 +44,7 @@ func writeJsonCs(content *Content) error {
 		"--features", "attributes-only",
 	}
 
-	if err = util.ShellRun("quicktype", options...); err != nil {
+	if err := util.ShellRun("quicktype", options...); err != nil {
 		return fmt.Errorf("%s: write json cs failed: %w", content.TargetName(), err)
 	} // if
 

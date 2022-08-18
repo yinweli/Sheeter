@@ -8,7 +8,6 @@ import (
 	"github.com/vbauerster/mpb/v7/decor"
 )
 
-// TODO: 單元測試資料的測試設定檔
 // TODO: 要一個一個地做單元測試
 
 const maxTask = 8                      // 最大工作數量

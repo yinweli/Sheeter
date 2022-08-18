@@ -6,6 +6,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/vbauerster/mpb/v7"
 
 	"github.com/yinweli/Sheeter/testdata"
 )
@@ -37,8 +38,10 @@ func (this *SuiteBuild) target() *Content {
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
+		LineOfData:  4,
 		Excel:       testdata.ExcelNameReal,
 		Sheet:       testdata.SheetName,
+		Progress:    mpb.New(mpb.WithOutput(nil)),
 	}
 	return target
 }

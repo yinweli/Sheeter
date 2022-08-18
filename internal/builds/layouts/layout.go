@@ -71,15 +71,14 @@ func (this *Builder) Pack(datas []string, preset bool) (packs map[string]interfa
 		} // if
 
 		data := util.GetItem(datas, i)
-
-		if itor.Field.IsPkey() {
-			pkey = data
-		} // if
-
 		value, err := itor.Field.ToJsonValue(data, preset)
 
 		if err != nil {
 			return nil, "", fmt.Errorf("%s: pack builder failed, value error: %w", itor.Name, err)
+		} // if
+
+		if itor.Field.IsPkey() {
+			pkey = fmt.Sprintf("%v", value)
 		} // if
 
 		for _, layer := range itor.Layers {

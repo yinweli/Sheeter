@@ -28,9 +28,7 @@ func (this *{{$.ReaderName}}) FromJson(data []byte) error {
 
 // writeJsonGo 輸出json-go代碼
 func writeJsonGo(content *Content) error {
-	err := os.MkdirAll(path.Dir(content.JsonGoFilePath()), os.ModePerm)
-
-	if err != nil {
+	if err := os.MkdirAll(path.Dir(content.JsonGoFilePath()), os.ModePerm); err != nil {
 		return fmt.Errorf("%s: write json go failed: %w", content.TargetName(), err)
 	} // if
 
@@ -44,7 +42,11 @@ func writeJsonGo(content *Content) error {
 		"--just-types-and-package",
 	}
 
-	if err = util.ShellRun("quicktype", options...); err != nil {
+	if err := util.ShellRun("quicktype", options...); err != nil {
+		return fmt.Errorf("%s: write json go failed: %w", content.TargetName(), err)
+	} // if
+
+	if err := util.ShellRun("go", "fmt", content.JsonGoFilePath()); err != nil {
 		return fmt.Errorf("%s: write json go failed: %w", content.TargetName(), err)
 	} // if
 
@@ -54,6 +56,10 @@ func writeJsonGo(content *Content) error {
 // writeJsonGoReader 輸出json-go讀取器, 由於quicktype對於結構命名有不一致的問題, 所以採取資料結構由quicktype執行, 而資料列表由模板執行的方式
 func writeJsonGoReader(content *Content) error {
 	if err := util.TmplWrite(content.JsonGoReaderFilePath(), jsonGoReaderCode, content, content.Bom); err != nil {
+		return fmt.Errorf("%s: write json go reader failed: %w", content.TargetName(), err)
+	} // if
+
+	if err := util.ShellRun("go", "fmt", content.JsonGoReaderFilePath()); err != nil {
 		return fmt.Errorf("%s: write json go reader failed: %w", content.TargetName(), err)
 	} // if
 

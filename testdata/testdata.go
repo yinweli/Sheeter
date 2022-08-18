@@ -5,8 +5,8 @@ import (
 )
 
 const ConfigInvalid = "config.invalid.yaml"
-const ExcelNameReal = "excel.real.xlsx"
-const ExcelNameEmpty = "excel.empty.xlsx"
+const ExcelNameReal = "real.xlsx"
+const ExcelNameEmpty = "empty.xlsx"
 const ExcelNameCleanAll = "excel.clean.all.xlsx"
 const ExcelNameCleanField = "excel.clean.field.xlsx"
 const ExcelNameInvalidData = "excel.invalid.data.xlsx"

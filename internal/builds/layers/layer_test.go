@@ -100,6 +100,9 @@ func (this *SuiteLayer) TestParseLayer() {
 	_, _, err = Parser("/name1")
 	assert.NotNil(this.T(), err)
 
+	_, _, err = Parser("{")
+	assert.NotNil(this.T(), err)
+
 	_, _, err = Parser(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }

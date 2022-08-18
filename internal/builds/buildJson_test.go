@@ -25,77 +25,85 @@ type SuiteBuildJson struct {
 func (this *SuiteBuildJson) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 	this.schema = []byte(`{
-    "name0": 0,
-    "S" : {
-        "name1": false,
+    "S": {
         "A": [
             {
                 "name2": 0,
-                "name3": "",
+                "name3": ""
             },
-        ]
-    }
+            {
+                "name2": 0,
+                "name3": ""
+            },
+            {
+                "name2": 0,
+                "name3": ""
+            }
+        ],
+        "name1": false
+    },
+    "name0": 0
 }`)
 	this.json = []byte(`{
     "1": {
-        "name0": 1,
-        "S" : {
-            "name1": true,
+        "S": {
             "A": [
                 {
                     "name2": 1,
-                    "name3": "a",
+                    "name3": "a"
                 },
                 {
                     "name2": 1,
-                    "name3": "a",
+                    "name3": "a"
                 },
                 {
                     "name2": 1,
-                    "name3": "a",
+                    "name3": "a"
                 }
-            ]
-        }
+            ],
+            "name1": true
+        },
+        "name0": 1
     },
     "2": {
-        "name0": 2,
-        "S" : {
-            "name1": false,
+        "S": {
             "A": [
                 {
                     "name2": 2,
-                    "name3": "b",
+                    "name3": "b"
                 },
                 {
                     "name2": 2,
-                    "name3": "b",
+                    "name3": "b"
                 },
                 {
                     "name2": 2,
-                    "name3": "b",
+                    "name3": "b"
                 }
-            ]
-        }
+            ],
+            "name1": false
+        },
+        "name0": 2
     },
     "3": {
-        "name0": 3,
-        "S" : {
-            "name1": true,
+        "S": {
             "A": [
                 {
                     "name2": 3,
-                    "name3": "c",
+                    "name3": "c"
                 },
                 {
                     "name2": 3,
-                    "name3": "c",
+                    "name3": "c"
                 },
                 {
                     "name2": 3,
-                    "name3": "c",
+                    "name3": "c"
                 }
-            ]
-        }
+            ],
+            "name1": true
+        },
+        "name0": 3
     }
 }`)
 	this.empty = []byte("{}")
@@ -129,22 +137,16 @@ func (this *SuiteBuildJson) TestWriteSchema() {
 	target.close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidData)
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
 	assert.Nil(this.T(), buildLayout(target))
-	assert.NotNil(this.T(), writeSchema(target))
-	target.close()
-
-	target = this.target()
 	target.Excel = testdata.UnknownStr
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
 	assert.NotNil(this.T(), writeSchema(target))
 	target.close()
 
 	target = this.target()
-	target.Sheet = testdata.UnknownStr
 	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
 	assert.Nil(this.T(), buildLayout(target))
+	target.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), writeSchema(target))
 	target.close()
 }
@@ -171,23 +173,23 @@ func (this *SuiteBuildJson) TestWriteJson() {
 	target.close()
 
 	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
 	target.LineOfData = -1
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
 	assert.NotNil(this.T(), writeJson(target))
 	target.close()
 
 	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
 	target.Excel = testdata.UnknownStr
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
 	assert.NotNil(this.T(), writeJson(target))
 	target.close()
 
 	target = this.target()
-	target.Sheet = testdata.UnknownStr
 	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
 	assert.Nil(this.T(), buildLayout(target))
+	target.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), writeJson(target))
 	target.close()
 }
