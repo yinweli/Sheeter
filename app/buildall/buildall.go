@@ -104,7 +104,7 @@ type Config struct {
 
 // Global 全域設定
 type Global struct {
-	Path        string `yaml:"excelPath"`   // 來源excel路徑 TODO: yaml:"excelPath"改名為yaml:"path"
+	Path        string `yaml:"path"`        // 來源excel路徑 TODO: yaml:"excelPath"改名為yaml:"path"
 	Bom         bool   `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
 	LineOfField int    `yaml:"lineOfField"` // 欄位行號(1為起始行)
 	LineOfLayer int    `yaml:"lineOfLayer"` // 階層行號(1為起始行)
