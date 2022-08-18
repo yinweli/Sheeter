@@ -49,8 +49,8 @@ func (this *SuiteBuildJsonGo) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteBuildJsonGo) content() *Content {
-	content := &Content{
+func (this *SuiteBuildJsonGo) target() *Content {
+	target := &Content{
 		Path:        testdata.RootPath,
 		LineOfField: 1,
 		LineOfLayer: 2,
@@ -58,57 +58,57 @@ func (this *SuiteBuildJsonGo) content() *Content {
 		Excel:       testdata.ExcelNameReal,
 		Sheet:       testdata.SheetName,
 	}
-	return content
+	return target
 }
 
 func (this *SuiteBuildJsonGo) TestWriteJsonGo() {
-	content := this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.Nil(this.T(), writeSchema(content))
-	assert.Nil(this.T(), writeJsonGo(content))
-	testdata.CompareFile(this.T(), content.JsonGoFilePath(), this.code)
-	content.close()
+	target := this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.Nil(this.T(), writeSchema(target))
+	assert.Nil(this.T(), writeJsonGo(target))
+	testdata.CompareFile(this.T(), target.JsonGoFilePath(), this.code)
+	target.close()
 
-	content = this.content()
-	content.Excel = testdata.UnknownStr
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.Nil(this.T(), writeSchema(content))
-	assert.NotNil(this.T(), writeJsonGo(content))
-	content.close()
+	target = this.target()
+	target.Excel = testdata.UnknownStr
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.Nil(this.T(), writeSchema(target))
+	assert.NotNil(this.T(), writeJsonGo(target))
+	target.close()
 
-	content = this.content()
-	content.Sheet = testdata.UnknownStr
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.Nil(this.T(), writeSchema(content))
-	assert.NotNil(this.T(), writeJsonGo(content))
-	content.close()
+	target = this.target()
+	target.Sheet = testdata.UnknownStr
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.Nil(this.T(), writeSchema(target))
+	assert.NotNil(this.T(), writeJsonGo(target))
+	target.close()
 }
 
 func (this *SuiteBuildJsonGo) TestWriteJsonGoReader() {
-	content := this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.Nil(this.T(), writeSchema(content))
-	assert.Nil(this.T(), writeJsonGoReader(content))
-	testdata.CompareFile(this.T(), content.JsonGoReaderFilePath(), this.reader)
-	content.close()
+	target := this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.Nil(this.T(), writeSchema(target))
+	assert.Nil(this.T(), writeJsonGoReader(target))
+	testdata.CompareFile(this.T(), target.JsonGoReaderFilePath(), this.reader)
+	target.close()
 
-	content = this.content()
-	content.Excel = testdata.UnknownStr
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.Nil(this.T(), writeSchema(content))
-	assert.NotNil(this.T(), writeJsonGoReader(content))
-	content.close()
+	target = this.target()
+	target.Excel = testdata.UnknownStr
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.Nil(this.T(), writeSchema(target))
+	assert.NotNil(this.T(), writeJsonGoReader(target))
+	target.close()
 
-	content = this.content()
-	content.Sheet = testdata.UnknownStr
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.Nil(this.T(), writeSchema(content))
-	assert.NotNil(this.T(), writeJsonGoReader(content))
-	content.close()
+	target = this.target()
+	target.Sheet = testdata.UnknownStr
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.Nil(this.T(), writeSchema(target))
+	assert.NotNil(this.T(), writeJsonGoReader(target))
+	target.close()
 }

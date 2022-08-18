@@ -107,8 +107,8 @@ func (this *SuiteBuildJson) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteBuildJson) content() *Content {
-	content := &Content{
+func (this *SuiteBuildJson) target() *Content {
+	target := &Content{
 		Path:        testdata.RootPath,
 		LineOfField: 1,
 		LineOfLayer: 2,
@@ -117,77 +117,77 @@ func (this *SuiteBuildJson) content() *Content {
 		Excel:       testdata.ExcelNameReal,
 		Sheet:       testdata.SheetName,
 	}
-	return content
+	return target
 }
 
 func (this *SuiteBuildJson) TestWriteSchema() {
-	content := this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.Nil(this.T(), writeSchema(content))
-	testdata.CompareFile(this.T(), content.SchemaFilePath(), this.schema)
-	content.close()
+	target := this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.Nil(this.T(), writeSchema(target))
+	testdata.CompareFile(this.T(), target.SchemaFilePath(), this.schema)
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidData)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.NotNil(this.T(), writeSchema(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidData)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.NotNil(this.T(), writeSchema(target))
+	target.close()
 
-	content = this.content()
-	content.Excel = testdata.UnknownStr
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.NotNil(this.T(), writeSchema(content))
-	content.close()
+	target = this.target()
+	target.Excel = testdata.UnknownStr
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.NotNil(this.T(), writeSchema(target))
+	target.close()
 
-	content = this.content()
-	content.Sheet = testdata.UnknownStr
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.NotNil(this.T(), writeSchema(content))
-	content.close()
+	target = this.target()
+	target.Sheet = testdata.UnknownStr
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.NotNil(this.T(), writeSchema(target))
+	target.close()
 }
 
 func (this *SuiteBuildJson) TestWriteJson() {
-	content := this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.Nil(this.T(), writeJson(content))
-	testdata.CompareFile(this.T(), content.JsonFilePath(), this.json)
-	content.close()
+	target := this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.Nil(this.T(), writeJson(target))
+	testdata.CompareFile(this.T(), target.JsonFilePath(), this.json)
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameEmpty)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.Nil(this.T(), writeJson(content))
-	testdata.CompareFile(this.T(), content.JsonFilePath(), this.empty)
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameEmpty)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.Nil(this.T(), writeJson(target))
+	testdata.CompareFile(this.T(), target.JsonFilePath(), this.empty)
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidData)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.NotNil(this.T(), writeJson(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidData)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.NotNil(this.T(), writeJson(target))
+	target.close()
 
-	content = this.content()
-	content.LineOfData = -1
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.NotNil(this.T(), writeJson(content))
-	content.close()
+	target = this.target()
+	target.LineOfData = -1
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.NotNil(this.T(), writeJson(target))
+	target.close()
 
-	content = this.content()
-	content.Excel = testdata.UnknownStr
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.NotNil(this.T(), writeJson(content))
-	content.close()
+	target = this.target()
+	target.Excel = testdata.UnknownStr
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.NotNil(this.T(), writeJson(target))
+	target.close()
 
-	content = this.content()
-	content.Sheet = testdata.UnknownStr
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.NotNil(this.T(), writeJson(content))
-	content.close()
+	target = this.target()
+	target.Sheet = testdata.UnknownStr
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.NotNil(this.T(), writeJson(target))
+	target.close()
 }

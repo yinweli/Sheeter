@@ -17,38 +17,38 @@ type SuiteBuildExcel struct {
 	suite.Suite
 }
 
-func (this *SuiteBuildExcel) content() *Content {
-	content := &Content{
+func (this *SuiteBuildExcel) target() *Content {
+	target := &Content{
 		Path:  testdata.RootPath,
 		Excel: testdata.ExcelNameReal,
 		Sheet: testdata.SheetName,
 	}
-	return content
+	return target
 }
 
 func (this *SuiteBuildExcel) TestReadExcel() {
-	content := this.content()
-	assert.Nil(this.T(), readExcel(content))
-	assert.NotNil(this.T(), content.excel)
-	content.close()
+	target := this.target()
+	assert.Nil(this.T(), readExcel(target))
+	assert.NotNil(this.T(), target.excel)
+	target.close()
 
-	content = this.content()
-	content.Path = ""
-	assert.NotNil(this.T(), readExcel(content))
-	content.close()
+	target = this.target()
+	target.Path = ""
+	assert.NotNil(this.T(), readExcel(target))
+	target.close()
 
-	content = this.content()
-	content.Excel = testdata.ExcelNameInvalidFile
-	assert.NotNil(this.T(), readExcel(content))
-	content.close()
+	target = this.target()
+	target.Excel = testdata.ExcelNameInvalidFile
+	assert.NotNil(this.T(), readExcel(target))
+	target.close()
 
-	content = this.content()
-	content.Excel = testdata.UnknownStr
-	assert.NotNil(this.T(), readExcel(content))
-	content.close()
+	target = this.target()
+	target.Excel = testdata.UnknownStr
+	assert.NotNil(this.T(), readExcel(target))
+	target.close()
 
-	content = this.content()
-	content.Sheet = testdata.UnknownStr
-	assert.NotNil(this.T(), readExcel(content))
-	content.close()
+	target = this.target()
+	target.Sheet = testdata.UnknownStr
+	assert.NotNil(this.T(), readExcel(target))
+	target.close()
 }

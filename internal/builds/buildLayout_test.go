@@ -17,8 +17,8 @@ type SuiteBuildLayout struct {
 	suite.Suite
 }
 
-func (this *SuiteBuildLayout) content() *Content {
-	content := &Content{
+func (this *SuiteBuildLayout) target() *Content {
+	target := &Content{
 		Path:        testdata.RootPath,
 		LineOfField: 1,
 		LineOfLayer: 2,
@@ -26,66 +26,66 @@ func (this *SuiteBuildLayout) content() *Content {
 		Excel:       testdata.ExcelNameReal,
 		Sheet:       testdata.SheetName,
 	}
-	return content
+	return target
 }
 
 func (this *SuiteBuildLayout) TestBuildLayout() {
-	content := this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(content))
-	assert.NotNil(this.T(), content.builder)
-	content.close()
+	target := this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	assert.Nil(this.T(), buildLayout(target))
+	assert.NotNil(this.T(), target.builder)
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	content.LineOfField = 10
-	assert.NotNil(this.T(), buildLayout(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	target.LineOfField = 10
+	assert.NotNil(this.T(), buildLayout(target))
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	content.LineOfLayer = 10
-	assert.NotNil(this.T(), buildLayout(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	target.LineOfLayer = 10
+	assert.NotNil(this.T(), buildLayout(target))
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	content.LineOfNote = 10
-	assert.NotNil(this.T(), buildLayout(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+	target.LineOfNote = 10
+	assert.NotNil(this.T(), buildLayout(target))
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameCleanAll)
-	assert.NotNil(this.T(), buildLayout(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameCleanAll)
+	assert.NotNil(this.T(), buildLayout(target))
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameCleanField)
-	assert.NotNil(this.T(), buildLayout(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameCleanField)
+	assert.NotNil(this.T(), buildLayout(target))
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidField)
-	assert.NotNil(this.T(), buildLayout(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidField)
+	assert.NotNil(this.T(), buildLayout(target))
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidLayer)
-	assert.NotNil(this.T(), buildLayout(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidLayer)
+	assert.NotNil(this.T(), buildLayout(target))
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidLayout)
-	assert.NotNil(this.T(), buildLayout(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidLayout)
+	assert.NotNil(this.T(), buildLayout(target))
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidPkeyZero)
-	assert.NotNil(this.T(), buildLayout(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidPkeyZero)
+	assert.NotNil(this.T(), buildLayout(target))
+	target.close()
 
-	content = this.content()
-	content.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidPkeyDupl)
-	assert.NotNil(this.T(), buildLayout(content))
-	content.close()
+	target = this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameInvalidPkeyDupl)
+	assert.NotNil(this.T(), buildLayout(target))
+	target.close()
 }
