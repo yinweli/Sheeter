@@ -18,8 +18,8 @@ type Layout struct {
 
 // Builder 布局建造器
 type Builder struct {
-	checker checker  // 階層檢查器
-	layouts []Layout // 布局列表
+	types   map[string]int // 類型列表
+	layouts []Layout       // 布局列表
 }
 
 // Add 新增布局
@@ -32,9 +32,15 @@ func (this *Builder) Add(name, note string, field fields.Field, layer []layers.L
 		return fmt.Errorf("%s: add builder failed, field nil", name)
 	} // if
 
-	if this.checker.check(layer...) == false {
-		return fmt.Errorf("%s: add builder failed, layer duplicate", name)
-	} // if
+	for _, itor := range layer {
+		if type_, ok := this.types[itor.Name]; ok {
+			if type_ != itor.Type {
+				return fmt.Errorf("%s: add builder failed, layer duplicate", name)
+			} // if
+		} else {
+			this.types[itor.Name] = itor.Type
+		} // if
+	} // for
 
 	if back < 0 {
 		return fmt.Errorf("%s: add builder failed, back < 0", name)
@@ -52,6 +58,10 @@ func (this *Builder) Add(name, note string, field fields.Field, layer []layers.L
 
 // Pack 打包資料
 func (this *Builder) Pack(datas []string, preset bool) (packs map[string]interface{}, pkey string, err error) {
+	// TODO: 考慮把stacker的函式弄成介面, 這樣以後proto就可以利用介面來製作新的stacker
+	//       但是這樣stacker就要對外開放啦, Pack函式也要從回傳map改成回傳stacker
+	// TODO: 實際思考後好像不太行, 轉proto之路還很遠
+
 	stacker := newStacker()
 
 	for i, itor := range this.layouts {
@@ -69,7 +79,7 @@ func (this *Builder) Pack(datas []string, preset bool) (packs map[string]interfa
 			pkey = data
 		} // if
 
-		value, err := itor.Field.ToJsonValue(data)
+		value, err := itor.Field.ToJsonValue(data, preset)
 
 		if err != nil {
 			return nil, "", fmt.Errorf("%s: pack builder failed, value error: %w", itor.Name, err)
@@ -140,7 +150,7 @@ func (this *Builder) PkeyCount() int {
 // NewBuilder 建立布局建造器
 func NewBuilder() *Builder {
 	return &Builder{
-		checker: checker{},
+		types:   map[string]int{},
 		layouts: []Layout{},
 	}
 }
