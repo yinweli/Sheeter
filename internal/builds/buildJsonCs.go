@@ -18,7 +18,7 @@ namespace {{$.Namespace}} {
     using Newtonsoft.Json;
 
     public partial class {{$.ReaderName}} {
-		public static readonly string JsonFileName = "{{$.JsonFileName}}";
+        public static readonly string JsonFileName = "{{$.JsonFileName}}";
 
         public static Dictionary<string, {{$.StructName}}> FromJson(string data) {
             return JsonConvert.DeserializeObject<Dictionary<string, {{$.StructName}}>>(data);
