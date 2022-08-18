@@ -37,6 +37,7 @@ func (this *SuiteEmpty) TestToJsonValue() {
 	result, err := target.ToJsonValue("", true)
 	assert.Nil(this.T(), err)
 	assert.Nil(this.T(), result)
+
 	result, err = target.ToJsonValue("test", false)
 	assert.Nil(this.T(), err)
 	assert.Nil(this.T(), result)

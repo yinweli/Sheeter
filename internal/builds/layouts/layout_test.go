@@ -94,10 +94,12 @@ func (this *SuiteBuilder) TestPack() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "0", pkey)
 	assert.Equal(this.T(), this.packPreset, packs)
+
 	packs, pkey, err = target.Pack(this.dataValid, false)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "1", pkey)
 	assert.Equal(this.T(), this.packValue, packs)
+
 	_, _, err = target.Pack(this.dataInvalid, false)
 	assert.NotNil(this.T(), err)
 }

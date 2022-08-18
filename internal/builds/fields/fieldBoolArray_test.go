@@ -39,9 +39,11 @@ func (this *SuiteBoolArray) TestToJsonValue() {
 	result, err := target.ToJsonValue("", true)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []bool{}, result)
+
 	result, err = target.ToJsonValue("true,false,true,false,true", false)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []bool{true, false, true, false, true}, result)
+
 	_, err = target.ToJsonValue(testdata.UnknownStr, false)
 	assert.NotNil(this.T(), err)
 }

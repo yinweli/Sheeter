@@ -39,9 +39,11 @@ func (this *SuiteInt) TestToJsonValue() {
 	result, err := target.ToJsonValue("", true)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), int64(0), result)
+
 	result, err = target.ToJsonValue("123456789", false)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), int64(123456789), result)
+
 	_, err = target.ToJsonValue(testdata.UnknownStr, false)
 	assert.NotNil(this.T(), err)
 }

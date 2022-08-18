@@ -37,6 +37,7 @@ func (this *SuiteText) TestToJsonValue() {
 	result, err := target.ToJsonValue("", true)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "", result)
+
 	result, err = target.ToJsonValue("ball,book,pack", false)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "ball,book,pack", result)

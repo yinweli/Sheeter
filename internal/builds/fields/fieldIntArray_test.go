@@ -39,9 +39,11 @@ func (this *SuiteIntArray) TestToJsonValue() {
 	result, err := target.ToJsonValue("", true)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []int64{}, result)
+
 	result, err = target.ToJsonValue("123,456,789", false)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []int64{123, 456, 789}, result)
+
 	_, err = target.ToJsonValue(testdata.UnknownStr, false)
 	assert.NotNil(this.T(), err)
 }
