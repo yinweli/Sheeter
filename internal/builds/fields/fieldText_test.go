@@ -31,14 +31,13 @@ func (this *SuiteText) TestIsPkey() {
 	assert.Equal(this.T(), false, this.target().IsPkey())
 }
 
-func (this *SuiteText) TestToJsonDefault() {
-	assert.Equal(this.T(), "", this.target().ToJsonDefault())
-}
-
 func (this *SuiteText) TestToJsonValue() {
 	target := this.target()
 
-	result, err := target.ToJsonValue("ball,book,pack")
+	result, err := target.ToJsonValue("", true)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), "", result)
+	result, err = target.ToJsonValue("ball,book,pack", false)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), "ball,book,pack", result)
 }

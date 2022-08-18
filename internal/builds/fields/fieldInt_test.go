@@ -32,17 +32,15 @@ func (this *SuiteInt) TestIsPkey() {
 	assert.Equal(this.T(), false, this.target().IsPkey())
 }
 
-func (this *SuiteInt) TestToJsonDefault() {
-	assert.Equal(this.T(), int64(0), this.target().ToJsonDefault())
-}
-
 func (this *SuiteInt) TestToJsonValue() {
 	target := this.target()
 
-	result, err := target.ToJsonValue("123456789")
+	result, err := target.ToJsonValue("", true)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), int64(0), result)
+	result, err = target.ToJsonValue("123456789", false)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), int64(123456789), result)
-
-	_, err = target.ToJsonValue(testdata.UnknownStr)
+	_, err = target.ToJsonValue(testdata.UnknownStr, false)
 	assert.NotNil(this.T(), err)
 }

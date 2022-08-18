@@ -32,17 +32,15 @@ func (this *SuiteFloatArray) TestIsPkey() {
 	assert.Equal(this.T(), false, this.target().IsPkey())
 }
 
-func (this *SuiteFloatArray) TestToJsonDefault() {
-	assert.Equal(this.T(), []float64{}, this.target().ToJsonDefault())
-}
-
 func (this *SuiteFloatArray) TestToJsonValue() {
 	target := this.target()
 
-	result, err := target.ToJsonValue("0.123,0.456,0.789")
+	result, err := target.ToJsonValue("0.123,0.456,0.789", true)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []float64{}, result)
+	result, err = target.ToJsonValue("0.123,0.456,0.789", false)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []float64{0.123, 0.456, 0.789}, result)
-
-	_, err = target.ToJsonValue(testdata.UnknownStr)
+	_, err = target.ToJsonValue(testdata.UnknownStr, false)
 	assert.NotNil(this.T(), err)
 }

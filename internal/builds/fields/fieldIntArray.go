@@ -25,13 +25,12 @@ func (this *IntArray) IsPkey() bool {
 	return false
 }
 
-// ToJsonDefault 轉換為json預設值
-func (this *IntArray) ToJsonDefault() interface{} {
-	return []int64{}
-}
-
 // ToJsonValue 轉換為json值
-func (this *IntArray) ToJsonValue(input string) (result interface{}, err error) {
+func (this *IntArray) ToJsonValue(input string, preset bool) (result interface{}, err error) {
+	if preset {
+		return []int64{}, nil
+	} // if
+
 	result, err = util.StrToIntArray(input)
 
 	if err != nil {

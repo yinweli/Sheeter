@@ -28,14 +28,14 @@ func (this *BoolArray) IsPkey() bool {
 // ToJsonValue 轉換為json值
 func (this *BoolArray) ToJsonValue(input string, preset bool) (result interface{}, err error) {
 	if preset == false {
-		result, err = util.StrToBoolArray(input)
-
-		if err != nil {
-			return nil, fmt.Errorf("to json value failed: %w", err)
-		} // if
-
-		return result, nil
-	} else {
 		return []bool{}, nil
 	} // if
+
+	result, err = util.StrToBoolArray(input)
+
+	if err != nil {
+		return nil, fmt.Errorf("to json value failed: %w", err)
+	} // if
+
+	return result, nil
 }

@@ -23,12 +23,11 @@ func (this *TextArray) IsPkey() bool {
 	return false
 }
 
-// ToJsonDefault 轉換為json預設值
-func (this *TextArray) ToJsonDefault() interface{} {
-	return []string{}
-}
-
 // ToJsonValue 轉換為json值
-func (this *TextArray) ToJsonValue(input string) (result interface{}, err error) {
+func (this *TextArray) ToJsonValue(input string, preset bool) (result interface{}, err error) {
+	if preset {
+		return []string{}, nil
+	} // if
+
 	return util.StrToStrArray(input), nil
 }

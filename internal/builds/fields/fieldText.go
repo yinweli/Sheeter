@@ -19,12 +19,11 @@ func (this *Text) IsPkey() bool {
 	return false
 }
 
-// ToJsonDefault 轉換為json預設值
-func (this *Text) ToJsonDefault() interface{} {
-	return ""
-}
-
 // ToJsonValue 轉換為json值
-func (this *Text) ToJsonValue(input string) (result interface{}, err error) {
+func (this *Text) ToJsonValue(input string, preset bool) (result interface{}, err error) {
+	if preset {
+		return "", nil
+	} // if
+
 	return input, nil
 }

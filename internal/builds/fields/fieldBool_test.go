@@ -32,19 +32,18 @@ func (this *SuiteBool) TestIsPkey() {
 	assert.Equal(this.T(), false, this.target().IsPkey())
 }
 
-func (this *SuiteBool) TestToJsonDefault() {
-	assert.Equal(this.T(), false, this.target().ToJsonDefault())
-}
-
 func (this *SuiteBool) TestToJsonValue() {
 	target := this.target()
 
-	result, err := target.ToJsonValue("true")
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), true, result)
-	result, err = target.ToJsonValue("false")
+	result, err := target.ToJsonValue("", true)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), false, result)
-	_, err = target.ToJsonValue(testdata.UnknownStr)
+	result, err = target.ToJsonValue("true", false)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), true, result)
+	result, err = target.ToJsonValue("false", false)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), false, result)
+	_, err = target.ToJsonValue(testdata.UnknownStr, false)
 	assert.NotNil(this.T(), err)
 }

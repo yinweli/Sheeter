@@ -31,14 +31,13 @@ func (this *SuiteEmpty) TestIsPkey() {
 	assert.Equal(this.T(), false, this.target().IsPkey())
 }
 
-func (this *SuiteEmpty) TestToJsonDefault() {
-	assert.Equal(this.T(), nil, this.target().ToJsonDefault())
-}
-
 func (this *SuiteEmpty) TestToJsonValue() {
 	target := this.target()
 
-	result, err := target.ToJsonValue("test")
+	result, err := target.ToJsonValue("", true)
+	assert.Nil(this.T(), err)
+	assert.Nil(this.T(), result)
+	result, err = target.ToJsonValue("test", false)
 	assert.Nil(this.T(), err)
 	assert.Nil(this.T(), result)
 }
