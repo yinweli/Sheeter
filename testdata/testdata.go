@@ -4,22 +4,23 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
+const ExcelNameReal = "excel.real.xlsx"
+const ExcelNameEmpty = "excel.empty.xlsx"
+const ExcelNameCleanAll = "excel.clean.all.xlsx"
+const ExcelNameCleanField = "excel.clean.field.xlsx"
+const ExcelNameInvalidData = "excel.invalid.data.xlsx"
+const ExcelNameInvalidField = "excel.invalid.field.xlsx"
+const ExcelNameInvalidFile = "excel.invalid.file.xlsx"
+const ExcelNameInvalidLayer = "excel.invalid.layer.xlsx"
+const ExcelNameInvalidLayout = "excel.invalid.layout.xlsx"
+const ExcelNameInvalidPkeyDupl = "excel.invalid.pkey.dupl.xlsx"
+const ExcelNameInvalidPkeyZero = "excel.invalid.pkey.zero.xlsx"
+const SheetName = "Data"
 const UnknownStr = "?????"
+
 const RealConfig = "real.yaml"
 const Defect1Config = "config.defect1.yaml"
 const Defect2Config = "config.defect2.yaml"
-const RealExcel = "real.xlsx"
-const EmptyExcel = "empty.xlsx"
-const Defect1Excel = "excel.defect1.xlsx"
-const Defect2Excel = "excel.defect2.xlsx"
-const Defect3Excel = "excel.defect3.xlsx"
-const Defect4Excel = "excel.defect4.xlsx"
-const Defect5Excel = "excel.defect5.xlsx"
-const Defect6Excel = "excel.defect6.xlsx"
-const Defect7Excel = "excel.defect7.xlsx"
-const Defect8Excel = "excel.defect8.xlsx"
-const Defect9Excel = "excel.defect9.xlsx"
-const SheetName = "Data"
 
 // GetTestExcel 取得測試excel
 func GetTestExcel(name string) *excelize.File {

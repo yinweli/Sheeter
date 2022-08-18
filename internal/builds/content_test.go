@@ -4,10 +4,10 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
-	"github.com/vbauerster/mpb/v7"
-	"github.com/yinweli/Sheeter/testdata"
-
 	"github.com/stretchr/testify/suite"
+	"github.com/vbauerster/mpb/v7"
+
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestContent(t *testing.T) {
@@ -26,7 +26,7 @@ func (this *SuiteContent) target() *Content {
 		LineOfLayer: 2,
 		LineOfNote:  3,
 		LineOfData:  4,
-		Excel:       testdata.RealExcel,
+		Excel:       testdata.ExcelNameReal,
 		Sheet:       testdata.SheetName,
 		Progress:    mpb.New(mpb.WithOutput(nil)),
 	}
@@ -136,7 +136,7 @@ func (this *SuiteContent) TestFileName() {
 
 func (this *SuiteContent) TestGetRows() {
 	target := this.target()
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
 
 	rows, err := target.getRows(1)
 	assert.Nil(this.T(), err)
@@ -158,17 +158,13 @@ func (this *SuiteContent) TestGetRows() {
 	target.close()
 }
 
-func (this *SuiteContent) TestGetRowContent() {
+func (this *SuiteContent) TestGetColumns() {
 	target := this.target()
-	target.excel = testdata.GetTestExcel(testdata.RealExcel)
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
 
 	cols, err := target.getColumns(1)
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), []string{"name0#pkey", "name1#bool", "name2#int", "name3#text", "empty#empty"}, cols)
-
-	cols, err = target.getColumns(3)
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), []string{"note0", "note1", "note2", "note3", "empty"}, cols)
+	assert.Equal(this.T(), []string{"name0#pkey", "empty#empty", "name1#bool", "name2#int", "name3#text", "name2#int", "name3#text", "name2#int", "name3#text"}, cols)
 
 	_, err = target.getColumns(10)
 	assert.NotNil(this.T(), err)

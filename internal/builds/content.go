@@ -6,12 +6,12 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/vbauerster/mpb/v7"
 	"github.com/xuri/excelize/v2"
+
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/builds/layouts"
 	"github.com/yinweli/Sheeter/internal/util"
-
-	"github.com/vbauerster/mpb/v7"
 )
 
 const pathSchema = "schema"  // 輸出路徑: json架構

@@ -1,9 +1,9 @@
 package version
 
 import (
-	"github.com/yinweli/Sheeter/internal"
-
 	"github.com/spf13/cobra"
+
+	"github.com/yinweli/Sheeter/internal"
 )
 
 // NewCommand 建立命令物件

@@ -6,13 +6,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/yinweli/Sheeter/internal"
-	"github.com/yinweli/Sheeter/internal/build/tasks"
-	"github.com/yinweli/Sheeter/internal/util"
-
 	"github.com/hako/durafmt"
 	"github.com/spf13/cobra"
+	"google.golang.org/api/tasks/v1"
 	"gopkg.in/yaml.v3"
+
+	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // NewCommand 建立命令物件
