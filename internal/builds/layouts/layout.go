@@ -3,6 +3,8 @@ package layouts
 import (
 	"fmt"
 
+	"github.com/yinweli/Sheeter/internal/util"
+
 	"github.com/yinweli/Sheeter/internal/builds/fields"
 	"github.com/yinweli/Sheeter/internal/builds/layers"
 )
@@ -69,11 +71,7 @@ func (this *Builder) Pack(datas []string, preset bool) (packs map[string]interfa
 			continue
 		} // if
 
-		data := ""
-
-		if i >= 0 && i < len(datas) { // 資料的數量可能因為空白格的關係會短缺, 所以要檢查一下
-			data = datas[i]
-		} // if
+		data := util.GetItem(datas, i)
 
 		if itor.Field.IsPkey() {
 			pkey = data

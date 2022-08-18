@@ -173,7 +173,7 @@ func (this *Content) getRows(line int) (rows *excelize.Rows, err error) {
 	rows, err = this.excel.Rows(this.Sheet)
 
 	if err != nil {
-		return nil, fmt.Errorf("get row failed, %w", err)
+		return nil, fmt.Errorf("get row failed: %w", err)
 	} // if
 
 	for l := 0; l < line; l++ {
@@ -192,7 +192,7 @@ func (this *Content) getColumns(line int) (cols []string, err error) {
 	rows, err := this.excel.Rows(this.Sheet)
 
 	if err != nil {
-		return nil, fmt.Errorf("get columns failed, %w", err)
+		return nil, fmt.Errorf("get columns failed: %w", err)
 	} // if
 
 	defer func() { _ = rows.Close() }()
@@ -206,7 +206,7 @@ func (this *Content) getColumns(line int) (cols []string, err error) {
 	cols, err = rows.Columns()
 
 	if err != nil {
-		return nil, fmt.Errorf("get columns failed, invalid columns, %w", err)
+		return nil, fmt.Errorf("get columns failed, invalid columns: %w", err)
 	} // if
 
 	if cols == nil {

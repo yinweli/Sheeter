@@ -13,6 +13,11 @@ func TestStrings(t *testing.T) {
 
 type SuiteStrings struct {
 	suite.Suite
+	items []string
+}
+
+func (this *SuiteStrings) SetupSuite() {
+	this.items = []string{"a", "b", "c"}
 }
 
 func (this *SuiteStrings) TestFirstUpper() {
@@ -29,4 +34,11 @@ func (this *SuiteStrings) TestAllSame() {
 	assert.Equal(this.T(), true, AllSame(""))
 	assert.Equal(this.T(), true, AllSame("aaaaa"))
 	assert.Equal(this.T(), false, AllSame("aa1aa"))
+}
+
+func (this *SuiteStrings) TestGetItem() {
+	assert.Equal(this.T(), "a", GetItem(this.items, 0))
+	assert.Equal(this.T(), "b", GetItem(this.items, 1))
+	assert.Equal(this.T(), "c", GetItem(this.items, 2))
+	assert.Equal(this.T(), "", GetItem(this.items, 3))
 }
