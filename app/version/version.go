@@ -12,13 +12,9 @@ func NewCommand() *cobra.Command {
 		Use:   "version",
 		Short: "version for sheeter",
 		Long:  "version for sheeter",
-		Run:   execute,
+		Run: func(cmd *cobra.Command, args []string) {
+			cmd.Printf("%s version %s\n", internal.Title, internal.Version)
+		},
 	}
-
 	return cmd
-}
-
-// execute 執行命令
-func execute(cmd *cobra.Command, _ []string) {
-	cmd.Printf("%s version %s\n", internal.Title, internal.Version)
 }

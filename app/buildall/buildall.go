@@ -8,10 +8,9 @@ import (
 
 	"github.com/hako/durafmt"
 	"github.com/spf13/cobra"
-	"google.golang.org/api/tasks/v1"
 	"gopkg.in/yaml.v3"
 
-	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/builds"
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
@@ -22,38 +21,41 @@ func NewCommand() *cobra.Command {
 		Short: "build all sheet",
 		Long:  "build all the sheet in the configuration",
 		Args:  cobra.ExactArgs(1),
-		Run:   execute,
-	}
+		Run: func(cmd *cobra.Command, args []string) {
+			duration, errs := execute(args[0])
 
+			for _, itor := range errs {
+				cmd.Println(itor)
+			} // for
+
+			cmd.Printf("usage time=%s\n", durafmt.Parse(duration))
+		},
+	}
 	return cmd
 }
 
 // execute 執行命令
-func execute(cmd *cobra.Command, args []string) {
+func execute(fileName string) (duration time.Duration, errs []error) {
 	startTime := time.Now()
 
 	if util.ShellExist("go") == false {
-		cmd.Println(fmt.Errorf("`go` not installed"))
-		return
+		return time.Since(startTime), []error{fmt.Errorf("build all failed, `go` not installed")}
 	} // if
 
 	if util.ShellExist("quicktype") == false {
-		cmd.Println(fmt.Errorf("`quicktype` not installed"))
-		return
+		return time.Since(startTime), []error{fmt.Errorf("build all failed, `quicktype` not installed")}
 	} // if
 
-	bytes, err := os.ReadFile(args[0])
+	bytes, err := os.ReadFile(fileName)
 
 	if err != nil {
-		cmd.Println(fmt.Errorf("read config failed: %w", err))
-		return
+		return time.Since(startTime), []error{fmt.Errorf("build all failed, read config failed: %w", err)}
 	} // if
 
 	config := &Config{}
 
 	if err = yaml.Unmarshal(bytes, config); err != nil {
-		cmd.Println(fmt.Errorf("read config failed: %w", err))
-		return
+		return time.Since(startTime), []error{fmt.Errorf("build all failed, read config failed: %w", err)}
 	} // if
 
 	count := len(config.Elements)
@@ -65,11 +67,11 @@ func execute(cmd *cobra.Command, args []string) {
 
 	for _, itor := range config.Elements {
 		global := config.Global
-		element := itor
+		element := itor // 由於多執行緒的關係, 所以要創建中間變數會比較安全
 
 		go func() {
 			defer signaler.Done()
-			task := tasks.Task{
+			content := &builds.Content{
 				Path:        global.Path,
 				Bom:         global.Bom,
 				LineOfField: global.LineOfField,
@@ -80,7 +82,7 @@ func execute(cmd *cobra.Command, args []string) {
 				Sheet:       element.Sheet,
 				Progress:    progress,
 			}
-			errors <- task.Run()
+			errors <- builds.Build(content)
 		}()
 	} // for
 
@@ -89,11 +91,11 @@ func execute(cmd *cobra.Command, args []string) {
 
 	for itor := range errors {
 		if itor != nil {
-			cmd.Println(itor)
+			errs = append(errs, itor)
 		} // if
 	} // for
 
-	cmd.Printf("%s done, usage time=%s\n", internal.Title, durafmt.Parse(time.Since(startTime)))
+	return time.Since(startTime), errs
 }
 
 // Config 編譯設定
@@ -104,7 +106,7 @@ type Config struct {
 
 // Global 全域設定
 type Global struct {
-	Path        string `yaml:"path"`        // 來源excel路徑 TODO: yaml:"excelPath"改名為yaml:"path"
+	Path        string `yaml:"path"`        // 來源excel路徑
 	Bom         bool   `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
 	LineOfField int    `yaml:"lineOfField"` // 欄位行號(1為起始行)
 	LineOfLayer int    `yaml:"lineOfLayer"` // 階層行號(1為起始行)
