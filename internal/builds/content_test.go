@@ -1,6 +1,7 @@
 package builds
 
 import (
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -20,13 +21,12 @@ type SuiteContent struct {
 
 func (this *SuiteContent) target() *Content {
 	target := &Content{
-		Path:        testdata.RootPath,
 		Bom:         true,
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
 		LineOfData:  4,
-		Excel:       testdata.ExcelNameReal,
+		Excel:       filepath.Join(testdata.RootPath, testdata.ExcelNameReal),
 		Sheet:       testdata.SheetName,
 		Progress:    mpb.New(mpb.WithOutput(nil)),
 	}
@@ -78,44 +78,36 @@ func (this *SuiteContent) TestCheck() {
 	assert.NotNil(this.T(), target.Check())
 }
 
-func (this *SuiteContent) TestExcelFilePath() {
-	assert.Equal(this.T(), testdata.RootPath+"/real.xlsx", this.target().ExcelFilePath())
+func (this *SuiteContent) TestShowName() {
+	assert.Equal(this.T(), "real#data", this.target().ShowName())
 }
 
-func (this *SuiteContent) TestSchemaFilePath() {
-	assert.Equal(this.T(), "schema/realData.schema", this.target().SchemaFilePath())
+func (this *SuiteContent) TestSchemaPath() {
+	assert.Equal(this.T(), "schema\\realData.schema", this.target().SchemaPath())
 }
 
-func (this *SuiteContent) TestJsonFileName() {
-	assert.Equal(this.T(), "realData.json", this.target().JsonFileName())
+func (this *SuiteContent) TestJsonPath() {
+	assert.Equal(this.T(), "json\\realData.json", this.target().JsonPath())
 }
 
-func (this *SuiteContent) TestJsonFilePath() {
-	assert.Equal(this.T(), "json/realData.json", this.target().JsonFilePath())
+func (this *SuiteContent) TestJsonCsPath() {
+	assert.Equal(this.T(), "json-cs\\realData.cs", this.target().JsonCsPath())
 }
 
-func (this *SuiteContent) TestJsonCsFilePath() {
-	assert.Equal(this.T(), "json-cs/realData.cs", this.target().JsonCsFilePath())
+func (this *SuiteContent) TestJsonCsReaderPath() {
+	assert.Equal(this.T(), "json-cs\\realDataReader.cs", this.target().JsonCsReaderPath())
 }
 
-func (this *SuiteContent) TestJsonCsReaderFilePath() {
-	assert.Equal(this.T(), "json-cs/realData.reader.cs", this.target().JsonCsReaderFilePath())
+func (this *SuiteContent) TestJsonGoPath() {
+	assert.Equal(this.T(), "json-go\\realData.go", this.target().JsonGoPath())
 }
 
-func (this *SuiteContent) TestJsonGoFilePath() {
-	assert.Equal(this.T(), "json-go/realData.go", this.target().JsonGoFilePath())
-}
-
-func (this *SuiteContent) TestJsonGoReaderFilePath() {
-	assert.Equal(this.T(), "json-go/realData.reader.go", this.target().JsonGoReaderFilePath())
+func (this *SuiteContent) TestJsonGoReaderPath() {
+	assert.Equal(this.T(), "json-go\\realDataReader.go", this.target().JsonGoReaderPath())
 }
 
 func (this *SuiteContent) TestNamespace() {
 	assert.Equal(this.T(), "sheeter", this.target().Namespace())
-}
-
-func (this *SuiteContent) TestTargetName() {
-	assert.Equal(this.T(), "real.xlsx(Data)", this.target().TargetName())
 }
 
 func (this *SuiteContent) TestStructName() {
@@ -124,14 +116,6 @@ func (this *SuiteContent) TestStructName() {
 
 func (this *SuiteContent) TestReaderName() {
 	assert.Equal(this.T(), "RealDataReader", this.target().ReaderName())
-}
-
-func (this *SuiteContent) TestExcelName() {
-	assert.Equal(this.T(), "real", this.target().ExcelName())
-}
-
-func (this *SuiteContent) TestFileName() {
-	assert.Equal(this.T(), "realData.test1.test2.test3", this.target().fileName("test1", "test2", "test3"))
 }
 
 func (this *SuiteContent) TestGetRows() {
@@ -164,7 +148,9 @@ func (this *SuiteContent) TestGetColumns() {
 
 	cols, err := target.getColumns(1)
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), []string{"name0#pkey", "empty#empty", "name1#bool", "name2#int", "name3#text", "name2#int", "name3#text", "name2#int", "name3#text"}, cols)
+	assert.Equal(this.T(),
+		[]string{"name0#pkey", "empty#empty", "name1#bool", "name2#int", "name3#text", "name2#int", "name3#text",
+			"name2#int", "name3#text"}, cols)
 
 	_, err = target.getColumns(10)
 	assert.NotNil(this.T(), err)
@@ -177,4 +163,17 @@ func (this *SuiteContent) TestGetColumns() {
 	assert.NotNil(this.T(), err)
 
 	target.close()
+}
+
+func (this *SuiteContent) TestFileName() {
+	target := this.target()
+
+	assert.Equal(this.T(), "Realdata", target.combine(params{excelUpper: true}))
+	assert.Equal(this.T(), "realdata", target.combine(params{excelUpper: false}))
+	assert.Equal(this.T(), "realData", target.combine(params{sheetUpper: true}))
+	assert.Equal(this.T(), "realdata", target.combine(params{sheetUpper: false}))
+	assert.Equal(this.T(), "real#data", target.combine(params{middle: "#"}))
+	assert.Equal(this.T(), "realdata#", target.combine(params{last: "#"}))
+	assert.Equal(this.T(), "#\\realdata", target.combine(params{path: "#"}))
+	assert.Equal(this.T(), "realdata.#", target.combine(params{ext: "#"}))
 }

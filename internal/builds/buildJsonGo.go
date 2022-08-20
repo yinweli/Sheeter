@@ -28,14 +28,14 @@ func (this *{{$.ReaderName}}) FromJson(data []byte) error {
 
 // writeJsonGo 輸出json-go代碼
 func writeJsonGo(content *Content) error {
-	if err := os.MkdirAll(path.Dir(content.JsonGoFilePath()), os.ModePerm); err != nil {
-		return fmt.Errorf("%s: write json go failed: %w", content.TargetName(), err)
+	if err := os.MkdirAll(path.Dir(content.JsonGoPath()), os.ModePerm); err != nil {
+		return fmt.Errorf("%s: write json go failed: %w", content.ShowName(), err)
 	} // if
 
 	options := []string{
-		"--src", content.SchemaFilePath(),
+		"--src", content.SchemaPath(),
 		"--src-lang", "json",
-		"--out", content.JsonGoFilePath(),
+		"--out", content.JsonGoPath(),
 		"--lang", "go",
 		"--top-level", content.StructName(),
 		"--package", content.Namespace(),
@@ -43,11 +43,11 @@ func writeJsonGo(content *Content) error {
 	}
 
 	if err := util.ShellRun("quicktype", options...); err != nil {
-		return fmt.Errorf("%s: write json go failed: %w", content.TargetName(), err)
+		return fmt.Errorf("%s: write json go failed: %w", content.ShowName(), err)
 	} // if
 
-	if err := util.ShellRun("go", "fmt", content.JsonGoFilePath()); err != nil {
-		return fmt.Errorf("%s: write json go failed: %w", content.TargetName(), err)
+	if err := util.ShellRun("go", "fmt", content.JsonGoPath()); err != nil {
+		return fmt.Errorf("%s: write json go failed: %w", content.ShowName(), err)
 	} // if
 
 	return nil
@@ -55,12 +55,12 @@ func writeJsonGo(content *Content) error {
 
 // writeJsonGoReader 輸出json-go讀取器, 由於quicktype對於結構命名有不一致的問題, 所以採取資料結構由quicktype執行, 而資料列表由模板執行的方式
 func writeJsonGoReader(content *Content) error {
-	if err := util.TmplWrite(content.JsonGoReaderFilePath(), jsonGoReaderCode, content, content.Bom); err != nil {
-		return fmt.Errorf("%s: write json go reader failed: %w", content.TargetName(), err)
+	if err := util.TmplWrite(content.JsonGoReaderPath(), jsonGoReaderCode, content, content.Bom); err != nil {
+		return fmt.Errorf("%s: write json go reader failed: %w", content.ShowName(), err)
 	} // if
 
-	if err := util.ShellRun("go", "fmt", content.JsonGoReaderFilePath()); err != nil {
-		return fmt.Errorf("%s: write json go reader failed: %w", content.TargetName(), err)
+	if err := util.ShellRun("go", "fmt", content.JsonGoReaderPath()); err != nil {
+		return fmt.Errorf("%s: write json go reader failed: %w", content.ShowName(), err)
 	} // if
 
 	return nil

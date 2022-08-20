@@ -2,6 +2,7 @@ package builds
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -66,11 +67,10 @@ func (this *SuiteBuildJsonGo) TearDownSuite() {
 
 func (this *SuiteBuildJsonGo) target() *Content {
 	target := &Content{
-		Path:        testdata.RootPath,
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
-		Excel:       testdata.ExcelNameReal,
+		Excel:       filepath.Join(testdata.RootPath, testdata.ExcelNameReal),
 		Sheet:       testdata.SheetName,
 	}
 	return target
@@ -82,7 +82,7 @@ func (this *SuiteBuildJsonGo) TestWriteJsonGo() {
 	assert.Nil(this.T(), buildLayout(target))
 	assert.Nil(this.T(), writeSchema(target))
 	assert.Nil(this.T(), writeJsonGo(target))
-	testdata.CompareFile(this.T(), target.JsonGoFilePath(), this.code)
+	testdata.CompareFile(this.T(), target.JsonGoPath(), this.code)
 	target.close()
 
 	target = this.target()
@@ -108,7 +108,7 @@ func (this *SuiteBuildJsonGo) TestWriteJsonGoReader() {
 	assert.Nil(this.T(), buildLayout(target))
 	assert.Nil(this.T(), writeSchema(target))
 	assert.Nil(this.T(), writeJsonGoReader(target))
-	testdata.CompareFile(this.T(), target.JsonGoReaderFilePath(), this.reader)
+	testdata.CompareFile(this.T(), target.JsonGoReaderPath(), this.reader)
 	target.close()
 
 	target = this.target()

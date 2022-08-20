@@ -2,6 +2,7 @@ package builds
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -117,12 +118,11 @@ func (this *SuiteBuildJson) TearDownSuite() {
 
 func (this *SuiteBuildJson) target() *Content {
 	target := &Content{
-		Path:        testdata.RootPath,
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
 		LineOfData:  4,
-		Excel:       testdata.ExcelNameReal,
+		Excel:       filepath.Join(testdata.RootPath, testdata.ExcelNameReal),
 		Sheet:       testdata.SheetName,
 	}
 	return target
@@ -133,7 +133,7 @@ func (this *SuiteBuildJson) TestWriteSchema() {
 	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
 	assert.Nil(this.T(), buildLayout(target))
 	assert.Nil(this.T(), writeSchema(target))
-	testdata.CompareFile(this.T(), target.SchemaFilePath(), this.schema)
+	testdata.CompareFile(this.T(), target.SchemaPath(), this.schema)
 	target.close()
 
 	target = this.target()
@@ -156,14 +156,14 @@ func (this *SuiteBuildJson) TestWriteJson() {
 	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
 	assert.Nil(this.T(), buildLayout(target))
 	assert.Nil(this.T(), writeJson(target))
-	testdata.CompareFile(this.T(), target.JsonFilePath(), this.json)
+	testdata.CompareFile(this.T(), target.JsonPath(), this.json)
 	target.close()
 
 	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.ExcelNameEmpty)
 	assert.Nil(this.T(), buildLayout(target))
 	assert.Nil(this.T(), writeJson(target))
-	testdata.CompareFile(this.T(), target.JsonFilePath(), this.empty)
+	testdata.CompareFile(this.T(), target.JsonPath(), this.empty)
 	target.close()
 
 	target = this.target()

@@ -18,7 +18,7 @@ func Build(content *Content) error {
 	bar := content.Progress.AddBar(
 		maxTask,
 		mpb.PrependDecorators(
-			decor.Name(fmt.Sprintf("%-20s", content.TargetName())),
+			decor.Name(fmt.Sprintf("%-20s", content.ShowName())),
 			decor.Percentage(decor.WCSyncSpace),
 		),
 		mpb.AppendDecorators(

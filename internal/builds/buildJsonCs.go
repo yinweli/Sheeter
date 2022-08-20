@@ -29,14 +29,14 @@ namespace {{$.Namespace}} {
 
 // writeJsonCs 輸出json-c#代碼
 func writeJsonCs(content *Content) error {
-	if err := os.MkdirAll(path.Dir(content.JsonCsFilePath()), os.ModePerm); err != nil {
-		return fmt.Errorf("%s: write json cs failed: %w", content.TargetName(), err)
+	if err := os.MkdirAll(path.Dir(content.JsonCsPath()), os.ModePerm); err != nil {
+		return fmt.Errorf("%s: write json cs failed: %w", content.ShowName(), err)
 	} // if
 
 	options := []string{
-		"--src", content.SchemaFilePath(),
+		"--src", content.SchemaPath(),
 		"--src-lang", "json",
-		"--out", content.JsonCsFilePath(),
+		"--out", content.JsonCsPath(),
 		"--lang", "cs",
 		"--top-level", content.StructName(),
 		"--namespace", content.Namespace(),
@@ -45,7 +45,7 @@ func writeJsonCs(content *Content) error {
 	}
 
 	if err := util.ShellRun("quicktype", options...); err != nil {
-		return fmt.Errorf("%s: write json cs failed: %w", content.TargetName(), err)
+		return fmt.Errorf("%s: write json cs failed: %w", content.ShowName(), err)
 	} // if
 
 	return nil
@@ -53,8 +53,8 @@ func writeJsonCs(content *Content) error {
 
 // writeJsonCsReader 輸出json-c#讀取器, 由於quicktype對於結構命名有不一致的問題, 所以採取資料結構由quicktype執行, 而資料列表由模板執行的方式
 func writeJsonCsReader(content *Content) error {
-	if err := util.TmplWrite(content.JsonCsReaderFilePath(), jsonCsReaderCode, content, content.Bom); err != nil {
-		return fmt.Errorf("%s: write json cs reader failed: %w", content.TargetName(), err)
+	if err := util.TmplWrite(content.JsonCsReaderPath(), jsonCsReaderCode, content, content.Bom); err != nil {
+		return fmt.Errorf("%s: write json cs reader failed: %w", content.ShowName(), err)
 	} // if
 
 	return nil

@@ -11,11 +11,11 @@ func writeSchema(content *Content) error {
 	packs, _, err := content.builder.Pack([]string{}, true)
 
 	if err != nil {
-		return fmt.Errorf("%s: write json schema failed: %w", content.TargetName(), err)
+		return fmt.Errorf("%s: write json schema failed: %w", content.ShowName(), err)
 	} // if
 
-	if err = util.JsonWrite(content.SchemaFilePath(), packs, content.Bom); err != nil {
-		return fmt.Errorf("%s: write json schema failed: %w", content.TargetName(), err)
+	if err = util.JsonWrite(content.SchemaPath(), packs, content.Bom); err != nil {
+		return fmt.Errorf("%s: write json schema failed: %w", content.ShowName(), err)
 	} // if
 
 	return nil
@@ -26,7 +26,7 @@ func writeJson(content *Content) error {
 	rows, err := content.getRows(content.LineOfData)
 
 	if err != nil {
-		return fmt.Errorf("%s: write json failed, data line not found", content.TargetName())
+		return fmt.Errorf("%s: write json failed, data line not found", content.ShowName())
 	} // if
 
 	defer func() { _ = rows.Close() }()
@@ -42,14 +42,14 @@ func writeJson(content *Content) error {
 		packs, pkey, err := content.builder.Pack(datas, false)
 
 		if err != nil {
-			return fmt.Errorf("%s: write json failed: %w", content.TargetName(), err)
+			return fmt.Errorf("%s: write json failed: %w", content.ShowName(), err)
 		} // if
 
 		objs[pkey] = packs
 	} // for
 
-	if err = util.JsonWrite(content.JsonFilePath(), objs, content.Bom); err != nil {
-		return fmt.Errorf("%s: write json failed: %w", content.TargetName(), err)
+	if err = util.JsonWrite(content.JsonPath(), objs, content.Bom); err != nil {
+		return fmt.Errorf("%s: write json failed: %w", content.ShowName(), err)
 	} // if
 
 	return nil

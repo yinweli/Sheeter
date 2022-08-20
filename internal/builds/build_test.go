@@ -2,6 +2,7 @@ package builds
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -34,12 +35,11 @@ func (this *SuiteBuild) TearDownSuite() {
 
 func (this *SuiteBuild) target() *Content {
 	target := &Content{
-		Path:        testdata.RootPath,
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
 		LineOfData:  4,
-		Excel:       testdata.ExcelNameReal,
+		Excel:       filepath.Join(testdata.RootPath, testdata.ExcelNameReal),
 		Sheet:       testdata.SheetName,
 		Progress:    mpb.New(mpb.WithOutput(nil)),
 	}

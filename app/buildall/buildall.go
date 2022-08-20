@@ -14,6 +14,15 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
+const flagConfig = "config"           // 旗標名稱: 編譯設定檔案路徑
+const flagBom = "bom"                 // 旗標名稱: 順序標記
+const flagLineOfField = "lineOfField" // 旗標名稱: 欄位行號
+const flagLineOfLayer = "lineOfLayer" // 旗標名稱: 階層行號
+const flagLineOfNote = "lineOfNote"   // 旗標名稱: 註解行號
+const flagLineOfData = "lineOfData"   // 旗標名稱: 資料行號
+const flagExcels = "excels"           // 旗標名稱: excel檔案名稱列表
+const flagSheets = "sheets"           // 旗標名稱: excel表單名稱列表
+
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
@@ -31,6 +40,14 @@ func NewCommand() *cobra.Command {
 			cmd.Printf("usage time=%s\n", durafmt.Parse(duration))
 		},
 	}
+	cmd.Flags().String(flagConfig, "", "config filepath")
+	cmd.Flags().String(flagBom, "", "bom")
+	cmd.Flags().String(flagLineOfField, "", "line of field")
+	cmd.Flags().String(flagLineOfLayer, "", "line of layer")
+	cmd.Flags().String(flagLineOfNote, "", "line of note")
+	cmd.Flags().String(flagLineOfData, "", "line of data")
+	cmd.Flags().String(flagExcels, "", "excel lists")
+	cmd.Flags().String(flagSheets, "", "sheet lists")
 	return cmd
 }
 
@@ -52,7 +69,7 @@ func execute(fileName string) (duration time.Duration, errs []error) {
 		return time.Since(startTime), []error{fmt.Errorf("build all failed, read config failed: %w", err)}
 	} // if
 
-	config := &Config{}
+	config := &config{}
 
 	if err = yaml.Unmarshal(bytes, config); err != nil {
 		return time.Since(startTime), []error{fmt.Errorf("build all failed, read config failed: %w", err)}
@@ -72,7 +89,6 @@ func execute(fileName string) (duration time.Duration, errs []error) {
 		go func() {
 			defer signaler.Done()
 			content := &builds.Content{
-				Path:        global.Path,
 				Bom:         global.Bom,
 				LineOfField: global.LineOfField,
 				LineOfLayer: global.LineOfLayer,
@@ -98,24 +114,23 @@ func execute(fileName string) (duration time.Duration, errs []error) {
 	return time.Since(startTime), errs
 }
 
-// Config 編譯設定
-type Config struct {
-	Global   Global    `yaml:"global"`   // 全域設定
-	Elements []Element `yaml:"elements"` // 項目設定列表
+// config 編譯設定
+type config struct {
+	Global   global    `yaml:"global"`   // 全域設定
+	Elements []element `yaml:"elements"` // 項目設定列表
 }
 
-// Global 全域設定
-type Global struct {
-	Path        string `yaml:"path"`        // 來源excel路徑
-	Bom         bool   `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
-	LineOfField int    `yaml:"lineOfField"` // 欄位行號(1為起始行)
-	LineOfLayer int    `yaml:"lineOfLayer"` // 階層行號(1為起始行)
-	LineOfNote  int    `yaml:"lineOfNote"`  // 註解行號(1為起始行)
-	LineOfData  int    `yaml:"lineOfData"`  // 資料起始行號(1為起始行)
+// global 全域設定
+type global struct {
+	Bom         bool `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
+	LineOfField int  `yaml:"lineOfField"` // 欄位行號(1為起始行)
+	LineOfLayer int  `yaml:"lineOfLayer"` // 階層行號(1為起始行)
+	LineOfNote  int  `yaml:"lineOfNote"`  // 註解行號(1為起始行)
+	LineOfData  int  `yaml:"lineOfData"`  // 資料行號(1為起始行)
 }
 
-// Element 項目設定
-type Element struct {
+// element 項目設定
+type element struct {
 	Excel string `yaml:"excel"` // excel檔案名稱
 	Sheet string `yaml:"sheet"` // excel表單名稱
 }
