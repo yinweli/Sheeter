@@ -27,18 +27,18 @@ const separateElement = ":"           // 項目字串以':'符號分割為檔案
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
-		Use:   "build [-c config file path | -b bom | -lf line of field | -ll line of layer | -ln line of note | -ld line of data | -e element lists(excel:sheet)]",
+		Use:   "build",
 		Short: "build sheet",
 		Long:  "build sheet",
 		Run:   execute,
 	}
-	cmd.Flags().StringP(flagConfig, "c", "", "config file path")
-	cmd.Flags().StringP(flagBom, "b", "", "bom")
-	cmd.Flags().StringP(flagLineOfField, "lf", "", "line of field")
-	cmd.Flags().StringP(flagLineOfLayer, "ll", "", "line of layer")
-	cmd.Flags().StringP(flagLineOfNote, "ln", "", "line of note")
-	cmd.Flags().StringP(flagLineOfData, "ld", "", "line of data")
-	cmd.Flags().StringP(flagElements, "e", "", "element lists(excel:sheet)")
+	cmd.Flags().String(flagConfig, "", "config file path")
+	cmd.Flags().String(flagBom, "", "bom")
+	cmd.Flags().String(flagLineOfField, "", "line of field")
+	cmd.Flags().String(flagLineOfLayer, "", "line of layer")
+	cmd.Flags().String(flagLineOfNote, "", "line of note")
+	cmd.Flags().String(flagLineOfData, "", "line of data")
+	cmd.Flags().String(flagElements, "", "element lists(excel:sheet excel:sheet excel:sheet ...)")
 	return cmd
 }
 
