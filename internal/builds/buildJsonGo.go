@@ -3,7 +3,7 @@ package builds
 import (
 	"fmt"
 	"os"
-	"path"
+	"path/filepath"
 
 	"github.com/yinweli/Sheeter/internal/util"
 )
@@ -17,8 +17,8 @@ import "encoding/json"
 
 type {{$.ReaderName}} map[string]{{$.StructName}}
 
-func (this *{{$.ReaderName}}) JsonFileName() string {
-	return "{{$.JsonFileName}}"
+func (this *{{$.ReaderName}}) JsonPath() string {
+	return "{{$.JsonPath}}"
 }
 
 func (this *{{$.ReaderName}}) FromJson(data []byte) error {
@@ -28,7 +28,7 @@ func (this *{{$.ReaderName}}) FromJson(data []byte) error {
 
 // writeJsonGo 輸出json-go代碼
 func writeJsonGo(content *Content) error {
-	if err := os.MkdirAll(path.Dir(content.JsonGoPath()), os.ModePerm); err != nil {
+	if err := os.MkdirAll(filepath.Dir(content.JsonGoPath()), os.ModePerm); err != nil {
 		return fmt.Errorf("%s: write json go failed: %w", content.ShowName(), err)
 	} // if
 

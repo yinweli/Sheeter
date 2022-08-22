@@ -2,12 +2,10 @@ package builds
 
 import (
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -70,7 +68,7 @@ namespace sheeter {
     using Newtonsoft.Json;
 
     public partial class RealDataReader {
-		public static readonly string JsonFileName = "realData.json";
+        public static readonly string JsonPath = "json\realData.json";
 
         public static Dictionary<string, RealData> FromJson(string data) {
             return JsonConvert.DeserializeObject<Dictionary<string, RealData>>(data);
@@ -91,7 +89,7 @@ func (this *SuiteBuildJsonCs) target() *Content {
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
-		Excel:       filepath.Join(testdata.RootPath, testdata.ExcelNameReal),
+		Excel:       testdata.Path(testdata.ExcelNameReal),
 		Sheet:       testdata.SheetName,
 	}
 	return target

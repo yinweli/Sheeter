@@ -1,7 +1,6 @@
 package builds
 
 import (
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -20,7 +19,7 @@ type SuiteBuildExcel struct {
 
 func (this *SuiteBuildExcel) target() *Content {
 	target := &Content{
-		Excel: filepath.Join(testdata.RootPath, testdata.ExcelNameReal),
+		Excel: testdata.Path(testdata.ExcelNameReal),
 		Sheet: testdata.SheetName,
 	}
 	return target

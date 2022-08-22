@@ -2,7 +2,6 @@ package builds
 
 import (
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -49,8 +48,8 @@ import "encoding/json"
 
 type RealDataReader map[string]RealData
 
-func (this *RealDataReader) JsonFileName() string {
-	return "realData.json"
+func (this *RealDataReader) JsonPath() string {
+	return "json\realData.json"
 }
 
 func (this *RealDataReader) FromJson(data []byte) error {
@@ -70,7 +69,7 @@ func (this *SuiteBuildJsonGo) target() *Content {
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
-		Excel:       filepath.Join(testdata.RootPath, testdata.ExcelNameReal),
+		Excel:       testdata.Path(testdata.ExcelNameReal),
 		Sheet:       testdata.SheetName,
 	}
 	return target

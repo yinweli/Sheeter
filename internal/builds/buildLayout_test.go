@@ -1,7 +1,6 @@
 package builds
 
 import (
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -23,7 +22,7 @@ func (this *SuiteBuildLayout) target() *Content {
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
-		Excel:       filepath.Join(testdata.RootPath, testdata.ExcelNameReal),
+		Excel:       testdata.Path(testdata.ExcelNameReal),
 		Sheet:       testdata.SheetName,
 	}
 	return target

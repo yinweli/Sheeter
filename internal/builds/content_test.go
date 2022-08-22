@@ -1,7 +1,6 @@
 package builds
 
 import (
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -26,7 +25,7 @@ func (this *SuiteContent) target() *Content {
 		LineOfLayer: 2,
 		LineOfNote:  3,
 		LineOfData:  4,
-		Excel:       filepath.Join(testdata.RootPath, testdata.ExcelNameReal),
+		Excel:       testdata.Path(testdata.ExcelNameReal),
 		Sheet:       testdata.SheetName,
 		Progress:    mpb.New(mpb.WithOutput(nil)),
 	}

@@ -3,7 +3,7 @@ package builds
 import (
 	"fmt"
 	"os"
-	"path"
+	"path/filepath"
 
 	"github.com/yinweli/Sheeter/internal/util"
 )
@@ -18,7 +18,7 @@ namespace {{$.Namespace}} {
     using Newtonsoft.Json;
 
     public partial class {{$.ReaderName}} {
-        public static readonly string JsonFileName = "{{$.JsonFileName}}";
+        public static readonly string JsonPath = "{{$.JsonPath}}";
 
         public static Dictionary<string, {{$.StructName}}> FromJson(string data) {
             return JsonConvert.DeserializeObject<Dictionary<string, {{$.StructName}}>>(data);
@@ -29,7 +29,7 @@ namespace {{$.Namespace}} {
 
 // writeJsonCs 輸出json-c#代碼
 func writeJsonCs(content *Content) error {
-	if err := os.MkdirAll(path.Dir(content.JsonCsPath()), os.ModePerm); err != nil {
+	if err := os.MkdirAll(filepath.Dir(content.JsonCsPath()), os.ModePerm); err != nil {
 		return fmt.Errorf("%s: write json cs failed: %w", content.ShowName(), err)
 	} // if
 

@@ -2,7 +2,7 @@ package util
 
 import (
 	"os"
-	"path"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -34,7 +34,7 @@ func (this *SuiteFileWrite) SetupSuite() {
 }
 
 func (this *SuiteFileWrite) TearDownSuite() {
-	_ = os.RemoveAll(path.Dir(this.filePathReal))
+	_ = os.RemoveAll(filepath.Dir(this.filePathReal))
 	testdata.RestoreWorkDir(this.workDir)
 }
 
