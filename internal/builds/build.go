@@ -8,8 +8,6 @@ import (
 	"github.com/vbauerster/mpb/v7/decor"
 )
 
-// TODO: 要一個一個地做單元測試
-
 const maxTask = 8                      // 最大工作數量
 const drawTime = 10 * time.Millisecond // 進度條繪製時間
 

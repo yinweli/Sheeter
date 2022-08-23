@@ -4,7 +4,6 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-const ConfigInvalid = "config.invalid.yaml"
 const ExcelNameReal = "real.xlsx"
 const ExcelNameEmpty = "empty.xlsx"
 const ExcelNameCleanAll = "excel.clean.all.xlsx"
