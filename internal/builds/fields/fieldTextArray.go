@@ -1,7 +1,7 @@
 package fields
 
 import (
-	"github.com/yinweli/Sheeter/internal/pkg/util"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // TextArray 字串陣列

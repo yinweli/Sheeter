@@ -2,16 +2,17 @@ package main
 
 import (
 	"github.com/spf13/cobra"
-	"github.com/yinweli/Sheeter/internal/app/sheeter/build"
-	"github.com/yinweli/Sheeter/internal/app/sheeter/version"
-	"github.com/yinweli/Sheeter/internal/pkg"
+
+	"github.com/yinweli/Sheeter/cmd/sheeter/build"
+	"github.com/yinweli/Sheeter/cmd/sheeter/version"
+	"github.com/yinweli/Sheeter/internal"
 )
 
 func main() {
 	rootCommand := cobra.Command{
-		Use:     pkg.Title,
+		Use:     internal.Title,
 		Long:    "Sheeter used to convert excel file to json file, and generate code of data structure",
-		Version: pkg.Version,
+		Version: internal.Version,
 	}
 	rootCommand.AddCommand(build.NewCommand())
 	rootCommand.AddCommand(version.NewCommand())

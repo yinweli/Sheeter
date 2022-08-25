@@ -9,9 +9,10 @@ import (
 
 	"github.com/hako/durafmt"
 	"github.com/spf13/cobra"
-	builds2 "github.com/yinweli/Sheeter/internal/pkg/builds"
-	util2 "github.com/yinweli/Sheeter/internal/pkg/util"
 	"gopkg.in/yaml.v3"
+
+	"github.com/yinweli/Sheeter/internal/builds"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 const flagConfig = "config"           // 旗標名稱: 編譯設定檔案路徑
@@ -45,12 +46,12 @@ func NewCommand() *cobra.Command {
 func execute(cmd *cobra.Command, _ []string) {
 	startTime := time.Now()
 
-	if util2.ShellExist("go") == false {
+	if util.ShellExist("go") == false {
 		cmd.Println(fmt.Errorf("build failed, `go` not installed"))
 		return
 	} // if
 
-	if util2.ShellExist("quicktype") == false {
+	if util.ShellExist("quicktype") == false {
 		cmd.Println(fmt.Errorf("build failed, `quicktype` not installed"))
 		return
 	} // if
@@ -105,7 +106,7 @@ func execute(cmd *cobra.Command, _ []string) {
 	count := len(config.Elements)
 	errors := make(chan error, count) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
 	signaler := sync.WaitGroup{}
-	progress := util2.NewMpb(&signaler)
+	progress := util.NewMpb(&signaler)
 
 	signaler.Add(count)
 
@@ -115,7 +116,7 @@ func execute(cmd *cobra.Command, _ []string) {
 
 		go func() {
 			defer signaler.Done()
-			content := &builds2.Content{
+			content := &builds.Content{
 				Bom:         g.Bom,
 				LineOfField: g.LineOfField,
 				LineOfLayer: g.LineOfLayer,
@@ -125,7 +126,7 @@ func execute(cmd *cobra.Command, _ []string) {
 				Sheet:       e.Sheet,
 				Progress:    progress,
 			}
-			errors <- builds2.Build(content)
+			errors <- builds.Build(content)
 		}()
 	} // for
 

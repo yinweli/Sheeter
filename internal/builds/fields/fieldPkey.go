@@ -3,30 +3,30 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/internal/pkg/util"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
-// Int 32位元整數
-type Int struct {
+// Pkey 主要索引
+type Pkey struct {
 }
 
 // Type 取得excel欄位類型
-func (this *Int) Type() string {
-	return "int"
+func (this *Pkey) Type() string {
+	return "pkey"
 }
 
 // IsShow 是否顯示
-func (this *Int) IsShow() bool {
+func (this *Pkey) IsShow() bool {
 	return true
 }
 
 // IsPkey 是否是主要索引
-func (this *Int) IsPkey() bool {
-	return false
+func (this *Pkey) IsPkey() bool {
+	return true
 }
 
 // ToJsonValue 轉換為json值
-func (this *Int) ToJsonValue(input string, preset bool) (result interface{}, err error) {
+func (this *Pkey) ToJsonValue(input string, preset bool) (result interface{}, err error) {
 	if preset {
 		return int64(0), nil
 	} // if

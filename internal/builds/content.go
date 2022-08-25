@@ -7,9 +7,10 @@ import (
 
 	"github.com/vbauerster/mpb/v7"
 	"github.com/xuri/excelize/v2"
-	"github.com/yinweli/Sheeter/internal/pkg"
-	"github.com/yinweli/Sheeter/internal/pkg/builds/layouts"
-	"github.com/yinweli/Sheeter/internal/pkg/util"
+
+	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/builds/layouts"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 const pathSchema = "schema"  // 輸出路徑: json架構
@@ -146,7 +147,7 @@ func (this *Content) JsonGoReaderPath() string {
 
 // Namespace 取得命名空間名稱
 func (this *Content) Namespace() string {
-	return pkg.Title
+	return internal.Title
 }
 
 // StructName 取得結構名稱

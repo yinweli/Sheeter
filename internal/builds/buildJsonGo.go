@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	util2 "github.com/yinweli/Sheeter/internal/pkg/util"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // json-go讀取器模板代碼
@@ -42,11 +42,11 @@ func writeJsonGo(content *Content) error {
 		"--just-types-and-package",
 	}
 
-	if err := util2.ShellRun("quicktype", options...); err != nil {
+	if err := util.ShellRun("quicktype", options...); err != nil {
 		return fmt.Errorf("%s: write json go failed: %w", content.ShowName(), err)
 	} // if
 
-	if err := util2.ShellRun("go", "fmt", content.JsonGoPath()); err != nil {
+	if err := util.ShellRun("go", "fmt", content.JsonGoPath()); err != nil {
 		return fmt.Errorf("%s: write json go failed: %w", content.ShowName(), err)
 	} // if
 
@@ -55,11 +55,11 @@ func writeJsonGo(content *Content) error {
 
 // writeJsonGoReader 輸出json-go讀取器, 由於quicktype對於結構命名有不一致的問題, 所以採取資料結構由quicktype執行, 而資料列表由模板執行的方式
 func writeJsonGoReader(content *Content) error {
-	if err := util2.TmplWrite(content.JsonGoReaderPath(), jsonGoReaderCode, content, content.Bom); err != nil {
+	if err := util.TmplWrite(content.JsonGoReaderPath(), jsonGoReaderCode, content, content.Bom); err != nil {
 		return fmt.Errorf("%s: write json go reader failed: %w", content.ShowName(), err)
 	} // if
 
-	if err := util2.ShellRun("go", "fmt", content.JsonGoReaderPath()); err != nil {
+	if err := util.ShellRun("go", "fmt", content.JsonGoReaderPath()); err != nil {
 		return fmt.Errorf("%s: write json go reader failed: %w", content.ShowName(), err)
 	} // if
 

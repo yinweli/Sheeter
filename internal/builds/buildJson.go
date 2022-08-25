@@ -3,7 +3,7 @@ package builds
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/internal/pkg/util"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // writeSchema 輸出json架構

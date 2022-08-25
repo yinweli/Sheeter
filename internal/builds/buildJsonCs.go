@@ -5,7 +5,7 @@ import (
 	"os"
 	"path/filepath"
 
-	util2 "github.com/yinweli/Sheeter/internal/pkg/util"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // json-c#讀取器模板代碼
@@ -44,7 +44,7 @@ func writeJsonCs(content *Content) error {
 		"--features", "attributes-only",
 	}
 
-	if err := util2.ShellRun("quicktype", options...); err != nil {
+	if err := util.ShellRun("quicktype", options...); err != nil {
 		return fmt.Errorf("%s: write json cs failed: %w", content.ShowName(), err)
 	} // if
 
@@ -53,7 +53,7 @@ func writeJsonCs(content *Content) error {
 
 // writeJsonCsReader 輸出json-c#讀取器, 由於quicktype對於結構命名有不一致的問題, 所以採取資料結構由quicktype執行, 而資料列表由模板執行的方式
 func writeJsonCsReader(content *Content) error {
-	if err := util2.TmplWrite(content.JsonCsReaderPath(), jsonCsReaderCode, content, content.Bom); err != nil {
+	if err := util.TmplWrite(content.JsonCsReaderPath(), jsonCsReaderCode, content, content.Bom); err != nil {
 		return fmt.Errorf("%s: write json cs reader failed: %w", content.ShowName(), err)
 	} // if
 

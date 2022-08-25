@@ -5,8 +5,9 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	fields2 "github.com/yinweli/Sheeter/internal/pkg/builds/fields"
-	"github.com/yinweli/Sheeter/internal/pkg/builds/layers"
+
+	"github.com/yinweli/Sheeter/internal/builds/fields"
+	"github.com/yinweli/Sheeter/internal/builds/layers"
 )
 
 func TestBuilder(t *testing.T) {
@@ -15,9 +16,9 @@ func TestBuilder(t *testing.T) {
 
 type SuiteBuilder struct {
 	suite.Suite
-	fieldEmpty     fields2.Field
-	fieldPkey      fields2.Field
-	fieldInt       fields2.Field
+	fieldEmpty     fields.Field
+	fieldPkey      fields.Field
+	fieldInt       fields.Field
 	layerStruct    []layers.Layer
 	layerArray     []layers.Layer
 	layerDivider   []layers.Layer
@@ -30,9 +31,9 @@ type SuiteBuilder struct {
 }
 
 func (this *SuiteBuilder) SetupSuite() {
-	this.fieldEmpty = &fields2.Empty{}
-	this.fieldPkey = &fields2.Pkey{}
-	this.fieldInt = &fields2.Int{}
+	this.fieldEmpty = &fields.Empty{}
+	this.fieldPkey = &fields.Pkey{}
+	this.fieldInt = &fields.Int{}
 	this.layerStruct, _, _ = layers.Parser("{S")
 	this.layerArray, _, _ = layers.Parser("{[]N")
 	this.layerDivider, _, _ = layers.Parser("/")

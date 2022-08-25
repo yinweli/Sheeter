@@ -3,10 +3,10 @@ package builds
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/internal/pkg/builds/fields"
-	"github.com/yinweli/Sheeter/internal/pkg/builds/layers"
-	"github.com/yinweli/Sheeter/internal/pkg/builds/layouts"
-	"github.com/yinweli/Sheeter/internal/pkg/util"
+	"github.com/yinweli/Sheeter/internal/builds/fields"
+	"github.com/yinweli/Sheeter/internal/builds/layers"
+	"github.com/yinweli/Sheeter/internal/builds/layouts"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // buildLayout 建立布局資料

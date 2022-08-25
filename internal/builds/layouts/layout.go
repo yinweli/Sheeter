@@ -3,9 +3,9 @@ package layouts
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/internal/pkg/builds/fields"
-	"github.com/yinweli/Sheeter/internal/pkg/builds/layers"
-	"github.com/yinweli/Sheeter/internal/pkg/util"
+	"github.com/yinweli/Sheeter/internal/builds/fields"
+	"github.com/yinweli/Sheeter/internal/builds/layers"
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
 // Layout 布局資料

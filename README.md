@@ -40,7 +40,7 @@ elements:
 ```
 
 # 如何寫excel檔案
-![excel](doc/readme/excel.jpg)
+![excel](docs/image/excel.jpg)
 
 ## 欄位行
 欄位的格式為`名稱#格式`, 空格之後的欄位不會輸出  
@@ -102,7 +102,7 @@ elements:
     * 這代表你得把產生出來的go程式碼放在`sheeter`目錄下
 
 # 轉換範例
-![範例excel檔案內容](doc/readme/excel.jpg)
+![範例excel檔案內容](docs/image/excel.jpg)
 
 json檔案
 ```
@@ -270,15 +270,13 @@ func (this *RealDataReader) FromJson(data []byte) error {
 ```
 
 # 目錄說明
-目錄安排依照[標準 Go 專案目錄結構](https://github.com/golang-standards/project-layout/blob/master/README_zh-TW.md#%E6%A8%99%E6%BA%96-go-%E5%B0%88%E6%A1%88%E7%9B%AE%E9%8C%84%E7%B5%90%E6%A7%8B-standard-go-project-layout)
-| 目錄                 | 說明                                 |
-|:---------------------|:-------------------------------------|
-| doc                  | 說明文件                             |
-| cmd/sheeter          | sheeter的進入點                      |
-| internal/app/sheeter | sheeter的命令程式碼                  |
-| internal/pkg/builds  | 表格轉換核心程式碼                   |
-| internal/pkg/util    | 工具程式碼                           |
-| testdata             | 測試資料                             |
+| 目錄            | 說明              |
+|:----------------|:------------------|
+| docs            | 說明文件          |
+| cmd/sheeter     | sheeter命令程式碼 |
+| internal/builds | 表格轉換程式碼    |
+| internal/util   | 工具程式碼        |
+| testdata        | 測試資料          |
 
 # TODO
 * 嘗試在unix系統跑看看是否正常
