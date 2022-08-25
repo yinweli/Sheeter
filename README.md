@@ -99,7 +99,6 @@ elements:
 * c#程式碼的命名空間為`sheeter`
 * c#程式碼使用`Newtonsoft.Json`來轉換json
 * go程式碼的軟體包名為`sheeter`
-    * 這代表你得把產生出來的go程式碼放在`sheeter`目錄下
 
 # 轉換範例
 ![範例excel檔案內容](docs/image/excel.jpg)
