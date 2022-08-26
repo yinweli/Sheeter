@@ -278,6 +278,7 @@ func (this *RealDataReader) FromJson(data []byte) error {
 | testdata        | 測試資料          |
 
 # TODO
+* 產生schema時看看能不能把重複的結構合併!
 * 嘗試在unix系統跑看看是否正常
 * 產生proto message
 * 產生proto bytes data
