@@ -90,23 +90,27 @@ func (this *SuiteContent) TestJsonPath() {
 }
 
 func (this *SuiteContent) TestJsonCsPath() {
-	assert.Equal(this.T(), "json-cs\\realData.cs", this.target().JsonCsPath())
+	assert.Equal(this.T(), "json-cs\\realData\\realData.cs", this.target().JsonCsPath())
 }
 
 func (this *SuiteContent) TestJsonCsReaderPath() {
-	assert.Equal(this.T(), "json-cs\\realDataReader.cs", this.target().JsonCsReaderPath())
+	assert.Equal(this.T(), "json-cs\\realData\\realDataReader.cs", this.target().JsonCsReaderPath())
 }
 
 func (this *SuiteContent) TestJsonGoPath() {
-	assert.Equal(this.T(), "json-go\\realData.go", this.target().JsonGoPath())
+	assert.Equal(this.T(), "json-go\\realData\\realData.go", this.target().JsonGoPath())
 }
 
 func (this *SuiteContent) TestJsonGoReaderPath() {
-	assert.Equal(this.T(), "json-go\\realDataReader.go", this.target().JsonGoReaderPath())
+	assert.Equal(this.T(), "json-go\\realData\\realDataReader.go", this.target().JsonGoReaderPath())
+}
+
+func (this *SuiteContent) TestAppName() {
+	assert.Equal(this.T(), "sheeter", this.target().AppName())
 }
 
 func (this *SuiteContent) TestNamespace() {
-	assert.Equal(this.T(), "sheeter", this.target().Namespace())
+	assert.Equal(this.T(), "realdata", this.target().Namespace())
 }
 
 func (this *SuiteContent) TestStructName() {
@@ -173,6 +177,5 @@ func (this *SuiteContent) TestFileName() {
 	assert.Equal(this.T(), "realdata", target.combine(params{sheetUpper: false}))
 	assert.Equal(this.T(), "real#data", target.combine(params{middle: "#"}))
 	assert.Equal(this.T(), "realdata#", target.combine(params{last: "#"}))
-	assert.Equal(this.T(), "#\\realdata", target.combine(params{path: "#"}))
 	assert.Equal(this.T(), "realdata.#", target.combine(params{ext: "#"}))
 }

@@ -7,20 +7,20 @@ import (
 
 	"github.com/vbauerster/mpb/v7"
 	"github.com/xuri/excelize/v2"
-
 	"github.com/yinweli/Sheeter/internal"
+
 	"github.com/yinweli/Sheeter/internal/builds/layouts"
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
 const pathSchema = "schema"  // 輸出路徑: json架構
 const pathJson = "json"      // 輸出路徑: json
-const pathJsonCs = "json-cs" // 輸出路徑: json-c#
+const pathJsonCs = "json-cs" // 輸出路徑: json-cs
 const pathJsonGo = "json-go" // 輸出路徑: json-go
-const midReader = "Reader"   // 中間名: 讀取器
+const lastReader = "Reader"  // 結尾名: 讀取器
 const extSchema = "schema"   // 副檔名: json架構
 const extJson = "json"       // 副檔名: json
-const extCs = "cs"           // 副檔名: c#
+const extCs = "cs"           // 副檔名: cs
 const extGo = "go"           // 副檔名: go
 
 // Content 內容資料
@@ -84,70 +84,88 @@ func (this *Content) Check() error {
 
 // ShowName 顯示名稱
 func (this *Content) ShowName() string {
-	return this.combine(params{
+	name := this.combine(params{
 		middle: "#",
 	})
+	return name
 }
 
 // SchemaPath 取得json架構檔名路徑
 func (this *Content) SchemaPath() string {
-	return this.combine(params{
+	name := this.combine(params{
 		sheetUpper: true,
-		path:       pathSchema,
 		ext:        extSchema,
 	})
+	return filepath.Join(pathSchema, name)
 }
 
 // JsonPath 取得json檔名路徑
 func (this *Content) JsonPath() string {
-	return this.combine(params{
+	name := this.combine(params{
 		sheetUpper: true,
-		path:       pathJson,
 		ext:        extJson,
 	})
+	return filepath.Join(pathJson, name)
 }
 
-// JsonCsPath 取得json-c#檔名路徑
+// JsonCsPath 取得json-cs檔名路徑
 func (this *Content) JsonCsPath() string {
-	return this.combine(params{
+	path := this.combine(params{
 		sheetUpper: true,
-		path:       pathJsonCs,
+	})
+	name := this.combine(params{
+		sheetUpper: true,
 		ext:        extCs,
 	})
+	return filepath.Join(pathJsonCs, path, name)
 }
 
-// JsonCsReaderPath 取得json-c#讀取器檔名路徑
+// JsonCsReaderPath 取得json-cs讀取器檔名路徑
 func (this *Content) JsonCsReaderPath() string {
-	return this.combine(params{
+	path := this.combine(params{
 		sheetUpper: true,
-		last:       midReader,
-		path:       pathJsonCs,
+	})
+	name := this.combine(params{
+		sheetUpper: true,
+		last:       lastReader,
 		ext:        extCs,
 	})
+	return filepath.Join(pathJsonCs, path, name)
 }
 
 // JsonGoPath 取得json-go檔名路徑
 func (this *Content) JsonGoPath() string {
-	return this.combine(params{
+	path := this.combine(params{
 		sheetUpper: true,
-		path:       pathJsonGo,
+	})
+	name := this.combine(params{
+		sheetUpper: true,
 		ext:        extGo,
 	})
+	return filepath.Join(pathJsonGo, path, name)
 }
 
 // JsonGoReaderPath 取得json-go讀取器檔名路徑
 func (this *Content) JsonGoReaderPath() string {
-	return this.combine(params{
+	path := this.combine(params{
 		sheetUpper: true,
-		last:       midReader,
-		path:       pathJsonGo,
+	})
+	name := this.combine(params{
+		sheetUpper: true,
+		last:       lastReader,
 		ext:        extGo,
 	})
+	return filepath.Join(pathJsonGo, path, name)
+}
+
+// AppName 取得程式名稱
+func (this *Content) AppName() string {
+	return internal.Title
 }
 
 // Namespace 取得命名空間名稱
 func (this *Content) Namespace() string {
-	return internal.Title
+	return this.combine(params{})
 }
 
 // StructName 取得結構名稱
@@ -163,7 +181,7 @@ func (this *Content) ReaderName() string {
 	return this.combine(params{
 		excelUpper: true,
 		sheetUpper: true,
-		last:       midReader,
+		last:       lastReader,
 	})
 }
 
@@ -226,7 +244,7 @@ func (this *Content) close() {
 	} // if
 }
 
-// combine 組合名稱
+// combine 取得組合名稱
 func (this *Content) combine(params params) string {
 	excel := strings.TrimSuffix(filepath.Base(this.Excel), filepath.Ext(this.Excel))
 
@@ -244,13 +262,13 @@ func (this *Content) combine(params params) string {
 		sheet = util.FirstLower(sheet)
 	} // if
 
-	elems := []string{excel, params.middle, sheet, params.last}
+	ext := ""
 
 	if params.ext != "" {
-		elems = append(elems, ".", params.ext)
+		ext = "." + params.ext
 	} // if
 
-	return filepath.Join(params.path, strings.Join(elems, ""))
+	return excel + params.middle + sheet + params.last + ext
 }
 
 // params 組合名稱參數
@@ -259,6 +277,5 @@ type params struct {
 	sheetUpper bool   // sheet名稱是否要首字大寫
 	middle     string // excel與sheet的中間字串
 	last       string // excel與sheet的結尾字串
-	path       string // 路徑
 	ext        string // 副檔名
 }
