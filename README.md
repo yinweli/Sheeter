@@ -1,16 +1,25 @@
 # Sheeter
-以go做成的excel轉換工具, 前身是 [sheet](https://github.com/yinweli/Sheet)  
-將以指定格式做好的excel轉換為json, 再利用 [quicktype](https://github.com/quicktype/quicktype) 轉換出程式碼  
+以go做成的excel轉換工具, 前身是[sheet]  
+將以指定格式做好的excel轉換為json, 再利用[quicktype]轉換出程式碼  
+
+# 目錄說明
+| 目錄            | 說明              |
+|:----------------|:------------------|
+| doc             | 說明文件          |
+| cmd/sheeter     | sheeter命令程式碼 |
+| internal/builds | 表格轉換程式碼    |
+| internal/util   | 工具程式碼        |
+| testdata        | 測試資料          |
 
 # 如何安裝
-* 安裝 [go](https://go.dev/dl/)
-* 安裝 [node.js](https://nodejs.org/en/), 這會順便安裝npm
+* 安裝[go]
+* 安裝[node.js], 這會順便安裝npm
 * 把npm的路徑加入系統環境變數的path中
-* 安裝 [quicktype](https://www.npmjs.com/package/quicktype), 在終端執行以下命令
+* 安裝[quicktype], 在終端執行以下命令
   ```
   npm install -g quicktype
   ```
-* 安裝 [sheeter](https://github.com/yinweli/sheeter), 在終端執行以下命令
+* 安裝[sheeter], 在終端執行以下命令
   ```
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
   ```
@@ -40,11 +49,11 @@ elements:
 ```
 
 # 如何寫excel檔案
-![excel](docs/image/excel.jpg)
+![excel]
 
 ## 欄位行
 欄位的格式為`名稱#格式`, 空格之後的欄位不會輸出  
-目前支援的格式列於下表  
+
 | 格式        | 說明                                 |
 |:------------|:-------------------------------------|
 | empty       | 不會輸出的欄位                       |
@@ -59,8 +68,8 @@ elements:
 | textArray   | 以逗號分隔的字串陣列                 |
 
 ## 階層行
-欄位結構布局, 格式有`{名稱`, `{[]名稱`, `/`, `}`
-格式之間需用空格分隔
+欄位結構布局, 格式有`{名稱`, `{[]名稱`, `/`, `}`, 之間以空格分隔  
+
 | 格式        | 說明                                 |
 |:------------|:-------------------------------------|
 | {名稱       | 結構的開始                           |
@@ -69,12 +78,12 @@ elements:
 | }           | 結構/陣列結束, 可以連續結束, 如`}}`  |
 
 ## 註解行
-單行註解, 若為空格就輸出空註解
+單行註解, 若為空格就輸出空註解  
 
 ## 資料行
 依照格式填寫相應的內容即可, 其中`empty`, `text`, `textArray`這三種格式允許空格, 其他格式的空格會造成錯誤  
-空表格(也就是沒有任何資料行)是允許的
-轉換時, 只會轉換到第一個空行為止
+空表格(也就是沒有任何資料行)是允許的  
+轉換時, 只會轉換到第一個空行為止  
 
 ## 轉出檔案路徑與檔案名稱
 如果excel檔案名稱為`example.xlsx`, 表格名稱為`Data`  
@@ -102,8 +111,6 @@ elements:
 * go程式碼的軟體包名為`sheeter`
 
 # 轉換範例
-![範例excel檔案內容](docs/image/excel.jpg)
-
 json檔案
 ```
 {
@@ -269,15 +276,6 @@ func (this *RealDataReader) FromJson(data []byte) error {
 }
 ```
 
-# 目錄說明
-| 目錄            | 說明              |
-|:----------------|:------------------|
-| docs            | 說明文件          |
-| cmd/sheeter     | sheeter命令程式碼 |
-| internal/builds | 表格轉換程式碼    |
-| internal/util   | 工具程式碼        |
-| testdata        | 測試資料          |
-
 # TODO
 * 嘗試在unix系統跑看看是否正常
 * 產生proto message
@@ -300,3 +298,11 @@ func (this *RealDataReader) FromJson(data []byte) error {
   --out verifyData.java --lang java  
   --package sheeter  
   --just-types  
+
+[go]: https://go.dev/dl/
+[node.js]: https://nodejs.org/en/
+[quicktype]: https://github.com/quicktype/quicktype
+[sheet]: https://github.com/yinweli/Sheet
+[sheeter]: https://github.com/yinweli/sheeter
+
+[excel]: doc/image/excel.jpg
