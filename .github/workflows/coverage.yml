@@ -1,0 +1,35 @@
+name: coverage
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  coverage:
+    strategy:
+      matrix:
+          os: [ubuntu-latest]
+          go: [1.18.x]
+    name: ${{ matrix.os }} @ go ${{ matrix.go }}
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: setup go ${{ matrix.go }}
+      uses: actions/setup-go@v3
+      with:
+        go-version: ${{ matrix.go }}
+    - name: setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: setup quicktype
+      run: npm install -g quicktype
+    - name: test
+      run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+    - name: upload coverage to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        fail_ci_if_error: true

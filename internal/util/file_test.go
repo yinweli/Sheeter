@@ -45,5 +45,8 @@ func (this *SuiteFileWrite) TestFileWrite() {
 	assert.Nil(this.T(), FileWrite(this.filePathReal, this.fileBytes, true))
 	testdata.CompareFile(this.T(), this.filePathReal, this.fileBytesBom)
 
-	assert.NotNil(this.T(), FileWrite(this.filePathFake, this.fileBytes, false))
+	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
+	if testdata.IsWindows() {
+		assert.NotNil(this.T(), FileWrite(this.filePathFake, this.fileBytes, false))
+	} // if
 }

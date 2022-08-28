@@ -51,5 +51,9 @@ func (this *SuiteTmpl) TestTmplWrite() {
 
 	assert.NotNil(this.T(), TmplWrite(this.filePathReal, "{{{$.Value}}", nil, false))
 	assert.NotNil(this.T(), TmplWrite(this.filePathReal, this.tmplContent, "nothing!", false))
-	assert.NotNil(this.T(), TmplWrite(this.filePathFake, this.tmplContent, this.tmplDatas, false))
+
+	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
+	if testdata.IsWindows() {
+		assert.NotNil(this.T(), TmplWrite(this.filePathFake, this.tmplContent, this.tmplDatas, false))
+	} // if
 }

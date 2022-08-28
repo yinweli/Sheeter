@@ -1,0 +1,31 @@
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    strategy:
+      matrix:
+          os: [ubuntu-latest, macos-latest, windows-latest]
+          go: [1.18.x]
+    name: ${{ matrix.os }} @ go ${{ matrix.go }}
+    runs-on: ${{ matrix.os }}
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+    - name: setup go ${{ matrix.go }}
+      uses: actions/setup-go@v3
+      with:
+        go-version: ${{ matrix.go }}
+    - name: setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: setup quicktype
+      run: npm install -g quicktype
+    - name: test
+      run: go test -v ./...
