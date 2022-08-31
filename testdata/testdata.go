@@ -1,6 +1,8 @@
 package testdata
 
 import (
+	"runtime"
+
 	"github.com/xuri/excelize/v2"
 )
 
@@ -27,4 +29,9 @@ func GetTestExcel(name string) *excelize.File {
 	} // if
 
 	return excel
+}
+
+// IsWindows 取得是否在windows下執行
+func IsWindows() bool {
+	return runtime.GOOS == "windows"
 }

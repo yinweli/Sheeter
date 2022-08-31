@@ -1,6 +1,7 @@
 package builds
 
 import (
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -82,27 +83,27 @@ func (this *SuiteContent) TestShowName() {
 }
 
 func (this *SuiteContent) TestSchemaPath() {
-	assert.Equal(this.T(), "schema\\realData.schema", this.target().SchemaPath())
+	assert.Equal(this.T(), filepath.Join(pathSchema, "realData.schema"), this.target().SchemaPath())
 }
 
 func (this *SuiteContent) TestJsonPath() {
-	assert.Equal(this.T(), "json\\realData.json", this.target().JsonPath())
+	assert.Equal(this.T(), filepath.Join(pathJson, "realData.json"), this.target().JsonPath())
 }
 
 func (this *SuiteContent) TestJsonCsPath() {
-	assert.Equal(this.T(), "json-cs\\realData\\realData.cs", this.target().JsonCsPath())
+	assert.Equal(this.T(), filepath.Join(pathJsonCs, "realData", "realData.cs"), this.target().JsonCsPath())
 }
 
 func (this *SuiteContent) TestJsonCsReaderPath() {
-	assert.Equal(this.T(), "json-cs\\realData\\realDataReader.cs", this.target().JsonCsReaderPath())
+	assert.Equal(this.T(), filepath.Join(pathJsonCs, "realData", "realDataReader.cs"), this.target().JsonCsReaderPath())
 }
 
 func (this *SuiteContent) TestJsonGoPath() {
-	assert.Equal(this.T(), "json-go\\realData\\realData.go", this.target().JsonGoPath())
+	assert.Equal(this.T(), filepath.Join(pathJsonGo, "realData", "realData.go"), this.target().JsonGoPath())
 }
 
 func (this *SuiteContent) TestJsonGoReaderPath() {
-	assert.Equal(this.T(), "json-go\\realData\\realDataReader.go", this.target().JsonGoReaderPath())
+	assert.Equal(this.T(), filepath.Join(pathJsonGo, "realData", "realDataReader.go"), this.target().JsonGoReaderPath())
 }
 
 func (this *SuiteContent) TestAppName() {
