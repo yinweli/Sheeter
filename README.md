@@ -1,3 +1,8 @@
+![license](https://img.shields.io/github/license/yinweli/Sheeter)
+![lint](https://github.com/yinweli/Sheeter/actions/workflows/lint.yml/badge.svg)
+![test](https://github.com/yinweli/Sheeter/actions/workflows/test.yml/badge.svg)
+![codecov](https://codecov.io/gh/yinweli/Sheeter/branch/main/graph/badge.svg?token=1DGCDV1S69)
+
 # Sheeter
 以go做成的excel轉換工具, 前身是[sheet]  
 將以指定格式做好的excel轉換為json, 再利用[quicktype]轉換出程式碼  
