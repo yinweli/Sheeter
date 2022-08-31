@@ -18,6 +18,12 @@ jobs:
       uses: actions/setup-go@v2
       with:
         go-version: 1.18.5
+    - name: setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16
+    - name: setup quicktype
+      run: npm install -g quicktype
     - name: test
       run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
     - name: upload coverage to Codecov
