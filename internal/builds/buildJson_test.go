@@ -136,20 +136,24 @@ func (this *SuiteBuildJson) TestWriteSchema() {
 	target.close()
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
-	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
-	target.Excel = testdata.UnknownStr
-	assert.True(this.T(), testdata.IsWindows() && writeSchema(target) != nil)
-	target.close()
+	if testdata.IsWindows() {
+		target = this.target()
+		target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+		assert.Nil(this.T(), buildLayout(target))
+		target.Excel = testdata.UnknownStr
+		assert.NotNil(this.T(), writeSchema(target))
+		target.close()
+	} // if
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
-	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
-	target.Sheet = testdata.UnknownStr
-	assert.True(this.T(), testdata.IsWindows() && writeSchema(target) != nil)
-	target.close()
+	if testdata.IsWindows() {
+		target = this.target()
+		target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+		assert.Nil(this.T(), buildLayout(target))
+		target.Sheet = testdata.UnknownStr
+		assert.NotNil(this.T(), writeSchema(target))
+		target.close()
+	} // if
 }
 
 func (this *SuiteBuildJson) TestWriteJson() {
@@ -181,12 +185,14 @@ func (this *SuiteBuildJson) TestWriteJson() {
 	target.close()
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
-	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
-	target.Excel = testdata.UnknownStr
-	assert.True(this.T(), testdata.IsWindows() && writeJson(target) != nil)
-	target.close()
+	if testdata.IsWindows() {
+		target = this.target()
+		target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+		assert.Nil(this.T(), buildLayout(target))
+		target.Excel = testdata.UnknownStr
+		assert.NotNil(this.T(), writeJson(target))
+		target.close()
+	} // if
 
 	target = this.target()
 	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)

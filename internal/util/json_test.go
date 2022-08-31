@@ -49,5 +49,7 @@ func (this *SuiteJsonWrite) TestJsonWrite() {
 	testdata.CompareFile(this.T(), this.filePathReal, this.jsonBytesBom)
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
-	assert.True(this.T(), testdata.IsWindows() && JsonWrite(this.filePathFake, this.jsonDatas, false) != nil)
+	if testdata.IsWindows() {
+		assert.NotNil(this.T(), JsonWrite(this.filePathFake, this.jsonDatas, false))
+	} // if
 }
