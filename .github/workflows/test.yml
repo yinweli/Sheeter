@@ -1,0 +1,24 @@
+# .github/workflows/test.yml
+
+name: test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  unitTest:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v2
+    - name: setup go
+      uses: actions/setup-go@v2
+      with:
+        go-version: 1.18.5
+    - name: test
+      run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+    - name: upload coverage to Codecov
+      uses: codecov/codecov-action@v3
