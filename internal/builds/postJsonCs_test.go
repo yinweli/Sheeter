@@ -12,18 +12,18 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestBuildJsonCs(t *testing.T) {
-	suite.Run(t, new(SuiteBuildJsonCs))
+func TestPostJsonCs(t *testing.T) {
+	suite.Run(t, new(SuitePostJsonCs))
 }
 
-type SuiteBuildJsonCs struct {
+type SuitePostJsonCs struct {
 	suite.Suite
 	workDir string
 	code    []byte
 	reader  []byte
 }
 
-func (this *SuiteBuildJsonCs) SetupSuite() {
+func (this *SuitePostJsonCs) SetupSuite() {
 	code := `namespace realdata
 {
     using System;
@@ -84,13 +84,13 @@ namespace realdata {
 	this.reader = []byte(reader)
 }
 
-func (this *SuiteBuildJsonCs) TearDownSuite() {
+func (this *SuitePostJsonCs) TearDownSuite() {
 	_ = os.RemoveAll(pathSchema)
 	_ = os.RemoveAll(pathJsonCs)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteBuildJsonCs) target() *Content {
+func (this *SuitePostJsonCs) target() *Content {
 	target := &Content{
 		LineOfField: 1,
 		LineOfLayer: 2,
@@ -101,60 +101,57 @@ func (this *SuiteBuildJsonCs) target() *Content {
 	return target
 }
 
-func (this *SuiteBuildJsonCs) TestWriteJsonCs() {
+func (this *SuitePostJsonCs) TestOutputJsonCsCode() {
 	target := this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
-	assert.Nil(this.T(), writeSchema(target))
-	assert.Nil(this.T(), writeJsonCs(target))
+	assert.Nil(this.T(), Initialize(target))
+	assert.Nil(this.T(), OutputJsonSchema(target))
+	assert.Nil(this.T(), OutputJsonCsCode(target))
 	testdata.CompareFile(this.T(), target.JsonCsPath(), this.code)
-	target.close()
+	target.Close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
-	assert.Nil(this.T(), writeSchema(target))
+	assert.Nil(this.T(), Initialize(target))
+	assert.Nil(this.T(), OutputJsonSchema(target))
 	target.Excel = testdata.UnknownStr
-	assert.NotNil(this.T(), writeJsonCs(target))
-	target.close()
+	assert.NotNil(this.T(), OutputJsonCsCode(target))
+	target.Close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
-	assert.Nil(this.T(), writeSchema(target))
+	assert.Nil(this.T(), Initialize(target))
+	assert.Nil(this.T(), OutputJsonSchema(target))
 	target.Sheet = testdata.UnknownStr
-	assert.NotNil(this.T(), writeJsonCs(target))
-	target.close()
+	assert.NotNil(this.T(), OutputJsonCsCode(target))
+	target.Close()
 }
 
-func (this *SuiteBuildJsonCs) TestWriteJsonCsReader() {
+func (this *SuitePostJsonCs) TestOutputJsonCsReader() {
 	target := this.target()
 	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
-	assert.Nil(this.T(), writeSchema(target))
-	assert.Nil(this.T(), writeJsonCsReader(target))
+	assert.Nil(this.T(), Initialize(target))
+	assert.Nil(this.T(), OutputJsonSchema(target))
+	assert.Nil(this.T(), OutputJsonCsReader(target))
 	testdata.CompareFile(this.T(), target.JsonCsReaderPath(), this.reader)
-	target.close()
+	target.Close()
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
 		target = this.target()
 		target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-		assert.Nil(this.T(), buildLayout(target))
-		assert.Nil(this.T(), writeSchema(target))
+		assert.Nil(this.T(), Initialize(target))
+		assert.Nil(this.T(), OutputJsonSchema(target))
 		target.Excel = testdata.UnknownStr
-		assert.NotNil(this.T(), writeJsonCsReader(target))
-		target.close()
+		assert.NotNil(this.T(), OutputJsonCsReader(target))
+		target.Close()
 	} // if
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
 		target = this.target()
 		target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-		assert.Nil(this.T(), buildLayout(target))
-		assert.Nil(this.T(), writeSchema(target))
+		assert.Nil(this.T(), Initialize(target))
+		assert.Nil(this.T(), OutputJsonSchema(target))
 		target.Sheet = testdata.UnknownStr
-		assert.NotNil(this.T(), writeJsonCsReader(target))
-		target.close()
+		assert.NotNil(this.T(), OutputJsonCsReader(target))
+		target.Close()
 	} // if
 }

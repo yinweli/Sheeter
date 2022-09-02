@@ -5,7 +5,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/vbauerster/mpb/v7"
 	"github.com/xuri/excelize/v2"
 
 	"github.com/yinweli/Sheeter/internal"
@@ -32,7 +31,6 @@ type Content struct {
 	LineOfData  int              // 資料行號(1為起始行)
 	Excel       string           // excel檔案路徑
 	Sheet       string           // excel表單名稱
-	Progress    *mpb.Progress    // 進度條產生器
 	excel       *excelize.File   // excel物件
 	builder     *layouts.Builder // 布局建造器
 }
@@ -75,11 +73,14 @@ func (this *Content) Check() error {
 		return fmt.Errorf("content failed, sheet empty")
 	} // if
 
-	if this.Progress == nil {
-		return fmt.Errorf("content failed, progress nil")
-	} // if
-
 	return nil
+}
+
+// Close 關閉excel物件
+func (this *Content) Close() {
+	if this.excel != nil {
+		_ = this.excel.Close()
+	} // if
 }
 
 // ShowName 顯示名稱
@@ -185,8 +186,8 @@ func (this *Content) ReaderName() string {
 	})
 }
 
-// getRows 取得表格行資料, line從1起算; 如果該行不存在, 回傳成功並取得最後一行物件
-func (this *Content) getRows(line int) (rows *excelize.Rows, err error) {
+// GetRows 取得表格行資料, line從1起算; 如果該行不存在, 回傳成功並取得最後一行物件
+func (this *Content) GetRows(line int) (rows *excelize.Rows, err error) {
 	if line <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
 		return nil, fmt.Errorf("get row failed, row <= 0")
 	} // if
@@ -204,8 +205,8 @@ func (this *Content) getRows(line int) (rows *excelize.Rows, err error) {
 	return rows, nil
 }
 
-// getColumns 取得表格行內容, line從1起算; 如果該行不存在, 回傳失敗
-func (this *Content) getColumns(line int) (cols []string, err error) {
+// GetColumns 取得表格行內容, line從1起算; 如果該行不存在, 回傳失敗
+func (this *Content) GetColumns(line int) (cols []string, err error) {
 	if line <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
 		return nil, fmt.Errorf("get columns failed, row <= 0")
 	} // if
@@ -235,13 +236,6 @@ func (this *Content) getColumns(line int) (cols []string, err error) {
 	} // if
 
 	return cols, nil
-}
-
-// close 關閉excel物件
-func (this *Content) close() {
-	if this.excel != nil {
-		_ = this.excel.Close()
-	} // if
 }
 
 // combine 取得組合名稱

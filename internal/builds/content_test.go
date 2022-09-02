@@ -6,7 +6,6 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	"github.com/vbauerster/mpb/v7"
 
 	"github.com/yinweli/Sheeter/testdata"
 )
@@ -28,7 +27,6 @@ func (this *SuiteContent) target() *Content {
 		LineOfData:  4,
 		Excel:       testdata.Path(testdata.ExcelNameReal),
 		Sheet:       testdata.SheetName,
-		Progress:    mpb.New(mpb.WithOutput(nil)),
 	}
 	return target
 }
@@ -71,10 +69,6 @@ func (this *SuiteContent) TestCheck() {
 
 	target = this.target()
 	target.Sheet = ""
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.Progress = nil
 	assert.NotNil(this.T(), target.Check())
 }
 
@@ -126,47 +120,47 @@ func (this *SuiteContent) TestGetRows() {
 	target := this.target()
 	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
 
-	rows, err := target.getRows(1)
+	rows, err := target.GetRows(1)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), rows)
 	_ = rows.Close()
 
-	rows, err = target.getRows(10)
+	rows, err = target.GetRows(10)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), rows)
 	_ = rows.Close()
 
-	_, err = target.getRows(0)
+	_, err = target.GetRows(0)
 	assert.NotNil(this.T(), err)
 
 	target.Sheet = testdata.UnknownStr
-	_, err = target.getRows(1)
+	_, err = target.GetRows(1)
 	assert.NotNil(this.T(), err)
 
-	target.close()
+	target.Close()
 }
 
 func (this *SuiteContent) TestGetColumns() {
 	target := this.target()
 	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
 
-	cols, err := target.getColumns(1)
+	cols, err := target.GetColumns(1)
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(),
 		[]string{"name0#pkey", "empty#empty", "name1#bool", "name2#int", "name3#text", "name2#int", "name3#text",
 			"name2#int", "name3#text"}, cols)
 
-	_, err = target.getColumns(10)
+	_, err = target.GetColumns(10)
 	assert.NotNil(this.T(), err)
 
-	_, err = target.getColumns(0)
+	_, err = target.GetColumns(0)
 	assert.NotNil(this.T(), err)
 
 	target.Sheet = testdata.UnknownStr
-	_, err = target.getColumns(1)
+	_, err = target.GetColumns(1)
 	assert.NotNil(this.T(), err)
 
-	target.close()
+	target.Close()
 }
 
 func (this *SuiteContent) TestFileName() {

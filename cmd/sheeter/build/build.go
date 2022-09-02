@@ -9,20 +9,24 @@ import (
 
 	"github.com/hako/durafmt"
 	"github.com/spf13/cobra"
+	"github.com/vbauerster/mpb/v7"
+	"github.com/vbauerster/mpb/v7/decor"
 	"gopkg.in/yaml.v3"
 
 	"github.com/yinweli/Sheeter/internal/builds"
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-const flagConfig = "config"           // 旗標名稱: 編譯設定檔案路徑
-const flagBom = "bom"                 // 旗標名稱: 順序標記
-const flagLineOfField = "lineOfField" // 旗標名稱: 欄位行號
-const flagLineOfLayer = "lineOfLayer" // 旗標名稱: 階層行號
-const flagLineOfNote = "lineOfNote"   // 旗標名稱: 註解行號
-const flagLineOfData = "lineOfData"   // 旗標名稱: 資料行號
-const flagElements = "elements"       // 旗標名稱: 項目列表
-const separateElement = ":"           // 項目字串以':'符號分割為檔案名稱與表單名稱
+const flagConfig = "config"            // 旗標名稱: 編譯設定檔案路徑
+const flagBom = "bom"                  // 旗標名稱: 順序標記
+const flagLineOfField = "lineOfField"  // 旗標名稱: 欄位行號
+const flagLineOfLayer = "lineOfLayer"  // 旗標名稱: 階層行號
+const flagLineOfNote = "lineOfNote"    // 旗標名稱: 註解行號
+const flagLineOfData = "lineOfData"    // 旗標名稱: 資料行號
+const flagElements = "elements"        // 旗標名稱: 項目列表
+const separateElement = ":"            // 項目字串以':'符號分割為檔案名稱與表單名稱
+const maxTask = 7                      // 最大工作數量
+const drawTime = 10 * time.Millisecond // 進度條繪製時間
 
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
@@ -46,8 +50,8 @@ func NewCommand() *cobra.Command {
 func execute(cmd *cobra.Command, _ []string) {
 	startTime := time.Now()
 
-	if util.ShellExist("go") == false {
-		cmd.Println(fmt.Errorf("build failed, `go` not installed"))
+	if util.ShellExist("gofmt") == false {
+		cmd.Println(fmt.Errorf("build failed, `gofmt` not installed"))
 		return
 	} // if
 
@@ -111,22 +115,86 @@ func execute(cmd *cobra.Command, _ []string) {
 	signaler.Add(count)
 
 	for _, itor := range config.Elements {
-		g := config.Global
-		e := itor // 由於多執行緒的關係, 所以要創建中間變數會比較安全
+		content := &builds.Content{
+			Bom:         config.Global.Bom,
+			LineOfField: config.Global.LineOfField,
+			LineOfLayer: config.Global.LineOfLayer,
+			LineOfNote:  config.Global.LineOfNote,
+			LineOfData:  config.Global.LineOfData,
+			Excel:       itor.Excel,
+			Sheet:       itor.Sheet,
+		}
 
 		go func() {
 			defer signaler.Done()
-			content := &builds.Content{
-				Bom:         g.Bom,
-				LineOfField: g.LineOfField,
-				LineOfLayer: g.LineOfLayer,
-				LineOfNote:  g.LineOfNote,
-				LineOfData:  g.LineOfData,
-				Excel:       e.Excel,
-				Sheet:       e.Sheet,
-				Progress:    progress,
-			}
-			errors <- builds.Build(content)
+			defer content.Close()
+
+			bar := progress.AddBar(
+				maxTask,
+				mpb.PrependDecorators(
+					decor.Name(fmt.Sprintf("%-20s", content.ShowName())),
+					decor.Percentage(decor.WCSyncSpace),
+				),
+				mpb.AppendDecorators(
+					decor.OnComplete(decor.Spinner(nil), "complete"),
+				),
+			)
+
+			if err := builds.Initialize(content); err != nil {
+				errors <- err
+				return
+			} // if
+
+			bar.Increment()
+
+			if err := builds.OutputJson(content); err != nil {
+				errors <- err
+				return
+			} // if
+
+			bar.Increment()
+
+			if err := builds.OutputJsonSchema(content); err != nil {
+				errors <- err
+				return
+			} // if
+
+			bar.Increment()
+
+			// TODO: 從這裡以下要改成全域輸出, 然後讓reader也是全域方式
+
+			if err := builds.OutputJsonCsCode(content); err != nil {
+				errors <- err
+				return
+			} // if
+
+			bar.Increment()
+
+			if err := builds.OutputJsonCsReader(content); err != nil {
+				errors <- err
+				return
+			} // if
+
+			bar.Increment()
+
+			if err := builds.OutputJsonGoCode(content); err != nil {
+				errors <- err
+				return
+			} // if
+
+			bar.Increment()
+
+			if err := builds.OutputJsonGoReader(content); err != nil {
+				errors <- err
+				return
+			} // if
+
+			bar.Increment()
+
+			if bar != nil { // 讓進度條顯示完成並且有時間畫圖
+				bar.SetTotal(maxTask, true)
+				time.Sleep(drawTime)
+			} // if
 		}()
 	} // for
 

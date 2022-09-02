@@ -12,18 +12,18 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestBuildJsonGo(t *testing.T) {
-	suite.Run(t, new(SuiteBuildJsonGo))
+func TestPostJsonGo(t *testing.T) {
+	suite.Run(t, new(SuitePostJsonGo))
 }
 
-type SuiteBuildJsonGo struct {
+type SuitePostJsonGo struct {
 	suite.Suite
 	workDir string
 	code    []byte
 	reader  []byte
 }
 
-func (this *SuiteBuildJsonGo) SetupSuite() {
+func (this *SuitePostJsonGo) SetupSuite() {
 	code := `package realdata
 
 type RealData struct {
@@ -63,13 +63,13 @@ func (this *RealDataReader) FromJson(data []byte) error {
 	this.reader = []byte(reader)
 }
 
-func (this *SuiteBuildJsonGo) TearDownSuite() {
+func (this *SuitePostJsonGo) TearDownSuite() {
 	_ = os.RemoveAll(pathSchema)
 	_ = os.RemoveAll(pathJsonGo)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteBuildJsonGo) target() *Content {
+func (this *SuitePostJsonGo) target() *Content {
 	target := &Content{
 		LineOfField: 1,
 		LineOfLayer: 2,
@@ -80,60 +80,54 @@ func (this *SuiteBuildJsonGo) target() *Content {
 	return target
 }
 
-func (this *SuiteBuildJsonGo) TestWriteJsonGo() {
+func (this *SuitePostJsonGo) TestOutputJsonGoCode() {
 	target := this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
-	assert.Nil(this.T(), writeSchema(target))
-	assert.Nil(this.T(), writeJsonGo(target))
+	assert.Nil(this.T(), Initialize(target))
+	assert.Nil(this.T(), OutputJsonSchema(target))
+	assert.Nil(this.T(), OutputJsonGoCode(target))
 	testdata.CompareFile(this.T(), target.JsonGoPath(), this.code)
-	target.close()
+	target.Close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
-	assert.Nil(this.T(), writeSchema(target))
+	assert.Nil(this.T(), Initialize(target))
+	assert.Nil(this.T(), OutputJsonSchema(target))
 	target.Excel = testdata.UnknownStr
-	assert.NotNil(this.T(), writeJsonGo(target))
-	target.close()
+	assert.NotNil(this.T(), OutputJsonGoCode(target))
+	target.Close()
 
 	target = this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
-	assert.Nil(this.T(), writeSchema(target))
+	assert.Nil(this.T(), Initialize(target))
+	assert.Nil(this.T(), OutputJsonSchema(target))
 	target.Sheet = testdata.UnknownStr
-	assert.NotNil(this.T(), writeJsonGo(target))
-	target.close()
+	assert.NotNil(this.T(), OutputJsonGoCode(target))
+	target.Close()
 }
 
-func (this *SuiteBuildJsonGo) TestWriteJsonGoReader() {
+func (this *SuitePostJsonGo) TestOutputJsonGoReader() {
 	target := this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-	assert.Nil(this.T(), buildLayout(target))
-	assert.Nil(this.T(), writeSchema(target))
-	assert.Nil(this.T(), writeJsonGoReader(target))
+	assert.Nil(this.T(), Initialize(target))
+	assert.Nil(this.T(), OutputJsonSchema(target))
+	assert.Nil(this.T(), OutputJsonGoReader(target))
 	testdata.CompareFile(this.T(), target.JsonGoReaderPath(), this.reader)
-	target.close()
+	target.Close()
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
 		target = this.target()
-		target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-		assert.Nil(this.T(), buildLayout(target))
-		assert.Nil(this.T(), writeSchema(target))
+		assert.Nil(this.T(), Initialize(target))
+		assert.Nil(this.T(), OutputJsonSchema(target))
 		target.Excel = testdata.UnknownStr
-		assert.NotNil(this.T(), writeJsonGoReader(target))
-		target.close()
+		assert.NotNil(this.T(), OutputJsonGoReader(target))
+		target.Close()
 	} // if
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
 		target = this.target()
-		target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-		assert.Nil(this.T(), buildLayout(target))
-		assert.Nil(this.T(), writeSchema(target))
+		assert.Nil(this.T(), Initialize(target))
+		assert.Nil(this.T(), OutputJsonSchema(target))
 		target.Sheet = testdata.UnknownStr
-		assert.NotNil(this.T(), writeJsonGoReader(target))
-		target.close()
+		assert.NotNil(this.T(), OutputJsonGoReader(target))
+		target.Close()
 	} // if
 }
