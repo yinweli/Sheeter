@@ -25,7 +25,7 @@ const flagLineOfNote = "lineOfNote"    // 旗標名稱: 註解行號
 const flagLineOfData = "lineOfData"    // 旗標名稱: 資料行號
 const flagElements = "elements"        // 旗標名稱: 項目列表
 const separateElement = ":"            // 項目字串以':'符號分割為檔案名稱與表單名稱
-const maxTask = 7                      // 最大工作數量
+const taskLocal = 7                    // 區域工作數量
 const drawTime = 10 * time.Millisecond // 進度條繪製時間
 
 // NewCommand 建立命令物件
@@ -130,7 +130,7 @@ func execute(cmd *cobra.Command, _ []string) {
 			defer content.Close()
 
 			bar := progress.AddBar(
-				maxTask,
+				taskLocal,
 				mpb.PrependDecorators(
 					decor.Name(fmt.Sprintf("%-20s", content.ShowName())),
 					decor.Percentage(decor.WCSyncSpace),
@@ -192,7 +192,7 @@ func execute(cmd *cobra.Command, _ []string) {
 			bar.Increment()
 
 			if bar != nil { // 讓進度條顯示完成並且有時間畫圖
-				bar.SetTotal(maxTask, true)
+				bar.SetTotal(taskLocal, true)
 				time.Sleep(drawTime)
 			} // if
 		}()
