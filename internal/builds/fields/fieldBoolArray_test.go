@@ -15,6 +15,15 @@ func TestBoolArray(t *testing.T) {
 
 type SuiteBoolArray struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuiteBoolArray) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuiteBoolArray) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteBoolArray) target() *BoolArray {

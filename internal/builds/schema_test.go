@@ -10,17 +10,17 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestPreSchema(t *testing.T) {
-	suite.Run(t, new(SuitePreSchema))
+func TestSchema(t *testing.T) {
+	suite.Run(t, new(SuiteSchema))
 }
 
-type SuitePreSchema struct {
+type SuiteSchema struct {
 	suite.Suite
 	workDir string
 	schema  []byte
 }
 
-func (this *SuitePreSchema) SetupSuite() {
+func (this *SuiteSchema) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 	this.schema = []byte(`{
     "S": {
@@ -44,28 +44,28 @@ func (this *SuitePreSchema) SetupSuite() {
 }`)
 }
 
-func (this *SuitePreSchema) TearDownSuite() {
-	_ = os.RemoveAll(pathSchema)
+func (this *SuiteSchema) TearDownSuite() {
+	_ = os.RemoveAll(pathJsonSchema)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuitePreSchema) target() *Content {
+func (this *SuiteSchema) target() *Content {
 	target := &Content{
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
 		LineOfData:  4,
-		Excel:       testdata.Path(testdata.ExcelNameReal),
+		Excel:       testdata.ExcelNameReal,
 		Sheet:       testdata.SheetName,
 	}
 	return target
 }
 
-func (this *SuitePreSchema) TestOutputJsonSchema() {
+func (this *SuiteSchema) TestOutputJsonSchema() {
 	target := this.target()
 	assert.Nil(this.T(), Initialize(target))
 	assert.Nil(this.T(), OutputJsonSchema(target))
-	testdata.CompareFile(this.T(), target.SchemaPath(), this.schema)
+	testdata.CompareFile(this.T(), target.FileJsonSchema(), this.schema)
 	target.Close()
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows

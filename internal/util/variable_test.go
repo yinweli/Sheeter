@@ -5,6 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestVariable(t *testing.T) {
@@ -13,6 +15,15 @@ func TestVariable(t *testing.T) {
 
 type SuiteVariable struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuiteVariable) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuiteVariable) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteVariable) TestVariableCheck() {

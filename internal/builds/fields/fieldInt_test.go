@@ -15,6 +15,15 @@ func TestInt(t *testing.T) {
 
 type SuiteInt struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuiteInt) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuiteInt) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteInt) target() *Int {

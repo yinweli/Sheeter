@@ -11,7 +11,7 @@ func OutputJson(content *Content) error {
 	rows, err := content.GetRows(content.LineOfData)
 
 	if err != nil {
-		return fmt.Errorf("%s: output json failed, data line not found", content.ShowName())
+		return fmt.Errorf("%s: output json failed, data line not found", content.StructName())
 	} // if
 
 	defer func() { _ = rows.Close() }()
@@ -27,14 +27,14 @@ func OutputJson(content *Content) error {
 		packs, pkey, err := content.builder.Pack(datas, false)
 
 		if err != nil {
-			return fmt.Errorf("%s: output json failed: %w", content.ShowName(), err)
+			return fmt.Errorf("%s: output json failed: %w", content.StructName(), err)
 		} // if
 
 		objs[pkey] = packs
 	} // for
 
-	if err = util.JsonWrite(content.JsonPath(), objs, content.Bom); err != nil {
-		return fmt.Errorf("%s: output json failed: %w", content.ShowName(), err)
+	if err = util.WriteJson(content.FileJson(), objs, content.Bom); err != nil {
+		return fmt.Errorf("%s: output json failed: %w", content.StructName(), err)
 	} // if
 
 	return nil

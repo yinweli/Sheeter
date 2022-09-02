@@ -6,6 +6,8 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
+const ConfigNameReal = "config.real.yaml"
+const ConfigNameFake = "config.fake.yaml"
 const ExcelNameReal = "real.xlsx"
 const ExcelNameEmpty = "empty.xlsx"
 const ExcelNameCleanAll = "excel.clean.all.xlsx"
@@ -21,8 +23,8 @@ const SheetName = "Data"
 const UnknownStr = "?????"
 
 // GetTestExcel 取得測試excel
-func GetTestExcel(name string) *excelize.File {
-	excel, err := excelize.OpenFile(Path(name))
+func GetTestExcel(path string) *excelize.File {
+	excel, err := excelize.OpenFile(path)
 
 	if err != nil {
 		return nil

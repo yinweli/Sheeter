@@ -15,6 +15,15 @@ func TestInitialize(t *testing.T) {
 
 type SuiteInitialize struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuiteInitialize) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuiteInitialize) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteInitialize) target() *Content {
@@ -22,7 +31,7 @@ func (this *SuiteInitialize) target() *Content {
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
-		Excel:       testdata.Path(testdata.ExcelNameReal),
+		Excel:       testdata.ExcelNameReal,
 		Sheet:       testdata.SheetName,
 	}
 	return target
@@ -50,52 +59,52 @@ func (this *SuiteInitialize) TestInitialize() {
 	target.Close()
 
 	target = this.target()
-	target.Excel = testdata.Path(testdata.UnknownStr)
+	target.Excel = testdata.UnknownStr
 	assert.NotNil(this.T(), Initialize(target))
 	target.Close()
 
 	target = this.target()
-	target.Excel = testdata.Path(testdata.ExcelNameInvalidFile)
+	target.Excel = testdata.ExcelNameInvalidFile
 	assert.NotNil(this.T(), Initialize(target))
 	target.Close()
 
 	target = this.target()
-	target.Excel = testdata.Path(testdata.ExcelNameCleanAll)
+	target.Excel = testdata.ExcelNameCleanAll
 	assert.NotNil(this.T(), Initialize(target))
 	target.Close()
 
 	target = this.target()
-	target.Excel = testdata.Path(testdata.ExcelNameCleanField)
+	target.Excel = testdata.ExcelNameCleanField
 	assert.NotNil(this.T(), Initialize(target))
 	target.Close()
 
 	target = this.target()
-	target.Excel = testdata.Path(testdata.ExcelNameInvalidField)
+	target.Excel = testdata.ExcelNameInvalidField
 	assert.NotNil(this.T(), Initialize(target))
 	target.Close()
 
 	target = this.target()
-	target.Excel = testdata.Path(testdata.ExcelNameInvalidLayer)
+	target.Excel = testdata.ExcelNameInvalidLayer
 	assert.NotNil(this.T(), Initialize(target))
 	target.Close()
 
 	target = this.target()
-	target.Excel = testdata.Path(testdata.ExcelNameInvalidLayout)
+	target.Excel = testdata.ExcelNameInvalidLayout
 	assert.NotNil(this.T(), Initialize(target))
 	target.Close()
 
 	target = this.target()
-	target.Excel = testdata.Path(testdata.ExcelNameInvalidPkeyZero)
+	target.Excel = testdata.ExcelNameInvalidPkeyZero
 	assert.NotNil(this.T(), Initialize(target))
 	target.Close()
 
 	target = this.target()
-	target.Excel = testdata.Path(testdata.ExcelNameInvalidPkeyDupl)
+	target.Excel = testdata.ExcelNameInvalidPkeyDupl
 	assert.NotNil(this.T(), Initialize(target))
 	target.Close()
 
 	target = this.target()
-	target.Sheet = testdata.Path(testdata.UnknownStr)
+	target.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), Initialize(target))
 	target.Close()
 }

@@ -8,6 +8,7 @@ import (
 
 	"github.com/yinweli/Sheeter/internal/builds/fields"
 	"github.com/yinweli/Sheeter/internal/builds/layers"
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestBuilder(t *testing.T) {
@@ -16,6 +17,7 @@ func TestBuilder(t *testing.T) {
 
 type SuiteBuilder struct {
 	suite.Suite
+	workDir        string
 	fieldEmpty     fields.Field
 	fieldPkey      fields.Field
 	fieldInt       fields.Field
@@ -31,6 +33,7 @@ type SuiteBuilder struct {
 }
 
 func (this *SuiteBuilder) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
 	this.fieldEmpty = &fields.Empty{}
 	this.fieldPkey = &fields.Pkey{}
 	this.fieldInt = &fields.Int{}
@@ -61,8 +64,16 @@ func (this *SuiteBuilder) SetupSuite() {
 	this.dataInvalid = []string{"0", "a", "2", "3", "4", "5"}
 }
 
+func (this *SuiteBuilder) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
+}
+
 func (this *SuiteBuilder) target() *Builder {
 	return NewBuilder()
+}
+
+func (this *SuiteBuilder) TestNewBuilder() {
+	assert.NotNil(this.T(), NewBuilder())
 }
 
 func (this *SuiteBuilder) TestAdd() {
@@ -121,8 +132,4 @@ func (this *SuiteBuilder) TestPkeyCount() {
 	assert.Equal(this.T(), 0, target.PkeyCount())
 	assert.Nil(this.T(), target.Add("n0", "", this.fieldPkey, this.layerNone, 0))
 	assert.Equal(this.T(), 1, target.PkeyCount())
-}
-
-func (this *SuiteBuilder) TestNewBuilder() {
-	assert.NotNil(this.T(), NewBuilder())
 }

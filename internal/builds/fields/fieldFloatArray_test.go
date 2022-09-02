@@ -15,6 +15,15 @@ func TestFloatArray(t *testing.T) {
 
 type SuiteFloatArray struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuiteFloatArray) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuiteFloatArray) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteFloatArray) target() *FloatArray {

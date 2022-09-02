@@ -21,22 +21,22 @@
 * 安裝[node.js], 這會順便安裝npm
 * 把npm的路徑加入系統環境變數的path中
 * 安裝[quicktype], 在終端執行以下命令
-  ```
+  ```shell
   npm install -g quicktype
   ```
 * 安裝[sheeter], 在終端執行以下命令
-  ```
+  ```shell
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
   ```
 
 # 如何執行
-配置好yaml格式的設定檔與excel檔案, 然後在終端執行
-```
+配置好yaml格式的設定檔與excel檔案, 然後在終端執行  
+```shell
 sheeter build --config 設定檔.yaml
 ```
 
 # 如何寫設定檔
-```
+```yaml
 global:
   bom: true            # 輸出的檔案是否使用順序標記(BOM)
   lineOfField: 1       # 欄位行號(1為起始行)
@@ -92,13 +92,13 @@ elements:
 
 ## 轉出檔案路徑與檔案名稱
 如果excel檔案名稱為`example.xlsx`, 表格名稱為`Data`  
-* json架構檔案: schema\exampleData.schema
 * json資料檔案: json\exampleData.json
-* json的cs程式碼: json-cs\exampleData\exampleData.cs
-* json的cs讀取器程式碼: json-cs\exampleData\exampleDataReader.cs
-* json的go程式碼: json-go\exampleData\exampleData.go
-* json的go讀取器程式碼: json-go\exampleData\exampleDataReader.go
-* 命名空間: exampledata
+* json架構檔案: json-schema\exampleData.json
+* json的cs程式碼: json-cs\sheeter.cs
+* json的cs讀取器: json-cs\reader.cs
+* json的go程式碼: json-go\sheeter.go
+* json的go讀取器: json-go\reader.go
+* 命名空間: sheeter
 * 結構名稱: ExampleData
 * 讀取器名稱: ExampleDataReader
 

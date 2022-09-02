@@ -15,6 +15,15 @@ func TestConvert(t *testing.T) {
 
 type SuiteConvert struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuiteConvert) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuiteConvert) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteConvert) TestStrToBool() {

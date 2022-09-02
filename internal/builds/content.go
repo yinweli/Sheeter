@@ -12,15 +12,15 @@ import (
 	"github.com/yinweli/Sheeter/internal/util"
 )
 
-const pathSchema = "schema"  // 輸出路徑: json架構
-const pathJson = "json"      // 輸出路徑: json
-const pathJsonCs = "json-cs" // 輸出路徑: json-cs
-const pathJsonGo = "json-go" // 輸出路徑: json-go
-const lastReader = "Reader"  // 結尾名: 讀取器
-const extSchema = "schema"   // 副檔名: json架構
-const extJson = "json"       // 副檔名: json
-const extCs = "cs"           // 副檔名: cs
-const extGo = "go"           // 副檔名: go
+const pathJson = "json"              // 輸出路徑: json資料
+const pathJsonSchema = "json-schema" // 輸出路徑: json架構
+const pathJsonCs = "json-cs"         // 輸出路徑: json-cs
+const pathJsonGo = "json-go"         // 輸出路徑: json-go
+const fileJsonCsCode = "sheeter.cs"  // 輸出檔名: json-cs程式碼
+const fileJsonCsReader = "reader.cs" // 輸出檔名: json-cs讀取器
+const fileJsonGoCode = "sheeter.go"  // 輸出檔名: json-go程式碼
+const fileJsonGoReader = "reader.go" // 輸出檔名: json-go讀取器
+const extJson = "json"               // 副檔名: json
 
 // Content 內容資料
 type Content struct {
@@ -35,140 +35,6 @@ type Content struct {
 	builder     *layouts.Builder // 布局建造器
 }
 
-// Check 檢查工作
-func (this *Content) Check() error {
-	if this.LineOfField <= 0 {
-		return fmt.Errorf("content failed, lineOfField <= 0")
-	} // if
-
-	if this.LineOfLayer <= 0 {
-		return fmt.Errorf("content failed, lineOfLayer <= 0")
-	} // if
-
-	if this.LineOfNote <= 0 {
-		return fmt.Errorf("content failed, lineOfNote <= 0")
-	} // if
-
-	if this.LineOfData <= 0 {
-		return fmt.Errorf("content failed, lineOfData <= 0")
-	} // if
-
-	if this.LineOfField >= this.LineOfData {
-		return fmt.Errorf("content failed, lineOfField(%d) >= lineOfData(%d)", this.LineOfField, this.LineOfData)
-	} // if
-
-	if this.LineOfLayer >= this.LineOfData {
-		return fmt.Errorf("content failed, lineOfLayer(%d) >= lineOfData(%d)", this.LineOfLayer, this.LineOfData)
-	} // if
-
-	if this.LineOfNote >= this.LineOfData {
-		return fmt.Errorf("content failed, lineOfNote(%d) >= lineOfData(%d)", this.LineOfNote, this.LineOfData)
-	} // if
-
-	if this.Excel == "" {
-		return fmt.Errorf("content failed, excel empty")
-	} // if
-
-	if this.Sheet == "" {
-		return fmt.Errorf("content failed, sheet empty")
-	} // if
-
-	return nil
-}
-
-// Close 關閉excel物件
-func (this *Content) Close() {
-	if this.excel != nil {
-		_ = this.excel.Close()
-	} // if
-}
-
-// ShowName 顯示名稱
-func (this *Content) ShowName() string {
-	name := this.combine(params{
-		middle: "#",
-	})
-	return name
-}
-
-// SchemaPath 取得json架構檔名路徑
-func (this *Content) SchemaPath() string {
-	name := this.combine(params{
-		sheetUpper: true,
-		ext:        extSchema,
-	})
-	return filepath.Join(pathSchema, name)
-}
-
-// JsonPath 取得json檔名路徑
-func (this *Content) JsonPath() string {
-	name := this.combine(params{
-		sheetUpper: true,
-		ext:        extJson,
-	})
-	return filepath.Join(pathJson, name)
-}
-
-// JsonCsPath 取得json-cs檔名路徑
-func (this *Content) JsonCsPath() string {
-	path := this.combine(params{
-		sheetUpper: true,
-	})
-	name := this.combine(params{
-		sheetUpper: true,
-		ext:        extCs,
-	})
-	return filepath.Join(pathJsonCs, path, name)
-}
-
-// JsonCsReaderPath 取得json-cs讀取器檔名路徑
-func (this *Content) JsonCsReaderPath() string {
-	path := this.combine(params{
-		sheetUpper: true,
-	})
-	name := this.combine(params{
-		sheetUpper: true,
-		last:       lastReader,
-		ext:        extCs,
-	})
-	return filepath.Join(pathJsonCs, path, name)
-}
-
-// JsonGoPath 取得json-go檔名路徑
-func (this *Content) JsonGoPath() string {
-	path := this.combine(params{
-		sheetUpper: true,
-	})
-	name := this.combine(params{
-		sheetUpper: true,
-		ext:        extGo,
-	})
-	return filepath.Join(pathJsonGo, path, name)
-}
-
-// JsonGoReaderPath 取得json-go讀取器檔名路徑
-func (this *Content) JsonGoReaderPath() string {
-	path := this.combine(params{
-		sheetUpper: true,
-	})
-	name := this.combine(params{
-		sheetUpper: true,
-		last:       lastReader,
-		ext:        extGo,
-	})
-	return filepath.Join(pathJsonGo, path, name)
-}
-
-// AppName 取得程式名稱
-func (this *Content) AppName() string {
-	return internal.Title
-}
-
-// Namespace 取得命名空間名稱
-func (this *Content) Namespace() string {
-	return this.combine(params{})
-}
-
 // StructName 取得結構名稱
 func (this *Content) StructName() string {
 	return this.combine(params{
@@ -177,13 +43,65 @@ func (this *Content) StructName() string {
 	})
 }
 
-// ReaderName 取得讀取器名稱
-func (this *Content) ReaderName() string {
-	return this.combine(params{
-		excelUpper: true,
+// FileJson 取得json檔名路徑
+func (this *Content) FileJson() string {
+	name := this.combine(params{
+		excelUpper: false,
 		sheetUpper: true,
-		last:       lastReader,
+		ext:        extJson,
 	})
+	return filepath.Join(pathJson, name)
+}
+
+// FileJsonSchema 取得json架構檔名路徑
+func (this *Content) FileJsonSchema() string {
+	name := this.combine(params{
+		excelUpper: false,
+		sheetUpper: true,
+		ext:        extJson,
+	})
+	return filepath.Join(pathJsonSchema, name)
+}
+
+// params 組合名稱參數
+type params struct {
+	excelUpper bool   // excel名稱是否要首字大寫
+	sheetUpper bool   // sheet名稱是否要首字大寫
+	ext        string // 副檔名
+}
+
+// combine 取得組合名稱
+func (this *Content) combine(params params) string {
+	excel := strings.TrimSuffix(filepath.Base(this.Excel), filepath.Ext(this.Excel))
+
+	if params.excelUpper {
+		excel = util.FirstUpper(excel)
+	} else {
+		excel = util.FirstLower(excel)
+	} // if
+
+	sheet := this.Sheet
+
+	if params.sheetUpper {
+		sheet = util.FirstUpper(sheet)
+	} else {
+		sheet = util.FirstLower(sheet)
+	} // if
+
+	ext := ""
+
+	if params.ext != "" {
+		ext = "." + params.ext
+	} // if
+
+	return excel + sheet + ext
+}
+
+// Close 關閉excel物件
+func (this *Content) Close() {
+	if this.excel != nil {
+		_ = this.excel.Close()
+	} // if
 }
 
 // GetRows 取得表格行資料, line從1起算; 如果該行不存在, 回傳成功並取得最後一行物件
@@ -238,38 +156,77 @@ func (this *Content) GetColumns(line int) (cols []string, err error) {
 	return cols, nil
 }
 
-// combine 取得組合名稱
-func (this *Content) combine(params params) string {
-	excel := strings.TrimSuffix(filepath.Base(this.Excel), filepath.Ext(this.Excel))
-
-	if params.excelUpper {
-		excel = util.FirstUpper(excel)
-	} else {
-		excel = util.FirstLower(excel)
-	} // if
-
-	sheet := this.Sheet
-
-	if params.sheetUpper {
-		sheet = util.FirstUpper(sheet)
-	} else {
-		sheet = util.FirstLower(sheet)
-	} // if
-
-	ext := ""
-
-	if params.ext != "" {
-		ext = "." + params.ext
-	} // if
-
-	return excel + params.middle + sheet + params.last + ext
+// Contents 內容列表
+type Contents struct {
+	Contents []*Content // 內容列表
+	maxline  int        // 最大行數
+	curline  int        // 當前行數
 }
 
-// params 組合名稱參數
-type params struct {
-	excelUpper bool   // excel名稱是否要首字大寫
-	sheetUpper bool   // sheet名稱是否要首字大寫
-	middle     string // excel與sheet的中間字串
-	last       string // excel與sheet的結尾字串
-	ext        string // 副檔名
+// AppName 取得程式名稱
+func (this *Contents) AppName() string {
+	return internal.Title
+}
+
+// Namespace 取得命名空間名稱
+func (this *Contents) Namespace() string {
+	return internal.Title
+}
+
+// PathJson 取得json路徑
+func (this *Contents) PathJson() string {
+	return pathJson
+}
+
+// PathJsonSchema 取得json架構路徑
+func (this *Contents) PathJsonSchema() string {
+	return pathJsonSchema
+}
+
+// PathJsonCs 取得json-cs路徑
+func (this *Contents) PathJsonCs() string {
+	return pathJsonCs
+}
+
+// PathJsonGo 取得json-go路徑
+func (this *Contents) PathJsonGo() string {
+	return pathJsonGo
+}
+
+// FileJsonCsCode 取得json-cs程式碼檔名路徑
+func (this *Contents) FileJsonCsCode() string {
+	return filepath.Join(pathJsonCs, fileJsonCsCode)
+}
+
+// FileJsonCsReader 取得json-cs讀取器檔名路徑
+func (this *Contents) FileJsonCsReader() string {
+	return filepath.Join(pathJsonCs, fileJsonCsReader)
+}
+
+// FileJsonGoCode 取得json-go程式碼檔名路徑
+func (this *Contents) FileJsonGoCode() string {
+	return filepath.Join(pathJsonGo, fileJsonGoCode)
+}
+
+// FileJsonGoReader 取得json-go讀取器檔名路徑
+func (this *Contents) FileJsonGoReader() string {
+	return filepath.Join(pathJsonGo, fileJsonGoReader)
+}
+
+// SetLine 設置行數
+func (this *Contents) SetLine() string {
+	this.maxline = len(this.Contents) - 1
+	this.curline = 0
+	return ""
+}
+
+// NewLine 換行輸出
+func (this *Contents) NewLine() string {
+	defer func() { this.curline++ }()
+
+	if this.maxline > this.curline {
+		return "\n"
+	} // if
+
+	return ""
 }

@@ -10,18 +10,18 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestPreJson(t *testing.T) {
-	suite.Run(t, new(SuitePreJson))
+func TestJson(t *testing.T) {
+	suite.Run(t, new(SuiteJson))
 }
 
-type SuitePreJson struct {
+type SuiteJson struct {
 	suite.Suite
 	workDir string
 	json    []byte
 	empty   []byte
 }
 
-func (this *SuitePreJson) SetupSuite() {
+func (this *SuiteJson) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 	this.json = []byte(`{
     "1": {
@@ -88,28 +88,28 @@ func (this *SuitePreJson) SetupSuite() {
 	this.empty = []byte("{}")
 }
 
-func (this *SuitePreJson) TearDownSuite() {
+func (this *SuiteJson) TearDownSuite() {
 	_ = os.RemoveAll(pathJson)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuitePreJson) target() *Content {
+func (this *SuiteJson) target() *Content {
 	target := &Content{
 		LineOfField: 1,
 		LineOfLayer: 2,
 		LineOfNote:  3,
 		LineOfData:  4,
-		Excel:       testdata.Path(testdata.ExcelNameReal),
+		Excel:       testdata.ExcelNameReal,
 		Sheet:       testdata.SheetName,
 	}
 	return target
 }
 
-func (this *SuitePreJson) TestOutputJson() {
+func (this *SuiteJson) TestOutputJson() {
 	target := this.target()
 	assert.Nil(this.T(), Initialize(target))
 	assert.Nil(this.T(), OutputJson(target))
-	testdata.CompareFile(this.T(), target.JsonPath(), this.json)
+	testdata.CompareFile(this.T(), target.FileJson(), this.json)
 	target.Close()
 
 	target = this.target()
@@ -119,14 +119,14 @@ func (this *SuitePreJson) TestOutputJson() {
 	target.Close()
 
 	target = this.target()
-	target.Excel = testdata.Path(testdata.ExcelNameEmpty)
+	target.Excel = testdata.ExcelNameEmpty
 	assert.Nil(this.T(), Initialize(target))
 	assert.Nil(this.T(), OutputJson(target))
-	testdata.CompareFile(this.T(), target.JsonPath(), this.empty)
+	testdata.CompareFile(this.T(), target.FileJson(), this.empty)
 	target.Close()
 
 	target = this.target()
-	target.Excel = testdata.Path(testdata.ExcelNameInvalidData)
+	target.Excel = testdata.ExcelNameInvalidData
 	assert.Nil(this.T(), Initialize(target))
 	assert.NotNil(this.T(), OutputJson(target))
 	target.Close()
