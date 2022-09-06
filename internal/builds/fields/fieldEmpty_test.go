@@ -5,6 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestEmpty(t *testing.T) {
@@ -13,6 +15,15 @@ func TestEmpty(t *testing.T) {
 
 type SuiteEmpty struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuiteEmpty) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuiteEmpty) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteEmpty) target() *Empty {

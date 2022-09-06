@@ -5,6 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestText(t *testing.T) {
@@ -13,6 +15,15 @@ func TestText(t *testing.T) {
 
 type SuiteText struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuiteText) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuiteText) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteText) target() *Text {

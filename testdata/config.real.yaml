@@ -1,0 +1,14 @@
+global:
+    bom: true
+    lineOfField: 101
+    lineOfLayer: 102
+    lineOfNote: 103
+    lineOfData: 104
+
+elements:
+    - excel: excel3
+      sheet: sheet
+    - excel: excel2
+      sheet: sheet
+    - excel: excel1
+      sheet: sheet

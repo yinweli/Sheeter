@@ -4,6 +4,15 @@ import (
 	"container/list"
 )
 
+// newStacker 建立布局堆疊器
+func newStacker() *stacker {
+	stacker := &stacker{
+		datas: list.New(),
+	}
+	stacker.datas.PushBack(layoutStruct{}) // 布局堆疊器從一個結構開始
+	return stacker
+}
+
 // stacker 布局堆疊器
 type stacker struct {
 	datas *list.List // 資料列表
@@ -96,13 +105,4 @@ func (this *stacker) result() layoutStruct {
 	} // if
 
 	return nil
-}
-
-// newStacker 建立布局堆疊器
-func newStacker() *stacker {
-	stacker := &stacker{
-		datas: list.New(),
-	}
-	stacker.datas.PushBack(layoutStruct{}) // 布局堆疊器從一個結構開始
-	return stacker
 }

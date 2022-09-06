@@ -15,6 +15,15 @@ func TestPkey(t *testing.T) {
 
 type SuitePkey struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuitePkey) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuitePkey) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuitePkey) target() *Pkey {

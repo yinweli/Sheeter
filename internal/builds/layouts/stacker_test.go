@@ -5,6 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+
+	"github.com/yinweli/Sheeter/testdata"
 )
 
 func TestStacker(t *testing.T) {
@@ -13,21 +15,31 @@ func TestStacker(t *testing.T) {
 
 type SuiteStacker struct {
 	suite.Suite
-	name1  string
-	name2  string
-	value1 string
-	value2 string
+	workDir string
+	name1   string
+	name2   string
+	value1  string
+	value2  string
 }
 
 func (this *SuiteStacker) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
 	this.name1 = "name1"
 	this.name2 = "name2"
 	this.value1 = "value1"
 	this.value2 = "value2"
 }
 
+func (this *SuiteStacker) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
+}
+
 func (this *SuiteStacker) target() *stacker {
 	return newStacker()
+}
+
+func (this *SuiteStacker) TestNewStacker() {
+	assert.NotNil(this.T(), newStacker())
 }
 
 func (this *SuiteStacker) TestPushArray() {
@@ -104,8 +116,4 @@ func (this *SuiteStacker) TestResult() {
 	target := this.target()
 
 	assert.IsType(this.T(), layoutStruct{}, target.result())
-}
-
-func (this *SuiteStacker) TestNewStacker() {
-	assert.NotNil(this.T(), newStacker())
 }

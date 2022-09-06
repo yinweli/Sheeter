@@ -15,6 +15,15 @@ func TestLayer(t *testing.T) {
 
 type SuiteLayer struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuiteLayer) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuiteLayer) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteLayer) TestParseLayer() {

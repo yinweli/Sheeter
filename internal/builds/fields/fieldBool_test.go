@@ -15,6 +15,15 @@ func TestBool(t *testing.T) {
 
 type SuiteBool struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuiteBool) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuiteBool) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteBool) target() *Bool {

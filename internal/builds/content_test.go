@@ -6,8 +6,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	"github.com/vbauerster/mpb/v7"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -17,6 +17,15 @@ func TestContent(t *testing.T) {
 
 type SuiteContent struct {
 	suite.Suite
+	workDir string
+}
+
+func (this *SuiteContent) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+}
+
+func (this *SuiteContent) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteContent) target() *Content {
@@ -26,157 +35,126 @@ func (this *SuiteContent) target() *Content {
 		LineOfLayer: 2,
 		LineOfNote:  3,
 		LineOfData:  4,
-		Excel:       testdata.Path(testdata.ExcelNameReal),
+		Excel:       testdata.ExcelNameReal,
 		Sheet:       testdata.SheetName,
-		Progress:    mpb.New(mpb.WithOutput(nil)),
 	}
 	return target
-}
-
-func (this *SuiteContent) TestCheck() {
-	target := this.target()
-	assert.Nil(this.T(), target.Check())
-
-	target = this.target()
-	target.LineOfField = 0
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.LineOfLayer = 0
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.LineOfNote = 0
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.LineOfData = 0
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.LineOfField = 4
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.LineOfLayer = 4
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.LineOfNote = 4
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.Excel = ""
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.Sheet = ""
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.Progress = nil
-	assert.NotNil(this.T(), target.Check())
-}
-
-func (this *SuiteContent) TestShowName() {
-	assert.Equal(this.T(), "real#data", this.target().ShowName())
-}
-
-func (this *SuiteContent) TestSchemaPath() {
-	assert.Equal(this.T(), filepath.Join(pathSchema, "realData.schema"), this.target().SchemaPath())
-}
-
-func (this *SuiteContent) TestJsonPath() {
-	assert.Equal(this.T(), filepath.Join(pathJson, "realData.json"), this.target().JsonPath())
-}
-
-func (this *SuiteContent) TestJsonCsPath() {
-	assert.Equal(this.T(), filepath.Join(pathJsonCs, "realData", "realData.cs"), this.target().JsonCsPath())
-}
-
-func (this *SuiteContent) TestJsonCsReaderPath() {
-	assert.Equal(this.T(), filepath.Join(pathJsonCs, "realData", "realDataReader.cs"), this.target().JsonCsReaderPath())
-}
-
-func (this *SuiteContent) TestJsonGoPath() {
-	assert.Equal(this.T(), filepath.Join(pathJsonGo, "realData", "realData.go"), this.target().JsonGoPath())
-}
-
-func (this *SuiteContent) TestJsonGoReaderPath() {
-	assert.Equal(this.T(), filepath.Join(pathJsonGo, "realData", "realDataReader.go"), this.target().JsonGoReaderPath())
-}
-
-func (this *SuiteContent) TestAppName() {
-	assert.Equal(this.T(), "sheeter", this.target().AppName())
-}
-
-func (this *SuiteContent) TestNamespace() {
-	assert.Equal(this.T(), "realdata", this.target().Namespace())
 }
 
 func (this *SuiteContent) TestStructName() {
 	assert.Equal(this.T(), "RealData", this.target().StructName())
 }
 
-func (this *SuiteContent) TestReaderName() {
-	assert.Equal(this.T(), "RealDataReader", this.target().ReaderName())
+func (this *SuiteContent) TestFileJson() {
+	assert.Equal(this.T(), filepath.Join(pathJson, "realData.json"), this.target().FileJson())
 }
 
-func (this *SuiteContent) TestGetRows() {
-	target := this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-
-	rows, err := target.getRows(1)
-	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), rows)
-	_ = rows.Close()
-
-	rows, err = target.getRows(10)
-	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), rows)
-	_ = rows.Close()
-
-	_, err = target.getRows(0)
-	assert.NotNil(this.T(), err)
-
-	target.Sheet = testdata.UnknownStr
-	_, err = target.getRows(1)
-	assert.NotNil(this.T(), err)
-
-	target.close()
+func (this *SuiteContent) TestFileJsonSchema() {
+	assert.Equal(this.T(), filepath.Join(pathJsonSchema, "realData.json"), this.target().FileJsonSchema())
 }
 
-func (this *SuiteContent) TestGetColumns() {
-	target := this.target()
-	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-
-	cols, err := target.getColumns(1)
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(),
-		[]string{"name0#pkey", "empty#empty", "name1#bool", "name2#int", "name3#text", "name2#int", "name3#text",
-			"name2#int", "name3#text"}, cols)
-
-	_, err = target.getColumns(10)
-	assert.NotNil(this.T(), err)
-
-	_, err = target.getColumns(0)
-	assert.NotNil(this.T(), err)
-
-	target.Sheet = testdata.UnknownStr
-	_, err = target.getColumns(1)
-	assert.NotNil(this.T(), err)
-
-	target.close()
-}
-
-func (this *SuiteContent) TestFileName() {
+func (this *SuiteContent) TestCombine() {
 	target := this.target()
 
 	assert.Equal(this.T(), "Realdata", target.combine(params{excelUpper: true}))
 	assert.Equal(this.T(), "realdata", target.combine(params{excelUpper: false}))
 	assert.Equal(this.T(), "realData", target.combine(params{sheetUpper: true}))
 	assert.Equal(this.T(), "realdata", target.combine(params{sheetUpper: false}))
-	assert.Equal(this.T(), "real#data", target.combine(params{middle: "#"}))
-	assert.Equal(this.T(), "realdata#", target.combine(params{last: "#"}))
-	assert.Equal(this.T(), "realdata.#", target.combine(params{ext: "#"}))
+	assert.Equal(this.T(), "realdata.txt", target.combine(params{ext: "txt"}))
+}
+
+func (this *SuiteContent) TestGetRows() {
+	target := this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+
+	rows, err := target.GetRows(1)
+	assert.Nil(this.T(), err)
+	assert.NotNil(this.T(), rows)
+	_ = rows.Close()
+
+	rows, err = target.GetRows(10)
+	assert.Nil(this.T(), err)
+	assert.NotNil(this.T(), rows)
+	_ = rows.Close()
+
+	_, err = target.GetRows(0)
+	assert.NotNil(this.T(), err)
+
+	target.Sheet = testdata.UnknownStr
+	_, err = target.GetRows(1)
+	assert.NotNil(this.T(), err)
+
+	target.Close()
+}
+
+func (this *SuiteContent) TestGetColumns() {
+	target := this.target()
+	target.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+
+	cols, err := target.GetColumns(1)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(),
+		[]string{"name0#pkey", "empty#empty", "name1#bool", "name2#int", "name3#text", "name2#int", "name3#text",
+			"name2#int", "name3#text"}, cols)
+
+	_, err = target.GetColumns(10)
+	assert.NotNil(this.T(), err)
+
+	_, err = target.GetColumns(0)
+	assert.NotNil(this.T(), err)
+
+	target.Sheet = testdata.UnknownStr
+	_, err = target.GetColumns(1)
+	assert.NotNil(this.T(), err)
+
+	target.Close()
+}
+
+func TestContents(t *testing.T) {
+	suite.Run(t, new(SuiteContents))
+}
+
+type SuiteContents struct {
+	suite.Suite
+	workDir   string
+	lineEmpty string
+	lineNew   string
+}
+
+func (this *SuiteContents) SetupSuite() {
+	this.workDir = testdata.ChangeWorkDir()
+	this.lineEmpty = ""
+	this.lineNew = "\n"
+}
+
+func (this *SuiteContents) TearDownSuite() {
+	testdata.RestoreWorkDir(this.workDir)
+}
+
+func (this *SuiteContents) target() *Contents {
+	return &Contents{
+		Contents: []*Content{{}, {}},
+	}
+}
+
+func (this *SuiteContents) TestName() {
+	assert.Equal(this.T(), internal.Title, this.target().AppName())
+	assert.Equal(this.T(), internal.Title, this.target().Namespace())
+	assert.Equal(this.T(), pathJson, this.target().PathJson())
+	assert.Equal(this.T(), pathJsonSchema, this.target().PathJsonSchema())
+	assert.Equal(this.T(), pathJsonCs, this.target().PathJsonCs())
+	assert.Equal(this.T(), pathJsonGo, this.target().PathJsonGo())
+	assert.Equal(this.T(), filepath.Join(pathJsonCs, fileJsonCsCode), this.target().FileJsonCsCode())
+	assert.Equal(this.T(), filepath.Join(pathJsonCs, fileJsonCsReader), this.target().FileJsonCsReader())
+	assert.Equal(this.T(), filepath.Join(pathJsonGo, fileJsonGoCode), this.target().FileJsonGoCode())
+	assert.Equal(this.T(), filepath.Join(pathJsonGo, fileJsonGoReader), this.target().FileJsonGoReader())
+}
+
+func (this *SuiteContents) TestLine() {
+	target := this.target()
+
+	assert.Equal(this.T(), this.lineEmpty, target.SetLine())
+	assert.Equal(this.T(), this.lineNew, target.NewLine())
+	assert.Equal(this.T(), this.lineEmpty, target.NewLine())
+	assert.Equal(this.T(), this.lineEmpty, target.NewLine())
 }
