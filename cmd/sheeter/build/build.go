@@ -20,20 +20,12 @@ const taskEntire = 4 // 全域編譯的工作數量
 
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
-	cmd := &cobra.Command{
+	return builds.InitFlags(&cobra.Command{
 		Use:   "build",
 		Short: "build sheet",
 		Long:  "build sheet",
 		Run:   execute,
-	}
-	cmd.Flags().String(builds.FlagConfig, "", "config file path")
-	cmd.Flags().String(builds.FlagBom, "", "bom")
-	cmd.Flags().String(builds.FlagLineOfField, "", "line of field")
-	cmd.Flags().String(builds.FlagLineOfLayer, "", "line of layer")
-	cmd.Flags().String(builds.FlagLineOfNote, "", "line of note")
-	cmd.Flags().String(builds.FlagLineOfData, "", "line of data")
-	cmd.Flags().String(builds.FlagElements, "", "element lists(excel:sheet excel:sheet excel:sheet ...)")
-	return cmd
+	})
 }
 
 // execute 執行命令

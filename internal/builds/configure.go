@@ -10,60 +10,68 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-const FlagConfig = "config"           // 旗標名稱: 編譯設定檔案路徑
-const FlagBom = "bom"                 // 旗標名稱: 順序標記
-const FlagLineOfField = "lineOfField" // 旗標名稱: 欄位行號
-const FlagLineOfLayer = "lineOfLayer" // 旗標名稱: 階層行號
-const FlagLineOfNote = "lineOfNote"   // 旗標名稱: 註解行號
-const FlagLineOfData = "lineOfData"   // 旗標名稱: 資料行號
-const FlagElements = "elements"       // 旗標名稱: 項目列表
-const separateElement = ":"           // 項目字串以':'符號分割為檔案名稱與表單名稱
+const separateElement = ":" // 項目字串以':'符號分割為檔案名稱與表單名稱
 
 // NewConfig 建立編譯設定
 func NewConfig(cmd *cobra.Command) (config *Config, err error) {
+	flags := cmd.Flags()
 	config = &Config{}
 
-	if filepath, err := cmd.Flags().GetString(FlagConfig); err == nil {
-		bytes, err := os.ReadFile(filepath)
+	if flags.Changed(flagConfig) {
+		if filepath, err := flags.GetString(flagConfig); err == nil {
+			bytes, err := os.ReadFile(filepath)
 
-		if err != nil {
-			return nil, fmt.Errorf("new config failed, read config failed: %w", err)
-		} // if
-
-		if err = yaml.Unmarshal(bytes, config); err != nil {
-			return nil, fmt.Errorf("new config failed, read config failed: %w", err)
-		} // if
-	} // if
-
-	if bom, err := cmd.Flags().GetBool(FlagBom); err == nil {
-		config.Global.Bom = bom
-	} // if
-
-	if lineOfField, err := cmd.Flags().GetInt(FlagLineOfField); err == nil {
-		config.Global.LineOfField = lineOfField
-	} // if
-
-	if lineOfLayer, err := cmd.Flags().GetInt(FlagLineOfLayer); err == nil {
-		config.Global.LineOfLayer = lineOfLayer
-	} // if
-
-	if lineOfNote, err := cmd.Flags().GetInt(FlagLineOfNote); err == nil {
-		config.Global.LineOfNote = lineOfNote
-	} // if
-
-	if lineOfData, err := cmd.Flags().GetInt(FlagLineOfData); err == nil {
-		config.Global.LineOfData = lineOfData
-	} // if
-
-	if elements, err := cmd.Flags().GetStringSlice(FlagElements); err == nil {
-		for _, itor := range elements {
-			if before, after, ok := strings.Cut(itor, separateElement); ok {
-				config.Elements = append(config.Elements, Element{
-					Excel: before,
-					Sheet: after,
-				})
+			if err != nil {
+				return nil, fmt.Errorf("new config failed, read config failed: %w", err)
 			} // if
-		} // for
+
+			if err = yaml.Unmarshal(bytes, config); err != nil {
+				return nil, fmt.Errorf("new config failed, read config failed: %w", err)
+			} // if
+		} // if
+	} // if
+
+	if flags.Changed(flagBom) {
+		if bom, err := flags.GetBool(flagBom); err == nil {
+			config.Global.Bom = bom
+		} // if
+	} // if
+
+	if flags.Changed(flagLineOfField) {
+		if lineOfField, err := flags.GetInt(flagLineOfField); err == nil {
+			config.Global.LineOfField = lineOfField
+		} // if
+	} // if
+
+	if flags.Changed(flagLineOfLayer) {
+		if lineOfLayer, err := flags.GetInt(flagLineOfLayer); err == nil {
+			config.Global.LineOfLayer = lineOfLayer
+		} // if
+	} // if
+
+	if flags.Changed(flagLineOfNote) {
+		if lineOfNote, err := flags.GetInt(flagLineOfNote); err == nil {
+			config.Global.LineOfNote = lineOfNote
+		} // if
+	} // if
+
+	if flags.Changed(flagLineOfData) {
+		if lineOfData, err := flags.GetInt(flagLineOfData); err == nil {
+			config.Global.LineOfData = lineOfData
+		} // if
+	} // if
+
+	if flags.Changed(flagElements) {
+		if elements, err := flags.GetStringSlice(flagElements); err == nil {
+			for _, itor := range elements {
+				if before, after, ok := strings.Cut(itor, separateElement); ok {
+					config.Elements = append(config.Elements, Element{
+						Excel: before,
+						Sheet: after,
+					})
+				} // if
+			} // for
+		} // if
 	} // if
 
 	return config, nil
