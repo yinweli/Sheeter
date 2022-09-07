@@ -72,12 +72,23 @@ func (this *SuiteConfig) target() *Config {
 	return target
 }
 
-func (this *SuiteConfig) TestNewConfig() {
-	cmd := InitFlags(&cobra.Command{})
+func (this *SuiteConfig) TestInitializeFlags() {
+	cmd := InitializeFlags(&cobra.Command{})
+	assert.NotNil(this.T(), cmd)
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagConfig))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagBom))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfField))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfLayer))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfNote))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfData))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagElements))
+}
+
+func (this *SuiteConfig) TestInitialize() {
+	cmd := InitializeFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigNameReal))
-	config, err := NewConfig(cmd)
-	assert.NotNil(this.T(), config)
-	assert.Nil(this.T(), err)
+	config := Config{}
+	assert.Nil(this.T(), config.Initialize(cmd))
 	assert.Equal(this.T(), this.configFile.Global.Bom, config.Global.Bom)
 	assert.Equal(this.T(), this.configFile.Global.LineOfField, config.Global.LineOfField)
 	assert.Equal(this.T(), this.configFile.Global.LineOfLayer, config.Global.LineOfLayer)
@@ -85,16 +96,15 @@ func (this *SuiteConfig) TestNewConfig() {
 	assert.Equal(this.T(), this.configFile.Global.LineOfData, config.Global.LineOfData)
 	assert.Equal(this.T(), this.configFile.Elements, config.Elements)
 
-	cmd = InitFlags(&cobra.Command{})
+	cmd = InitializeFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagBom, strconv.FormatBool(this.configFlag.Global.Bom)))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfField, strconv.Itoa(this.configFlag.Global.LineOfField)))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfLayer, strconv.Itoa(this.configFlag.Global.LineOfLayer)))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfNote, strconv.Itoa(this.configFlag.Global.LineOfNote)))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfData, strconv.Itoa(this.configFlag.Global.LineOfData)))
 	assert.Nil(this.T(), cmd.Flags().Set(flagElements, this.elements))
-	config, err = NewConfig(cmd)
-	assert.NotNil(this.T(), config)
-	assert.Nil(this.T(), err)
+	config = Config{}
+	assert.Nil(this.T(), config.Initialize(cmd))
 	assert.Equal(this.T(), this.configFlag.Global.Bom, config.Global.Bom)
 	assert.Equal(this.T(), this.configFlag.Global.LineOfField, config.Global.LineOfField)
 	assert.Equal(this.T(), this.configFlag.Global.LineOfLayer, config.Global.LineOfLayer)
@@ -102,17 +112,15 @@ func (this *SuiteConfig) TestNewConfig() {
 	assert.Equal(this.T(), this.configFlag.Global.LineOfData, config.Global.LineOfData)
 	assert.Equal(this.T(), this.configFlag.Elements, config.Elements)
 
-	cmd = InitFlags(&cobra.Command{})
+	cmd = InitializeFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigNameFake))
-	config, err = NewConfig(cmd)
-	assert.Nil(this.T(), config)
-	assert.NotNil(this.T(), err)
+	config = Config{}
+	assert.NotNil(this.T(), config.Initialize(cmd))
 
-	cmd = InitFlags(&cobra.Command{})
+	cmd = InitializeFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.UnknownStr))
-	config, err = NewConfig(cmd)
-	assert.Nil(this.T(), config)
-	assert.NotNil(this.T(), err)
+	config = Config{}
+	assert.NotNil(this.T(), config.Initialize(cmd))
 }
 
 func (this *SuiteConfig) TestCheck() {

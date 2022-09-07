@@ -19,6 +19,8 @@ func TestWrite(t *testing.T) {
 type SuiteWrite struct {
 	suite.Suite
 	workDir      string
+	name         string
+	path         string
 	filePathReal string
 	filePathFake string
 	fileBytes    []byte
@@ -38,6 +40,8 @@ type SuiteWrite struct {
 
 func (this *SuiteWrite) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
+	this.name = "name"
+	this.path = filepath.Join("dir1", "dir2", "dir3", this.name+"."+"txt")
 	this.filePathReal = "file/test.file"
 	this.filePathFake = "?file/test.file"
 	this.fileBytes = []byte("this is a string")
@@ -63,6 +67,15 @@ func (this *SuiteWrite) TearDownSuite() {
 	_ = os.RemoveAll(filepath.Dir(this.jsonPathReal))
 	_ = os.RemoveAll(filepath.Dir(this.tmplPathReal))
 	testdata.RestoreWorkDir(this.workDir)
+}
+
+func (this *SuiteWrite) TestFileName() {
+	assert.Equal(this.T(), this.name, FileName(this.path))
+}
+
+func (this *SuiteWrite) TestExistFile() {
+	assert.True(this.T(), ExistFile(testdata.ConfigNameReal))
+	assert.False(this.T(), ExistFile(testdata.UnknownStr))
 }
 
 func (this *SuiteWrite) TestWriteFile() {
