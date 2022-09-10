@@ -1,6 +1,7 @@
 package builds
 
 import (
+	"strconv"
 	"testing"
 
 	"github.com/spf13/cobra"
@@ -16,27 +17,41 @@ func TestConfig(t *testing.T) {
 
 type SuiteConfig struct {
 	suite.Suite
-	workDir     string
-	bom         bool
-	lineOfField int
-	lineOfLayer int
-	lineOfNote  int
-	lineOfData  int
-	element     []Element
+	workDir    string
+	configFile Config
+	configFlag Config
+	elements   string
 }
 
 func (this *SuiteConfig) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.bom = true
-	this.lineOfField = 101
-	this.lineOfLayer = 102
-	this.lineOfNote = 103
-	this.lineOfData = 104
-	this.element = []Element{
-		{"excel3", "sheet"},
-		{"excel2", "sheet"},
-		{"excel1", "sheet"},
+	this.configFile = Config{
+		Global: Global{
+			Bom:         true,
+			LineOfField: 101,
+			LineOfLayer: 102,
+			LineOfNote:  103,
+			LineOfData:  104,
+		},
+		Elements: []Element{
+			{Excel: "excel1", Sheet: "sheet1"},
+			{Excel: "excel2", Sheet: "sheet2"},
+		},
 	}
+	this.configFlag = Config{
+		Global: Global{
+			Bom:         false,
+			LineOfField: 201,
+			LineOfLayer: 202,
+			LineOfNote:  203,
+			LineOfData:  204,
+		},
+		Elements: []Element{
+			{Excel: "excel3", Sheet: "sheet3"},
+			{Excel: "excel4", Sheet: "sheet4"},
+		},
+	}
+	this.elements = "excel3:sheet3,excel4:sheet4"
 }
 
 func (this *SuiteConfig) TearDownSuite() {
@@ -46,48 +61,66 @@ func (this *SuiteConfig) TearDownSuite() {
 func (this *SuiteConfig) target() *Config {
 	target := &Config{
 		Global: Global{
-			Bom:         this.bom,
-			LineOfField: this.lineOfField,
-			LineOfLayer: this.lineOfLayer,
-			LineOfNote:  this.lineOfNote,
-			LineOfData:  this.lineOfData,
+			Bom:         this.configFile.Global.Bom,
+			LineOfField: this.configFile.Global.LineOfField,
+			LineOfLayer: this.configFile.Global.LineOfLayer,
+			LineOfNote:  this.configFile.Global.LineOfNote,
+			LineOfData:  this.configFile.Global.LineOfData,
 		},
 	}
-	target.Elements = append(target.Elements, this.element...)
+	target.Elements = append(target.Elements, this.configFile.Elements...)
 	return target
 }
 
-func (this *SuiteConfig) cmd(filename string) *cobra.Command {
-	cmd := &cobra.Command{}
-	cmd.Flags().String(FlagConfig, filename, "")
-	cmd.Flags().Bool(FlagBom, this.bom, "")
-	cmd.Flags().Int(FlagLineOfField, this.lineOfField, "")
-	cmd.Flags().Int(FlagLineOfLayer, this.lineOfLayer, "")
-	cmd.Flags().Int(FlagLineOfNote, this.lineOfNote, "")
-	cmd.Flags().Int(FlagLineOfData, this.lineOfData, "")
-	cmd.Flags().StringSlice(FlagElements, []string{this.element[0].Excel + separateElement + this.element[0].Sheet}, "")
-	return cmd
+func (this *SuiteConfig) TestInitializeFlags() {
+	cmd := InitializeFlags(&cobra.Command{})
+	assert.NotNil(this.T(), cmd)
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagConfig))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagBom))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfField))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfLayer))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfNote))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfData))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagElements))
 }
 
-func (this *SuiteConfig) TestNewConfig() {
-	config, err := NewConfig(this.cmd(testdata.ConfigNameReal))
-	assert.NotNil(this.T(), config)
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), this.bom, config.Global.Bom)
-	assert.Equal(this.T(), this.lineOfField, config.Global.LineOfField)
-	assert.Equal(this.T(), this.lineOfLayer, config.Global.LineOfLayer)
-	assert.Equal(this.T(), this.lineOfNote, config.Global.LineOfNote)
-	assert.Equal(this.T(), this.lineOfData, config.Global.LineOfData)
-	assert.Equal(this.T(), this.element[0].Excel, config.Elements[0].Excel)
-	assert.Equal(this.T(), this.element[0].Sheet, config.Elements[0].Sheet)
+func (this *SuiteConfig) TestInitialize() {
+	cmd := InitializeFlags(&cobra.Command{})
+	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigNameReal))
+	config := Config{}
+	assert.Nil(this.T(), config.Initialize(cmd))
+	assert.Equal(this.T(), this.configFile.Global.Bom, config.Global.Bom)
+	assert.Equal(this.T(), this.configFile.Global.LineOfField, config.Global.LineOfField)
+	assert.Equal(this.T(), this.configFile.Global.LineOfLayer, config.Global.LineOfLayer)
+	assert.Equal(this.T(), this.configFile.Global.LineOfNote, config.Global.LineOfNote)
+	assert.Equal(this.T(), this.configFile.Global.LineOfData, config.Global.LineOfData)
+	assert.Equal(this.T(), this.configFile.Elements, config.Elements)
 
-	config, err = NewConfig(this.cmd(testdata.UnknownStr))
-	assert.Nil(this.T(), config)
-	assert.NotNil(this.T(), err)
+	cmd = InitializeFlags(&cobra.Command{})
+	assert.Nil(this.T(), cmd.Flags().Set(flagBom, strconv.FormatBool(this.configFlag.Global.Bom)))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfField, strconv.Itoa(this.configFlag.Global.LineOfField)))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfLayer, strconv.Itoa(this.configFlag.Global.LineOfLayer)))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfNote, strconv.Itoa(this.configFlag.Global.LineOfNote)))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfData, strconv.Itoa(this.configFlag.Global.LineOfData)))
+	assert.Nil(this.T(), cmd.Flags().Set(flagElements, this.elements))
+	config = Config{}
+	assert.Nil(this.T(), config.Initialize(cmd))
+	assert.Equal(this.T(), this.configFlag.Global.Bom, config.Global.Bom)
+	assert.Equal(this.T(), this.configFlag.Global.LineOfField, config.Global.LineOfField)
+	assert.Equal(this.T(), this.configFlag.Global.LineOfLayer, config.Global.LineOfLayer)
+	assert.Equal(this.T(), this.configFlag.Global.LineOfNote, config.Global.LineOfNote)
+	assert.Equal(this.T(), this.configFlag.Global.LineOfData, config.Global.LineOfData)
+	assert.Equal(this.T(), this.configFlag.Elements, config.Elements)
 
-	config, err = NewConfig(this.cmd(testdata.ConfigNameFake))
-	assert.Nil(this.T(), config)
-	assert.NotNil(this.T(), err)
+	cmd = InitializeFlags(&cobra.Command{})
+	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigNameFake))
+	config = Config{}
+	assert.NotNil(this.T(), config.Initialize(cmd))
+
+	cmd = InitializeFlags(&cobra.Command{})
+	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.UnknownStr))
+	config = Config{}
+	assert.NotNil(this.T(), config.Initialize(cmd))
 }
 
 func (this *SuiteConfig) TestCheck() {
@@ -129,21 +162,4 @@ func (this *SuiteConfig) TestCheck() {
 	target = this.target()
 	target.Elements[0].Sheet = ""
 	assert.NotNil(this.T(), target.Check())
-}
-
-func (this *SuiteConfig) TestToContents() {
-	target := this.target()
-	contents := target.ToContents()
-	assert.Equal(this.T(), this.bom, contents.Contents[0].Bom)
-	assert.Equal(this.T(), this.lineOfField, contents.Contents[0].LineOfField)
-	assert.Equal(this.T(), this.lineOfLayer, contents.Contents[0].LineOfLayer)
-	assert.Equal(this.T(), this.lineOfNote, contents.Contents[0].LineOfNote)
-	assert.Equal(this.T(), this.lineOfData, contents.Contents[0].LineOfData)
-	assert.Equal(this.T(), this.element[2].Excel, contents.Contents[0].Excel)
-	assert.Equal(this.T(), this.element[2].Sheet, contents.Contents[0].Sheet)
-	assert.Equal(this.T(), this.element[1].Excel, contents.Contents[1].Excel)
-	assert.Equal(this.T(), this.element[1].Sheet, contents.Contents[1].Sheet)
-	assert.Equal(this.T(), this.element[0].Excel, contents.Contents[2].Excel)
-	assert.Equal(this.T(), this.element[0].Sheet, contents.Contents[2].Sheet)
-	assert.Len(this.T(), contents.Contents, 3)
 }

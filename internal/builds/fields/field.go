@@ -52,7 +52,7 @@ func Parser(input string) (name string, field Field, err error) {
 		return "", nil, fmt.Errorf("%s: parser field failed, invalid format", input)
 	} // if
 
-	if util.VariableCheck(before) == false {
+	if util.NameCheck(before) == false {
 		return "", nil, fmt.Errorf("%s: parser field failed, invalid name", input)
 	} // if
 

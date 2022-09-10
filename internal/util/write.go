@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strings"
 	"text/template"
 )
 
@@ -15,9 +16,20 @@ const jsonIdent = "    " // json縮排字串
 
 var bomPrefix = []byte{0xEF, 0xBB, 0xBF} // bom前置資料
 
+// FileName 取得檔案名稱
+func FileName(path string) string {
+	return strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
+}
+
+// ExistFile 檔案是否存在
+func ExistFile(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil
+}
+
 // WriteFile 寫入檔案, 如果有需要會建立目錄
-func WriteFile(filePath string, datas []byte, bom bool) error {
-	if err := os.MkdirAll(filepath.Dir(filePath), os.ModePerm); err != nil {
+func WriteFile(path string, datas []byte, bom bool) error {
+	if err := os.MkdirAll(filepath.Dir(path), os.ModePerm); err != nil {
 		return fmt.Errorf("file write failed: %w", err)
 	} // if
 
@@ -25,7 +37,7 @@ func WriteFile(filePath string, datas []byte, bom bool) error {
 		datas = append(bomPrefix, datas...)
 	} // if
 
-	if err := os.WriteFile(filePath, datas, fs.ModePerm); err != nil {
+	if err := os.WriteFile(path, datas, fs.ModePerm); err != nil {
 		return fmt.Errorf("file write failed: %w", err)
 	} // if
 
@@ -33,14 +45,14 @@ func WriteFile(filePath string, datas []byte, bom bool) error {
 }
 
 // WriteJson 寫入json檔案, 如果有需要會建立目錄
-func WriteJson(filePath string, value any, bom bool) error {
+func WriteJson(path string, value any, bom bool) error {
 	datas, err := json.MarshalIndent(value, jsonPrefix, jsonIdent)
 
 	if err != nil {
 		return fmt.Errorf("json write failed: %w", err)
 	} // if
 
-	err = WriteFile(filePath, datas, bom)
+	err = WriteFile(path, datas, bom)
 
 	if err != nil {
 		return fmt.Errorf("json write failed: %w", err)
@@ -50,8 +62,8 @@ func WriteJson(filePath string, value any, bom bool) error {
 }
 
 // WriteTmpl 寫入模板檔案, 如果有需要會建立目錄
-func WriteTmpl(filePath, content string, refer any, bom bool) error {
-	tmpl, err := template.New(filePath).Parse(content)
+func WriteTmpl(path, content string, refer any, bom bool) error {
+	tmpl, err := template.New(path).Parse(content)
 
 	if err != nil {
 		return fmt.Errorf("tmpl write failed: %w", err)
@@ -64,7 +76,7 @@ func WriteTmpl(filePath, content string, refer any, bom bool) error {
 		return fmt.Errorf("tmpl write failed: %w", err)
 	} // if
 
-	err = WriteFile(filePath, buffer.Bytes(), bom)
+	err = WriteFile(path, buffer.Bytes(), bom)
 
 	if err != nil {
 		return fmt.Errorf("tmpl write failed: %w", err)

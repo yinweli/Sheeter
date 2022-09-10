@@ -6,9 +6,7 @@ global:
     lineOfData: 104
 
 elements:
-    - excel: excel3
-      sheet: sheet
-    - excel: excel2
-      sheet: sheet
     - excel: excel1
-      sheet: sheet
+      sheet: sheet1
+    - excel: excel2
+      sheet: sheet2

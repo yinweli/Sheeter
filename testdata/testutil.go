@@ -11,5 +11,5 @@ import (
 func CompareFile(t *testing.T, filepath string, expected []byte) {
 	actual, err := os.ReadFile(filepath)
 	assert.Nil(t, err)
-	assert.Equal(t, expected, actual)
+	assert.Equal(t, string(expected), string(actual))
 }

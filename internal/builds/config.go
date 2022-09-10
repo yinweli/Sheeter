@@ -8,68 +8,33 @@ import (
 
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
+
+	"github.com/yinweli/Sheeter/internal/util"
 )
 
-const FlagConfig = "config"           // 旗標名稱: 編譯設定檔案路徑
-const FlagBom = "bom"                 // 旗標名稱: 順序標記
-const FlagLineOfField = "lineOfField" // 旗標名稱: 欄位行號
-const FlagLineOfLayer = "lineOfLayer" // 旗標名稱: 階層行號
-const FlagLineOfNote = "lineOfNote"   // 旗標名稱: 註解行號
-const FlagLineOfData = "lineOfData"   // 旗標名稱: 資料行號
-const FlagElements = "elements"       // 旗標名稱: 項目列表
+const flagConfig = "config"           // 旗標名稱: 設定檔案路徑
+const flagBom = "bom"                 // 旗標名稱: 順序標記
+const flagLineOfField = "lineOfField" // 旗標名稱: 欄位行號
+const flagLineOfLayer = "lineOfLayer" // 旗標名稱: 階層行號
+const flagLineOfNote = "lineOfNote"   // 旗標名稱: 註解行號
+const flagLineOfData = "lineOfData"   // 旗標名稱: 資料行號
+const flagElements = "elements"       // 旗標名稱: 項目列表
 const separateElement = ":"           // 項目字串以':'符號分割為檔案名稱與表單名稱
 
-// NewConfig 建立編譯設定
-func NewConfig(cmd *cobra.Command) (config *Config, err error) {
-	config = &Config{}
-
-	if filepath, err := cmd.Flags().GetString(FlagConfig); err == nil {
-		bytes, err := os.ReadFile(filepath)
-
-		if err != nil {
-			return nil, fmt.Errorf("new config failed, read config failed: %w", err)
-		} // if
-
-		if err = yaml.Unmarshal(bytes, config); err != nil {
-			return nil, fmt.Errorf("new config failed, read config failed: %w", err)
-		} // if
-	} // if
-
-	if bom, err := cmd.Flags().GetBool(FlagBom); err == nil {
-		config.Global.Bom = bom
-	} // if
-
-	if lineOfField, err := cmd.Flags().GetInt(FlagLineOfField); err == nil {
-		config.Global.LineOfField = lineOfField
-	} // if
-
-	if lineOfLayer, err := cmd.Flags().GetInt(FlagLineOfLayer); err == nil {
-		config.Global.LineOfLayer = lineOfLayer
-	} // if
-
-	if lineOfNote, err := cmd.Flags().GetInt(FlagLineOfNote); err == nil {
-		config.Global.LineOfNote = lineOfNote
-	} // if
-
-	if lineOfData, err := cmd.Flags().GetInt(FlagLineOfData); err == nil {
-		config.Global.LineOfData = lineOfData
-	} // if
-
-	if elements, err := cmd.Flags().GetStringSlice(FlagElements); err == nil {
-		for _, itor := range elements {
-			if before, after, ok := strings.Cut(itor, separateElement); ok {
-				config.Elements = append(config.Elements, Element{
-					Excel: before,
-					Sheet: after,
-				})
-			} // if
-		} // for
-	} // if
-
-	return config, nil
+// InitializeFlags 初始化命令旗標
+func InitializeFlags(cmd *cobra.Command) *cobra.Command {
+	flags := cmd.Flags()
+	flags.String(flagConfig, "", "config file path")
+	flags.Bool(flagBom, false, "bom")
+	flags.Int(flagLineOfField, 0, "line of field")
+	flags.Int(flagLineOfLayer, 0, "line of layer")
+	flags.Int(flagLineOfNote, 0, "line of note")
+	flags.Int(flagLineOfData, 0, "line of data")
+	flags.StringSlice(flagElements, []string{}, "element lists(excel:sheet,excel:sheet,excel:sheet,...)")
+	return cmd
 }
 
-// Config 編譯設定
+// Config 設定資料
 type Config struct {
 	Global   Global    `yaml:"global"`   // 全域設定
 	Elements []Element `yaml:"elements"` // 項目設定列表
@@ -88,6 +53,77 @@ type Global struct {
 type Element struct {
 	Excel string `yaml:"excel"` // excel檔案名稱
 	Sheet string `yaml:"sheet"` // excel表單名稱
+}
+
+// Initialize 初始化設定
+func (this *Config) Initialize(cmd *cobra.Command) error {
+	flags := cmd.Flags()
+
+	if flags.Changed(flagConfig) {
+		if filepath, err := flags.GetString(flagConfig); err == nil {
+			datas, err := os.ReadFile(filepath)
+
+			if err != nil {
+				return fmt.Errorf("new config failed, read config failed: %w", err)
+			} // if
+
+			if err = yaml.Unmarshal(datas, this); err != nil {
+				return fmt.Errorf("new config failed, read config failed: %w", err)
+			} // if
+		} // if
+	} // if
+
+	if flags.Changed(flagBom) {
+		if bom, err := flags.GetBool(flagBom); err == nil {
+			this.Global.Bom = bom
+		} // if
+	} // if
+
+	if flags.Changed(flagLineOfField) {
+		if lineOfField, err := flags.GetInt(flagLineOfField); err == nil {
+			this.Global.LineOfField = lineOfField
+		} // if
+	} // if
+
+	if flags.Changed(flagLineOfLayer) {
+		if lineOfLayer, err := flags.GetInt(flagLineOfLayer); err == nil {
+			this.Global.LineOfLayer = lineOfLayer
+		} // if
+	} // if
+
+	if flags.Changed(flagLineOfNote) {
+		if lineOfNote, err := flags.GetInt(flagLineOfNote); err == nil {
+			this.Global.LineOfNote = lineOfNote
+		} // if
+	} // if
+
+	if flags.Changed(flagLineOfData) {
+		if lineOfData, err := flags.GetInt(flagLineOfData); err == nil {
+			this.Global.LineOfData = lineOfData
+		} // if
+	} // if
+
+	if flags.Changed(flagElements) {
+		if elements, err := flags.GetStringSlice(flagElements); err == nil {
+			for _, itor := range elements {
+				if before, after, ok := strings.Cut(itor, separateElement); ok {
+					this.Elements = append(this.Elements, Element{
+						Excel: before,
+						Sheet: after,
+					})
+				} // if
+			} // for
+		} // if
+	} // if
+
+	// 幫項目列表排序, 可以保證輸出的讀取器內容為有序的, 對於使用版本控制的專案, 會有幫助
+	sort.Slice(this.Elements, func(r, l int) bool {
+		rightName := this.Elements[r].Excel + separateElement + this.Elements[r].Sheet
+		leftName := this.Elements[l].Excel + separateElement + this.Elements[l].Sheet
+		return rightName < leftName
+	})
+
+	return nil
 }
 
 // Check 檢查設定
@@ -121,39 +157,14 @@ func (this *Config) Check() error {
 	} // if
 
 	for _, itor := range this.Elements {
-		if itor.Excel == "" {
-			return fmt.Errorf("config check failed, excel empty")
+		if util.NameCheck(util.FileName(itor.Excel)) == false {
+			return fmt.Errorf("config check failed, invalid excel name")
 		} // if
 
-		if itor.Sheet == "" {
-			return fmt.Errorf("config check failed, sheet empty")
+		if util.NameCheck(itor.Sheet) == false {
+			return fmt.Errorf("config check failed, invalid sheet name")
 		} // if
 	} // for
 
 	return nil
-}
-
-// ToContents 轉換成內容列表
-func (this *Config) ToContents() *Contents {
-	contents := &Contents{}
-
-	for _, itor := range this.Elements {
-		contents.Contents = append(contents.Contents, &Content{
-			Bom:         this.Global.Bom,
-			LineOfField: this.Global.LineOfField,
-			LineOfLayer: this.Global.LineOfLayer,
-			LineOfNote:  this.Global.LineOfNote,
-			LineOfData:  this.Global.LineOfData,
-			Excel:       itor.Excel,
-			Sheet:       itor.Sheet,
-		})
-	} // for
-
-	// 幫內容列表排序, 可以保證不管外面的輸入是否有序, 輸出時仍然有序
-	// 如此可以保證輸出的讀取器內容為有序的, 對於使用版本控制的專案, 會有幫助
-	sort.Slice(contents.Contents, func(i, j int) bool {
-		return contents.Contents[i].StructName() < contents.Contents[j].StructName()
-	})
-
-	return contents
 }
