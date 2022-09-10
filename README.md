@@ -29,11 +29,22 @@
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
   ```
 
-# 如何執行
-配置好yaml格式的設定檔與excel檔案, 然後在終端執行  
-```shell
-sheeter build --config 設定檔.yaml
-```
+# 命令說明
+* build: 建置json檔案與結構檔案  
+  配置好yaml格式的設定檔與excel檔案, 然後在終端執行  
+  ```shell
+  sheeter build --config 設定檔.yaml
+  ```
+* code: 產生模板檔案  
+  這會產生建置時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
+  執行建置命令時也會產生模板檔案  
+  ```shell
+  sheeter code
+  ```
+* version: 顯示版本資訊  
+  ```sheel
+  sheeter version
+  ```  
 
 # 如何寫設定檔
 ```yaml
@@ -117,6 +128,13 @@ elements:
 [example]
 
 # TODO
+* 建立cs, go測試者專案
+* 嘗試用自訂的方式來產生cs, go檔案
+* 可能要建立一個結構紀錄器
+* json產生方式仍然用現在的辦法
+* 用結構紀錄器應該可以產生 cs, go, proto, flat等檔案, 這樣就可以考慮使用sheeter當作通用的命名空間
+* jsonSchema檔案還是可以留下來
+* 這樣可能最後會擺脫對quicktype的依賴(但是c++/java還是會很痛苦)
 * 產生protobuffer message
 * 產生protobuffer bytes data
 * 產生protobuffer/cs code
