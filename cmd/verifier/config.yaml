@@ -1,0 +1,10 @@
+global:
+    bom: true
+    lineOfField: 1
+    lineOfLayer: 2
+    lineOfNote: 3
+    lineOfData: 4
+
+elements:
+    - excel: test.xlsx
+      sheet: Data

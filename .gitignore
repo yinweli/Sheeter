@@ -16,3 +16,8 @@
 
 # 自己的忽略目錄
 bin/
+
+# tester-cs
+cmd/verifier/verifiercs/.vs
+cmd/verifier/verifiercs/bin
+cmd/verifier/verifiercs/obj
