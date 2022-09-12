@@ -22,7 +22,7 @@ using Newtonsoft.Json;
 
 namespace {{$.Namespace}} {
     public partial class {{.ReaderName}} {
-        public static readonly string Json = "{{.FileJson}}";
+        public static readonly string Json = "{{.CodePath .FileJson}}";
 
         public static Dictionary<long, {{.StructName}}> FromJsonFile(string path) {
             return FromJson(File.ReadAllText(path));
@@ -53,7 +53,7 @@ import (
 
 type {{.ReaderName}} map[int64]{{.StructName}}
 
-var Json = "{{.FileJson}}"
+var Json = "{{.CodePath .FileJson}}"
 
 func FromJsonFile(path string) (reader {{.ReaderName}}, err error) {
 	data, err := os.ReadFile(path)

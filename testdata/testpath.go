@@ -11,7 +11,7 @@ func init() {
 
 	if ok == false {
 		panic("get testdata rootPath failed")
-	}
+	} // if
 
 	RootPath = filepath.Dir(file)
 }

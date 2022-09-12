@@ -89,7 +89,7 @@ namespace realdata {
         }
     }
 }
-`, filepath.Join("json", "realData.json")))
+`, filepath.ToSlash(filepath.Join("json", "realData.json"))))
 }
 
 func (this *SuiteSectorJsonCs) TearDownSuite() {
