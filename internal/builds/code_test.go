@@ -54,6 +54,16 @@ func (this *SuiteCode) TestInitialize() {
 	testdata.CompareFile(this.T(), this.jsonGoReader, []byte(jsonGoReader))
 }
 
+func (this *SuiteCode) TestClean() {
+	target := this.target()
+	assert.Nil(this.T(), target.Initialize())
+	assert.True(this.T(), util.ExistFile(this.jsonCsReader))
+	assert.True(this.T(), util.ExistFile(this.jsonGoReader))
+	target.Clean()
+	assert.False(this.T(), util.ExistFile(this.jsonCsReader))
+	assert.False(this.T(), util.ExistFile(this.jsonGoReader))
+}
+
 func (this *SuiteCode) TestLoad() {
 	target := this.target()
 

@@ -13,12 +13,14 @@ import (
 
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
-	return builds.InitializeFlags(&cobra.Command{
+	cmd := &cobra.Command{
 		Use:   "build",
 		Short: "build sheet",
 		Long:  "generate json, schema, struct code, reader code from excel & sheet",
 		Run:   execute,
-	})
+	}
+	builds.InitializeFlags(cmd)
+	return cmd
 }
 
 // execute 執行命令

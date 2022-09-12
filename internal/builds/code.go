@@ -115,6 +115,11 @@ func (this *Code) Initialize() (err error) {
 	return nil
 }
 
+// Clean 清理模板
+func (this *Code) Clean() {
+	_ = os.RemoveAll(internal.PathCode)
+}
+
 // load 讀取模板
 func (this *Code) load(name, preset string) (tmpl string, err error) {
 	path := filepath.Join(internal.PathCode, name)
