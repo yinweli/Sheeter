@@ -34,7 +34,7 @@ func SectorJsonCsCode(sector *Sector) error {
 
 // SectorJsonCsReader 輸出json-cs讀取器
 func SectorJsonCsReader(sector *Sector) error {
-	if err := util.WriteTmpl(sector.FileJsonCsReader(), sector.JsonCsReader, sector, sector.Bom); err != nil {
+	if err := util.WriteTmpl(sector.FileJsonCsReader(), sector.JsonCsReader, sector); err != nil {
 		return fmt.Errorf("entire json-cs reader failed: %w", err)
 	} // if
 

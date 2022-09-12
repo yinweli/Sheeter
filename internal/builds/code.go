@@ -106,7 +106,7 @@ func (this *Code) Initialize() (err error) {
 		return fmt.Errorf("%s: code load failed: %w", internal.FileCodeJsonCsReader, err)
 	} // if
 
-	if err = util.WriteFile(filepath.Join(internal.PathCode, internal.FileCodeJsonCsReader), []byte(this.JsonCsReader), false); err != nil {
+	if err = util.WriteFile(filepath.Join(internal.PathCode, internal.FileCodeJsonCsReader), []byte(this.JsonCsReader)); err != nil {
 		return fmt.Errorf("%s: code save failed: %w", internal.FileCodeJsonCsReader, err)
 	} // if
 
@@ -114,7 +114,7 @@ func (this *Code) Initialize() (err error) {
 		return fmt.Errorf("%s: code load failed: %w", internal.FileCodeJsonGoReader, err)
 	} // if
 
-	if err = util.WriteFile(filepath.Join(internal.PathCode, internal.FileCodeJsonGoReader), []byte(this.JsonGoReader), false); err != nil {
+	if err = util.WriteFile(filepath.Join(internal.PathCode, internal.FileCodeJsonGoReader), []byte(this.JsonGoReader)); err != nil {
 		return fmt.Errorf("%s: code save failed: %w", internal.FileCodeJsonGoReader, err)
 	} // if
 

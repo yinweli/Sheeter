@@ -14,8 +14,6 @@ import (
 const jsonPrefix = ""    // json前綴字串
 const jsonIdent = "    " // json縮排字串
 
-var bomPrefix = []byte{0xEF, 0xBB, 0xBF} // bom前置資料
-
 // FileName 取得檔案名稱
 func FileName(path string) string {
 	return strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
@@ -28,13 +26,9 @@ func ExistFile(path string) bool {
 }
 
 // WriteFile 寫入檔案, 如果有需要會建立目錄
-func WriteFile(path string, datas []byte, bom bool) error {
+func WriteFile(path string, datas []byte) error {
 	if err := os.MkdirAll(filepath.Dir(path), os.ModePerm); err != nil {
 		return fmt.Errorf("file write failed: %w", err)
-	} // if
-
-	if bom {
-		datas = append(bomPrefix, datas...)
 	} // if
 
 	if err := os.WriteFile(path, datas, fs.ModePerm); err != nil {
@@ -45,14 +39,14 @@ func WriteFile(path string, datas []byte, bom bool) error {
 }
 
 // WriteJson 寫入json檔案, 如果有需要會建立目錄
-func WriteJson(path string, value any, bom bool) error {
+func WriteJson(path string, value any) error {
 	datas, err := json.MarshalIndent(value, jsonPrefix, jsonIdent)
 
 	if err != nil {
 		return fmt.Errorf("json write failed: %w", err)
 	} // if
 
-	err = WriteFile(path, datas, bom)
+	err = WriteFile(path, datas)
 
 	if err != nil {
 		return fmt.Errorf("json write failed: %w", err)
@@ -62,7 +56,7 @@ func WriteJson(path string, value any, bom bool) error {
 }
 
 // WriteTmpl 寫入模板檔案, 如果有需要會建立目錄
-func WriteTmpl(path, content string, refer any, bom bool) error {
+func WriteTmpl(path, content string, refer any) error {
 	tmpl, err := template.New(path).Parse(content)
 
 	if err != nil {
@@ -76,7 +70,7 @@ func WriteTmpl(path, content string, refer any, bom bool) error {
 		return fmt.Errorf("tmpl write failed: %w", err)
 	} // if
 
-	err = WriteFile(path, buffer.Bytes(), bom)
+	err = WriteFile(path, buffer.Bytes())
 
 	if err != nil {
 		return fmt.Errorf("tmpl write failed: %w", err)

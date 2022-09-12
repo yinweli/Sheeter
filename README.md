@@ -49,7 +49,6 @@
 # 如何寫設定檔
 ```yaml
 global:
-  bom: true            # 輸出的檔案是否使用順序標記(BOM)
   lineOfField: 1       # 欄位行號(1為起始行)
   lineOfLayer: 2       # 階層行號(1為起始行)
   lineOfNote:  3       # 註解行號(1為起始行)
@@ -128,7 +127,6 @@ elements:
 [example]
 
 # TODO
-* 去除bom
 * 嘗試用自訂的方式來產生cs, go檔案
 * 可能要建立一個結構紀錄器
 * json產生方式仍然用現在的辦法
