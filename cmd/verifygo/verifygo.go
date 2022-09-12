@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"runtime"
 
-	verifydata "github.com/yinweli/Sheeter/cmd/verifier/json-go"
+	verifydata "github.com/yinweli/Sheeter/cmd/verifygo/json-go"
 )
 
 func main() {
@@ -16,7 +16,7 @@ func main() {
 		panic(fmt.Errorf("verify go: get root path failed"))
 	} // if
 
-	reader, err := verifydata.FromJsonFile(filepath.Join(filepath.Dir(root), "..", verifydata.Json))
+	reader, err := verifydata.FromJsonFile(filepath.Join(filepath.Dir(root), verifydata.Json))
 
 	if err != nil {
 		panic(fmt.Errorf("verify go: %w", err))

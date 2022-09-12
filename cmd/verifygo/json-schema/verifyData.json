@@ -1,0 +1,29 @@
+{
+    "Reward": {
+        "Item": [
+            {
+                "count": 0,
+                "itemID": 0,
+                "type": 0
+            },
+            {
+                "count": 0,
+                "itemID": 0,
+                "type": 0
+            },
+            {
+                "count": 0,
+                "itemID": 0,
+                "type": 0
+            }
+        ],
+        "atium": 0,
+        "crystal": 0,
+        "diamond": 0,
+        "felIron": 0,
+        "gold": 0
+    },
+    "enable": false,
+    "key": 0,
+    "name": ""
+}
