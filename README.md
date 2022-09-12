@@ -128,7 +128,6 @@ elements:
 [example]
 
 # TODO
-* 建立cs, go測試者專案
 * 去除bom
 * 嘗試用自訂的方式來產生cs, go檔案
 * 可能要建立一個結構紀錄器

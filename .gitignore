@@ -18,6 +18,7 @@
 bin/
 
 # tester-cs
-cmd/verifier/verifiercs/.vs
-cmd/verifier/verifiercs/bin
-cmd/verifier/verifiercs/obj
+cmd/verifier/.vs
+cmd/verifier/.bin
+cmd/verifier/.obj
+cmd/verifier/obj
