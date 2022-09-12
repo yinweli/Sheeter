@@ -1,4 +1,4 @@
-﻿{
+{
     "1": {
         "Reward": {
             "Item": [
@@ -26,7 +26,7 @@
         },
         "enable": true,
         "key": 1,
-        "name": "name1"
+        "name": "名稱1"
     },
     "2": {
         "Reward": {
@@ -55,7 +55,7 @@
         },
         "enable": true,
         "key": 2,
-        "name": "name2"
+        "name": "名稱2"
     },
     "3": {
         "Reward": {
@@ -84,7 +84,7 @@
         },
         "enable": false,
         "key": 3,
-        "name": "name3"
+        "name": "名稱3"
     },
     "4": {
         "Reward": {
@@ -113,6 +113,6 @@
         },
         "enable": false,
         "key": 4,
-        "name": "name4"
+        "name": "名稱4"
     }
 }

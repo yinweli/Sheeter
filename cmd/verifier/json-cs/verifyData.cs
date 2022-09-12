@@ -1,4 +1,4 @@
-namespace testdata
+namespace verifydata
 {
     using System;
     using System.Collections.Generic;

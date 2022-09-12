@@ -1,4 +1,4 @@
-package testdata
+package verifydata
 
 type Struct struct {
 	Reward Reward `json:"Reward"`
