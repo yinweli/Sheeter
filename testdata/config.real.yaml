@@ -1,5 +1,4 @@
 global:
-    bom: true
     lineOfField: 101
     lineOfLayer: 102
     lineOfNote: 103

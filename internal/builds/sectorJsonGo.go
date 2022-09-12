@@ -37,7 +37,7 @@ func SectorJsonGoCode(sector *Sector) error {
 
 // SectorJsonGoReader 輸出json-go讀取器
 func SectorJsonGoReader(sector *Sector) error {
-	if err := util.WriteTmpl(sector.FileJsonGoReader(), sector.JsonGoReader, sector, sector.Bom); err != nil {
+	if err := util.WriteTmpl(sector.FileJsonGoReader(), sector.JsonGoReader, sector); err != nil {
 		return fmt.Errorf("sector json-go reader failed: %w", err)
 	} // if
 

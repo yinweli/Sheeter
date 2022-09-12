@@ -33,7 +33,6 @@ func (this *SuiteSector) TearDownSuite() {
 func (this *SuiteSector) target() *Sector {
 	target := &Sector{
 		Global: Global{
-			Bom:         true,
 			LineOfField: 1,
 			LineOfLayer: 2,
 			LineOfNote:  3,

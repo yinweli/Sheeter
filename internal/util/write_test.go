@@ -24,18 +24,15 @@ type SuiteWrite struct {
 	filePathReal string
 	filePathFake string
 	fileBytes    []byte
-	fileBytesBom []byte
 	jsonPathReal string
 	jsonPathFake string
 	jsonDatas    map[string]string
 	jsonBytes    []byte
-	jsonBytesBom []byte
 	tmplPathReal string
 	tmplPathFake string
 	tmplContent  string
 	tmplDatas    map[string]string
 	tmplBytes    []byte
-	tmplBytesBom []byte
 }
 
 func (this *SuiteWrite) SetupSuite() {
@@ -45,21 +42,15 @@ func (this *SuiteWrite) SetupSuite() {
 	this.filePathReal = "file/test.file"
 	this.filePathFake = "?file/test.file"
 	this.fileBytes = []byte("this is a string")
-	this.fileBytesBom = bomPrefix
-	this.fileBytesBom = append(this.fileBytesBom, this.fileBytes...)
 	this.jsonPathReal = "json/test.json"
 	this.jsonPathFake = "?json/test.json"
 	this.jsonDatas = map[string]string{"data": "value"}
 	this.jsonBytes, _ = json.MarshalIndent(this.jsonDatas, jsonPrefix, jsonIdent)
-	this.jsonBytesBom = bomPrefix
-	this.jsonBytesBom = append(this.jsonBytesBom, this.jsonBytes...)
 	this.tmplPathReal = "tmpl/test.tmpl"
 	this.tmplPathFake = "?tmpl/test.tmpl"
 	this.tmplContent = "{{$.Value}}"
 	this.tmplDatas = map[string]string{"Value": "Value"}
 	this.tmplBytes = []byte("Value")
-	this.tmplBytesBom = bomPrefix
-	this.tmplBytesBom = append(this.tmplBytesBom, this.tmplBytes...)
 }
 
 func (this *SuiteWrite) TearDownSuite() {
@@ -79,43 +70,34 @@ func (this *SuiteWrite) TestExistFile() {
 }
 
 func (this *SuiteWrite) TestWriteFile() {
-	assert.Nil(this.T(), WriteFile(this.filePathReal, this.fileBytes, false))
+	assert.Nil(this.T(), WriteFile(this.filePathReal, this.fileBytes))
 	testdata.CompareFile(this.T(), this.filePathReal, this.fileBytes)
-
-	assert.Nil(this.T(), WriteFile(this.filePathReal, this.fileBytes, true))
-	testdata.CompareFile(this.T(), this.filePathReal, this.fileBytesBom)
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
-		assert.NotNil(this.T(), WriteFile(this.filePathFake, this.fileBytes, false))
+		assert.NotNil(this.T(), WriteFile(this.filePathFake, this.fileBytes))
 	} // if
 }
 
 func (this *SuiteWrite) TestWriteJson() {
-	assert.Nil(this.T(), WriteJson(this.jsonPathReal, this.jsonDatas, false))
+	assert.Nil(this.T(), WriteJson(this.jsonPathReal, this.jsonDatas))
 	testdata.CompareFile(this.T(), this.jsonPathReal, this.jsonBytes)
-
-	assert.Nil(this.T(), WriteJson(this.jsonPathReal, this.jsonDatas, true))
-	testdata.CompareFile(this.T(), this.jsonPathReal, this.jsonBytesBom)
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
-		assert.NotNil(this.T(), WriteJson(this.filePathFake, this.jsonDatas, false))
+		assert.NotNil(this.T(), WriteJson(this.filePathFake, this.jsonDatas))
 	} // if
 }
 
 func (this *SuiteWrite) TestWriteTmpl() {
-	assert.Nil(this.T(), WriteTmpl(this.tmplPathReal, this.tmplContent, this.tmplDatas, false))
+	assert.Nil(this.T(), WriteTmpl(this.tmplPathReal, this.tmplContent, this.tmplDatas))
 	testdata.CompareFile(this.T(), this.tmplPathReal, this.tmplBytes)
 
-	assert.Nil(this.T(), WriteTmpl(this.tmplPathReal, this.tmplContent, this.tmplDatas, true))
-	testdata.CompareFile(this.T(), this.tmplPathReal, this.tmplBytesBom)
-
-	assert.NotNil(this.T(), WriteTmpl(this.tmplPathReal, "{{{$.Value}}", nil, false))
-	assert.NotNil(this.T(), WriteTmpl(this.tmplPathReal, this.tmplContent, "nothing!", false))
+	assert.NotNil(this.T(), WriteTmpl(this.tmplPathReal, "{{{$.Value}}", nil))
+	assert.NotNil(this.T(), WriteTmpl(this.tmplPathReal, this.tmplContent, "nothing!"))
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
-		assert.NotNil(this.T(), WriteTmpl(this.tmplPathFake, this.tmplContent, this.tmplDatas, false))
+		assert.NotNil(this.T(), WriteTmpl(this.tmplPathFake, this.tmplContent, this.tmplDatas))
 	} // if
 }

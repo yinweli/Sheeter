@@ -13,7 +13,6 @@ import (
 )
 
 const flagConfig = "config"           // 旗標名稱: 設定檔案路徑
-const flagBom = "bom"                 // 旗標名稱: 順序標記
 const flagLineOfField = "lineOfField" // 旗標名稱: 欄位行號
 const flagLineOfLayer = "lineOfLayer" // 旗標名稱: 階層行號
 const flagLineOfNote = "lineOfNote"   // 旗標名稱: 註解行號
@@ -25,7 +24,6 @@ const separateElement = ":"           // 項目字串以':'符號分割為檔案
 func InitializeFlags(cmd *cobra.Command) *cobra.Command {
 	flags := cmd.Flags()
 	flags.String(flagConfig, "", "config file path")
-	flags.Bool(flagBom, false, "bom")
 	flags.Int(flagLineOfField, 0, "line of field")
 	flags.Int(flagLineOfLayer, 0, "line of layer")
 	flags.Int(flagLineOfNote, 0, "line of note")
@@ -42,11 +40,10 @@ type Config struct {
 
 // Global 全域設定
 type Global struct {
-	Bom         bool `yaml:"bom"`         // 輸出的檔案是否使用順序標記(BOM)
-	LineOfField int  `yaml:"lineOfField"` // 欄位行號(1為起始行)
-	LineOfLayer int  `yaml:"lineOfLayer"` // 階層行號(1為起始行)
-	LineOfNote  int  `yaml:"lineOfNote"`  // 註解行號(1為起始行)
-	LineOfData  int  `yaml:"lineOfData"`  // 資料行號(1為起始行)
+	LineOfField int `yaml:"lineOfField"` // 欄位行號(1為起始行)
+	LineOfLayer int `yaml:"lineOfLayer"` // 階層行號(1為起始行)
+	LineOfNote  int `yaml:"lineOfNote"`  // 註解行號(1為起始行)
+	LineOfData  int `yaml:"lineOfData"`  // 資料行號(1為起始行)
 }
 
 // Element 項目設定
@@ -70,12 +67,6 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 			if err = yaml.Unmarshal(datas, this); err != nil {
 				return fmt.Errorf("new config failed, read config failed: %w", err)
 			} // if
-		} // if
-	} // if
-
-	if flags.Changed(flagBom) {
-		if bom, err := flags.GetBool(flagBom); err == nil {
-			this.Global.Bom = bom
 		} // if
 	} // if
 

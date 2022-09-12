@@ -71,7 +71,7 @@ func (this *SuiteCode) TestLoad() {
 	assert.Equal(this.T(), this.filePreset, tmpl)
 	assert.Nil(this.T(), err)
 
-	assert.Nil(this.T(), util.WriteFile(filepath.Join(internal.PathCode, this.fileName), []byte(this.fileData), false))
+	assert.Nil(this.T(), util.WriteFile(filepath.Join(internal.PathCode, this.fileName), []byte(this.fileData)))
 	tmpl, err = target.load(this.fileName, this.filePreset)
 	assert.Equal(this.T(), this.fileData, tmpl)
 	assert.Nil(this.T(), err)
