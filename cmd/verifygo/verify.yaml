@@ -1,0 +1,10 @@
+global:
+    bom: false
+    lineOfField: 1
+    lineOfLayer: 2
+    lineOfNote: 3
+    lineOfData: 4
+
+elements:
+    - excel: verify.xlsx
+      sheet: Data

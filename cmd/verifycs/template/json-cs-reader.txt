@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace {{$.Namespace}} {
     public partial class {{.ReaderName}} {
-        public static readonly string Json = "{{.FileJson}}";
+        public static readonly string Json = "{{.CodePath .FileJson}}";
 
         public static Dictionary<long, {{.StructName}}> FromJsonFile(string path) {
             return FromJson(File.ReadAllText(path));
