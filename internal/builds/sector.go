@@ -197,6 +197,11 @@ func (this *Sector) FileJsonGoReader() string {
 	return filepath.Join(internal.PathJsonGo, name)
 }
 
+// CodePath 將路徑轉換為程式碼中可用的路徑字串
+func (this *Sector) CodePath(path string) string {
+	return filepath.ToSlash(path)
+}
+
 // params 組合名稱參數
 type params struct {
 	excelUpper bool   // excel名稱是否要首字大寫

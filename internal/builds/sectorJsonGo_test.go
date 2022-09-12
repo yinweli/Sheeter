@@ -50,6 +50,7 @@ package realdata
 import (
 	"encoding/json"
 	"os"
+	"strconv"
 )
 
 type Reader map[int64]Struct
@@ -63,7 +64,7 @@ func FromJsonFile(path string) (reader Reader, err error) {
 		return nil, err
 	}
 
-	return this.FromJsonBytes(data)
+	return FromJsonBytes(data)
 }
 
 func FromJsonBytes(data []byte) (reader Reader, err error) {
@@ -87,7 +88,7 @@ func FromJsonBytes(data []byte) (reader Reader, err error) {
 
 	return datas, nil
 }
-`, filepath.Join("json", "realData.json")))
+`, filepath.ToSlash(filepath.Join("json", "realData.json"))))
 }
 
 func (this *SuiteSectorJsonGo) TearDownSuite() {

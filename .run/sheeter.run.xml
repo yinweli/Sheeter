@@ -6,7 +6,7 @@
     <package value="C:\Work\Sheeter\cmd" />
     <directory value="$PROJECT_DIR$/cmd/sheeter" />
     <filePath value="$PROJECT_DIR$/cmd/sheeter.go" />
-    <output_directory value="$PROJECT_DIR$/bin" />
+    <output_directory value="$PROJECT_DIR$" />
     <method v="2" />
   </configuration>
 </component>

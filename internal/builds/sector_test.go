@@ -59,6 +59,7 @@ func (this *SuiteSector) TestName() {
 	assert.Equal(this.T(), filepath.Join(internal.PathJsonCs, "realDataReader.cs"), target.FileJsonCsReader())
 	assert.Equal(this.T(), filepath.Join(internal.PathJsonGo, "realData.go"), target.FileJsonGoCode())
 	assert.Equal(this.T(), filepath.Join(internal.PathJsonGo, "realDataReader.go"), target.FileJsonGoReader())
+	assert.Equal(this.T(), filepath.ToSlash(filepath.Join(internal.PathJson, "realData.json")), target.CodePath(target.FileJson()))
 }
 
 func (this *SuiteSector) TestCombine() {
