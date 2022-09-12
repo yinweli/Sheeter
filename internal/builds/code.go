@@ -48,6 +48,7 @@ package {{$.Namespace}}
 import (
 	"encoding/json"
 	"os"
+	"strconv"
 )
 
 type {{.ReaderName}} map[int64]{{.StructName}}
@@ -61,7 +62,7 @@ func FromJsonFile(path string) (reader {{.ReaderName}}, err error) {
 		return nil, err
 	}
 
-	return this.FromJsonBytes(data)
+	return FromJsonBytes(data)
 }
 
 func FromJsonBytes(data []byte) (reader {{.ReaderName}}, err error) {
