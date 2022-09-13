@@ -5,7 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/codes"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // SectorJsonGoCode 輸出json-go程式碼
@@ -24,11 +25,11 @@ func SectorJsonGoCode(sector *Sector) error {
 		"--just-types-and-package",
 	}
 
-	if err := util.ShellRun("quicktype", options...); err != nil {
+	if err := utils.ShellRun("quicktype", options...); err != nil {
 		return fmt.Errorf("sector json-go code failed, quicktype error: %w", err)
 	} // if
 
-	if err := util.ShellRun("gofmt", "-w", sector.FileJsonGoCode()); err != nil {
+	if err := utils.ShellRun("gofmt", "-w", sector.FileJsonGoCode()); err != nil {
 		return fmt.Errorf("sector json-go code failed, gofmt error: %w", err)
 	} // if
 
@@ -37,11 +38,11 @@ func SectorJsonGoCode(sector *Sector) error {
 
 // SectorJsonGoReader 輸出json-go讀取器
 func SectorJsonGoReader(sector *Sector) error {
-	if err := util.WriteTmpl(sector.FileJsonGoReader(), sector.JsonGoReader, sector); err != nil {
+	if err := utils.WriteTmpl(sector.FileJsonGoReader(), codes.JsonGoReader.Code, sector); err != nil {
 		return fmt.Errorf("sector json-go reader failed: %w", err)
 	} // if
 
-	if err := util.ShellRun("gofmt", "-w", sector.FileJsonGoReader()); err != nil {
+	if err := utils.ShellRun("gofmt", "-w", sector.FileJsonGoReader()); err != nil {
 		return fmt.Errorf("sector json-go reader failed, gofmt error: %w", err)
 	} // if
 

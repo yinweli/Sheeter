@@ -3,9 +3,9 @@ package layouts
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/internal/builds/fields"
-	"github.com/yinweli/Sheeter/internal/builds/layers"
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/fields"
+	"github.com/yinweli/Sheeter/internal/layers"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // NewBuilder 建立布局建造器
@@ -74,7 +74,7 @@ func (this *Builder) Pack(datas []string, preset bool) (packs map[string]interfa
 			continue
 		} // if
 
-		data := util.GetItem(datas, i)
+		data := utils.GetItem(datas, i)
 		value, err := itor.Field.ToJsonValue(data, preset)
 
 		if err != nil {

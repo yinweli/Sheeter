@@ -1,8 +1,6 @@
 package fields
 
-import (
-	"github.com/yinweli/Sheeter/internal/util"
-)
+import "github.com/yinweli/Sheeter/internal/utils"
 
 // TextArray 字串陣列
 type TextArray struct {
@@ -29,5 +27,5 @@ func (this *TextArray) ToJsonValue(input string, preset bool) (result interface{
 		return []string{}, nil
 	} // if
 
-	return util.StrToStrArray(input), nil
+	return utils.StrToStrArray(input), nil
 }

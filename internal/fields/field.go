@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // 實作新的欄位結構需要: 製作欄位結構, 實作欄位介面函式, 把結構加入到fields全域變數中
@@ -52,7 +52,7 @@ func Parser(input string) (name string, field Field, err error) {
 		return "", nil, fmt.Errorf("%s: parser field failed, invalid format", input)
 	} // if
 
-	if util.NameCheck(before) == false {
+	if utils.NameCheck(before) == false {
 		return "", nil, fmt.Errorf("%s: parser field failed, invalid name", input)
 	} // if
 

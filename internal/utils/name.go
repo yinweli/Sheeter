@@ -1,4 +1,4 @@
-package util
+package utils
 
 // NameCheck 名稱檢查
 func NameCheck(input string) bool {

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Layer 階層資料
@@ -32,7 +32,7 @@ func Parser(input string) (layers []Layer, back int, err error) {
 
 	for i, itor := range tokens {
 		if locate == false && strings.HasPrefix(itor, tokenArray) { // tokenArray要比tokenStruct先判斷, 不然會有錯誤
-			if name := strings.TrimPrefix(itor, tokenArray); util.NameCheck(name) {
+			if name := strings.TrimPrefix(itor, tokenArray); utils.NameCheck(name) {
 				layers = append(layers, Layer{
 					Name: name,
 					Type: LayerArray,
@@ -42,7 +42,7 @@ func Parser(input string) (layers []Layer, back int, err error) {
 		} // if
 
 		if locate == false && strings.HasPrefix(itor, tokenStruct) {
-			if name := strings.TrimPrefix(itor, tokenStruct); util.NameCheck(name) {
+			if name := strings.TrimPrefix(itor, tokenStruct); utils.NameCheck(name) {
 				layers = append(layers, Layer{
 					Name: name,
 					Type: LayerStruct,
@@ -61,7 +61,7 @@ func Parser(input string) (layers []Layer, back int, err error) {
 			} // if
 		} // if
 
-		if strings.HasPrefix(itor, tokenEnd) && util.AllSame(itor) {
+		if strings.HasPrefix(itor, tokenEnd) && utils.AllSame(itor) {
 			locate = true
 			back += len(itor)
 			continue

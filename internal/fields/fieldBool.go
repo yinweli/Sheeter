@@ -3,7 +3,7 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Bool 布林值
@@ -31,7 +31,7 @@ func (this *Bool) ToJsonValue(input string, preset bool) (result interface{}, er
 		return false, nil
 	} // if
 
-	result, err = util.StrToBool(input)
+	result, err = utils.StrToBool(input)
 
 	if err != nil {
 		return nil, fmt.Errorf("to json value failed: %w", err)

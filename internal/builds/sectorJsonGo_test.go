@@ -109,9 +109,7 @@ func (this *SuiteSectorJsonGo) target() *Sector {
 			Excel: testdata.ExcelNameReal,
 			Sheet: testdata.SheetName,
 		},
-		Code: &Code{},
 	}
-	_ = target.Code.Initialize()
 	return target
 }
 

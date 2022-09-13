@@ -3,7 +3,7 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Float 32位元浮點數
@@ -31,7 +31,7 @@ func (this *Float) ToJsonValue(input string, preset bool) (result interface{}, e
 		return float64(0), nil
 	} // if
 
-	result, err = util.StrToFloat(input)
+	result, err = utils.StrToFloat(input)
 
 	if err != nil {
 		return nil, fmt.Errorf("to json value failed: %w", err)
