@@ -8,13 +8,18 @@
 將以指定格式做好的excel轉換為json, 再利用[quicktype]轉換出程式碼  
 
 # 目錄說明
-| 目錄            | 說明        |
-|:----------------|:------------|
-| doc             | 說明文件    |
-| cmd/sheeter     | sheeter命令 |
-| internal/builds | 表格轉換    |
-| internal/util   | 協助組件    |
-| testdata        | 測試資料    |
+| 目錄                | 說明           |
+|:--------------------|:---------------|
+| doc                 | 說明文件       |
+| cmd/sheeter         | sheeter        |
+| cmd/sheeter/build   | 建置表格命令   |
+| cmd/sheeter/code    | 建置模板命令   |
+| cmd/sheeter/version | 顯示版本命令   |
+| cmd/verifycs        | cs程式碼驗證器 |
+| cmd/verifygo        | go程式碼驗證器 |
+| internal/builds     | 表格轉換       |
+| internal/util       | 協助組件       |
+| testdata            | 測試資料       |
 
 # 如何安裝
 * 安裝[go]
