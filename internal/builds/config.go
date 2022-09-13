@@ -3,7 +3,6 @@ package builds
 import (
 	"fmt"
 	"os"
-	"sort"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -87,13 +86,6 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 			} // for
 		} // if
 	} // if
-
-	// 幫項目列表排序, 可以保證輸出的讀取器內容為有序的, 對於使用版本控制的專案, 會有幫助
-	sort.Slice(this.Elements, func(r, l int) bool {
-		rightName := this.Elements[r].Excel + internal.SeparateElement + this.Elements[r].Sheet
-		leftName := this.Elements[l].Excel + internal.SeparateElement + this.Elements[l].Sheet
-		return rightName < leftName
-	})
 
 	return nil
 }
