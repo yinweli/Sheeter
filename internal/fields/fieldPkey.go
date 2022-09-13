@@ -3,7 +3,7 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Pkey 主要索引
@@ -31,7 +31,7 @@ func (this *Pkey) ToJsonValue(input string, preset bool) (result interface{}, er
 		return int64(0), nil
 	} // if
 
-	result, err = util.StrToInt(input)
+	result, err = utils.StrToInt(input)
 
 	if err != nil {
 		return nil, fmt.Errorf("to json value failed: %w", err)

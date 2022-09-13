@@ -4,118 +4,18 @@ import (
 	"fmt"
 	"path/filepath"
 	"strings"
-	"sync"
 
-	"github.com/vbauerster/mpb/v7"
-	"github.com/vbauerster/mpb/v7/decor"
 	"github.com/xuri/excelize/v2"
 
 	"github.com/yinweli/Sheeter/internal"
-	"github.com/yinweli/Sheeter/internal/builds/layouts"
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/layouts"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
-
-// BuildSector 區段建置
-func BuildSector(config *Config, code *Code) (errs []error) {
-	const tasks = 7 // 區段建置的工作數量
-
-	count := len(config.Elements)
-	errors := make(chan error, count) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
-	signaler := sync.WaitGroup{}
-	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(&signaler))
-
-	signaler.Add(count)
-
-	for _, itor := range config.Elements {
-		sector := &Sector{
-			Global:  config.Global,
-			Element: itor,
-			Code:    code,
-		}
-
-		go func() {
-			defer signaler.Done()
-			defer sector.Close()
-
-			bar := progress.AddBar(
-				tasks,
-				mpb.PrependDecorators(
-					decor.Name(fmt.Sprintf("%-20s", sector.StructName())),
-					decor.Percentage(decor.WCSyncSpace),
-				),
-				mpb.AppendDecorators(
-					decor.OnComplete(decor.Spinner(nil), "complete"),
-				),
-			)
-
-			if err := SectorInit(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJson(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJsonSchema(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJsonCsCode(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJsonCsReader(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJsonGoCode(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJsonGoReader(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-		}()
-	} // for
-
-	progress.Wait()
-	close(errors) // 先關閉結果通訊通道, 免得下面的for變成無限迴圈
-
-	for itor := range errors {
-		if itor != nil {
-			errs = append(errs, itor)
-		} // if
-	} // for
-
-	return errs
-}
 
 // Sector 區段資料
 type Sector struct {
 	Global                   // 全域設定
 	Element                  // 項目設定
-	*Code                    // 模板資料
 	excel   *excelize.File   // excel物件
 	builder *layouts.Builder // 布局建造器
 }
@@ -213,20 +113,20 @@ type params struct {
 
 // combine 取得組合名稱
 func (this *Sector) combine(params params) string {
-	excel := util.FileName(this.Excel)
+	excel := utils.FileName(this.Excel)
 
 	if params.excelUpper {
-		excel = util.FirstUpper(excel)
+		excel = utils.FirstUpper(excel)
 	} else {
-		excel = util.FirstLower(excel)
+		excel = utils.FirstLower(excel)
 	} // if
 
 	sheet := this.Sheet
 
 	if params.sheetUpper {
-		sheet = util.FirstUpper(sheet)
+		sheet = utils.FirstUpper(sheet)
 	} else {
-		sheet = util.FirstLower(sheet)
+		sheet = utils.FirstLower(sheet)
 	} // if
 
 	items := []string{excel, params.middle, sheet, params.last}

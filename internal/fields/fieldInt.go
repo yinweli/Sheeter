@@ -3,7 +3,7 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Int 32位元整數
@@ -31,7 +31,7 @@ func (this *Int) ToJsonValue(input string, preset bool) (result interface{}, err
 		return int64(0), nil
 	} // if
 
-	result, err = util.StrToInt(input)
+	result, err = utils.StrToInt(input)
 
 	if err != nil {
 		return nil, fmt.Errorf("to json value failed: %w", err)

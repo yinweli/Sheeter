@@ -5,35 +5,24 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/yinweli/Sheeter/internal/builds"
+	"github.com/yinweli/Sheeter/internal/codes"
 )
-
-const flagClean = "clean" // 旗標名稱: 清理模板
 
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "code",
 		Short: "code initialize",
-		Long:  "save code template file, user can edit this file to change generation code",
+		Long:  "code initialize, user can edit code file to change generation result",
 		Run:   execute,
 	}
-	cmd.Flags().BoolP(flagClean, "c", false, "clean code template file")
+	codes.SetFlags(cmd)
 	return cmd
 }
 
 // execute 執行命令
 func execute(cmd *cobra.Command, _ []string) {
-	code := builds.Code{}
-	flags := cmd.Flags()
-
-	if flags.Changed(flagClean) {
-		if clean, err := flags.GetBool(flagClean); err == nil && clean {
-			code.Clean()
-		} // if
-	} // if
-
-	if err := code.Initialize(); err != nil {
+	if err := codes.Initialize(cmd); err != nil {
 		cmd.Println(fmt.Errorf("code initialize failed: %w", err))
 		return
 	} // if

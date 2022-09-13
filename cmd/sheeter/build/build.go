@@ -8,7 +8,8 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/yinweli/Sheeter/internal/builds"
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/codes"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // NewCommand 建立命令物件
@@ -19,7 +20,7 @@ func NewCommand() *cobra.Command {
 		Long:  "generate json, schema, struct code, reader code from excel & sheet",
 		Run:   execute,
 	}
-	builds.InitializeFlags(cmd)
+	builds.SetFlags(cmd)
 	return cmd
 }
 
@@ -27,13 +28,18 @@ func NewCommand() *cobra.Command {
 func execute(cmd *cobra.Command, _ []string) {
 	startTime := time.Now()
 
-	if util.ShellExist("gofmt") == false {
+	if utils.ShellExist("gofmt") == false {
 		cmd.Println(fmt.Errorf("build failed, `gofmt` not installed"))
 		return
 	} // if
 
-	if util.ShellExist("quicktype") == false {
+	if utils.ShellExist("quicktype") == false {
 		cmd.Println(fmt.Errorf("build failed, `quicktype` not installed"))
+		return
+	} // if
+
+	if err := codes.Initialize(cmd); err != nil {
+		cmd.Println(fmt.Errorf("build failed, code initialize failed: %w", err))
 		return
 	} // if
 
@@ -49,14 +55,7 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // if
 
-	code := &builds.Code{}
-
-	if err := code.Initialize(); err != nil {
-		cmd.Println(fmt.Errorf("build failed, code initialize failed: %w", err))
-		return
-	} // if
-
-	if errs := builds.BuildSector(config, code); len(errs) > 0 {
+	if errs := builds.BuildSector(config); len(errs) > 0 {
 		for _, itor := range errs {
 			cmd.Println(itor)
 		} // for

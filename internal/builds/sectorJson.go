@@ -3,7 +3,7 @@ package builds
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // SectorJson 輸出json
@@ -33,7 +33,7 @@ func SectorJson(sector *Sector) error {
 		objs[pkey] = packs
 	} // for
 
-	if err = util.WriteJson(sector.FileJson(), objs); err != nil {
+	if err = utils.WriteJson(sector.FileJson(), objs); err != nil {
 		return fmt.Errorf("%s: sector json failed: %w", sector.StructName(), err)
 	} // if
 
@@ -48,7 +48,7 @@ func SectorJsonSchema(sector *Sector) error {
 		return fmt.Errorf("%s: sector json schema failed: %w", sector.StructName(), err)
 	} // if
 
-	if err = util.WriteJson(sector.FileJsonSchema(), packs); err != nil {
+	if err = utils.WriteJson(sector.FileJsonSchema(), packs); err != nil {
 		return fmt.Errorf("%s: sector json schema failed: %w", sector.StructName(), err)
 	} // if
 

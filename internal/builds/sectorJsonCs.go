@@ -5,7 +5,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/yinweli/Sheeter/internal/util"
+	"github.com/yinweli/Sheeter/internal/codes"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // SectorJsonCsCode 輸出json-cs程式碼
@@ -25,7 +26,7 @@ func SectorJsonCsCode(sector *Sector) error {
 		"--features", "attributes-only",
 	}
 
-	if err := util.ShellRun("quicktype", options...); err != nil {
+	if err := utils.ShellRun("quicktype", options...); err != nil {
 		return fmt.Errorf("sector json-cs code failed, quicktype error: %w", err)
 	} // if
 
@@ -34,7 +35,7 @@ func SectorJsonCsCode(sector *Sector) error {
 
 // SectorJsonCsReader 輸出json-cs讀取器
 func SectorJsonCsReader(sector *Sector) error {
-	if err := util.WriteTmpl(sector.FileJsonCsReader(), sector.JsonCsReader, sector); err != nil {
+	if err := utils.WriteTmpl(sector.FileJsonCsReader(), codes.JsonCsReader.Code, sector); err != nil {
 		return fmt.Errorf("entire json-cs reader failed: %w", err)
 	} // if
 
