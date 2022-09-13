@@ -9,11 +9,11 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestStacker(t *testing.T) {
-	suite.Run(t, new(SuiteStacker))
+func TestStructor(t *testing.T) {
+	suite.Run(t, new(SuiteStructor))
 }
 
-type SuiteStacker struct {
+type SuiteStructor struct {
 	suite.Suite
 	workDir string
 	name1   string
@@ -22,7 +22,7 @@ type SuiteStacker struct {
 	value2  string
 }
 
-func (this *SuiteStacker) SetupSuite() {
+func (this *SuiteStructor) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 	this.name1 = "name1"
 	this.name2 = "name2"
@@ -30,79 +30,79 @@ func (this *SuiteStacker) SetupSuite() {
 	this.value2 = "value2"
 }
 
-func (this *SuiteStacker) TearDownSuite() {
+func (this *SuiteStructor) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteStacker) target() *stacker {
-	return newStacker()
+func (this *SuiteStructor) target() *structor {
+	return newStructor()
 }
 
-func (this *SuiteStacker) TestNewStacker() {
-	assert.NotNil(this.T(), newStacker())
+func (this *SuiteStructor) TestNewStructor() {
+	assert.NotNil(this.T(), newStructor())
 }
 
-func (this *SuiteStacker) TestPushArray() {
+func (this *SuiteStructor) TestPushArray() {
 	target := this.target()
 
 	assert.True(this.T(), target.pushArray(this.name1))
-	assert.IsType(this.T(), &layoutArray{}, target.datas.Back().Value)
-	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Prev().Value)
+	assert.IsType(this.T(), &array_{}, target.datas.Back().Value)
+	assert.IsType(this.T(), struct_{}, target.datas.Back().Prev().Value)
 	assert.False(this.T(), target.pushArray(this.name2))
 }
 
-func (this *SuiteStacker) TestPushStructA() {
+func (this *SuiteStructor) TestPushStructA() {
 	target := this.target()
 
 	assert.True(this.T(), target.pushArray(this.name1))
 	assert.True(this.T(), target.pushStructA())
-	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
-	assert.IsType(this.T(), &layoutArray{}, target.datas.Back().Prev().Value)
-	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Prev().Prev().Value)
+	assert.IsType(this.T(), struct_{}, target.datas.Back().Value)
+	assert.IsType(this.T(), &array_{}, target.datas.Back().Prev().Value)
+	assert.IsType(this.T(), struct_{}, target.datas.Back().Prev().Prev().Value)
 	assert.False(this.T(), target.pushStructA())
 }
 
-func (this *SuiteStacker) TestPushStructS() {
+func (this *SuiteStructor) TestPushStructS() {
 	target := this.target()
 
 	assert.True(this.T(), target.pushStructS(this.name1))
 	assert.True(this.T(), target.pushStructS(this.name2))
-	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
-	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Prev().Value)
-	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Prev().Prev().Value)
+	assert.IsType(this.T(), struct_{}, target.datas.Back().Value)
+	assert.IsType(this.T(), struct_{}, target.datas.Back().Prev().Value)
+	assert.IsType(this.T(), struct_{}, target.datas.Back().Prev().Prev().Value)
 	assert.False(this.T(), target.pushStructA())
 }
 
-func (this *SuiteStacker) TestPushValue() {
+func (this *SuiteStructor) TestPushValue() {
 	target := this.target()
 
 	assert.True(this.T(), target.pushValue(this.name1, this.value1))
-	last, ok := target.datas.Back().Value.(layoutStruct)
+	last, ok := target.datas.Back().Value.(struct_)
 	assert.True(this.T(), ok)
 	assert.Equal(this.T(), this.value1, last[this.name1])
 	assert.True(this.T(), target.pushArray(this.name2))
 	assert.False(this.T(), target.pushValue(this.name2, this.value1))
 }
 
-func (this *SuiteStacker) TestPop() {
+func (this *SuiteStructor) TestPop() {
 	target := this.target()
 
 	assert.True(this.T(), target.pushArray(this.name1))
 	assert.True(this.T(), target.pushStructA())
-	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
+	assert.IsType(this.T(), struct_{}, target.datas.Back().Value)
 	target.pop(1, false)
-	assert.IsType(this.T(), &layoutArray{}, target.datas.Back().Value)
+	assert.IsType(this.T(), &array_{}, target.datas.Back().Value)
 	target.pop(1, false)
-	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
+	assert.IsType(this.T(), struct_{}, target.datas.Back().Value)
 
 	assert.True(this.T(), target.pushArray(this.name1))
 	assert.True(this.T(), target.pushStructA())
-	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
+	assert.IsType(this.T(), struct_{}, target.datas.Back().Value)
 	target.pop(1, true)
-	assert.IsType(this.T(), layoutStruct{}, target.datas.Back().Value)
+	assert.IsType(this.T(), struct_{}, target.datas.Back().Value)
 }
 
-func (this *SuiteStacker) TestClosure() {
+func (this *SuiteStructor) TestClosure() {
 	target := this.target()
 
 	assert.True(this.T(), target.pushArray(this.name1))
@@ -112,8 +112,8 @@ func (this *SuiteStacker) TestClosure() {
 	assert.True(this.T(), target.closure())
 }
 
-func (this *SuiteStacker) TestResult() {
+func (this *SuiteStructor) TestResult() {
 	target := this.target()
 
-	assert.IsType(this.T(), layoutStruct{}, target.result())
+	assert.IsType(this.T(), struct_{}, target.result())
 }

@@ -10,24 +10,24 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestConfig(t *testing.T) {
-	suite.Run(t, new(SuiteConfig))
+func TestFlag(t *testing.T) {
+	suite.Run(t, new(SuiteFlag))
 }
 
-type SuiteConfig struct {
+type SuiteFlag struct {
 	suite.Suite
 	workDir string
 }
 
-func (this *SuiteConfig) SetupSuite() {
+func (this *SuiteFlag) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 }
 
-func (this *SuiteConfig) TearDownSuite() {
+func (this *SuiteFlag) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteConfig) TestSetFlags() {
+func (this *SuiteFlag) TestSetFlags() {
 	cmd := SetFlags(&cobra.Command{})
 	assert.NotNil(this.T(), cmd)
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagClean))

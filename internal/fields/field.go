@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
@@ -42,11 +43,9 @@ var fields = []Field{
 	&TextArray{},
 }
 
-const separateField = "#" // 欄位字串以'#'符號分割為名稱與欄位
-
 // Parser 欄位解析, 格式為 name#field
 func Parser(input string) (name string, field Field, err error) {
-	before, after, ok := strings.Cut(input, separateField)
+	before, after, ok := strings.Cut(input, internal.SeparateField)
 
 	if ok == false {
 		return "", nil, fmt.Errorf("%s: parser field failed, invalid format", input)

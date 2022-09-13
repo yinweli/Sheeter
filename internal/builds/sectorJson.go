@@ -24,7 +24,7 @@ func SectorJson(sector *Sector) error {
 			break // 碰到空行就結束了
 		} // if
 
-		packs, pkey, err := sector.builder.Pack(datas, false)
+		packs, pkey, err := sector.layoutJson.Pack(datas, false)
 
 		if err != nil {
 			return fmt.Errorf("%s: sector json failed: %w", sector.StructName(), err)
@@ -42,7 +42,7 @@ func SectorJson(sector *Sector) error {
 
 // SectorJsonSchema 輸出json架構
 func SectorJsonSchema(sector *Sector) error {
-	packs, _, err := sector.builder.Pack([]string{}, true)
+	packs, _, err := sector.layoutJson.Pack([]string{}, true)
 
 	if err != nil {
 		return fmt.Errorf("%s: sector json schema failed: %w", sector.StructName(), err)

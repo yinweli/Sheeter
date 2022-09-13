@@ -36,13 +36,14 @@ func SectorInit(sector *Sector) error {
 		return fmt.Errorf("%s: sector init failed, layer line not found", sector.StructName())
 	} // if
 
-	noteLine, err := sector.GetColumns(sector.LineOfNote)
+	/* noteLine TODO: 等待要做layoutType時應該會用到 */
+	_, err = sector.GetColumns(sector.LineOfNote)
 
 	if err != nil {
 		return fmt.Errorf("%s: sector init failed, note line not found", sector.StructName())
 	} // if
 
-	builder := layouts.NewBuilder()
+	layoutJson := layouts.NewLayoutJson()
 
 	for col, itor := range fieldLine {
 		if itor == "" { // 一旦遇到空欄位, 就結束建立欄位列表
@@ -61,14 +62,14 @@ func SectorInit(sector *Sector) error {
 			return fmt.Errorf("%s: sector init failed: %w", sector.StructName(), err)
 		} // if
 
-		note := utils.GetItem(noteLine, col)
+		// note := utils.GetItem(noteLine, col) TODO: 等待要做layoutType時應該會用到
 
-		if err := builder.Add(name, note, field, layer, back); err != nil {
+		if err := layoutJson.Add(name, field, layer, back); err != nil {
 			return fmt.Errorf("%s: sector init failed: %w", sector.StructName(), err)
 		} // if
 	} // for
 
-	pkeyCount := builder.PkeyCount()
+	pkeyCount := layoutJson.PkeyCount()
 
 	if pkeyCount > 1 {
 		return fmt.Errorf("%s: sector init failed, pkey duplicate", sector.StructName())
@@ -78,7 +79,7 @@ func SectorInit(sector *Sector) error {
 		return fmt.Errorf("%s: sector init failed, pkey not found", sector.StructName())
 	} // if
 
-	sector.builder = builder
+	sector.layoutJson = layoutJson
 
 	return nil
 }

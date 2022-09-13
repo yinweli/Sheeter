@@ -9,10 +9,9 @@ import (
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
-
-const separateElement = ":" // 項目字串以':'符號分割為檔案名稱與表單名稱
 
 // Config 設定資料
 type Config struct {
@@ -79,7 +78,7 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 	if flags.Changed(flagElements) {
 		if elements, err := flags.GetStringSlice(flagElements); err == nil {
 			for _, itor := range elements {
-				if before, after, ok := strings.Cut(itor, separateElement); ok {
+				if before, after, ok := strings.Cut(itor, internal.SeparateElement); ok {
 					this.Elements = append(this.Elements, Element{
 						Excel: before,
 						Sheet: after,
@@ -91,8 +90,8 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 
 	// 幫項目列表排序, 可以保證輸出的讀取器內容為有序的, 對於使用版本控制的專案, 會有幫助
 	sort.Slice(this.Elements, func(r, l int) bool {
-		rightName := this.Elements[r].Excel + separateElement + this.Elements[r].Sheet
-		leftName := this.Elements[l].Excel + separateElement + this.Elements[l].Sheet
+		rightName := this.Elements[r].Excel + internal.SeparateElement + this.Elements[r].Sheet
+		leftName := this.Elements[l].Excel + internal.SeparateElement + this.Elements[l].Sheet
 		return rightName < leftName
 	})
 

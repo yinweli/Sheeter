@@ -4,28 +4,28 @@ import (
 	"container/list"
 )
 
-// newStacker 建立布局堆疊器
-func newStacker() *stacker {
-	stacker := &stacker{
+// newStructor 建立結構器
+func newStructor() *structor {
+	structor := &structor{
 		datas: list.New(),
 	}
-	stacker.datas.PushBack(layoutStruct{}) // 布局堆疊器從一個結構開始
-	return stacker
+	structor.datas.PushBack(struct_{}) // 結構器從一個結構開始
+	return structor
 }
 
-// stacker 布局堆疊器
-type stacker struct {
+// structor 結構器
+type structor struct {
 	datas *list.List // 資料列表
 }
 
-type layoutStruct = map[string]interface{} // 結構布局類型
-type layoutArray = []layoutStruct          // 陣列布局類型
+type struct_ = map[string]interface{} // 結構元素類型
+type array_ = []struct_               // 陣列元素類型
 
 // pushArray 新增陣列元素
-func (this *stacker) pushArray(name string) bool {
+func (this *structor) pushArray(name string) bool {
 	if last := this.datas.Back(); last != nil {
-		if layout, ok := last.Value.(layoutStruct); ok {
-			object := &layoutArray{}
+		if layout, ok := last.Value.(struct_); ok {
+			object := &array_{}
 			layout[name] = object
 			this.datas.PushBack(object)
 			return true
@@ -36,10 +36,10 @@ func (this *stacker) pushArray(name string) bool {
 }
 
 // pushStructA 新增結構元素到陣列中
-func (this *stacker) pushStructA() bool {
+func (this *structor) pushStructA() bool {
 	if last := this.datas.Back(); last != nil {
-		if layout, ok := last.Value.(*layoutArray); ok {
-			object := layoutStruct{}
+		if layout, ok := last.Value.(*array_); ok {
+			object := struct_{}
 			*layout = append(*layout, object)
 			last.Value = layout
 			this.datas.PushBack(object)
@@ -51,10 +51,10 @@ func (this *stacker) pushStructA() bool {
 }
 
 // pushStructS 新增結構元素到結構中
-func (this *stacker) pushStructS(name string) bool {
+func (this *structor) pushStructS(name string) bool {
 	if last := this.datas.Back(); last != nil {
-		if layout, ok := last.Value.(layoutStruct); ok {
-			object := layoutStruct{}
+		if layout, ok := last.Value.(struct_); ok {
+			object := struct_{}
 			layout[name] = object
 			this.datas.PushBack(object)
 			return true
@@ -65,9 +65,9 @@ func (this *stacker) pushStructS(name string) bool {
 }
 
 // pushValue 新增值元素
-func (this *stacker) pushValue(name string, value interface{}) bool {
+func (this *structor) pushValue(name string, value interface{}) bool {
 	if last := this.datas.Back(); last != nil {
-		if layout, ok := last.Value.(layoutStruct); ok {
+		if layout, ok := last.Value.(struct_); ok {
 			layout[name] = value
 			return true
 		} // if
@@ -77,7 +77,7 @@ func (this *stacker) pushValue(name string, value interface{}) bool {
 }
 
 // pop 移除元素
-func (this *stacker) pop(count int, removeArray bool) {
+func (this *structor) pop(count int, removeArray bool) {
 	for i := 0; i < count; i++ {
 		if last := this.datas.Back(); last != nil {
 			this.datas.Remove(last)
@@ -85,7 +85,7 @@ func (this *stacker) pop(count int, removeArray bool) {
 
 		if removeArray { // 如果移除元素後, 發現最後是陣列元素, 就多移除一次
 			if last := this.datas.Back(); last != nil {
-				if _, ok := last.Value.(*layoutArray); ok {
+				if _, ok := last.Value.(*array_); ok {
 					this.datas.Remove(last)
 				} // if
 			} // if
@@ -94,13 +94,13 @@ func (this *stacker) pop(count int, removeArray bool) {
 }
 
 // closure 取得是否閉合
-func (this *stacker) closure() bool {
+func (this *structor) closure() bool {
 	return this.datas.Len() == 1
 }
 
 // result 取得結果
-func (this *stacker) result() layoutStruct {
-	if result, ok := this.datas.Front().Value.(layoutStruct); ok {
+func (this *structor) result() struct_ {
+	if result, ok := this.datas.Front().Value.(struct_); ok {
 		return result
 	} // if
 

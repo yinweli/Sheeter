@@ -19,6 +19,6 @@ func SetFlags(cmd *cobra.Command) *cobra.Command {
 	flags.Int(flagLineOfLayer, 0, "line of layer")
 	flags.Int(flagLineOfNote, 0, "line of note")
 	flags.Int(flagLineOfData, 0, "line of data")
-	flags.StringSlice(flagElements, []string{}, "element lists(excel:sheet,excel:sheet,excel:sheet,...)")
+	flags.StringSlice(flagElements, []string{}, "element lists(excel#sheet,excel#sheet,excel#sheet,...)")
 	return cmd
 }

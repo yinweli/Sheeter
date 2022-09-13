@@ -49,7 +49,7 @@ func (this *SuiteConfig) SetupSuite() {
 			{Excel: "excel4", Sheet: "sheet4"},
 		},
 	}
-	this.elements = "excel3:sheet3,excel4:sheet4"
+	this.elements = "excel3#sheet3,excel4#sheet4"
 }
 
 func (this *SuiteConfig) TearDownSuite() {
@@ -67,17 +67,6 @@ func (this *SuiteConfig) target() *Config {
 	}
 	target.Elements = append(target.Elements, this.configFile.Elements...)
 	return target
-}
-
-func (this *SuiteConfig) TestSetFlags() {
-	cmd := SetFlags(&cobra.Command{})
-	assert.NotNil(this.T(), cmd)
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagConfig))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfField))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfLayer))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfNote))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfData))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagElements))
 }
 
 func (this *SuiteConfig) TestInitialize() {

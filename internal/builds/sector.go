@@ -112,10 +112,10 @@ func BuildSector(config *Config) (errs []error) {
 
 // Sector 區段資料
 type Sector struct {
-	Global                   // 全域設定
-	Element                  // 項目設定
-	excel   *excelize.File   // excel物件
-	builder *layouts.Builder // 布局建造器
+	Global                         // 全域設定
+	Element                        // 項目設定
+	excel      *excelize.File      // excel物件
+	layoutJson *layouts.LayoutJson // json布局器
 }
 
 // AppName 取得程式名稱
