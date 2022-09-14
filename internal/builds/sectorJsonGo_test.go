@@ -1,18 +1,6 @@
 package builds
 
-import (
-	"fmt"
-	"os"
-	"path/filepath"
-	"testing"
-
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/suite"
-
-	"github.com/yinweli/Sheeter/internal"
-	"github.com/yinweli/Sheeter/testdata"
-)
-
+/*
 func TestSectorJsonGo(t *testing.T) {
 	suite.Run(t, new(SuiteSectorJsonGo))
 }
@@ -130,3 +118,4 @@ func (this *SuiteSectorJsonGo) TestSectorJsonGoReader() {
 	testdata.CompareFile(this.T(), target.FileJsonGoReader(), this.reader)
 	target.Close()
 }
+*/

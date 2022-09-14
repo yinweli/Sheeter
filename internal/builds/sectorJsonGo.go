@@ -1,14 +1,6 @@
 package builds
 
-import (
-	"fmt"
-	"os"
-	"path/filepath"
-
-	"github.com/yinweli/Sheeter/internal/codes"
-	"github.com/yinweli/Sheeter/internal/utils"
-)
-
+/*
 // SectorJsonGoCode 輸出json-go程式碼
 func SectorJsonGoCode(sector *Sector) error {
 	if err := os.MkdirAll(filepath.Dir(sector.FileJsonGoCode()), os.ModePerm); err != nil {
@@ -48,3 +40,4 @@ func SectorJsonGoReader(sector *Sector) error {
 
 	return nil
 }
+*/

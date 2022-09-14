@@ -1,14 +1,6 @@
 package builds
 
-import (
-	"fmt"
-	"os"
-	"path/filepath"
-
-	"github.com/yinweli/Sheeter/internal/codes"
-	"github.com/yinweli/Sheeter/internal/utils"
-)
-
+/*
 // SectorJsonCsCode 輸出json-cs程式碼
 func SectorJsonCsCode(sector *Sector) error {
 	if err := os.MkdirAll(filepath.Dir(sector.FileJsonCsCode()), os.ModePerm); err != nil {
@@ -41,3 +33,4 @@ func SectorJsonCsReader(sector *Sector) error {
 
 	return nil
 }
+*/

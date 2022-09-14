@@ -11,6 +11,8 @@ const SeparateElement = "#" // 項目字串以'#'符號分割為檔案名稱與�
 /* 模板相關 */
 
 const PathCode = "template"                       // 輸出路徑: 程式碼模板
+const FileCodeJsonCsStruct = "json-cs-struct.txt" // 輸出檔名: json-cs結構模板
+const FileCodeJsonGoStruct = "json-go-struct.txt" // 輸出檔名: json-go結構模板
 const FileCodeJsonCsReader = "json-cs-reader.txt" // 輸出檔名: json-cs讀取器模板
 const FileCodeJsonGoReader = "json-go-reader.txt" // 輸出檔名: json-go讀取器模板
 

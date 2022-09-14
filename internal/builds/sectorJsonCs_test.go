@@ -1,18 +1,6 @@
 package builds
 
-import (
-	"fmt"
-	"os"
-	"path/filepath"
-	"testing"
-
-	"github.com/stretchr/testify/assert"
-	"github.com/stretchr/testify/suite"
-
-	"github.com/yinweli/Sheeter/internal"
-	"github.com/yinweli/Sheeter/testdata"
-)
-
+/*
 func TestSectorJsonCs(t *testing.T) {
 	suite.Run(t, new(SuiteSectorJsonCs))
 }
@@ -137,3 +125,4 @@ func (this *SuiteSectorJsonCs) TestSectorJsonCsReader() {
 	testdata.CompareFile(this.T(), target.FileJsonCsReader(), this.reader)
 	target.Close()
 }
+*/
