@@ -44,8 +44,8 @@ func (this *Named) ReaderName() string {
 func (this *Named) FileJson() string {
 	return this.combine(params{
 		sheetUpper: true,
-		path:       internal.PathJson,
 		ext:        internal.ExtJson,
+		path:       internal.PathJson,
 	})
 }
 
@@ -58,8 +58,8 @@ func (this *Named) FileJsonCode() string {
 func (this *Named) FileJsonSchema() string {
 	return this.combine(params{
 		sheetUpper: true,
-		path:       internal.PathJsonSchema,
 		ext:        internal.ExtJson,
+		path:       internal.PathJsonSchema,
 	})
 }
 
@@ -67,8 +67,8 @@ func (this *Named) FileJsonSchema() string {
 func (this *Named) FileJsonCsCode() string {
 	return this.combine(params{
 		sheetUpper: true,
-		path:       internal.PathJsonCs,
 		ext:        internal.ExtCs,
+		path:       internal.PathJsonCs,
 	})
 }
 
@@ -77,8 +77,8 @@ func (this *Named) FileJsonCsReader() string {
 	return this.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,
-		path:       internal.PathJsonCs,
 		ext:        internal.ExtCs,
+		path:       internal.PathJsonCs,
 	})
 }
 
@@ -86,8 +86,8 @@ func (this *Named) FileJsonCsReader() string {
 func (this *Named) FileJsonGoCode() string {
 	return this.combine(params{
 		sheetUpper: true,
-		path:       internal.PathJsonGo,
 		ext:        internal.ExtGo,
+		path:       internal.PathJsonGo,
 	})
 }
 
@@ -96,8 +96,8 @@ func (this *Named) FileJsonGoReader() string {
 	return this.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,
-		path:       internal.PathJsonGo,
 		ext:        internal.ExtGo,
+		path:       internal.PathJsonGo,
 	})
 }
 
@@ -106,8 +106,8 @@ type params struct {
 	excelUpper bool   // excel名稱是否要首字大寫
 	sheetUpper bool   // sheet名稱是否要首字大寫
 	last       string // excel與sheet的結尾字串
-	path       string // 路徑字串
 	ext        string // 副檔名
+	path       string // 路徑字串
 }
 
 // combine 取得組合名稱
