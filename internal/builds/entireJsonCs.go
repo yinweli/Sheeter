@@ -1,6 +1,6 @@
 package builds
 
-func EntireJsonCsCode(entire *Entire) error {
+func EntireJsonCsStruct(entire *Entire) error {
 	return nil
 }
 

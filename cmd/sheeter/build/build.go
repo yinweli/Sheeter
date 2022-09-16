@@ -190,7 +190,7 @@ func buildEntire(sectors []*builds.Sector) (entires []*builds.Entire, errs []err
 		go func() {
 			defer signaler.Done()
 
-			if err := builds.EntireJsonCsCode(entire); err != nil {
+			if err := builds.EntireJsonCsStruct(entire); err != nil {
 				errors <- err
 			} // if
 

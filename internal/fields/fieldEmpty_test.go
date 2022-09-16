@@ -30,16 +30,13 @@ func (this *SuiteEmpty) target() *Empty {
 	return &Empty{}
 }
 
-func (this *SuiteEmpty) TestType() {
-	assert.Equal(this.T(), "empty", this.target().Type())
-}
-
-func (this *SuiteEmpty) TestIsShow() {
-	assert.Equal(this.T(), false, this.target().IsShow())
-}
-
-func (this *SuiteEmpty) TestIsPkey() {
-	assert.Equal(this.T(), false, this.target().IsPkey())
+func (this *SuiteEmpty) TestField() {
+	target := this.target()
+	assert.Equal(this.T(), "empty", target.Type())
+	assert.Equal(this.T(), false, target.IsShow())
+	assert.Equal(this.T(), false, target.IsPkey())
+	assert.Equal(this.T(), "", target.ToTypeCs())
+	assert.Equal(this.T(), "", target.ToTypeGo())
 }
 
 func (this *SuiteEmpty) TestToJsonValue() {

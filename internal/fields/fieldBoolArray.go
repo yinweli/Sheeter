@@ -3,6 +3,7 @@ package fields
 import (
 	"fmt"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
@@ -23,6 +24,16 @@ func (this *BoolArray) IsShow() bool {
 // IsPkey 是否是主要索引
 func (this *BoolArray) IsPkey() bool {
 	return false
+}
+
+// ToTypeCs 取得cs類型字串
+func (this *BoolArray) ToTypeCs() string {
+	return internal.TokenBool + internal.TokenArray
+}
+
+// ToTypeGo 取得go類型字串
+func (this *BoolArray) ToTypeGo() string {
+	return internal.TokenArray + internal.TokenBool
 }
 
 // ToJsonValue 轉換為json值

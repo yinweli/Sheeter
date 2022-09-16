@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -30,16 +31,13 @@ func (this *SuiteTextArray) target() *TextArray {
 	return &TextArray{}
 }
 
-func (this *SuiteTextArray) TestType() {
-	assert.Equal(this.T(), "textArray", this.target().Type())
-}
-
-func (this *SuiteTextArray) TestIsShow() {
-	assert.Equal(this.T(), true, this.target().IsShow())
-}
-
-func (this *SuiteTextArray) TestIsPkey() {
-	assert.Equal(this.T(), false, this.target().IsPkey())
+func (this *SuiteTextArray) TestField() {
+	target := this.target()
+	assert.Equal(this.T(), "textArray", target.Type())
+	assert.Equal(this.T(), true, target.IsShow())
+	assert.Equal(this.T(), false, target.IsPkey())
+	assert.Equal(this.T(), internal.TokenString+internal.TokenArray, target.ToTypeCs())
+	assert.Equal(this.T(), internal.TokenArray+internal.TokenString, target.ToTypeGo())
 }
 
 func (this *SuiteTextArray) TestToJsonValue() {
