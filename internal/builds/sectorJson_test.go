@@ -136,12 +136,12 @@ func (this *SuiteSectorJson) TestSectorJson() {
 	target := this.target()
 	assert.Nil(this.T(), SectorInit(target))
 	assert.Nil(this.T(), SectorJson(target))
-	testdata.CompareFile(this.T(), target.FileJson(), this.json)
+	testdata.CompareFile(this.T(), target.named.FileJson(), this.json)
 	target.Close()
 
 	target = this.target()
-	assert.Nil(this.T(), SectorInit(target))
 	target.LineOfData = -1
+	assert.Nil(this.T(), SectorInit(target))
 	assert.NotNil(this.T(), SectorJson(target))
 	target.Close()
 
@@ -149,7 +149,7 @@ func (this *SuiteSectorJson) TestSectorJson() {
 	target.Excel = testdata.ExcelNameEmpty
 	assert.Nil(this.T(), SectorInit(target))
 	assert.Nil(this.T(), SectorJson(target))
-	testdata.CompareFile(this.T(), target.FileJson(), this.empty)
+	testdata.CompareFile(this.T(), target.named.FileJson(), this.empty)
 	target.Close()
 
 	target = this.target()
@@ -158,17 +158,17 @@ func (this *SuiteSectorJson) TestSectorJson() {
 	assert.NotNil(this.T(), SectorJson(target))
 	target.Close()
 
-	target = this.target()
-	assert.Nil(this.T(), SectorInit(target))
-	target.Sheet = testdata.UnknownStr
-	assert.NotNil(this.T(), SectorJson(target))
-	target.Close()
-
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
 		target = this.target()
 		assert.Nil(this.T(), SectorInit(target))
-		target.Excel = testdata.UnknownStr
+		target.named.Excel = testdata.UnknownStr
+		assert.NotNil(this.T(), SectorJson(target))
+		target.Close()
+
+		target = this.target()
+		assert.Nil(this.T(), SectorInit(target))
+		target.named.Sheet = testdata.UnknownStr
 		assert.NotNil(this.T(), SectorJson(target))
 		target.Close()
 	} // if
@@ -178,15 +178,20 @@ func (this *SuiteSectorJson) TestSectorJsonSchema() {
 	target := this.target()
 	assert.Nil(this.T(), SectorInit(target))
 	assert.Nil(this.T(), SectorJsonSchema(target))
-	testdata.CompareFile(this.T(), target.FileJsonSchema(), this.schema)
+	testdata.CompareFile(this.T(), target.named.FileJsonSchema(), this.schema)
 	target.Close()
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
 		target = this.target()
 		assert.Nil(this.T(), SectorInit(target))
-		target.Excel = testdata.UnknownStr
-		target.Sheet = testdata.UnknownStr
+		target.named.Excel = testdata.UnknownStr
+		assert.NotNil(this.T(), SectorJsonSchema(target))
+		target.Close()
+
+		target = this.target()
+		assert.Nil(this.T(), SectorInit(target))
+		target.named.Sheet = testdata.UnknownStr
 		assert.NotNil(this.T(), SectorJsonSchema(target))
 		target.Close()
 	} // if

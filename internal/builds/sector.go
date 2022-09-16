@@ -2,61 +2,21 @@ package builds
 
 import (
 	"fmt"
-	"path/filepath"
-	"strings"
 
 	"github.com/xuri/excelize/v2"
 
-	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/layouts"
-	"github.com/yinweli/Sheeter/internal/utils"
+	"github.com/yinweli/Sheeter/internal/names"
 )
 
 // Sector 區段資料
 type Sector struct {
 	Global                         // 全域設定
 	Element                        // 項目設定
+	named      *names.Named        // 命名工具
 	excel      *excelize.File      // excel物件
 	layoutJson *layouts.LayoutJson // json布局器
 	layoutType *layouts.LayoutType // 類型布局器
-}
-
-// StructName 取得結構名稱
-func (this *Sector) StructName() string {
-	name := this.combine(params{
-		excelUpper: true,
-		sheetUpper: true,
-	})
-	return name
-}
-
-// ReaderName 取得讀取器名稱
-func (this *Sector) ReaderName() string {
-	name := this.combine(params{
-		excelUpper: true,
-		sheetUpper: true,
-		last:       internal.Reader,
-	})
-	return name
-}
-
-// FileJson 取得json檔名路徑
-func (this *Sector) FileJson() string {
-	name := this.combine(params{
-		sheetUpper: true,
-		ext:        internal.ExtJson,
-	})
-	path := filepath.Join(internal.PathJson, name)
-	return path
-}
-
-// FileJsonSchema 取得json架構檔名路徑
-func (this *Sector) FileJsonSchema() string {
-	name := this.combine(params{
-		sheetUpper: true,
-		ext:        internal.ExtJson,
-	})
-	return filepath.Join(internal.PathJsonSchema, name)
 }
 
 // Close 關閉excel物件
@@ -116,41 +76,6 @@ func (this *Sector) GetColumns(line int) (cols []string, err error) {
 	} // if
 
 	return cols, nil
-}
-
-// params 組合名稱參數
-type params struct {
-	excelUpper bool   // excel名稱是否要首字大寫
-	sheetUpper bool   // sheet名稱是否要首字大寫
-	last       string // excel與sheet的結尾字串
-	ext        string // 副檔名
-}
-
-// combine 取得組合名稱
-func (this *Sector) combine(params params) string {
-	excel := utils.FileName(this.Excel)
-
-	if params.excelUpper {
-		excel = utils.FirstUpper(excel)
-	} else {
-		excel = utils.FirstLower(excel)
-	} // if
-
-	sheet := this.Sheet
-
-	if params.sheetUpper {
-		sheet = utils.FirstUpper(sheet)
-	} else {
-		sheet = utils.FirstLower(sheet)
-	} // if
-
-	items := []string{excel, sheet, params.last}
-
-	if params.ext != "" {
-		items = append(items, ".", params.ext)
-	} // if
-
-	return strings.Join(items, "")
 }
 
 // MergeSectorLayoutType 合併區段資料的類型布局器

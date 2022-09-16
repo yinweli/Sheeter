@@ -24,8 +24,6 @@ type SuiteLayoutType struct {
 	typeB      string
 	typeC      string
 	typeD      string
-	reader     string
-	fileJson   string
 	field1     *Field
 	field2     *Field
 	fieldName  string
@@ -41,8 +39,6 @@ func (this *SuiteLayoutType) SetupSuite() {
 	this.typeB = "typeB"
 	this.typeC = "typeC"
 	this.typeD = "typeD"
-	this.reader = "reader"
-	this.fileJson = "fileJson"
 	this.field1 = &Field{
 		Name:  "name1",
 		Note:  "note1",
@@ -76,24 +72,24 @@ func (this *SuiteLayoutType) TestNewLayoutType() {
 
 func (this *SuiteLayoutType) TestBegin() {
 	target := this.target()
-	assert.Nil(this.T(), target.Begin(this.type1, this.reader, this.fileJson))
-	assert.NotNil(this.T(), target.Begin(this.type2, this.reader, this.fileJson))
+	assert.Nil(this.T(), target.Begin(this.type1, nil))
+	assert.NotNil(this.T(), target.Begin(this.type2, nil))
 }
 
 func (this *SuiteLayoutType) TestEnd() {
 	target := this.target()
-	assert.Nil(this.T(), target.Begin(this.type1, this.reader, this.fileJson))
+	assert.Nil(this.T(), target.Begin(this.type1, nil))
 	assert.Nil(this.T(), target.End())
 	assert.NotNil(this.T(), target.End())
 }
 
 func (this *SuiteLayoutType) TestAdd() {
 	target := this.target()
-	assert.Nil(this.T(), target.Begin(this.type1, this.reader, this.fileJson))
+	assert.Nil(this.T(), target.Begin(this.type1, nil))
 	assert.Nil(this.T(), target.Add(this.fieldName, this.fieldNote, this.fieldField, []layers.Layer{{Name: this.typeA, Type: layers.LayerArray}, {Name: this.typeB, Type: layers.LayerStruct}}, 2))
 
 	target = this.target()
-	assert.Nil(this.T(), target.Begin(this.type1, this.reader, this.fileJson))
+	assert.Nil(this.T(), target.Begin(this.type1, nil))
 	assert.NotNil(this.T(), target.Add(this.fieldName, this.fieldNote, this.fieldField, []layers.Layer{{Name: this.type1, Type: layers.LayerArray}}, 0))
 
 	target = this.target()
@@ -103,13 +99,13 @@ func (this *SuiteLayoutType) TestAdd() {
 	assert.NotNil(this.T(), target.Add(this.fieldName, this.fieldNote, this.fieldField, nil, 0))
 
 	target = this.target()
-	assert.Nil(this.T(), target.Begin(this.type1, this.reader, this.fileJson))
+	assert.Nil(this.T(), target.Begin(this.type1, nil))
 	assert.NotNil(this.T(), target.Add(this.fieldName, this.fieldNote, this.fieldField, nil, 2))
 }
 
 func (this *SuiteLayoutType) TestMerge() {
 	source1 := this.target()
-	assert.Nil(this.T(), source1.Begin(this.type1, this.reader, this.fileJson))
+	assert.Nil(this.T(), source1.Begin(this.type1, nil))
 	assert.Nil(this.T(), source1.Add("name1", this.fieldNote, this.fieldField, []layers.Layer{{Name: this.typeA, Type: layers.LayerStruct}}, 1))
 	assert.Nil(this.T(), source1.Add("name2", this.fieldNote, this.fieldField, nil, 0))
 	assert.Nil(this.T(), source1.Add("name3", this.fieldNote, this.fieldField, []layers.Layer{{Name: this.typeB, Type: layers.LayerStruct}}, 1))
@@ -118,7 +114,7 @@ func (this *SuiteLayoutType) TestMerge() {
 	assert.Nil(this.T(), source1.Add("name6", this.fieldNote, this.fieldField, nil, 0))
 	assert.Nil(this.T(), source1.End())
 	source2 := this.target()
-	assert.Nil(this.T(), source2.Begin(this.type2, this.reader, this.fileJson))
+	assert.Nil(this.T(), source2.Begin(this.type2, nil))
 	assert.Nil(this.T(), source2.Add("name1", this.fieldNote, this.fieldField, nil, 0))
 	assert.Nil(this.T(), source2.Add("name2", this.fieldNote, this.fieldField, []layers.Layer{{Name: this.typeA, Type: layers.LayerStruct}}, 1))
 	assert.Nil(this.T(), source2.Add("name3", this.fieldNote, this.fieldField, nil, 0))
@@ -138,25 +134,23 @@ func (this *SuiteLayoutType) TestMerge() {
 	assert.Equal(this.T(), []string{"name6"}, target.FieldNames(this.typeD))
 
 	failed := this.target()
-	assert.Nil(this.T(), failed.Begin(this.type1, this.reader, this.fileJson))
+	assert.Nil(this.T(), failed.Begin(this.type1, nil))
 	target = this.target()
 	assert.NotNil(this.T(), target.Merge(failed))
 
 	target = this.target()
-	assert.Nil(this.T(), target.Begin(this.type1, this.reader, this.fileJson))
+	assert.Nil(this.T(), target.Begin(this.type1, nil))
 	assert.NotNil(this.T(), target.Merge(this.target()))
 }
 
 func (this *SuiteLayoutType) TestTypes() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, this.reader, this.fileJson))
+	assert.True(this.T(), target.pushType(this.type1, nil))
 	assert.True(this.T(), target.pushField(this.field1.Name, this.field1.Note, this.field1.Field, this.field1.Alter, this.field1.Array))
 	assert.True(this.T(), target.pushField(this.field2.Name, this.field2.Note, this.field2.Field, this.field2.Alter, this.field2.Array))
 	type_ := target.Types(this.type1)
 	assert.NotNil(this.T(), type_)
-	assert.Equal(this.T(), this.type1, type_.StructName)
-	assert.Equal(this.T(), this.reader, type_.ReaderName)
-	assert.Equal(this.T(), this.fileJson, type_.FileJson)
+	assert.Nil(this.T(), type_.Named)
 	assert.Equal(this.T(), []*Field{this.field1, this.field2}, type_.Field)
 
 	target = this.target()
@@ -165,14 +159,14 @@ func (this *SuiteLayoutType) TestTypes() {
 
 func (this *SuiteLayoutType) TestTypeNames() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, this.reader, this.fileJson))
-	assert.True(this.T(), target.pushType(this.type2, this.reader, this.fileJson))
+	assert.True(this.T(), target.pushType(this.type1, nil))
+	assert.True(this.T(), target.pushType(this.type2, nil))
 	assert.Equal(this.T(), []string{this.type1, this.type2}, target.TypeNames())
 }
 
 func (this *SuiteLayoutType) TestFieldNames() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, this.reader, this.fileJson))
+	assert.True(this.T(), target.pushType(this.type1, nil))
 	assert.True(this.T(), target.pushField(this.field1.Name, this.field1.Note, this.field1.Field, this.field1.Alter, this.field1.Array))
 	assert.True(this.T(), target.pushField(this.field2.Name, this.field2.Note, this.field2.Field, this.field2.Alter, this.field2.Array))
 	assert.Equal(this.T(), []string{this.field1.Name, this.field2.Name}, target.FieldNames(this.type1))
@@ -181,19 +175,19 @@ func (this *SuiteLayoutType) TestFieldNames() {
 func (this *SuiteLayoutType) TestClosure() {
 	target := this.target()
 	assert.True(this.T(), target.Closure())
-	assert.True(this.T(), target.pushType(this.type1, this.reader, this.fileJson))
+	assert.True(this.T(), target.pushType(this.type1, nil))
 	assert.False(this.T(), target.Closure())
 }
 
 func (this *SuiteLayoutType) TestPushType() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, this.reader, this.fileJson))
-	assert.False(this.T(), target.pushType(this.type1, this.reader, this.fileJson))
+	assert.True(this.T(), target.pushType(this.type1, nil))
+	assert.False(this.T(), target.pushType(this.type1, nil))
 }
 
 func (this *SuiteLayoutType) TestPushField() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, this.reader, this.fileJson))
+	assert.True(this.T(), target.pushType(this.type1, nil))
 	assert.True(this.T(), target.pushField(this.field1.Name, this.field1.Note, this.field1.Field, this.field1.Alter, this.field1.Array))
 
 	target = this.target()
@@ -206,8 +200,8 @@ func (this *SuiteLayoutType) TestPushField() {
 
 func (this *SuiteLayoutType) TestPop() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, this.reader, this.fileJson))
-	assert.True(this.T(), target.pushType(this.type2, this.reader, this.fileJson))
+	assert.True(this.T(), target.pushType(this.type1, nil))
+	assert.True(this.T(), target.pushType(this.type2, nil))
 	assert.True(this.T(), target.pop(2))
 	assert.False(this.T(), target.pop(1))
 }
