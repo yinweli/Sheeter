@@ -1,5 +1,9 @@
 package fields
 
+import (
+	"github.com/yinweli/Sheeter/internal"
+)
+
 // Text 字串
 type Text struct {
 }
@@ -17,6 +21,16 @@ func (this *Text) IsShow() bool {
 // IsPkey 是否是主要索引
 func (this *Text) IsPkey() bool {
 	return false
+}
+
+// ToTypeCs 取得cs類型字串
+func (this *Text) ToTypeCs() string {
+	return internal.TokenString
+}
+
+// ToTypeGo 取得go類型字串
+func (this *Text) ToTypeGo() string {
+	return internal.TokenString
 }
 
 // ToJsonValue 轉換為json值

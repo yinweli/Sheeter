@@ -11,7 +11,7 @@ func SectorJson(sector *Sector) error {
 	rows, err := sector.GetRows(sector.LineOfData)
 
 	if err != nil {
-		return fmt.Errorf("%s: sector json failed, data line not found", sector.StructName())
+		return fmt.Errorf("%s: sector json failed, data line not found", sector.named.StructName())
 	} // if
 
 	defer func() { _ = rows.Close() }()
@@ -27,14 +27,14 @@ func SectorJson(sector *Sector) error {
 		packs, pkey, err := sector.layoutJson.Pack(datas, false)
 
 		if err != nil {
-			return fmt.Errorf("%s: sector json failed: %w", sector.StructName(), err)
+			return fmt.Errorf("%s: sector json failed: %w", sector.named.StructName(), err)
 		} // if
 
 		objs[pkey] = packs
 	} // for
 
-	if err = utils.WriteJson(sector.FileJson(), objs); err != nil {
-		return fmt.Errorf("%s: sector json failed: %w", sector.StructName(), err)
+	if err = utils.WriteJson(sector.named.FileJson(), objs); err != nil {
+		return fmt.Errorf("%s: sector json failed: %w", sector.named.StructName(), err)
 	} // if
 
 	return nil
@@ -45,11 +45,11 @@ func SectorJsonSchema(sector *Sector) error {
 	packs, _, err := sector.layoutJson.Pack([]string{}, true)
 
 	if err != nil {
-		return fmt.Errorf("%s: sector json schema failed: %w", sector.StructName(), err)
+		return fmt.Errorf("%s: sector json schema failed: %w", sector.named.StructName(), err)
 	} // if
 
-	if err = utils.WriteJson(sector.FileJsonSchema(), packs); err != nil {
-		return fmt.Errorf("%s: sector json schema failed: %w", sector.StructName(), err)
+	if err = utils.WriteJson(sector.named.FileJsonSchema(), packs); err != nil {
+		return fmt.Errorf("%s: sector json schema failed: %w", sector.named.StructName(), err)
 	} // if
 
 	return nil

@@ -22,6 +22,12 @@ type Field interface {
 	// IsPkey 是否是主要索引
 	IsPkey() bool
 
+	// ToTypeCs 取得cs類型字串
+	ToTypeCs() string
+
+	// ToTypeGo 取得go類型字串
+	ToTypeGo() string
+
 	// ToJsonValue 轉換為json值
 	ToJsonValue(input string, preset bool) (result interface{}, err error)
 }

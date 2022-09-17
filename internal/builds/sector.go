@@ -2,238 +2,21 @@ package builds
 
 import (
 	"fmt"
-	"path/filepath"
-	"strings"
-	"sync"
 
-	"github.com/vbauerster/mpb/v7"
-	"github.com/vbauerster/mpb/v7/decor"
 	"github.com/xuri/excelize/v2"
 
-	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/layouts"
-	"github.com/yinweli/Sheeter/internal/utils"
+	"github.com/yinweli/Sheeter/internal/names"
 )
-
-// BuildSector 區段建置
-func BuildSector(config *Config) (errs []error) {
-	const tasks = 7 // 區段建置的工作數量
-
-	count := len(config.Elements)
-	errors := make(chan error, count) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
-	signaler := sync.WaitGroup{}
-	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(&signaler))
-
-	signaler.Add(count)
-
-	for _, itor := range config.Elements {
-		sector := &Sector{
-			Global:  config.Global,
-			Element: itor,
-		}
-
-		go func() {
-			defer signaler.Done()
-			defer sector.Close()
-
-			bar := progress.AddBar(
-				tasks,
-				mpb.PrependDecorators(
-					decor.Name(fmt.Sprintf("%-20s", sector.StructName())),
-					decor.Percentage(decor.WCSyncSpace),
-				),
-				mpb.AppendDecorators(
-					decor.OnComplete(decor.Spinner(nil), "complete"),
-				),
-			)
-
-			if err := SectorInit(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJson(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJsonSchema(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJsonCsCode(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJsonCsReader(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJsonGoCode(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-
-			if err := SectorJsonGoReader(sector); err != nil {
-				errors <- err
-				return
-			} // if
-
-			bar.Increment()
-		}()
-	} // for
-
-	progress.Wait()
-	close(errors) // 先關閉結果通訊通道, 免得下面的for變成無限迴圈
-
-	for itor := range errors {
-		if itor != nil {
-			errs = append(errs, itor)
-		} // if
-	} // for
-
-	return errs
-}
 
 // Sector 區段資料
 type Sector struct {
 	Global                         // 全域設定
 	Element                        // 項目設定
+	named      *names.Named        // 命名工具
 	excel      *excelize.File      // excel物件
 	layoutJson *layouts.LayoutJson // json布局器
-}
-
-// AppName 取得程式名稱
-func (this *Sector) AppName() string {
-	return internal.AppName
-}
-
-// Namespace 取得命名空間名稱
-func (this *Sector) Namespace() string {
-	name := this.combine(params{})
-	return name
-}
-
-// StructName 取得結構名稱
-func (this *Sector) StructName() string {
-	return internal.Struct
-}
-
-// ReaderName 取得讀取器名稱
-func (this *Sector) ReaderName() string {
-	return internal.Reader
-}
-
-// FileJson 取得json檔名路徑
-func (this *Sector) FileJson() string {
-	name := this.combine(params{
-		sheetUpper: true,
-		ext:        internal.ExtJson,
-	})
-	return filepath.Join(internal.PathJson, name)
-}
-
-// FileJsonSchema 取得json架構檔名路徑
-func (this *Sector) FileJsonSchema() string {
-	name := this.combine(params{
-		sheetUpper: true,
-		ext:        internal.ExtJson,
-	})
-	return filepath.Join(internal.PathJsonSchema, name)
-}
-
-// FileJsonCsCode 取得json-cs程式碼檔名路徑
-func (this *Sector) FileJsonCsCode() string {
-	name := this.combine(params{
-		sheetUpper: true,
-		ext:        internal.ExtCs,
-	})
-	return filepath.Join(internal.PathJsonCs, name)
-}
-
-// FileJsonCsReader 取得json-cs讀取器檔名路徑
-func (this *Sector) FileJsonCsReader() string {
-	name := this.combine(params{
-		sheetUpper: true,
-		last:       internal.Reader,
-		ext:        internal.ExtCs,
-	})
-	return filepath.Join(internal.PathJsonCs, name)
-}
-
-// FileJsonGoCode 取得json-go程式碼檔名路徑
-func (this *Sector) FileJsonGoCode() string {
-	name := this.combine(params{
-		sheetUpper: true,
-		ext:        internal.ExtGo,
-	})
-	return filepath.Join(internal.PathJsonGo, name)
-}
-
-// FileJsonGoReader 取得json-go讀取器檔名路徑
-func (this *Sector) FileJsonGoReader() string {
-	name := this.combine(params{
-		sheetUpper: true,
-		last:       internal.Reader,
-		ext:        internal.ExtGo,
-	})
-	return filepath.Join(internal.PathJsonGo, name)
-}
-
-// CodePath 將路徑轉換為程式碼中可用的路徑字串
-func (this *Sector) CodePath(path string) string {
-	return filepath.ToSlash(path)
-}
-
-// params 組合名稱參數
-type params struct {
-	excelUpper bool   // excel名稱是否要首字大寫
-	sheetUpper bool   // sheet名稱是否要首字大寫
-	middle     string // excel與sheet的中間字串
-	last       string // excel與sheet的結尾字串
-	ext        string // 副檔名
-}
-
-// combine 取得組合名稱
-func (this *Sector) combine(params params) string {
-	excel := utils.FileName(this.Excel)
-
-	if params.excelUpper {
-		excel = utils.FirstUpper(excel)
-	} else {
-		excel = utils.FirstLower(excel)
-	} // if
-
-	sheet := this.Sheet
-
-	if params.sheetUpper {
-		sheet = utils.FirstUpper(sheet)
-	} else {
-		sheet = utils.FirstLower(sheet)
-	} // if
-
-	items := []string{excel, params.middle, sheet, params.last}
-
-	if params.ext != "" {
-		items = append(items, ".", params.ext)
-	} // if
-
-	return strings.Join(items, "")
+	layoutType *layouts.LayoutType // 類型布局器
 }
 
 // Close 關閉excel物件
@@ -293,4 +76,17 @@ func (this *Sector) GetColumns(line int) (cols []string, err error) {
 	} // if
 
 	return cols, nil
+}
+
+// MergeSectorLayoutType 合併區段資料的類型布局器
+func MergeSectorLayoutType(sectors []*Sector) (layoutType *layouts.LayoutType, err error) {
+	layoutType = layouts.NewLayoutType()
+
+	for _, itor := range sectors {
+		if err := layoutType.Merge(itor.layoutType); err != nil {
+			return nil, fmt.Errorf("merge sector layoutType failed: %w", err)
+		} // if
+	} // for
+
+	return layoutType, nil
 }

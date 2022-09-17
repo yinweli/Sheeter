@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -30,16 +31,13 @@ func (this *SuiteBool) target() *Bool {
 	return &Bool{}
 }
 
-func (this *SuiteBool) TestType() {
-	assert.Equal(this.T(), "bool", this.target().Type())
-}
-
-func (this *SuiteBool) TestIsShow() {
-	assert.Equal(this.T(), true, this.target().IsShow())
-}
-
-func (this *SuiteBool) TestIsPkey() {
-	assert.Equal(this.T(), false, this.target().IsPkey())
+func (this *SuiteBool) TestField() {
+	target := this.target()
+	assert.Equal(this.T(), "bool", target.Type())
+	assert.Equal(this.T(), true, target.IsShow())
+	assert.Equal(this.T(), false, target.IsPkey())
+	assert.Equal(this.T(), internal.TokenBool, target.ToTypeCs())
+	assert.Equal(this.T(), internal.TokenBool, target.ToTypeGo())
 }
 
 func (this *SuiteBool) TestToJsonValue() {

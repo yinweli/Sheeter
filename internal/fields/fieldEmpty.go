@@ -19,6 +19,16 @@ func (this *Empty) IsPkey() bool {
 	return false
 }
 
+// ToTypeCs 取得cs類型字串
+func (this *Empty) ToTypeCs() string {
+	return ""
+}
+
+// ToTypeGo 取得go類型字串
+func (this *Empty) ToTypeGo() string {
+	return ""
+}
+
 // ToJsonValue 轉換為json值
 func (this *Empty) ToJsonValue(input string, _ bool) (result interface{}, err error) {
 	return nil, nil

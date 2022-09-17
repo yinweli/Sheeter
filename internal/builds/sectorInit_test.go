@@ -44,7 +44,7 @@ func (this *SuiteSectorInit) target() *Sector {
 func (this *SuiteSectorInit) TestSectorInit() {
 	target := this.target()
 	assert.Nil(this.T(), SectorInit(target))
-	assert.NotNil(this.T(), target.excel)
+	assert.NotNil(this.T(), target.Excel)
 	target.Close()
 
 	target = this.target()

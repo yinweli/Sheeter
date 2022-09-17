@@ -1,0 +1,238 @@
+package layouts
+
+import (
+	"fmt"
+	"sort"
+
+	"github.com/emirpasic/gods/stacks/arraystack"
+
+	"github.com/yinweli/Sheeter/internal/fields"
+	"github.com/yinweli/Sheeter/internal/layers"
+	"github.com/yinweli/Sheeter/internal/names"
+)
+
+// NewLayoutType 建立類型布局器
+func NewLayoutType() *LayoutType {
+	return &LayoutType{
+		types: map[string]*layoutType{},
+		level: arraystack.New(),
+	}
+}
+
+// LayoutType 類型布局器
+type LayoutType struct {
+	types map[string]*layoutType // 類型列表
+	level *arraystack.Stack      // 類型堆疊
+}
+
+// layoutType 類型資料
+type layoutType struct {
+	reader bool              // 是否要產生讀取器
+	named  *names.Named      // 命名工具
+	field  map[string]*Field // 欄位列表
+}
+
+// Field 欄位資料
+type Field struct {
+	Name  string       // 欄位名稱
+	Note  string       // 欄位註解
+	Field fields.Field // 欄位類型
+	Alter string       // 欄位類型別名
+	Array bool         // 陣列旗標
+}
+
+// Type 提供給外部使用的類型資料
+type Type struct {
+	Reader bool         // 是否要產生讀取器
+	Named  *names.Named // 命名工具
+	Field  []*Field     // 欄位列表
+}
+
+// Begin 開始類型紀錄
+func (this *LayoutType) Begin(name string, named *names.Named) error {
+	if this.Closure() == false {
+		return fmt.Errorf("layoutType begin failed, not closed")
+	} // if
+
+	this.pushType(name, true, named)
+	return nil
+}
+
+// End 結束類型紀錄
+func (this *LayoutType) End() error {
+	if this.pop(1) == false {
+		return fmt.Errorf("layoutType end failed, pop failed")
+	} // if
+
+	return nil
+}
+
+// Add 新增欄位
+func (this *LayoutType) Add(name, note string, field fields.Field, layer []layers.Layer, back int) error {
+	for _, itor := range layer {
+		if itor.Type != layers.LayerDivider { // layers.LayerDivider不必處理, 因為結構/陣列未結束
+			if this.pushField(itor.Name, "", nil, itor.Name, itor.Type == layers.LayerArray) == false {
+				return fmt.Errorf("layoutType add failed, pushField failed")
+			} // if
+
+			if this.pushType(itor.Name, false, &names.Named{Excel: itor.Name}) == false {
+				return fmt.Errorf("layoutType add failed, pushType failed")
+			} // if
+		} // if
+	} // for
+
+	if this.pushField(name, note, field, "", false) == false {
+		return fmt.Errorf("layoutType add failed, pushField failed")
+	} // if
+
+	if this.pop(back) == false {
+		return fmt.Errorf("layoutType add failed, pop failed")
+	} // if
+
+	return nil
+}
+
+// Merge 合併類型布局
+func (this *LayoutType) Merge(merge *LayoutType) error {
+	if merge.Closure() == false {
+		return fmt.Errorf("layoutType merge failed, source not closed")
+	} // if
+
+	for typeName, source := range merge.types {
+		if _, ok := this.types[typeName]; ok == false {
+			this.types[typeName] = &layoutType{
+				reader: source.reader,
+				named:  source.named,
+				field:  map[string]*Field{},
+			}
+		} // if
+
+		target := this.types[typeName]
+
+		for fieldName, field := range source.field {
+			if _, ok := target.field[fieldName]; ok == false {
+				target.field[fieldName] = &Field{
+					Name:  field.Name,
+					Note:  field.Note,
+					Field: field.Field,
+					Alter: field.Alter,
+					Array: field.Array,
+				}
+			} // if
+		} // for
+	} // for
+
+	if this.Closure() == false {
+		return fmt.Errorf("layoutType merge failed, target not closed")
+	} // if
+
+	return nil
+}
+
+// Types 取得類型資料
+func (this *LayoutType) Types(name string) *Type {
+	if value, ok := this.types[name]; ok {
+		field := []*Field{}
+
+		for _, itor := range value.field {
+			field = append(field, itor)
+		} // for
+
+		sort.Slice(field, func(r, l int) bool {
+			return field[r].Name < field[l].Name
+		})
+		return &Type{
+			Reader: value.reader,
+			Named:  value.named,
+			Field:  field,
+		}
+	} // if
+
+	return nil
+}
+
+// TypeNames 取得類型名稱列表
+func (this *LayoutType) TypeNames() (results []string) {
+	for itor := range this.types {
+		results = append(results, itor)
+	} // for
+
+	sort.Slice(results, func(r, l int) bool {
+		return results[r] < results[l]
+	})
+	return results
+}
+
+// FieldNames 取得類型欄位名稱列表
+func (this *LayoutType) FieldNames(name string) (results []string) {
+	if value, ok := this.types[name]; ok {
+		for _, itor := range value.field {
+			results = append(results, itor.Name)
+		} // for
+
+		sort.Slice(results, func(r, l int) bool {
+			return results[r] < results[l]
+		})
+	} // if
+
+	return results
+}
+
+// Closure 取得是否閉合
+func (this *LayoutType) Closure() bool {
+	return this.level.Empty()
+}
+
+// pushType 推入類型
+func (this *LayoutType) pushType(name string, reader bool, named *names.Named) bool {
+	if _, ok := this.types[name]; ok {
+		return false
+	} // if
+
+	this.types[name] = &layoutType{
+		reader: reader,
+		named:  named,
+		field:  map[string]*Field{},
+	}
+	this.level.Push(name)
+	return true
+}
+
+// pushField 推入欄位
+func (this *LayoutType) pushField(name, note string, field fields.Field, alter string, array bool) bool {
+	if field != nil && field.IsShow() == false {
+		return true
+	} // if
+
+	level, ok := this.level.Peek()
+
+	if ok == false {
+		return false
+	} // if
+
+	type_, ok := this.types[level.(string)]
+
+	if ok == false {
+		return false
+	} // if
+
+	type_.field[name] = &Field{
+		Name:  name,
+		Note:  note,
+		Field: field,
+		Alter: alter,
+		Array: array,
+	}
+	return true
+}
+
+// pop 彈出類型
+func (this *LayoutType) pop(count int) bool {
+	for i := 0; i < count; i++ {
+		if _, ok := this.level.Pop(); ok == false {
+			return false
+		} // if
+	} // for
+
+	return true
+}

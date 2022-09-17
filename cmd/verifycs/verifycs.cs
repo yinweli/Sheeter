@@ -1,24 +1,24 @@
 ﻿using Newtonsoft.Json;
+using sheeter;
 using System;
-using verifydata;
 
 namespace verifycs {
     public class Verifycs {
         public static void Main()
         {
-            var reader = Reader.FromJsonFile(Reader.Json);
+            var reader = VerifyDataReader.FromJsonFile(VerifyDataReader.Json);
 
             if (reader == null) {
                 throw new Exception("verify cs: read failed");
             } // if
 
-            var expects = new Struct[] {
-                new Struct {
+            var expects = new VerifyData[] {
+                new VerifyData {
                     Reward = new Reward {
                         Item = new Item[] {
-                            new Item{ Count = 10, ItemId = 10001, Type = 1, },
-                            new Item{ Count = 0, ItemId = 0, Type = 0, },
-                            new Item{ Count = 0, ItemId = 0, Type = 0, },
+                            new Item{ Count = 10, ItemID = 10001, Type = 1, },
+                            new Item{ Count = 0, ItemID = 0, Type = 0, },
+                            new Item{ Count = 0, ItemID = 0, Type = 0, },
                         },
                         Atium = 2,
                         Crystal = 120,
@@ -30,12 +30,12 @@ namespace verifycs {
                     Key = 1,
                     Name = "名稱1",
                 },
-                new Struct {
+                new VerifyData {
                     Reward = new Reward {
                         Item = new Item[] {
-                            new Item{ Count = 10, ItemId = 10001, Type = 1, },
-                            new Item{ Count = 5, ItemId = 10002, Type = 1, },
-                            new Item{ Count = 0, ItemId = 0, Type = 0, },
+                            new Item{ Count = 10, ItemID = 10001, Type = 1, },
+                            new Item{ Count = 5, ItemID = 10002, Type = 1, },
+                            new Item{ Count = 0, ItemID = 0, Type = 0, },
                         },
                         Atium = 2,
                         Crystal = 135,
@@ -47,12 +47,12 @@ namespace verifycs {
                     Key = 2,
                     Name = "名稱2",
                 },
-                new Struct {
+                new VerifyData {
                     Reward = new Reward {
                         Item = new Item[] {
-                            new Item{ Count = 10, ItemId = 10001, Type = 1, },
-                            new Item{ Count = 5, ItemId = 10002, Type = 1, },
-                            new Item{ Count = 2, ItemId = 10003, Type = 1, },
+                            new Item{ Count = 10, ItemID = 10001, Type = 1, },
+                            new Item{ Count = 5, ItemID = 10002, Type = 1, },
+                            new Item{ Count = 2, ItemID = 10003, Type = 1, },
                         },
                         Atium = 3,
                         Crystal = 150,
@@ -64,12 +64,12 @@ namespace verifycs {
                     Key = 3,
                     Name = "名稱3",
                 },
-                new Struct {
+                new VerifyData {
                     Reward = new Reward {
                         Item = new Item[] {
-                            new Item{ Count = 10, ItemId = 10001, Type = 1, },
-                            new Item{ Count = 5, ItemId = 10002, Type = 1, },
-                            new Item{ Count = 3, ItemId = 10003, Type = 1, },
+                            new Item{ Count = 10, ItemID = 10001, Type = 1, },
+                            new Item{ Count = 5, ItemID = 10002, Type = 1, },
+                            new Item{ Count = 3, ItemID = 10003, Type = 1, },
                         },
                         Atium = 3,
                         Crystal = 165,

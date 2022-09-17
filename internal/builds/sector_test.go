@@ -1,13 +1,12 @@
 package builds
 
 import (
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/layouts"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -18,12 +17,10 @@ func TestSector(t *testing.T) {
 type SuiteSector struct {
 	suite.Suite
 	workDir string
-	token   string
 }
 
 func (this *SuiteSector) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.token = "#"
 }
 
 func (this *SuiteSector) TearDownSuite() {
@@ -44,31 +41,6 @@ func (this *SuiteSector) target() *Sector {
 		},
 	}
 	return target
-}
-
-func (this *SuiteSector) TestName() {
-	target := this.target()
-	assert.Equal(this.T(), internal.AppName, target.AppName())
-	assert.Equal(this.T(), "realdata", target.Namespace())
-	assert.Equal(this.T(), internal.Struct, target.StructName())
-	assert.Equal(this.T(), internal.Reader, target.ReaderName())
-	assert.Equal(this.T(), filepath.Join(internal.PathJson, "realData.json"), target.FileJson())
-	assert.Equal(this.T(), filepath.Join(internal.PathJsonSchema, "realData.json"), target.FileJsonSchema())
-	assert.Equal(this.T(), filepath.Join(internal.PathJsonCs, "realData.cs"), target.FileJsonCsCode())
-	assert.Equal(this.T(), filepath.Join(internal.PathJsonCs, "realDataReader.cs"), target.FileJsonCsReader())
-	assert.Equal(this.T(), filepath.Join(internal.PathJsonGo, "realData.go"), target.FileJsonGoCode())
-	assert.Equal(this.T(), filepath.Join(internal.PathJsonGo, "realDataReader.go"), target.FileJsonGoReader())
-	assert.Equal(this.T(), filepath.ToSlash(filepath.Join(internal.PathJson, "realData.json")), target.CodePath(target.FileJson()))
-}
-
-func (this *SuiteSector) TestCombine() {
-	target := this.target()
-	assert.Equal(this.T(), "realdata", target.combine(params{}))
-	assert.Equal(this.T(), "Realdata", target.combine(params{excelUpper: true}))
-	assert.Equal(this.T(), "realData", target.combine(params{sheetUpper: true}))
-	assert.Equal(this.T(), "real#data", target.combine(params{middle: this.token}))
-	assert.Equal(this.T(), "realdata#", target.combine(params{last: this.token}))
-	assert.Equal(this.T(), "realdata.#", target.combine(params{ext: this.token}))
 }
 
 func (this *SuiteSector) TestGetRows() {
@@ -125,4 +97,15 @@ func (this *SuiteSector) TestGetColumns() {
 	assert.NotNil(this.T(), err)
 
 	target.Close()
+}
+
+func (this *SuiteSector) TestMergeSectorLayoutType() {
+	sectors := []*Sector{
+		{layoutType: layouts.NewLayoutType()},
+		{layoutType: layouts.NewLayoutType()},
+		{layoutType: layouts.NewLayoutType()},
+	}
+	layoutType, err := MergeSectorLayoutType(sectors)
+	assert.NotNil(this.T(), layoutType)
+	assert.Nil(this.T(), err)
 }
