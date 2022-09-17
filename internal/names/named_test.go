@@ -69,9 +69,9 @@ func (this *SuiteNamed) TestName() {
 	assert.Equal(this.T(), this.fileJson, target.FileJson())
 	assert.Equal(this.T(), this.fileJsonCode, target.FileJsonCode())
 	assert.Equal(this.T(), this.fileJsonSchema, target.FileJsonSchema())
-	assert.Equal(this.T(), this.fileJsonCsCode, target.FileJsonCsCode())
+	assert.Equal(this.T(), this.fileJsonCsCode, target.FileJsonCsStruct())
 	assert.Equal(this.T(), this.fileJsonCsReader, target.FileJsonCsReader())
-	assert.Equal(this.T(), this.fileJsonGoCode, target.FileJsonGoCode())
+	assert.Equal(this.T(), this.fileJsonGoCode, target.FileJsonGoStruct())
 	assert.Equal(this.T(), this.fileJsonGoReader, target.FileJsonGoReader())
 	assert.Equal(this.T(), this.fileJsonCode, target.FileJsonCode())
 }

@@ -63,8 +63,8 @@ func (this *Named) FileJsonSchema() string {
 	})
 }
 
-// FileJsonCsCode 取得json-cs程式碼檔名路徑
-func (this *Named) FileJsonCsCode() string {
+// FileJsonCsStruct 取得json-cs程式碼檔名路徑
+func (this *Named) FileJsonCsStruct() string {
 	return this.combine(params{
 		sheetUpper: true,
 		ext:        internal.ExtCs,
@@ -82,8 +82,8 @@ func (this *Named) FileJsonCsReader() string {
 	})
 }
 
-// FileJsonGoCode 取得json-go程式碼檔名路徑
-func (this *Named) FileJsonGoCode() string {
+// FileJsonGoStruct 取得json-go程式碼檔名路徑
+func (this *Named) FileJsonGoStruct() string {
 	return this.combine(params{
 		sheetUpper: true,
 		ext:        internal.ExtGo,

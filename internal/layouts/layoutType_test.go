@@ -26,6 +26,7 @@ type SuiteLayoutType struct {
 	typeD      string
 	field1     *Field
 	field2     *Field
+	field3     *Field
 	fieldName  string
 	fieldNote  string
 	fieldField fields.Field
@@ -51,6 +52,13 @@ func (this *SuiteLayoutType) SetupSuite() {
 		Note:  "note2",
 		Field: &fields.TextArray{},
 		Alter: "alter2",
+		Array: false,
+	}
+	this.field3 = &Field{
+		Name:  "name3",
+		Note:  "note3",
+		Field: &fields.Empty{},
+		Alter: "alter3",
 		Array: false,
 	}
 	this.fieldName = "name"
@@ -145,11 +153,12 @@ func (this *SuiteLayoutType) TestMerge() {
 
 func (this *SuiteLayoutType) TestTypes() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, nil))
+	assert.True(this.T(), target.pushType(this.type1, true, nil))
 	assert.True(this.T(), target.pushField(this.field1.Name, this.field1.Note, this.field1.Field, this.field1.Alter, this.field1.Array))
 	assert.True(this.T(), target.pushField(this.field2.Name, this.field2.Note, this.field2.Field, this.field2.Alter, this.field2.Array))
 	type_ := target.Types(this.type1)
 	assert.NotNil(this.T(), type_)
+	assert.True(this.T(), type_.Reader)
 	assert.Nil(this.T(), type_.Named)
 	assert.Equal(this.T(), []*Field{this.field1, this.field2}, type_.Field)
 
@@ -159,14 +168,14 @@ func (this *SuiteLayoutType) TestTypes() {
 
 func (this *SuiteLayoutType) TestTypeNames() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, nil))
-	assert.True(this.T(), target.pushType(this.type2, nil))
+	assert.True(this.T(), target.pushType(this.type1, false, nil))
+	assert.True(this.T(), target.pushType(this.type2, false, nil))
 	assert.Equal(this.T(), []string{this.type1, this.type2}, target.TypeNames())
 }
 
 func (this *SuiteLayoutType) TestFieldNames() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, nil))
+	assert.True(this.T(), target.pushType(this.type1, false, nil))
 	assert.True(this.T(), target.pushField(this.field1.Name, this.field1.Note, this.field1.Field, this.field1.Alter, this.field1.Array))
 	assert.True(this.T(), target.pushField(this.field2.Name, this.field2.Note, this.field2.Field, this.field2.Alter, this.field2.Array))
 	assert.Equal(this.T(), []string{this.field1.Name, this.field2.Name}, target.FieldNames(this.type1))
@@ -175,20 +184,22 @@ func (this *SuiteLayoutType) TestFieldNames() {
 func (this *SuiteLayoutType) TestClosure() {
 	target := this.target()
 	assert.True(this.T(), target.Closure())
-	assert.True(this.T(), target.pushType(this.type1, nil))
+	assert.True(this.T(), target.pushType(this.type1, false, nil))
 	assert.False(this.T(), target.Closure())
 }
 
 func (this *SuiteLayoutType) TestPushType() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, nil))
-	assert.False(this.T(), target.pushType(this.type1, nil))
+	assert.True(this.T(), target.pushType(this.type1, false, nil))
+	assert.False(this.T(), target.pushType(this.type1, false, nil))
 }
 
 func (this *SuiteLayoutType) TestPushField() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, nil))
+	assert.True(this.T(), target.pushType(this.type1, false, nil))
 	assert.True(this.T(), target.pushField(this.field1.Name, this.field1.Note, this.field1.Field, this.field1.Alter, this.field1.Array))
+	assert.True(this.T(), target.pushField(this.field2.Name, this.field2.Note, this.field2.Field, this.field2.Alter, this.field2.Array))
+	assert.True(this.T(), target.pushField(this.field3.Name, this.field3.Note, this.field3.Field, this.field3.Alter, this.field3.Array))
 
 	target = this.target()
 	assert.False(this.T(), target.pushField(this.field1.Name, this.field1.Note, this.field1.Field, this.field1.Alter, this.field1.Array))
@@ -200,8 +211,8 @@ func (this *SuiteLayoutType) TestPushField() {
 
 func (this *SuiteLayoutType) TestPop() {
 	target := this.target()
-	assert.True(this.T(), target.pushType(this.type1, nil))
-	assert.True(this.T(), target.pushType(this.type2, nil))
+	assert.True(this.T(), target.pushType(this.type1, false, nil))
+	assert.True(this.T(), target.pushType(this.type2, false, nil))
 	assert.True(this.T(), target.pop(2))
 	assert.False(this.T(), target.pop(1))
 }

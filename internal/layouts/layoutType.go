@@ -27,8 +27,9 @@ type LayoutType struct {
 
 // layoutType 類型資料
 type layoutType struct {
-	named *names.Named      // 命名工具
-	field map[string]*Field // 欄位列表
+	reader bool              // 是否要產生讀取器
+	named  *names.Named      // 命名工具
+	field  map[string]*Field // 欄位列表
 }
 
 // Field 欄位資料
@@ -42,8 +43,9 @@ type Field struct {
 
 // Type 提供給外部使用的類型資料
 type Type struct {
-	Named *names.Named // 命名工具
-	Field []*Field     // 欄位列表
+	Reader bool         // 是否要產生讀取器
+	Named  *names.Named // 命名工具
+	Field  []*Field     // 欄位列表
 }
 
 // Begin 開始類型紀錄
@@ -52,7 +54,7 @@ func (this *LayoutType) Begin(name string, named *names.Named) error {
 		return fmt.Errorf("layoutType begin failed, not closed")
 	} // if
 
-	this.pushType(name, named)
+	this.pushType(name, true, named)
 	return nil
 }
 
@@ -73,7 +75,7 @@ func (this *LayoutType) Add(name, note string, field fields.Field, layer []layer
 				return fmt.Errorf("layoutType add failed, pushField failed")
 			} // if
 
-			if this.pushType(itor.Name, &names.Named{Excel: itor.Name}) == false {
+			if this.pushType(itor.Name, false, &names.Named{Excel: itor.Name}) == false {
 				return fmt.Errorf("layoutType add failed, pushType failed")
 			} // if
 		} // if
@@ -99,8 +101,9 @@ func (this *LayoutType) Merge(merge *LayoutType) error {
 	for typeName, source := range merge.types {
 		if _, ok := this.types[typeName]; ok == false {
 			this.types[typeName] = &layoutType{
-				named: source.named,
-				field: map[string]*Field{},
+				reader: source.reader,
+				named:  source.named,
+				field:  map[string]*Field{},
 			}
 		} // if
 
@@ -139,8 +142,9 @@ func (this *LayoutType) Types(name string) *Type {
 			return field[r].Name < field[l].Name
 		})
 		return &Type{
-			Named: value.named,
-			Field: field,
+			Reader: value.reader,
+			Named:  value.named,
+			Field:  field,
 		}
 	} // if
 
@@ -180,14 +184,15 @@ func (this *LayoutType) Closure() bool {
 }
 
 // pushType 推入類型
-func (this *LayoutType) pushType(name string, named *names.Named) bool {
+func (this *LayoutType) pushType(name string, reader bool, named *names.Named) bool {
 	if _, ok := this.types[name]; ok {
 		return false
 	} // if
 
 	this.types[name] = &layoutType{
-		named: named,
-		field: map[string]*Field{},
+		reader: reader,
+		named:  named,
+		field:  map[string]*Field{},
 	}
 	this.level.Push(name)
 	return true
@@ -195,6 +200,10 @@ func (this *LayoutType) pushType(name string, named *names.Named) bool {
 
 // pushField 推入欄位
 func (this *LayoutType) pushField(name, note string, field fields.Field, alter string, array bool) bool {
+	if field != nil && field.IsShow() == false {
+		return true
+	} // if
+
 	level, ok := this.level.Peek()
 
 	if ok == false {
