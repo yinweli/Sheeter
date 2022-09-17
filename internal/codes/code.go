@@ -37,6 +37,14 @@ func Initialize(cmd *cobra.Command) error {
 		return fmt.Errorf("%w", err)
 	} // if
 
+	if err := JsonGoStruct.load(); err != nil {
+		return fmt.Errorf("%w", err)
+	} // if
+
+	if err := JsonGoStruct.save(); err != nil {
+		return fmt.Errorf("%w", err)
+	} // if
+
 	if err := JsonGoReader.load(); err != nil {
 		return fmt.Errorf("%w", err)
 	} // if

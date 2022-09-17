@@ -17,7 +17,7 @@ import (
 )
 
 const taskSector = 3 // 區段建置的工作數量
-const taskEntire = 2 // 全域建置的工作數量
+const taskEntire = 4 // 全域建置的工作數量
 
 // NewCommand 建立命令物件
 func NewCommand() *cobra.Command {
@@ -197,6 +197,18 @@ func buildEntire(sectors []*builds.Sector) (entires []*builds.Entire, errs []err
 			progressbar.Increment()
 
 			if err := builds.EntireJsonCsReader(entire); err != nil {
+				errors <- err
+			} // if
+
+			progressbar.Increment()
+
+			if err := builds.EntireJsonGoStruct(entire); err != nil {
+				errors <- err
+			} // if
+
+			progressbar.Increment()
+
+			if err := builds.EntireJsonGoReader(entire); err != nil {
 				errors <- err
 			} // if
 

@@ -2,33 +2,27 @@
 
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.IO;
+using System.Collections.Generic;
 
-namespace verifydata
-{
-    public partial class Reader
-    {
+namespace sheeter {
+    public partial class VerifyDataReader {
         public static readonly string Json = "json/verifyData.json";
 
-        public static Dictionary<long, Struct> FromJsonFile(string path)
-        {
+        public static Dictionary<long, VerifyData> FromJsonFile(string path) {
             return FromJsonString(File.ReadAllText(path));
         }
 
-        public static Dictionary<long, Struct> FromJsonString(string data)
-        {
-            var temps = JsonConvert.DeserializeObject<Dictionary<string, Struct>>(data);
+        public static Dictionary<long, VerifyData> FromJsonString(string data) {
+            var temps = JsonConvert.DeserializeObject<Dictionary<string, VerifyData>>(data);
 
-            if (temps == null)
-            {
+            if (temps == null) {
                 return null;
             }
 
-            var datas = new Dictionary<long, Struct>();
+            var datas = new Dictionary<long, VerifyData>;
 
-            foreach (var itor in temps)
-            {
+            foreach(var itor in temps) {
                 datas[Convert.ToInt64(itor.Key)] = itor.Value;
             }
 
