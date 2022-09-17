@@ -5,7 +5,7 @@
 
 # Sheeter
 以go做成的excel轉換工具, 前身是[sheet]  
-將以指定格式做好的excel轉換為json, 再利用[quicktype]轉換出程式碼  
+將以指定格式做好的excel轉換為json, cs程式碼, go程式碼
 
 # 目錄說明
 | 目錄                | 說明           |
@@ -18,17 +18,16 @@
 | cmd/verifycs        | cs程式碼驗證器 |
 | cmd/verifygo        | go程式碼驗證器 |
 | internal/builds     | 表格轉換       |
-| internal/util       | 協助組件       |
+| internal/codes      | 模板組件       |
+| internal/fields     | 欄位組件       |
+| internal/layers     | 階層組件       |
+| internal/layouts    | 布局組件       |
+| internal/names      | 命名組件       |
+| internal/utils      | 協助組件       |
 | testdata            | 測試資料       |
 
 # 如何安裝
 * 安裝[go]
-* 安裝[node.js], 這會順便安裝npm
-* 把npm的路徑加入系統環境變數的path中
-* 安裝[quicktype], 在終端執行以下命令
-  ```shell
-  npm install -g quicktype
-  ```
 * 安裝[sheeter], 在終端執行以下命令
   ```shell
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
@@ -108,11 +107,12 @@ elements:
 ## 轉出檔案路徑與檔案名稱
 如果excel檔案名稱為`example.xlsx`, 表格名稱為`Data`  
 * json資料檔案: json\exampleData.json
+* json的cs程式碼: json-cs\exampleData.cs
+* json的cs讀取器: json-cs\exampleDataReader.cs
+* json的go程式碼: json-go\exampleData.go
+* json的go讀取器: json-go\exampleDataReader.go
 * json架構檔案: json-schema\exampleData.json
-* json的cs程式碼: json-cs\sheeter.cs
-* json的cs讀取器: json-cs\reader.cs
-* json的go程式碼: json-go\sheeter.go
-* json的go讀取器: json-go\reader.go
+* 模板檔案: template\ ...
 * 命名空間: sheeter
 * 結構名稱: ExampleData
 * 讀取器名稱: ExampleDataReader
@@ -128,16 +128,38 @@ elements:
 * 欄位名稱不能重複(包括`empty`欄位)
 * cs程式碼使用`Newtonsoft.Json`來轉換json
 
+## 關於模板檔案
+sheeter轉換時會把使用的程式碼模板輸出到template目錄下  
+使用者可以改變模板內容, 來產生自訂的程式碼  
+當sheeter版本更新時, 需要在終端執行以下命令來重置模板  
+```shell
+sheeter code -c
+```
+模板檔案使用golang的[template]語法, 同時可以參考以下變數來做結構名稱或是欄位名稱等的替換  
+
+| 名稱                     | 說明                                     |
+|:-------------------------|:-----------------------------------------|
+| $.Named.AppName          | 程式名稱                                 |
+| $.Named.Namespace        | 命名空間名稱                             |
+| $.Named.StructName       | 結構名稱                                 |
+| $.Named.ReaderName       | 讀取器名稱                               |
+| $.Named.FileJson         | json檔名路徑                             |
+| $.Named.FileJsonCode     | json檔名路徑(程式碼可用)                 |
+| $.Named.FileJsonSchema   | json架構檔名路徑                         |
+| $.Named.FileJsonCsCode   | json-cs程式碼檔名路徑                    |
+| $.Named.FileJsonCsReader | json-cs讀取器檔名路徑                    |
+| $.Named.FileJsonGoCode   | json-go程式碼檔名路徑                    |
+| $.Named.FileJsonGoReader | json-go讀取器檔名路徑                    |
+| $.Field                  | 欄位列表                                 |
+| $.FieldName              | 取得欄位名稱(需要輸入欄位資料作為參數)   |
+| $.FieldNote              | 取得欄位註解(需要輸入欄位資料作為參數)   |
+| $.FieldTypeCs            | 取得cs欄位類型(需要輸入欄位資料作為參數) |
+| $.FieldTypeGo            | 取得go欄位類型(需要輸入欄位資料作為參數) |
+
 # 轉換範例
 [example]
 
 # TODO
-* 嘗試用自訂的方式來產生cs, go檔案
-* 可能要建立一個結構紀錄器
-* json產生方式仍然用現在的辦法
-* 用結構紀錄器應該可以產生 cs, go, proto, flat等檔案, 這樣就可以考慮使用sheeter當作通用的命名空間
-* jsonSchema檔案還是可以留下來
-* 這樣可能最後會擺脫對quicktype的依賴(但是c++/java還是會很痛苦)
 * 產生protobuffer message
 * 產生protobuffer bytes data
 * 產生protobuffer/cs code
@@ -164,10 +186,9 @@ elements:
   --just-types  
 
 [go]: https://go.dev/dl/
-[node.js]: https://nodejs.org/en/
-[quicktype]: https://github.com/quicktype/quicktype
 [sheet]: https://github.com/yinweli/Sheet
 [sheeter]: https://github.com/yinweli/sheeter
+[template]: https://pkg.go.dev/text/template
 
 [excel]: doc/image/excel.jpg
 [example]: doc/example/example.7z
