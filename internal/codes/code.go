@@ -138,7 +138,7 @@ namespace {{$.Named.Namespace}} {
                 return null;
             }
 
-            var datas = new Dictionary<long, {{$.Named.StructName}}>;
+            var datas = new Dictionary<long, {{$.Named.StructName}}>();
 
             foreach(var itor in temps) {
                 datas[Convert.ToInt64(itor.Key)] = itor.Value;

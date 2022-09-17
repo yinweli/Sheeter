@@ -4,13 +4,13 @@ using Newtonsoft.Json;
 
 namespace sheeter {
     public partial class Item {
-        // note7
+        // 物品數量
         [JsonProperty("Count")]
         public long Count { get; set; }
-        // note5
+        // 物品編號
         [JsonProperty("ItemID")]
         public long ItemID { get; set; }
-        // note6
+        // 物品類型
         [JsonProperty("Type")]
         public long Type { get; set; }
     }

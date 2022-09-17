@@ -92,7 +92,7 @@ namespace sheeter {
                 return null;
             }
 
-            var datas = new Dictionary<long, TestData>;
+            var datas = new Dictionary<long, TestData>();
 
             foreach(var itor in temps) {
                 datas[Convert.ToInt64(itor.Key)] = itor.Value;

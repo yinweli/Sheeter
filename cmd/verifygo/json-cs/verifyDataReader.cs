@@ -20,7 +20,7 @@ namespace sheeter {
                 return null;
             }
 
-            var datas = new Dictionary<long, VerifyData>;
+            var datas = new Dictionary<long, VerifyData>();
 
             foreach(var itor in temps) {
                 datas[Convert.ToInt64(itor.Key)] = itor.Value;

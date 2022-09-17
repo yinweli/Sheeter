@@ -22,7 +22,7 @@ func main() {
 		panic(fmt.Errorf("verify go: %w", err))
 	} // if
 
-	expects := []verifydata.Struct{
+	expects := []verifydata.VerifyData{
 		{
 			Reward: verifydata.Reward{
 				Item: []verifydata.Item{
