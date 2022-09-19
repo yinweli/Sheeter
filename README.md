@@ -40,11 +40,11 @@
   ```shell
   sheeter build --config 設定檔.yaml
   ```
-* code: 產生模板檔案  
+* tmpl: 產生模板檔案  
   這會產生建置時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
   執行建置命令時也會產生模板檔案  
   ```shell
-  sheeter code
+  sheeter tmpl
   ```
 * version: 顯示版本資訊  
   ```sheel
@@ -121,7 +121,7 @@ sheeter轉換時會把使用的程式碼模板輸出到template目錄下
 使用者可以改變模板內容, 來產生自訂的程式碼  
 當需要重置模板時(例如sheeter更新版本時), 可以在終端執行以下命令重置模板  
 ```shell
-sheeter code -c
+sheeter tmpl -c
 ```
 模板檔案使用golang的[template]語法, 同時可以參考以下變數來做結構名稱或是欄位名稱等的替換  
 
@@ -161,6 +161,15 @@ sheeter code -c
 * 產生protobuffer bytes data
 * 產生flatbuffer message
 * 產生flatbuffer bytes data
+
+# 暫時紀錄
+* builds generate [multi thread <每個type>]
+    * proto schema => proto-schema
+* builds encoding [multi thread <每個config.element>]
+    * proto => proto-data
+* https://github.com/protocolbuffers/protobuf-go
+* https://farer.org/2020/04/17/go-protobuf-apiv2-reflect-dynamicpb/
+* https://github.com/overtalk/dynamic-protobuf
 
 [go]: https://go.dev/dl/
 [sheet]: https://github.com/yinweli/Sheet

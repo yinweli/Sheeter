@@ -11,19 +11,18 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestSectorJson(t *testing.T) {
-	suite.Run(t, new(SuiteSectorJson))
+func TestEncodingJson(t *testing.T) {
+	suite.Run(t, new(SuiteEncodingJson))
 }
 
-type SuiteSectorJson struct {
+type SuiteEncodingJson struct {
 	suite.Suite
 	workDir string
 	json    []byte
-	schema  []byte
 	empty   []byte
 }
 
-func (this *SuiteSectorJson) SetupSuite() {
+func (this *SuiteEncodingJson) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 	this.json = []byte(`{
     "1": {
@@ -87,37 +86,16 @@ func (this *SuiteSectorJson) SetupSuite() {
         "name0": 3
     }
 }`)
-	this.schema = []byte(`{
-    "S": {
-        "A": [
-            {
-                "name2": 0,
-                "name3": ""
-            },
-            {
-                "name2": 0,
-                "name3": ""
-            },
-            {
-                "name2": 0,
-                "name3": ""
-            }
-        ],
-        "name1": false
-    },
-    "name0": 0
-}`)
 	this.empty = []byte("{}")
 }
 
-func (this *SuiteSectorJson) TearDownSuite() {
+func (this *SuiteEncodingJson) TearDownSuite() {
 	_ = os.RemoveAll(internal.PathJson)
-	_ = os.RemoveAll(internal.PathJsonSchema)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteSectorJson) target() *Sector {
-	target := &Sector{
+func (this *SuiteEncodingJson) target() *RuntimeSector {
+	target := &RuntimeSector{
 		Global: Global{
 			LineOfField: 1,
 			LineOfLayer: 2,
@@ -132,67 +110,44 @@ func (this *SuiteSectorJson) target() *Sector {
 	return target
 }
 
-func (this *SuiteSectorJson) TestSectorJson() {
+func (this *SuiteEncodingJson) TestEncodingJson() {
 	target := this.target()
-	assert.Nil(this.T(), SectorInit(target))
-	assert.Nil(this.T(), SectorJson(target))
+	assert.Nil(this.T(), initializeSector(target))
+	assert.Nil(this.T(), encodingJson(target))
 	testdata.CompareFile(this.T(), target.named.FileJson(), this.json)
 	target.Close()
 
 	target = this.target()
 	target.LineOfData = -1
-	assert.Nil(this.T(), SectorInit(target))
-	assert.NotNil(this.T(), SectorJson(target))
+	assert.Nil(this.T(), initializeSector(target))
+	assert.NotNil(this.T(), encodingJson(target))
 	target.Close()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameEmpty
-	assert.Nil(this.T(), SectorInit(target))
-	assert.Nil(this.T(), SectorJson(target))
+	assert.Nil(this.T(), initializeSector(target))
+	assert.Nil(this.T(), encodingJson(target))
 	testdata.CompareFile(this.T(), target.named.FileJson(), this.empty)
 	target.Close()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameInvalidData
-	assert.Nil(this.T(), SectorInit(target))
-	assert.NotNil(this.T(), SectorJson(target))
+	assert.Nil(this.T(), initializeSector(target))
+	assert.NotNil(this.T(), encodingJson(target))
 	target.Close()
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
 		target = this.target()
-		assert.Nil(this.T(), SectorInit(target))
+		assert.Nil(this.T(), initializeSector(target))
 		target.named.Excel = testdata.UnknownStr
-		assert.NotNil(this.T(), SectorJson(target))
+		assert.NotNil(this.T(), encodingJson(target))
 		target.Close()
 
 		target = this.target()
-		assert.Nil(this.T(), SectorInit(target))
+		assert.Nil(this.T(), initializeSector(target))
 		target.named.Sheet = testdata.UnknownStr
-		assert.NotNil(this.T(), SectorJson(target))
-		target.Close()
-	} // if
-}
-
-func (this *SuiteSectorJson) TestSectorJsonSchema() {
-	target := this.target()
-	assert.Nil(this.T(), SectorInit(target))
-	assert.Nil(this.T(), SectorJsonSchema(target))
-	testdata.CompareFile(this.T(), target.named.FileJsonSchema(), this.schema)
-	target.Close()
-
-	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
-	if testdata.IsWindows() {
-		target = this.target()
-		assert.Nil(this.T(), SectorInit(target))
-		target.named.Excel = testdata.UnknownStr
-		assert.NotNil(this.T(), SectorJsonSchema(target))
-		target.Close()
-
-		target = this.target()
-		assert.Nil(this.T(), SectorInit(target))
-		target.named.Sheet = testdata.UnknownStr
-		assert.NotNil(this.T(), SectorJsonSchema(target))
+		assert.NotNil(this.T(), encodingJson(target))
 		target.Close()
 	} // if
 }

@@ -1,4 +1,4 @@
-package codes
+package tmpls
 
 import (
 	"os"
@@ -35,12 +35,12 @@ func (this *SuiteCode) SetupSuite() {
 }
 
 func (this *SuiteCode) TearDownSuite() {
-	_ = os.RemoveAll(internal.PathCode)
+	_ = os.RemoveAll(internal.PathTmpl)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteCode) target() *Code {
-	target := &Code{
+func (this *SuiteCode) target() *Tmpl {
+	target := &Tmpl{
 		Name: this.name,
 		Code: this.code1,
 	}
@@ -83,5 +83,5 @@ func (this *SuiteCode) TestSave() {
 
 func (this *SuiteCode) TestPath() {
 	target := this.target()
-	assert.Equal(this.T(), filepath.Join(internal.PathCode, target.Name), target.path())
+	assert.Equal(this.T(), filepath.Join(internal.PathTmpl, target.Name), target.path())
 }

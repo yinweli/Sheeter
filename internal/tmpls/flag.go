@@ -1,4 +1,4 @@
-package codes
+package tmpls
 
 import (
 	"github.com/spf13/cobra"
