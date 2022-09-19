@@ -15,8 +15,6 @@
 | cmd/sheeter/build   | 建置表格命令   |
 | cmd/sheeter/code    | 建置模板命令   |
 | cmd/sheeter/version | 顯示版本命令   |
-| cmd/verifycs        | cs程式碼驗證器 |
-| cmd/verifygo        | go程式碼驗證器 |
 | internal/builds     | 表格轉換       |
 | internal/codes      | 模板組件       |
 | internal/fields     | 欄位組件       |
@@ -25,6 +23,9 @@
 | internal/names      | 命名組件       |
 | internal/utils      | 協助組件       |
 | testdata            | 測試資料       |
+| verify/example      | 範例資料       |
+| verify/verifycs     | cs程式碼驗證   |
+| verify/verifygo     | go程式碼驗證   |
 
 # 如何安裝
 * 安裝[go]

@@ -17,7 +17,7 @@
 # 自己的忽略目錄
 bin/
 
-# tester-cs
-cmd/verifycs/.vs
-cmd/verifycs/bin
-cmd/verifycs/obj
+# verifycs
+verify/verifycs/.vs
+verify/verifycs/bin
+verify/verifycs/obj
