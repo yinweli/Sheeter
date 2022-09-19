@@ -21,3 +21,6 @@ bin/
 cmd/verifycs/.vs
 cmd/verifycs/bin
 cmd/verifycs/obj
+verify/verifycs/.vs
+verify/verifycs/bin
+verify/verifycs/obj
