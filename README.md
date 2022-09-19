@@ -105,19 +105,6 @@ elements:
 空表格(也就是沒有任何資料行)是允許的  
 轉換時, 只會轉換到第一個空行為止  
 
-## 轉出檔案路徑與檔案名稱
-如果excel檔案名稱為`example.xlsx`, 表格名稱為`Data`  
-* json資料檔案: json\exampleData.json
-* json的cs程式碼: json-cs\exampleData.cs
-* json的cs讀取器: json-cs\exampleDataReader.cs
-* json的go程式碼: json-go\exampleData.go
-* json的go讀取器: json-go\exampleDataReader.go
-* json架構檔案: json-schema\exampleData.json
-* 模板檔案: template\ ...
-* 命名空間: sheeter
-* 結構名稱: ExampleData
-* 讀取器名稱: ExampleDataReader
-
 ## 其他的限制
 * 表格必須有欄位行, 階層行, 註解行, 但是可以不需要有資料行
 * 欄位行, 階層行, 註解行必須在資料行之前
@@ -129,7 +116,7 @@ elements:
 * 欄位名稱不能重複(包括`empty`欄位)
 * cs程式碼使用`Newtonsoft.Json`來轉換json
 
-## 關於模板檔案
+# 關於模板檔案
 sheeter轉換時會把使用的程式碼模板輸出到template目錄下  
 使用者可以改變模板內容, 來產生自訂的程式碼  
 當sheeter版本更新時, 需要在終端執行以下命令來重置模板  
@@ -157,34 +144,23 @@ sheeter code -c
 | $.FieldTypeCs            | 取得cs欄位類型(需要輸入欄位資料作為參數) |
 | $.FieldTypeGo            | 取得go欄位類型(需要輸入欄位資料作為參數) |
 
+# 產生目錄
+| 名稱        | 說明                       |
+|:------------|:---------------------------|
+| json        | json資料檔案               |
+| json-cs     | json的cs結構與讀取器程式碼 |
+| json-go     | json的go結構與讀取器程式碼 |
+| json-schema | json架構檔案               |
+| template    | 模板檔案                   |
+
 # 轉換範例
 [example]
 
 # TODO
 * 產生protobuffer message
 * 產生protobuffer bytes data
-* 產生protobuffer/cs code
-* 產生protobuffer/go code
 * 產生flatbuffer message
 * 產生flatbuffer bytes data
-* 產生flatbuffer/cs code
-* 產生flatbuffer/go code
-* quicktype >> c++  
-  --src verifyData.json --src-lang json --top-level verifyDatas  
-  --out verifyData.hpp --lang c++  
-  --namespace sheeter  
-  --code-format with-struct  
-  --const-style west-const  
-  --type-style pascal-case  
-  --member-style camel-case  
-  --enumerator-style camel-case  
-  --source-style multi-source  
-  --include-location global-include  
-* quicktype >> java  
-  --src verifyData.json --src-lang json --top-level verifyDatas  
-  --out verifyData.java --lang java  
-  --package sheeter  
-  --just-types  
 
 [go]: https://go.dev/dl/
 [sheet]: https://github.com/yinweli/Sheet
