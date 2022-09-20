@@ -15,13 +15,11 @@ func TestInitializeSector(t *testing.T) {
 
 type SuiteInitializeSector struct {
 	suite.Suite
-	workDir     string
-	structNames []string
+	workDir string
 }
 
 func (this *SuiteInitializeSector) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.structNames = []string{"RealData", "S", "A"}
 }
 
 func (this *SuiteInitializeSector) TearDownSuite() {
@@ -46,7 +44,11 @@ func (this *SuiteInitializeSector) target() *RuntimeSector {
 func (this *SuiteInitializeSector) TestInitializeSector() {
 	target := this.target()
 	assert.Nil(this.T(), initializeSector(target))
-	assert.NotNil(this.T(), target.Excel)
+	assert.NotNil(this.T(), target.Mixed)
+	assert.NotNil(this.T(), target.excel)
+	assert.NotNil(this.T(), target.layoutJson)
+	assert.NotNil(this.T(), target.layoutType)
+	assert.NotNil(this.T(), target.layoutDepend)
 	target.Close()
 
 	target = this.target()

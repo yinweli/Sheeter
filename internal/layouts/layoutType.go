@@ -8,7 +8,6 @@ import (
 
 	"github.com/yinweli/Sheeter/internal/fields"
 	"github.com/yinweli/Sheeter/internal/layers"
-	"github.com/yinweli/Sheeter/internal/names"
 )
 
 // NewLayoutType 建立類型布局器
@@ -27,9 +26,10 @@ type LayoutType struct {
 
 // layoutType 類型資料
 type layoutType struct {
+	excel  string            // excel檔案名稱
+	sheet  string            // excel表格名稱
 	reader bool              // 是否要產生讀取器
-	named  *names.Named      // 命名工具
-	field  map[string]*Field // 欄位列表
+	fields map[string]*Field // 欄位列表
 }
 
 // Field 欄位資料
@@ -43,18 +43,19 @@ type Field struct {
 
 // Type 提供給外部使用的類型資料
 type Type struct {
-	Reader bool         // 是否要產生讀取器
-	Named  *names.Named // 命名工具
-	Field  []*Field     // 欄位列表
+	Excel  string   // excel檔案名稱
+	Sheet  string   // excel表格名稱
+	Reader bool     // 是否要產生讀取器
+	Fields []*Field // 欄位列表
 }
 
 // Begin 開始類型紀錄
-func (this *LayoutType) Begin(name string, named *names.Named) error {
+func (this *LayoutType) Begin(name, excel, sheet string) error {
 	if this.Closure() == false {
 		return fmt.Errorf("layoutType begin failed, not closed")
 	} // if
 
-	this.pushType(name, true, named)
+	this.pushType(name, excel, sheet, true)
 	return nil
 }
 
@@ -75,7 +76,7 @@ func (this *LayoutType) Add(name, note string, field fields.Field, layer []layer
 				return fmt.Errorf("layoutType add failed, pushField failed")
 			} // if
 
-			if this.pushType(itor.Name, false, &names.Named{Excel: itor.Name}) == false {
+			if this.pushType(itor.Name, itor.Name, "", false) == false {
 				return fmt.Errorf("layoutType add failed, pushType failed")
 			} // if
 		} // if
@@ -92,7 +93,7 @@ func (this *LayoutType) Add(name, note string, field fields.Field, layer []layer
 	return nil
 }
 
-// Merge 合併類型布局
+// Merge 合併類型布局器
 func (this *LayoutType) Merge(merge *LayoutType) error {
 	if merge.Closure() == false {
 		return fmt.Errorf("layoutType merge failed, source not closed")
@@ -101,17 +102,18 @@ func (this *LayoutType) Merge(merge *LayoutType) error {
 	for typeName, source := range merge.types {
 		if _, ok := this.types[typeName]; ok == false {
 			this.types[typeName] = &layoutType{
+				excel:  source.excel,
+				sheet:  source.sheet,
 				reader: source.reader,
-				named:  source.named,
-				field:  map[string]*Field{},
+				fields: map[string]*Field{},
 			}
 		} // if
 
 		target := this.types[typeName]
 
-		for fieldName, field := range source.field {
-			if _, ok := target.field[fieldName]; ok == false {
-				target.field[fieldName] = &Field{
+		for fieldName, field := range source.fields {
+			if _, ok := target.fields[fieldName]; ok == false {
+				target.fields[fieldName] = &Field{
 					Name:  field.Name,
 					Note:  field.Note,
 					Field: field.Field,
@@ -134,7 +136,7 @@ func (this *LayoutType) Types(name string) *Type {
 	if value, ok := this.types[name]; ok {
 		field := []*Field{}
 
-		for _, itor := range value.field {
+		for _, itor := range value.fields {
 			field = append(field, itor)
 		} // for
 
@@ -142,9 +144,10 @@ func (this *LayoutType) Types(name string) *Type {
 			return field[r].Name < field[l].Name
 		})
 		return &Type{
+			Excel:  value.excel,
+			Sheet:  value.sheet,
 			Reader: value.reader,
-			Named:  value.named,
-			Field:  field,
+			Fields: field,
 		}
 	} // if
 
@@ -166,7 +169,7 @@ func (this *LayoutType) TypeNames() (results []string) {
 // FieldNames 取得類型欄位名稱列表
 func (this *LayoutType) FieldNames(name string) (results []string) {
 	if value, ok := this.types[name]; ok {
-		for _, itor := range value.field {
+		for _, itor := range value.fields {
 			results = append(results, itor.Name)
 		} // for
 
@@ -184,15 +187,16 @@ func (this *LayoutType) Closure() bool {
 }
 
 // pushType 推入類型
-func (this *LayoutType) pushType(name string, reader bool, named *names.Named) bool {
+func (this *LayoutType) pushType(name, excel, sheet string, reader bool) bool {
 	if _, ok := this.types[name]; ok {
 		return false
 	} // if
 
 	this.types[name] = &layoutType{
+		excel:  excel,
+		sheet:  sheet,
 		reader: reader,
-		named:  named,
-		field:  map[string]*Field{},
+		fields: map[string]*Field{},
 	}
 	this.level.Push(name)
 	return true
@@ -216,7 +220,7 @@ func (this *LayoutType) pushField(name, note string, field fields.Field, alter s
 		return false
 	} // if
 
-	type_.field[name] = &Field{
+	type_.fields[name] = &Field{
 		Name:  name,
 		Note:  note,
 		Field: field,

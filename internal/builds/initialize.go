@@ -1,12 +1,11 @@
 package builds
 
 import (
-	"sync"
-
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Initialize 初始化
@@ -18,12 +17,18 @@ func Initialize(config *Config, runtime *Runtime) (errs []error) {
 		})
 	} // for
 
-	count := len(runtime.Sector)
-	errors := make(chan error) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
-	signaler := sync.WaitGroup{}
-	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(&signaler))
+	tasks := []func(sector *RuntimeSector) error{ // 工作函式列表
+		initializeSector,
+	}
+	itemCount := len(runtime.Sector)
+	taskCount := len(tasks)
+	totalCount := itemCount * taskCount
+
+	errors := make(chan error, itemCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
+	signaler := utils.NewWaitGroup(itemCount)
+	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))
 	progressbar := progress.AddBar(
-		int64(count),
+		int64(totalCount),
 		mpb.PrependDecorators(
 			decor.Percentage(decor.WCSyncSpace),
 		),
@@ -33,8 +38,6 @@ func Initialize(config *Config, runtime *Runtime) (errs []error) {
 		),
 	)
 
-	signaler.Add(count)
-
 	for _, itor := range runtime.Sector {
 		runtimeSector := itor // 多執行緒需要使用中間變數
 
@@ -42,12 +45,13 @@ func Initialize(config *Config, runtime *Runtime) (errs []error) {
 			defer signaler.Done()
 			defer runtimeSector.Close()
 
-			if err := initializeSector(runtimeSector); err != nil {
-				errors <- err
-				return
-			} // if
+			for _, itor := range tasks {
+				if err := itor(runtimeSector); err != nil {
+					errors <- err
+				} // if
 
-			progressbar.Increment()
+				progressbar.Increment()
+			} // for
 		}()
 	} // for
 

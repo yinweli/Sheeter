@@ -17,7 +17,7 @@ func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "build",
 		Short: "build sheet",
-		Long:  "generate struct code, reader code, json data from excel & sheet",
+		Long:  "generate struct, reader, json data from excel & sheet",
 		Run:   execute,
 	}
 	builds.SetFlags(cmd)
@@ -39,7 +39,7 @@ func execute(cmd *cobra.Command, _ []string) {
 	} // if
 
 	if err := tmpls.Initialize(cmd); err != nil {
-		cmd.Println(fmt.Errorf("build failed, code initialize failed: %w", err))
+		cmd.Println(fmt.Errorf("build failed, tmpl initialize failed: %w", err))
 		return
 	} // if
 

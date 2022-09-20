@@ -93,6 +93,11 @@ func (this *structor) pop(count int, removeArray bool) {
 	} // for
 }
 
+// back 取得最後的元素
+func (this *structor) back() *list.Element {
+	return this.datas.Back()
+}
+
 // closure 取得是否閉合
 func (this *structor) closure() bool {
 	return this.datas.Len() == 1

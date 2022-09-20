@@ -28,6 +28,9 @@ type Field interface {
 	// ToTypeGo 取得go類型字串
 	ToTypeGo() string
 
+	// ToTypeProto 取得proto類型字串
+	ToTypeProto() string
+
 	// ToJsonValue 轉換為json值
 	ToJsonValue(input string, preset bool) (result interface{}, err error)
 }

@@ -36,8 +36,9 @@ func (this *SuiteText) TestField() {
 	assert.Equal(this.T(), "text", target.Type())
 	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Equal(this.T(), internal.TokenString, target.ToTypeCs())
-	assert.Equal(this.T(), internal.TokenString, target.ToTypeGo())
+	assert.Equal(this.T(), internal.TokenStringCs, target.ToTypeCs())
+	assert.Equal(this.T(), internal.TokenStringGo, target.ToTypeGo())
+	assert.Equal(this.T(), internal.TokenStringProto, target.ToTypeProto())
 }
 
 func (this *SuiteText) TestToJsonValue() {

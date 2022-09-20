@@ -14,7 +14,7 @@ type VerifyData1Reader struct {
 }
 
 func (this *VerifyData1Reader) Json() string {
-	return "json/verifyData1.json"
+	return "data-json/verifyData1.json"
 }
 
 func (this *VerifyData1Reader) FromJsonFile(path string) error {

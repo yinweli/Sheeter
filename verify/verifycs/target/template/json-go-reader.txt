@@ -14,7 +14,7 @@ type {{$.Named.ReaderName}} struct {
 }
 
 func (this *{{$.Named.ReaderName}}) Json() string {
-	return "{{$.Named.FileJsonCode}}"
+	return "{{$.Named.FileJsonDataCode}}"
 }
 
 func (this *{{$.Named.ReaderName}}) FromJsonFile(path string) error {

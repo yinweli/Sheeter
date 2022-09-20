@@ -29,6 +29,11 @@ func (this *Empty) ToTypeGo() string {
 	return ""
 }
 
+// ToTypeProto 取得proto類型字串
+func (this *Empty) ToTypeProto() string {
+	return ""
+}
+
 // ToJsonValue 轉換為json值
 func (this *Empty) ToJsonValue(input string, _ bool) (result interface{}, err error) {
 	return nil, nil

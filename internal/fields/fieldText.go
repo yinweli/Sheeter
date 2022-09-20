@@ -25,12 +25,17 @@ func (this *Text) IsPkey() bool {
 
 // ToTypeCs 取得cs類型字串
 func (this *Text) ToTypeCs() string {
-	return internal.TokenString
+	return internal.TokenStringCs
 }
 
 // ToTypeGo 取得go類型字串
 func (this *Text) ToTypeGo() string {
-	return internal.TokenString
+	return internal.TokenStringGo
+}
+
+// ToTypeProto 取得proto類型字串
+func (this *Text) ToTypeProto() string {
+	return internal.TokenStringProto
 }
 
 // ToJsonValue 轉換為json值

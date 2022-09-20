@@ -8,10 +8,11 @@ import (
 
 // encodingJson 產生json編碼資料
 func encodingJson(runtimeSector *RuntimeSector) error {
+	structName := runtimeSector.StructName()
 	rows, err := runtimeSector.GetRows(runtimeSector.LineOfData)
 
 	if err != nil {
-		return fmt.Errorf("%s: encoding json failed, data line not found", runtimeSector.named.StructName())
+		return fmt.Errorf("%s: encoding json failed, data line not found", structName)
 	} // if
 
 	defer func() { _ = rows.Close() }()
@@ -27,14 +28,14 @@ func encodingJson(runtimeSector *RuntimeSector) error {
 		packs, pkey, err := runtimeSector.layoutJson.Pack(datas, false)
 
 		if err != nil {
-			return fmt.Errorf("%s: encoding json failed: %w", runtimeSector.named.StructName(), err)
+			return fmt.Errorf("%s: encoding json failed: %w", structName, err)
 		} // if
 
 		objs[pkey] = packs
 	} // for
 
-	if err = utils.WriteJson(runtimeSector.named.FileJson(), objs); err != nil {
-		return fmt.Errorf("%s: encoding json failed: %w", runtimeSector.named.StructName(), err)
+	if err = utils.WriteJson(runtimeSector.FileJsonData(), objs); err != nil {
+		return fmt.Errorf("%s: encoding json failed: %w", structName, err)
 	} // if
 
 	return nil

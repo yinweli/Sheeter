@@ -5,7 +5,7 @@
 
 # Sheeter
 以go做成的excel轉換工具, 前身是[sheet]  
-將以指定格式做好的excel轉換為json, cs程式碼, go程式碼
+將以指定格式做好的excel轉換為json, cs程式碼, go程式碼, proto檔案
 
 # 目錄說明
 | 目錄                | 說明           |
@@ -13,14 +13,14 @@
 | doc                 | 說明文件       |
 | cmd/sheeter         | sheeter        |
 | cmd/sheeter/build   | 建置表格命令   |
-| cmd/sheeter/code    | 建置模板命令   |
+| cmd/sheeter/tmpl    | 產生模板命令   |
 | cmd/sheeter/version | 顯示版本命令   |
 | internal/builds     | 表格轉換       |
-| internal/codes      | 模板組件       |
 | internal/fields     | 欄位組件       |
 | internal/layers     | 階層組件       |
 | internal/layouts    | 布局組件       |
-| internal/names      | 命名組件       |
+| internal/mixeds     | 綜合工具       |
+| internal/tmpls      | 模板組件       |
 | internal/utils      | 協助組件       |
 | testdata            | 測試資料       |
 | verify/example      | 範例資料       |
@@ -41,8 +41,8 @@
   sheeter build --config 設定檔.yaml
   ```
 * tmpl: 產生模板檔案  
-  這會產生建置時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
-  執行建置命令時也會產生模板檔案  
+  這會產生執行時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
+  執行建置表格命令時也會產生模板檔案  
   ```shell
   sheeter tmpl
   ```
@@ -125,56 +125,94 @@ sheeter tmpl -c
 ```
 模板檔案使用golang的[template]語法, 同時可以參考以下變數來做結構名稱或是欄位名稱等的替換  
 
-| 名稱                     | 說明                                     |
-|:-------------------------|:-----------------------------------------|
-| $.Named.AppName          | 程式名稱                                 |
-| $.Named.Namespace        | 命名空間名稱                             |
-| $.Named.StructName       | 結構名稱                                 |
-| $.Named.ReaderName       | 讀取器名稱                               |
-| $.Named.FileJson         | json檔名路徑                             |
-| $.Named.FileJsonCode     | json檔名路徑(程式碼可用)                 |
-| $.Named.FileJsonSchema   | json架構檔名路徑                         |
-| $.Named.FileJsonCsCode   | json-cs程式碼檔名路徑                    |
-| $.Named.FileJsonCsReader | json-cs讀取器檔名路徑                    |
-| $.Named.FileJsonGoCode   | json-go程式碼檔名路徑                    |
-| $.Named.FileJsonGoReader | json-go讀取器檔名路徑                    |
-| $.Field                  | 欄位列表                                 |
-| $.FieldName              | 取得欄位名稱(需要輸入欄位資料作為參數)   |
-| $.FieldNote              | 取得欄位註解(需要輸入欄位資料作為參數)   |
-| $.FieldTypeCs            | 取得cs欄位類型(需要輸入欄位資料作為參數) |
-| $.FieldTypeGo            | 取得go欄位類型(需要輸入欄位資料作為參數) |
+| 名稱                | 說明                                                                       |
+|:--------------------|:---------------------------------------------------------------------------|
+| $.AppName           | 程式名稱                                                                   |
+| $.Namespace         | 命名空間名稱                                                               |
+| $.StructName        | 結構名稱                                                                   |
+| $.ReaderName        | 讀取器名稱                                                                 |
+| $.FileJsonCsStruct  | json-cs結構程式碼檔名路徑                                                  |
+| $.FileJsonCsReader  | json-cs讀取器程式碼檔名路徑                                                |
+| $.FileJsonGoStruct  | json-go結構程式碼檔名路徑                                                  |
+| $.FileJsonGoReader  | json-go讀取器程式碼檔名路徑                                                |
+| $.FileJsonData      | json資料檔名路徑                                                           |
+| $.FileJsonDataCode  | json資料檔名路徑(程式碼可用)                                               |
+| $.PathProtoSchema   | proto架構路徑                                                              |
+| $.PathProtoCs       | proto-cs路徑                                                               |
+| $.PathProtoGo       | proto-go路徑                                                               |
+| $.FileProtoDepend   | proto依賴檔案名稱 [依賴名稱]                                               |
+| $.FileProtoSchema   | proto架構檔名路徑                                                          |
+| $.FileProtoCsReader | proto-cs讀取器程式碼檔名路徑                                               |
+| $.FileProtoGoReader | proto-go讀取器程式碼檔名路徑                                               |
+| $.FileProtoData     | proto資料檔名路徑                                                          |
+| $.FileProtoDataCode | proto資料檔名路徑(程式碼可用)                                              |
+| $.FileProtoBat      | proto-bat檔名路徑                                                          |
+| $.FileProtoSh       | proto-sh檔名路徑                                                           |
+| $.FieldName         | 取得欄位名稱 [欄位資料]                                                    |
+| $.FieldNote         | 取得欄位註解 [欄位資料]                                                    |
+| $.FieldTypeCs       | 取得cs欄位類型 [欄位資料]                                                  |
+| $.FieldTypeGo       | 取得go欄位類型 [欄位資料]                                                  |
+| $.FieldTypeProto    | 取得go欄位類型 [欄位資料]                                                  |
+| $.Add               | 加法(v1 + v2) [數值 數值]                                                  |
+| $.Sub               | 減法(v1 - v2) [數值 數值]                                                  |
+| $.Mul               | 乘法(v1 x v2) [數值 數值]                                                  |
+| $.Div               | 除法(v1 / v2) [數值 數值]                                                  |
+| $.Fields            | 欄位列表, 只有json-cs-struct.txt, json-go-struct.txt, proto-schema.txt可用 |
+| $.Depend            | 依賴列表, 只有proto-schema.txt可用                                         |
 
 # 產生目錄
-| 名稱        | 說明                       |
-|:------------|:---------------------------|
-| json        | json資料檔案               |
-| json-cs     | json的cs結構與讀取器程式碼 |
-| json-go     | json的go結構與讀取器程式碼 |
-| json-schema | json架構檔案               |
-| template    | 模板檔案                   |
+| 名稱       | 說明                       |
+|:-----------|:---------------------------|
+| data-json  | json資料檔案               |
+| json-cs    | json的cs結構與讀取器程式碼 |
+| json-go    | json的go結構與讀取器程式碼 |
+| data-proto | proto資料檔案              |
+| proto      | proto架構檔案              |
+| proto-cs   | proto的cs讀取器程式碼      |
+| proto-go   | proto的go讀取器程式碼      |
+| template   | 模板檔案                   |
 
 # 轉換範例
 [example]
 
+# 如果要從proto檔案轉換為程式碼
+* cs
+    * 安裝[protoc]
+* go
+    * 安裝[go]
+    * 安裝[protoc]
+    * 執行以下命令來安裝protobuf的[protoc-go]外掛
+     ```shell
+     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+     ```
+* 還可以安裝buf來格式化產出的proto檔案(為了美觀!)
+    * 安裝[buf]
+    * 執行以下命令來格式化proto檔案
+     ```shell
+     buf format -w 存放proto檔案的路徑
+     ```
+
 # TODO
-* 產生protobuffer message
 * 產生protobuffer bytes data
 * 產生flatbuffer message
 * 產生flatbuffer bytes data
 
 # 暫時紀錄
-* builds generate [multi thread <每個type>]
-    * proto schema => proto-schema
 * builds encoding [multi thread <每個config.element>]
-    * proto => proto-data
-* https://github.com/protocolbuffers/protobuf-go
-* https://farer.org/2020/04/17/go-protobuf-apiv2-reflect-dynamicpb/
-* https://github.com/overtalk/dynamic-protobuf
+    * proto
+* .pbd     => encodingProto          : multi thread <runtimeSector>
+* .bat/.sh => poststepCs, poststepGo : all runtimeStruct
+* https://pkg.go.dev/google.golang.org/protobuf/encoding/protojson#Unmarshal
+* https://github.com/jhump/protoreflect
+* https://cloud.tencent.com/developer/article/1542624
 
+[buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/
+[protoc-go]: https://github.com/protocolbuffers/protobuf-go
+[protoc]: https://github.com/protocolbuffers/protobuf
 [sheet]: https://github.com/yinweli/Sheet
 [sheeter]: https://github.com/yinweli/sheeter
 [template]: https://pkg.go.dev/text/template
 
-[excel]: doc/image/excel.jpg
 [example]: doc/example/example.7z
+[excel]: doc/image/excel.jpg

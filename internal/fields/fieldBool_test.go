@@ -36,8 +36,9 @@ func (this *SuiteBool) TestField() {
 	assert.Equal(this.T(), "bool", target.Type())
 	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Equal(this.T(), internal.TokenBool, target.ToTypeCs())
-	assert.Equal(this.T(), internal.TokenBool, target.ToTypeGo())
+	assert.Equal(this.T(), internal.TokenBoolCs, target.ToTypeCs())
+	assert.Equal(this.T(), internal.TokenBoolGo, target.ToTypeGo())
+	assert.Equal(this.T(), internal.TokenBoolProto, target.ToTypeProto())
 }
 
 func (this *SuiteBool) TestToJsonValue() {

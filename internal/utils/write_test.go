@@ -18,50 +18,27 @@ func TestWrite(t *testing.T) {
 
 type SuiteWrite struct {
 	suite.Suite
-	workDir      string
-	name         string
-	path         string
-	filePathReal string
-	filePathFake string
-	fileBytes    []byte
-	jsonPathReal string
-	jsonPathFake string
-	jsonDatas    map[string]string
-	jsonBytes    []byte
-	tmplPathReal string
-	tmplPathFake string
-	tmplContent  string
-	tmplDatas    map[string]string
-	tmplBytes    []byte
+	workDir string
+	dirReal string
+	dirFake string
 }
 
 func (this *SuiteWrite) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.name = "name"
-	this.path = filepath.Join("dir1", "dir2", "dir3", this.name+"."+"txt")
-	this.filePathReal = "file/test.file"
-	this.filePathFake = "?file/test.file"
-	this.fileBytes = []byte("this is a string")
-	this.jsonPathReal = "json/test.json"
-	this.jsonPathFake = "?json/test.json"
-	this.jsonDatas = map[string]string{"data": "value"}
-	this.jsonBytes, _ = json.MarshalIndent(this.jsonDatas, jsonPrefix, jsonIdent)
-	this.tmplPathReal = "tmpl/test.tmpl"
-	this.tmplPathFake = "?tmpl/test.tmpl"
-	this.tmplContent = "{{$.Value}}"
-	this.tmplDatas = map[string]string{"Value": "Value"}
-	this.tmplBytes = []byte("Value")
+	this.dirReal = "write"
+	this.dirFake = "?write"
 }
 
 func (this *SuiteWrite) TearDownSuite() {
-	_ = os.RemoveAll(filepath.Dir(this.filePathReal))
-	_ = os.RemoveAll(filepath.Dir(this.jsonPathReal))
-	_ = os.RemoveAll(filepath.Dir(this.tmplPathReal))
+	_ = os.RemoveAll(this.dirReal)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
 func (this *SuiteWrite) TestFileName() {
-	assert.Equal(this.T(), this.name, FileName(this.path))
+	name := "test"
+	path := filepath.Join("dir1", "dir2", "dir3", name+".txt")
+
+	assert.Equal(this.T(), name, FileName(path))
 }
 
 func (this *SuiteWrite) TestExistFile() {
@@ -70,34 +47,53 @@ func (this *SuiteWrite) TestExistFile() {
 }
 
 func (this *SuiteWrite) TestWriteFile() {
-	assert.Nil(this.T(), WriteFile(this.filePathReal, this.fileBytes))
-	testdata.CompareFile(this.T(), this.filePathReal, this.fileBytes)
+	name := "test.file"
+	pathReal := filepath.Join(this.dirReal, name)
+	pathFake := filepath.Join(this.dirFake, name)
+	bytes := []byte("this is a string")
+
+	assert.Nil(this.T(), WriteFile(pathReal, bytes))
+	testdata.CompareFile(this.T(), pathReal, bytes)
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
-		assert.NotNil(this.T(), WriteFile(this.filePathFake, this.fileBytes))
+		assert.NotNil(this.T(), WriteFile(pathFake, bytes))
 	} // if
 }
 
 func (this *SuiteWrite) TestWriteJson() {
-	assert.Nil(this.T(), WriteJson(this.jsonPathReal, this.jsonDatas))
-	testdata.CompareFile(this.T(), this.jsonPathReal, this.jsonBytes)
+	name := "test.json"
+	pathReal := filepath.Join(this.dirReal, name)
+	pathFake := filepath.Join(this.dirFake, name)
+	datas := map[string]string{"data": "value"}
+	bytes, _ := json.MarshalIndent(datas, jsonPrefix, jsonIdent)
+
+	assert.Nil(this.T(), WriteJson(pathReal, datas))
+	testdata.CompareFile(this.T(), pathReal, bytes)
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
-		assert.NotNil(this.T(), WriteJson(this.filePathFake, this.jsonDatas))
+		assert.NotNil(this.T(), WriteJson(pathFake, datas))
 	} // if
 }
 
 func (this *SuiteWrite) TestWriteTmpl() {
-	assert.Nil(this.T(), WriteTmpl(this.tmplPathReal, this.tmplContent, this.tmplDatas))
-	testdata.CompareFile(this.T(), this.tmplPathReal, this.tmplBytes)
+	name := "test.tmpl"
+	pathReal := filepath.Join(this.dirReal, name)
+	pathFake := filepath.Join(this.dirFake, name)
+	contentReal := "{{$.Value}}"
+	contentFake := "{{{$.Value}}"
+	datas := map[string]string{"Value": "Value"}
+	bytes := []byte("Value")
 
-	assert.NotNil(this.T(), WriteTmpl(this.tmplPathReal, "{{{$.Value}}", nil))
-	assert.NotNil(this.T(), WriteTmpl(this.tmplPathReal, this.tmplContent, "nothing!"))
+	assert.Nil(this.T(), WriteTmpl(pathReal, contentReal, datas))
+	testdata.CompareFile(this.T(), pathReal, bytes)
+
+	assert.NotNil(this.T(), WriteTmpl(pathReal, contentFake, nil))
+	assert.NotNil(this.T(), WriteTmpl(pathReal, contentReal, "nothing!"))
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
-		assert.NotNil(this.T(), WriteTmpl(this.tmplPathFake, this.tmplContent, this.tmplDatas))
+		assert.NotNil(this.T(), WriteTmpl(pathFake, contentReal, datas))
 	} // if
 }

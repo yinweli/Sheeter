@@ -16,12 +16,10 @@ func TestStrings(t *testing.T) {
 type SuiteStrings struct {
 	suite.Suite
 	workDir string
-	items   []string
 }
 
 func (this *SuiteStrings) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.items = []string{"a", "b", "c"}
 }
 
 func (this *SuiteStrings) TearDownSuite() {
@@ -45,8 +43,9 @@ func (this *SuiteStrings) TestAllSame() {
 }
 
 func (this *SuiteStrings) TestGetItem() {
-	assert.Equal(this.T(), "a", GetItem(this.items, 0))
-	assert.Equal(this.T(), "b", GetItem(this.items, 1))
-	assert.Equal(this.T(), "c", GetItem(this.items, 2))
-	assert.Equal(this.T(), "", GetItem(this.items, 3))
+	items := []string{"a", "b", "c"}
+	assert.Equal(this.T(), "a", GetItem(items, 0))
+	assert.Equal(this.T(), "b", GetItem(items, 1))
+	assert.Equal(this.T(), "c", GetItem(items, 2))
+	assert.Equal(this.T(), "", GetItem(items, 3))
 }

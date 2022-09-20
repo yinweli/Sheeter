@@ -36,6 +36,11 @@ func (this *Pkey) ToTypeGo() string {
 	return internal.TokenIntGo
 }
 
+// ToTypeProto 取得proto類型字串
+func (this *Pkey) ToTypeProto() string {
+	return internal.TokenIntProto
+}
+
 // ToJsonValue 轉換為json值
 func (this *Pkey) ToJsonValue(input string, preset bool) (result interface{}, err error) {
 	if preset {

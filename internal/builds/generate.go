@@ -1,24 +1,31 @@
 package builds
 
 import (
-	"sync"
-
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Generate 產生程式碼
 func Generate(runtime *Runtime) (errs []error) {
-	const tasks = 4 // 要執行的工作數量
+	tasks := []func(*RuntimeStruct) error{ // 工作函式列表
+		generateJsonCsStruct,
+		generateJsonCsReader,
+		generateJsonGoStruct,
+		generateJsonGoReader,
+		generateProtoSchema,
+	}
+	itemCount := len(runtime.Struct)
+	taskCount := len(tasks)
+	totalCount := itemCount * taskCount
 
-	count := len(runtime.Struct)
-	errors := make(chan error) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
-	signaler := sync.WaitGroup{}
-	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(&signaler))
+	errors := make(chan error, itemCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
+	signaler := utils.NewWaitGroup(itemCount)
+	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))
 	progressbar := progress.AddBar(
-		int64(count*tasks),
+		int64(totalCount),
 		mpb.PrependDecorators(
 			decor.Percentage(decor.WCSyncSpace),
 		),
@@ -28,37 +35,19 @@ func Generate(runtime *Runtime) (errs []error) {
 		),
 	)
 
-	signaler.Add(count)
-
 	for _, itor := range runtime.Struct {
 		runtimeStruct := itor // 多執行緒需要使用中間變數
 
 		go func() {
 			defer signaler.Done()
 
-			if err := generateJsonCsStruct(runtimeStruct); err != nil {
-				errors <- err
-			} // if
+			for _, itor := range tasks {
+				if err := itor(runtimeStruct); err != nil {
+					errors <- err
+				} // if
 
-			progressbar.Increment()
-
-			if err := generateJsonCsReader(runtimeStruct); err != nil {
-				errors <- err
-			} // if
-
-			progressbar.Increment()
-
-			if err := generateJsonGoStruct(runtimeStruct); err != nil {
-				errors <- err
-			} // if
-
-			progressbar.Increment()
-
-			if err := generateJsonGoReader(runtimeStruct); err != nil {
-				errors <- err
-			} // if
-
-			progressbar.Increment()
+				progressbar.Increment()
+			} // for
 		}()
 	} // for
 

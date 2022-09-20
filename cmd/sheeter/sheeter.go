@@ -12,7 +12,7 @@ import (
 func main() {
 	rootCommand := cobra.Command{
 		Use:     internal.AppName,
-		Long:    "Sheeter used to convert excel file to json file, and generate code of data structure",
+		Long:    "Sheeter used to generate struct, reader, json data from excel & sheet",
 		Version: internal.Version,
 	}
 	rootCommand.AddCommand(build.NewCommand())

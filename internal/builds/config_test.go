@@ -1,7 +1,6 @@
 package builds
 
 import (
-	"strconv"
 	"testing"
 
 	"github.com/spf13/cobra"
@@ -17,39 +16,11 @@ func TestConfig(t *testing.T) {
 
 type SuiteConfig struct {
 	suite.Suite
-	workDir    string
-	configFile Config
-	configFlag Config
-	elements   string
+	workDir string
 }
 
 func (this *SuiteConfig) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.configFile = Config{
-		Global: Global{
-			LineOfField: 101,
-			LineOfLayer: 102,
-			LineOfNote:  103,
-			LineOfData:  104,
-		},
-		Elements: []Element{
-			{Excel: "excel1", Sheet: "sheet1"},
-			{Excel: "excel2", Sheet: "sheet2"},
-		},
-	}
-	this.configFlag = Config{
-		Global: Global{
-			LineOfField: 201,
-			LineOfLayer: 202,
-			LineOfNote:  203,
-			LineOfData:  204,
-		},
-		Elements: []Element{
-			{Excel: "excel3", Sheet: "sheet3"},
-			{Excel: "excel4", Sheet: "sheet4"},
-		},
-	}
-	this.elements = "excel3#sheet3,excel4#sheet4"
 }
 
 func (this *SuiteConfig) TearDownSuite() {
@@ -59,13 +30,16 @@ func (this *SuiteConfig) TearDownSuite() {
 func (this *SuiteConfig) target() *Config {
 	target := &Config{
 		Global: Global{
-			LineOfField: this.configFile.Global.LineOfField,
-			LineOfLayer: this.configFile.Global.LineOfLayer,
-			LineOfNote:  this.configFile.Global.LineOfNote,
-			LineOfData:  this.configFile.Global.LineOfData,
+			LineOfField: 1,
+			LineOfLayer: 2,
+			LineOfNote:  3,
+			LineOfData:  4,
+		},
+		Elements: []Element{
+			{Excel: "excel1", Sheet: "sheet1"},
+			{Excel: "excel2", Sheet: "sheet2"},
 		},
 	}
-	target.Elements = append(target.Elements, this.configFile.Elements...)
 	return target
 }
 
@@ -74,25 +48,25 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigNameReal))
 	config := Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
-	assert.Equal(this.T(), this.configFile.Global.LineOfField, config.Global.LineOfField)
-	assert.Equal(this.T(), this.configFile.Global.LineOfLayer, config.Global.LineOfLayer)
-	assert.Equal(this.T(), this.configFile.Global.LineOfNote, config.Global.LineOfNote)
-	assert.Equal(this.T(), this.configFile.Global.LineOfData, config.Global.LineOfData)
-	assert.Equal(this.T(), this.configFile.Elements, config.Elements)
+	assert.Equal(this.T(), 101, config.Global.LineOfField)
+	assert.Equal(this.T(), 102, config.Global.LineOfLayer)
+	assert.Equal(this.T(), 103, config.Global.LineOfNote)
+	assert.Equal(this.T(), 104, config.Global.LineOfData)
+	assert.Equal(this.T(), []Element{{Excel: "excel1", Sheet: "sheet1"}, {Excel: "excel2", Sheet: "sheet2"}}, config.Elements)
 
 	cmd = SetFlags(&cobra.Command{})
-	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfField, strconv.Itoa(this.configFlag.Global.LineOfField)))
-	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfLayer, strconv.Itoa(this.configFlag.Global.LineOfLayer)))
-	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfNote, strconv.Itoa(this.configFlag.Global.LineOfNote)))
-	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfData, strconv.Itoa(this.configFlag.Global.LineOfData)))
-	assert.Nil(this.T(), cmd.Flags().Set(flagElements, this.elements))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfField, "201"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfLayer, "202"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfNote, "203"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfData, "204"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagElements, "excel3#sheet3,excel4#sheet4"))
 	config = Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
-	assert.Equal(this.T(), this.configFlag.Global.LineOfField, config.Global.LineOfField)
-	assert.Equal(this.T(), this.configFlag.Global.LineOfLayer, config.Global.LineOfLayer)
-	assert.Equal(this.T(), this.configFlag.Global.LineOfNote, config.Global.LineOfNote)
-	assert.Equal(this.T(), this.configFlag.Global.LineOfData, config.Global.LineOfData)
-	assert.Equal(this.T(), this.configFlag.Elements, config.Elements)
+	assert.Equal(this.T(), 201, config.Global.LineOfField)
+	assert.Equal(this.T(), 202, config.Global.LineOfLayer)
+	assert.Equal(this.T(), 203, config.Global.LineOfNote)
+	assert.Equal(this.T(), 204, config.Global.LineOfData)
+	assert.Equal(this.T(), []Element{{Excel: "excel3", Sheet: "sheet3"}, {Excel: "excel4", Sheet: "sheet4"}}, config.Elements)
 
 	cmd = SetFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigNameFake))
@@ -143,5 +117,13 @@ func (this *SuiteConfig) TestCheck() {
 
 	target = this.target()
 	target.Elements[0].Sheet = ""
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Elements[1].Excel = ""
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Elements[1].Sheet = ""
 	assert.NotNil(this.T(), target.Check())
 }

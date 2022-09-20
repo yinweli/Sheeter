@@ -5,10 +5,8 @@ import (
 
 	"github.com/xuri/excelize/v2"
 
-	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/layouts"
-	"github.com/yinweli/Sheeter/internal/names"
-	"github.com/yinweli/Sheeter/internal/utils"
+	"github.com/yinweli/Sheeter/internal/mixeds"
 )
 
 // Runtime 執行期資料
@@ -19,12 +17,13 @@ type Runtime struct {
 
 // RuntimeSector 執行期區段資料
 type RuntimeSector struct {
-	Global                         // 全域設定
-	Element                        // 項目設定
-	named      *names.Named        // 命名工具
-	excel      *excelize.File      // excel物件
-	layoutJson *layouts.LayoutJson // json布局器
-	layoutType *layouts.LayoutType // 類型布局器
+	Global                              // 全域設定
+	Element                             // 項目設定
+	*mixeds.Mixed                       // 綜合工具
+	excel         *excelize.File        // excel物件
+	layoutJson    *layouts.LayoutJson   // json布局器
+	layoutType    *layouts.LayoutType   // 類型布局器
+	layoutDepend  *layouts.LayoutDepend // 依賴布局器
 }
 
 // Close 關閉excel物件
@@ -88,49 +87,7 @@ func (this *RuntimeSector) GetColumns(line int) (cols []string, err error) {
 
 // RuntimeStruct 執行期結構資料
 type RuntimeStruct struct {
-	*layouts.Type // 類型資料
-}
-
-// FieldName 取得欄位名稱
-func (this *RuntimeStruct) FieldName(field *layouts.Field) string {
-	return utils.FirstUpper(field.Name)
-}
-
-// FieldNote 取得欄位註解
-func (this *RuntimeStruct) FieldNote(field *layouts.Field) string {
-	return field.Note
-}
-
-// FieldTypeCs 取得cs欄位類型
-func (this *RuntimeStruct) FieldTypeCs(field *layouts.Field) string {
-	name := ""
-
-	if field.Field != nil {
-		name += field.Field.ToTypeCs()
-	} else {
-		name += field.Alter
-	} // if
-
-	if field.Array {
-		name += internal.TokenArray
-	} // if
-
-	return name
-}
-
-// FieldTypeGo 取得go欄位類型
-func (this *RuntimeStruct) FieldTypeGo(field *layouts.Field) string {
-	name := ""
-
-	if field.Array {
-		name += internal.TokenArray
-	} // if
-
-	if field.Field != nil {
-		name += field.Field.ToTypeGo()
-	} else {
-		name += field.Alter
-	} // if
-
-	return name
+	*mixeds.Mixed          // 綜合工具
+	*layouts.Type          // 類型資料
+	Depend        []string // 依賴列表
 }

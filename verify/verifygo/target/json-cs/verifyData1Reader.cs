@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace sheeter {
     public partial class VerifyData1Reader {
-        public static readonly string Json = "json/verifyData1.json";
+        public static readonly string Json = "data-json/verifyData1.json";
 
         public static Dictionary<long, VerifyData1> FromJsonFile(string path) {
             return FromJsonString(File.ReadAllText(path));
