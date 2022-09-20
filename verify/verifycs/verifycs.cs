@@ -6,14 +6,14 @@ namespace verifycs {
     public class Verifycs {
         public static void Main()
         {
-            var reader = VerifyDataReader.FromJsonFile(VerifyDataReader.Json);
+            var reader = VerifyData1Reader.FromJsonFile(VerifyData1Reader.Json);
 
             if (reader == null) {
                 throw new Exception("verify cs: read failed");
             } // if
 
-            var expects = new VerifyData[] {
-                new VerifyData {
+            var expects = new VerifyData1[] {
+                new VerifyData1 {
                     Reward = new Reward {
                         Item = new Item[] {
                             new Item{ Count = 10, ItemID = 10001, Type = 1, },
@@ -30,7 +30,7 @@ namespace verifycs {
                     Key = 1,
                     Name = "名稱1",
                 },
-                new VerifyData {
+                new VerifyData1 {
                     Reward = new Reward {
                         Item = new Item[] {
                             new Item{ Count = 10, ItemID = 10001, Type = 1, },
@@ -47,7 +47,7 @@ namespace verifycs {
                     Key = 2,
                     Name = "名稱2",
                 },
-                new VerifyData {
+                new VerifyData1 {
                     Reward = new Reward {
                         Item = new Item[] {
                             new Item{ Count = 10, ItemID = 10001, Type = 1, },
@@ -64,7 +64,7 @@ namespace verifycs {
                     Key = 3,
                     Name = "名稱3",
                 },
-                new VerifyData {
+                new VerifyData1 {
                     Reward = new Reward {
                         Item = new Item[] {
                             new Item{ Count = 10, ItemID = 10001, Type = 1, },

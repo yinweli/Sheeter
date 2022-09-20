@@ -6,4 +6,6 @@ global:
 
 elements:
     - excel: verify.xlsx
-      sheet: Data
+      sheet: Data1
+    - excel: verify.xlsx
+      sheet: Data2

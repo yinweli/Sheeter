@@ -69,44 +69,50 @@ package sheeter
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"strconv"
 )
 
-type TestDataReader map[int64]TestData
+type TestDataReader struct {
+	Datas map[int64]TestData
+}
 
-var Json = "%s"
+func (this *TestDataReader) Json() string {
+	return "%s"
+}
 
-func FromJsonFile(path string) (reader TestDataReader, err error) {
+func (this *TestDataReader) FromJsonFile(path string) error {
 	data, err := os.ReadFile(path)
 
 	if err != nil {
-		return nil, err
+		return fmt.Errorf("TestDataReader: from json file failed: %%w", err)
 	}
 
-	return FromJsonBytes(data)
+	return this.FromJsonBytes(data)
 }
 
-func FromJsonBytes(data []byte) (reader TestDataReader, err error) {
+func (this *TestDataReader) FromJsonBytes(data []byte) error {
 	temps := map[string]TestData{}
 
 	if err := json.Unmarshal(data, &temps); err != nil {
-		return nil, err
+		return err
 	}
 
-	datas := TestDataReader{}
+	datas := map[int64]TestData{}
 
 	for key, value := range temps {
 		k, err := strconv.ParseInt(key, 10, 64)
 
 		if err != nil {
-			return nil, err
+			return fmt.Errorf("TestDataReader: from json bytes failed: %%w", err)
 		}
 
 		datas[k] = value
 	}
 
-	return datas, nil
+	this.Datas = datas
+	return nil
 }
 `, filepath.ToSlash(filepath.Join(internal.PathJson, "testData.json"))))
 }

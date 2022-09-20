@@ -176,44 +176,50 @@ package {{$.Named.Namespace}}
 
 import (
 	"encoding/json"
+	"fmt"
 	"os"
 	"strconv"
 )
 
-type {{$.Named.ReaderName}} map[int64]{{$.Named.StructName}}
+type {{$.Named.ReaderName}} struct {
+	Datas map[int64]{{$.Named.StructName}}
+}
 
-var Json = "{{$.Named.FileJsonCode}}"
+func (this *{{$.Named.ReaderName}}) Json() string {
+	return "{{$.Named.FileJsonCode}}"
+}
 
-func FromJsonFile(path string) (reader {{$.Named.ReaderName}}, err error) {
+func (this *{{$.Named.ReaderName}}) FromJsonFile(path string) error {
 	data, err := os.ReadFile(path)
 
 	if err != nil {
-		return nil, err
+		return fmt.Errorf("{{$.Named.ReaderName}}: from json file failed: %w", err)
 	}
 
-	return FromJsonBytes(data)
+	return this.FromJsonBytes(data)
 }
 
-func FromJsonBytes(data []byte) (reader {{$.Named.ReaderName}}, err error) {
+func (this *{{$.Named.ReaderName}}) FromJsonBytes(data []byte) error {
 	temps := map[string]{{$.Named.StructName}}{}
 
 	if err := json.Unmarshal(data, &temps); err != nil {
-		return nil, err
+		return err
 	}
 
-	datas := {{$.Named.ReaderName}}{}
+	datas := map[int64]{{$.Named.StructName}}{}
 
 	for key, value := range temps {
 		k, err := strconv.ParseInt(key, 10, 64)
 
 		if err != nil {
-			return nil, err
+			return fmt.Errorf("{{$.Named.ReaderName}}: from json bytes failed: %w", err)
 		}
 
 		datas[k] = value
 	}
 
-	return datas, nil
+	this.Datas = datas
+	return nil
 }
 `,
 }
