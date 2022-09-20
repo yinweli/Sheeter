@@ -2,7 +2,7 @@
 
 package sheeter
 
-type VerifyData struct {
+type VerifyData2 struct {
 	//
 	Reward Reward `json:"Reward"`
 	// 是否啟用

@@ -6,7 +6,7 @@ import (
 	"reflect"
 	"runtime"
 
-	verifydata "github.com/yinweli/Sheeter/verify/verifygo/target/json-go"
+	sheeter "github.com/yinweli/Sheeter/verify/verifygo/target/json-go"
 )
 
 func main() {
@@ -16,16 +16,16 @@ func main() {
 		panic(fmt.Errorf("verify go: get root path failed"))
 	} // if
 
-	reader, err := verifydata.FromJsonFile(filepath.Join(filepath.Dir(root), "target", verifydata.Json))
+	reader := sheeter.VerifyData1Reader{}
 
-	if err != nil {
+	if err := reader.FromJsonFile(filepath.Join(filepath.Dir(root), "target", reader.Json())); err != nil {
 		panic(fmt.Errorf("verify go: %w", err))
 	} // if
 
-	expects := []verifydata.VerifyData{
+	expects := []sheeter.VerifyData1{
 		{
-			Reward: verifydata.Reward{
-				Item: []verifydata.Item{
+			Reward: sheeter.Reward{
+				Item: []sheeter.Item{
 					{Count: 10, ItemID: 10001, Type: 1},
 					{Count: 0, ItemID: 0, Type: 0},
 					{Count: 0, ItemID: 0, Type: 0},
@@ -41,8 +41,8 @@ func main() {
 			Name:   "名稱1",
 		},
 		{
-			Reward: verifydata.Reward{
-				Item: []verifydata.Item{
+			Reward: sheeter.Reward{
+				Item: []sheeter.Item{
 					{Count: 10, ItemID: 10001, Type: 1},
 					{Count: 5, ItemID: 10002, Type: 1},
 					{Count: 0, ItemID: 0, Type: 0},
@@ -58,8 +58,8 @@ func main() {
 			Name:   "名稱2",
 		},
 		{
-			Reward: verifydata.Reward{
-				Item: []verifydata.Item{
+			Reward: sheeter.Reward{
+				Item: []sheeter.Item{
 					{Count: 10, ItemID: 10001, Type: 1},
 					{Count: 5, ItemID: 10002, Type: 1},
 					{Count: 2, ItemID: 10003, Type: 1},
@@ -75,8 +75,8 @@ func main() {
 			Name:   "名稱3",
 		},
 		{
-			Reward: verifydata.Reward{
-				Item: []verifydata.Item{
+			Reward: sheeter.Reward{
+				Item: []sheeter.Item{
 					{Count: 10, ItemID: 10001, Type: 1},
 					{Count: 5, ItemID: 10002, Type: 1},
 					{Count: 3, ItemID: 10003, Type: 1},
@@ -94,7 +94,7 @@ func main() {
 	}
 
 	for _, itor := range expects {
-		if actual, ok := reader[itor.Key]; ok == false || reflect.DeepEqual(actual, itor) == false {
+		if actual, ok := reader.Datas[itor.Key]; ok == false || reflect.DeepEqual(actual, itor) == false {
 			panic(fmt.Errorf("verify go: compare failed"))
 		} // if
 	} // for

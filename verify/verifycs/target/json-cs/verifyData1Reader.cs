@@ -6,21 +6,21 @@ using System.IO;
 using System.Collections.Generic;
 
 namespace sheeter {
-    public partial class VerifyDataReader {
-        public static readonly string Json = "json/verifyData.json";
+    public partial class VerifyData1Reader {
+        public static readonly string Json = "json/verifyData1.json";
 
-        public static Dictionary<long, VerifyData> FromJsonFile(string path) {
+        public static Dictionary<long, VerifyData1> FromJsonFile(string path) {
             return FromJsonString(File.ReadAllText(path));
         }
 
-        public static Dictionary<long, VerifyData> FromJsonString(string data) {
-            var temps = JsonConvert.DeserializeObject<Dictionary<string, VerifyData>>(data);
+        public static Dictionary<long, VerifyData1> FromJsonString(string data) {
+            var temps = JsonConvert.DeserializeObject<Dictionary<string, VerifyData1>>(data);
 
             if (temps == null) {
                 return null;
             }
 
-            var datas = new Dictionary<long, VerifyData>();
+            var datas = new Dictionary<long, VerifyData1>();
 
             foreach(var itor in temps) {
                 datas[Convert.ToInt64(itor.Key)] = itor.Value;

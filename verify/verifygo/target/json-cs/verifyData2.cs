@@ -3,7 +3,7 @@
 using Newtonsoft.Json;
 
 namespace sheeter {
-    public partial class VerifyData {
+    public partial class VerifyData2 {
         // 
         [JsonProperty("Reward")]
         public Reward Reward { get; set; }
