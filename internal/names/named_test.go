@@ -24,7 +24,6 @@ type SuiteNamed struct {
 	readerName       string
 	fileJson         string
 	fileJsonCode     string
-	fileJsonSchema   string
 	fileJsonCsCode   string
 	fileJsonCsReader string
 	fileJsonGoCode   string
@@ -40,7 +39,6 @@ func (this *SuiteNamed) SetupSuite() {
 	this.readerName = "ExcelSheetReader"
 	this.fileJson = filepath.Join(internal.PathJson, "excelSheet.json")
 	this.fileJsonCode = filepath.ToSlash(this.fileJson)
-	this.fileJsonSchema = filepath.Join(internal.PathJsonSchema, "excelSheet.json")
 	this.fileJsonCsCode = filepath.Join(internal.PathJsonCs, "excelSheet.cs")
 	this.fileJsonCsReader = filepath.Join(internal.PathJsonCs, "excelSheetReader.cs")
 	this.fileJsonGoCode = filepath.Join(internal.PathJsonGo, "excelSheet.go")
@@ -68,7 +66,6 @@ func (this *SuiteNamed) TestName() {
 	assert.Equal(this.T(), this.readerName, target.ReaderName())
 	assert.Equal(this.T(), this.fileJson, target.FileJson())
 	assert.Equal(this.T(), this.fileJsonCode, target.FileJsonCode())
-	assert.Equal(this.T(), this.fileJsonSchema, target.FileJsonSchema())
 	assert.Equal(this.T(), this.fileJsonCsCode, target.FileJsonCsStruct())
 	assert.Equal(this.T(), this.fileJsonCsReader, target.FileJsonCsReader())
 	assert.Equal(this.T(), this.fileJsonGoCode, target.FileJsonGoStruct())

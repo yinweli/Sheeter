@@ -54,15 +54,6 @@ func (this *Named) FileJsonCode() string {
 	return filepath.ToSlash(this.FileJson()) // 因為要把路徑寫到程式碼中, 所以要改變分隔符號的方式
 }
 
-// FileJsonSchema 取得json架構檔名路徑
-func (this *Named) FileJsonSchema() string {
-	return this.combine(params{
-		sheetUpper: true,
-		ext:        internal.ExtJson,
-		path:       internal.PathJsonSchema,
-	})
-}
-
 // FileJsonCsStruct 取得json-cs程式碼檔名路徑
 func (this *Named) FileJsonCsStruct() string {
 	return this.combine(params{
