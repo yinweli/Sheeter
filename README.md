@@ -213,10 +213,9 @@ buf format -w 存放proto檔案的路徑
 * 產生flatbuffer bytes data
 
 # 暫時紀錄
-* builds encoding [multi thread <每個config.element>]
+* encodingProto [multi thread <runtimeSector>]
     * proto
-* .pbd     => encodingProto          : multi thread <runtimeSector>
-* .bat/.sh => poststepCs, poststepGo : all runtimeStruct
+    * .pbd
 * https://pkg.go.dev/google.golang.org/protobuf/encoding/protojson#Unmarshal
 * https://github.com/jhump/protoreflect
 * https://cloud.tencent.com/developer/article/1542624

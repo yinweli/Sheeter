@@ -6,7 +6,7 @@ import (
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
-// encodingJson 產生json編碼資料
+// encodingJson 產生json資料
 func encodingJson(runtimeSector *RuntimeSector) error {
 	structName := runtimeSector.StructName()
 	rows, err := runtimeSector.GetRows(runtimeSector.LineOfData)
@@ -16,7 +16,7 @@ func encodingJson(runtimeSector *RuntimeSector) error {
 	} // if
 
 	defer func() { _ = rows.Close() }()
-	objs := map[string]interface{}{}
+	objs := map[int64]interface{}{}
 
 	for ok := true; ok; ok = rows.Next() {
 		datas, _ := rows.Columns()

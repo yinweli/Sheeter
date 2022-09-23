@@ -86,12 +86,12 @@ func (this *SuiteLayoutJson) TestPack() {
 
 	packs, pkey, err := target.Pack(dataValid, true)
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), "0", pkey)
+	assert.Equal(this.T(), int64(0), pkey)
 	assert.Equal(this.T(), preset, packs)
 
 	packs, pkey, err = target.Pack(dataValid, false)
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), "1", pkey)
+	assert.Equal(this.T(), int64(1), pkey)
 	assert.Equal(this.T(), actual, packs)
 
 	_, _, err = target.Pack(dataInvalid, false)

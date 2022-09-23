@@ -49,8 +49,8 @@ func (this *SuiteMixed) TestName() {
 	target := this.target()
 	assert.Equal(this.T(), internal.AppName, target.AppName())
 	assert.Equal(this.T(), internal.AppName, target.Namespace())
-	assert.Equal(this.T(), utils.FirstUpper(structName), target.StructName())
-	assert.Equal(this.T(), utils.FirstUpper(readerName), target.ReaderName())
+	assert.Equal(this.T(), structName, target.StructName())
+	assert.Equal(this.T(), readerName, target.ReaderName())
 }
 
 func (this *SuiteMixed) TestCombine() {

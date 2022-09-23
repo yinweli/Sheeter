@@ -101,18 +101,7 @@ namespace sheeter {
         }
 
         public static Dictionary<long, TestData> FromJsonString(string data) {
-            var temps = JsonConvert.DeserializeObject<Dictionary<string, TestData>>(data);
-
-            if (temps == null) {
-                return null;
-            }
-
-            var datas = new Dictionary<long, TestData>();
-
-            foreach(var itor in temps) {
-                datas[Convert.ToInt64(itor.Key)] = itor.Value;
-            }
-
+            var datas = JsonConvert.DeserializeObject<Dictionary<long, TestData>>(data);
             return datas;
         }
     }
@@ -157,7 +146,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 type TestDataReader struct {
@@ -179,22 +167,10 @@ func (this *TestDataReader) FromJsonFile(path string) error {
 }
 
 func (this *TestDataReader) FromJsonBytes(data []byte) error {
-	temps := map[string]TestData{}
-
-	if err := json.Unmarshal(data, &temps); err != nil {
-		return err
-	}
-
 	datas := map[int64]TestData{}
 
-	for key, value := range temps {
-		k, err := strconv.ParseInt(key, 10, 64)
-
-		if err != nil {
-			return fmt.Errorf("TestDataReader: from json bytes failed: %w", err)
-		}
-
-		datas[k] = value
+	if err := json.Unmarshal(data, &datas); err != nil {
+		return err
 	}
 
 	this.Datas = datas

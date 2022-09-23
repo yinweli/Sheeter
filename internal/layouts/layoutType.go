@@ -14,14 +14,14 @@ import (
 func NewLayoutType() *LayoutType {
 	return &LayoutType{
 		types: map[string]*layoutType{},
-		level: arraystack.New(),
+		stack: arraystack.New(),
 	}
 }
 
 // LayoutType 類型布局器
 type LayoutType struct {
 	types map[string]*layoutType // 類型列表
-	level *arraystack.Stack      // 類型堆疊
+	stack *arraystack.Stack      // 類型堆疊
 }
 
 // layoutType 類型資料
@@ -190,7 +190,7 @@ func (this *LayoutType) FieldNames(name string) (results []string) {
 
 // Closure 取得是否閉合
 func (this *LayoutType) Closure() bool {
-	return this.level.Empty()
+	return this.stack.Empty()
 }
 
 // pushType 推入類型
@@ -205,7 +205,7 @@ func (this *LayoutType) pushType(name, excel, sheet string, reader bool) bool {
 		reader: reader,
 		fields: map[string]*Field{},
 	}
-	this.level.Push(name)
+	this.stack.Push(name)
 	return true
 }
 
@@ -215,7 +215,7 @@ func (this *LayoutType) pushField(name, note string, field fields.Field, alter s
 		return true
 	} // if
 
-	level, ok := this.level.Peek()
+	level, ok := this.stack.Peek()
 
 	if ok == false {
 		return false
@@ -240,7 +240,7 @@ func (this *LayoutType) pushField(name, note string, field fields.Field, alter s
 // pop 彈出類型
 func (this *LayoutType) pop(count int) bool {
 	for i := 0; i < count; i++ {
-		if _, ok := this.level.Pop(); ok == false {
+		if _, ok := this.stack.Pop(); ok == false {
 			return false
 		} // if
 	} // for

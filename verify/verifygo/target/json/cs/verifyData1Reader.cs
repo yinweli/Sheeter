@@ -14,18 +14,7 @@ namespace sheeter {
         }
 
         public static Dictionary<long, VerifyData1> FromJsonString(string data) {
-            var temps = JsonConvert.DeserializeObject<Dictionary<string, VerifyData1>>(data);
-
-            if (temps == null) {
-                return null;
-            }
-
-            var datas = new Dictionary<long, VerifyData1>();
-
-            foreach(var itor in temps) {
-                datas[Convert.ToInt64(itor.Key)] = itor.Value;
-            }
-
+            var datas = JsonConvert.DeserializeObject<Dictionary<long, VerifyData1>>(data);
             return datas;
         }
     }

@@ -72,6 +72,10 @@ message TestData {
   optional Data Name4 = 4; // note4
   repeated Data Name5 = 5; // note5
 }
+
+message TestDataReader {
+  map<int64, TestData> Datas = 1;
+}
 `)
 
 	target := this.target()

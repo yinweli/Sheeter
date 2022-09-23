@@ -11,3 +11,7 @@ message VerifyData2 {
   optional int64 Key = 3; // 索引
   optional string Name = 4; // 名稱
 }
+
+message VerifyData2Storer {
+  map<string, VerifyData2> Datas = 1;
+}

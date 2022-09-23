@@ -124,18 +124,7 @@ namespace {{$.Namespace}} {
         }
 
         public static Dictionary<long, {{$.StructName}}> FromJsonString(string data) {
-            var temps = JsonConvert.DeserializeObject<Dictionary<string, {{$.StructName}}>>(data);
-
-            if (temps == null) {
-                return null;
-            }
-
-            var datas = new Dictionary<long, {{$.StructName}}>();
-
-            foreach(var itor in temps) {
-                datas[Convert.ToInt64(itor.Key)] = itor.Value;
-            }
-
+            var datas = JsonConvert.DeserializeObject<Dictionary<long, {{$.StructName}}>>(data);
             return datas;
         }
     }
@@ -170,7 +159,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 type {{$.ReaderName}} struct {
@@ -192,22 +180,10 @@ func (this *{{$.ReaderName}}) FromJsonFile(path string) error {
 }
 
 func (this *{{$.ReaderName}}) FromJsonBytes(data []byte) error {
-	temps := map[string]{{$.StructName}}{}
-
-	if err := json.Unmarshal(data, &temps); err != nil {
-		return err
-	}
-
 	datas := map[int64]{{$.StructName}}{}
 
-	for key, value := range temps {
-		k, err := strconv.ParseInt(key, 10, 64)
-
-		if err != nil {
-			return fmt.Errorf("{{$.ReaderName}}: from json bytes failed: %w", err)
-		}
-
-		datas[k] = value
+	if err := json.Unmarshal(data, &datas); err != nil {
+		return err
 	}
 
 	this.Datas = datas
@@ -233,6 +209,10 @@ message {{$.StructName}} {
 {{- range $i, $f := $.Fields}}
   {{$.FieldTypeProto .}} {{$.FieldName .}} = {{$.Add $i 1}}; // {{$.FieldNote .}}
 {{- end}}
+}
+
+message {{$.ReaderName}} {
+  map<int64, {{$.StructName}}> Datas = 1;
 }
 `,
 }

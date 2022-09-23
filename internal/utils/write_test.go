@@ -97,3 +97,12 @@ func (this *SuiteWrite) TestWriteTmpl() {
 		assert.NotNil(this.T(), WriteTmpl(pathFake, contentReal, datas))
 	} // if
 }
+
+func (this *SuiteWrite) TestJsonMarshal() {
+	datas := map[string]string{"data": "value"}
+	bytes, _ := json.MarshalIndent(datas, jsonPrefix, jsonIdent)
+
+	results, err := JsonMarshal(datas)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), bytes, results)
+}

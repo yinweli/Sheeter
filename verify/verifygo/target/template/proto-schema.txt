@@ -13,3 +13,7 @@ message {{$.StructName}} {
   {{$.FieldTypeProto .}} {{$.FieldName .}} = {{$.Add $i 1}}; // {{$.FieldNote .}}
 {{- end}}
 }
+
+message {{$.StorerName}} {
+  map<string, {{$.StructName}}> Datas = 1;
+}

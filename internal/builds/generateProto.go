@@ -17,3 +17,5 @@ func generateProtoSchema(runtimeStruct *RuntimeStruct) error {
 
 	return nil
 }
+
+// TODO: 還是要做protoReader喔(cs+go)

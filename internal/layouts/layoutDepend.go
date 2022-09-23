@@ -14,14 +14,14 @@ import (
 func NewLayoutDepend() *LayoutDepend {
 	return &LayoutDepend{
 		depends: map[string]*hashset.Set{},
-		level:   arraystack.New(),
+		stack:   arraystack.New(),
 	}
 }
 
 // LayoutDepend 依賴布局器
 type LayoutDepend struct {
 	depends map[string]*hashset.Set // 依賴列表
-	level   *arraystack.Stack       // 類型堆疊
+	stack   *arraystack.Stack       // 類型堆疊
 }
 
 // Begin 開始類型紀錄
@@ -30,7 +30,7 @@ func (this *LayoutDepend) Begin(name string) error {
 		return fmt.Errorf("layoutDepend begin failed, not closed")
 	} // if
 
-	this.level.Push(name)
+	this.stack.Push(name)
 	return nil
 }
 
@@ -95,12 +95,12 @@ func (this *LayoutDepend) Depends(name string) (results []string) {
 
 // Closure 取得是否閉合
 func (this *LayoutDepend) Closure() bool {
-	return this.level.Empty()
+	return this.stack.Empty()
 }
 
 // push 推入依賴
 func (this *LayoutDepend) push(name string) bool {
-	level, ok := this.level.Peek()
+	level, ok := this.stack.Peek()
 
 	if ok == false {
 		return false
@@ -113,14 +113,14 @@ func (this *LayoutDepend) push(name string) bool {
 	} // if
 
 	this.depends[depend].Add(name)
-	this.level.Push(name)
+	this.stack.Push(name)
 	return true
 }
 
 // pop 彈出依賴
 func (this *LayoutDepend) pop(count int) bool {
 	for i := 0; i < count; i++ {
-		if _, ok := this.level.Pop(); ok == false {
+		if _, ok := this.stack.Pop(); ok == false {
 			return false
 		} // if
 	} // for

@@ -8,10 +8,11 @@ import (
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
-// Encoding 產生編碼資料
+// Encoding 產生資料
 func Encoding(runtime *Runtime) (errs []error) {
 	tasks := []func(*RuntimeSector) error{ // 工作函式列表
 		encodingJson,
+		encodingProto,
 	}
 	itemCount := len(runtime.Sector)
 	taskCount := len(tasks)

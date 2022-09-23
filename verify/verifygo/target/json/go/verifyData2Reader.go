@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 type VerifyData2Reader struct {
@@ -28,22 +27,10 @@ func (this *VerifyData2Reader) FromJsonFile(path string) error {
 }
 
 func (this *VerifyData2Reader) FromJsonBytes(data []byte) error {
-	temps := map[string]VerifyData2{}
-
-	if err := json.Unmarshal(data, &temps); err != nil {
-		return err
-	}
-
 	datas := map[int64]VerifyData2{}
 
-	for key, value := range temps {
-		k, err := strconv.ParseInt(key, 10, 64)
-
-		if err != nil {
-			return fmt.Errorf("VerifyData2Reader: from json bytes failed: %w", err)
-		}
-
-		datas[k] = value
+	if err := json.Unmarshal(data, &datas); err != nil {
+		return err
 	}
 
 	this.Datas = datas

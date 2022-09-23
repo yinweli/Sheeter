@@ -40,15 +40,13 @@ func WriteFile(path string, datas []byte) error {
 
 // WriteJson 寫入json檔案, 如果有需要會建立目錄
 func WriteJson(path string, value any) error {
-	datas, err := json.MarshalIndent(value, jsonPrefix, jsonIdent)
+	datas, err := JsonMarshal(value)
 
 	if err != nil {
 		return fmt.Errorf("json write failed: %w", err)
 	} // if
 
-	err = WriteFile(path, datas)
-
-	if err != nil {
+	if err = WriteFile(path, datas); err != nil {
 		return fmt.Errorf("json write failed: %w", err)
 	} // if
 
@@ -64,17 +62,19 @@ func WriteTmpl(path, content string, refer any) error {
 	} // if
 
 	buffer := &bytes.Buffer{}
-	err = tmpl.Execute(buffer, refer)
 
-	if err != nil {
+	if err = tmpl.Execute(buffer, refer); err != nil {
 		return fmt.Errorf("tmpl write failed: %w", err)
 	} // if
 
-	err = WriteFile(path, buffer.Bytes())
-
-	if err != nil {
+	if err = WriteFile(path, buffer.Bytes()); err != nil {
 		return fmt.Errorf("tmpl write failed: %w", err)
 	} // if
 
 	return nil
+}
+
+// JsonMarshal 把物件轉換為json字串
+func JsonMarshal(value any) (results []byte, err error) {
+	return json.MarshalIndent(value, jsonPrefix, jsonIdent)
 }
