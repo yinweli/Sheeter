@@ -4,14 +4,14 @@
 ![codecov](https://codecov.io/gh/yinweli/Sheeter/branch/main/graph/badge.svg?token=LK5HL58LSN)
 
 # Sheeter
-以go做成的excel轉換工具, 前身是[sheet]  
-將以指定格式做好的excel轉換為json, cs程式碼, go程式碼, proto檔案
+以[go]做成的excel轉換工具, 前身是[sheet]  
+用於將指定格式的excel轉換為json, cs程式碼, go程式碼, proto檔案等
 
 # 目錄說明
 | 目錄                | 說明           |
 |:--------------------|:---------------|
 | doc                 | 說明文件       |
-| cmd/sheeter         | sheeter        |
+| cmd/sheeter         | 主程式         |
 | cmd/sheeter/build   | 建置表格命令   |
 | cmd/sheeter/tmpl    | 產生模板命令   |
 | cmd/sheeter/version | 顯示版本命令   |
@@ -106,20 +106,42 @@ elements:
 轉換時, 只會轉換到第一個空行為止  
 
 ## 其他的限制
-* 表格必須有欄位行, 階層行, 註解行, 但是可以不需要有資料行
-* 欄位行, 階層行, 註解行必須在資料行之前
-* 設定檔中必須設定好欄位行, 階層行, 註解行, 資料行的位置
-* 設定檔中行數是從1開始的
-* 表格必須有`pkey`欄位
-* 表格只能有一個`pkey`欄位
-* `pkey`欄位中的內容不能重複
-* 欄位名稱不能重複(包括`empty`欄位)
-* cs程式碼使用`Newtonsoft.Json`來轉換json
+* 表格設置
+    * 表格必須有欄位行, 階層行, 註解行, 但是可以不需要有資料行
+    * 欄位行, 階層行, 註解行必須在資料行之前
+    * 設定檔中必須設定好欄位行, 階層行, 註解行, 資料行的位置
+    * 設定檔中行數是從1開始的
+* 主索引
+    * 表格必須有`pkey`欄位
+    * 表格只能有一個`pkey`欄位
+    * `pkey`欄位中的內容不能重複
+* 欄位
+    * 欄位名稱不能重複(包括`empty`欄位)
+* 階層
+    * 結構/陣列名稱可以重複, 重複的結構/陣列的欄位會合併
+    * 結構/陣列的欄位可以不必填上所有的名稱
+        * 第一個表格設定了結構/陣列欄位: `data { field1, field2, field3 }`
+        * 另一個表格同樣使用了`data`結構/陣列, 而欄位只設定 `data { field1, field2 }`, 忽略了`field3`
+
+# 產生目錄
+| 名稱       | 說明                       |
+|:-----------|:---------------------------|
+| data-json  | json資料檔案               |
+| json-cs    | json的cs結構與讀取器程式碼 |
+| json-go    | json的go結構與讀取器程式碼 |
+| data-proto | proto資料檔案              |
+| proto      | proto架構檔案              |
+| proto-cs   | proto的cs讀取器程式碼      |
+| proto-go   | proto的go讀取器程式碼      |
+| template   | 模板檔案                   |
+
+# 轉換範例
+[example]
 
 # 關於模板檔案
-sheeter轉換時會把使用的程式碼模板輸出到template目錄下  
+sheeter轉換時會把使用的程式碼模板輸出到`template`目錄下  
 使用者可以改變模板內容, 來產生自訂的程式碼  
-當需要重置模板時(例如sheeter更新版本時), 可以在終端執行以下命令重置模板  
+當需要重置模板時(例如[sheeter]更新版本時), 可以在終端執行以下命令重置模板  
 ```shell
 sheeter tmpl -c
 ```
@@ -160,37 +182,25 @@ sheeter tmpl -c
 | $.Fields            | 欄位列表, 只有json-cs-struct.txt, json-go-struct.txt, proto-schema.txt可用 |
 | $.Depend            | 依賴列表, 只有proto-schema.txt可用                                         |
 
-# 產生目錄
-| 名稱       | 說明                       |
-|:-----------|:---------------------------|
-| data-json  | json資料檔案               |
-| json-cs    | json的cs結構與讀取器程式碼 |
-| json-go    | json的go結構與讀取器程式碼 |
-| data-proto | proto資料檔案              |
-| proto      | proto架構檔案              |
-| proto-cs   | proto的cs讀取器程式碼      |
-| proto-go   | proto的go讀取器程式碼      |
-| template   | 模板檔案                   |
+# 關於proto轉換為cs程式碼
+* 安裝[protoc]
+* 執行產生出來的.bat/.sh
 
-# 轉換範例
-[example]
+# 關於proto轉換為go程式碼
+* 安裝[go]
+* 安裝[protoc]
+* 執行以下命令來安裝protobuf的[protoc-go]外掛
+```shell
+go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+```
+* 執行產生出來的.bat/.sh
 
-# 如果要從proto檔案轉換為程式碼
-* cs
-    * 安裝[protoc]
-* go
-    * 安裝[go]
-    * 安裝[protoc]
-    * 執行以下命令來安裝protobuf的[protoc-go]外掛
-     ```shell
-     go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-     ```
-* 還可以安裝buf來格式化產出的proto檔案(為了美觀!)
-    * 安裝[buf]
-    * 執行以下命令來格式化proto檔案
-     ```shell
-     buf format -w 存放proto檔案的路徑
-     ```
+# 關於格式化產出的proto檔案(為了美觀!)
+* 安裝[buf]
+* 執行以下命令來格式化proto檔案
+```shell
+buf format -w 存放proto檔案的路徑
+```
 
 # TODO
 * 產生protobuffer bytes data
