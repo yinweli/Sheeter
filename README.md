@@ -148,40 +148,42 @@ sheeter tmpl -c
 ```
 模板檔案使用golang的[template]語法, 同時可以參考以下變數來做結構名稱或是欄位名稱等的替換  
 
-| 名稱                | 說明                                                                       |
-|:--------------------|:---------------------------------------------------------------------------|
-| $.AppName           | 程式名稱                                                                   |
-| $.Namespace         | 命名空間名稱                                                               |
-| $.StructName        | 結構名稱                                                                   |
-| $.ReaderName        | 讀取器名稱                                                                 |
-| $.FileJsonCsStruct  | json-cs結構程式碼檔名路徑                                                  |
-| $.FileJsonCsReader  | json-cs讀取器程式碼檔名路徑                                                |
-| $.FileJsonGoStruct  | json-go結構程式碼檔名路徑                                                  |
-| $.FileJsonGoReader  | json-go讀取器程式碼檔名路徑                                                |
-| $.FileJsonDataName  | json資料檔案名稱                                                           |
-| $.FileJsonDataPath  | json資料檔名路徑                                                           |
-| $.PathProtoSchema   | proto架構路徑                                                              |
-| $.PathProtoCs       | proto-cs路徑                                                               |
-| $.PathProtoGo       | proto-go路徑                                                               |
-| $.FileProtoSchema   | proto架構檔名路徑                                                          |
-| $.FileProtoCsReader | proto-cs讀取器程式碼檔名路徑                                               |
-| $.FileProtoGoReader | proto-go讀取器程式碼檔名路徑                                               |
-| $.FileProtoDataName | proto資料檔案名稱                                                          |
-| $.FileProtoDataPath | proto資料檔名路徑                                                          |
-| $.FileProtoBat      | proto-bat檔名路徑                                                          |
-| $.FileProtoSh       | proto-sh檔名路徑                                                           |
-| $.ProtoDepend       | proto依賴檔案名稱 [依賴名稱]                                               |
-| $.FieldName         | 取得欄位名稱 [欄位資料]                                                    |
-| $.FieldNote         | 取得欄位註解 [欄位資料]                                                    |
-| $.FieldTypeCs       | 取得cs欄位類型 [欄位資料]                                                  |
-| $.FieldTypeGo       | 取得go欄位類型 [欄位資料]                                                  |
-| $.FieldTypeProto    | 取得go欄位類型 [欄位資料]                                                  |
-| $.Add               | 加法(v1 + v2) [數值 數值]                                                  |
-| $.Sub               | 減法(v1 - v2) [數值 數值]                                                  |
-| $.Mul               | 乘法(v1 x v2) [數值 數值]                                                  |
-| $.Div               | 除法(v1 / v2) [數值 數值]                                                  |
-| $.Fields            | 欄位列表, 只有json-cs-struct.txt, json-go-struct.txt, proto-schema.txt可用 |
-| $.Depend            | 依賴列表, 只有proto-schema.txt可用                                         |
+| 名稱                | 說明                         |
+|:--------------------|:-----------------------------|
+| $.AppName           | 程式名稱                     |
+| $.Namespace         | 命名空間名稱                 |
+| $.StructName        | 結構名稱                     |
+| $.ReaderName        | 讀取器名稱                   |
+| $.FileJsonCsStruct  | json-cs結構程式碼檔名路徑    |
+| $.FileJsonCsReader  | json-cs讀取器程式碼檔名路徑  |
+| $.FileJsonGoStruct  | json-go結構程式碼檔名路徑    |
+| $.FileJsonGoReader  | json-go讀取器程式碼檔名路徑  |
+| $.FileJsonDataName  | json資料檔案名稱             |
+| $.FileJsonDataPath  | json資料檔名路徑             |
+| $.PathProtoSchema   | proto架構路徑                |
+| $.PathProtoCs       | proto-cs路徑                 |
+| $.PathProtoGo       | proto-go路徑                 |
+| $.FileProtoSchema   | proto架構檔名路徑            |
+| $.FileProtoCsReader | proto-cs讀取器程式碼檔名路徑 |
+| $.FileProtoGoReader | proto-go讀取器程式碼檔名路徑 |
+| $.FileProtoDataName | proto資料檔案名稱            |
+| $.FileProtoDataPath | proto資料檔名路徑            |
+| $.FileProtoCsBat    | proto-cs-bat檔名路徑         |
+| $.FileProtoCsSh     | proto-cs-sh檔名路徑          |
+| $.FileProtoGoBat    | proto-go-bat檔名路徑         |
+| $.FileProtoGoSh     | proto-go-sh檔名路徑          |
+| $.ProtoDepend       | proto依賴檔案名稱 [依賴名稱] |
+| $.FieldName         | 取得欄位名稱 [欄位資料]      |
+| $.FieldNote         | 取得欄位註解 [欄位資料]      |
+| $.FieldTypeCs       | 取得cs欄位類型 [欄位資料]    |
+| $.FieldTypeGo       | 取得go欄位類型 [欄位資料]    |
+| $.FieldTypeProto    | 取得go欄位類型 [欄位資料]    |
+| $.Add               | 加法(v1 + v2) [數值 數值]    |
+| $.Sub               | 減法(v1 - v2) [數值 數值]    |
+| $.Mul               | 乘法(v1 x v2) [數值 數值]    |
+| $.Div               | 除法(v1 / v2) [數值 數值]    |
+| $.Fields            | 欄位列表(不是所有模板都能用) |
+| $.Depend            | 依賴列表(不是所有模板都能用) |
 
 # 關於proto轉換為cs程式碼
 * 安裝[protoc]

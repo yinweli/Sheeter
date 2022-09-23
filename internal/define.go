@@ -37,22 +37,31 @@ const FileTmplProtoSchema = "proto-schema.txt"      // 輸出檔名: proto架構
 const FileTmplProtoCsReader = "proto-cs-reader.txt" // 輸出檔名: proto-cs讀取器模板
 const FileTmplProtoGoReader = "proto-go-reader.txt" // 輸出檔名: proto-go讀取器模板
 const FileTmplProtoCsBat = "proto-cs-bat.txt"       // 輸出檔名: proto-cs-bat模板
-const FileTmplProtoGoBat = "proto-go-bat.txt"       // 輸出檔名: proto-go-bat模板
 const FileTmplProtoCsSh = "proto-cs-sh.txt"         // 輸出檔名: proto-cs-sh模板
+const FileTmplProtoGoBat = "proto-go-bat.txt"       // 輸出檔名: proto-go-bat模板
 const FileTmplProtoGoSh = "proto-go-sh.txt"         // 輸出檔名: proto-go-sh模板
 
-/* 路徑, 檔名, 副檔名 */
+/* 通用名稱 */
 
-const PathCs = "cs"              // 輸出路徑: cs
-const PathGo = "go"              // 輸出路徑: go
-const PathData = ".data"         // 輸出路徑: 資料
-const PathJson = "json"          // 輸出路徑: json
-const PathProto = "proto"        // 輸出路徑: proto
-const ExtCs = "cs"               // 副檔名: cs
-const ExtGo = "go"               // 副檔名: go
-const ExtProtoSchema = "proto"   // 副檔名: proto架構
-const ExtJsonData = "json"       // 副檔名: json資料
-const ExtProtoData = "pbd"       // 副檔名: proto資料
-const FileProtoBat = "build.bat" // 檔名: build.bat
-const FileProtoSh = "build.sh"   // 檔名: build.sh
-const Reader = "Reader"          // 讀取器名稱
+const Reader = "Reader"     // 讀取器名稱
+const PathSchema = "schema" // 輸出路徑: 架構
+const PathCs = "cs"         // 輸出路徑: cs
+const PathGo = "go"         // 輸出路徑: go
+const PathData = ".data"    // 輸出路徑: 資料
+const ExtCs = "cs"          // 副檔名: cs
+const ExtGo = "go"          // 副檔名: go
+
+/* json相關 */
+
+const PathJson = "json"    // 輸出路徑: json
+const ExtJsonData = "json" // 副檔名: json資料
+
+/* proto相關 */
+
+const PathProto = "proto"            // 輸出路徑: proto
+const ExtProtoSchema = "proto"       // 副檔名: proto架構
+const ExtProtoData = "pbd"           // 副檔名: proto資料
+const FileProtoCsBat = "protoCs.bat" // 檔名: proto-cs-bat
+const FileProtoCsSh = "protoCs.sh"   // 檔名: proto-cs-sh
+const FileProtoGoBat = "protoGo.bat" // 檔名: proto-go-bat
+const FileProtoGoSh = "protoGo.sh"   // 檔名: proto-go-sh

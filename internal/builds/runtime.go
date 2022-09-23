@@ -11,8 +11,9 @@ import (
 
 // Runtime 執行期資料
 type Runtime struct {
-	Sector []*RuntimeSector // 區段資料列表
-	Struct []*RuntimeStruct // 結構資料列表
+	mixeds.Mixed                  // 綜合工具
+	Sector       []*RuntimeSector // 區段資料列表
+	Struct       []*RuntimeStruct // 結構資料列表
 }
 
 // RuntimeSector 執行期區段資料

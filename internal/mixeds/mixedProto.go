@@ -13,17 +13,17 @@ type Proto struct {
 
 // PathProtoSchema 取得proto架構路徑
 func (this *Proto) PathProtoSchema() string {
-	return internal.PathProto
+	return internal.PathSchema
 }
 
 // PathProtoCs 取得proto-cs路徑
 func (this *Proto) PathProtoCs() string {
-	return filepath.Join(internal.PathProto, internal.PathCs)
+	return internal.PathCs
 }
 
 // PathProtoGo 取得proto-go路徑
 func (this *Proto) PathProtoGo() string {
-	return filepath.Join(internal.PathProto, internal.PathGo)
+	return internal.PathGo
 }
 
 // FileProtoSchema 取得proto架構檔名路徑
@@ -31,9 +31,18 @@ func (this *Proto) FileProtoSchema() string {
 	return this.mixed.combine(params{
 		sheetUpper: true,
 		ext:        internal.ExtProtoSchema,
-		path:       []string{internal.PathProto},
+		path:       []string{internal.PathProto, internal.PathSchema},
 	})
 }
+
+// FileProtoSchemaRelative 取得proto架構檔名相對路徑
+func (this *Proto) FileProtoSchemaRelative() string {
+	return this.mixed.combine(params{
+		sheetUpper: true,
+		ext:        internal.ExtProtoSchema,
+		path:       []string{internal.PathSchema},
+	})
+} // relative path
 
 // FileProtoCsReader 取得proto-cs讀取器程式碼檔名路徑
 func (this *Proto) FileProtoCsReader() string {
@@ -72,14 +81,24 @@ func (this *Proto) FileProtoDataPath() string {
 	})
 }
 
-// FileProtoBat 取得proto-bat檔名路徑
-func (this *Proto) FileProtoBat() string {
-	return filepath.Join(internal.PathProto, internal.FileProtoBat)
+// FileProtoCsBat 取得proto-cs-bat檔名路徑
+func (this *Proto) FileProtoCsBat() string {
+	return filepath.Join(internal.PathProto, internal.FileProtoCsBat)
 }
 
-// FileProtoSh 取得proto-sh檔名路徑
-func (this *Proto) FileProtoSh() string {
-	return filepath.Join(internal.PathProto, internal.FileProtoSh)
+// FileProtoCsSh 取得proto-cs-sh檔名路徑
+func (this *Proto) FileProtoCsSh() string {
+	return filepath.Join(internal.PathProto, internal.FileProtoCsSh)
+}
+
+// FileProtoGoBat 取得proto-go-bat檔名路徑
+func (this *Proto) FileProtoGoBat() string {
+	return filepath.Join(internal.PathProto, internal.FileProtoGoBat)
+}
+
+// FileProtoGoSh 取得proto-go-sh檔名路徑
+func (this *Proto) FileProtoGoSh() string {
+	return filepath.Join(internal.PathProto, internal.FileProtoGoSh)
 }
 
 // ProtoDepend 取得proto依賴檔案名稱

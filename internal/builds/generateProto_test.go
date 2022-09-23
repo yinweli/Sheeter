@@ -29,7 +29,7 @@ func (this *SuiteGenerateProto) SetupSuite() {
 }
 
 func (this *SuiteGenerateProto) TearDownSuite() {
-	_ = os.RemoveAll(internal.PathProto)
+	_ = os.RemoveAll(filepath.Join(internal.PathProto, internal.PathSchema))
 	_ = os.RemoveAll(filepath.Join(internal.PathProto, internal.PathCs))
 	_ = os.RemoveAll(filepath.Join(internal.PathProto, internal.PathGo))
 	testdata.RestoreWorkDir(this.workDir)

@@ -9,9 +9,13 @@ import (
 	"github.com/yinweli/Sheeter/internal"
 )
 
-// Poststep 後製步驟
+// Poststep 後製
 func Poststep(runtime *Runtime) error {
 	tasks := []func(*Runtime) error{ // 工作函式列表
+		poststepProtoCsBat,
+		poststepProtoCsSh,
+		poststepProtoGoBat,
+		poststepProtoGoSh,
 	}
 	totalCount := len(tasks)
 

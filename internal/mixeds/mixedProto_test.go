@@ -41,16 +41,19 @@ func (this *SuiteProto) target() *Mixed {
 func (this *SuiteProto) TestName() {
 	structName := this.excel + utils.FirstUpper(this.sheet) + "."
 	readerName := this.excel + utils.FirstUpper(this.sheet) + internal.Reader + "."
-	pathProtoSchema := internal.PathProto
-	pathProtoCs := filepath.Join(internal.PathProto, internal.PathCs)
-	pathProtoGo := filepath.Join(internal.PathProto, internal.PathGo)
-	fileProtoSchema := filepath.Join(internal.PathProto, structName+internal.ExtProtoSchema)
+	pathProtoSchema := internal.PathSchema
+	pathProtoCs := internal.PathCs
+	pathProtoGo := internal.PathGo
+	fileProtoSchema := filepath.Join(internal.PathProto, internal.PathSchema, structName+internal.ExtProtoSchema)
+	fileProtoSchemaRelative := filepath.Join(internal.PathSchema, structName+internal.ExtProtoSchema)
 	fileProtoCsReader := filepath.Join(internal.PathProto, internal.PathCs, readerName+internal.ExtCs)
 	fileProtoGoReader := filepath.Join(internal.PathProto, internal.PathGo, readerName+internal.ExtGo)
 	fileProtoDataName := structName + internal.ExtProtoData
 	fileProtoDataPath := filepath.Join(internal.PathProto, internal.PathData, fileProtoDataName)
-	fileProtoBat := filepath.Join(internal.PathProto, internal.FileProtoBat)
-	fileProtoSh := filepath.Join(internal.PathProto, internal.FileProtoSh)
+	fileProtoCsBat := filepath.Join(internal.PathProto, internal.FileProtoCsBat)
+	fileProtoCsSh := filepath.Join(internal.PathProto, internal.FileProtoCsSh)
+	fileProtoGoBat := filepath.Join(internal.PathProto, internal.FileProtoGoBat)
+	fileProtoGoSh := filepath.Join(internal.PathProto, internal.FileProtoGoSh)
 	protoDepend := this.excel + "." + internal.ExtProtoSchema
 
 	target := this.target()
@@ -58,11 +61,14 @@ func (this *SuiteProto) TestName() {
 	assert.Equal(this.T(), pathProtoCs, target.PathProtoCs())
 	assert.Equal(this.T(), pathProtoGo, target.PathProtoGo())
 	assert.Equal(this.T(), fileProtoSchema, target.FileProtoSchema())
+	assert.Equal(this.T(), fileProtoSchemaRelative, target.FileProtoSchemaRelative())
 	assert.Equal(this.T(), fileProtoCsReader, target.FileProtoCsReader())
 	assert.Equal(this.T(), fileProtoGoReader, target.FileProtoGoReader())
 	assert.Equal(this.T(), fileProtoDataName, target.FileProtoDataName())
 	assert.Equal(this.T(), fileProtoDataPath, target.FileProtoDataPath())
-	assert.Equal(this.T(), fileProtoBat, target.FileProtoBat())
-	assert.Equal(this.T(), fileProtoSh, target.FileProtoSh())
+	assert.Equal(this.T(), fileProtoCsBat, target.FileProtoCsBat())
+	assert.Equal(this.T(), fileProtoCsSh, target.FileProtoCsSh())
+	assert.Equal(this.T(), fileProtoGoBat, target.FileProtoGoBat())
+	assert.Equal(this.T(), fileProtoGoSh, target.FileProtoGoSh())
 	assert.Equal(this.T(), protoDepend, target.ProtoDepend(this.excel))
 }
