@@ -200,6 +200,7 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 * 執行產生出來的.bat/.sh
 
 # 關於格式化產出的proto檔案(為了美觀!)
+* 安裝[go]
 * 安裝[buf]
 * 執行以下命令來格式化proto檔案
 ```shell
