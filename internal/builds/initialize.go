@@ -17,7 +17,7 @@ func Initialize(config *Config, runtime *Runtime) (errs []error) {
 		})
 	} // for
 
-	tasks := []func(sector *RuntimeSector) error{ // 工作函式列表
+	tasks := []func(*RuntimeSector) error{ // 工作函式列表
 		initializeSector,
 	}
 	itemCount := len(runtime.Sector)

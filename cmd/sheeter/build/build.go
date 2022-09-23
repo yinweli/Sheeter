@@ -81,5 +81,10 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // if
 
+	if err := builds.Poststep(runtime); err != nil {
+		cmd.Println(fmt.Errorf("build failed, poststep failed: %w", err))
+		return
+	} // if
+
 	cmd.Printf("usage time=%s\n", durafmt.Parse(time.Since(startTime)))
 }

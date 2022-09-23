@@ -10,7 +10,7 @@ import (
 
 // Encoding 產生編碼資料
 func Encoding(runtime *Runtime) (errs []error) {
-	tasks := []func(sector *RuntimeSector) error{ // 工作函式列表
+	tasks := []func(*RuntimeSector) error{ // 工作函式列表
 		encodingJson,
 	}
 	itemCount := len(runtime.Sector)
