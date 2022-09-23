@@ -41,18 +41,18 @@ func (this *SuiteJson) target() *Mixed {
 func (this *SuiteJson) TestName() {
 	structName := this.excel + utils.FirstUpper(this.sheet) + "."
 	readerName := this.excel + utils.FirstUpper(this.sheet) + internal.Reader + "."
-	fileJsonCsStruct := filepath.Join(internal.PathJsonCs, structName+internal.ExtCs)
-	fileJsonCsReader := filepath.Join(internal.PathJsonCs, readerName+internal.ExtCs)
-	fileJsonGoStruct := filepath.Join(internal.PathJsonGo, structName+internal.ExtGo)
-	fileJsonGoReader := filepath.Join(internal.PathJsonGo, readerName+internal.ExtGo)
-	fileJsonData := filepath.Join(internal.PathJsonData, structName+internal.ExtJsonData)
-	fileJsonDataCode := filepath.ToSlash(fileJsonData)
+	fileJsonCsStruct := filepath.Join(internal.PathJson, internal.PathCs, structName+internal.ExtCs)
+	fileJsonCsReader := filepath.Join(internal.PathJson, internal.PathCs, readerName+internal.ExtCs)
+	fileJsonGoStruct := filepath.Join(internal.PathJson, internal.PathGo, structName+internal.ExtGo)
+	fileJsonGoReader := filepath.Join(internal.PathJson, internal.PathGo, readerName+internal.ExtGo)
+	fileJsonDataName := structName + internal.ExtJsonData
+	fileJsonDataPath := filepath.Join(internal.PathJson, internal.PathData, fileJsonDataName)
 
 	target := this.target()
 	assert.Equal(this.T(), fileJsonCsStruct, target.FileJsonCsStruct())
 	assert.Equal(this.T(), fileJsonCsReader, target.FileJsonCsReader())
 	assert.Equal(this.T(), fileJsonGoStruct, target.FileJsonGoStruct())
 	assert.Equal(this.T(), fileJsonGoReader, target.FileJsonGoReader())
-	assert.Equal(this.T(), fileJsonData, target.FileJsonData())
-	assert.Equal(this.T(), fileJsonDataCode, target.FileJsonDataCode())
+	assert.Equal(this.T(), fileJsonDataName, target.FileJsonDataName())
+	assert.Equal(this.T(), fileJsonDataPath, target.FileJsonDataPath())
 }

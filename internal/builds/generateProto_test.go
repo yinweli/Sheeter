@@ -2,6 +2,7 @@ package builds
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -28,9 +29,9 @@ func (this *SuiteGenerateProto) SetupSuite() {
 }
 
 func (this *SuiteGenerateProto) TearDownSuite() {
-	_ = os.RemoveAll(internal.PathProtoSchema)
-	_ = os.RemoveAll(internal.PathProtoCs)
-	_ = os.RemoveAll(internal.PathProtoGo)
+	_ = os.RemoveAll(internal.PathProto)
+	_ = os.RemoveAll(filepath.Join(internal.PathProto, internal.PathCs))
+	_ = os.RemoveAll(filepath.Join(internal.PathProto, internal.PathGo))
 	testdata.RestoreWorkDir(this.workDir)
 }
 

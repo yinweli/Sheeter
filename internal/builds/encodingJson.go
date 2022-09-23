@@ -34,7 +34,7 @@ func encodingJson(runtimeSector *RuntimeSector) error {
 		objs[pkey] = packs
 	} // for
 
-	if err = utils.WriteJson(runtimeSector.FileJsonData(), objs); err != nil {
+	if err = utils.WriteJson(runtimeSector.FileJsonDataPath(), objs); err != nil {
 		return fmt.Errorf("%s: encoding json failed: %w", structName, err)
 	} // if
 

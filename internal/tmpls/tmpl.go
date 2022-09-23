@@ -117,7 +117,7 @@ using System.Collections.Generic;
 
 namespace {{$.Namespace}} {
     public partial class {{$.ReaderName}} {
-        public static readonly string Json = "{{$.FileJsonDataCode}}";
+        public static readonly string Json = "{{$.FileJsonDataName}}";
 
         public static Dictionary<long, {{$.StructName}}> FromJsonFile(string path) {
             return FromJsonString(File.ReadAllText(path));
@@ -178,7 +178,7 @@ type {{$.ReaderName}} struct {
 }
 
 func (this *{{$.ReaderName}}) Json() string {
-	return "{{$.FileJsonDataCode}}"
+	return "{{$.FileJsonDataName}}"
 }
 
 func (this *{{$.ReaderName}}) FromJsonFile(path string) error {
@@ -226,7 +226,7 @@ package {{$.Namespace}};
 option go_package = ".;{{$.Namespace}}";
 
 {{- range $.Depend}}
-import '{{$.FileProtoDepend .}}';
+import '{{$.ProtoDepend .}}';
 {{- end}}
 
 message {{$.StructName}} {

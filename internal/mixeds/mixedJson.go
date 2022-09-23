@@ -1,8 +1,6 @@
 package mixeds
 
 import (
-	"path/filepath"
-
 	"github.com/yinweli/Sheeter/internal"
 )
 
@@ -16,7 +14,7 @@ func (this *Json) FileJsonCsStruct() string {
 	return this.mixed.combine(params{
 		sheetUpper: true,
 		ext:        internal.ExtCs,
-		path:       internal.PathJsonCs,
+		path:       []string{internal.PathJson, internal.PathCs},
 	})
 }
 
@@ -26,7 +24,7 @@ func (this *Json) FileJsonCsReader() string {
 		sheetUpper: true,
 		last:       internal.Reader,
 		ext:        internal.ExtCs,
-		path:       internal.PathJsonCs,
+		path:       []string{internal.PathJson, internal.PathCs},
 	})
 }
 
@@ -35,7 +33,7 @@ func (this *Json) FileJsonGoStruct() string {
 	return this.mixed.combine(params{
 		sheetUpper: true,
 		ext:        internal.ExtGo,
-		path:       internal.PathJsonGo,
+		path:       []string{internal.PathJson, internal.PathGo},
 	})
 }
 
@@ -45,20 +43,23 @@ func (this *Json) FileJsonGoReader() string {
 		sheetUpper: true,
 		last:       internal.Reader,
 		ext:        internal.ExtGo,
-		path:       internal.PathJsonGo,
+		path:       []string{internal.PathJson, internal.PathGo},
 	})
 }
 
-// FileJsonData 取得json資料檔名路徑
-func (this *Json) FileJsonData() string {
+// FileJsonDataName 取得json資料檔案名稱
+func (this *Json) FileJsonDataName() string {
 	return this.mixed.combine(params{
 		sheetUpper: true,
 		ext:        internal.ExtJsonData,
-		path:       internal.PathJsonData,
 	})
 }
 
-// FileJsonDataCode 取得程式碼可用的json資料檔名路徑
-func (this *Json) FileJsonDataCode() string {
-	return filepath.ToSlash(this.FileJsonData()) // 因為要把路徑寫到程式碼中, 所以要改變分隔符號的方式
+// FileJsonDataPath 取得json資料檔名路徑
+func (this *Json) FileJsonDataPath() string {
+	return this.mixed.combine(params{
+		sheetUpper: true,
+		ext:        internal.ExtJsonData,
+		path:       []string{internal.PathJson, internal.PathData},
+	})
 }

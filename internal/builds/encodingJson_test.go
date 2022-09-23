@@ -2,6 +2,7 @@ package builds
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -26,7 +27,7 @@ func (this *SuiteEncodingJson) SetupSuite() {
 }
 
 func (this *SuiteEncodingJson) TearDownSuite() {
-	_ = os.RemoveAll(internal.PathJsonData)
+	_ = os.RemoveAll(filepath.Join(internal.PathJson, internal.PathData))
 	testdata.RestoreWorkDir(this.workDir)
 }
 
@@ -115,7 +116,7 @@ func (this *SuiteEncodingJson) TestEncodingJson() {
 	target := this.target()
 	assert.Nil(this.T(), initializeSector(target))
 	assert.Nil(this.T(), encodingJson(target))
-	testdata.CompareFile(this.T(), target.FileJsonData(), data)
+	testdata.CompareFile(this.T(), target.FileJsonDataPath(), data)
 	target.Close()
 
 	target = this.target()
@@ -128,7 +129,7 @@ func (this *SuiteEncodingJson) TestEncodingJson() {
 	target.Excel = testdata.ExcelNameEmpty
 	assert.Nil(this.T(), initializeSector(target))
 	assert.Nil(this.T(), encodingJson(target))
-	testdata.CompareFile(this.T(), target.FileJsonData(), empty)
+	testdata.CompareFile(this.T(), target.FileJsonDataPath(), empty)
 	target.Close()
 
 	target = this.target()

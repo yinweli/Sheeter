@@ -124,16 +124,17 @@ elements:
         * 另一個表格同樣使用了`data`結構/陣列, 而欄位只設定 `data { field1, field2 }`, 忽略了`field3`
 
 # 產生目錄
-| 名稱       | 說明                       |
-|:-----------|:---------------------------|
-| data-json  | json資料檔案               |
-| json-cs    | json的cs結構與讀取器程式碼 |
-| json-go    | json的go結構與讀取器程式碼 |
-| data-proto | proto資料檔案              |
-| proto      | proto架構檔案              |
-| proto-cs   | proto的cs讀取器程式碼      |
-| proto-go   | proto的go讀取器程式碼      |
-| template   | 模板檔案                   |
+| 名稱        | 說明                                             |
+|:------------|:-------------------------------------------------|
+| json        | json根目錄                                       |
+| json/.data  | 存放資料檔案                                     |
+| json/cs     | 存放結構與讀取器程式碼                           |
+| json/go     | 存放結構與讀取器程式碼                           |
+| proto       | proto根目錄; 存放.proto檔案, build.bat, build.sh |
+| proto/.data | 存放資料檔案                                     |
+| proto/cs    | 存放結構與讀取器程式碼                           |
+| proto/go    | 存放結構與讀取器程式碼                           |
+| template    | 模板檔案                                         |
 
 # 轉換範例
 [example]
@@ -157,19 +158,19 @@ sheeter tmpl -c
 | $.FileJsonCsReader  | json-cs讀取器程式碼檔名路徑                                                |
 | $.FileJsonGoStruct  | json-go結構程式碼檔名路徑                                                  |
 | $.FileJsonGoReader  | json-go讀取器程式碼檔名路徑                                                |
-| $.FileJsonData      | json資料檔名路徑                                                           |
-| $.FileJsonDataCode  | json資料檔名路徑(程式碼可用)                                               |
+| $.FileJsonDataName  | json資料檔案名稱                                                           |
+| $.FileJsonDataPath  | json資料檔名路徑                                                           |
 | $.PathProtoSchema   | proto架構路徑                                                              |
 | $.PathProtoCs       | proto-cs路徑                                                               |
 | $.PathProtoGo       | proto-go路徑                                                               |
-| $.FileProtoDepend   | proto依賴檔案名稱 [依賴名稱]                                               |
 | $.FileProtoSchema   | proto架構檔名路徑                                                          |
 | $.FileProtoCsReader | proto-cs讀取器程式碼檔名路徑                                               |
 | $.FileProtoGoReader | proto-go讀取器程式碼檔名路徑                                               |
-| $.FileProtoData     | proto資料檔名路徑                                                          |
-| $.FileProtoDataCode | proto資料檔名路徑(程式碼可用)                                              |
+| $.FileProtoDataName | proto資料檔案名稱                                                          |
+| $.FileProtoDataPath | proto資料檔名路徑                                                          |
 | $.FileProtoBat      | proto-bat檔名路徑                                                          |
 | $.FileProtoSh       | proto-sh檔名路徑                                                           |
+| $.ProtoDepend       | proto依賴檔案名稱 [依賴名稱]                                               |
 | $.FieldName         | 取得欄位名稱 [欄位資料]                                                    |
 | $.FieldNote         | 取得欄位註解 [欄位資料]                                                    |
 | $.FieldTypeCs       | 取得cs欄位類型 [欄位資料]                                                  |

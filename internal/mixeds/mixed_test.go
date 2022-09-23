@@ -62,5 +62,5 @@ func (this *SuiteMixed) TestCombine() {
 	assert.Equal(this.T(), this.excel+utils.FirstUpper(this.sheet), target.combine(params{sheetUpper: true}))
 	assert.Equal(this.T(), this.excel+this.sheet+token, target.combine(params{last: token}))
 	assert.Equal(this.T(), this.excel+this.sheet+"."+token, target.combine(params{ext: token}))
-	assert.Equal(this.T(), filepath.Join(token, this.excel+this.sheet), target.combine(params{path: token}))
+	assert.Equal(this.T(), filepath.Join(token, token, token, this.excel+this.sheet), target.combine(params{path: []string{token, token, token}}))
 }

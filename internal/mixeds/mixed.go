@@ -57,11 +57,11 @@ func (this *Mixed) ReaderName() string {
 
 // params 組合名稱參數
 type params struct {
-	excelUpper bool   // excel名稱是否要首字大寫
-	sheetUpper bool   // sheet名稱是否要首字大寫
-	last       string // excel與sheet的結尾字串
-	ext        string // 副檔名
-	path       string // 路徑字串
+	excelUpper bool     // excel名稱是否要首字大寫
+	sheetUpper bool     // sheet名稱是否要首字大寫
+	last       string   // excel與sheet的結尾字串
+	ext        string   // 副檔名
+	path       []string // 路徑列表
 }
 
 // combine 取得組合名稱
@@ -88,6 +88,9 @@ func (this *Mixed) combine(params params) string {
 		name = name + "." + params.ext
 	} // if
 
-	path := filepath.Join(params.path, name)
+	paths := []string{}
+	paths = append(paths, params.path...)
+	paths = append(paths, name)
+	path := filepath.Join(paths...)
 	return path
 }
