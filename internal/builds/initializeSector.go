@@ -84,7 +84,7 @@ func initializeSector(runtimeSector *RuntimeSector) error {
 			return fmt.Errorf("%s: initialize sector failed, layoutType add failed: %w", structName, err)
 		} // if
 
-		if err := layoutDepend.Add(layer); err != nil {
+		if err := layoutDepend.Add(layer, back); err != nil {
 			return fmt.Errorf("%s: initialize sector failed, layoutDepend add failed: %w", structName, err)
 		} // if
 	} // for

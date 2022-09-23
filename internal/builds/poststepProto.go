@@ -22,7 +22,7 @@ func poststepProtoCsBat(runtime *Runtime) error {
 func poststepProtoCsSh(runtime *Runtime) error {
 	path := runtime.FileProtoCsSh()
 
-	if err := utils.WriteTmpl(path, tmpls.ProtoCsBat.Data, runtime); err != nil {
+	if err := utils.WriteTmpl(path, tmpls.ProtoCsSh.Data, runtime); err != nil {
 		return fmt.Errorf("poststep %s failed: %w", path, err)
 	} // if
 
@@ -33,7 +33,7 @@ func poststepProtoCsSh(runtime *Runtime) error {
 func poststepProtoGoBat(runtime *Runtime) error {
 	path := runtime.FileProtoGoBat()
 
-	if err := utils.WriteTmpl(path, tmpls.ProtoCsBat.Data, runtime); err != nil {
+	if err := utils.WriteTmpl(path, tmpls.ProtoGoBat.Data, runtime); err != nil {
 		return fmt.Errorf("poststep %s failed: %w", path, err)
 	} // if
 
@@ -44,7 +44,7 @@ func poststepProtoGoBat(runtime *Runtime) error {
 func poststepProtoGoSh(runtime *Runtime) error {
 	path := runtime.FileProtoGoSh()
 
-	if err := utils.WriteTmpl(path, tmpls.ProtoCsBat.Data, runtime); err != nil {
+	if err := utils.WriteTmpl(path, tmpls.ProtoGoSh.Data, runtime); err != nil {
 		return fmt.Errorf("poststep %s failed: %w", path, err)
 	} // if
 

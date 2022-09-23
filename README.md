@@ -124,17 +124,18 @@ elements:
         * 另一個表格同樣使用了`data`結構/陣列, 而欄位只設定 `data { field1, field2 }`, 忽略了`field3`
 
 # 產生目錄
-| 名稱        | 說明                                             |
-|:------------|:-------------------------------------------------|
-| json        | json根目錄                                       |
-| json/.data  | 存放資料檔案                                     |
-| json/cs     | 存放結構與讀取器程式碼                           |
-| json/go     | 存放結構與讀取器程式碼                           |
-| proto       | proto根目錄; 存放.proto檔案, build.bat, build.sh |
-| proto/.data | 存放資料檔案                                     |
-| proto/cs    | 存放結構與讀取器程式碼                           |
-| proto/go    | 存放結構與讀取器程式碼                           |
-| template    | 模板檔案                                         |
+| 名稱         | 說明                                          |
+|:-------------|:----------------------------------------------|
+| json         | json根目錄                                    |
+| json/.data   | 存放資料檔案                                  |
+| json/cs      | 存放結構與讀取器程式碼                        |
+| json/go      | 存放結構與讀取器程式碼                        |
+| proto        | proto根目錄; 存放建置程式碼的批次檔與腳本檔案 |
+| proto/.data  | 存放.proto檔案                                |
+| proto/schema | 存放資料檔案                                  |
+| proto/cs     | 存放結構與讀取器程式碼                        |
+| proto/go     | 存放結構與讀取器程式碼                        |
+| template     | 模板檔案                                      |
 
 # 轉換範例
 [example]

@@ -55,7 +55,10 @@ func (this *LayoutType) Begin(name, excel, sheet string) error {
 		return fmt.Errorf("layoutType begin failed, not closed")
 	} // if
 
-	this.pushType(name, excel, sheet, true)
+	if this.pushType(name, excel, sheet, true) == false {
+		return fmt.Errorf("layoutType begin failed, pushType failed")
+	} // if
+
 	return nil
 }
 
@@ -63,6 +66,10 @@ func (this *LayoutType) Begin(name, excel, sheet string) error {
 func (this *LayoutType) End() error {
 	if this.pop(1) == false {
 		return fmt.Errorf("layoutType end failed, pop failed")
+	} // if
+
+	if this.Closure() == false {
+		return fmt.Errorf("layoutType end failed, not closed")
 	} // if
 
 	return nil

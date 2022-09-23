@@ -43,14 +43,19 @@ func (this *SuiteLayoutType) TestNewLayoutType() {
 
 func (this *SuiteLayoutType) TestBegin() {
 	target := this.target()
-	assert.Nil(this.T(), target.Begin("name1", "", ""))
-	assert.NotNil(this.T(), target.Begin("name2", "", ""))
+	assert.Nil(this.T(), target.Begin("type1", "", ""))
+	assert.NotNil(this.T(), target.Begin("type2", "", ""))
 }
 
 func (this *SuiteLayoutType) TestEnd() {
 	target := this.target()
-	assert.Nil(this.T(), target.Begin("name", "", ""))
+	assert.Nil(this.T(), target.Begin("type", "", ""))
 	assert.Nil(this.T(), target.End())
+	assert.NotNil(this.T(), target.End())
+
+	target = this.target()
+	assert.Nil(this.T(), target.Begin("type", "", ""))
+	assert.Nil(this.T(), target.Add("name", "", &fields.Int{}, this.layer("{[]layer1 {layer2"), 0))
 	assert.NotNil(this.T(), target.End())
 }
 
