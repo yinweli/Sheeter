@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/fields"
 	"github.com/yinweli/Sheeter/internal/layouts"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
@@ -83,4 +84,22 @@ func (this *Field) FieldTypeProto(field *layouts.Field) string {
 	} else {
 		return fieldName
 	} // if
+}
+
+// PkeyTypeCs 取得pkey的cs類型
+func (this *Field) PkeyTypeCs() string {
+	pkey := fields.Pkey{}
+	return pkey.ToTypeCs()
+}
+
+// PkeyTypeGo 取得pkey的go類型
+func (this *Field) PkeyTypeGo() string {
+	pkey := fields.Pkey{}
+	return pkey.ToTypeGo()
+}
+
+// PkeyTypeProto 取得pkey的proto類型
+func (this *Field) PkeyTypeProto() string {
+	pkey := fields.Pkey{}
+	return pkey.ToTypeProto()
 }

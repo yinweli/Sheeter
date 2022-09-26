@@ -93,17 +93,27 @@ using System.IO;
 using System.Collections.Generic;
 
 namespace sheeter {
+    using TestDataStorer = Dictionary<long, TestData>;
+
     public partial class TestDataReader {
-        public static readonly string Json = "testData.json";
-
-        public static Dictionary<long, TestData> FromJsonFile(string path) {
-            return FromJsonString(File.ReadAllText(path));
+        public static string FileName() {
+            return "testData.json";
         }
 
-        public static Dictionary<long, TestData> FromJsonString(string data) {
-            var datas = JsonConvert.DeserializeObject<Dictionary<long, TestData>>(data);
-            return datas;
+        public bool FromFullPath(string path) {
+            return FromData(File.ReadAllText(path));
         }
+
+        public bool FromHalfPath(string path) {
+            return FromData(File.ReadAllText(Path.Combine(path, FileName())));
+        }
+
+        public bool FromData(string data) {
+            Datas = JsonConvert.DeserializeObject<TestDataStorer>(data);
+            return Datas != null;
+        }
+
+        public TestDataStorer Datas = null;
     }
 }
 `)
@@ -146,28 +156,41 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 type TestDataReader struct {
-	Datas map[int64]TestData
+	Datas TestDataStorer
 }
 
-func (this *TestDataReader) Json() string {
+type TestDataStorer = map[int64]TestData
+
+func (this *TestDataReader) FileName() string {
 	return "testData.json"
 }
 
-func (this *TestDataReader) FromJsonFile(path string) error {
+func (this *TestDataReader) FromFullPath(path string) error {
 	data, err := os.ReadFile(path)
 
 	if err != nil {
-		return fmt.Errorf("TestDataReader: from json file failed: %w", err)
+		return fmt.Errorf("TestDataReader: from full path failed: %w", err)
 	}
 
-	return this.FromJsonBytes(data)
+	return this.FromData(data)
 }
 
-func (this *TestDataReader) FromJsonBytes(data []byte) error {
-	datas := map[int64]TestData{}
+func (this *TestDataReader) FromHalfPath(path string) error {
+	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
+
+	if err != nil {
+		return fmt.Errorf("TestDataReader: from half path failed: %w", err)
+	}
+
+	return this.FromData(data)
+}
+
+func (this *TestDataReader) FromData(data []byte) error {
+	datas := TestDataStorer{}
 
 	if err := json.Unmarshal(data, &datas); err != nil {
 		return err

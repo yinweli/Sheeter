@@ -14,6 +14,6 @@ message Reward {
   optional int64 Gold = 6; // 金幣
 }
 
-message RewardReader {
+message RewardStorer {
   map<int64, Reward> Datas = 1;
 }

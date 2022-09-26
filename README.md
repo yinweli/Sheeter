@@ -127,15 +127,15 @@ elements:
 | 名稱         | 說明                                          |
 |:-------------|:----------------------------------------------|
 | json         | json根目錄                                    |
-| json/.data   | 存放資料檔案                                  |
-| json/cs      | 存放結構與讀取器程式碼                        |
-| json/go      | 存放結構與讀取器程式碼                        |
+| json/codeCs  | 存放結構與讀取器程式碼                        |
+| json/codeGo  | 存放結構與讀取器程式碼                        |
+| json/data    | 存放資料檔案                                  |
 | proto        | proto根目錄; 存放建置程式碼的批次檔與腳本檔案 |
-| proto/.data  | 存放.proto檔案                                |
-| proto/schema | 存放資料檔案                                  |
-| proto/cs     | 存放結構與讀取器程式碼                        |
-| proto/go     | 存放結構與讀取器程式碼                        |
-| template     | 模板檔案                                      |
+| proto/codeCs | 存放結構與讀取器程式碼                        |
+| proto/codeGo | 存放結構與讀取器程式碼                        |
+| proto/data   | 存放資料檔案                                  |
+| proto/schema | 存放.proto檔案                                |
+| template     | 存放模板檔案                                  |
 
 # 轉換範例
 [example]
@@ -155,6 +155,7 @@ sheeter tmpl -c
 | $.Namespace         | 命名空間名稱                 |
 | $.StructName        | 結構名稱                     |
 | $.ReaderName        | 讀取器名稱                   |
+| $.StorerName        | 儲存器名稱                   |
 | $.FileJsonCsStruct  | json-cs結構程式碼檔名路徑    |
 | $.FileJsonCsReader  | json-cs讀取器程式碼檔名路徑  |
 | $.FileJsonGoStruct  | json-go結構程式碼檔名路徑    |

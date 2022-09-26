@@ -6,28 +6,41 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 type VerifyData2Reader struct {
-	Datas map[int64]VerifyData2
+	Datas VerifyData2Storer
 }
 
-func (this *VerifyData2Reader) Json() string {
+type VerifyData2Storer = map[int64]VerifyData2
+
+func (this *VerifyData2Reader) FileName() string {
 	return "verifyData2.json"
 }
 
-func (this *VerifyData2Reader) FromJsonFile(path string) error {
+func (this *VerifyData2Reader) FromFullPath(path string) error {
 	data, err := os.ReadFile(path)
 
 	if err != nil {
-		return fmt.Errorf("VerifyData2Reader: from json file failed: %w", err)
+		return fmt.Errorf("VerifyData2Reader: from full path failed: %w", err)
 	}
 
-	return this.FromJsonBytes(data)
+	return this.FromData(data)
 }
 
-func (this *VerifyData2Reader) FromJsonBytes(data []byte) error {
-	datas := map[int64]VerifyData2{}
+func (this *VerifyData2Reader) FromHalfPath(path string) error {
+	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
+
+	if err != nil {
+		return fmt.Errorf("VerifyData2Reader: from half path failed: %w", err)
+	}
+
+	return this.FromData(data)
+}
+
+func (this *VerifyData2Reader) FromData(data []byte) error {
+	datas := VerifyData2Storer{}
 
 	if err := json.Unmarshal(data, &datas); err != nil {
 		return err

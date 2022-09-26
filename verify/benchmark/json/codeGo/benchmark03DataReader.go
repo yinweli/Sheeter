@@ -6,28 +6,41 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 type Benchmark03DataReader struct {
-	Datas map[int64]Benchmark03Data
+	Datas Benchmark03DataStorer
 }
 
-func (this *Benchmark03DataReader) Json() string {
+type Benchmark03DataStorer = map[int64]Benchmark03Data
+
+func (this *Benchmark03DataReader) FileName() string {
 	return "benchmark03Data.json"
 }
 
-func (this *Benchmark03DataReader) FromJsonFile(path string) error {
+func (this *Benchmark03DataReader) FromFullPath(path string) error {
 	data, err := os.ReadFile(path)
 
 	if err != nil {
-		return fmt.Errorf("Benchmark03DataReader: from json file failed: %w", err)
+		return fmt.Errorf("Benchmark03DataReader: from full path failed: %w", err)
 	}
 
-	return this.FromJsonBytes(data)
+	return this.FromData(data)
 }
 
-func (this *Benchmark03DataReader) FromJsonBytes(data []byte) error {
-	datas := map[int64]Benchmark03Data{}
+func (this *Benchmark03DataReader) FromHalfPath(path string) error {
+	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
+
+	if err != nil {
+		return fmt.Errorf("Benchmark03DataReader: from half path failed: %w", err)
+	}
+
+	return this.FromData(data)
+}
+
+func (this *Benchmark03DataReader) FromData(data []byte) error {
+	datas := Benchmark03DataStorer{}
 
 	if err := json.Unmarshal(data, &datas); err != nil {
 		return err

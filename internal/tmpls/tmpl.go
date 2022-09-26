@@ -86,9 +86,6 @@ func (this *Tmpl) path() string {
 	return filepath.Join(internal.PathTmpl, this.Name)
 }
 
-// TODO: json (cs, go): struct, storer, reader, keeper
-// TODO: proto (cs, go): schema, storer, reader, keeper
-
 // JsonCsStruct json-cs結構模板
 var JsonCsStruct = &Tmpl{
 	Name: internal.FileTmplJsonCsStruct,
@@ -119,17 +116,27 @@ using System.IO;
 using System.Collections.Generic;
 
 namespace {{$.Namespace}} {
+    using {{$.StorerName}} = Dictionary<{{$.PkeyTypeCs}}, {{$.StructName}}>;
+
     public partial class {{$.ReaderName}} {
-        public static readonly string Json = "{{$.FileJsonDataName}}";
-
-        public static Dictionary<long, {{$.StructName}}> FromJsonFile(string path) {
-            return FromJsonString(File.ReadAllText(path));
+        public static string FileName() {
+            return "{{$.FileJsonDataName}}";
         }
 
-        public static Dictionary<long, {{$.StructName}}> FromJsonString(string data) {
-            var datas = JsonConvert.DeserializeObject<Dictionary<long, {{$.StructName}}>>(data);
-            return datas;
+        public bool FromFullPath(string path) {
+            return FromData(File.ReadAllText(path));
         }
+
+        public bool FromHalfPath(string path) {
+            return FromData(File.ReadAllText(Path.Combine(path, FileName())));
+        }
+
+        public bool FromData(string data) {
+            Datas = JsonConvert.DeserializeObject<{{$.StorerName}}>(data);
+            return Datas != null;
+        }
+
+        public {{$.StorerName}} Datas = null;
     }
 }
 `,
@@ -162,28 +169,41 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"path/filepath"
 )
 
 type {{$.ReaderName}} struct {
-	Datas map[int64]{{$.StructName}}
+	Datas {{$.StorerName}}
 }
 
-func (this *{{$.ReaderName}}) Json() string {
+type {{$.StorerName}} = map[{{$.PkeyTypeGo}}]{{$.StructName}}
+
+func (this *{{$.ReaderName}}) FileName() string {
 	return "{{$.FileJsonDataName}}"
 }
 
-func (this *{{$.ReaderName}}) FromJsonFile(path string) error {
+func (this *{{$.ReaderName}}) FromFullPath(path string) error {
 	data, err := os.ReadFile(path)
 
 	if err != nil {
-		return fmt.Errorf("{{$.ReaderName}}: from json file failed: %w", err)
+		return fmt.Errorf("{{$.ReaderName}}: from full path failed: %w", err)
 	}
 
-	return this.FromJsonBytes(data)
+	return this.FromData(data)
 }
 
-func (this *{{$.ReaderName}}) FromJsonBytes(data []byte) error {
-	datas := map[int64]{{$.StructName}}{}
+func (this *{{$.ReaderName}}) FromHalfPath(path string) error {
+	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
+
+	if err != nil {
+		return fmt.Errorf("{{$.ReaderName}}: from half path failed: %w", err)
+	}
+
+	return this.FromData(data)
+}
+
+func (this *{{$.ReaderName}}) FromData(data []byte) error {
+	datas := {{$.StorerName}}{}
 
 	if err := json.Unmarshal(data, &datas); err != nil {
 		return err
@@ -214,10 +234,10 @@ message {{$.StructName}} {
 {{- end}}
 }
 
-message {{$.ReaderName}} {
-  map<int64, {{$.StructName}}> Datas = 1;
+message {{$.StorerName}} {
+  map<{{$.PkeyTypeProto}}, {{$.StructName}}> Datas = 1;
 }
-`,
+`, // TODO: Reader改Storer
 }
 
 // ProtoCsReader proto-cs讀取器模板

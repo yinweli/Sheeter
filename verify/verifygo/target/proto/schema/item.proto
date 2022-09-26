@@ -10,6 +10,6 @@ message Item {
   optional int64 Type = 3; // 物品類型
 }
 
-message ItemReader {
+message ItemStorer {
   map<int64, Item> Datas = 1;
 }

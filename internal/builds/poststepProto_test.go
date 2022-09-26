@@ -25,10 +25,11 @@ func (this *SuitePoststepProto) SetupSuite() {
 }
 
 func (this *SuitePoststepProto) TearDownSuite() {
-	_ = os.Remove(this.target().FileProtoCsBat())
-	_ = os.Remove(this.target().FileProtoCsSh())
-	_ = os.Remove(this.target().FileProtoGoBat())
-	_ = os.Remove(this.target().FileProtoGoSh())
+	target := this.target()
+	_ = os.Remove(target.FileProtoCsBat())
+	_ = os.Remove(target.FileProtoCsSh())
+	_ = os.Remove(target.FileProtoGoBat())
+	_ = os.Remove(target.FileProtoGoSh())
 	testdata.RestoreWorkDir(this.workDir)
 }
 

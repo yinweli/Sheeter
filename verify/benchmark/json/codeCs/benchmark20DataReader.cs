@@ -6,16 +6,26 @@ using System.IO;
 using System.Collections.Generic;
 
 namespace sheeter {
+    using Benchmark20DataStorer = Dictionary<long, Benchmark20Data>;
+
     public partial class Benchmark20DataReader {
-        public static readonly string Json = "benchmark20Data.json";
-
-        public static Dictionary<long, Benchmark20Data> FromJsonFile(string path) {
-            return FromJsonString(File.ReadAllText(path));
+        public static string FileName() {
+            return "benchmark20Data.json";
         }
 
-        public static Dictionary<long, Benchmark20Data> FromJsonString(string data) {
-            var datas = JsonConvert.DeserializeObject<Dictionary<long, Benchmark20Data>>(data);
-            return datas;
+        public bool FromFullPath(string path) {
+            return FromData(File.ReadAllText(path));
         }
+
+        public bool FromHalfPath(string path) {
+            return FromData(File.ReadAllText(Path.Combine(path, FileName())));
+        }
+
+        public bool FromData(string data) {
+            Datas = JsonConvert.DeserializeObject<Benchmark20DataStorer>(data);
+            return Datas != null;
+        }
+
+        public Benchmark20DataStorer Datas = null;
     }
 }

@@ -125,3 +125,11 @@ func (this *SuiteField) TestFieldTypeProto() {
 	assert.Equal(this.T(), fieldAlter, target.FieldTypeProto(this.fieldAlter))
 	assert.Equal(this.T(), fieldAlterArray, target.FieldTypeProto(this.fieldAlterArray))
 }
+
+func (this *SuiteField) TestPkeyType() {
+	target := this.target()
+	pkey := fields.Pkey{}
+	assert.Equal(this.T(), pkey.ToTypeCs(), target.PkeyTypeCs())
+	assert.Equal(this.T(), pkey.ToTypeGo(), target.PkeyTypeGo())
+	assert.Equal(this.T(), pkey.ToTypeProto(), target.PkeyTypeProto())
+}

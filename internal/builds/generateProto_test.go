@@ -73,7 +73,7 @@ message TestData {
   repeated Data Name5 = 5; // note5
 }
 
-message TestDataReader {
+message TestDataStorer {
   map<int64, TestData> Datas = 1;
 }
 `)

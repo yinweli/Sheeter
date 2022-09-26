@@ -43,8 +43,8 @@ const FileTmplProtoGoSh = "proto-go-sh.txt"         // 輸出檔名: proto-go-sh
 
 /* 通用名稱 */
 
-const Storer = "Storer"     // 儲存器名稱
 const Reader = "Reader"     // 讀取器名稱
+const Storer = "Storer"     // 儲存器名稱
 const PathSchema = "schema" // 輸出路徑: 架構
 const PathCs = "codeCs"     // 輸出路徑: cs
 const PathGo = "codeGo"     // 輸出路徑: go

@@ -11,9 +11,9 @@ import (
 
 func testJsonGo(rootPath string) {
 	reader := sheeter.VerifyData1Reader{}
-	path := filepath.Join(rootPath, "target", internal.PathJson, internal.PathData, reader.Json())
+	path := filepath.Join(rootPath, "target", internal.PathJson, internal.PathData)
 
-	if err := reader.FromJsonFile(path); err != nil {
+	if err := reader.FromHalfPath(path); err != nil {
 		panic(fmt.Errorf("verify json go: %w", err))
 	} // if
 

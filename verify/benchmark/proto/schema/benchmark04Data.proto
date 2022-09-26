@@ -12,6 +12,6 @@ message Benchmark04Data {
   optional string Name = 4; // 名稱
 }
 
-message Benchmark04DataReader {
+message Benchmark04DataStorer {
   map<int64, Benchmark04Data> Datas = 1;
 }

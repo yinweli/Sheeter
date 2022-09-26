@@ -44,15 +44,15 @@ func (this *SuiteMixed) TestNewMixed() {
 
 func (this *SuiteMixed) TestName() {
 	structName := utils.FirstUpper(this.excel) + utils.FirstUpper(this.sheet)
-	storerName := structName + internal.Storer
 	readerName := structName + internal.Reader
+	storerName := structName + internal.Storer
 
 	target := this.target()
 	assert.Equal(this.T(), internal.AppName, target.AppName())
 	assert.Equal(this.T(), internal.AppName, target.Namespace())
 	assert.Equal(this.T(), structName, target.StructName())
-	assert.Equal(this.T(), storerName, target.StorerName())
 	assert.Equal(this.T(), readerName, target.ReaderName())
+	assert.Equal(this.T(), storerName, target.StorerName())
 }
 
 func (this *SuiteMixed) TestCombine() {
