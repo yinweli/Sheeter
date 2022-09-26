@@ -46,6 +46,15 @@ func (this *Mixed) StructName() string {
 	})
 }
 
+// StorerName 取得儲存器名稱
+func (this *Mixed) StorerName() string {
+	return this.combine(params{
+		excelUpper: true,
+		sheetUpper: true,
+		last:       internal.Storer,
+	})
+}
+
 // ReaderName 取得讀取器名稱
 func (this *Mixed) ReaderName() string {
 	return this.combine(params{
