@@ -19,7 +19,7 @@ const ExcelNameInvalidLayer = "excel.invalid.layer.xlsx"
 const ExcelNameInvalidLayout = "excel.invalid.layout.xlsx"
 const ExcelNameInvalidPkeyDupl = "excel.invalid.pkey.dupl.xlsx"
 const ExcelNameInvalidPkeyZero = "excel.invalid.pkey.zero.xlsx"
-const TestProto = "test.proto"
+const TestProto = "test1.proto"
 const SheetName = "Data"
 const UnknownStr = "?????"
 

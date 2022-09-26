@@ -1,0 +1,16 @@
+syntax = "proto3";
+package test;
+option go_package = ".;test";
+
+import 'test2.proto';
+
+message Test1 {
+  optional int64 ID = 1;
+  optional int64 Type = 2;
+  optional int64 Count = 3;
+  optional Test2 Data = 4;
+}
+
+message TestData {
+  map<string, Test1> Datas = 1;
+}

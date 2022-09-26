@@ -30,8 +30,8 @@ func (this *SuiteProto) TestParseProto() {
 	file, err := ParseProto(testdata.TestProto)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), file)
-	assert.NotNil(this.T(), file.FindMessage("sheeter.Test"))
-	assert.NotNil(this.T(), file.FindMessage("sheeter.TestReader"))
+	assert.NotNil(this.T(), file.FindMessage("test.Test1"))
+	assert.NotNil(this.T(), file.FindMessage("test.TestData"))
 
 	_, err = ParseProto(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)

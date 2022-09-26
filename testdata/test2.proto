@@ -1,0 +1,9 @@
+syntax = "proto3";
+package test;
+option go_package = ".;test";
+
+message Test2 {
+  optional int64 ID = 1;
+  optional int64 Type = 2;
+  optional int64 Count = 3;
+}
