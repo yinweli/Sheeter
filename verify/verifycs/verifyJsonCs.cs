@@ -9,7 +9,7 @@ namespace verifycs
     {
         public static void Test()
         {
-            var path = Path.Combine("json", ".data", VerifyData1Reader.Json); // 工作目錄在target
+            var path = Path.Combine("json", "data", VerifyData1Reader.Json); // 工作目錄在target
             var reader = VerifyData1Reader.FromJsonFile(path);
 
             if (reader == null)

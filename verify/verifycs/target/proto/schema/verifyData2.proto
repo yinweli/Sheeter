@@ -12,6 +12,6 @@ message VerifyData2 {
   optional string Name = 4; // 名稱
 }
 
-message VerifyData2Storer {
-  map<string, VerifyData2> Datas = 1;
+message VerifyData2Reader {
+  map<int64, VerifyData2> Datas = 1;
 }

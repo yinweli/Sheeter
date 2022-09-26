@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
-	"strconv"
 )
 
 type {{$.ReaderName}} struct {
@@ -28,22 +27,10 @@ func (this *{{$.ReaderName}}) FromJsonFile(path string) error {
 }
 
 func (this *{{$.ReaderName}}) FromJsonBytes(data []byte) error {
-	temps := map[string]{{$.StructName}}{}
-
-	if err := json.Unmarshal(data, &temps); err != nil {
-		return err
-	}
-
 	datas := map[int64]{{$.StructName}}{}
 
-	for key, value := range temps {
-		k, err := strconv.ParseInt(key, 10, 64)
-
-		if err != nil {
-			return fmt.Errorf("{{$.ReaderName}}: from json bytes failed: %w", err)
-		}
-
-		datas[k] = value
+	if err := json.Unmarshal(data, &datas); err != nil {
+		return err
 	}
 
 	this.Datas = datas

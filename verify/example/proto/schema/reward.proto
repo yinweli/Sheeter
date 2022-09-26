@@ -13,3 +13,7 @@ message Reward {
   optional int64 FelIron = 5; // 精鐵
   optional int64 Gold = 6; // 金幣
 }
+
+message RewardReader {
+  map<int64, Reward> Datas = 1;
+}

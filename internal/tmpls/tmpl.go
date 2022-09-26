@@ -86,7 +86,7 @@ func (this *Tmpl) path() string {
 	return filepath.Join(internal.PathTmpl, this.Name)
 }
 
-// TODO: json (cs, go): struct, reader, keeper
+// TODO: json (cs, go): struct, storer, reader, keeper
 // TODO: proto (cs, go): schema, storer, reader, keeper
 
 // JsonCsStruct json-cs結構模板

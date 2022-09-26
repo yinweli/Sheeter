@@ -14,18 +14,7 @@ namespace {{$.Namespace}} {
         }
 
         public static Dictionary<long, {{$.StructName}}> FromJsonString(string data) {
-            var temps = JsonConvert.DeserializeObject<Dictionary<string, {{$.StructName}}>>(data);
-
-            if (temps == null) {
-                return null;
-            }
-
-            var datas = new Dictionary<long, {{$.StructName}}>();
-
-            foreach(var itor in temps) {
-                datas[Convert.ToInt64(itor.Key)] = itor.Value;
-            }
-
+            var datas = JsonConvert.DeserializeObject<Dictionary<long, {{$.StructName}}>>(data);
             return datas;
         }
     }

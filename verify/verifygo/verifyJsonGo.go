@@ -6,7 +6,7 @@ import (
 	"reflect"
 
 	"github.com/yinweli/Sheeter/internal"
-	sheeter "github.com/yinweli/Sheeter/verify/verifygo/target/json/go"
+	sheeter "github.com/yinweli/Sheeter/verify/verifygo/target/json/codeGo"
 )
 
 func testJsonGo(rootPath string) {
