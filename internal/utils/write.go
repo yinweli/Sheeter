@@ -2,7 +2,6 @@ package utils
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io/fs"
 	"os"
@@ -10,9 +9,6 @@ import (
 	"strings"
 	"text/template"
 )
-
-const jsonPrefix = ""    // json前綴字串
-const jsonIdent = "    " // json縮排字串
 
 // FileName 取得檔案名稱
 func FileName(path string) string {
@@ -38,21 +34,6 @@ func WriteFile(path string, datas []byte) error {
 	return nil
 }
 
-// WriteJson 寫入json檔案, 如果有需要會建立目錄
-func WriteJson(path string, value any) error {
-	datas, err := JsonMarshal(value)
-
-	if err != nil {
-		return fmt.Errorf("json write failed: %w", err)
-	} // if
-
-	if err = WriteFile(path, datas); err != nil {
-		return fmt.Errorf("json write failed: %w", err)
-	} // if
-
-	return nil
-}
-
 // WriteTmpl 寫入模板檔案, 如果有需要會建立目錄
 func WriteTmpl(path, content string, refer any) error {
 	tmpl, err := template.New(path).Parse(content)
@@ -72,9 +53,4 @@ func WriteTmpl(path, content string, refer any) error {
 	} // if
 
 	return nil
-}
-
-// JsonMarshal 把物件轉換為json字串
-func JsonMarshal(value any) (results []byte, err error) {
-	return json.MarshalIndent(value, jsonPrefix, jsonIdent)
 }

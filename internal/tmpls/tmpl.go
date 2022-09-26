@@ -37,11 +37,11 @@ func Initialize(cmd *cobra.Command) error {
 
 	for _, itor := range tmpls {
 		if err := itor.load(); err != nil {
-			return fmt.Errorf("%w", err)
+			return fmt.Errorf("tmpl initialize failed: %w", err)
 		} // if
 
 		if err := itor.save(); err != nil {
-			return fmt.Errorf("%w", err)
+			return fmt.Errorf("tmpl initialize failed: %w", err)
 		} // if
 	} // for
 

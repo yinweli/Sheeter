@@ -42,7 +42,7 @@ func (this *Proto) FileProtoSchemaRelative() string {
 		ext:        internal.ExtProtoSchema,
 		path:       []string{internal.PathSchema},
 	})
-} // relative path
+}
 
 // FileProtoCsReader 取得proto-cs讀取器程式碼檔名路徑
 func (this *Proto) FileProtoCsReader() string {

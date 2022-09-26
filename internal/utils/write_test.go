@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"encoding/json"
 	"os"
 	"path/filepath"
 	"testing"
@@ -61,22 +60,6 @@ func (this *SuiteWrite) TestWriteFile() {
 	} // if
 }
 
-func (this *SuiteWrite) TestWriteJson() {
-	name := "test.json"
-	pathReal := filepath.Join(this.dirReal, name)
-	pathFake := filepath.Join(this.dirFake, name)
-	datas := map[string]string{"data": "value"}
-	bytes, _ := json.MarshalIndent(datas, jsonPrefix, jsonIdent)
-
-	assert.Nil(this.T(), WriteJson(pathReal, datas))
-	testdata.CompareFile(this.T(), pathReal, bytes)
-
-	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
-	if testdata.IsWindows() {
-		assert.NotNil(this.T(), WriteJson(pathFake, datas))
-	} // if
-}
-
 func (this *SuiteWrite) TestWriteTmpl() {
 	name := "test.tmpl"
 	pathReal := filepath.Join(this.dirReal, name)
@@ -96,13 +79,4 @@ func (this *SuiteWrite) TestWriteTmpl() {
 	if testdata.IsWindows() {
 		assert.NotNil(this.T(), WriteTmpl(pathFake, contentReal, datas))
 	} // if
-}
-
-func (this *SuiteWrite) TestJsonMarshal() {
-	datas := map[string]string{"data": "value"}
-	bytes, _ := json.MarshalIndent(datas, jsonPrefix, jsonIdent)
-
-	results, err := JsonMarshal(datas)
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), bytes, results)
 }

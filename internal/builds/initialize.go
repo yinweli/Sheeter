@@ -1,6 +1,8 @@
 package builds
 
 import (
+	"fmt"
+
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
 
@@ -47,7 +49,7 @@ func Initialize(config *Config, runtime *Runtime) (errs []error) {
 
 			for _, itor := range tasks {
 				if err := itor(runtimeSector); err != nil {
-					errors <- err
+					errors <- fmt.Errorf("initialize failed: %w", err)
 				} // if
 
 				progressbar.Increment()

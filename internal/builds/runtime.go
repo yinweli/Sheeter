@@ -37,7 +37,7 @@ func (this *RuntimeSector) Close() {
 // GetRows 取得表格行資料, line從1起算; 如果該行不存在, 回傳成功並取得最後一行物件
 func (this *RuntimeSector) GetRows(line int) (rows *excelize.Rows, err error) {
 	if line <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
-		return nil, fmt.Errorf("get row failed, row <= 0")
+		return nil, fmt.Errorf("get row failed: row <= 0")
 	} // if
 
 	rows, err = this.excel.Rows(this.Sheet)
@@ -56,7 +56,7 @@ func (this *RuntimeSector) GetRows(line int) (rows *excelize.Rows, err error) {
 // GetColumns 取得表格行內容, line從1起算; 如果該行不存在, 回傳失敗
 func (this *RuntimeSector) GetColumns(line int) (cols []string, err error) {
 	if line <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
-		return nil, fmt.Errorf("get columns failed, row <= 0")
+		return nil, fmt.Errorf("get columns failed: row <= 0")
 	} // if
 
 	rows, err := this.excel.Rows(this.Sheet)
@@ -69,14 +69,14 @@ func (this *RuntimeSector) GetColumns(line int) (cols []string, err error) {
 
 	for l := 0; l < line; l++ {
 		if rows.Next() == false {
-			return nil, fmt.Errorf("get columns failed, row not found")
+			return nil, fmt.Errorf("get columns failed: row not found")
 		} // if
 	} // for
 
 	cols, err = rows.Columns()
 
 	if err != nil {
-		return nil, fmt.Errorf("get columns failed, invalid columns: %w", err)
+		return nil, fmt.Errorf("get columns failed: invalid columns: %w", err)
 	} // if
 
 	if cols == nil {

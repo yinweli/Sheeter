@@ -13,7 +13,7 @@ func initializeStruct(runtime *Runtime) error {
 
 	for _, itor := range runtime.Sector {
 		if err := layoutType.Merge(itor.layoutType); err != nil {
-			return fmt.Errorf("initialize struct failed, layoutType merge failed: %w", err)
+			return fmt.Errorf("initialize struct failed: %w", err)
 		} // if
 	} // for
 
@@ -21,7 +21,7 @@ func initializeStruct(runtime *Runtime) error {
 
 	for _, itor := range runtime.Sector {
 		if err := layoutDepend.Merge(itor.layoutDepend); err != nil {
-			return fmt.Errorf("initialize struct failed, layoutDepend merge failed: %w", err)
+			return fmt.Errorf("initialize struct failed: %w", err)
 		} // if
 	} // for
 

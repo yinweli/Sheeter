@@ -5,12 +5,10 @@ option go_package = ".;test";
 import 'test2.proto';
 
 message Test1 {
-  optional int64 ID = 1;
-  optional int64 Type = 2;
-  optional int64 Count = 3;
-  optional Test2 Data = 4;
+  optional int64 Value = 1;
+  optional Test2 Data = 2;
 }
 
-message TestData {
+message TestX {
   map<string, Test1> Datas = 1;
 }

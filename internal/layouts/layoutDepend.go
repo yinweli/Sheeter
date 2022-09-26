@@ -27,7 +27,7 @@ type LayoutDepend struct {
 // Begin 開始類型紀錄
 func (this *LayoutDepend) Begin(name string) error {
 	if this.Closure() == false {
-		return fmt.Errorf("layoutDepend begin failed, not closed")
+		return fmt.Errorf("layoutDepend begin failed: not closed")
 	} // if
 
 	this.stack.Push(name)
@@ -37,11 +37,11 @@ func (this *LayoutDepend) Begin(name string) error {
 // End 結束類型紀錄
 func (this *LayoutDepend) End() error {
 	if this.pop(1) == false {
-		return fmt.Errorf("layoutDepend end failed, pop failed")
+		return fmt.Errorf("layoutDepend end failed: pop failed")
 	} // if
 
 	if this.Closure() == false {
-		return fmt.Errorf("layoutDepend end failed, not closed")
+		return fmt.Errorf("layoutDepend end failed: not closed")
 	} // if
 
 	return nil
@@ -52,13 +52,13 @@ func (this *LayoutDepend) Add(layer []layers.Layer, back int) error {
 	for _, itor := range layer {
 		if itor.Type != layers.LayerDivider { // layers.LayerDivider不必處理, 因為結構/陣列未結束
 			if this.push(itor.Name) == false {
-				return fmt.Errorf("layoutDepend add failed, push failed")
+				return fmt.Errorf("layoutDepend add failed: push failed")
 			} // if
 		} // if
 	} // for
 
 	if this.pop(back) == false {
-		return fmt.Errorf("layoutDepend add failed, pop failed")
+		return fmt.Errorf("layoutDepend add failed: pop failed")
 	} // if
 
 	return nil

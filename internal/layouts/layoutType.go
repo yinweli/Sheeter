@@ -52,11 +52,11 @@ type Type struct {
 // Begin 開始類型紀錄
 func (this *LayoutType) Begin(name, excel, sheet string) error {
 	if this.Closure() == false {
-		return fmt.Errorf("layoutType begin failed, not closed")
+		return fmt.Errorf("layoutType begin failed: not closed")
 	} // if
 
 	if this.pushType(name, excel, sheet, true) == false {
-		return fmt.Errorf("layoutType begin failed, pushType failed")
+		return fmt.Errorf("layoutType begin failed: pushType failed")
 	} // if
 
 	return nil
@@ -65,11 +65,11 @@ func (this *LayoutType) Begin(name, excel, sheet string) error {
 // End 結束類型紀錄
 func (this *LayoutType) End() error {
 	if this.pop(1) == false {
-		return fmt.Errorf("layoutType end failed, pop failed")
+		return fmt.Errorf("layoutType end failed: pop failed")
 	} // if
 
 	if this.Closure() == false {
-		return fmt.Errorf("layoutType end failed, not closed")
+		return fmt.Errorf("layoutType end failed: not closed")
 	} // if
 
 	return nil
@@ -80,21 +80,21 @@ func (this *LayoutType) Add(name, note string, field fields.Field, layer []layer
 	for _, itor := range layer {
 		if itor.Type != layers.LayerDivider { // layers.LayerDivider不必處理, 因為結構/陣列未結束
 			if this.pushField(itor.Name, "", nil, itor.Name, itor.Type == layers.LayerArray) == false {
-				return fmt.Errorf("layoutType add failed, pushField failed")
+				return fmt.Errorf("layoutType add failed: pushField failed")
 			} // if
 
 			if this.pushType(itor.Name, itor.Name, "", false) == false {
-				return fmt.Errorf("layoutType add failed, pushType failed")
+				return fmt.Errorf("layoutType add failed: pushType failed")
 			} // if
 		} // if
 	} // for
 
 	if this.pushField(name, note, field, "", false) == false {
-		return fmt.Errorf("layoutType add failed, pushField failed")
+		return fmt.Errorf("layoutType add failed: pushField failed")
 	} // if
 
 	if this.pop(back) == false {
-		return fmt.Errorf("layoutType add failed, pop failed")
+		return fmt.Errorf("layoutType add failed: pop failed")
 	} // if
 
 	return nil
@@ -103,7 +103,7 @@ func (this *LayoutType) Add(name, note string, field fields.Field, layer []layer
 // Merge 合併類型布局器
 func (this *LayoutType) Merge(merge *LayoutType) error {
 	if merge.Closure() == false {
-		return fmt.Errorf("layoutType merge failed, source not closed")
+		return fmt.Errorf("layoutType merge failed: source not closed")
 	} // if
 
 	for typeName, source := range merge.types {
@@ -132,7 +132,7 @@ func (this *LayoutType) Merge(merge *LayoutType) error {
 	} // for
 
 	if this.Closure() == false {
-		return fmt.Errorf("layoutType merge failed, target not closed")
+		return fmt.Errorf("layoutType merge failed: target not closed")
 	} // if
 
 	return nil

@@ -27,12 +27,12 @@ func (this *SuiteProto) TearDownSuite() {
 }
 
 func (this *SuiteProto) TestParseProto() {
-	file, err := ParseProto(testdata.TestProto)
+	file, err := parseProto(testdata.TestProto)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), file)
 	assert.NotNil(this.T(), file.FindMessage("test.Test1"))
-	assert.NotNil(this.T(), file.FindMessage("test.TestData"))
+	assert.NotNil(this.T(), file.FindMessage("test.TestX"))
 
-	_, err = ParseProto(testdata.UnknownStr)
+	_, err = parseProto(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }

@@ -29,29 +29,29 @@ func execute(cmd *cobra.Command, _ []string) {
 	startTime := time.Now()
 
 	if utils.ShellExist("gofmt") == false {
-		cmd.Println(fmt.Errorf("build failed, `gofmt` not installed"))
+		cmd.Println(fmt.Errorf("build failed: `gofmt` not installed"))
 		return
 	} // if
 
 	if utils.ShellExist("quicktype") == false {
-		cmd.Println(fmt.Errorf("build failed, `quicktype` not installed"))
+		cmd.Println(fmt.Errorf("build failed: `quicktype` not installed"))
 		return
 	} // if
 
 	if err := tmpls.Initialize(cmd); err != nil {
-		cmd.Println(fmt.Errorf("build failed, tmpl initialize failed: %w", err))
+		cmd.Println(fmt.Errorf("build failed: %w", err))
 		return
 	} // if
 
 	config := &builds.Config{}
 
 	if err := config.Initialize(cmd); err != nil {
-		cmd.Println(fmt.Errorf("build failed, config initialize failed: %w", err))
+		cmd.Println(fmt.Errorf("build failed: %w", err))
 		return
 	} // if
 
 	if err := config.Check(); err != nil {
-		cmd.Println(fmt.Errorf("build failed, config check failed: %w", err))
+		cmd.Println(fmt.Errorf("build failed: %w", err))
 		return
 	} // if
 
@@ -59,7 +59,7 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if errs := builds.Initialize(config, runtime); len(errs) > 0 {
 		for _, itor := range errs {
-			cmd.Println(fmt.Errorf("build failed, initialize failed: %w", itor))
+			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for
 
 		return
@@ -67,7 +67,7 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if errs := builds.Generate(runtime); len(errs) > 0 {
 		for _, itor := range errs {
-			cmd.Println(fmt.Errorf("build failed, generate failed: %w", itor))
+			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for
 
 		return
@@ -75,14 +75,14 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if errs := builds.Encoding(runtime); len(errs) > 0 {
 		for _, itor := range errs {
-			cmd.Println(fmt.Errorf("build failed, encoding failed: %w", itor))
+			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for
 
 		return
 	} // if
 
 	if err := builds.Poststep(runtime); err != nil {
-		cmd.Println(fmt.Errorf("build failed, poststep failed: %w", err))
+		cmd.Println(fmt.Errorf("build failed: %w", err))
 		return
 	} // if
 

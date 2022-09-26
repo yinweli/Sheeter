@@ -42,7 +42,7 @@ func generateJsonGoStruct(runtimeStruct *RuntimeStruct) error {
 	} // if
 
 	if err := utils.ShellRun("gofmt", "-w", runtimeStruct.FileJsonGoStruct()); err != nil {
-		return fmt.Errorf("%s: generate json-go struct failed, gofmt error: %w", structName, err)
+		return fmt.Errorf("%s: generate json-go struct failed: gofmt error: %w", structName, err)
 	} // if
 
 	return nil
@@ -61,7 +61,7 @@ func generateJsonGoReader(runtimeStruct *RuntimeStruct) error {
 	} // if
 
 	if err := utils.ShellRun("gofmt", "-w", runtimeStruct.FileJsonGoReader()); err != nil {
-		return fmt.Errorf("%s: generate json-go reader failed, gofmt error: %w", structName, err)
+		return fmt.Errorf("%s: generate json-go reader failed: gofmt error: %w", structName, err)
 	} // if
 
 	return nil
