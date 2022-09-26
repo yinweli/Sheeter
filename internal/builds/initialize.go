@@ -45,7 +45,7 @@ func Initialize(config *Config, runtime *Runtime) (errs []error) {
 
 		go func() {
 			defer signaler.Done()
-			defer runtimeSector.Close()
+			defer runtimeSector.Close() // TODO: 是不是要弄個final機制來關閉
 
 			for _, itor := range tasks {
 				if err := itor(runtimeSector); err != nil {

@@ -162,30 +162,30 @@ func (this *LayoutType) Types(name string) *Type {
 }
 
 // TypeNames 取得類型名稱列表
-func (this *LayoutType) TypeNames() (results []string) {
+func (this *LayoutType) TypeNames() (result []string) {
 	for itor := range this.types {
-		results = append(results, itor)
+		result = append(result, itor)
 	} // for
 
-	sort.Slice(results, func(r, l int) bool {
-		return results[r] < results[l]
+	sort.Slice(result, func(r, l int) bool {
+		return result[r] < result[l]
 	})
-	return results
+	return result
 }
 
 // FieldNames 取得類型欄位名稱列表
-func (this *LayoutType) FieldNames(name string) (results []string) {
+func (this *LayoutType) FieldNames(name string) (result []string) {
 	if value, ok := this.types[name]; ok {
 		for _, itor := range value.fields {
-			results = append(results, itor.Name)
+			result = append(result, itor.Name)
 		} // for
 
-		sort.Slice(results, func(r, l int) bool {
-			return results[r] < results[l]
+		sort.Slice(result, func(r, l int) bool {
+			return result[r] < result[l]
 		})
 	} // if
 
-	return results
+	return result
 }
 
 // Closure 取得是否閉合

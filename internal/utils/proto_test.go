@@ -26,13 +26,27 @@ func (this *SuiteProto) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
+func (this *SuiteProto) TestJsonToProto() {
+	// proto轉json時, 只要是int64的欄位, 轉為json時都會被轉為字串
+	// 所以測試的欄位要注意不要改成int64, 會造成測試錯誤
+
+	raw := []byte(`{"Value":123456,"Data":{"Value":654321}}`)
+	data, err := JsonToProto(testdata.ProtoNameTest, "test.Test1", []string{}, raw)
+	assert.Nil(this.T(), err)
+	assert.NotNil(this.T(), data)
+	json, err := ProtoToJson(testdata.ProtoNameTest, "test.Test1", []string{}, data)
+	assert.Nil(this.T(), err)
+	assert.NotNil(this.T(), json)
+	assert.Equal(this.T(), string(raw), string(json))
+}
+
 func (this *SuiteProto) TestParseProto() {
-	file, err := parseProto(testdata.TestProto)
+	file, err := parseProto(testdata.ProtoNameTest, []string{})
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), file)
 	assert.NotNil(this.T(), file.FindMessage("test.Test1"))
 	assert.NotNil(this.T(), file.FindMessage("test.TestX"))
 
-	_, err = parseProto(testdata.UnknownStr)
+	_, err = parseProto(testdata.UnknownStr, []string{})
 	assert.NotNil(this.T(), err)
 }

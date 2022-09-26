@@ -3,16 +3,15 @@ package builds
 import (
 	"fmt"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/tmpls"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // poststepProtoCsBat 後製proto-cs.bat
 func poststepProtoCsBat(runtime *Runtime) error {
-	path := runtime.FileProtoCsBat()
-
-	if err := utils.WriteTmpl(path, tmpls.ProtoCsBat.Data, runtime); err != nil {
-		return fmt.Errorf("poststep %s failed: %w", path, err)
+	if err := utils.WriteTmpl(internal.FileProtoCsBat, tmpls.ProtoCsBat.Data, runtime); err != nil {
+		return fmt.Errorf("poststep %s failed: %w", internal.FileProtoCsBat, err)
 	} // if
 
 	return nil
@@ -20,10 +19,8 @@ func poststepProtoCsBat(runtime *Runtime) error {
 
 // poststepProtoCsSh 後製proto-cs.sh
 func poststepProtoCsSh(runtime *Runtime) error {
-	path := runtime.FileProtoCsSh()
-
-	if err := utils.WriteTmpl(path, tmpls.ProtoCsSh.Data, runtime); err != nil {
-		return fmt.Errorf("poststep %s failed: %w", path, err)
+	if err := utils.WriteTmpl(internal.FileProtoCsSh, tmpls.ProtoCsSh.Data, runtime); err != nil {
+		return fmt.Errorf("poststep %s failed: %w", internal.FileProtoCsSh, err)
 	} // if
 
 	return nil
@@ -31,10 +28,8 @@ func poststepProtoCsSh(runtime *Runtime) error {
 
 // poststepProtoGoBat 後製proto-go.bat
 func poststepProtoGoBat(runtime *Runtime) error {
-	path := runtime.FileProtoGoBat()
-
-	if err := utils.WriteTmpl(path, tmpls.ProtoGoBat.Data, runtime); err != nil {
-		return fmt.Errorf("poststep %s failed: %w", path, err)
+	if err := utils.WriteTmpl(internal.FileProtoGoBat, tmpls.ProtoGoBat.Data, runtime); err != nil {
+		return fmt.Errorf("poststep %s failed: %w", internal.FileProtoGoBat, err)
 	} // if
 
 	return nil
@@ -42,10 +37,8 @@ func poststepProtoGoBat(runtime *Runtime) error {
 
 // poststepProtoGoSh 後製proto-go.sh
 func poststepProtoGoSh(runtime *Runtime) error {
-	path := runtime.FileProtoGoSh()
-
-	if err := utils.WriteTmpl(path, tmpls.ProtoGoSh.Data, runtime); err != nil {
-		return fmt.Errorf("poststep %s failed: %w", path, err)
+	if err := utils.WriteTmpl(internal.FileProtoGoSh, tmpls.ProtoGoSh.Data, runtime); err != nil {
+		return fmt.Errorf("poststep %s failed: %w", internal.FileProtoGoSh, err)
 	} // if
 
 	return nil

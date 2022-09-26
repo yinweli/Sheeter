@@ -1,7 +1,6 @@
 package mixeds
 
 import (
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -46,6 +45,7 @@ func (this *SuiteMixed) TestName() {
 	structName := utils.FirstUpper(this.excel) + utils.FirstUpper(this.sheet)
 	readerName := structName + internal.Reader
 	storerName := structName + internal.Storer
+	storerMessage := internal.AppName + "." + storerName
 
 	target := this.target()
 	assert.Equal(this.T(), internal.AppName, target.AppName())
@@ -53,6 +53,8 @@ func (this *SuiteMixed) TestName() {
 	assert.Equal(this.T(), structName, target.StructName())
 	assert.Equal(this.T(), readerName, target.ReaderName())
 	assert.Equal(this.T(), storerName, target.StorerName())
+	assert.Equal(this.T(), internal.StorerDatas, target.StorerDatas())
+	assert.Equal(this.T(), storerMessage, target.StorerMessage())
 }
 
 func (this *SuiteMixed) TestCombine() {
@@ -64,5 +66,4 @@ func (this *SuiteMixed) TestCombine() {
 	assert.Equal(this.T(), this.excel+utils.FirstUpper(this.sheet), target.combine(params{sheetUpper: true}))
 	assert.Equal(this.T(), this.excel+this.sheet+token, target.combine(params{last: token}))
 	assert.Equal(this.T(), this.excel+this.sheet+"."+token, target.combine(params{ext: token}))
-	assert.Equal(this.T(), filepath.Join(token, token, token, this.excel+this.sheet), target.combine(params{path: []string{token, token, token}}))
 }

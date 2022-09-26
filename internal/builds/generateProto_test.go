@@ -2,7 +2,6 @@ package builds
 
 import (
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -29,9 +28,7 @@ func (this *SuiteGenerateProto) SetupSuite() {
 }
 
 func (this *SuiteGenerateProto) TearDownSuite() {
-	_ = os.RemoveAll(filepath.Join(internal.PathProto, internal.PathSchema))
-	_ = os.RemoveAll(filepath.Join(internal.PathProto, internal.PathCs))
-	_ = os.RemoveAll(filepath.Join(internal.PathProto, internal.PathGo))
+	_ = os.RemoveAll(internal.PathProto)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
@@ -80,5 +77,5 @@ message TestDataStorer {
 
 	target := this.target()
 	assert.Nil(this.T(), generateProtoSchema(target))
-	testdata.CompareFile(this.T(), target.FileProtoSchema(), data)
+	testdata.CompareFile(this.T(), target.PathProtoName(), data)
 }

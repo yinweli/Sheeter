@@ -41,18 +41,18 @@ func (this *SuiteJson) target() *Mixed {
 func (this *SuiteJson) TestName() {
 	structName := this.excel + utils.FirstUpper(this.sheet) + "."
 	readerName := this.excel + utils.FirstUpper(this.sheet) + internal.Reader + "."
-	fileJsonCsStruct := filepath.Join(internal.PathJson, internal.PathCs, structName+internal.ExtCs)
-	fileJsonCsReader := filepath.Join(internal.PathJson, internal.PathCs, readerName+internal.ExtCs)
-	fileJsonGoStruct := filepath.Join(internal.PathJson, internal.PathGo, structName+internal.ExtGo)
-	fileJsonGoReader := filepath.Join(internal.PathJson, internal.PathGo, readerName+internal.ExtGo)
-	fileJsonDataName := structName + internal.ExtJsonData
-	fileJsonDataPath := filepath.Join(internal.PathJson, internal.PathData, fileJsonDataName)
+	fileJsonData := structName + internal.ExtJsonData
+	pathJsonData := filepath.Join(internal.PathJson, internal.PathData, structName+internal.ExtJsonData)
+	pathJsonCsStruct := filepath.Join(internal.PathJson, internal.PathCs, structName+internal.ExtCs)
+	pathJsonCsReader := filepath.Join(internal.PathJson, internal.PathCs, readerName+internal.ExtCs)
+	pathJsonGoStruct := filepath.Join(internal.PathJson, internal.PathGo, structName+internal.ExtGo)
+	pathJsonGoReader := filepath.Join(internal.PathJson, internal.PathGo, readerName+internal.ExtGo)
 
 	target := this.target()
-	assert.Equal(this.T(), fileJsonCsStruct, target.FileJsonCsStruct())
-	assert.Equal(this.T(), fileJsonCsReader, target.FileJsonCsReader())
-	assert.Equal(this.T(), fileJsonGoStruct, target.FileJsonGoStruct())
-	assert.Equal(this.T(), fileJsonGoReader, target.FileJsonGoReader())
-	assert.Equal(this.T(), fileJsonDataName, target.FileJsonDataName())
-	assert.Equal(this.T(), fileJsonDataPath, target.FileJsonDataPath())
+	assert.Equal(this.T(), fileJsonData, target.FileJsonData())
+	assert.Equal(this.T(), pathJsonData, target.PathJsonData())
+	assert.Equal(this.T(), pathJsonCsStruct, target.PathJsonCsStruct())
+	assert.Equal(this.T(), pathJsonCsReader, target.PathJsonCsReader())
+	assert.Equal(this.T(), pathJsonGoStruct, target.PathJsonGoStruct())
+	assert.Equal(this.T(), pathJsonGoReader, target.PathJsonGoReader())
 }

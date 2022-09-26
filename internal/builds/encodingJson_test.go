@@ -2,7 +2,6 @@ package builds
 
 import (
 	"os"
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -10,6 +9,7 @@ import (
 
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/mixeds"
+	"github.com/yinweli/Sheeter/internal/utils"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -27,7 +27,7 @@ func (this *SuiteEncodingJson) SetupSuite() {
 }
 
 func (this *SuiteEncodingJson) TearDownSuite() {
-	_ = os.RemoveAll(filepath.Join(internal.PathJson, internal.PathData))
+	_ = os.RemoveAll(internal.PathJson)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
@@ -49,74 +49,15 @@ func (this *SuiteEncodingJson) target() *RuntimeSector {
 }
 
 func (this *SuiteEncodingJson) TestEncodingJson() {
-	data := []byte(`{
-    "1": {
-        "S": {
-            "A": [
-                {
-                    "name2": 1,
-                    "name3": "a"
-                },
-                {
-                    "name2": 1,
-                    "name3": "a"
-                },
-                {
-                    "name2": 1,
-                    "name3": "a"
-                }
-            ],
-            "name1": true
-        },
-        "name0": 1
-    },
-    "2": {
-        "S": {
-            "A": [
-                {
-                    "name2": 2,
-                    "name3": "b"
-                },
-                {
-                    "name2": 2,
-                    "name3": "b"
-                },
-                {
-                    "name2": 2,
-                    "name3": "b"
-                }
-            ],
-            "name1": false
-        },
-        "name0": 2
-    },
-    "3": {
-        "S": {
-            "A": [
-                {
-                    "name2": 3,
-                    "name3": "c"
-                },
-                {
-                    "name2": 3,
-                    "name3": "c"
-                },
-                {
-                    "name2": 3,
-                    "name3": "c"
-                }
-            ],
-            "name1": true
-        },
-        "name0": 3
-    }
-}`)
-	empty := []byte("{}")
+	data, err := utils.JsonMarshal(testdata.GetExcelContentReal())
+	assert.Nil(this.T(), err)
+	empty, err := utils.JsonMarshal(testdata.GetExcelContentEmpty())
+	assert.Nil(this.T(), err)
 
 	target := this.target()
 	assert.Nil(this.T(), initializeSector(target))
 	assert.Nil(this.T(), encodingJson(target))
-	testdata.CompareFile(this.T(), target.FileJsonDataPath(), data)
+	testdata.CompareFile(this.T(), target.PathJsonData(), data)
 	target.Close()
 
 	target = this.target()
@@ -129,7 +70,7 @@ func (this *SuiteEncodingJson) TestEncodingJson() {
 	target.Excel = testdata.ExcelNameEmpty
 	assert.Nil(this.T(), initializeSector(target))
 	assert.Nil(this.T(), encodingJson(target))
-	testdata.CompareFile(this.T(), target.FileJsonDataPath(), empty)
+	testdata.CompareFile(this.T(), target.PathJsonData(), empty)
 	target.Close()
 
 	target = this.target()

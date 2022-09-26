@@ -64,7 +64,7 @@ func (this *LayoutJson) Add(name string, field fields.Field, layer []layers.Laye
 }
 
 // Pack 打包資料
-func (this *LayoutJson) Pack(datas []string, preset bool) (results map[string]interface{}, pkey int64, err error) {
+func (this *LayoutJson) Pack(datas []string, preset bool) (result map[string]interface{}, pkey int64, err error) {
 	structor := newStructor()
 
 	for i, itor := range this.layouts {
@@ -124,7 +124,13 @@ func (this *LayoutJson) Pack(datas []string, preset bool) (results map[string]in
 		return nil, 0, fmt.Errorf("layoutJson pack failed: not closure")
 	} // if
 
-	return structor.result(), pkey, nil
+	result = structor.result()
+
+	if result == nil {
+		return nil, 0, fmt.Errorf("layoutJson pack failed: result nil")
+	} // if
+
+	return result, pkey, nil
 }
 
 // PkeyCount 主要索引數量

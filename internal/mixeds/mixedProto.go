@@ -11,94 +11,63 @@ type Proto struct {
 	mixed *Mixed // 綜合工具
 }
 
-// PathProtoSchema 取得proto架構路徑
-func (this *Proto) PathProtoSchema() string {
-	return internal.PathSchema
-}
-
 // PathProtoCs 取得proto-cs路徑
 func (this *Proto) PathProtoCs() string {
-	return internal.PathCs
+	return filepath.Join(internal.PathProto, internal.PathCs)
 }
 
 // PathProtoGo 取得proto-go路徑
 func (this *Proto) PathProtoGo() string {
-	return internal.PathGo
+	return filepath.Join(internal.PathProto, internal.PathGo)
 }
 
-// FileProtoSchema 取得proto架構檔名路徑
-func (this *Proto) FileProtoSchema() string {
+// PathProtoSchema 取得proto-schema路徑
+func (this *Proto) PathProtoSchema() string {
+	return filepath.Join(internal.PathProto, internal.PathSchema)
+}
+
+// FileProtoName 取得proto架構檔名
+func (this *Proto) FileProtoName() string {
 	return this.mixed.combine(params{
 		sheetUpper: true,
 		ext:        internal.ExtProtoSchema,
-		path:       []string{internal.PathProto, internal.PathSchema},
 	})
 }
 
-// FileProtoSchemaRelative 取得proto架構檔名相對路徑
-func (this *Proto) FileProtoSchemaRelative() string {
+// PathProtoName 取得proto架構路徑
+func (this *Proto) PathProtoName() string {
+	return filepath.Join(this.PathProtoSchema(), this.FileProtoName())
+}
+
+// FileProtoData 取得proto資料檔名
+func (this *Proto) FileProtoData() string {
 	return this.mixed.combine(params{
 		sheetUpper: true,
-		ext:        internal.ExtProtoSchema,
-		path:       []string{internal.PathSchema},
+		ext:        internal.ExtProtoData,
 	})
 }
 
-// FileProtoCsReader 取得proto-cs讀取器程式碼檔名路徑
-func (this *Proto) FileProtoCsReader() string {
-	return this.mixed.combine(params{
+// PathProtoData 取得proto資料路徑
+func (this *Proto) PathProtoData() string {
+	return filepath.Join(internal.PathProto, internal.PathData, this.FileProtoData())
+}
+
+// PathProtoCsReader 取得proto-cs讀取器程式碼路徑
+func (this *Proto) PathProtoCsReader() string {
+	return filepath.Join(internal.PathProto, internal.PathCs, this.mixed.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,
 		ext:        internal.ExtCs,
-		path:       []string{internal.PathProto, internal.PathCs},
-	})
+	}))
 }
 
-// FileProtoGoReader 取得proto-go讀取器程式碼檔名路徑
-func (this *Proto) FileProtoGoReader() string {
-	return this.mixed.combine(params{
+// PathProtoGoReader 取得proto-go讀取器程式碼路徑
+func (this *Proto) PathProtoGoReader() string {
+	return filepath.Join(internal.PathProto, internal.PathGo, this.mixed.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,
 		ext:        internal.ExtGo,
-		path:       []string{internal.PathProto, internal.PathGo},
-	})
-}
-
-// FileProtoDataName 取得proto資料檔案名稱
-func (this *Proto) FileProtoDataName() string {
-	return this.mixed.combine(params{
-		sheetUpper: true,
-		ext:        internal.ExtProtoData,
-	})
-}
-
-// FileProtoDataPath 取得proto資料檔名路徑
-func (this *Proto) FileProtoDataPath() string {
-	return this.mixed.combine(params{
-		sheetUpper: true,
-		ext:        internal.ExtProtoData,
-		path:       []string{internal.PathProto, internal.PathData},
-	})
-}
-
-// FileProtoCsBat 取得proto-cs-bat檔名路徑
-func (this *Proto) FileProtoCsBat() string {
-	return filepath.Join(internal.PathProto, internal.FileProtoCsBat)
-}
-
-// FileProtoCsSh 取得proto-cs-sh檔名路徑
-func (this *Proto) FileProtoCsSh() string {
-	return filepath.Join(internal.PathProto, internal.FileProtoCsSh)
-}
-
-// FileProtoGoBat 取得proto-go-bat檔名路徑
-func (this *Proto) FileProtoGoBat() string {
-	return filepath.Join(internal.PathProto, internal.FileProtoGoBat)
-}
-
-// FileProtoGoSh 取得proto-go-sh檔名路徑
-func (this *Proto) FileProtoGoSh() string {
-	return filepath.Join(internal.PathProto, internal.FileProtoGoSh)
+	}))
 }
 
 // ProtoDepend 取得proto依賴檔案名稱

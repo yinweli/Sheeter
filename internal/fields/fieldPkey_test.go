@@ -36,9 +36,9 @@ func (this *SuitePkey) TestField() {
 	assert.Equal(this.T(), "pkey", target.Type())
 	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), true, target.IsPkey())
-	assert.Equal(this.T(), internal.TokenIntCs, target.ToTypeCs())
-	assert.Equal(this.T(), internal.TokenIntGo, target.ToTypeGo())
-	assert.Equal(this.T(), internal.TokenIntProto, target.ToTypeProto())
+	assert.Equal(this.T(), internal.TokenPkeyCs, target.ToTypeCs())
+	assert.Equal(this.T(), internal.TokenPkeyGo, target.ToTypeGo())
+	assert.Equal(this.T(), internal.TokenPkeyProto, target.ToTypeProto())
 }
 
 func (this *SuitePkey) TestToJsonValue() {

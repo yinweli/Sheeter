@@ -2,6 +2,11 @@ package builds
 
 import (
 	"fmt"
+	"path/filepath"
+
+	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/layouts"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // encodingProto 產生proto資料
@@ -13,9 +18,19 @@ func encodingProto(runtimeSector *RuntimeSector) error {
 		return fmt.Errorf("%s: encoding proto failed: data line not found", structName)
 	} // if
 
-	_, err = packJson(rows, runtimeSector.layoutJson)
+	json, err := layouts.JsonPack(rows, runtimeSector.layoutJson)
 
 	if err != nil {
+		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)
+	} // if
+
+	data, err := utils.JsonToProto(runtimeSector.FileProtoName(), runtimeSector.StorerMessage(), []string{filepath.Join(internal.PathProto, internal.PathSchema)}, json)
+
+	if err != nil {
+		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)
+	} // if
+
+	if err := utils.WriteFile(runtimeSector.PathProtoData(), data); err != nil {
 		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)
 	} // if
 

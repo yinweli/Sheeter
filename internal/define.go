@@ -10,6 +10,11 @@ const SeparateElement = "#" // 項目字串以'#'符號分割為檔案名稱與�
 
 /* 類型相關 */
 
+type PkeyType = int64 // pkey類型, 修改時要記得跟著修改TokenPkey...系列的類型字串
+
+const TokenPkeyCs = "long"        // 類型字串: pkey(cs)
+const TokenPkeyGo = "int64"       // 類型字串: pkey(go)
+const TokenPkeyProto = "int64"    // 類型字串: pkey(proto)
 const TokenBoolCs = "bool"        // 類型字串: 布林值(cs)
 const TokenBoolGo = "bool"        // 類型字串: 布林值(go)
 const TokenBoolProto = "bool"     // 類型字串: 布林值(proto)
@@ -45,10 +50,11 @@ const FileTmplProtoGoSh = "proto-go-sh.txt"         // 輸出檔名: proto-go-sh
 
 const Reader = "Reader"     // 讀取器名稱
 const Storer = "Storer"     // 儲存器名稱
+const StorerDatas = "Datas" // 儲存器資料名稱
 const PathSchema = "schema" // 輸出路徑: 架構
+const PathData = "data"     // 輸出路徑: 資料
 const PathCs = "codeCs"     // 輸出路徑: cs
 const PathGo = "codeGo"     // 輸出路徑: go
-const PathData = "data"     // 輸出路徑: 資料
 const ExtCs = "cs"          // 副檔名: cs
 const ExtGo = "go"          // 副檔名: go
 

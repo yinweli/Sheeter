@@ -1,8 +1,6 @@
 package mixeds
 
 import (
-	"path/filepath"
-
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
@@ -64,13 +62,22 @@ func (this *Mixed) StorerName() string {
 	})
 }
 
+// StorerDatas 取得儲存器資料名稱
+func (this *Mixed) StorerDatas() string {
+	return internal.StorerDatas
+}
+
+// StorerMessage 取得儲存器proto message名稱
+func (this *Mixed) StorerMessage() string {
+	return this.Namespace() + "." + this.StorerName()
+}
+
 // params 組合名稱參數
 type params struct {
-	excelUpper bool     // excel名稱是否要首字大寫
-	sheetUpper bool     // sheet名稱是否要首字大寫
-	last       string   // excel與sheet的結尾字串
-	ext        string   // 副檔名
-	path       []string // 路徑列表
+	excelUpper bool   // excel名稱是否要首字大寫
+	sheetUpper bool   // sheet名稱是否要首字大寫
+	last       string // excel與sheet的結尾字串
+	ext        string // 副檔名
 }
 
 // combine 取得組合名稱
@@ -97,9 +104,5 @@ func (this *Mixed) combine(params params) string {
 		name = name + "." + params.ext
 	} // if
 
-	paths := []string{}
-	paths = append(paths, params.path...)
-	paths = append(paths, name)
-	path := filepath.Join(paths...)
-	return path
+	return name
 }

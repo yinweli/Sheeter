@@ -79,18 +79,18 @@ func (this *LayoutDepend) Merge(merge *LayoutDepend) error {
 }
 
 // Depends 取得依賴列表
-func (this *LayoutDepend) Depends(name string) (results []string) {
+func (this *LayoutDepend) Depends(name string) (result []string) {
 	if depend, ok := this.depends[name]; ok {
 		for _, itor := range depend.Values() {
-			results = append(results, itor.(string))
+			result = append(result, itor.(string))
 		} // for
 
-		sort.Slice(results, func(r, l int) bool {
-			return results[r] < results[l]
+		sort.Slice(result, func(r, l int) bool {
+			return result[r] < result[l]
 		})
 	} // if
 
-	return results
+	return result
 }
 
 // Closure 取得是否閉合
