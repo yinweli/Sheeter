@@ -14,5 +14,5 @@ func main() {
 	} // if
 
 	rootPath := filepath.Dir(root)
-	testJsonGo(rootPath)
+	verifyJson(rootPath)
 }

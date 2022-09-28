@@ -7,7 +7,7 @@ import (
 
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/utils"
-	sheeter "github.com/yinweli/Sheeter/verify/testdata/code"
+	sheeterProto "github.com/yinweli/Sheeter/verify/protodata/code"
 )
 
 func main() {
@@ -24,34 +24,34 @@ func main() {
 	name32 := "b"
 	name33 := "c"
 
-	storer := &sheeter.RealDataStorer{Datas: map[int64]*sheeter.RealData{}}
-	storer.Datas[1] = &sheeter.RealData{
+	storer := &sheeterProto.RealDataStorer{Datas: map[int64]*sheeterProto.RealData{}}
+	storer.Datas[1] = &sheeterProto.RealData{
 		Name0: &name01,
-		S: &sheeter.S{
+		S: &sheeterProto.S{
 			Name1: &name11,
-			A: []*sheeter.A{
+			A: []*sheeterProto.A{
 				{Name2: &name21, Name3: &name31},
 				{Name2: &name21, Name3: &name31},
 				{Name2: &name21, Name3: &name31},
 			},
 		},
 	}
-	storer.Datas[2] = &sheeter.RealData{
+	storer.Datas[2] = &sheeterProto.RealData{
 		Name0: &name02,
-		S: &sheeter.S{
+		S: &sheeterProto.S{
 			Name1: &name12,
-			A: []*sheeter.A{
+			A: []*sheeterProto.A{
 				{Name2: &name22, Name3: &name32},
 				{Name2: &name22, Name3: &name32},
 				{Name2: &name22, Name3: &name32},
 			},
 		},
 	}
-	storer.Datas[3] = &sheeter.RealData{
+	storer.Datas[3] = &sheeterProto.RealData{
 		Name0: &name03,
-		S: &sheeter.S{
+		S: &sheeterProto.S{
 			Name1: &name13,
-			A: []*sheeter.A{
+			A: []*sheeterProto.A{
 				{Name2: &name23, Name3: &name33},
 				{Name2: &name23, Name3: &name33},
 				{Name2: &name23, Name3: &name33},
@@ -68,4 +68,6 @@ func main() {
 	if err := utils.WriteFile("real."+internal.ExtProtoData, data); err != nil {
 		fmt.Println(err)
 	} // if
+
+	fmt.Println("build testdata success")
 }

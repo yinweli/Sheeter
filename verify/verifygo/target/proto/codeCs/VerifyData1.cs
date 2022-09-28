@@ -9,7 +9,7 @@ using pb = global::Google.Protobuf;
 using pbc = global::Google.Protobuf.Collections;
 using pbr = global::Google.Protobuf.Reflection;
 using scg = global::System.Collections.Generic;
-namespace Sheeter {
+namespace SheeterProto {
 
   /// <summary>Holder for reflection information generated from verifyData1.proto</summary>
   public static partial class VerifyData1Reflection {
@@ -24,19 +24,20 @@ namespace Sheeter {
     static VerifyData1Reflection() {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
-            "ChF2ZXJpZnlEYXRhMS5wcm90bxIHc2hlZXRlchoMcmV3YXJkLnByb3RvIpQB",
-            "CgtWZXJpZnlEYXRhMRIkCgZSZXdhcmQYASABKAsyDy5zaGVldGVyLlJld2Fy",
-            "ZEgAiAEBEhMKBkVuYWJsZRgCIAEoCEgBiAEBEhAKA0tleRgDIAEoA0gCiAEB",
-            "EhEKBE5hbWUYBCABKAlIA4gBAUIJCgdfUmV3YXJkQgkKB19FbmFibGVCBgoE",
-            "X0tleUIHCgVfTmFtZSKNAQoRVmVyaWZ5RGF0YTFTdG9yZXISNAoFRGF0YXMY",
-            "ASADKAsyJS5zaGVldGVyLlZlcmlmeURhdGExU3RvcmVyLkRhdGFzRW50cnka",
-            "QgoKRGF0YXNFbnRyeRILCgNrZXkYASABKAMSIwoFdmFsdWUYAiABKAsyFC5z",
-            "aGVldGVyLlZlcmlmeURhdGExOgI4AUILWgkuO3NoZWV0ZXJiBnByb3RvMw=="));
+            "ChF2ZXJpZnlEYXRhMS5wcm90bxIMc2hlZXRlclByb3RvGgxyZXdhcmQucHJv",
+            "dG8imQEKC1ZlcmlmeURhdGExEikKBlJld2FyZBgBIAEoCzIULnNoZWV0ZXJQ",
+            "cm90by5SZXdhcmRIAIgBARITCgZFbmFibGUYAiABKAhIAYgBARIQCgNLZXkY",
+            "AyABKANIAogBARIRCgROYW1lGAQgASgJSAOIAQFCCQoHX1Jld2FyZEIJCgdf",
+            "RW5hYmxlQgYKBF9LZXlCBwoFX05hbWUilwEKEVZlcmlmeURhdGExU3RvcmVy",
+            "EjkKBURhdGFzGAEgAygLMiouc2hlZXRlclByb3RvLlZlcmlmeURhdGExU3Rv",
+            "cmVyLkRhdGFzRW50cnkaRwoKRGF0YXNFbnRyeRILCgNrZXkYASABKAMSKAoF",
+            "dmFsdWUYAiABKAsyGS5zaGVldGVyUHJvdG8uVmVyaWZ5RGF0YTE6AjgBQhBa",
+            "Di47c2hlZXRlclByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::Sheeter.RewardReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::SheeterProto.RewardReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::Sheeter.VerifyData1), global::Sheeter.VerifyData1.Parser, new[]{ "Reward", "Enable", "Key", "Name" }, new[]{ "Reward", "Enable", "Key", "Name" }, null, null, null),
-            new pbr::GeneratedClrTypeInfo(typeof(global::Sheeter.VerifyData1Storer), global::Sheeter.VerifyData1Storer.Parser, new[]{ "Datas" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
+            new pbr::GeneratedClrTypeInfo(typeof(global::SheeterProto.VerifyData1), global::SheeterProto.VerifyData1.Parser, new[]{ "Reward", "Enable", "Key", "Name" }, new[]{ "Reward", "Enable", "Key", "Name" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SheeterProto.VerifyData1Storer), global::SheeterProto.VerifyData1Storer.Parser, new[]{ "Datas" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
           }));
     }
     #endregion
@@ -58,7 +59,7 @@ namespace Sheeter {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Sheeter.VerifyData1Reflection.Descriptor.MessageTypes[0]; }
+      get { return global::SheeterProto.VerifyData1Reflection.Descriptor.MessageTypes[0]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -94,13 +95,13 @@ namespace Sheeter {
 
     /// <summary>Field number for the "Reward" field.</summary>
     public const int RewardFieldNumber = 1;
-    private global::Sheeter.Reward reward_;
+    private global::SheeterProto.Reward reward_;
     /// <summary>
     /// 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public global::Sheeter.Reward Reward {
+    public global::SheeterProto.Reward Reward {
       get { return reward_; }
       set {
         reward_ = value;
@@ -316,7 +317,7 @@ namespace Sheeter {
       }
       if (other.reward_ != null) {
         if (reward_ == null) {
-          Reward = new global::Sheeter.Reward();
+          Reward = new global::SheeterProto.Reward();
         }
         Reward.MergeFrom(other.Reward);
       }
@@ -346,7 +347,7 @@ namespace Sheeter {
             break;
           case 10: {
             if (reward_ == null) {
-              Reward = new global::Sheeter.Reward();
+              Reward = new global::SheeterProto.Reward();
             }
             input.ReadMessage(Reward);
             break;
@@ -380,7 +381,7 @@ namespace Sheeter {
             break;
           case 10: {
             if (reward_ == null) {
-              Reward = new global::Sheeter.Reward();
+              Reward = new global::SheeterProto.Reward();
             }
             input.ReadMessage(Reward);
             break;
@@ -418,7 +419,7 @@ namespace Sheeter {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public static pbr::MessageDescriptor Descriptor {
-      get { return global::Sheeter.VerifyData1Reflection.Descriptor.MessageTypes[1]; }
+      get { return global::SheeterProto.VerifyData1Reflection.Descriptor.MessageTypes[1]; }
     }
 
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
@@ -450,12 +451,12 @@ namespace Sheeter {
 
     /// <summary>Field number for the "Datas" field.</summary>
     public const int DatasFieldNumber = 1;
-    private static readonly pbc::MapField<long, global::Sheeter.VerifyData1>.Codec _map_datas_codec
-        = new pbc::MapField<long, global::Sheeter.VerifyData1>.Codec(pb::FieldCodec.ForInt64(8, 0L), pb::FieldCodec.ForMessage(18, global::Sheeter.VerifyData1.Parser), 10);
-    private readonly pbc::MapField<long, global::Sheeter.VerifyData1> datas_ = new pbc::MapField<long, global::Sheeter.VerifyData1>();
+    private static readonly pbc::MapField<long, global::SheeterProto.VerifyData1>.Codec _map_datas_codec
+        = new pbc::MapField<long, global::SheeterProto.VerifyData1>.Codec(pb::FieldCodec.ForInt64(8, 0L), pb::FieldCodec.ForMessage(18, global::SheeterProto.VerifyData1.Parser), 10);
+    private readonly pbc::MapField<long, global::SheeterProto.VerifyData1> datas_ = new pbc::MapField<long, global::SheeterProto.VerifyData1>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::MapField<long, global::Sheeter.VerifyData1> Datas {
+    public pbc::MapField<long, global::SheeterProto.VerifyData1> Datas {
       get { return datas_; }
     }
 

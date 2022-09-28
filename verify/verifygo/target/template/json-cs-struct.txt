@@ -3,7 +3,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace {{$.Namespace}} {
+namespace {{$.NamespaceJson}} {
     public partial class {{$.StructName}} {
 {{- range $.Fields}}
         // {{$.FieldNote .}}

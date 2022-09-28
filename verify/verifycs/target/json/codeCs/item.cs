@@ -3,7 +3,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace sheeter {
+namespace sheeterJson {
     public partial class Item {
         // 物品數量
         [JsonProperty("Count")]

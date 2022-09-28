@@ -60,11 +60,13 @@ const ExtGo = "go"          // 副檔名: go
 
 /* json相關 */
 
+const NamespaceJson = AppName + "Json"
 const PathJson = "json"    // 輸出路徑: json
 const ExtJsonData = "json" // 副檔名: json資料
 
 /* proto相關 */
 
+const NamespaceProto = AppName + "Proto"
 const PathProto = "proto"            // 輸出路徑: proto
 const ExtProtoSchema = "proto"       // 副檔名: proto架構
 const ExtProtoData = "pbd"           // 副檔名: proto資料

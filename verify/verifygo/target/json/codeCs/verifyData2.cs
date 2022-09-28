@@ -3,7 +3,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace sheeter {
+namespace sheeterJson {
     public partial class VerifyData2 {
         // 
         [JsonProperty("Reward")]

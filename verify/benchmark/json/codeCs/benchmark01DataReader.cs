@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Collections.Generic;
 
-namespace sheeter {
+namespace sheeterJson {
     public partial class Benchmark01DataReader {
         public static string FileName() {
             return "benchmark01Data.json";

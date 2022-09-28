@@ -6,21 +6,21 @@ import (
 	"reflect"
 
 	"github.com/yinweli/Sheeter/internal"
-	sheeter "github.com/yinweli/Sheeter/verify/verifygo/target/json/codeGo"
+	sheeterJson "github.com/yinweli/Sheeter/verify/verifygo/target/json/codeGo"
 )
 
-func testJsonGo(rootPath string) {
-	reader := sheeter.VerifyData1Reader{}
+func verifyJson(rootPath string) {
+	reader := sheeterJson.VerifyData1Reader{}
 	path := filepath.Join(rootPath, "target", internal.PathJson, internal.PathData)
 
 	if err := reader.FromPathHalf(path); err != nil {
 		panic(fmt.Errorf("verify json go: %w", err))
 	} // if
 
-	expects := []sheeter.VerifyData1{
+	expects := []sheeterJson.VerifyData1{
 		{
-			Reward: sheeter.Reward{
-				Item: []sheeter.Item{
+			Reward: sheeterJson.Reward{
+				Item: []sheeterJson.Item{
 					{Count: 10, ItemID: 10001, Type: 1},
 					{Count: 0, ItemID: 0, Type: 0},
 					{Count: 0, ItemID: 0, Type: 0},
@@ -36,8 +36,8 @@ func testJsonGo(rootPath string) {
 			Name:   "名稱1",
 		},
 		{
-			Reward: sheeter.Reward{
-				Item: []sheeter.Item{
+			Reward: sheeterJson.Reward{
+				Item: []sheeterJson.Item{
 					{Count: 10, ItemID: 10001, Type: 1},
 					{Count: 5, ItemID: 10002, Type: 1},
 					{Count: 0, ItemID: 0, Type: 0},
@@ -53,8 +53,8 @@ func testJsonGo(rootPath string) {
 			Name:   "名稱2",
 		},
 		{
-			Reward: sheeter.Reward{
-				Item: []sheeter.Item{
+			Reward: sheeterJson.Reward{
+				Item: []sheeterJson.Item{
 					{Count: 10, ItemID: 10001, Type: 1},
 					{Count: 5, ItemID: 10002, Type: 1},
 					{Count: 2, ItemID: 10003, Type: 1},
@@ -70,8 +70,8 @@ func testJsonGo(rootPath string) {
 			Name:   "名稱3",
 		},
 		{
-			Reward: sheeter.Reward{
-				Item: []sheeter.Item{
+			Reward: sheeterJson.Reward{
+				Item: []sheeterJson.Item{
 					{Count: 10, ItemID: 10001, Type: 1},
 					{Count: 5, ItemID: 10002, Type: 1},
 					{Count: 3, ItemID: 10003, Type: 1},
