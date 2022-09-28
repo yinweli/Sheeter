@@ -1,118 +1,120 @@
 {
-    "1": {
-        "Reward": {
-            "Item": [
-                {
-                    "count": 10,
-                    "itemID": 10001,
-                    "type": 1
-                },
-                {
-                    "count": 0,
-                    "itemID": 0,
-                    "type": 0
-                },
-                {
-                    "count": 0,
-                    "itemID": 0,
-                    "type": 0
-                }
-            ],
-            "atium": 2,
-            "crystal": 120,
-            "diamond": 10,
-            "felIron": 6,
-            "gold": 500
+    "Datas": {
+        "1": {
+            "Enable": true,
+            "Key": 1,
+            "Name": "名稱1",
+            "Reward": {
+                "Atium": 2,
+                "Crystal": 120,
+                "Diamond": 10,
+                "FelIron": 6,
+                "Gold": 500,
+                "Item": [
+                    {
+                        "Count": 10,
+                        "ItemID": 10001,
+                        "Type": 1
+                    },
+                    {
+                        "Count": 0,
+                        "ItemID": 0,
+                        "Type": 0
+                    },
+                    {
+                        "Count": 0,
+                        "ItemID": 0,
+                        "Type": 0
+                    }
+                ]
+            }
         },
-        "enable": true,
-        "key": 1,
-        "name": "名稱1"
-    },
-    "2": {
-        "Reward": {
-            "Item": [
-                {
-                    "count": 10,
-                    "itemID": 10001,
-                    "type": 1
-                },
-                {
-                    "count": 5,
-                    "itemID": 10002,
-                    "type": 1
-                },
-                {
-                    "count": 0,
-                    "itemID": 0,
-                    "type": 0
-                }
-            ],
-            "atium": 2,
-            "crystal": 135,
-            "diamond": 12,
-            "felIron": 8,
-            "gold": 550
+        "2": {
+            "Enable": true,
+            "Key": 2,
+            "Name": "名稱2",
+            "Reward": {
+                "Atium": 2,
+                "Crystal": 135,
+                "Diamond": 12,
+                "FelIron": 8,
+                "Gold": 550,
+                "Item": [
+                    {
+                        "Count": 10,
+                        "ItemID": 10001,
+                        "Type": 1
+                    },
+                    {
+                        "Count": 5,
+                        "ItemID": 10002,
+                        "Type": 1
+                    },
+                    {
+                        "Count": 0,
+                        "ItemID": 0,
+                        "Type": 0
+                    }
+                ]
+            }
         },
-        "enable": true,
-        "key": 2,
-        "name": "名稱2"
-    },
-    "3": {
-        "Reward": {
-            "Item": [
-                {
-                    "count": 10,
-                    "itemID": 10001,
-                    "type": 1
-                },
-                {
-                    "count": 5,
-                    "itemID": 10002,
-                    "type": 1
-                },
-                {
-                    "count": 2,
-                    "itemID": 10003,
-                    "type": 1
-                }
-            ],
-            "atium": 3,
-            "crystal": 150,
-            "diamond": 14,
-            "felIron": 10,
-            "gold": 600
+        "3": {
+            "Enable": false,
+            "Key": 3,
+            "Name": "名稱3",
+            "Reward": {
+                "Atium": 3,
+                "Crystal": 150,
+                "Diamond": 14,
+                "FelIron": 10,
+                "Gold": 600,
+                "Item": [
+                    {
+                        "Count": 10,
+                        "ItemID": 10001,
+                        "Type": 1
+                    },
+                    {
+                        "Count": 5,
+                        "ItemID": 10002,
+                        "Type": 1
+                    },
+                    {
+                        "Count": 2,
+                        "ItemID": 10003,
+                        "Type": 1
+                    }
+                ]
+            }
         },
-        "enable": false,
-        "key": 3,
-        "name": "名稱3"
-    },
-    "4": {
-        "Reward": {
-            "Item": [
-                {
-                    "count": 10,
-                    "itemID": 10001,
-                    "type": 1
-                },
-                {
-                    "count": 5,
-                    "itemID": 10002,
-                    "type": 1
-                },
-                {
-                    "count": 3,
-                    "itemID": 10003,
-                    "type": 1
-                }
-            ],
-            "atium": 3,
-            "crystal": 165,
-            "diamond": 16,
-            "felIron": 12,
-            "gold": 650
-        },
-        "enable": false,
-        "key": 4,
-        "name": "名稱4"
+        "4": {
+            "Enable": false,
+            "Key": 4,
+            "Name": "名稱4",
+            "Reward": {
+                "Atium": 3,
+                "Crystal": 165,
+                "Diamond": 16,
+                "FelIron": 12,
+                "Gold": 650,
+                "Item": [
+                    {
+                        "Count": 10,
+                        "ItemID": 10001,
+                        "Type": 1
+                    },
+                    {
+                        "Count": 5,
+                        "ItemID": 10002,
+                        "Type": 1
+                    },
+                    {
+                        "Count": 3,
+                        "ItemID": 10003,
+                        "Type": 1
+                    }
+                ]
+            }
+        }
     }
 }

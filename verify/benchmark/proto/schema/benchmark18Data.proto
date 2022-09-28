@@ -3,7 +3,7 @@
 syntax = "proto3";
 package sheeter;
 option go_package = ".;sheeter";
-import 'Reward.proto';
+import 'reward.proto';
 
 message Benchmark18Data {
   optional Reward Reward = 1; // 

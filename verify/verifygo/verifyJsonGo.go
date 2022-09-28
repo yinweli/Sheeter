@@ -13,7 +13,7 @@ func testJsonGo(rootPath string) {
 	reader := sheeter.VerifyData1Reader{}
 	path := filepath.Join(rootPath, "target", internal.PathJson, internal.PathData)
 
-	if err := reader.FromHalfPath(path); err != nil {
+	if err := reader.FromPathHalf(path); err != nil {
 		panic(fmt.Errorf("verify json go: %w", err))
 	} // if
 

@@ -12,3 +12,7 @@ type ExampleData struct {
 	// 名稱
 	Name string `json:"Name"`
 }
+
+type ExampleDataStorer struct {
+	Datas map[int64]ExampleData
+}

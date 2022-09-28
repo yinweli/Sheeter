@@ -12,3 +12,7 @@ type Benchmark13Data struct {
 	// 名稱
 	Name string `json:"Name"`
 }
+
+type Benchmark13DataStorer struct {
+	Datas map[int64]Benchmark13Data
+}

@@ -10,42 +10,41 @@ import (
 )
 
 type ExampleDataReader struct {
-	Datas ExampleDataStorer
+	ExampleDataStorer
 }
-
-type ExampleDataStorer = map[int64]ExampleData
 
 func (this *ExampleDataReader) FileName() string {
 	return "exampleData.json"
 }
 
-func (this *ExampleDataReader) FromFullPath(path string) error {
+func (this *ExampleDataReader) FromPathFull(path string) error {
 	data, err := os.ReadFile(path)
 
 	if err != nil {
-		return fmt.Errorf("ExampleDataReader: from full path failed: %w", err)
+		return fmt.Errorf("ExampleDataReader: from path full failed: %w", err)
 	}
 
 	return this.FromData(data)
 }
 
-func (this *ExampleDataReader) FromHalfPath(path string) error {
+func (this *ExampleDataReader) FromPathHalf(path string) error {
 	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
 
 	if err != nil {
-		return fmt.Errorf("ExampleDataReader: from half path failed: %w", err)
+		return fmt.Errorf("ExampleDataReader: from path half failed: %w", err)
 	}
 
 	return this.FromData(data)
 }
 
 func (this *ExampleDataReader) FromData(data []byte) error {
-	datas := ExampleDataStorer{}
+	this.ExampleDataStorer = ExampleDataStorer{
+		Datas: map[int64]ExampleData{},
+	}
 
-	if err := json.Unmarshal(data, &datas); err != nil {
+	if err := json.Unmarshal(data, &this.ExampleDataStorer); err != nil {
 		return err
 	}
 
-	this.Datas = datas
 	return nil
 }

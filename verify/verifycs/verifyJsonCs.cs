@@ -11,7 +11,7 @@ namespace verifycs
         {
             var reader = new VerifyData1Reader();
 
-            if (reader.FromHalfPath(Path.Combine("json", "data")) == false) // 工作目錄在target
+            if (reader.FromPathHalf(Path.Combine("json", "data")) == false) // 工作目錄在target
             {
                 throw new Exception("verify json cs: read failed");
             } // if
@@ -89,7 +89,7 @@ namespace verifycs
 
             foreach (var itor in expects)
             {
-                if (reader.Datas.TryGetValue(itor.Key, out var actual) == false || JsonConvert.SerializeObject(itor) != JsonConvert.SerializeObject(actual))
+                if (reader.Datas.Datas.TryGetValue(itor.Key, out var actual) == false || JsonConvert.SerializeObject(itor) != JsonConvert.SerializeObject(actual))
                 {
                     throw new Exception("verify json cs: compare failed");
                 } // if

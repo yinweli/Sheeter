@@ -12,3 +12,7 @@ type VerifyData2 struct {
 	// 名稱
 	Name string `json:"Name"`
 }
+
+type VerifyData2Storer struct {
+	Datas map[int64]VerifyData2
+}

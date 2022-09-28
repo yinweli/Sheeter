@@ -16,3 +16,7 @@ type Reward struct {
 	// 金幣
 	Gold int64 `json:"Gold"`
 }
+
+type RewardStorer struct {
+	Datas map[int64]Reward
+}

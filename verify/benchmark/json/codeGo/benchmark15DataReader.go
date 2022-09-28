@@ -10,42 +10,41 @@ import (
 )
 
 type Benchmark15DataReader struct {
-	Datas Benchmark15DataStorer
+	Benchmark15DataStorer
 }
-
-type Benchmark15DataStorer = map[int64]Benchmark15Data
 
 func (this *Benchmark15DataReader) FileName() string {
 	return "benchmark15Data.json"
 }
 
-func (this *Benchmark15DataReader) FromFullPath(path string) error {
+func (this *Benchmark15DataReader) FromPathFull(path string) error {
 	data, err := os.ReadFile(path)
 
 	if err != nil {
-		return fmt.Errorf("Benchmark15DataReader: from full path failed: %w", err)
+		return fmt.Errorf("Benchmark15DataReader: from path full failed: %w", err)
 	}
 
 	return this.FromData(data)
 }
 
-func (this *Benchmark15DataReader) FromHalfPath(path string) error {
+func (this *Benchmark15DataReader) FromPathHalf(path string) error {
 	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
 
 	if err != nil {
-		return fmt.Errorf("Benchmark15DataReader: from half path failed: %w", err)
+		return fmt.Errorf("Benchmark15DataReader: from path half failed: %w", err)
 	}
 
 	return this.FromData(data)
 }
 
 func (this *Benchmark15DataReader) FromData(data []byte) error {
-	datas := Benchmark15DataStorer{}
+	this.Benchmark15DataStorer = Benchmark15DataStorer{
+		Datas: map[int64]Benchmark15Data{},
+	}
 
-	if err := json.Unmarshal(data, &datas); err != nil {
+	if err := json.Unmarshal(data, &this.Benchmark15DataStorer); err != nil {
 		return err
 	}
 
-	this.Datas = datas
 	return nil
 }

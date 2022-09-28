@@ -3,7 +3,7 @@
 syntax = "proto3";
 package sheeter;
 option go_package = ".;sheeter";
-import 'Item.proto';
+import 'item.proto';
 
 message Reward {
   repeated Item Item = 1; // 
