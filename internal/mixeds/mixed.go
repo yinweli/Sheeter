@@ -22,6 +22,7 @@ type Mixed struct {
 	Proto            // proto綜合工具
 	Field            // 欄位綜合工具
 	Math             // 數學綜合工具
+	String           // 字串綜合工具
 	excelName string // excel檔案名稱
 	sheetName string // excel表單名稱
 }

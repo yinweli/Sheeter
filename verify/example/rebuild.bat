@@ -8,3 +8,4 @@ rm -f protoGo.sh
 .\sheeter.exe build --config example.yaml
 call protoCs.bat
 call protoGo.bat
+rm -f sheeter.exe
