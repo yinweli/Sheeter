@@ -244,10 +244,12 @@ message {{$.StructName}} {
   {{$.FieldTypeProto .}} {{$.FieldName .}} = {{$.Add $i 1}}; // {{$.FieldNote .}}
 {{- end}}
 }
+{{- if $.Reader}}
 
 message {{$.StorerName}} {
   map<{{$.PkeyTypeProto}}, {{$.StructName}}> Datas = 1;
 }
+{{- end}}
 `,
 }
 

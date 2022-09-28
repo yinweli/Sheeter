@@ -8,6 +8,7 @@ import (
 	sheeterProto "github.com/yinweli/Sheeter/verify/verifygo/target/proto/codeGo"
 )
 
+//nolint // 太多魔術數字了, 所以只好略過lint
 func verifyProto(rootPath string) {
 	reader := sheeterProto.VerifyData1Reader{}
 

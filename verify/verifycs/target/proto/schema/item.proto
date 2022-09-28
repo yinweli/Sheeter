@@ -9,7 +9,3 @@ message Item {
   optional int64 ItemID = 2; // 物品編號
   optional int64 Type = 3; // 物品類型
 }
-
-message ItemStorer {
-  map<int64, Item> Datas = 1;
-}

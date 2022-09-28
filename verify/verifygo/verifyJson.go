@@ -8,6 +8,7 @@ import (
 	sheeterJson "github.com/yinweli/Sheeter/verify/verifygo/target/json/codeGo"
 )
 
+//nolint // 太多魔術數字了, 所以只好略過lint
 func verifyJson(rootPath string) {
 	reader := sheeterJson.VerifyData1Reader{}
 
