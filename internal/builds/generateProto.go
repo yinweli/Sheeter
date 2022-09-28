@@ -18,7 +18,7 @@ func generateProtoSchema(runtimeStruct *RuntimeStruct) error {
 	return nil
 }
 
-// generateProtoCsReader 產生json-cs讀取器程式碼
+// generateProtoCsReader 產生proto-cs讀取器程式碼
 func generateProtoCsReader(runtimeStruct *RuntimeStruct) error {
 	if runtimeStruct.Reader == false {
 		return nil
@@ -33,4 +33,21 @@ func generateProtoCsReader(runtimeStruct *RuntimeStruct) error {
 	return nil
 }
 
-// TODO: 還是要做protoReader喔(go)
+// generateProtoGoReader 產生proto-go讀取器程式碼
+func generateProtoGoReader(runtimeStruct *RuntimeStruct) error {
+	if runtimeStruct.Reader == false {
+		return nil
+	} // if
+
+	structName := runtimeStruct.StructName()
+
+	if err := utils.WriteTmpl(runtimeStruct.PathProtoGoReader(), tmpls.ProtoGoReader.Data, runtimeStruct); err != nil {
+		return fmt.Errorf("%s: generate proto-cs reader failed: %w", structName, err)
+	} // if
+
+	if err := utils.ShellRun("gofmt", "-w", runtimeStruct.PathProtoGoReader()); err != nil {
+		return fmt.Errorf("%s: generate proto-go reader failed: gofmt error: %w", structName, err)
+	} // if
+
+	return nil
+}

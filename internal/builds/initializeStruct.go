@@ -29,9 +29,8 @@ func initializeStruct(runtime *Runtime) error {
 		types := layoutType.Types(itor)
 		depend := layoutDepend.Depends(itor)
 		runtime.Struct = append(runtime.Struct, &RuntimeStruct{
-			Mixed: mixeds.NewMixed(types.Excel, types.Sheet),
-			Type:  types,
-			// TODO: 考慮加個Reader旗標, 讓模板產生proto時可以避免產生不會用到的Storer
+			Mixed:  mixeds.NewMixed(types.Excel, types.Sheet),
+			Type:   types,
 			Depend: depend,
 		})
 	} // for

@@ -19,6 +19,7 @@ func Generate(runtime *Runtime) (errs []error) {
 		generateJsonGoReader,
 		generateProtoSchema,
 		generateProtoCsReader,
+		generateProtoGoReader,
 	}
 	itemCount := len(runtime.Struct)
 	taskCount := len(tasks)

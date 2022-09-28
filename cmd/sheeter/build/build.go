@@ -86,5 +86,9 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // if
 
+	for _, itor := range runtime.Sector {
+		itor.Close()
+	} // for
+
 	cmd.Printf("usage time=%s\n", durafmt.Parse(time.Since(startTime)))
 }

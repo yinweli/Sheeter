@@ -58,7 +58,7 @@ protoc --experimental_allow_proto3_optional --proto_path=./%s --csharp_out=./%s 
 
 	target := this.target()
 	assert.Nil(this.T(), poststepProtoCsBat(target))
-	testdata.CompareFileByte(this.T(), internal.FileProtoCsBat, data)
+	testdata.CompareFile(this.T(), internal.FileProtoCsBat, data)
 }
 
 func (this *SuitePoststepProto) TestPoststepProtoCsSh() {
@@ -73,7 +73,7 @@ protoc --experimental_allow_proto3_optional --proto_path=./%s --csharp_out=./%s 
 
 	target := this.target()
 	assert.Nil(this.T(), poststepProtoCsSh(target))
-	testdata.CompareFileByte(this.T(), internal.FileProtoCsSh, data)
+	testdata.CompareFile(this.T(), internal.FileProtoCsSh, data)
 }
 
 func (this *SuitePoststepProto) TestPoststepProtoGoBat() {
@@ -90,7 +90,7 @@ protoc --experimental_allow_proto3_optional --proto_path=./%s --go_out=./%s ./%s
 
 	target := this.target()
 	assert.Nil(this.T(), poststepProtoGoBat(target))
-	testdata.CompareFileByte(this.T(), internal.FileProtoGoBat, data)
+	testdata.CompareFile(this.T(), internal.FileProtoGoBat, data)
 }
 
 func (this *SuitePoststepProto) TestPoststepProtoGoSh() {
@@ -105,5 +105,5 @@ protoc --experimental_allow_proto3_optional --proto_path=./%s --go_out=./%s ./%s
 
 	target := this.target()
 	assert.Nil(this.T(), poststepProtoGoSh(target))
-	testdata.CompareFileByte(this.T(), internal.FileProtoGoSh, data)
+	testdata.CompareFile(this.T(), internal.FileProtoGoSh, data)
 }

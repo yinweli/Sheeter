@@ -88,8 +88,7 @@ func (this *RuntimeSector) GetColumns(line int) (cols []string, err error) {
 
 // RuntimeStruct 執行期結構資料
 type RuntimeStruct struct {
-	*mixeds.Mixed // 綜合工具
-	*layouts.Type // 類型資料
-	// TODO: 考慮加個Reader旗標, 讓模板產生proto時可以避免產生不會用到的Storer
-	Depend []string // 依賴列表
+	*mixeds.Mixed          // 綜合工具
+	*layouts.Type          // 類型資料
+	Depend        []string // 依賴列表
 }

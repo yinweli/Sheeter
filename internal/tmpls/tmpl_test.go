@@ -50,14 +50,14 @@ func (this *SuiteTmpl) target() *Tmpl {
 func (this *SuiteTmpl) TestInitialize() {
 	cmd := SetFlags(&cobra.Command{})
 	assert.Nil(this.T(), Initialize(cmd))
-	testdata.CompareFileByte(this.T(), JsonCsReader.path(), []byte(JsonCsReader.Data))
-	testdata.CompareFileByte(this.T(), JsonGoReader.path(), []byte(JsonGoReader.Data))
+	testdata.CompareFile(this.T(), JsonCsReader.path(), []byte(JsonCsReader.Data))
+	testdata.CompareFile(this.T(), JsonGoReader.path(), []byte(JsonGoReader.Data))
 
 	cmd = SetFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagClean, strconv.FormatBool(true)))
 	assert.Nil(this.T(), Initialize(cmd))
-	testdata.CompareFileByte(this.T(), JsonCsReader.path(), []byte(JsonCsReader.Data))
-	testdata.CompareFileByte(this.T(), JsonGoReader.path(), []byte(JsonGoReader.Data))
+	testdata.CompareFile(this.T(), JsonCsReader.path(), []byte(JsonCsReader.Data))
+	testdata.CompareFile(this.T(), JsonGoReader.path(), []byte(JsonGoReader.Data))
 
 	cmd = SetFlags(&cobra.Command{})
 	assert.Nil(this.T(), utils.WriteFile(JsonCsReader.path(), []byte(this.tmpl1)))
@@ -65,8 +65,8 @@ func (this *SuiteTmpl) TestInitialize() {
 	assert.Nil(this.T(), Initialize(cmd))
 	assert.Equal(this.T(), this.tmpl1, JsonCsReader.Data)
 	assert.Equal(this.T(), this.tmpl2, JsonGoReader.Data)
-	testdata.CompareFileByte(this.T(), JsonCsReader.path(), []byte(JsonCsReader.Data))
-	testdata.CompareFileByte(this.T(), JsonGoReader.path(), []byte(JsonGoReader.Data))
+	testdata.CompareFile(this.T(), JsonCsReader.path(), []byte(JsonCsReader.Data))
+	testdata.CompareFile(this.T(), JsonGoReader.path(), []byte(JsonGoReader.Data))
 }
 
 func (this *SuiteTmpl) TestLoad() {
@@ -83,7 +83,7 @@ func (this *SuiteTmpl) TestLoad() {
 func (this *SuiteTmpl) TestSave() {
 	target := this.target()
 	assert.Nil(this.T(), target.save())
-	testdata.CompareFileByte(this.T(), target.path(), []byte(target.Data))
+	testdata.CompareFile(this.T(), target.path(), []byte(target.Data))
 }
 
 func (this *SuiteTmpl) TestPath() {

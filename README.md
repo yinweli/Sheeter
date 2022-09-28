@@ -213,8 +213,8 @@ buf format -w 存放proto檔案的路徑
 ```
 
 # TODO
-* 改變後的json資料可以讓proto吃, 產生proto資料
-* 產生protobuffer bytes data
+* (又)要整理一次模板命令了QQ
+* 全域讀取器
 * 產生flatbuffer message
 * 產生flatbuffer bytes data
 
