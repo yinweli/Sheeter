@@ -24,6 +24,12 @@ namespace sheeterJson {
             return Datas != null;
         }
 
-        public ExampleDataStorer Datas = null;
+        public Dictionary<long, ExampleData> Data {
+            get {
+                return Datas.Datas;
+            }
+        }
+
+        private ExampleDataStorer Datas = null;
     }
 }

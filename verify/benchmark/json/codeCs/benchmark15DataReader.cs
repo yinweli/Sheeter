@@ -24,6 +24,12 @@ namespace sheeterJson {
             return Datas != null;
         }
 
-        public Benchmark15DataStorer Datas = null;
+        public Dictionary<long, Benchmark15Data> Data {
+            get {
+                return Datas.Datas;
+            }
+        }
+
+        private Benchmark15DataStorer Datas = null;
     }
 }

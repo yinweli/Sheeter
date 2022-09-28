@@ -139,7 +139,13 @@ namespace {{$.NamespaceJson}} {
             return Datas != null;
         }
 
-        public {{$.StorerName}} Datas = null;
+        public Dictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> Data {
+            get {
+                return Datas.{{$.StorerDatas}};
+            }
+        }
+
+        private {{$.StorerName}} Datas = null;
     }
 }
 `,

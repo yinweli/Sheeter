@@ -89,7 +89,7 @@ namespace verifycs
 
             foreach (var itor in expects)
             {
-                if (reader.Datas.Datas.TryGetValue(itor.Key, out var actual) == false || JsonConvert.SerializeObject(itor) != JsonConvert.SerializeObject(actual))
+                if (reader.Data.TryGetValue(itor.Key, out var actual) == false || JsonConvert.SerializeObject(itor) != JsonConvert.SerializeObject(actual))
                 {
                     throw new Exception("verify json: compare failed");
                 } // if

@@ -114,7 +114,13 @@ namespace sheeterJson {
             return Datas != null;
         }
 
-        public TestDataStorer Datas = null;
+        public Dictionary<long, TestData> Data {
+            get {
+                return Datas.Datas;
+            }
+        }
+
+        private TestDataStorer Datas = null;
     }
 }
 `)
