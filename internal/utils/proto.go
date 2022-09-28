@@ -2,10 +2,9 @@ package utils
 
 import (
 	"fmt"
+
 	//nolint:staticcheck // 由於使用的proto反射庫沒有升級到proto.V2 所以必須使用舊的方式來轉換
 	"github.com/golang/protobuf/proto"
-	//nolint:staticcheck // 由於使用的proto反射庫沒有升級到proto.V2 所以必須使用舊的方式來轉換
-	"github.com/golang/protobuf/ptypes"
 	"github.com/jhump/protoreflect/desc"
 	"github.com/jhump/protoreflect/desc/protoparse"
 	"github.com/jhump/protoreflect/dynamic"
@@ -35,14 +34,13 @@ func JsonToProto(filename, message string, importPaths []string, json []byte) (r
 		return nil, fmt.Errorf("json to proto failed: %w", err)
 	} // if
 
-	//nolint:staticcheck // 由於使用的proto反射庫沒有升級到proto.V2, 所以必須使用舊的方式來轉換
-	data, err := ptypes.MarshalAny(obj)
+	data, err := proto.Marshal(obj)
 
 	if err != nil {
 		return nil, fmt.Errorf("json to proto failed: %w", err)
 	} // if
 
-	return data.Value, nil
+	return data, nil
 }
 
 // ProtoToJson proto轉為json資料

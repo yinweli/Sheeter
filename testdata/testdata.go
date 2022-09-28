@@ -24,6 +24,7 @@ const ExcelNameInvalidPkeyDupl = "excel.invalid.pkey.dupl.xlsx"
 const ExcelNameInvalidPkeyZero = "excel.invalid.pkey.zero.xlsx"
 const SheetName = "Data"
 const ProtoNameTest = "test1.proto"
+const ProtoDataReal = "real.pbd"
 
 // IsWindows 取得是否在windows下執行
 func IsWindows() bool {

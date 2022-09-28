@@ -50,7 +50,7 @@ func (this *SuiteProto) TestName() {
 	pathProtoData := filepath.Join(internal.PathProto, internal.PathData, fileProtoData)
 	pathProtoCsReader := filepath.Join(internal.PathProto, internal.PathCs, readerName+internal.ExtCs)
 	pathProtoGoReader := filepath.Join(internal.PathProto, internal.PathGo, readerName+internal.ExtGo)
-	protoDepend := this.excel + "." + internal.ExtProtoSchema
+	protoDepend := utils.FirstLower(this.excel) + "." + internal.ExtProtoSchema
 
 	target := this.target()
 	assert.Equal(this.T(), pathProtoCs, target.PathProtoCs())

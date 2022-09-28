@@ -4,6 +4,7 @@ import (
 	"path/filepath"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Proto proto綜合工具
@@ -70,7 +71,10 @@ func (this *Proto) PathProtoGoReader() string {
 	}))
 }
 
-// ProtoDepend 取得proto依賴檔案名稱
+// ProtoDepend 取得proto依賴檔名
 func (this *Proto) ProtoDepend(name string) string {
-	return name + "." + internal.ExtProtoSchema
+	// proto依賴檔名必須跟已建立的proto檔名相符
+	// 因為proto檔名是小寫駝峰, 所以這裡也必須是小寫駝峰
+
+	return utils.FirstLower(name) + "." + internal.ExtProtoSchema
 }

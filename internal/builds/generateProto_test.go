@@ -77,5 +77,5 @@ message TestDataStorer {
 
 	target := this.target()
 	assert.Nil(this.T(), generateProtoSchema(target))
-	testdata.CompareFile(this.T(), target.PathProtoName(), data)
+	testdata.CompareFileByte(this.T(), target.PathProtoName(), data)
 }

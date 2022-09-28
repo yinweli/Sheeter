@@ -52,7 +52,7 @@ func (this *SuiteWrite) TestWriteFile() {
 	bytes := []byte("this is a string")
 
 	assert.Nil(this.T(), WriteFile(pathReal, bytes))
-	testdata.CompareFile(this.T(), pathReal, bytes)
+	testdata.CompareFileByte(this.T(), pathReal, bytes)
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
@@ -70,7 +70,7 @@ func (this *SuiteWrite) TestWriteTmpl() {
 	bytes := []byte("Value")
 
 	assert.Nil(this.T(), WriteTmpl(pathReal, contentReal, datas))
-	testdata.CompareFile(this.T(), pathReal, bytes)
+	testdata.CompareFileByte(this.T(), pathReal, bytes)
 
 	assert.NotNil(this.T(), WriteTmpl(pathReal, contentFake, nil))
 	assert.NotNil(this.T(), WriteTmpl(pathReal, contentReal, "nothing!"))
