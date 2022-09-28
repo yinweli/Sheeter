@@ -1,11 +1,11 @@
 ﻿using Newtonsoft.Json;
-using sheeter;
+using sheeterJson;
 using System;
 using System.IO;
 
 namespace verifycs
 {
-    public class VerifyJsonCs
+    public class VerifyJson
     {
         public static void Test()
         {
@@ -13,7 +13,7 @@ namespace verifycs
 
             if (reader.FromPathHalf(Path.Combine("json", "data")) == false) // 工作目錄在target
             {
-                throw new Exception("verify json cs: read failed");
+                throw new Exception("verify json: read failed");
             } // if
 
             var expects = new VerifyData1[] {
@@ -91,11 +91,11 @@ namespace verifycs
             {
                 if (reader.Datas.Datas.TryGetValue(itor.Key, out var actual) == false || JsonConvert.SerializeObject(itor) != JsonConvert.SerializeObject(actual))
                 {
-                    throw new Exception("verify json cs: compare failed");
+                    throw new Exception("verify json: compare failed");
                 } // if
             } // for
 
-            Console.WriteLine("verify json cs: success");
+            Console.WriteLine("verify json: success");
         }
     }
 }

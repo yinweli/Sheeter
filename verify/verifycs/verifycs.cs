@@ -2,7 +2,8 @@
     public class Verifycs {
         public static void Main()
         {
-            VerifyJsonCs.Test();
+            VerifyJson.Test();
+            VerifyProto.Test();
         }
     }
 }

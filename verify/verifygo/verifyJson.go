@@ -14,7 +14,7 @@ func verifyJson(rootPath string) {
 	path := filepath.Join(rootPath, "target", internal.PathJson, internal.PathData)
 
 	if err := reader.FromPathHalf(path); err != nil {
-		panic(fmt.Errorf("verify json go: %w", err))
+		panic(fmt.Errorf("verify json: %w", err))
 	} // if
 
 	expects := []sheeterJson.VerifyData1{
@@ -90,9 +90,9 @@ func verifyJson(rootPath string) {
 
 	for _, itor := range expects {
 		if actual, ok := reader.Datas[itor.Key]; ok == false || reflect.DeepEqual(actual, itor) == false {
-			panic(fmt.Errorf("verify json go: compare failed"))
+			panic(fmt.Errorf("verify json: compare failed"))
 		} // if
 	} // for
 
-	fmt.Println("verify json go: success")
+	fmt.Println("verify json: success")
 }

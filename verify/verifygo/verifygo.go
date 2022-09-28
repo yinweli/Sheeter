@@ -15,4 +15,5 @@ func main() {
 
 	rootPath := filepath.Dir(root)
 	verifyJson(rootPath)
+	verifyProto(rootPath)
 }

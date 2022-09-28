@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/utils"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -54,6 +55,6 @@ func (this *SuiteEncodingProto) TestEncodingProto() {
 	assert.Nil(this.T(), Initialize(target, runtime))
 	assert.Nil(this.T(), Generate(runtime))
 	assert.Nil(this.T(), encodingProto(runtime.Sector[0]))
-	testdata.CompareFilePath(this.T(), runtime.Sector[0].PathProtoData(), testdata.ProtoDataReal)
+	assert.True(this.T(), utils.ExistFile(runtime.Sector[0].PathProtoData()))
 	runtime.Sector[0].Close()
 }
