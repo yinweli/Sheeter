@@ -197,7 +197,7 @@ func (this *TestDataReader) FromData(data []byte) error {
 		Datas: map[int64]TestData{},
 	}
 
-	if err := json.Unmarshal(data, &this.Datas); err != nil {
+	if err := json.Unmarshal(data, &this.TestDataStorer); err != nil {
 		return err
 	}
 

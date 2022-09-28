@@ -8,24 +8,26 @@
 用於將指定格式的excel轉換為json, cs程式碼, go程式碼, proto檔案等
 
 # 目錄說明
-| 目錄                | 說明           |
-|:--------------------|:---------------|
-| doc                 | 說明文件       |
-| cmd/sheeter         | 主程式         |
-| cmd/sheeter/build   | 建置表格命令   |
-| cmd/sheeter/tmpl    | 產生模板命令   |
-| cmd/sheeter/version | 顯示版本命令   |
-| internal/builds     | 表格轉換       |
-| internal/fields     | 欄位組件       |
-| internal/layers     | 階層組件       |
-| internal/layouts    | 布局組件       |
-| internal/mixeds     | 綜合工具       |
-| internal/tmpls      | 模板組件       |
-| internal/utils      | 協助組件       |
-| testdata            | 測試資料       |
-| verify/example      | 範例資料       |
-| verify/verifycs     | cs程式碼驗證   |
-| verify/verifygo     | go程式碼驗證   |
+| 目錄                | 說明                 |
+|:--------------------|:---------------------|
+| doc                 | 說明文件             |
+| cmd/sheeter         | 主程式               |
+| cmd/sheeter/build   | 建置表格命令         |
+| cmd/sheeter/tmpl    | 產生模板命令         |
+| cmd/sheeter/version | 顯示版本命令         |
+| internal/builds     | 表格轉換             |
+| internal/fields     | 欄位組件             |
+| internal/layers     | 階層組件             |
+| internal/layouts    | 布局組件             |
+| internal/mixeds     | 綜合工具             |
+| internal/tmpls      | 模板組件             |
+| internal/utils      | 協助組件             |
+| testdata            | 測試資料             |
+| verify/benchmark    | 效率測試資料         |
+| verify/example      | 範例資料             |
+| verify/testdata     | 用於產生單元測試資料 |
+| verify/verifycs     | cs程式碼驗證         |
+| verify/verifygo     | go程式碼驗證         |
 
 # 如何安裝
 * 安裝[go]
