@@ -88,6 +88,14 @@ elements:
 | text        | 字串                                 |
 | textArray   | 以逗號分隔的字串陣列                 |
 
+### 欄位行範例
+| 範例        | 欄位名稱 | 欄位類型 |
+|:------------|:---------|:---------|
+| itemID#pkey | itemID   | pkey     |
+| enable#bool | enable   | bool     |
+| gold#int    | gold     | int      |
+| note#text   | note     | text     |
+
 ## 階層行
 欄位結構布局, 格式有`{名稱`, `{[]名稱`, `/`, `}`, 之間以空格分隔  
 
@@ -97,6 +105,14 @@ elements:
 | {[]陣列名稱 | 陣列的開始                           |
 | /           | 分隔陣列                             |
 | }           | 結構/陣列結束, 可以連續結束, 如`}}`  |
+
+### 階層行範例
+| 範例          | 說明                                                 |
+|:--------------|:-----------------------------------------------------|
+| {Item         | 建立Item結構                                         |
+| {[]Item       | 建立以Item結構為元素的陣列                           |
+| {Reward {Item | 建立Reward結構, Item結構; Item結構是Reward結構的成員 |
+
 
 ## 註解行
 單行註解, 若為空格就輸出空註解  
@@ -140,10 +156,10 @@ elements:
 | proto/schema | 存放.proto檔案         |
 | template     | 存放模板檔案           |
 
-# 轉換範例
+# 範例檔案
 [example]
 
-# 關於模板檔案
+# 模板檔案
 sheeter轉換時會把使用的程式碼模板輸出到`template`目錄下  
 使用者可以改變模板內容, 來產生自訂的程式碼  
 當需要重置模板時(例如[sheeter]更新版本時), 可以在終端執行以下命令重置模板  
@@ -196,11 +212,11 @@ sheeter tmpl -c
 | $.Fields            |             | 欄位列表(部分模板可用)         |
 | $.Depend            |             | 依賴列表(部分模板可用)         |
 
-# 關於proto轉換為cs程式碼
+# proto轉換為cs程式碼
 * 安裝[protoc]
 * 執行產生出來的.bat/.sh
 
-# 關於proto轉換為go程式碼
+# proto轉換為go程式碼
 * 安裝[go]
 * 安裝[protoc]
 * 執行以下命令來安裝protobuf的[protoc-go]外掛
@@ -209,7 +225,7 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 ```
 * 執行產生出來的.bat/.sh
 
-# 關於格式化產出的proto檔案(為了美觀!)
+# 格式化產出的proto檔案(為了美觀!)
 * 安裝[go]
 * 安裝[buf]
 * 執行以下命令來格式化proto檔案
