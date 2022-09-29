@@ -2,7 +2,6 @@ package utils
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"io/fs"
 	"os"
@@ -10,9 +9,6 @@ import (
 	"strings"
 	"text/template"
 )
-
-const jsonPrefix = ""    // json前綴字串
-const jsonIdent = "    " // json縮排字串
 
 // FileName 取得檔案名稱
 func FileName(path string) string {
@@ -38,23 +34,6 @@ func WriteFile(path string, datas []byte) error {
 	return nil
 }
 
-// WriteJson 寫入json檔案, 如果有需要會建立目錄
-func WriteJson(path string, value any) error {
-	datas, err := json.MarshalIndent(value, jsonPrefix, jsonIdent)
-
-	if err != nil {
-		return fmt.Errorf("json write failed: %w", err)
-	} // if
-
-	err = WriteFile(path, datas)
-
-	if err != nil {
-		return fmt.Errorf("json write failed: %w", err)
-	} // if
-
-	return nil
-}
-
 // WriteTmpl 寫入模板檔案, 如果有需要會建立目錄
 func WriteTmpl(path, content string, refer any) error {
 	tmpl, err := template.New(path).Parse(content)
@@ -64,15 +43,12 @@ func WriteTmpl(path, content string, refer any) error {
 	} // if
 
 	buffer := &bytes.Buffer{}
-	err = tmpl.Execute(buffer, refer)
 
-	if err != nil {
+	if err = tmpl.Execute(buffer, refer); err != nil {
 		return fmt.Errorf("tmpl write failed: %w", err)
 	} // if
 
-	err = WriteFile(path, buffer.Bytes())
-
-	if err != nil {
+	if err = WriteFile(path, buffer.Bytes()); err != nil {
 		return fmt.Errorf("tmpl write failed: %w", err)
 	} // if
 

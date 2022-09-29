@@ -36,6 +36,11 @@ func (this *FloatArray) ToTypeGo() string {
 	return internal.TokenArray + internal.TokenFloatGo
 }
 
+// ToTypeProto 取得proto類型字串
+func (this *FloatArray) ToTypeProto() string {
+	return internal.TokenRepeated + " " + internal.TokenFloatProto
+}
+
 // ToJsonValue 轉換為json值
 func (this *FloatArray) ToJsonValue(input string, preset bool) (result interface{}, err error) {
 	if preset {

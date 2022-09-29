@@ -1,0 +1,9 @@
+syntax = "proto3";
+package test;
+option go_package = ".;test";
+
+message Test2 {
+  // proto轉json時, 只要是int64的欄位, 轉為json時都會被轉為字串
+  // 所以測試的欄位要注意不要改成int64, 會造成測試錯誤
+  optional int32 Value = 1;
+}

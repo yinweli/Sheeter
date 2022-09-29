@@ -15,73 +15,78 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestCode(t *testing.T) {
-	suite.Run(t, new(SuiteCode))
+func TestTmpl(t *testing.T) {
+	suite.Run(t, new(SuiteTmpl))
 }
 
-type SuiteCode struct {
+type SuiteTmpl struct {
 	suite.Suite
 	workDir string
 	name    string
-	code1   string
-	code2   string
+	tmpl1   string
+	tmpl2   string
 }
 
-func (this *SuiteCode) SetupSuite() {
+func (this *SuiteTmpl) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.name = "code.txt"
-	this.code1 = "code1"
-	this.code2 = "code2"
+	this.name = "tmpl.txt"
+	this.tmpl1 = "tmpl1"
+	this.tmpl2 = "tmpl2"
 }
 
-func (this *SuiteCode) TearDownSuite() {
+func (this *SuiteTmpl) TearDownSuite() {
 	_ = os.RemoveAll(internal.PathTmpl)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteCode) target() *Tmpl {
+func (this *SuiteTmpl) target() *Tmpl {
 	target := &Tmpl{
 		Name: this.name,
-		Code: this.code1,
+		Data: this.tmpl1,
 	}
 	return target
 }
 
-func (this *SuiteCode) TestInitialize() {
+func (this *SuiteTmpl) TestInitialize() {
 	cmd := SetFlags(&cobra.Command{})
-	assert.Nil(this.T(), utils.WriteFile(JsonCsReader.path(), []byte(this.code1)))
-	assert.Nil(this.T(), utils.WriteFile(JsonGoReader.path(), []byte(this.code2)))
 	assert.Nil(this.T(), Initialize(cmd))
-	assert.Equal(this.T(), this.code1, JsonCsReader.Code)
-	assert.Equal(this.T(), this.code2, JsonGoReader.Code)
-	testdata.CompareFile(this.T(), JsonCsReader.path(), []byte(JsonCsReader.Code))
-	testdata.CompareFile(this.T(), JsonGoReader.path(), []byte(JsonGoReader.Code))
+	testdata.CompareFile(this.T(), JsonCsReader.path(), []byte(JsonCsReader.Data))
+	testdata.CompareFile(this.T(), JsonGoReader.path(), []byte(JsonGoReader.Data))
 
 	cmd = SetFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagClean, strconv.FormatBool(true)))
 	assert.Nil(this.T(), Initialize(cmd))
-	testdata.CompareFile(this.T(), JsonCsReader.path(), []byte(JsonCsReader.Code))
-	testdata.CompareFile(this.T(), JsonGoReader.path(), []byte(JsonGoReader.Code))
+	testdata.CompareFile(this.T(), JsonCsReader.path(), []byte(JsonCsReader.Data))
+	testdata.CompareFile(this.T(), JsonGoReader.path(), []byte(JsonGoReader.Data))
+
+	cmd = SetFlags(&cobra.Command{})
+	assert.Nil(this.T(), utils.WriteFile(JsonCsReader.path(), []byte(this.tmpl1)))
+	assert.Nil(this.T(), utils.WriteFile(JsonGoReader.path(), []byte(this.tmpl2)))
+	assert.Nil(this.T(), Initialize(cmd))
+	assert.Equal(this.T(), this.tmpl1, JsonCsReader.Data)
+	assert.Equal(this.T(), this.tmpl2, JsonGoReader.Data)
+	testdata.CompareFile(this.T(), JsonCsReader.path(), []byte(JsonCsReader.Data))
+	testdata.CompareFile(this.T(), JsonGoReader.path(), []byte(JsonGoReader.Data))
 }
 
-func (this *SuiteCode) TestLoad() {
+func (this *SuiteTmpl) TestLoad() {
 	target := this.target()
 	assert.Nil(this.T(), target.load())
-	assert.Equal(this.T(), this.code1, target.Code)
+	assert.Equal(this.T(), this.tmpl1, target.Data)
 
 	target = this.target()
-	assert.Nil(this.T(), utils.WriteFile(target.path(), []byte(this.code2)))
+	assert.Nil(this.T(), utils.WriteFile(target.path(), []byte(this.tmpl2)))
 	assert.Nil(this.T(), target.load())
-	assert.Equal(this.T(), this.code2, target.Code)
+	assert.Equal(this.T(), this.tmpl2, target.Data)
 }
 
-func (this *SuiteCode) TestSave() {
+func (this *SuiteTmpl) TestSave() {
 	target := this.target()
 	assert.Nil(this.T(), target.save())
-	testdata.CompareFile(this.T(), target.path(), []byte(target.Code))
+	testdata.CompareFile(this.T(), target.path(), []byte(target.Data))
 }
 
-func (this *SuiteCode) TestPath() {
+func (this *SuiteTmpl) TestPath() {
 	target := this.target()
 	assert.Equal(this.T(), filepath.Join(internal.PathTmpl, target.Name), target.path())
 }

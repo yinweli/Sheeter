@@ -38,6 +38,7 @@ func (this *SuiteInt) TestField() {
 	assert.Equal(this.T(), false, target.IsPkey())
 	assert.Equal(this.T(), internal.TokenIntCs, target.ToTypeCs())
 	assert.Equal(this.T(), internal.TokenIntGo, target.ToTypeGo())
+	assert.Equal(this.T(), internal.TokenIntProto, target.ToTypeProto())
 }
 
 func (this *SuiteInt) TestToJsonValue() {

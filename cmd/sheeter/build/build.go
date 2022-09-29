@@ -17,7 +17,7 @@ func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "build",
 		Short: "build sheet",
-		Long:  "generate struct code, reader code, json data from excel & sheet",
+		Long:  "generate struct, reader, json data from excel & sheet",
 		Run:   execute,
 	}
 	builds.SetFlags(cmd)
@@ -29,29 +29,29 @@ func execute(cmd *cobra.Command, _ []string) {
 	startTime := time.Now()
 
 	if utils.ShellExist("gofmt") == false {
-		cmd.Println(fmt.Errorf("build failed, `gofmt` not installed"))
+		cmd.Println(fmt.Errorf("build failed: `gofmt` not installed"))
 		return
 	} // if
 
 	if utils.ShellExist("quicktype") == false {
-		cmd.Println(fmt.Errorf("build failed, `quicktype` not installed"))
+		cmd.Println(fmt.Errorf("build failed: `quicktype` not installed"))
 		return
 	} // if
 
 	if err := tmpls.Initialize(cmd); err != nil {
-		cmd.Println(fmt.Errorf("build failed, code initialize failed: %w", err))
+		cmd.Println(fmt.Errorf("build failed: %w", err))
 		return
 	} // if
 
 	config := &builds.Config{}
 
 	if err := config.Initialize(cmd); err != nil {
-		cmd.Println(fmt.Errorf("build failed, config initialize failed: %w", err))
+		cmd.Println(fmt.Errorf("build failed: %w", err))
 		return
 	} // if
 
 	if err := config.Check(); err != nil {
-		cmd.Println(fmt.Errorf("build failed, config check failed: %w", err))
+		cmd.Println(fmt.Errorf("build failed: %w", err))
 		return
 	} // if
 
@@ -59,7 +59,7 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if errs := builds.Initialize(config, runtime); len(errs) > 0 {
 		for _, itor := range errs {
-			cmd.Println(fmt.Errorf("build failed, initialize failed: %w", itor))
+			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for
 
 		return
@@ -67,7 +67,7 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if errs := builds.Generate(runtime); len(errs) > 0 {
 		for _, itor := range errs {
-			cmd.Println(fmt.Errorf("build failed, generate failed: %w", itor))
+			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for
 
 		return
@@ -75,11 +75,20 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if errs := builds.Encoding(runtime); len(errs) > 0 {
 		for _, itor := range errs {
-			cmd.Println(fmt.Errorf("build failed, encoding failed: %w", itor))
+			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for
 
 		return
 	} // if
+
+	if err := builds.Poststep(runtime); err != nil {
+		cmd.Println(fmt.Errorf("build failed: %w", err))
+		return
+	} // if
+
+	for _, itor := range runtime.Sector {
+		itor.Close()
+	} // for
 
 	cmd.Printf("usage time=%s\n", durafmt.Parse(time.Since(startTime)))
 }

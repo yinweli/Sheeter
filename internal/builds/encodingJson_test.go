@@ -8,6 +8,8 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/mixeds"
+	"github.com/yinweli/Sheeter/internal/utils"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -18,75 +20,10 @@ func TestEncodingJson(t *testing.T) {
 type SuiteEncodingJson struct {
 	suite.Suite
 	workDir string
-	json    []byte
-	empty   []byte
 }
 
 func (this *SuiteEncodingJson) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.json = []byte(`{
-    "1": {
-        "S": {
-            "A": [
-                {
-                    "name2": 1,
-                    "name3": "a"
-                },
-                {
-                    "name2": 1,
-                    "name3": "a"
-                },
-                {
-                    "name2": 1,
-                    "name3": "a"
-                }
-            ],
-            "name1": true
-        },
-        "name0": 1
-    },
-    "2": {
-        "S": {
-            "A": [
-                {
-                    "name2": 2,
-                    "name3": "b"
-                },
-                {
-                    "name2": 2,
-                    "name3": "b"
-                },
-                {
-                    "name2": 2,
-                    "name3": "b"
-                }
-            ],
-            "name1": false
-        },
-        "name0": 2
-    },
-    "3": {
-        "S": {
-            "A": [
-                {
-                    "name2": 3,
-                    "name3": "c"
-                },
-                {
-                    "name2": 3,
-                    "name3": "c"
-                },
-                {
-                    "name2": 3,
-                    "name3": "c"
-                }
-            ],
-            "name1": true
-        },
-        "name0": 3
-    }
-}`)
-	this.empty = []byte("{}")
 }
 
 func (this *SuiteEncodingJson) TearDownSuite() {
@@ -96,6 +33,7 @@ func (this *SuiteEncodingJson) TearDownSuite() {
 
 func (this *SuiteEncodingJson) target() *RuntimeSector {
 	target := &RuntimeSector{
+		Mixed: mixeds.NewMixed(testdata.ExcelNameReal, testdata.SheetName),
 		Global: Global{
 			LineOfField: 1,
 			LineOfLayer: 2,
@@ -111,10 +49,15 @@ func (this *SuiteEncodingJson) target() *RuntimeSector {
 }
 
 func (this *SuiteEncodingJson) TestEncodingJson() {
+	data, err := utils.JsonMarshal(testdata.GetExcelContentReal())
+	assert.Nil(this.T(), err)
+	empty, err := utils.JsonMarshal(testdata.GetExcelContentEmpty())
+	assert.Nil(this.T(), err)
+
 	target := this.target()
 	assert.Nil(this.T(), initializeSector(target))
 	assert.Nil(this.T(), encodingJson(target))
-	testdata.CompareFile(this.T(), target.named.FileJson(), this.json)
+	testdata.CompareFile(this.T(), target.PathJsonData(), data)
 	target.Close()
 
 	target = this.target()
@@ -127,7 +70,7 @@ func (this *SuiteEncodingJson) TestEncodingJson() {
 	target.Excel = testdata.ExcelNameEmpty
 	assert.Nil(this.T(), initializeSector(target))
 	assert.Nil(this.T(), encodingJson(target))
-	testdata.CompareFile(this.T(), target.named.FileJson(), this.empty)
+	testdata.CompareFile(this.T(), target.PathJsonData(), empty)
 	target.Close()
 
 	target = this.target()
@@ -140,13 +83,13 @@ func (this *SuiteEncodingJson) TestEncodingJson() {
 	if testdata.IsWindows() {
 		target = this.target()
 		assert.Nil(this.T(), initializeSector(target))
-		target.named.Excel = testdata.UnknownStr
+		target.Mixed = mixeds.NewMixed(testdata.UnknownStr, target.Sheet)
 		assert.NotNil(this.T(), encodingJson(target))
 		target.Close()
 
 		target = this.target()
 		assert.Nil(this.T(), initializeSector(target))
-		target.named.Sheet = testdata.UnknownStr
+		target.Mixed = mixeds.NewMixed(target.Excel, testdata.UnknownStr)
 		assert.NotNil(this.T(), encodingJson(target))
 		target.Close()
 	} // if

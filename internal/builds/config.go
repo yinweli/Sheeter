@@ -41,11 +41,11 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 			datas, err := os.ReadFile(filepath)
 
 			if err != nil {
-				return fmt.Errorf("new config failed, read config failed: %w", err)
+				return fmt.Errorf("config initialize failed: %w", err)
 			} // if
 
 			if err = yaml.Unmarshal(datas, this); err != nil {
-				return fmt.Errorf("new config failed, read config failed: %w", err)
+				return fmt.Errorf("config initialize failed: %w", err)
 			} // if
 		} // if
 	} // if
@@ -93,40 +93,40 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 // Check 檢查設定
 func (this *Config) Check() error {
 	if this.Global.LineOfField <= 0 {
-		return fmt.Errorf("config check failed, lineOfField <= 0")
+		return fmt.Errorf("config check failed: lineOfField <= 0")
 	} // if
 
 	if this.Global.LineOfLayer <= 0 {
-		return fmt.Errorf("config check failed, lineOfLayer <= 0")
+		return fmt.Errorf("config check failed: lineOfLayer <= 0")
 	} // if
 
 	if this.Global.LineOfNote <= 0 {
-		return fmt.Errorf("config check failed, lineOfNote <= 0")
+		return fmt.Errorf("config check failed: lineOfNote <= 0")
 	} // if
 
 	if this.Global.LineOfData <= 0 {
-		return fmt.Errorf("config check failed, lineOfData <= 0")
+		return fmt.Errorf("config check failed: lineOfData <= 0")
 	} // if
 
 	if this.Global.LineOfField >= this.Global.LineOfData {
-		return fmt.Errorf("config check failed, lineOfField(%d) >= lineOfData(%d)", this.Global.LineOfField, this.Global.LineOfData)
+		return fmt.Errorf("config check failed: lineOfField(%d) >= lineOfData(%d)", this.Global.LineOfField, this.Global.LineOfData)
 	} // if
 
 	if this.Global.LineOfLayer >= this.Global.LineOfData {
-		return fmt.Errorf("config check failed, lineOfLayer(%d) >= lineOfData(%d)", this.Global.LineOfLayer, this.Global.LineOfData)
+		return fmt.Errorf("config check failed: lineOfLayer(%d) >= lineOfData(%d)", this.Global.LineOfLayer, this.Global.LineOfData)
 	} // if
 
 	if this.Global.LineOfNote >= this.Global.LineOfData {
-		return fmt.Errorf("config check failed, lineOfNote(%d) >= lineOfData(%d)", this.Global.LineOfNote, this.Global.LineOfData)
+		return fmt.Errorf("config check failed: lineOfNote(%d) >= lineOfData(%d)", this.Global.LineOfNote, this.Global.LineOfData)
 	} // if
 
 	for _, itor := range this.Elements {
 		if utils.NameCheck(utils.FileName(itor.Excel)) == false {
-			return fmt.Errorf("config check failed, invalid excel name")
+			return fmt.Errorf("config check failed: invalid excel name")
 		} // if
 
 		if utils.NameCheck(itor.Sheet) == false {
-			return fmt.Errorf("config check failed, invalid sheet name")
+			return fmt.Errorf("config check failed: invalid sheet name")
 		} // if
 	} // for
 

@@ -33,17 +33,17 @@ type layoutJson struct {
 // Add 新增布局
 func (this *LayoutJson) Add(name string, field fields.Field, layer []layers.Layer, back int) error {
 	if name == "" {
-		return fmt.Errorf("layoutJson add failed, name empty")
+		return fmt.Errorf("layoutJson add failed: name empty")
 	} // if
 
 	if field == nil {
-		return fmt.Errorf("layoutJson add failed, field nil")
+		return fmt.Errorf("layoutJson add failed: field nil")
 	} // if
 
 	for _, itor := range layer {
 		if type_, ok := this.types[itor.Name]; ok {
 			if type_ != itor.Type {
-				return fmt.Errorf("layoutJson add failed, layer duplicate")
+				return fmt.Errorf("layoutJson add failed: layer duplicate")
 			} // if
 		} else {
 			this.types[itor.Name] = itor.Type
@@ -51,7 +51,7 @@ func (this *LayoutJson) Add(name string, field fields.Field, layer []layers.Laye
 	} // for
 
 	if back < 0 {
-		return fmt.Errorf("layoutJson add failed, back < 0")
+		return fmt.Errorf("layoutJson add failed: back < 0")
 	} // if
 
 	this.layouts = append(this.layouts, layoutJson{
@@ -64,7 +64,7 @@ func (this *LayoutJson) Add(name string, field fields.Field, layer []layers.Laye
 }
 
 // Pack 打包資料
-func (this *LayoutJson) Pack(datas []string, preset bool) (results map[string]interface{}, pkey string, err error) {
+func (this *LayoutJson) Pack(datas []string, preset bool) (result map[string]interface{}, pkey int64, err error) {
 	structor := newStructor()
 
 	for i, itor := range this.layouts {
@@ -76,17 +76,17 @@ func (this *LayoutJson) Pack(datas []string, preset bool) (results map[string]in
 		value, err := itor.field.ToJsonValue(data, preset)
 
 		if err != nil {
-			return nil, "", fmt.Errorf("layoutJson pack failed, value error: %w", err)
+			return nil, 0, fmt.Errorf("layoutJson pack failed: %w", err)
 		} // if
 
 		if itor.field.IsPkey() {
-			pkey = fmt.Sprintf("%v", value)
+			pkey = value.(int64)
 		} // if
 
 		for _, layer := range itor.layers {
 			if layer.Type == layers.LayerArray {
 				if structor.pushArray(layer.Name) == false || structor.pushStructA() == false {
-					return nil, "", fmt.Errorf("layoutJson pack failed, invalid format")
+					return nil, 0, fmt.Errorf("layoutJson pack failed: invalid format")
 				} // if
 
 				continue
@@ -94,7 +94,7 @@ func (this *LayoutJson) Pack(datas []string, preset bool) (results map[string]in
 
 			if layer.Type == layers.LayerStruct {
 				if structor.pushStructS(layer.Name) == false {
-					return nil, "", fmt.Errorf("layoutJson pack failed, invalid format")
+					return nil, 0, fmt.Errorf("layoutJson pack failed: invalid format")
 				} // if
 
 				continue
@@ -104,27 +104,33 @@ func (this *LayoutJson) Pack(datas []string, preset bool) (results map[string]in
 				structor.pop(1, false)
 
 				if structor.pushStructA() == false {
-					return nil, "", fmt.Errorf("layoutJson pack failed, invalid format")
+					return nil, 0, fmt.Errorf("layoutJson pack failed: invalid format")
 				} // if
 
 				continue
 			} // if
 
-			return nil, "", fmt.Errorf("layoutJson pack failed, unknown layer")
+			return nil, 0, fmt.Errorf("layoutJson pack failed: unknown layer")
 		} // for
 
 		if structor.pushValue(itor.name, value) == false {
-			return nil, "", fmt.Errorf("layoutJson pack failed, push value")
+			return nil, 0, fmt.Errorf("layoutJson pack failed: push value")
 		} // if
 
 		structor.pop(itor.back, true)
 	} // for
 
 	if structor.closure() == false {
-		return nil, "", fmt.Errorf("layoutJson pack failed, not closure")
+		return nil, 0, fmt.Errorf("layoutJson pack failed: not closure")
 	} // if
 
-	return structor.result(), pkey, nil
+	result = structor.result()
+
+	if result == nil {
+		return nil, 0, fmt.Errorf("layoutJson pack failed: result nil")
+	} // if
+
+	return result, pkey, nil
 }
 
 // PkeyCount 主要索引數量

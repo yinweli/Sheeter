@@ -79,5 +79,5 @@ func Parser(input string) (layers []Layer, back int, err error) {
 	return layers, back, nil
 
 failed:
-	return nil, 0, fmt.Errorf("%s: parser layer failed, invalid format", input)
+	return nil, 0, fmt.Errorf("%s: parser layer failed: invalid format", input)
 }

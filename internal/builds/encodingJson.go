@@ -3,38 +3,27 @@ package builds
 import (
 	"fmt"
 
+	"github.com/yinweli/Sheeter/internal/layouts"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
-// encodingJson 產生json編碼資料
+// encodingJson 產生json資料
 func encodingJson(runtimeSector *RuntimeSector) error {
+	structName := runtimeSector.StructName()
 	rows, err := runtimeSector.GetRows(runtimeSector.LineOfData)
 
 	if err != nil {
-		return fmt.Errorf("%s: encoding json failed, data line not found", runtimeSector.named.StructName())
+		return fmt.Errorf("%s: encoding json failed: data line not found", structName)
 	} // if
 
-	defer func() { _ = rows.Close() }()
-	objs := map[string]interface{}{}
+	json, err := layouts.JsonPack(rows, runtimeSector.layoutJson)
 
-	for ok := true; ok; ok = rows.Next() {
-		datas, _ := rows.Columns()
+	if err != nil {
+		return fmt.Errorf("%s: encoding json failed: %w", structName, err)
+	} // if
 
-		if datas == nil {
-			break // 碰到空行就結束了
-		} // if
-
-		packs, pkey, err := runtimeSector.layoutJson.Pack(datas, false)
-
-		if err != nil {
-			return fmt.Errorf("%s: encoding json failed: %w", runtimeSector.named.StructName(), err)
-		} // if
-
-		objs[pkey] = packs
-	} // for
-
-	if err = utils.WriteJson(runtimeSector.named.FileJson(), objs); err != nil {
-		return fmt.Errorf("%s: encoding json failed: %w", runtimeSector.named.StructName(), err)
+	if err := utils.WriteFile(runtimeSector.PathJsonData(), json); err != nil {
+		return fmt.Errorf("%s: encoding json failed: %w", structName, err)
 	} // if
 
 	return nil

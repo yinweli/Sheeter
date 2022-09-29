@@ -15,13 +15,11 @@ func TestInitializeStruct(t *testing.T) {
 
 type SuiteInitializeStruct struct {
 	suite.Suite
-	workDir     string
-	structNames []string
+	workDir string
 }
 
 func (this *SuiteInitializeStruct) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.structNames = []string{"RealData", "S", "A"}
 }
 
 func (this *SuiteInitializeStruct) TearDownSuite() {
@@ -67,8 +65,8 @@ func (this *SuiteInitializeStruct) TestInitializeStruct() {
 	structNames := []string{}
 
 	for _, itor := range target.Struct {
-		structNames = append(structNames, itor.Named.StructName())
+		structNames = append(structNames, itor.StructName())
 	} // for
 
-	assert.ElementsMatch(this.T(), this.structNames, structNames)
+	assert.ElementsMatch(this.T(), []string{"RealData", "S", "A"}, structNames)
 }

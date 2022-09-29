@@ -8,28 +8,28 @@ import (
 
 	"github.com/yinweli/Sheeter/internal/fields"
 	"github.com/yinweli/Sheeter/internal/layers"
-	"github.com/yinweli/Sheeter/internal/names"
 )
 
 // NewLayoutType 建立類型布局器
 func NewLayoutType() *LayoutType {
 	return &LayoutType{
 		types: map[string]*layoutType{},
-		level: arraystack.New(),
+		stack: arraystack.New(),
 	}
 }
 
 // LayoutType 類型布局器
 type LayoutType struct {
 	types map[string]*layoutType // 類型列表
-	level *arraystack.Stack      // 類型堆疊
+	stack *arraystack.Stack      // 類型堆疊
 }
 
 // layoutType 類型資料
 type layoutType struct {
+	excel  string            // excel檔案名稱
+	sheet  string            // excel表格名稱
 	reader bool              // 是否要產生讀取器
-	named  *names.Named      // 命名工具
-	field  map[string]*Field // 欄位列表
+	fields map[string]*Field // 欄位列表
 }
 
 // Field 欄位資料
@@ -43,25 +43,33 @@ type Field struct {
 
 // Type 提供給外部使用的類型資料
 type Type struct {
-	Reader bool         // 是否要產生讀取器
-	Named  *names.Named // 命名工具
-	Field  []*Field     // 欄位列表
+	Excel  string   // excel檔案名稱
+	Sheet  string   // excel表格名稱
+	Reader bool     // 是否要產生讀取器
+	Fields []*Field // 欄位列表
 }
 
 // Begin 開始類型紀錄
-func (this *LayoutType) Begin(name string, named *names.Named) error {
+func (this *LayoutType) Begin(name, excel, sheet string) error {
 	if this.Closure() == false {
-		return fmt.Errorf("layoutType begin failed, not closed")
+		return fmt.Errorf("layoutType begin failed: not closed")
 	} // if
 
-	this.pushType(name, true, named)
+	if this.pushType(name, excel, sheet, true) == false {
+		return fmt.Errorf("layoutType begin failed: pushType failed")
+	} // if
+
 	return nil
 }
 
 // End 結束類型紀錄
 func (this *LayoutType) End() error {
 	if this.pop(1) == false {
-		return fmt.Errorf("layoutType end failed, pop failed")
+		return fmt.Errorf("layoutType end failed: pop failed")
+	} // if
+
+	if this.Closure() == false {
+		return fmt.Errorf("layoutType end failed: not closed")
 	} // if
 
 	return nil
@@ -72,46 +80,47 @@ func (this *LayoutType) Add(name, note string, field fields.Field, layer []layer
 	for _, itor := range layer {
 		if itor.Type != layers.LayerDivider { // layers.LayerDivider不必處理, 因為結構/陣列未結束
 			if this.pushField(itor.Name, "", nil, itor.Name, itor.Type == layers.LayerArray) == false {
-				return fmt.Errorf("layoutType add failed, pushField failed")
+				return fmt.Errorf("layoutType add failed: pushField failed")
 			} // if
 
-			if this.pushType(itor.Name, false, &names.Named{Excel: itor.Name}) == false {
-				return fmt.Errorf("layoutType add failed, pushType failed")
+			if this.pushType(itor.Name, itor.Name, "", false) == false {
+				return fmt.Errorf("layoutType add failed: pushType failed")
 			} // if
 		} // if
 	} // for
 
 	if this.pushField(name, note, field, "", false) == false {
-		return fmt.Errorf("layoutType add failed, pushField failed")
+		return fmt.Errorf("layoutType add failed: pushField failed")
 	} // if
 
 	if this.pop(back) == false {
-		return fmt.Errorf("layoutType add failed, pop failed")
+		return fmt.Errorf("layoutType add failed: pop failed")
 	} // if
 
 	return nil
 }
 
-// Merge 合併類型布局
+// Merge 合併類型布局器
 func (this *LayoutType) Merge(merge *LayoutType) error {
 	if merge.Closure() == false {
-		return fmt.Errorf("layoutType merge failed, source not closed")
+		return fmt.Errorf("layoutType merge failed: source not closed")
 	} // if
 
 	for typeName, source := range merge.types {
 		if _, ok := this.types[typeName]; ok == false {
 			this.types[typeName] = &layoutType{
+				excel:  source.excel,
+				sheet:  source.sheet,
 				reader: source.reader,
-				named:  source.named,
-				field:  map[string]*Field{},
+				fields: map[string]*Field{},
 			}
 		} // if
 
 		target := this.types[typeName]
 
-		for fieldName, field := range source.field {
-			if _, ok := target.field[fieldName]; ok == false {
-				target.field[fieldName] = &Field{
+		for fieldName, field := range source.fields {
+			if _, ok := target.fields[fieldName]; ok == false {
+				target.fields[fieldName] = &Field{
 					Name:  field.Name,
 					Note:  field.Note,
 					Field: field.Field,
@@ -123,7 +132,7 @@ func (this *LayoutType) Merge(merge *LayoutType) error {
 	} // for
 
 	if this.Closure() == false {
-		return fmt.Errorf("layoutType merge failed, target not closed")
+		return fmt.Errorf("layoutType merge failed: target not closed")
 	} // if
 
 	return nil
@@ -134,7 +143,7 @@ func (this *LayoutType) Types(name string) *Type {
 	if value, ok := this.types[name]; ok {
 		field := []*Field{}
 
-		for _, itor := range value.field {
+		for _, itor := range value.fields {
 			field = append(field, itor)
 		} // for
 
@@ -142,9 +151,10 @@ func (this *LayoutType) Types(name string) *Type {
 			return field[r].Name < field[l].Name
 		})
 		return &Type{
+			Excel:  value.excel,
+			Sheet:  value.sheet,
 			Reader: value.reader,
-			Named:  value.named,
-			Field:  field,
+			Fields: field,
 		}
 	} // if
 
@@ -152,49 +162,50 @@ func (this *LayoutType) Types(name string) *Type {
 }
 
 // TypeNames 取得類型名稱列表
-func (this *LayoutType) TypeNames() (results []string) {
+func (this *LayoutType) TypeNames() (result []string) {
 	for itor := range this.types {
-		results = append(results, itor)
+		result = append(result, itor)
 	} // for
 
-	sort.Slice(results, func(r, l int) bool {
-		return results[r] < results[l]
+	sort.Slice(result, func(r, l int) bool {
+		return result[r] < result[l]
 	})
-	return results
+	return result
 }
 
 // FieldNames 取得類型欄位名稱列表
-func (this *LayoutType) FieldNames(name string) (results []string) {
+func (this *LayoutType) FieldNames(name string) (result []string) {
 	if value, ok := this.types[name]; ok {
-		for _, itor := range value.field {
-			results = append(results, itor.Name)
+		for _, itor := range value.fields {
+			result = append(result, itor.Name)
 		} // for
 
-		sort.Slice(results, func(r, l int) bool {
-			return results[r] < results[l]
+		sort.Slice(result, func(r, l int) bool {
+			return result[r] < result[l]
 		})
 	} // if
 
-	return results
+	return result
 }
 
 // Closure 取得是否閉合
 func (this *LayoutType) Closure() bool {
-	return this.level.Empty()
+	return this.stack.Empty()
 }
 
 // pushType 推入類型
-func (this *LayoutType) pushType(name string, reader bool, named *names.Named) bool {
+func (this *LayoutType) pushType(name, excel, sheet string, reader bool) bool {
 	if _, ok := this.types[name]; ok {
 		return false
 	} // if
 
 	this.types[name] = &layoutType{
+		excel:  excel,
+		sheet:  sheet,
 		reader: reader,
-		named:  named,
-		field:  map[string]*Field{},
+		fields: map[string]*Field{},
 	}
-	this.level.Push(name)
+	this.stack.Push(name)
 	return true
 }
 
@@ -204,7 +215,7 @@ func (this *LayoutType) pushField(name, note string, field fields.Field, alter s
 		return true
 	} // if
 
-	level, ok := this.level.Peek()
+	level, ok := this.stack.Peek()
 
 	if ok == false {
 		return false
@@ -216,7 +227,7 @@ func (this *LayoutType) pushField(name, note string, field fields.Field, alter s
 		return false
 	} // if
 
-	type_.field[name] = &Field{
+	type_.fields[name] = &Field{
 		Name:  name,
 		Note:  note,
 		Field: field,
@@ -229,7 +240,7 @@ func (this *LayoutType) pushField(name, note string, field fields.Field, alter s
 // pop 彈出類型
 func (this *LayoutType) pop(count int) bool {
 	for i := 0; i < count; i++ {
-		if _, ok := this.level.Pop(); ok == false {
+		if _, ok := this.stack.Pop(); ok == false {
 			return false
 		} // if
 	} // for
