@@ -9,6 +9,8 @@ type Reward struct {
 	Atium int64 `json:"Atium"`
 	// 魔晶
 	Crystal int64 `json:"Crystal"`
+	// 獎勵說明
+	Desc string `json:"Desc"`
 	// 鑽石
 	Diamond int64 `json:"Diamond"`
 	// 精鐵

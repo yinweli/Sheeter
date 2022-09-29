@@ -14,6 +14,9 @@ namespace sheeterJson {
         // 魔晶
         [JsonProperty("Crystal")]
         public long Crystal { get; set; }
+        // 獎勵說明
+        [JsonProperty("Desc")]
+        public string Desc { get; set; }
         // 鑽石
         [JsonProperty("Diamond")]
         public long Diamond { get; set; }
