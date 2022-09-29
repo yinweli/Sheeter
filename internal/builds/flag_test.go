@@ -35,5 +35,6 @@ func (this *SuiteFlag) TestSetFlags() {
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfLayer))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfNote))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfData))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagExcludes))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagElements))
 }

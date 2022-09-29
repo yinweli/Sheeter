@@ -16,7 +16,7 @@ func encodingJson(runtimeSector *RuntimeSector) error {
 		return fmt.Errorf("%s: encoding json failed: data line not found", structName)
 	} // if
 
-	json, err := layouts.JsonPack(rows, runtimeSector.layoutJson)
+	json, err := layouts.JsonPack(rows, runtimeSector.layoutJson, runtimeSector.Excludes)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding json failed: %w", structName, err)

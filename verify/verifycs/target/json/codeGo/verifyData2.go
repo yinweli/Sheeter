@@ -8,6 +8,8 @@ type VerifyData2 struct {
 	Reward Reward `json:"Reward"`
 	// 是否啟用
 	Enable bool `json:"Enable"`
+	// 隱藏
+	Hide bool `json:"Hide"`
 	// 索引
 	Key int64 `json:"Key"`
 	// 名稱

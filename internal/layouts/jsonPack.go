@@ -10,7 +10,7 @@ import (
 )
 
 // JsonPack 打包json資料
-func JsonPack(rows *excelize.Rows, layoutJson *LayoutJson) (json []byte, err error) {
+func JsonPack(rows *excelize.Rows, layoutJson *LayoutJson, excludes []string) (json []byte, err error) {
 	defer func() { _ = rows.Close() }()
 	datas := map[internal.PkeyType]interface{}{}
 
@@ -21,7 +21,7 @@ func JsonPack(rows *excelize.Rows, layoutJson *LayoutJson) (json []byte, err err
 			break // 碰到空行就結束了
 		} // if
 
-		packs, pkey, err := layoutJson.Pack(raws, false)
+		packs, pkey, err := layoutJson.Pack(raws, excludes)
 
 		if err != nil {
 			return nil, fmt.Errorf("json pack failed: %w", err)

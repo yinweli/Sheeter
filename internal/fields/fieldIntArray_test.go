@@ -44,14 +44,13 @@ func (this *SuiteIntArray) TestField() {
 func (this *SuiteIntArray) TestToJsonValue() {
 	target := this.target()
 
-	result, err := target.ToJsonValue("", true)
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), []int64{}, result)
-
-	result, err = target.ToJsonValue("123,456,789", false)
+	result, err := target.ToJsonValue("123,456,789")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []int64{123, 456, 789}, result)
 
-	_, err = target.ToJsonValue(testdata.UnknownStr, false)
+	_, err = target.ToJsonValue("")
+	assert.NotNil(this.T(), err)
+
+	_, err = target.ToJsonValue(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }

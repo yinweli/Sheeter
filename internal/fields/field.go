@@ -32,7 +32,7 @@ type Field interface {
 	ToTypeProto() string
 
 	// ToJsonValue 轉換為json值
-	ToJsonValue(input string, preset bool) (result interface{}, err error)
+	ToJsonValue(input string) (result interface{}, err error)
 }
 
 // 欄位列表選擇用slice而非map, 是因為map要加入項目需要指定索引, 而Field的索引應該是Type函式
@@ -53,22 +53,24 @@ var fields = []Field{
 }
 
 // Parser 欄位解析, 格式為 name#field
-func Parser(input string) (name string, field Field, err error) {
-	before, after, ok := strings.Cut(input, internal.SeparateField)
+func Parser(input string) (name string, field Field, tag string, err error) {
+	name, other, ok := strings.Cut(input, internal.SeparateField)
 
 	if ok == false {
-		return "", nil, fmt.Errorf("%s: parser field failed: invalid format", input)
+		return "", nil, "", fmt.Errorf("%s: parser field failed: invalid format", input)
 	} // if
 
-	if utils.NameCheck(before) == false {
-		return "", nil, fmt.Errorf("%s: parser field failed: invalid name", input)
+	if utils.NameCheck(name) == false {
+		return "", nil, "", fmt.Errorf("%s: parser field failed: invalid name", input)
 	} // if
+
+	type_, tag, _ := strings.Cut(other, internal.SeparateField)
 
 	for _, itor := range fields {
-		if itor.Type() == after {
-			return before, itor, nil
+		if itor.Type() == type_ {
+			return name, itor, tag, nil
 		} // if
 	} // for
 
-	return "", nil, fmt.Errorf("%s: parser field failed: field not found", input)
+	return "", nil, "", fmt.Errorf("%s: parser field failed: field not found", input)
 }

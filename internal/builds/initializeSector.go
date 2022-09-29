@@ -62,7 +62,7 @@ func initializeSector(runtimeSector *RuntimeSector) error {
 			break
 		} // if
 
-		name, field, err := fields.Parser(itor)
+		name, field, tag, err := fields.Parser(itor)
 
 		if err != nil {
 			return fmt.Errorf("%s: initialize sector failed: parse field failed: %w", structName, err)
@@ -76,7 +76,7 @@ func initializeSector(runtimeSector *RuntimeSector) error {
 
 		note := utils.GetItem(noteLine, col)
 
-		if err := layoutJson.Add(name, field, layer, back); err != nil {
+		if err := layoutJson.Add(name, field, tag, layer, back); err != nil {
 			return fmt.Errorf("%s: initialize sector failed: layoutJson add failed: %w", structName, err)
 		} // if
 

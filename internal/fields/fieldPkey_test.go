@@ -44,14 +44,13 @@ func (this *SuitePkey) TestField() {
 func (this *SuitePkey) TestToJsonValue() {
 	target := this.target()
 
-	result, err := target.ToJsonValue("", true)
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), int64(0), result)
-
-	result, err = target.ToJsonValue("123456789", false)
+	result, err := target.ToJsonValue("123456789")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), int64(123456789), result)
 
-	_, err = target.ToJsonValue(testdata.UnknownStr, false)
+	_, err = target.ToJsonValue("")
+	assert.NotNil(this.T(), err)
+
+	_, err = target.ToJsonValue(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }

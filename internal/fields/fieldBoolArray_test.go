@@ -44,14 +44,13 @@ func (this *SuiteBoolArray) TestField() {
 func (this *SuiteBoolArray) TestToJsonValue() {
 	target := this.target()
 
-	result, err := target.ToJsonValue("", true)
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), []bool{}, result)
-
-	result, err = target.ToJsonValue("true,false,true,false,true", false)
+	result, err := target.ToJsonValue("true,false,true,false,true")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []bool{true, false, true, false, true}, result)
 
-	_, err = target.ToJsonValue(testdata.UnknownStr, false)
+	_, err = target.ToJsonValue("")
+	assert.NotNil(this.T(), err)
+
+	_, err = target.ToJsonValue(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }

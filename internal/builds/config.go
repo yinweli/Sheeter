@@ -20,10 +20,11 @@ type Config struct {
 
 // Global 全域設定
 type Global struct {
-	LineOfField int `yaml:"lineOfField"` // 欄位行號(1為起始行)
-	LineOfLayer int `yaml:"lineOfLayer"` // 階層行號(1為起始行)
-	LineOfNote  int `yaml:"lineOfNote"`  // 註解行號(1為起始行)
-	LineOfData  int `yaml:"lineOfData"`  // 資料行號(1為起始行)
+	LineOfField int      `yaml:"lineOfField"` // 欄位行號(1為起始行)
+	LineOfLayer int      `yaml:"lineOfLayer"` // 階層行號(1為起始行)
+	LineOfNote  int      `yaml:"lineOfNote"`  // 註解行號(1為起始行)
+	LineOfData  int      `yaml:"lineOfData"`  // 資料行號(1為起始行)
+	Excludes    []string `yaml:"excludes"`    // 排除標籤列表
 }
 
 // Element 項目設定
@@ -74,9 +75,15 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		} // if
 	} // if
 
+	if flags.Changed(flagExcludes) {
+		if items, err := flags.GetStringSlice(flagExcludes); err == nil {
+			this.Global.Excludes = append(this.Global.Excludes, items...)
+		} // if
+	} // if
+
 	if flags.Changed(flagElements) {
-		if elements, err := flags.GetStringSlice(flagElements); err == nil {
-			for _, itor := range elements {
+		if items, err := flags.GetStringSlice(flagElements); err == nil {
+			for _, itor := range items {
 				if before, after, ok := strings.Cut(itor, internal.SeparateElement); ok {
 					this.Elements = append(this.Elements, Element{
 						Excel: before,

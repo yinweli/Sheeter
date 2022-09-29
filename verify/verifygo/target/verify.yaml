@@ -3,6 +3,8 @@ global:
     lineOfLayer: 2
     lineOfNote: 3
     lineOfData: 4
+    excludes:
+        - tag
 
 elements:
     - excel: verify.xlsx

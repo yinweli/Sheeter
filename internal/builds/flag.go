@@ -9,6 +9,7 @@ const flagLineOfField = "lineOfField" // 旗標名稱: 欄位行號
 const flagLineOfLayer = "lineOfLayer" // 旗標名稱: 階層行號
 const flagLineOfNote = "lineOfNote"   // 旗標名稱: 註解行號
 const flagLineOfData = "lineOfData"   // 旗標名稱: 資料行號
+const flagExcludes = "excludes"       // 旗標名稱: 排除列表
 const flagElements = "elements"       // 旗標名稱: 項目列表
 
 // SetFlags 設定命令旗標
@@ -19,6 +20,7 @@ func SetFlags(cmd *cobra.Command) *cobra.Command {
 	flags.Int(flagLineOfLayer, 0, "line of layer")
 	flags.Int(flagLineOfNote, 0, "line of note")
 	flags.Int(flagLineOfData, 0, "line of data")
+	flags.StringSlice(flagExcludes, []string{}, "exclude tags(tag,tag,tag...)")
 	flags.StringSlice(flagElements, []string{}, "element lists(excel#sheet,excel#sheet,excel#sheet,...)")
 	return cmd
 }
