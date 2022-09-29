@@ -56,6 +56,7 @@ func (this *Proto) PathProtoData() string {
 // PathProtoCsReader 取得proto-cs讀取器程式碼路徑
 func (this *Proto) PathProtoCsReader() string {
 	return filepath.Join(internal.PathProto, internal.PathCs, this.mixed.combine(params{
+		excelUpper: true, // 因為protoc產生出來的cs結構程式碼檔名是大寫開頭, 所以cs讀取器名稱也用大寫開頭
 		sheetUpper: true,
 		last:       internal.Reader,
 		ext:        internal.ExtCs,
@@ -65,7 +66,7 @@ func (this *Proto) PathProtoCsReader() string {
 // PathProtoGoReader 取得proto-go讀取器程式碼路徑
 func (this *Proto) PathProtoGoReader() string {
 	return filepath.Join(internal.PathProto, internal.PathGo, this.mixed.combine(params{
-		sheetUpper: true,
+		sheetUpper: true, // 因為protoc產生出來的go結構程式碼檔名是小寫開頭, 所以go讀取器名稱也用小寫開頭
 		last:       internal.Reader,
 		ext:        internal.ExtGo,
 	}))
