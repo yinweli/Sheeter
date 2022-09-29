@@ -18,7 +18,7 @@ func verifyJson(rootPath string) {
 func verifyJson1(path string) {
 	reader := sheeterJson.VerifyData1Reader{}
 
-	if err := reader.FromPathHalf(path); err != nil {
+	if err := reader.FromPath(path); err != nil {
 		panic(fmt.Errorf("verify json: %w", err))
 	} // if
 
@@ -76,7 +76,7 @@ func verifyJson1(path string) {
 func verifyJson2(path string) {
 	reader := sheeterJson.VerifyData2Reader{}
 
-	if err := reader.FromPathHalf(path); err != nil {
+	if err := reader.FromPath(path); err != nil {
 		panic(fmt.Errorf("verify json: %w", err))
 	} // if
 

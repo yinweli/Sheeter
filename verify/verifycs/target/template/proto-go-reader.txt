@@ -19,21 +19,11 @@ func (this *{{$.ReaderName}}) FileName() string {
 	return "{{$.FileProtoData}}"
 }
 
-func (this *{{$.ReaderName}}) FromPathFull(path string) error {
-	data, err := os.ReadFile(path)
-
-	if err != nil {
-		return fmt.Errorf("{{$.ReaderName}}: from path full failed: %w", err)
-	}
-
-	return this.FromData(data)
-}
-
-func (this *{{$.ReaderName}}) FromPathHalf(path string) error {
+func (this *{{$.ReaderName}}) FromPath(path string) error {
 	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
 
 	if err != nil {
-		return fmt.Errorf("{{$.ReaderName}}: from path half failed: %w", err)
+		return fmt.Errorf("{{$.ReaderName}}: from path failed: %w", err)
 	}
 
 	return this.FromData(data)
@@ -41,7 +31,7 @@ func (this *{{$.ReaderName}}) FromPathHalf(path string) error {
 
 func (this *{{$.ReaderName}}) FromData(data []byte) error {
 	if err := proto.Unmarshal(data, &this.{{$.StorerName}}); err != nil {
-		return err
+		return fmt.Errorf("{{$.ReaderName}}: from data failed: %w", err)
 	}
 
 	return nil

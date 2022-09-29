@@ -18,7 +18,7 @@ namespace verifycs
         {
             var reader = new VerifyData1Reader();
 
-            if (reader.FromPathHalf(path) == false) // 工作目錄在target
+            if (reader.FromPath(path) == false) // 工作目錄在target
             {
                 throw new Exception("verify proto: read failed");
             } // if
@@ -79,7 +79,7 @@ namespace verifycs
         {
             var reader = new VerifyData2Reader();
 
-            if (reader.FromPathHalf(path) == false) // 工作目錄在target
+            if (reader.FromPath(path) == false) // 工作目錄在target
             {
                 throw new Exception("verify proto: read failed");
             } // if
