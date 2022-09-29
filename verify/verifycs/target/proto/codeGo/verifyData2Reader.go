@@ -19,21 +19,11 @@ func (this *VerifyData2Reader) FileName() string {
 	return "verifyData2.pbd"
 }
 
-func (this *VerifyData2Reader) FromPathFull(path string) error {
-	data, err := os.ReadFile(path)
-
-	if err != nil {
-		return fmt.Errorf("VerifyData2Reader: from path full failed: %w", err)
-	}
-
-	return this.FromData(data)
-}
-
-func (this *VerifyData2Reader) FromPathHalf(path string) error {
+func (this *VerifyData2Reader) FromPath(path string) error {
 	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
 
 	if err != nil {
-		return fmt.Errorf("VerifyData2Reader: from path half failed: %w", err)
+		return fmt.Errorf("VerifyData2Reader: from path failed: %w", err)
 	}
 
 	return this.FromData(data)
@@ -41,7 +31,7 @@ func (this *VerifyData2Reader) FromPathHalf(path string) error {
 
 func (this *VerifyData2Reader) FromData(data []byte) error {
 	if err := proto.Unmarshal(data, &this.VerifyData2Storer); err != nil {
-		return err
+		return fmt.Errorf("VerifyData2Reader: from data failed: %w", err)
 	}
 
 	return nil

@@ -10,11 +10,7 @@ namespace SheeterProto {
             return "verifyData1.pbd";
         }
 
-        public bool FromPathFull(string path) {
-            return FromData(File.ReadAllBytes(path));
-        }
-
-        public bool FromPathHalf(string path) {
+        public bool FromPath(string path) {
             return FromData(File.ReadAllBytes(Path.Combine(path, FileName())));
         }
 

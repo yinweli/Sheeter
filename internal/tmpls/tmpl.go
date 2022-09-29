@@ -138,11 +138,7 @@ namespace {{$.NamespaceJson}} {
             return "{{$.FileJsonData}}";
         }
 
-        public bool FromPathFull(string path) {
-            return FromData(File.ReadAllText(path));
-        }
-
-        public bool FromPathHalf(string path) {
+        public bool FromPath(string path) {
             return FromData(File.ReadAllText(Path.Combine(path, FileName())));
         }
 
@@ -203,21 +199,11 @@ func (this *{{$.ReaderName}}) FileName() string {
 	return "{{$.FileJsonData}}"
 }
 
-func (this *{{$.ReaderName}}) FromPathFull(path string) error {
-	data, err := os.ReadFile(path)
-
-	if err != nil {
-		return fmt.Errorf("{{$.ReaderName}}: from path full failed: %w", err)
-	}
-
-	return this.FromData(data)
-}
-
-func (this *{{$.ReaderName}}) FromPathHalf(path string) error {
+func (this *{{$.ReaderName}}) FromPath(path string) error {
 	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
 
 	if err != nil {
-		return fmt.Errorf("{{$.ReaderName}}: from path half failed: %w", err)
+		return fmt.Errorf("{{$.ReaderName}}: from path failed: %w", err)
 	}
 
 	return this.FromData(data)
@@ -229,7 +215,7 @@ func (this *{{$.ReaderName}}) FromData(data []byte) error {
 	}
 
 	if err := json.Unmarshal(data, &this.{{$.StorerName}}); err != nil {
-		return err
+		return fmt.Errorf("{{$.ReaderName}}: from data failed: %w", err)
 	}
 
 	return nil
@@ -276,11 +262,7 @@ namespace {{$.FirstUpper $.NamespaceProto}} {
             return "{{$.FileProtoData}}";
         }
 
-        public bool FromPathFull(string path) {
-            return FromData(File.ReadAllBytes(path));
-        }
-
-        public bool FromPathHalf(string path) {
+        public bool FromPath(string path) {
             return FromData(File.ReadAllBytes(Path.Combine(path, FileName())));
         }
 
@@ -323,21 +305,11 @@ func (this *{{$.ReaderName}}) FileName() string {
 	return "{{$.FileProtoData}}"
 }
 
-func (this *{{$.ReaderName}}) FromPathFull(path string) error {
-	data, err := os.ReadFile(path)
-
-	if err != nil {
-		return fmt.Errorf("{{$.ReaderName}}: from path full failed: %w", err)
-	}
-
-	return this.FromData(data)
-}
-
-func (this *{{$.ReaderName}}) FromPathHalf(path string) error {
+func (this *{{$.ReaderName}}) FromPath(path string) error {
 	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
 
 	if err != nil {
-		return fmt.Errorf("{{$.ReaderName}}: from path half failed: %w", err)
+		return fmt.Errorf("{{$.ReaderName}}: from path failed: %w", err)
 	}
 
 	return this.FromData(data)
@@ -345,7 +317,7 @@ func (this *{{$.ReaderName}}) FromPathHalf(path string) error {
 
 func (this *{{$.ReaderName}}) FromData(data []byte) error {
 	if err := proto.Unmarshal(data, &this.{{$.StorerName}}); err != nil {
-		return err
+		return fmt.Errorf("{{$.ReaderName}}: from data failed: %w", err)
 	}
 
 	return nil

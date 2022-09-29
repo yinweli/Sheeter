@@ -11,11 +11,7 @@ namespace sheeterJson {
             return "verifyData2.json";
         }
 
-        public bool FromPathFull(string path) {
-            return FromData(File.ReadAllText(path));
-        }
-
-        public bool FromPathHalf(string path) {
+        public bool FromPath(string path) {
             return FromData(File.ReadAllText(Path.Combine(path, FileName())));
         }
 

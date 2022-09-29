@@ -102,11 +102,7 @@ namespace sheeterJson {
             return "testData.json";
         }
 
-        public bool FromPathFull(string path) {
-            return FromData(File.ReadAllText(path));
-        }
-
-        public bool FromPathHalf(string path) {
+        public bool FromPath(string path) {
             return FromData(File.ReadAllText(Path.Combine(path, FileName())));
         }
 
@@ -181,21 +177,11 @@ func (this *TestDataReader) FileName() string {
 	return "testData.json"
 }
 
-func (this *TestDataReader) FromPathFull(path string) error {
-	data, err := os.ReadFile(path)
-
-	if err != nil {
-		return fmt.Errorf("TestDataReader: from path full failed: %w", err)
-	}
-
-	return this.FromData(data)
-}
-
-func (this *TestDataReader) FromPathHalf(path string) error {
+func (this *TestDataReader) FromPath(path string) error {
 	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
 
 	if err != nil {
-		return fmt.Errorf("TestDataReader: from path half failed: %w", err)
+		return fmt.Errorf("TestDataReader: from path failed: %w", err)
 	}
 
 	return this.FromData(data)
@@ -207,7 +193,7 @@ func (this *TestDataReader) FromData(data []byte) error {
 	}
 
 	if err := json.Unmarshal(data, &this.TestDataStorer); err != nil {
-		return err
+		return fmt.Errorf("TestDataReader: from data failed: %w", err)
 	}
 
 	return nil

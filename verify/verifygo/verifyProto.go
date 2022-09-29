@@ -18,7 +18,7 @@ func verifyProto(rootPath string) {
 func verifyProto1(path string) {
 	reader := sheeterProto.VerifyData1Reader{}
 
-	if err := reader.FromPathHalf(path); err != nil {
+	if err := reader.FromPath(path); err != nil {
 		panic(fmt.Errorf("verify proto: %w", err))
 	} // if
 
@@ -76,7 +76,7 @@ func verifyProto1(path string) {
 func verifyProto2(path string) {
 	reader := sheeterProto.VerifyData2Reader{}
 
-	if err := reader.FromPathHalf(path); err != nil {
+	if err := reader.FromPath(path); err != nil {
 		panic(fmt.Errorf("verify proto: %w", err))
 	} // if
 
