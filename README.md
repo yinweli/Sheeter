@@ -234,8 +234,9 @@ buf format -w 存放proto檔案的路徑
 ```
 
 # TODO
-* 全域讀取器
+* 全域讀取器, 需要能夠搭配assetBundle即時下載的功能
 * 欄位的filter tag, 以及輸出時禁止欄位輸出到資料中
+* build指令加入filter旗標
 * 產生flatbuffer message
 * 產生flatbuffer bytes data
 

@@ -6,42 +6,102 @@ global:
 
 elements:
     - excel: benchmark01.xlsx
-      sheet: Data
+      sheet: DataA
+    - excel: benchmark01.xlsx
+      sheet: DataB
+    - excel: benchmark01.xlsx
+      sheet: DataC
+    - excel: benchmark01.xlsx
+      sheet: DataD
+    - excel: benchmark01.xlsx
+      sheet: DataE
+    - excel: benchmark01.xlsx
+      sheet: DataF
+    - excel: benchmark01.xlsx
+      sheet: DataG
+    - excel: benchmark01.xlsx
+      sheet: DataH
+    - excel: benchmark01.xlsx
+      sheet: DataI
+    - excel: benchmark01.xlsx
+      sheet: DataJ
     - excel: benchmark02.xlsx
-      sheet: Data
+      sheet: DataA
+    - excel: benchmark02.xlsx
+      sheet: DataB
+    - excel: benchmark02.xlsx
+      sheet: DataC
+    - excel: benchmark02.xlsx
+      sheet: DataD
+    - excel: benchmark02.xlsx
+      sheet: DataE
+    - excel: benchmark02.xlsx
+      sheet: DataF
+    - excel: benchmark02.xlsx
+      sheet: DataG
+    - excel: benchmark02.xlsx
+      sheet: DataH
+    - excel: benchmark02.xlsx
+      sheet: DataI
+    - excel: benchmark02.xlsx
+      sheet: DataJ
     - excel: benchmark03.xlsx
-      sheet: Data
+      sheet: DataA
+    - excel: benchmark03.xlsx
+      sheet: DataB
+    - excel: benchmark03.xlsx
+      sheet: DataC
+    - excel: benchmark03.xlsx
+      sheet: DataD
+    - excel: benchmark03.xlsx
+      sheet: DataE
+    - excel: benchmark03.xlsx
+      sheet: DataF
+    - excel: benchmark03.xlsx
+      sheet: DataG
+    - excel: benchmark03.xlsx
+      sheet: DataH
+    - excel: benchmark03.xlsx
+      sheet: DataI
+    - excel: benchmark03.xlsx
+      sheet: DataJ
     - excel: benchmark04.xlsx
-      sheet: Data
+      sheet: DataA
+    - excel: benchmark04.xlsx
+      sheet: DataB
+    - excel: benchmark04.xlsx
+      sheet: DataC
+    - excel: benchmark04.xlsx
+      sheet: DataD
+    - excel: benchmark04.xlsx
+      sheet: DataE
+    - excel: benchmark04.xlsx
+      sheet: DataF
+    - excel: benchmark04.xlsx
+      sheet: DataG
+    - excel: benchmark04.xlsx
+      sheet: DataH
+    - excel: benchmark04.xlsx
+      sheet: DataI
+    - excel: benchmark04.xlsx
+      sheet: DataJ
     - excel: benchmark05.xlsx
-      sheet: Data
-    - excel: benchmark06.xlsx
-      sheet: Data
-    - excel: benchmark07.xlsx
-      sheet: Data
-    - excel: benchmark08.xlsx
-      sheet: Data
-    - excel: benchmark09.xlsx
-      sheet: Data
-    - excel: benchmark10.xlsx
-      sheet: Data
-    - excel: benchmark11.xlsx
-      sheet: Data
-    - excel: benchmark12.xlsx
-      sheet: Data
-    - excel: benchmark13.xlsx
-      sheet: Data
-    - excel: benchmark14.xlsx
-      sheet: Data
-    - excel: benchmark15.xlsx
-      sheet: Data
-    - excel: benchmark16.xlsx
-      sheet: Data
-    - excel: benchmark17.xlsx
-      sheet: Data
-    - excel: benchmark18.xlsx
-      sheet: Data
-    - excel: benchmark19.xlsx
-      sheet: Data
-    - excel: benchmark20.xlsx
-      sheet: Data
+      sheet: DataA
+    - excel: benchmark05.xlsx
+      sheet: DataB
+    - excel: benchmark05.xlsx
+      sheet: DataC
+    - excel: benchmark05.xlsx
+      sheet: DataD
+    - excel: benchmark05.xlsx
+      sheet: DataE
+    - excel: benchmark05.xlsx
+      sheet: DataF
+    - excel: benchmark05.xlsx
+      sheet: DataG
+    - excel: benchmark05.xlsx
+      sheet: DataH
+    - excel: benchmark05.xlsx
+      sheet: DataI
+    - excel: benchmark05.xlsx
+      sheet: DataJ
