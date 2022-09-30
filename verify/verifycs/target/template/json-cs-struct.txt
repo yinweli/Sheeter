@@ -12,8 +12,10 @@ namespace {{$.NamespaceJson}} {
         public {{$.FieldTypeCs .}} {{$.FieldName .}} { get; set; }
 {{- end}}
     }
+{{- if $.Reader}}
 
     public partial class {{$.StorerName}} {
         public Dictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> {{$.StorerDatas}} = new Dictionary<{{$.PkeyTypeCs}}, {{$.StructName}}>(); 
     }
+{{- end}}
 }

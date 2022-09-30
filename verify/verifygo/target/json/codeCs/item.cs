@@ -16,8 +16,4 @@ namespace sheeterJson {
         [JsonProperty("Type")]
         public long Type { get; set; }
     }
-
-    public partial class ItemStorer {
-        public Dictionary<long, Item> Datas = new Dictionary<long, Item>(); 
-    }
 }

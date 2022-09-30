@@ -11,7 +11,3 @@ type Item struct {
 	// 物品類型
 	Type int64 `json:"Type"`
 }
-
-type ItemStorer struct {
-	Datas map[int64]Item
-}
