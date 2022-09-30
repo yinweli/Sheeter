@@ -28,6 +28,7 @@ namespace verifycs
             Assert(reader.Data.TryGetValue(1, out actual));
             Assert(actual != null);
             Assert(actual.Key == 1);
+            Assert(actual.Hide == false);
             Assert(actual.Enable == true);
             Assert(actual.Name == "名稱1");
             Assert(actual.Reward.Desc == "獎勵說明1");
@@ -50,6 +51,7 @@ namespace verifycs
             Assert(reader.Data.TryGetValue(2, out actual));
             Assert(actual != null);
             Assert(actual.Key == 2);
+            Assert(actual.Hide == false);
             Assert(actual.Enable == false);
             Assert(actual.Name == "名稱2");
             Assert(actual.Reward.Desc == "獎勵說明2");
@@ -89,6 +91,7 @@ namespace verifycs
             Assert(reader.Data.TryGetValue(1, out actual));
             Assert(actual != null);
             Assert(actual.Key == 1);
+            Assert(actual.Hide == false);
             Assert(actual.Enable == true);
             Assert(actual.Name == "名稱1");
             Assert(actual.Reward.Desc == "獎勵說明1");
@@ -111,6 +114,7 @@ namespace verifycs
             Assert(reader.Data.TryGetValue(2, out actual));
             Assert(actual != null);
             Assert(actual.Key == 2);
+            Assert(actual.Hide == false);
             Assert(actual.Enable == false);
             Assert(actual.Name == "名稱2");
             Assert(actual.Reward.Desc == "獎勵說明2");

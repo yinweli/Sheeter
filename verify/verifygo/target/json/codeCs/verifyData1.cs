@@ -12,6 +12,9 @@ namespace sheeterJson {
         // 是否啟用
         [JsonProperty("Enable")]
         public bool Enable { get; set; }
+        // 隱藏
+        [JsonProperty("Hide")]
+        public bool Hide { get; set; }
         // 索引
         [JsonProperty("Key")]
         public long Key { get; set; }

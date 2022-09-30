@@ -18,7 +18,7 @@ func encodingProto(runtimeSector *RuntimeSector) error {
 		return fmt.Errorf("%s: encoding proto failed: data line not found", structName)
 	} // if
 
-	json, err := layouts.JsonPack(rows, runtimeSector.layoutJson)
+	json, err := layouts.JsonPack(rows, runtimeSector.layoutJson, runtimeSector.Excludes)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)

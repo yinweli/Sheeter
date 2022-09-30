@@ -26,12 +26,13 @@ type LayoutJson struct {
 type layoutJson struct {
 	name   string         // 欄位名稱
 	field  fields.Field   // 欄位類型
+	tag    string         // 欄位標籤
 	layers []layers.Layer // 階層列表
 	back   int            // 倒退數量
 }
 
 // Add 新增布局
-func (this *LayoutJson) Add(name string, field fields.Field, layer []layers.Layer, back int) error {
+func (this *LayoutJson) Add(name string, field fields.Field, tag string, layer []layers.Layer, back int) error {
 	if name == "" {
 		return fmt.Errorf("layoutJson add failed: name empty")
 	} // if
@@ -57,6 +58,7 @@ func (this *LayoutJson) Add(name string, field fields.Field, layer []layers.Laye
 	this.layouts = append(this.layouts, layoutJson{
 		name:   name,
 		field:  field,
+		tag:    tag,
 		layers: layer,
 		back:   back,
 	})
@@ -64,7 +66,7 @@ func (this *LayoutJson) Add(name string, field fields.Field, layer []layers.Laye
 }
 
 // Pack 打包資料
-func (this *LayoutJson) Pack(datas []string, preset bool) (result map[string]interface{}, pkey int64, err error) {
+func (this *LayoutJson) Pack(datas, excludes []string) (result map[string]interface{}, pkey int64, err error) {
 	structor := newStructor()
 
 	for i, itor := range this.layouts {
@@ -72,8 +74,12 @@ func (this *LayoutJson) Pack(datas []string, preset bool) (result map[string]int
 			continue
 		} // if
 
+		if isExclude(itor.tag, excludes) {
+			continue
+		} // if
+
 		data := utils.GetItem(datas, i)
-		value, err := itor.field.ToJsonValue(data, preset)
+		value, err := itor.field.ToJsonValue(data)
 
 		if err != nil {
 			return nil, 0, fmt.Errorf("layoutJson pack failed: %w", err)
@@ -144,4 +150,15 @@ func (this *LayoutJson) PkeyCount() int {
 	} // for
 
 	return count
+}
+
+// isExclude 是否排除標籤
+func isExclude(tag string, excludes []string) bool {
+	for _, itor := range excludes {
+		if itor != "" && itor == tag { // 空標籤是不能被排除的
+			return true
+		} // if
+	} // for
+
+	return false
 }

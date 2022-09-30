@@ -42,11 +42,7 @@ func (this *Float) ToTypeProto() string {
 }
 
 // ToJsonValue 轉換為json值
-func (this *Float) ToJsonValue(input string, preset bool) (result interface{}, err error) {
-	if preset {
-		return float64(0), nil
-	} // if
-
+func (this *Float) ToJsonValue(input string) (result interface{}, err error) {
 	result, err = utils.StrToFloat(input)
 
 	if err != nil {

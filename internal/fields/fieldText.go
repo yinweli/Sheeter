@@ -39,10 +39,6 @@ func (this *Text) ToTypeProto() string {
 }
 
 // ToJsonValue 轉換為json值
-func (this *Text) ToJsonValue(input string, preset bool) (result interface{}, err error) {
-	if preset {
-		return "", nil
-	} // if
-
+func (this *Text) ToJsonValue(input string) (result interface{}, err error) {
 	return input, nil
 }

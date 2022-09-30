@@ -42,11 +42,7 @@ func (this *IntArray) ToTypeProto() string {
 }
 
 // ToJsonValue 轉換為json值
-func (this *IntArray) ToJsonValue(input string, preset bool) (result interface{}, err error) {
-	if preset {
-		return []int64{}, nil
-	} // if
-
+func (this *IntArray) ToJsonValue(input string) (result interface{}, err error) {
 	result, err = utils.StrToIntArray(input)
 
 	if err != nil {

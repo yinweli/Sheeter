@@ -42,11 +42,7 @@ func (this *Pkey) ToTypeProto() string {
 }
 
 // ToJsonValue 轉換為json值
-func (this *Pkey) ToJsonValue(input string, preset bool) (result interface{}, err error) {
-	if preset {
-		return int64(0), nil
-	} // if
-
+func (this *Pkey) ToJsonValue(input string) (result interface{}, err error) {
 	result, err = utils.StrToInt(input)
 
 	if err != nil {

@@ -42,11 +42,7 @@ func (this *Bool) ToTypeProto() string {
 }
 
 // ToJsonValue 轉換為json值
-func (this *Bool) ToJsonValue(input string, preset bool) (result interface{}, err error) {
-	if preset {
-		return false, nil
-	} // if
-
+func (this *Bool) ToJsonValue(input string) (result interface{}, err error) {
 	result, err = utils.StrToBool(input)
 
 	if err != nil {

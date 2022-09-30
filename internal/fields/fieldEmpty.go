@@ -35,6 +35,6 @@ func (this *Empty) ToTypeProto() string {
 }
 
 // ToJsonValue 轉換為json值
-func (this *Empty) ToJsonValue(input string, _ bool) (result interface{}, err error) {
+func (this *Empty) ToJsonValue(input string) (result interface{}, err error) {
 	return nil, nil
 }

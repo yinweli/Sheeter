@@ -25,6 +25,7 @@ func verifyJson1(path string) {
 	actual, ok := reader.Datas[1]
 	assertJson(ok)
 	assertJson(actual.Key == 1)
+	assertJson(actual.Hide == false)
 	assertJson(actual.Enable == true)
 	assertJson(actual.Name == "名稱1")
 	assertJson(actual.Reward.Desc == "獎勵說明1")
@@ -47,6 +48,7 @@ func verifyJson1(path string) {
 	actual, ok = reader.Datas[2]
 	assertJson(ok)
 	assertJson(actual.Key == 2)
+	assertJson(actual.Hide == false)
 	assertJson(actual.Enable == false)
 	assertJson(actual.Name == "名稱2")
 	assertJson(actual.Reward.Desc == "獎勵說明2")
@@ -83,6 +85,7 @@ func verifyJson2(path string) {
 	actual, ok := reader.Datas[1]
 	assertJson(ok)
 	assertJson(actual.Key == 1)
+	assertJson(actual.Hide == false)
 	assertJson(actual.Enable == true)
 	assertJson(actual.Name == "名稱1")
 	assertJson(actual.Reward.Desc == "獎勵說明1")
@@ -105,6 +108,7 @@ func verifyJson2(path string) {
 	actual, ok = reader.Datas[2]
 	assertJson(ok)
 	assertJson(actual.Key == 2)
+	assertJson(actual.Hide == false)
 	assertJson(actual.Enable == false)
 	assertJson(actual.Name == "名稱2")
 	assertJson(actual.Reward.Desc == "獎勵說明2")

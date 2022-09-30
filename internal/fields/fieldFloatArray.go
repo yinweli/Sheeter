@@ -42,11 +42,7 @@ func (this *FloatArray) ToTypeProto() string {
 }
 
 // ToJsonValue 轉換為json值
-func (this *FloatArray) ToJsonValue(input string, preset bool) (result interface{}, err error) {
-	if preset {
-		return []float64{}, nil
-	} // if
-
+func (this *FloatArray) ToJsonValue(input string) (result interface{}, err error) {
 	result, err = utils.StrToFloatArray(input)
 
 	if err != nil {

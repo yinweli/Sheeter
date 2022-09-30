@@ -3,6 +3,9 @@ global:
     lineOfLayer: 102
     lineOfNote: 103
     lineOfData: 104
+    excludes:
+        - tag1
+        - tag2
 
 elements:
     - excel: excel1

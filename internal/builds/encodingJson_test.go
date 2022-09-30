@@ -49,9 +49,9 @@ func (this *SuiteEncodingJson) target() *RuntimeSector {
 }
 
 func (this *SuiteEncodingJson) TestEncodingJson() {
-	data, err := utils.JsonMarshal(testdata.GetExcelContentReal())
-	assert.Nil(this.T(), err)
 	empty, err := utils.JsonMarshal(testdata.GetExcelContentEmpty())
+	assert.Nil(this.T(), err)
+	data, err := utils.JsonMarshal(testdata.GetExcelContentReal())
 	assert.Nil(this.T(), err)
 
 	target := this.target()

@@ -43,11 +43,7 @@ func (this *SuiteEmpty) TestField() {
 func (this *SuiteEmpty) TestToJsonValue() {
 	target := this.target()
 
-	result, err := target.ToJsonValue("", true)
-	assert.Nil(this.T(), err)
-	assert.Nil(this.T(), result)
-
-	result, err = target.ToJsonValue("test", false)
+	result, err := target.ToJsonValue("test")
 	assert.Nil(this.T(), err)
 	assert.Nil(this.T(), result)
 }

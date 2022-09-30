@@ -52,6 +52,7 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Equal(this.T(), 102, config.Global.LineOfLayer)
 	assert.Equal(this.T(), 103, config.Global.LineOfNote)
 	assert.Equal(this.T(), 104, config.Global.LineOfData)
+	assert.Equal(this.T(), []string{"tag1", "tag2"}, config.Global.Excludes)
 	assert.Equal(this.T(), []Element{{Excel: "excel1", Sheet: "sheet1"}, {Excel: "excel2", Sheet: "sheet2"}}, config.Elements)
 
 	cmd = SetFlags(&cobra.Command{})
@@ -59,6 +60,7 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfLayer, "202"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfNote, "203"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfData, "204"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagExcludes, "tag3,tag4"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagElements, "excel3#sheet3,excel4#sheet4"))
 	config = Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
@@ -66,6 +68,7 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Equal(this.T(), 202, config.Global.LineOfLayer)
 	assert.Equal(this.T(), 203, config.Global.LineOfNote)
 	assert.Equal(this.T(), 204, config.Global.LineOfData)
+	assert.Equal(this.T(), []string{"tag3", "tag4"}, config.Global.Excludes)
 	assert.Equal(this.T(), []Element{{Excel: "excel3", Sheet: "sheet3"}, {Excel: "excel4", Sheet: "sheet4"}}, config.Elements)
 
 	cmd = SetFlags(&cobra.Command{})

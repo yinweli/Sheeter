@@ -30,7 +30,7 @@ type SuiteJsonPack struct {
 
 func (this *SuiteJsonPack) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.excelName = testdata.ExcelNameReal
+	this.excelName = testdata.ExcelNameJsonPack
 	this.sheetName = testdata.SheetName
 	this.lineOfField = 1
 	this.lineOfLayer = 2
@@ -77,26 +77,34 @@ func (this *SuiteJsonPack) getCols(line int) []string {
 }
 
 func (this *SuiteJsonPack) TestJsonPack() {
-	data, err := utils.JsonMarshal(testdata.GetExcelContentReal())
+	data1, err := utils.JsonMarshal(testdata.GetExcelContentJsonPack(true))
 	assert.Nil(this.T(), err)
+	data2, err := utils.JsonMarshal(testdata.GetExcelContentJsonPack(false))
+	assert.Nil(this.T(), err)
+
 	fieldCol := this.getCols(this.lineOfField)
 	layerCol := this.getCols(this.lineOfLayer)
 	layoutJson := NewLayoutJson()
 
 	for col, itor := range fieldCol {
-		name, field, err := fields.Parser(itor)
+		name, field, tag, err := fields.Parser(itor)
 		assert.Nil(this.T(), err)
 		layer, back, err := layers.Parser(utils.GetItem(layerCol, col))
 		assert.Nil(this.T(), err)
-		assert.Nil(this.T(), layoutJson.Add(name, field, layer, back))
+		assert.Nil(this.T(), layoutJson.Add(name, field, tag, layer, back))
 	} // for
 
 	rows := this.getRows(this.lineOfData)
-	defer func() { _ = rows.Close() }()
-
-	json, err := JsonPack(rows, layoutJson)
+	json, err := JsonPack(rows, layoutJson, []string{"tag"})
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), string(data), string(json))
+	assert.Equal(this.T(), string(data1), string(json))
+	_ = rows.Close()
+
+	rows = this.getRows(this.lineOfData)
+	json, err = JsonPack(rows, layoutJson, []string{})
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), string(data2), string(json))
+	_ = rows.Close()
 }
 
 func (this *SuiteJsonPack) TestJsonFirstUpper() {

@@ -25,6 +25,7 @@ func verifyProto1(path string) {
 	actual, ok := reader.Datas[1]
 	assertProto(ok)
 	assertProto(actual.GetKey() == 1)
+	assertProto(actual.GetHide() == false)
 	assertProto(actual.GetEnable() == true)
 	assertProto(actual.GetName() == "名稱1")
 	assertProto(actual.GetReward().GetDesc() == "獎勵說明1")
@@ -47,6 +48,7 @@ func verifyProto1(path string) {
 	actual, ok = reader.Datas[2]
 	assertProto(ok)
 	assertProto(actual.GetKey() == 2)
+	assertProto(actual.GetHide() == false)
 	assertProto(actual.GetEnable() == false)
 	assertProto(actual.GetName() == "名稱2")
 	assertProto(actual.GetReward().GetDesc() == "獎勵說明2")
@@ -83,6 +85,7 @@ func verifyProto2(path string) {
 	actual, ok := reader.Datas[1]
 	assertProto(ok)
 	assertProto(actual.GetKey() == 1)
+	assertProto(actual.GetHide() == false)
 	assertProto(actual.GetEnable() == true)
 	assertProto(actual.GetName() == "名稱1")
 	assertProto(actual.GetReward().GetDesc() == "獎勵說明1")
@@ -105,6 +108,7 @@ func verifyProto2(path string) {
 	actual, ok = reader.Datas[2]
 	assertProto(ok)
 	assertProto(actual.GetKey() == 2)
+	assertProto(actual.GetHide() == false)
 	assertProto(actual.GetEnable() == false)
 	assertProto(actual.GetName() == "名稱2")
 	assertProto(actual.GetReward().GetDesc() == "獎勵說明2")
