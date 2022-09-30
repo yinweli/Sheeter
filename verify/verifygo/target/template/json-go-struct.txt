@@ -9,7 +9,9 @@ type {{$.StructName}} struct {
 	{{$.FieldName .}} {{$.FieldTypeGo .}} `json:"{{$.FieldName .}}"`
 {{- end}}
 }
+{{- if $.Reader}}
 
 type {{$.StorerName}} struct {
 	{{$.StorerDatas}} map[{{$.PkeyTypeGo}}]{{$.StructName}}
 }
+{{- end}}

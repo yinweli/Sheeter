@@ -116,10 +116,12 @@ namespace {{$.NamespaceJson}} {
         public {{$.FieldTypeCs .}} {{$.FieldName .}} { get; set; }
 {{- end}}
     }
+{{- if $.Reader}}
 
     public partial class {{$.StorerName}} {
         public Dictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> {{$.StorerDatas}} = new Dictionary<{{$.PkeyTypeCs}}, {{$.StructName}}>(); 
     }
+{{- end}}
 }
 `,
 }
@@ -171,10 +173,12 @@ type {{$.StructName}} struct {
 	{{$.FieldName .}} {{$.FieldTypeGo .}} ` + "`json:\"{{$.FieldName .}}\"`" + `
 {{- end}}
 }
+{{- if $.Reader}}
 
 type {{$.StorerName}} struct {
 	{{$.StorerDatas}} map[{{$.PkeyTypeGo}}]{{$.StructName}}
 }
+{{- end}}
 `,
 }
 

@@ -28,8 +28,4 @@ namespace sheeterJson {
         [JsonProperty("Gold")]
         public long Gold { get; set; }
     }
-
-    public partial class RewardStorer {
-        public Dictionary<long, Reward> Datas = new Dictionary<long, Reward>(); 
-    }
 }
