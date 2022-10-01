@@ -25,6 +25,7 @@ verify/benchmark_count/protoCs.bat
 verify/benchmark_count/protoCs.sh
 verify/benchmark_count/protoGo.bat
 verify/benchmark_count/protoGo.sh
+verify/benchmark_count/*.xlsx
 verify/benchmark_size/json
 verify/benchmark_size/proto
 verify/benchmark_size/template
@@ -32,6 +33,7 @@ verify/benchmark_size/protoCs.bat
 verify/benchmark_size/protoCs.sh
 verify/benchmark_size/protoGo.bat
 verify/benchmark_size/protoGo.sh
+verify/benchmark_size/*.xlsx
 verify/example/json
 verify/example/proto
 verify/example/template
