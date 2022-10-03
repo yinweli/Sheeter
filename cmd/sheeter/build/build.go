@@ -33,11 +33,6 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // if
 
-	if utils.ShellExist("quicktype") == false {
-		cmd.Println(fmt.Errorf("build failed: `quicktype` not installed"))
-		return
-	} // if
-
 	if err := tmpls.Initialize(cmd); err != nil {
 		cmd.Println(fmt.Errorf("build failed: %w", err))
 		return
