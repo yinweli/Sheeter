@@ -259,6 +259,14 @@ buf format -w 存放proto檔案的路徑
 ```
 
 # TODO
+* unity-support
+* https://blog.csdn.net/weixin_42498461/article/details/122719169
+* https://www.796t.com/content/1542582932.html
+* verifycs(json + proto): win=ok mac=在mac上測試看看
+* verifygo(json + proto): win=ok mac=在mac上測試看看
+* verifycs-unity(json + proto): win=在win上測試看看 mac=在mac上測試看看
+* verifygo-unity(json + proto): win=在win上測試看看 mac=在mac上測試看看
+* 檢查verify的容量是否正確
 * 從NewtownJson遷移到Unity官方Json
 * 把excel層抽象出來, 方便以後換excel組件
 * 目前的表格讀取方式會把全部需要的表格都讀取進來, 然後分析跟輸出; 但是在大量表格時會使用到大量記憶體, 可能需要想辦法減少記憶體使用量
