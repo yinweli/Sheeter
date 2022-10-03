@@ -16,8 +16,6 @@
 
 # 自己的忽略目錄
 bin/
-
-# verify
 verify/benchmark_count/json
 verify/benchmark_count/proto
 verify/benchmark_count/template
