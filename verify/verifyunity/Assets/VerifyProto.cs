@@ -17,7 +17,7 @@ public static class VerifyProto
     {
         var reader = new VerifyData1Reader();
 
-        if (reader.FromPath(path) == false) // ¤u§@¥Ø¿ı¦btarget
+        if (reader.FromPath(path) == false) // å·¥ä½œç›®éŒ„åœ¨target
         {
             throw new Exception("verify proto: read failed");
         } // if
@@ -29,8 +29,8 @@ public static class VerifyProto
         Assert(actual.Key == 1);
         Assert(actual.Hide == false);
         Assert(actual.Enable == true);
-        Assert(actual.Name == "¦WºÙ1");
-        Assert(actual.Reward.Desc == "¼úÀy»¡©ú1");
+        Assert(actual.Name == "åç¨±1");
+        Assert(actual.Reward.Desc == "çå‹µèªªæ˜1");
         Assert(actual.Reward.Gold == 100);
         Assert(actual.Reward.Diamond == 10);
         Assert(actual.Reward.Crystal == 199);
@@ -52,8 +52,8 @@ public static class VerifyProto
         Assert(actual.Key == 2);
         Assert(actual.Hide == false);
         Assert(actual.Enable == false);
-        Assert(actual.Name == "¦WºÙ2");
-        Assert(actual.Reward.Desc == "¼úÀy»¡©ú2");
+        Assert(actual.Name == "åç¨±2");
+        Assert(actual.Reward.Desc == "çå‹µèªªæ˜2");
         Assert(actual.Reward.Gold == 200);
         Assert(actual.Reward.Diamond == 20);
         Assert(actual.Reward.Crystal == 299);
@@ -80,7 +80,7 @@ public static class VerifyProto
     {
         var reader = new VerifyData2Reader();
 
-        if (reader.FromPath(path) == false) // ¤u§@¥Ø¿ı¦btarget
+        if (reader.FromPath(path) == false) // å·¥ä½œç›®éŒ„åœ¨target
         {
             throw new Exception("verify proto: read failed");
         } // if
@@ -92,8 +92,8 @@ public static class VerifyProto
         Assert(actual.Key == 1);
         Assert(actual.Hide == false);
         Assert(actual.Enable == true);
-        Assert(actual.Name == "¦WºÙ1");
-        Assert(actual.Reward.Desc == "¼úÀy»¡©ú1");
+        Assert(actual.Name == "åç¨±1");
+        Assert(actual.Reward.Desc == "çå‹µèªªæ˜1");
         Assert(actual.Reward.Gold == 100);
         Assert(actual.Reward.Diamond == 10);
         Assert(actual.Reward.Crystal == 0);
@@ -115,8 +115,8 @@ public static class VerifyProto
         Assert(actual.Key == 2);
         Assert(actual.Hide == false);
         Assert(actual.Enable == false);
-        Assert(actual.Name == "¦WºÙ2");
-        Assert(actual.Reward.Desc == "¼úÀy»¡©ú2");
+        Assert(actual.Name == "åç¨±2");
+        Assert(actual.Reward.Desc == "çå‹µèªªæ˜2");
         Assert(actual.Reward.Gold == 200);
         Assert(actual.Reward.Diamond == 20);
         Assert(actual.Reward.Crystal == 0);
