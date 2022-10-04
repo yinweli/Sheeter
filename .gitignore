@@ -4,7 +4,6 @@
 # *.dll
 # *.so
 # *.dylib
-bin/
 
 # Test binary, built with `go test -c`
 *.test
@@ -40,6 +39,3 @@ verify/example/protoCs.bat
 verify/example/protoCs.sh
 verify/example/protoGo.bat
 verify/example/protoGo.sh
-verify/verifycs/.vs
-verify/verifycs/bin
-verify/verifycs/obj
