@@ -6,22 +6,70 @@ using System.IO;
 using System.Collections.Generic;
 
 namespace sheeterJson {
+
     public partial class VerifyData1Reader {
-        public static string FileName() {
+
+        public static string FileName()
+        {
             return "verifyData1.json";
         }
 
-        public bool FromPath(string path) {
+        public bool FromPath(string path)
+        {
             return FromData(File.ReadAllText(Path.Combine(path, FileName())));
         }
 
-        public bool FromData(string data) {
+        public bool FromData(string data)
+        {
             Datas = JsonConvert.DeserializeObject<VerifyData1Storer>(data);
             return Datas != null;
         }
 
-        public IDictionary<long, VerifyData1> Data {
-            get {
+        public long[] MergePath(params string[] path)
+        {
+            var repeats = new List<long>();
+
+            foreach (var itor in path)
+            {
+                try
+                {
+                    repeats.AddRange(MergeData(File.ReadAllText(Path.Combine(itor, FileName()))));
+                }
+                catch
+                {
+                    // do nothing
+                }
+            }
+
+            return repeats.ToArray();
+        }
+
+        public long[] MergeData(string data)
+        {
+            var repeats = new List<long>();
+            var tmpl = JsonConvert.DeserializeObject<VerifyData1Storer>(data);
+
+            if (tmpl == null)
+                return repeats.ToArray();
+
+            if (Datas == null)
+                Datas = new VerifyData1Storer();
+
+            foreach (var itor in tmpl.Datas)
+            {
+                if (Data.ContainsKey(itor.Key) == false)
+                    Data[itor.Key] = itor.Value;
+                else
+                    repeats.Add(itor.Key);
+            }
+
+            return repeats.ToArray();
+        }
+
+        public IDictionary<long, VerifyData1> Data
+        {
+            get
+            {
                 return Datas.Datas;
             }
         }

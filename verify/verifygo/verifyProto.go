@@ -10,12 +10,12 @@ import (
 
 func verifyProto(rootPath string) {
 	path := filepath.Join(rootPath, "target", internal.PathProto, internal.PathData)
-	verifyProto1(path)
-	verifyProto2(path)
+	verifyProtoFrom1(path)
+	verifyProtoFrom2(path)
 }
 
 //nolint // 太多魔術數字了, 所以只好略過lint
-func verifyProto1(path string) {
+func verifyProtoFrom1(path string) {
 	reader := sheeterProto.VerifyData1Reader{}
 
 	if err := reader.FromPath(path); err != nil {
@@ -71,11 +71,11 @@ func verifyProto1(path string) {
 	actual, ok = reader.Datas[3]
 	assertProto(ok == false)
 
-	fmt.Println("verify proto: success")
+	fmt.Println("verify proto from 1: success")
 }
 
 //nolint // 太多魔術數字了, 所以只好略過lint
-func verifyProto2(path string) {
+func verifyProtoFrom2(path string) {
 	reader := sheeterProto.VerifyData2Reader{}
 
 	if err := reader.FromPath(path); err != nil {
@@ -131,7 +131,7 @@ func verifyProto2(path string) {
 	actual, ok = reader.Datas[3]
 	assertProto(ok == false)
 
-	fmt.Println("verify proto: success")
+	fmt.Println("verify proto from 2: success")
 }
 
 func assertProto(condition bool) {

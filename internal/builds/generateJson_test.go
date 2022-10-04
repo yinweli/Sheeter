@@ -128,22 +128,70 @@ using System.IO;
 using System.Collections.Generic;
 
 namespace sheeterJson {
+
     public partial class TestDataReader {
-        public static string FileName() {
+
+        public static string FileName()
+        {
             return "testData.json";
         }
 
-        public bool FromPath(string path) {
+        public bool FromPath(string path)
+        {
             return FromData(File.ReadAllText(Path.Combine(path, FileName())));
         }
 
-        public bool FromData(string data) {
+        public bool FromData(string data)
+        {
             Datas = JsonConvert.DeserializeObject<TestDataStorer>(data);
             return Datas != null;
         }
 
-        public IDictionary<long, TestData> Data {
-            get {
+        public long[] MergePath(params string[] path)
+        {
+            var repeats = new List<long>();
+
+            foreach (var itor in path)
+            {
+                try
+                {
+                    repeats.AddRange(MergeData(File.ReadAllText(Path.Combine(itor, FileName()))));
+                }
+                catch
+                {
+                    // do nothing
+                }
+            }
+
+            return repeats.ToArray();
+        }
+
+        public long[] MergeData(string data)
+        {
+            var repeats = new List<long>();
+            var tmpl = JsonConvert.DeserializeObject<TestDataStorer>(data);
+
+            if (tmpl == null)
+                return repeats.ToArray();
+
+            if (Datas == null)
+                Datas = new TestDataStorer();
+
+            foreach (var itor in tmpl.Datas)
+            {
+                if (Data.ContainsKey(itor.Key) == false)
+                    Data[itor.Key] = itor.Value;
+                else
+                    repeats.Add(itor.Key);
+            }
+
+            return repeats.ToArray();
+        }
+
+        public IDictionary<long, TestData> Data
+        {
+            get
+            {
                 return Datas.Datas;
             }
         }
@@ -224,7 +272,7 @@ import (
 )
 
 type TestDataReader struct {
-	TestDataStorer
+	*TestDataStorer
 }
 
 func (this *TestDataReader) FileName() string {
@@ -242,15 +290,51 @@ func (this *TestDataReader) FromPath(path string) error {
 }
 
 func (this *TestDataReader) FromData(data []byte) error {
-	this.TestDataStorer = TestDataStorer{
+	this.TestDataStorer = &TestDataStorer{
 		Datas: map[int64]TestData{},
 	}
 
-	if err := json.Unmarshal(data, &this.TestDataStorer); err != nil {
+	if err := json.Unmarshal(data, this.TestDataStorer); err != nil {
 		return fmt.Errorf("TestDataReader: from data failed: %w", err)
 	}
 
 	return nil
+}
+
+func (this *TestDataReader) MergePath(path ...string) (repeats []int64) {
+	for _, itor := range path {
+		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
+			repeats = append(repeats, this.MergeData(data)...)
+		}
+	}
+
+	return repeats
+}
+
+func (this *TestDataReader) MergeData(data []byte) (repeats []int64) {
+	tmpl := &TestDataStorer{
+		Datas: map[int64]TestData{},
+	}
+
+	if err := json.Unmarshal(data, tmpl); err != nil {
+		return repeats
+	}
+
+	if this.TestDataStorer == nil {
+		this.TestDataStorer = &TestDataStorer{
+			Datas: map[int64]TestData{},
+		}
+	}
+
+	for k, v := range tmpl.Datas {
+		if _, ok := this.TestDataStorer.Datas[k]; ok == false {
+			this.TestDataStorer.Datas[k] = v
+		} else {
+			repeats = append(repeats, k)
+		}
+	}
+
+	return repeats
 }
 `)
 

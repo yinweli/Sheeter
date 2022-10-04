@@ -10,7 +10,7 @@ import (
 )
 
 type RewardReader struct {
-	RewardStorer
+	*RewardStorer
 }
 
 func (this *RewardReader) FileName() string {
@@ -28,43 +28,51 @@ func (this *RewardReader) FromPath(path string) error {
 }
 
 func (this *RewardReader) FromData(data []byte) error {
-	this.RewardStorer = RewardStorer{
+	this.RewardStorer = &RewardStorer{
 		Datas: map[int64]Reward{},
 	}
 
-	if err := json.Unmarshal(data, &this.RewardStorer); err != nil {
+	if err := json.Unmarshal(data, this.RewardStorer); err != nil {
 		return fmt.Errorf("RewardReader: from data failed: %w", err)
 	}
 
 	return nil
 }
 
-func (this *RewardReader) MergePath(path []string) (duplicates []int64) {
+func (this *RewardReader) MergePath(path ...string) (repeats []int64) {
 	for _, itor := range path {
 		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
-			duplicates = append(duplicates, this.MergeData(data)...)
+			repeats = append(repeats, this.MergeData(data)...)
 		}
 	}
 
-	return duplicates
+	return repeats
 }
 
-func (this *RewardReader) MergeData(data []byte) (duplicates []int64) {
-	storer := &RewardStorer{
+func (this *RewardReader) MergeData(data []byte) (repeats []int64) {
+	tmpl := &RewardStorer{
 		Datas: map[int64]Reward{},
 	}
 
-	if err := json.Unmarshal(data, storer); err == nil {
-		for k, v := range storer.Datas {
-			if _, ok := this.RewardStorer.Datas[k]; ok == false {
-				this.RewardStorer.Datas[k] = v
-			} else {
-				duplicates = append(duplicates, k)
-			}
+	if err := json.Unmarshal(data, tmpl); err != nil {
+		return repeats
+	}
+
+	if this.RewardStorer == nil {
+		this.RewardStorer = &RewardStorer{
+			Datas: map[int64]Reward{},
 		}
 	}
 
-	return duplicates
+	for k, v := range tmpl.Datas {
+		if _, ok := this.RewardStorer.Datas[k]; ok == false {
+			this.RewardStorer.Datas[k] = v
+		} else {
+			repeats = append(repeats, k)
+		}
+	}
+
+	return repeats
 }
 
 // 以下是為了通過編譯的程式碼, 不可使用

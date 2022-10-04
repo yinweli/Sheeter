@@ -1,11 +1,11 @@
-﻿using SheeterProto;
+using SheeterProto;
 using System;
 using System.IO;
 
-namespace verifycs
-{
-    public class VerifyProto
-    {
+namespace verifycs {
+
+    public class VerifyProto {
+
         public static void Test()
         {
             var path = Path.Combine("proto", "data");
