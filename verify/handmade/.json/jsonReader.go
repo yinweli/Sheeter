@@ -39,4 +39,32 @@ func (this *RewardReader) FromData(data []byte) error {
 	return nil
 }
 
+func (this *RewardReader) MergePath(path []string) (duplicates []int64) {
+	for _, itor := range path {
+		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
+			duplicates = append(duplicates, this.MergeData(data)...)
+		}
+	}
+
+	return duplicates
+}
+
+func (this *RewardReader) MergeData(data []byte) (duplicates []int64) {
+	storer := &RewardStorer{
+		Datas: map[int64]Reward{},
+	}
+
+	if err := json.Unmarshal(data, storer); err == nil {
+		for k, v := range storer.Datas {
+			if _, ok := this.RewardStorer.Datas[k]; ok == false {
+				this.RewardStorer.Datas[k] = v
+			} else {
+				duplicates = append(duplicates, k)
+			}
+		}
+	}
+
+	return duplicates
+}
+
 // 以下是為了通過編譯的程式碼, 不可使用
