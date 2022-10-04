@@ -29,7 +29,7 @@
 | verify/verifygo     | go程式碼驗證 |
 
 # 如何安裝
-* 安裝[go]
+* 安裝[go], 需要go1.18以上
 * 安裝[sheeter], 在終端執行以下命令
   ```shell
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
@@ -243,7 +243,7 @@ sheeter tmpl -c
 
 # proto轉換為go程式碼
 * 安裝[go]
-* 安裝[protoc]
+* 安裝[protoc], 若是使用預設的模板, 需要proto3以上
 * 執行以下命令來安裝protobuf的[protoc-go]外掛
 ```shell
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
@@ -264,16 +264,19 @@ buf format -w 存放proto檔案的路徑
 * https://www.796t.com/content/1542582932.html
 * verifycs(json + proto): win=ok mac=在mac上測試看看
 * verifygo(json + proto): win=ok mac=在mac上測試看看
-* verifycs-unity(json + proto): win=在win上測試看看 mac=在mac上測試看看
-* verifygo-unity(json + proto): win=在win上測試看看 mac=在mac上測試看看
-* 檢查verify的容量是否正確
-* 從NewtownJson遷移到Unity官方Json
+* verifyunity(json + proto): win=在win上測試看看 mac=在mac上測試看看
+* reader
+    * reader的merge系列功能(為了mod)
+    * 當merge時有重複索引, 要報告重複索引列表
+* 全域讀取器
+    * 可以從多個來源路徑讀取資料
+    * 當有複數個來源都是相同檔案時, 採用合併方式
+    * 當合併時有重複索引, 仍然會持續執行剩餘表格的讀取, 但是最後會報告結果(包含檔名與重複索引列表)
 * 把excel層抽象出來, 方便以後換excel組件
 * 目前的表格讀取方式會把全部需要的表格都讀取進來, 然後分析跟輸出; 但是在大量表格時會使用到大量記憶體, 可能需要想辦法減少記憶體使用量
 * 嘗試 https://github.com/tealeg/xlsx
 * 嘗試 https://github.com/TheDataShed/xlsxreader
-* 全域讀取器, 需要能夠搭配assetBundle即時下載的功能
-* reader的replace系列功能(為了mod)
+* 從NewtownJson遷移到Unity官方Json
 * 考慮如果用google sheet當輸入資料的話呢?
 * 產生flatbuffer message
 * 產生flatbuffer bytes data

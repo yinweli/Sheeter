@@ -1,0 +1,64 @@
+{
+    "Datas": {
+        "1": {
+            "Enable": true,
+            "Key": 1,
+            "Name": "名稱1",
+            "Reward": {
+                "Atium": 1,
+                "Crystal": 199,
+                "Desc": "獎勵說明1",
+                "Diamond": 10,
+                "FelIron": 5,
+                "Gold": 100,
+                "Item": [
+                    {
+                        "Count": 1,
+                        "ItemID": 10001,
+                        "Type": 1
+                    },
+                    {
+                        "Count": 2,
+                        "ItemID": 10002,
+                        "Type": 2
+                    },
+                    {
+                        "Count": 0,
+                        "ItemID": 0,
+                        "Type": 0
+                    }
+                ]
+            }
+        },
+        "2": {
+            "Enable": false,
+            "Key": 2,
+            "Name": "名稱2",
+            "Reward": {
+                "Atium": 2,
+                "Crystal": 299,
+                "Desc": "獎勵說明2",
+                "Diamond": 20,
+                "FelIron": 10,
+                "Gold": 200,
+                "Item": [
+                    {
+                        "Count": 1,
+                        "ItemID": 10001,
+                        "Type": 1
+                    },
+                    {
+                        "Count": 2,
+                        "ItemID": 10002,
+                        "Type": 2
+                    },
+                    {
+                        "Count": 3,
+                        "ItemID": 10003,
+                        "Type": 3
+                    }
+                ]
+            }
+        }
+    }
+}
