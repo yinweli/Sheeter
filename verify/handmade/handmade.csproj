@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <StartupObject>handmade.Handmade</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +18,12 @@
     <None Remove="proto.go.sh" />
     <None Remove="protoReader.go" />
     <None Remove="protoSchema.proto" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include=".json\jsonReader.cs" />
+    <Compile Include=".json\jsonStruct.cs" />
+    <Compile Include=".proto\protoReader.cs" />
   </ItemGroup>
 
   <ItemGroup>
