@@ -28,8 +28,12 @@
 | verify/verifycs     | cs程式碼驗證 |
 | verify/verifygo     | go程式碼驗證 |
 
+# 系統需求
+* [go]1.18以上
+* [proto]3以上
+
 # 如何安裝
-* 安裝[go], 需要go1.18以上
+* 安裝[go]
 * 安裝[sheeter], 在終端執行以下命令
   ```shell
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
@@ -92,6 +96,10 @@ elements:
 
 ## 欄位行
 欄位的格式為`名稱#格式`或是`名稱#格式#標籤`, 空格之後的欄位不會輸出  
+可在欄位行中用標籤來控制欄位與其資料是否要輸出到資料檔案  
+當欄位的標籤符合設定檔中的排除標籤列表的時候, 該欄位就不會輸出到資料檔案  
+欄位若是沒有設定標籤, 則永遠不會被排除; 亦即一定會輸出到資料檔案  
+標籤與排除設置不會影響產生的程式碼, 程式碼中永遠會有除了`empty`類型以外的欄位  
 
 | 格式        | 說明                                 |
 |:------------|:-------------------------------------|
@@ -106,13 +114,7 @@ elements:
 | text        | 字串                                 |
 | textArray   | 以逗號分隔的字串陣列                 |
 
-### 標籤與排除
-[sheeter]使用標籤來控制輸出資料時, 那些欄位的資料是否要輸出  
-當欄位的標籤符合設定檔中的排除標籤列表的時候, 該欄位就不會輸出到資料檔案  
-欄位若是沒有設定標籤, 則永遠不會被排除; 亦即一定會輸出到資料檔案  
-標籤與排除設置不會影響產生的程式碼, 程式碼中永遠會有除了`empty`類型以外的欄位  
-
-### 欄位行範例
+## 欄位行範例
 | 範例        | 欄位名稱 | 欄位類型 |
 |:------------|:---------|:---------|
 | itemID#pkey | itemID   | pkey     |
@@ -131,7 +133,7 @@ elements:
 | /           | 分隔陣列                             |
 | }           | 結構/陣列結束, 可以連續結束, 如`}}`  |
 
-### 階層行範例
+## 階層行範例
 | 範例          | 說明                                                 |
 |:--------------|:-----------------------------------------------------|
 | {Item         | 建立Item結構                                         |
@@ -237,20 +239,23 @@ sheeter tmpl -c
 | $.Fields            |             | 欄位列表(部分模板可用)         |
 | $.Depend            |             | 依賴列表(部分模板可用)         |
 
-# proto轉換為cs程式碼
+# protobuf支援
+以下描述了如果要使用protobuf時的資訊
+
+## proto轉換為cs程式碼
 * 安裝[protoc]
 * 執行產生出來的.bat/.sh
 
-# proto轉換為go程式碼
+## proto轉換為go程式碼
 * 安裝[go]
-* 安裝[protoc], 若是使用預設的模板, 需要proto3以上
+* 安裝[protoc]
 * 執行以下命令來安裝protobuf的[protoc-go]外掛
 ```shell
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 ```
 * 執行產生出來的.bat/.sh
 
-# 格式化產出的proto檔案(為了美觀!)
+## 格式化產出的proto檔案(非必要)
 * 安裝[go]
 * 安裝[buf]
 * 執行以下命令來格式化proto檔案
@@ -259,9 +264,6 @@ buf format -w 存放proto檔案的路徑
 ```
 
 # TODO
-* unity-support
-* https://blog.csdn.net/weixin_42498461/article/details/122719169
-* https://www.796t.com/content/1542582932.html
 * verifycs(json + proto): win=ok mac=在mac上測試看看
 * verifygo(json + proto): win=ok mac=在mac上測試看看
 * verifyunity(json + proto): win=在win上測試看看 mac=在mac上測試看看
@@ -276,13 +278,14 @@ buf format -w 存放proto檔案的路徑
 * 目前的表格讀取方式會把全部需要的表格都讀取進來, 然後分析跟輸出; 但是在大量表格時會使用到大量記憶體, 可能需要想辦法減少記憶體使用量
 * 嘗試 https://github.com/tealeg/xlsx
 * 嘗試 https://github.com/TheDataShed/xlsxreader
-* 從NewtownJson遷移到Unity官方Json
+* 從NewtownJson遷移到Unity官方Json, 或是採行2種皆可的方式
 * 考慮如果用google sheet當輸入資料的話呢?
 * 產生flatbuffer message
 * 產生flatbuffer bytes data
 
 [buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/
+[proto]: https://github.com/protocolbuffers/protobuf
 [protoc-go]: https://github.com/protocolbuffers/protobuf-go
 [protoc]: https://github.com/protocolbuffers/protobuf
 [sheet]: https://github.com/yinweli/Sheet
