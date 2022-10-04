@@ -2,41 +2,31 @@
 // Sheeter: https://github.com/yinweli/Sheeter
 
 using Newtonsoft.Json;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 namespace {{$.NamespaceJson}} {
-
     public partial class {{$.ReaderName}} {
-
-        public static string FileName()
-        {
+        public static string FileName() {
             return "{{$.FileJsonData}}";
         }
 
-        public bool FromPath(string path)
-        {
+        public bool FromPath(string path) {
             return FromData(File.ReadAllText(Path.Combine(path, FileName())));
         }
 
-        public bool FromData(string data)
-        {
+        public bool FromData(string data) {
             Datas = JsonConvert.DeserializeObject<{{$.StorerName}}>(data);
             return Datas != null;
         }
 
-        public {{$.PkeyTypeCs}}[] MergePath(params string[] path)
-        {
+        public {{$.PkeyTypeCs}}[] MergePath(params string[] path) {
             var repeats = new List<{{$.PkeyTypeCs}}>();
 
-            foreach (var itor in path)
-            {
-                try
-                {
+            foreach (var itor in path) {
+                try {
                     repeats.AddRange(MergeData(File.ReadAllText(Path.Combine(itor, FileName()))));
-                }
-                catch
-                {
+                } catch {
                     // do nothing
                 }
             }
@@ -44,8 +34,7 @@ namespace {{$.NamespaceJson}} {
             return repeats.ToArray();
         }
 
-        public {{$.PkeyTypeCs}}[] MergeData(string data)
-        {
+        public {{$.PkeyTypeCs}}[] MergeData(string data) {
             var repeats = new List<{{$.PkeyTypeCs}}>();
             var tmpl = JsonConvert.DeserializeObject<{{$.StorerName}}>(data);
 
@@ -55,8 +44,7 @@ namespace {{$.NamespaceJson}} {
             if (Datas == null)
                 Datas = new {{$.StorerName}}();
 
-            foreach (var itor in tmpl.{{$.StorerDatas}})
-            {
+            foreach (var itor in tmpl.{{$.StorerDatas}}) {
                 if (Data.ContainsKey(itor.Key) == false)
                     Data[itor.Key] = itor.Value;
                 else
@@ -66,10 +54,8 @@ namespace {{$.NamespaceJson}} {
             return repeats.ToArray();
         }
 
-        public IDictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> Data
-        {
-            get
-            {
+        public IDictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> Data {
+            get {
                 return Datas.{{$.StorerDatas}};
             }
         }

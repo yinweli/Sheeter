@@ -124,41 +124,31 @@ func (this *SuiteGenerateJson) TestGenerateJsonCsReader() {
 // Sheeter: https://github.com/yinweli/Sheeter
 
 using Newtonsoft.Json;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 namespace sheeterJson {
-
     public partial class TestDataReader {
-
-        public static string FileName()
-        {
+        public static string FileName() {
             return "testData.json";
         }
 
-        public bool FromPath(string path)
-        {
+        public bool FromPath(string path) {
             return FromData(File.ReadAllText(Path.Combine(path, FileName())));
         }
 
-        public bool FromData(string data)
-        {
+        public bool FromData(string data) {
             Datas = JsonConvert.DeserializeObject<TestDataStorer>(data);
             return Datas != null;
         }
 
-        public long[] MergePath(params string[] path)
-        {
+        public long[] MergePath(params string[] path) {
             var repeats = new List<long>();
 
-            foreach (var itor in path)
-            {
-                try
-                {
+            foreach (var itor in path) {
+                try {
                     repeats.AddRange(MergeData(File.ReadAllText(Path.Combine(itor, FileName()))));
-                }
-                catch
-                {
+                } catch {
                     // do nothing
                 }
             }
@@ -166,8 +156,7 @@ namespace sheeterJson {
             return repeats.ToArray();
         }
 
-        public long[] MergeData(string data)
-        {
+        public long[] MergeData(string data) {
             var repeats = new List<long>();
             var tmpl = JsonConvert.DeserializeObject<TestDataStorer>(data);
 
@@ -177,8 +166,7 @@ namespace sheeterJson {
             if (Datas == null)
                 Datas = new TestDataStorer();
 
-            foreach (var itor in tmpl.Datas)
-            {
+            foreach (var itor in tmpl.Datas) {
                 if (Data.ContainsKey(itor.Key) == false)
                     Data[itor.Key] = itor.Value;
                 else
@@ -188,10 +176,8 @@ namespace sheeterJson {
             return repeats.ToArray();
         }
 
-        public IDictionary<long, TestData> Data
-        {
-            get
-            {
+        public IDictionary<long, TestData> Data {
+            get {
                 return Datas.Datas;
             }
         }

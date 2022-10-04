@@ -131,41 +131,31 @@ var JsonCsReader = &Tmpl{
 	Name: internal.FileTmplJsonCsReader,
 	Data: HeaderCode + `
 using Newtonsoft.Json;
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 namespace {{$.NamespaceJson}} {
-
     public partial class {{$.ReaderName}} {
-
-        public static string FileName()
-        {
+        public static string FileName() {
             return "{{$.FileJsonData}}";
         }
 
-        public bool FromPath(string path)
-        {
+        public bool FromPath(string path) {
             return FromData(File.ReadAllText(Path.Combine(path, FileName())));
         }
 
-        public bool FromData(string data)
-        {
+        public bool FromData(string data) {
             Datas = JsonConvert.DeserializeObject<{{$.StorerName}}>(data);
             return Datas != null;
         }
 
-        public {{$.PkeyTypeCs}}[] MergePath(params string[] path)
-        {
+        public {{$.PkeyTypeCs}}[] MergePath(params string[] path) {
             var repeats = new List<{{$.PkeyTypeCs}}>();
 
-            foreach (var itor in path)
-            {
-                try
-                {
+            foreach (var itor in path) {
+                try {
                     repeats.AddRange(MergeData(File.ReadAllText(Path.Combine(itor, FileName()))));
-                }
-                catch
-                {
+                } catch {
                     // do nothing
                 }
             }
@@ -173,8 +163,7 @@ namespace {{$.NamespaceJson}} {
             return repeats.ToArray();
         }
 
-        public {{$.PkeyTypeCs}}[] MergeData(string data)
-        {
+        public {{$.PkeyTypeCs}}[] MergeData(string data) {
             var repeats = new List<{{$.PkeyTypeCs}}>();
             var tmpl = JsonConvert.DeserializeObject<{{$.StorerName}}>(data);
 
@@ -184,8 +173,7 @@ namespace {{$.NamespaceJson}} {
             if (Datas == null)
                 Datas = new {{$.StorerName}}();
 
-            foreach (var itor in tmpl.{{$.StorerDatas}})
-            {
+            foreach (var itor in tmpl.{{$.StorerDatas}}) {
                 if (Data.ContainsKey(itor.Key) == false)
                     Data[itor.Key] = itor.Value;
                 else
@@ -195,10 +183,8 @@ namespace {{$.NamespaceJson}} {
             return repeats.ToArray();
         }
 
-        public IDictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> Data
-        {
-            get
-            {
+        public IDictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> Data {
+            get {
                 return Datas.{{$.StorerDatas}};
             }
         }
@@ -341,8 +327,8 @@ message {{$.StorerName}} {
 var ProtoCsReader = &Tmpl{
 	Name: internal.FileTmplProtoCsReader,
 	Data: HeaderCode + `
-using System.IO;
 using System.Collections.Generic;
+using System.IO;
 
 namespace {{$.FirstUpper $.NamespaceProto}} {
     public partial class {{$.ReaderName}} {
@@ -357,6 +343,40 @@ namespace {{$.FirstUpper $.NamespaceProto}} {
         public bool FromData(byte[] data) {
             Datas = {{$.StorerName}}.Parser.ParseFrom(data);
             return Datas != null;
+        }
+
+        public {{$.PkeyTypeCs}}[] MergePath(params string[] path) {
+            var repeats = new List<{{$.PkeyTypeCs}}>();
+
+            foreach (var itor in path) {
+                try {
+                    repeats.AddRange(MergeData(File.ReadAllBytes(Path.Combine(itor, FileName()))));
+                } catch {
+                    // do nothing
+                }
+            }
+
+            return repeats.ToArray();
+        }
+
+        public {{$.PkeyTypeCs}}[] MergeData(byte[] data) {
+            var repeats = new List<{{$.PkeyTypeCs}}>();
+            var tmpl = {{$.StorerName}}.Parser.ParseFrom(data);
+
+            if (tmpl == null)
+                return repeats.ToArray();
+
+            if (Datas == null)
+                Datas = new {{$.StorerName}}();
+
+            foreach (var itor in tmpl.{{$.StorerDatas}}) {
+                if (Data.ContainsKey(itor.Key) == false)
+                    Data[itor.Key] = itor.Value;
+                else
+                    repeats.Add(itor.Key);
+            }
+
+            return repeats.ToArray();
         }
 
         public IDictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> Data {
@@ -386,7 +406,7 @@ import (
 )
 
 type {{$.ReaderName}} struct {
-	{{$.StorerName}}
+	*{{$.StorerName}}
 }
 
 func (this *{{$.ReaderName}}) FileName() string {
@@ -404,11 +424,51 @@ func (this *{{$.ReaderName}}) FromPath(path string) error {
 }
 
 func (this *{{$.ReaderName}}) FromData(data []byte) error {
-	if err := proto.Unmarshal(data, &this.{{$.StorerName}}); err != nil {
+	this.{{$.StorerName}} = &{{$.StorerName}}{
+		Datas: map[{{$.PkeyTypeGo}}]*{{$.StructName}}{},
+	}
+
+	if err := proto.Unmarshal(data, this.{{$.StorerName}}); err != nil {
 		return fmt.Errorf("{{$.ReaderName}}: from data failed: %w", err)
 	}
 
 	return nil
+}
+
+func (this *{{$.ReaderName}}) MergePath(path ...string) (repeats []{{$.PkeyTypeGo}}) {
+	for _, itor := range path {
+		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
+			repeats = append(repeats, this.MergeData(data)...)
+		}
+	}
+
+	return repeats
+}
+
+func (this *{{$.ReaderName}}) MergeData(data []byte) (repeats []{{$.PkeyTypeGo}}) {
+	tmpl := &{{$.StorerName}}{
+		{{$.StorerDatas}}: map[{{$.PkeyTypeGo}}]*{{$.StructName}}{},
+	}
+
+	if err := proto.Unmarshal(data, tmpl); err != nil {
+		return repeats
+	}
+
+	if this.{{$.StorerName}} == nil {
+		this.{{$.StorerName}} = &{{$.StorerName}}{
+			{{$.StorerDatas}}: map[{{$.PkeyTypeGo}}]*{{$.StructName}}{},
+		}
+	}
+
+	for k, v := range tmpl.{{$.StorerDatas}} {
+		if _, ok := this.{{$.StorerName}}.{{$.StorerDatas}}[k]; ok == false {
+			this.{{$.StorerName}}.{{$.StorerDatas}}[k] = v
+		} else {
+			repeats = append(repeats, k)
+		}
+	}
+
+	return repeats
 }
 `,
 }

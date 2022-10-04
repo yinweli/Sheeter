@@ -3,11 +3,8 @@ using System;
 using System.IO;
 
 namespace verifycs {
-
-    public class VerifyJson {
-
-        public static void Test()
-        {
+    public static class VerifyJson {
+        public static void Test() {
             var path = Path.Combine("json", "data"); // 工作目錄在target
 
             verifyJsonFrom1(path);
@@ -16,12 +13,10 @@ namespace verifycs {
             verifyJsonMerge2(path);
         }
 
-        private static void verifyJsonFrom1(string path)
-        {
+        private static void verifyJsonFrom1(string path) {
             var reader = new VerifyData1Reader();
 
-            if (reader.FromPath(path) == false)
-            {
+            if (reader.FromPath(path) == false) {
                 throw new Exception("verify json: read failed");
             } // if
 
@@ -79,12 +74,10 @@ namespace verifycs {
             Console.WriteLine("verify json from 1: success");
         }
 
-        private static void verifyJsonFrom2(string path)
-        {
+        private static void verifyJsonFrom2(string path) {
             var reader = new VerifyData2Reader();
 
-            if (reader.FromPath(path) == false)
-            {
+            if (reader.FromPath(path) == false) {
                 throw new Exception("verify json: read failed");
             } // if
 
@@ -142,12 +135,10 @@ namespace verifycs {
             Console.WriteLine("verify json from 2: success");
         }
 
-        private static void verifyJsonMerge1(string path)
-        {
+        private static void verifyJsonMerge1(string path) {
             var reader = new VerifyData1Reader();
 
-            if (reader.MergePath(path).Length != 0)
-            {
+            if (reader.MergePath(path).Length != 0) {
                 throw new Exception("verify json: read failed");
             } // if
 
@@ -205,12 +196,10 @@ namespace verifycs {
             Console.WriteLine("verify json merge 1: success");
         }
 
-        private static void verifyJsonMerge2(string path)
-        {
+        private static void verifyJsonMerge2(string path) {
             var reader = new VerifyData2Reader();
 
-            if (reader.MergePath(path).Length != 0)
-            {
+            if (reader.MergePath(path).Length != 0) {
                 throw new Exception("verify json: read failed");
             } // if
 
@@ -268,8 +257,7 @@ namespace verifycs {
             Console.WriteLine("verify json merge 2: success");
         }
 
-        private static void Assert(bool condition)
-        {
+        private static void Assert(bool condition) {
             if (condition == false)
                 throw new Exception("verify json: verify failed");
         }

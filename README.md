@@ -267,18 +267,25 @@ buf format -w 存放proto檔案的路徑
 * reader
     * reader的merge系列功能(為了mod)
     * 當merge時有重複索引, 要報告重複索引列表
-* 全域讀取器
-    * 可以從多個來源路徑讀取資料
-    * 當有複數個來源都是相同檔案時, 採用合併方式
-    * 當合併時有重複索引, 仍然會持續執行剩餘表格的讀取, 但是最後會報告結果(包含檔名與重複索引列表)
 * 寫個mac的轉檔腳本(類似rebuild.bat)
 * .bat跟.sh都需要加權限+chmod
+* cs/unity版本去除namespace
+    * 可能通過選項方式選擇是否要namespace
+* 新增設定: 可選擇要輸出的版本(cs/go)
+* 修改讀取器提供的檔名
+    * 檔名   Name
+    * 副檔名 Ext
+* 全域管理器
+    * 管理器 {
+    *     public 所有Reader的物件
+    *     public 取得Reader資訊列表, 包含fileName, fileExt, Reader物件
+    * }
+* 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
+    * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
 * 把excel層抽象出來, 方便以後換excel組件
 * 目前的表格讀取方式會把全部需要的表格都讀取進來, 然後分析跟輸出; 但是在大量表格時會使用到大量記憶體, 可能需要想辦法減少記憶體使用量
 * 嘗試 https://github.com/tealeg/xlsx
 * 嘗試 https://github.com/TheDataShed/xlsxreader
-* 從NewtownJson遷移到Unity官方Json, 或是採行2種皆可的方式
-* 考慮如果用google sheet當輸入資料的話呢?
 * 產生flatbuffer message
 * 產生flatbuffer bytes data
 
