@@ -1,0 +1,13 @@
+global:
+    lineOfField: 1
+    lineOfLayer: 2
+    lineOfNote: 3
+    lineOfData: 4
+    excludes:
+        - tag
+
+elements:
+    - excel: verify.xlsx
+      sheet: Data1
+    - excel: verify.xlsx
+      sheet: Data2
