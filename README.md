@@ -266,17 +266,18 @@ buf format -w 存放proto檔案的路徑
 # TODO
 * 寫個mac的轉檔腳本(類似rebuild.bat)
 * .bat跟.sh都需要加權限+chmod
-* cs/unity版本去除namespace
-    * 可能通過選項方式選擇是否要namespace
-* 新增設定: 可選擇要輸出的版本(cs/go)
+* 新增設定: [cs/go]可選擇要輸出的版本
+* 新增設定: [cs]是否要去除namespace
 * 修改讀取器提供的檔名
     * 檔名   Name
     * 副檔名 Ext
 * 全域管理器
-    * 管理器 {
-    *     public 所有Reader的物件
-    *     public 取得Reader資訊列表, 包含fileName, fileExt, Reader物件
-    * }
+  ```
+  管理器 {
+      public 所有Reader的物件
+      public 取得Reader資訊列表, 包含fileName, fileExt, Reader物件
+  }
+  ```
 * 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
     * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
 * 把excel層抽象出來, 方便以後換excel組件
