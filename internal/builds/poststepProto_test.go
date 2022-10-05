@@ -52,7 +52,7 @@ func (this *SuitePoststepProto) TestPoststepProtoCsBat() {
 REM Sheeter: https://github.com/yinweli/Sheeter
 
 mkdir %s
-protoc --experimental_allow_proto3_optional --proto_path=./%s --csharp_out=./%s ./%s
+protoc --proto_path=./%s --csharp_out=./%s ./%s
 `, code, proto, code, file))
 
 	target := this.target()
@@ -68,7 +68,7 @@ func (this *SuitePoststepProto) TestPoststepProtoCsSh() {
 # Sheeter: https://github.com/yinweli/Sheeter
 
 mkdir %s
-protoc --experimental_allow_proto3_optional --proto_path=./%s --csharp_out=./%s ./%s
+protoc --proto_path=./%s --csharp_out=./%s ./%s
 `, code, proto, code, file))
 
 	target := this.target()
@@ -84,7 +84,7 @@ func (this *SuitePoststepProto) TestPoststepProtoGoBat() {
 REM Sheeter: https://github.com/yinweli/Sheeter
 
 mkdir %s
-protoc --experimental_allow_proto3_optional --proto_path=./%s --go_out=./%s ./%s
+protoc --proto_path=./%s --go_out=./%s ./%s
 `, code, proto, code, file))
 
 	target := this.target()
@@ -100,7 +100,7 @@ func (this *SuitePoststepProto) TestPoststepProtoGoSh() {
 # Sheeter: https://github.com/yinweli/Sheeter
 
 mkdir %s
-protoc --experimental_allow_proto3_optional --proto_path=./%s --go_out=./%s ./%s
+protoc --proto_path=./%s --go_out=./%s ./%s
 `, code, proto, code, file))
 
 	target := this.target()

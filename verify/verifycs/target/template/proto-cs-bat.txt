@@ -3,5 +3,5 @@ REM Sheeter: https://github.com/yinweli/Sheeter
 
 mkdir {{.PathProtoCs}}
 {{- range $.Struct}}
-protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} --csharp_out=./{{.PathProtoCs}} ./{{.PathProtoName}}
+protoc --proto_path=./{{.PathProtoSchema}} --csharp_out=./{{.PathProtoCs}} ./{{.PathProtoName}}
 {{- end}}
