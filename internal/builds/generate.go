@@ -11,20 +11,20 @@ import (
 )
 
 // Generate 產生程式碼
-func Generate(runtime *Runtime) (errs []error) {
-	tasks := []func(*RuntimeStruct) error{ // 工作函式列表
-		generateJsonCsStruct,
-		generateJsonCsReader,
-		generateJsonGoStruct,
-		generateJsonGoReader,
-		generateProtoSchema,
-		generateProtoCsReader,
-		generateProtoGoReader,
-	}
+func Generate(runtime *Runtime, config *Config) (errs []error) {
+	tasks := []func(*RuntimeStruct) error{}
+
+	if config.Global.GenerateJson {
+		tasks = append(tasks, generateJsonCsStruct, generateJsonCsReader, generateJsonGoStruct, generateJsonGoReader)
+	} // if
+
+	if config.Global.GenerateProto {
+		tasks = append(tasks, generateProtoSchema, generateProtoCsReader, generateProtoGoReader)
+	} // if
+
 	itemCount := len(runtime.Struct)
 	taskCount := len(tasks)
 	totalCount := itemCount * taskCount
-
 	errors := make(chan error, itemCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
 	signaler := utils.NewWaitGroup(itemCount)
 	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))

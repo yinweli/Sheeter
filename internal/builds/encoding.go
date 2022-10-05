@@ -11,15 +11,20 @@ import (
 )
 
 // Encoding 產生資料
-func Encoding(runtime *Runtime) (errs []error) {
-	tasks := []func(*RuntimeSector) error{ // 工作函式列表
-		encodingJson,
-		encodingProto,
-	}
+func Encoding(runtime *Runtime, config *Config) (errs []error) {
+	tasks := []func(*RuntimeSector) error{}
+
+	if config.Global.GenerateJson {
+		tasks = append(tasks, encodingJson)
+	} // if
+
+	if config.Global.GenerateProto {
+		tasks = append(tasks, encodingProto)
+	} // if
+
 	itemCount := len(runtime.Sector)
 	taskCount := len(tasks)
 	totalCount := itemCount * taskCount
-
 	errors := make(chan error, itemCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
 	signaler := utils.NewWaitGroup(itemCount)
 	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))

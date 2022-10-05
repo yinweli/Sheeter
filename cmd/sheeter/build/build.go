@@ -52,7 +52,7 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	runtime := &builds.Runtime{}
 
-	if errs := builds.Initialize(config, runtime); len(errs) > 0 {
+	if errs := builds.Initialize(runtime, config); len(errs) > 0 {
 		for _, itor := range errs {
 			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for
@@ -60,7 +60,7 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // id
 
-	if errs := builds.Generate(runtime); len(errs) > 0 {
+	if errs := builds.Generate(runtime, config); len(errs) > 0 {
 		for _, itor := range errs {
 			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for
@@ -68,7 +68,7 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // if
 
-	if errs := builds.Encoding(runtime); len(errs) > 0 {
+	if errs := builds.Encoding(runtime, config); len(errs) > 0 {
 		for _, itor := range errs {
 			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for
@@ -76,7 +76,7 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // if
 
-	if err := builds.Poststep(runtime); err != nil {
+	if err := builds.Poststep(runtime, config); err != nil {
 		cmd.Println(fmt.Errorf("build failed: %w", err))
 		return
 	} // if

@@ -10,15 +10,14 @@ import (
 )
 
 // Poststep 後製
-func Poststep(runtime *Runtime) error {
-	tasks := []func(*Runtime) error{ // 工作函式列表
-		poststepProtoCsBat,
-		poststepProtoCsSh,
-		poststepProtoGoBat,
-		poststepProtoGoSh,
-	}
-	totalCount := len(tasks)
+func Poststep(runtime *Runtime, config *Config) error {
+	tasks := []func(*Runtime) error{}
 
+	if config.Global.GenerateProto {
+		tasks = append(tasks, poststepProtoCsBat, poststepProtoCsSh, poststepProtoGoBat, poststepProtoGoSh)
+	} // if
+
+	totalCount := len(tasks)
 	progress := mpb.New(mpb.WithWidth(internal.BarWidth))
 	progressbar := progress.AddBar(
 		int64(totalCount),
@@ -39,6 +38,5 @@ func Poststep(runtime *Runtime) error {
 		progressbar.Increment()
 	} // for
 
-	progress.Wait()
 	return nil
 }
