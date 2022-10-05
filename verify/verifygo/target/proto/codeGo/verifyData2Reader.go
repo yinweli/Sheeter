@@ -12,7 +12,7 @@ import (
 )
 
 type VerifyData2Reader struct {
-	VerifyData2Storer
+	*VerifyData2Storer
 }
 
 func (this *VerifyData2Reader) FileName() string {
@@ -30,9 +30,49 @@ func (this *VerifyData2Reader) FromPath(path string) error {
 }
 
 func (this *VerifyData2Reader) FromData(data []byte) error {
-	if err := proto.Unmarshal(data, &this.VerifyData2Storer); err != nil {
+	this.VerifyData2Storer = &VerifyData2Storer{
+		Datas: map[int64]*VerifyData2{},
+	}
+
+	if err := proto.Unmarshal(data, this.VerifyData2Storer); err != nil {
 		return fmt.Errorf("VerifyData2Reader: from data failed: %w", err)
 	}
 
 	return nil
+}
+
+func (this *VerifyData2Reader) MergePath(path ...string) (repeats []int64) {
+	for _, itor := range path {
+		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
+			repeats = append(repeats, this.MergeData(data)...)
+		}
+	}
+
+	return repeats
+}
+
+func (this *VerifyData2Reader) MergeData(data []byte) (repeats []int64) {
+	tmpl := &VerifyData2Storer{
+		Datas: map[int64]*VerifyData2{},
+	}
+
+	if err := proto.Unmarshal(data, tmpl); err != nil {
+		return repeats
+	}
+
+	if this.VerifyData2Storer == nil {
+		this.VerifyData2Storer = &VerifyData2Storer{
+			Datas: map[int64]*VerifyData2{},
+		}
+	}
+
+	for k, v := range tmpl.Datas {
+		if _, ok := this.VerifyData2Storer.Datas[k]; ok == false {
+			this.VerifyData2Storer.Datas[k] = v
+		} else {
+			repeats = append(repeats, k)
+		}
+	}
+
+	return repeats
 }

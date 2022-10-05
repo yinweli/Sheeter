@@ -1,9 +1,10 @@
 // 以下是模板驗證用程式碼
+// using區段可能與實際給的不一致, 要注意
 
-using System.IO;
-using System.Collections.Generic;
-using Google.Protobuf.Reflection; // 這為了通過編譯的程式碼, 不可使用
 using Google.Protobuf; // 這為了通過編譯的程式碼, 不可使用
+using Google.Protobuf.Reflection; // 這為了通過編譯的程式碼, 不可使用
+using System.Collections.Generic;
+using System.IO;
 using pb = global::Google.Protobuf; // 這為了通過編譯的程式碼, 不可使用
 
 namespace SheeterProto {
@@ -21,6 +22,40 @@ namespace SheeterProto {
             return Datas != null;
         }
 
+        public long[] MergePath(params string[] path) {
+            var repeats = new List<long>();
+
+            foreach (var itor in path) {
+                try {
+                    repeats.AddRange(MergeData(File.ReadAllBytes(Path.Combine(itor, FileName()))));
+                } catch {
+                    // do nothing
+                }
+            }
+
+            return repeats.ToArray();
+        }
+
+        public long[] MergeData(byte[] data) {
+            var repeats = new List<long>();
+            var tmpl = RewardStorer.Parser.ParseFrom(data);
+
+            if (tmpl == null)
+                return repeats.ToArray();
+
+            if (Datas == null)
+                Datas = new RewardStorer();
+
+            foreach (var itor in tmpl.Datas) {
+                if (Data.ContainsKey(itor.Key) == false)
+                    Data[itor.Key] = itor.Value;
+                else
+                    repeats.Add(itor.Key);
+            }
+
+            return repeats.ToArray();
+        }
+
         public IDictionary<long, Reward> Data {
             get {
                 return Datas.Datas;
@@ -34,75 +69,61 @@ namespace SheeterProto {
 // 以下是為了通過編譯的程式碼, 不可使用
 
 namespace SheeterProto {
-    public sealed partial class Reward : pb::IMessage<Reward>
-    {
+    public sealed partial class Reward : pb::IMessage<Reward> {
         public MessageDescriptor Descriptor => throw new System.NotImplementedException();
 
-        public int CalculateSize()
-        {
+        public int CalculateSize() {
             throw new System.NotImplementedException();
         }
 
-        public Reward Clone()
-        {
+        public Reward Clone() {
             throw new System.NotImplementedException();
         }
 
-        public bool Equals(Reward? other)
-        {
+        public bool Equals(Reward? other) {
             throw new System.NotImplementedException();
         }
 
-        public void MergeFrom(Reward message)
-        {
+        public void MergeFrom(Reward message) {
             throw new System.NotImplementedException();
         }
 
-        public void MergeFrom(CodedInputStream input)
-        {
+        public void MergeFrom(CodedInputStream input) {
             throw new System.NotImplementedException();
         }
 
-        public void WriteTo(CodedOutputStream output)
-        {
+        public void WriteTo(CodedOutputStream output) {
             throw new System.NotImplementedException();
         }
     }
 
-    public sealed partial class RewardStorer : pb::IMessage<RewardStorer>
-    {
+    public sealed partial class RewardStorer : pb::IMessage<RewardStorer> {
         private static readonly pb::MessageParser<RewardStorer> _parser = new pb::MessageParser<RewardStorer>(() => new RewardStorer());
         public static pb::MessageParser<RewardStorer> Parser { get { return _parser; } }
         public Dictionary<long, Reward> Datas = new Dictionary<long, Reward>();
         public MessageDescriptor Descriptor => throw new System.NotImplementedException();
 
-        public int CalculateSize()
-        {
+        public int CalculateSize() {
             throw new System.NotImplementedException();
         }
 
-        public RewardStorer Clone()
-        {
+        public RewardStorer Clone() {
             throw new System.NotImplementedException();
         }
 
-        public bool Equals(RewardStorer? other)
-        {
+        public bool Equals(RewardStorer? other) {
             throw new System.NotImplementedException();
         }
 
-        public void MergeFrom(RewardStorer message)
-        {
+        public void MergeFrom(RewardStorer message) {
             throw new System.NotImplementedException();
         }
 
-        public void MergeFrom(CodedInputStream input)
-        {
+        public void MergeFrom(CodedInputStream input) {
             throw new System.NotImplementedException();
         }
 
-        public void WriteTo(CodedOutputStream output)
-        {
+        public void WriteTo(CodedOutputStream output) {
             throw new System.NotImplementedException();
         }
     }

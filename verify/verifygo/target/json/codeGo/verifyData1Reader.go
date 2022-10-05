@@ -11,7 +11,7 @@ import (
 )
 
 type VerifyData1Reader struct {
-	VerifyData1Storer
+	*VerifyData1Storer
 }
 
 func (this *VerifyData1Reader) FileName() string {
@@ -29,13 +29,49 @@ func (this *VerifyData1Reader) FromPath(path string) error {
 }
 
 func (this *VerifyData1Reader) FromData(data []byte) error {
-	this.VerifyData1Storer = VerifyData1Storer{
+	this.VerifyData1Storer = &VerifyData1Storer{
 		Datas: map[int64]VerifyData1{},
 	}
 
-	if err := json.Unmarshal(data, &this.VerifyData1Storer); err != nil {
+	if err := json.Unmarshal(data, this.VerifyData1Storer); err != nil {
 		return fmt.Errorf("VerifyData1Reader: from data failed: %w", err)
 	}
 
 	return nil
+}
+
+func (this *VerifyData1Reader) MergePath(path ...string) (repeats []int64) {
+	for _, itor := range path {
+		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
+			repeats = append(repeats, this.MergeData(data)...)
+		}
+	}
+
+	return repeats
+}
+
+func (this *VerifyData1Reader) MergeData(data []byte) (repeats []int64) {
+	tmpl := &VerifyData1Storer{
+		Datas: map[int64]VerifyData1{},
+	}
+
+	if err := json.Unmarshal(data, tmpl); err != nil {
+		return repeats
+	}
+
+	if this.VerifyData1Storer == nil {
+		this.VerifyData1Storer = &VerifyData1Storer{
+			Datas: map[int64]VerifyData1{},
+		}
+	}
+
+	for k, v := range tmpl.Datas {
+		if _, ok := this.VerifyData1Storer.Datas[k]; ok == false {
+			this.VerifyData1Storer.Datas[k] = v
+		} else {
+			repeats = append(repeats, k)
+		}
+	}
+
+	return repeats
 }
