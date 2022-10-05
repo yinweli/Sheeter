@@ -25,6 +25,7 @@
 | internal/mixeds        | 綜合工具                               |
 | internal/tmpls         | 模板組件                               |
 | internal/utils         | 協助組件                               |
+| support                | 支援說明與檔案                         |
 | testdata               | 測試資料                               |
 | verify/benchmark_count | 檔案數量效率測試資料                   |
 | verify/benchmark_size  | 檔案大小效率測試資料                   |
@@ -60,7 +61,6 @@
   | --lineOfData  | 資料行號                                                      |
   | --excludes    | 輸出時排除的標籤列表, 以標籤名稱,標籤名稱,...的方式填寫       |
   | --elements    | 項目列表, 以檔案名稱#表單名稱,檔案名稱#表單名稱,...的方式填寫 |
-  
 * tmpl: 產生模板檔案  
   這會產生執行時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
   執行建置表格命令時也會產生模板檔案  
@@ -200,49 +200,53 @@ sheeter tmpl -c
 ```
 模板檔案使用golang的[template]語法, 同時可以參考以下變數來做結構名稱或是欄位名稱等的替換  
 
-| 名稱                | 參數        | 說明                           |
-|:--------------------|:------------|:-------------------------------|
-| $.AppName           |             | 程式名稱                       |
-| $.NamespaceJson     |             | json命名空間名稱               |
-| $.NamespaceProto    |             | proto命名空間名稱              |
-| $.StructName        |             | 結構名稱                       |
-| $.ReaderName        |             | 讀取器名稱                     |
-| $.StorerName        |             | 儲存器名稱                     |
-| $.StorerDatas       |             | 儲存器資料名稱                 |
-| $.StorerMessage     |             | 儲存器proto message名稱        |
-| $.FieldName         | 欄位資料    | 欄位名稱                       |
-| $.FieldNote         | 欄位資料    | 欄位註解                       |
-| $.FieldTypeCs       | 欄位資料    | cs欄位類型                     |
-| $.FieldTypeGo       | 欄位資料    | go欄位類型                     |
-| $.FieldTypeProto    | 欄位資料    | go欄位類型                     |
-| $.PkeyTypeCs        |             | pkey的cs類型                   |
-| $.PkeyTypeGo        |             | pkey的go類型                   |
-| $.PkeyTypeProto     |             | pkey的proto類型                |
-| $.FileJsonData      |             | json資料檔名                   |
-| $.PathJsonData      |             | json資料路徑                   |
-| $.PathJsonCsStruct  |             | json-cs結構程式碼路徑          |
-| $.PathJsonCsReader  |             | json-cs讀取器程式碼路徑        |
-| $.PathJsonGoStruct  |             | json-go結構程式碼路徑          |
-| $.PathJsonGoReader  |             | json-go讀取器程式碼檔名路徑    |
-| $.PathProtoCs       |             | proto-cs路徑                   |
-| $.PathProtoGo       |             | proto-go路徑                   |
-| $.PathProtoSchema   |             | proto-schema路徑               |
-| $.FileProtoName     |             | proto架構檔名                  |
-| $.PathProtoName     |             | proto架構路徑                  |
-| $.FileProtoData     |             | proto資料檔名                  |
-| $.PathProtoData     |             | proto資料路徑                  |
-| $.PathProtoCsReader |             | proto-cs讀取器程式碼路徑       |
-| $.PathProtoGoReader |             | proto-go讀取器程式碼路徑       |
-| $.ProtoDepend       | 依賴名稱    | proto依賴檔案名稱              |
-| $.FirstUpper        | 字串        | 字串首字母大寫                 |
-| $.FirstLower        | 字串        | 字串首字母小寫                 |
-| $.Add               | 數值1 數值2 | 加法(數值1 + 數值2)            |
-| $.Sub               | 數值1 數值2 | 減法(數值1 - 數值2)            |
-| $.Mul               | 數值1 數值2 | 乘法(數值1 x 數值2)            |
-| $.Div               | 數值1 數值2 | 除法(數值1 / 數值2)            |
-| $.Reader            |             | 是否要產生讀取器(部分模板可用) |
-| $.Fields            |             | 欄位列表(部分模板可用)         |
-| $.Depend            |             | 依賴列表(部分模板可用)         |
+| 名稱                | 參數        | 說明                                   |
+|:--------------------|:------------|:---------------------------------------|
+| $.AppName           |             | 程式名稱                               |
+| $.NamespaceJson     |             | json命名空間名稱                       |
+| $.NamespaceProto    |             | proto命名空間名稱                      |
+| $.StructName        |             | 結構名稱                               |
+| $.ReaderName        |             | 讀取器名稱                             |
+| $.StorerName        |             | 儲存器名稱                             |
+| $.StorerDatas       |             | 儲存器資料名稱                         |
+| $.StorerMessage     |             | 儲存器proto message名稱                |
+| $.FieldName         | 欄位資料    | 欄位名稱                               |
+| $.FieldNote         | 欄位資料    | 欄位註解                               |
+| $.FieldTypeCs       | 欄位資料    | cs欄位類型                             |
+| $.FieldTypeGo       | 欄位資料    | go欄位類型                             |
+| $.FieldTypeProto    | 欄位資料    | go欄位類型                             |
+| $.PkeyTypeCs        |             | pkey的cs類型                           |
+| $.PkeyTypeGo        |             | pkey的go類型                           |
+| $.PkeyTypeProto     |             | pkey的proto類型                        |
+| $.FileJsonData      |             | json資料檔名                           |
+| $.PathJsonData      |             | json資料路徑                           |
+| $.PathJsonCsStruct  |             | json-cs結構程式碼路徑                  |
+| $.PathJsonCsReader  |             | json-cs讀取器程式碼路徑                |
+| $.PathJsonGoStruct  |             | json-go結構程式碼路徑                  |
+| $.PathJsonGoReader  |             | json-go讀取器程式碼檔名路徑            |
+| $.PathProtoCs       |             | proto-cs路徑                           |
+| $.PathProtoGo       |             | proto-go路徑                           |
+| $.PathProtoSchema   |             | proto-schema路徑                       |
+| $.FileProtoName     |             | proto架構檔名                          |
+| $.PathProtoName     |             | proto架構路徑                          |
+| $.FileProtoData     |             | proto資料檔名                          |
+| $.PathProtoData     |             | proto資料路徑                          |
+| $.PathProtoCsReader |             | proto-cs讀取器程式碼路徑               |
+| $.PathProtoGoReader |             | proto-go讀取器程式碼路徑               |
+| $.ProtoDepend       | 依賴名稱    | proto依賴檔案名稱                      |
+| $.FirstUpper        | 字串        | 字串首字母大寫                         |
+| $.FirstLower        | 字串        | 字串首字母小寫                         |
+| $.Add               | 數值1 數值2 | 加法(數值1 + 數值2)                    |
+| $.Sub               | 數值1 數值2 | 減法(數值1 - 數值2)                    |
+| $.Mul               | 數值1 數值2 | 乘法(數值1 x 數值2)                    |
+| $.Div               | 數值1 數值2 | 除法(數值1 / 數值2)                    |
+| $.Excel             |             | 表格檔案名稱(僅限產生程式碼時使用)     |
+| $.Sheet             |             | 表格表單名稱(僅限產生程式碼時使用)     |
+| $.Reader            |             | 是否要產生讀取器(僅限產生程式碼時使用) |
+| $.Fields            |             | 欄位列表(僅限產生程式碼時使用)         |
+| $.Depend            |             | 依賴列表(僅限產生程式碼時使用)         |
+| $.Sector            |             | 區段資料列表(僅限產生後製檔時使用)     |
+| $.Struct            |             | 結構資料列表(僅限產生後製檔時使用)     |
 
 # protobuf支援
 以下描述了如果要使用protobuf時的資訊
@@ -280,6 +284,7 @@ buf format -w 存放proto檔案的路徑
 * 修改讀取器提供的檔名
     * 檔名   Name
     * 副檔名 Ext
+* 修改讀取器的介面, 只留讀取資料的部分
 * 全域管理器
   ```
   管理器 {
@@ -287,6 +292,7 @@ buf format -w 存放proto檔案的路徑
       public 取得Reader資訊列表, 包含fileName, fileExt, Reader物件
   }
   ```
+* 額外的支援說明與檔案放在support目錄下
 * 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
     * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
 * 把excel層抽象出來, 方便以後換excel組件
