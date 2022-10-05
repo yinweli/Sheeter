@@ -8,25 +8,30 @@
 用於將指定格式的excel轉換為json, cs程式碼, go程式碼, proto檔案等
 
 # 目錄說明
-| 目錄                | 說明         |
-|:--------------------|:-------------|
-| doc                 | 說明文件     |
-| cmd/sheeter         | 主程式       |
-| cmd/sheeter/build   | 建置表格命令 |
-| cmd/sheeter/tmpl    | 產生模板命令 |
-| cmd/sheeter/version | 顯示版本命令 |
-| internal/builds     | 表格轉換     |
-| internal/fields     | 欄位組件     |
-| internal/layers     | 階層組件     |
-| internal/layouts    | 布局組件     |
-| internal/mixeds     | 綜合工具     |
-| internal/tmpls      | 模板組件     |
-| internal/utils      | 協助組件     |
-| testdata            | 測試資料     |
-| verify/benchmark    | 效率測試資料 |
-| verify/example      | 範例資料     |
-| verify/verifycs     | cs程式碼驗證 |
-| verify/verifygo     | go程式碼驗證 |
+| 目錄                   | 說明                                   |
+|:-----------------------|:---------------------------------------|
+| doc                    | 說明文件                               |
+| handmade               | 手製模板, 用來檢查模板程式碼是否有錯誤 |
+| handmade/.json         | json手製模板                           |
+| handmade/.proto        | proto手製模板                          |
+| cmd/sheeter            | 主程式                                 |
+| cmd/sheeter/build      | 建置表格命令                           |
+| cmd/sheeter/tmpl       | 產生模板命令                           |
+| cmd/sheeter/version    | 顯示版本命令                           |
+| internal/builds        | 表格轉換                               |
+| internal/fields        | 欄位組件                               |
+| internal/layers        | 階層組件                               |
+| internal/layouts       | 布局組件                               |
+| internal/mixeds        | 綜合工具                               |
+| internal/tmpls         | 模板組件                               |
+| internal/utils         | 協助組件                               |
+| testdata               | 測試資料                               |
+| verify/benchmark_count | 檔案數量效率測試資料                   |
+| verify/benchmark_size  | 檔案大小效率測試資料                   |
+| verify/example         | 範例資料                               |
+| verify/verifycs        | cs程式碼驗證                           |
+| verify/verifygo        | go程式碼驗證                           |
+| verify/verifyunity     | unity程式碼驗證                        |
 
 # 系統需求
 * [go]1.18以上
@@ -270,8 +275,6 @@ buf format -w 存放proto檔案的路徑
 * 改.sh權限: chmod 755 ****.sh
 
 # TODO
-* 寫個mac的轉檔腳本(類似rebuild.bat)
-* .bat跟.sh都需要加權限+chmod
 * 新增設定: [cs/go]可選擇要輸出的版本
 * 新增設定: [cs]是否要去除namespace
 * 修改讀取器提供的檔名
