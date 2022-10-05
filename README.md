@@ -264,9 +264,6 @@ buf format -w 存放proto檔案的路徑
 ```
 
 # TODO
-* reader
-    * reader的merge系列功能(為了mod)
-    * 當merge時有重複索引, 要報告重複索引列表
 * 寫個mac的轉檔腳本(類似rebuild.bat)
 * .bat跟.sh都需要加權限+chmod
 * cs/unity版本去除namespace
