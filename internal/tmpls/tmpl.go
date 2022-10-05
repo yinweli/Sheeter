@@ -479,7 +479,7 @@ var ProtoCsBat = &Tmpl{
 	Data: HeaderBat + `
 mkdir {{.PathProtoCs}}
 {{- range $.Struct}}
-protoc --proto_path=./{{.PathProtoSchema}} --csharp_out=./{{.PathProtoCs}} ./{{.PathProtoName}}
+protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} --csharp_out=./{{.PathProtoCs}} ./{{.PathProtoName}}
 {{- end}}
 `,
 }
@@ -490,7 +490,7 @@ var ProtoCsSh = &Tmpl{
 	Data: HeaderSh + `
 mkdir {{.PathProtoCs}}
 {{- range $.Struct}}
-protoc --proto_path=./{{.PathProtoSchema}} --csharp_out=./{{.PathProtoCs}} ./{{.PathProtoName}}
+protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} --csharp_out=./{{.PathProtoCs}} ./{{.PathProtoName}}
 {{- end}}
 `,
 }
@@ -501,7 +501,7 @@ var ProtoGoBat = &Tmpl{
 	Data: HeaderBat + `
 mkdir {{.PathProtoGo}}
 {{- range $.Struct}}
-protoc --proto_path=./{{.PathProtoSchema}} --go_out=./{{.PathProtoGo}} ./{{.PathProtoName}}
+protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} --go_out=./{{.PathProtoGo}} ./{{.PathProtoName}}
 {{- end}}
 `,
 }
@@ -512,7 +512,7 @@ var ProtoGoSh = &Tmpl{
 	Data: HeaderSh + `
 mkdir {{.PathProtoGo}}
 {{- range $.Struct}}
-protoc --proto_path=./{{.PathProtoSchema}} --go_out=./{{.PathProtoGo}} ./{{.PathProtoName}}
+protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} --go_out=./{{.PathProtoGo}} ./{{.PathProtoName}}
 {{- end}}
 `,
 }

@@ -3,5 +3,5 @@
 
 mkdir {{.PathProtoGo}}
 {{- range $.Struct}}
-protoc --proto_path=./{{.PathProtoSchema}} --go_out=./{{.PathProtoGo}} ./{{.PathProtoName}}
+protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} --go_out=./{{.PathProtoGo}} ./{{.PathProtoName}}
 {{- end}}
