@@ -5,110 +5,90 @@
 
 # Sheeter
 以[go]做成的excel轉換工具, 前身是[sheet]  
-用於將指定格式的excel轉換為json, cs程式碼, go程式碼, proto檔案等
-
-# 目錄說明
-
-| 目錄                   | 說明                                   |
-|:-----------------------|:---------------------------------------|
-| doc                    | 說明文件                               |
-| handmade               | 手製模板, 用來檢查模板程式碼是否有錯誤 |
-| handmade/.json         | json手製模板                           |
-| handmade/.proto        | proto手製模板                          |
-| cmd/sheeter            | 主程式                                 |
-| cmd/sheeter/build      | 建置表格命令                           |
-| cmd/sheeter/tmpl       | 產生模板命令                           |
-| cmd/sheeter/version    | 顯示版本命令                           |
-| internal/builds        | 表格轉換                               |
-| internal/fields        | 欄位組件                               |
-| internal/layers        | 階層組件                               |
-| internal/layouts       | 布局組件                               |
-| internal/mixeds        | 綜合工具                               |
-| internal/tmpls         | 模板組件                               |
-| internal/utils         | 協助組件                               |
-| support                | 支援說明與檔案                         |
-| testdata               | 測試資料                               |
-| verify/benchmark_count | 檔案數量效率測試資料                   |
-| verify/benchmark_size  | 檔案大小效率測試資料                   |
-| verify/example         | 範例資料                               |
-| verify/verifycs        | cs程式碼驗證                           |
-| verify/verifygo        | go程式碼驗證                           |
-| verify/verifyunity     | unity程式碼驗證                        |
+用於將指定格式的excel轉換為[json]資料檔案, [proto]資料檔案, 結構與讀取器程式碼; 程式碼目前支援的語言為cs, go  
+在windows以及mac通過測試, 但是沒有在linux上測試過  
 
 # 系統需求
 * [go]1.18以上
 * [proto]3以上
 
-# 如何安裝
+# 安裝說明
 * 安裝[go]
 * 安裝[sheeter], 在終端執行以下命令
   ```shell
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
   ```
 
+# 如何使用
+* 建立[excel檔案](#excel說明)
+* 建立[設定檔案](#設定說明)
+* 在終端執行[建置命令](#命令說明)
+  ```shell
+  sheeter build --config setting.yaml
+  ```
+* 如果要產生[proto]程式碼, 可以執行產生出來的protoCs.bat/.sh或是protoGo.bat/.sh
+
+# 範例檔案
+[example]
+
+# 產生目錄
+
+| 名稱           | 說明                          |
+|:---------------|:------------------------------|
+| ./             | 存放建置proto的批次檔/腳本    |
+| ./json         | json目錄                      |
+| ./json/codeCs  | 存放結構與讀取器程式碼        |
+| ./json/codeGo  | 存放結構與讀取器程式碼        |
+| ./json/data    | 存放資料檔案                  |
+| ./proto        | proto目錄                     |
+| ./proto/codeCs | 存放結構與讀取器程式碼        |
+| ./proto/codeGo | 存放結構與讀取器程式碼        |
+| ./proto/data   | 存放資料檔案                  |
+| ./proto/schema | 存放.proto檔案                |
+| ./template     | 存放模板檔案                  |
+
 # 命令說明
-* build: 建置json檔案與結構檔案  
+* build: 建置資料檔案與程式碼
   配置好yaml格式的設定檔與excel檔案, 然後在終端執行  
   ```shell
-  sheeter build --config 設定檔.yaml
+  sheeter build --config setting.yaml
   ```
-  build命令有以下的參數可用  
+  build命令有以下的旗標可用  
   
-  | 參數          | 說明                                                          |
-  |:--------------|:--------------------------------------------------------------|
-  | --config      | 設定檔案路徑                                                  |
-  | --json        | 是否產生json檔案                                              |
-  | --proto       | 是否產生proto檔案                                             |
-  | --lineOfField | 欄位行號                                                      |
-  | --lineOfLayer | 階層行號                                                      |
-  | --lineOfNote  | 註解行號                                                      |
-  | --lineOfData  | 資料行號                                                      |
-  | --excludes    | 輸出時排除的標籤列表, 以標籤名稱,標籤名稱,...的方式填寫       |
-  | --elements    | 項目列表, 以檔案名稱#表單名稱,檔案名稱#表單名稱,...的方式填寫 |
+  | 旗標          | 參數                                    | 說明                 |
+  |:--------------|:----------------------------------------|:---------------------|
+  | --config      | 路徑與檔名; 例如: path/seeting.yaml     | 設定檔案路徑         |
+  | --json        |                                         | 是否產生json檔案     |
+  | --proto       |                                         | 是否產生proto檔案    |
+  | --lineOfField | 行號(1為起始行)                         | 欄位行號             |
+  | --lineOfLayer | 行號(1為起始行)                         | 階層行號             |
+  | --lineOfNote  | 行號(1為起始行)                         | 註解行號             |
+  | --lineOfData  | 行號(1為起始行)                         | 資料行號             |
+  | --excludes    | 標籤,標籤,...                           | 輸出時排除的標籤列表 |
+  | --elements    | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 項目列表             |
   
-  若是--json與--proto都沒有在參數列中, 則json與proto檔案都會被產生  
+  若是--json與--proto都沒有在旗標列中, 則[json]與[proto]檔案都會被產生  
   * 例如
-    * sheeter build --json  => 只輸出json檔案  
-    * sheeter build --proto => 只輸出proto檔案  
-    * sheeter build         => 輸出json與proto檔案  
-* tmpl: 產生模板檔案  
+    * sheeter build --json  => 只輸出[json]檔案
+    * sheeter build --proto => 只輸出[proto]檔案
+    * sheeter build         => 輸出[json]與[proto]檔案
+* tmpl: 產生模板檔案
   這會產生執行時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
-  執行建置表格命令時也會產生模板檔案  
   ```shell
   sheeter tmpl
   ```
-  tmpl命令有以下的參數可用  
+  tmpl命令有以下的旗標可用  
   
-  | 參數          | 說明                         |
-  |:--------------|:-----------------------------|
-  | --clean / -c  | 在產生模板前, 把模板檔案刪除 |
+  | 旗標          | 參數 | 說明             |
+  |:--------------|:-----|:-----------------|
+  | --clean / -c  |      | 重新產生模板檔案 |
   
-* version: 顯示版本資訊  
+* version: 顯示版本資訊
   ```shell
   sheeter version
   ```
 
-# 如何寫設定檔
-```yaml
-global:
-  lineOfField: 1       # 欄位行號(1為起始行)
-  lineOfLayer: 2       # 階層行號(1為起始行)
-  lineOfNote:  3       # 註解行號(1為起始行)
-  lineOfData:  4       # 資料行號(1為起始行)
-  excludes:            # 排除標籤列表
-    - tag1
-    - tag2
-
-elements:
-  - excel: excel1.xlsx # excel檔案名稱
-    sheet: Data        # excel表單名稱
-  - excel: excel2.xlsx
-    sheet: Data
-  - excel: excel3.xlsx
-    sheet: Data
-```
-
-# 如何寫excel檔案
+# excel說明
 ![excel]
 
 ## 欄位行
@@ -186,33 +166,30 @@ elements:
         * 第一個表格設定了結構/陣列欄位: `data { field1, field2, field3 }`
         * 另一個表格同樣使用了`data`結構/陣列, 而欄位只設定 `data { field1, field2 }`, 忽略了`field3`
 
-# 產生目錄
-根目錄會存放建置程式碼的批次檔與腳本檔案  
+# 設定說明
+```yaml
+global:
+  lineOfField: 1       # 欄位行號(1為起始行)
+  lineOfLayer: 2       # 階層行號(1為起始行)
+  lineOfNote:  3       # 註解行號(1為起始行)
+  lineOfData:  4       # 資料行號(1為起始行)
+  excludes:            # 排除標籤列表
+    - tag1
+    - tag2
 
-| 名稱         | 說明                   |
-|:-------------|:-----------------------|
-| json         | json根目錄             |
-| json/codeCs  | 存放結構與讀取器程式碼 |
-| json/codeGo  | 存放結構與讀取器程式碼 |
-| json/data    | 存放資料檔案           |
-| proto        | proto根目錄            |
-| proto/codeCs | 存放結構與讀取器程式碼 |
-| proto/codeGo | 存放結構與讀取器程式碼 |
-| proto/data   | 存放資料檔案           |
-| proto/schema | 存放.proto檔案         |
-| template     | 存放模板檔案           |
-
-# 範例檔案
-[example]
+elements:
+  - excel: excel1.xlsx # excel檔案名稱
+    sheet: Data        # excel表單名稱
+  - excel: excel2.xlsx
+    sheet: Data
+  - excel: excel3.xlsx
+    sheet: Data
+```
 
 # 模板檔案
-sheeter轉換時會把使用的程式碼模板輸出到`template`目錄下  
+[sheeter]轉換時會把使用的程式碼模板輸出到`template`目錄下  
 使用者可以改變模板內容, 來產生自訂的程式碼  
-當需要重置模板時(例如[sheeter]更新版本時), 可以在終端執行以下命令重置模板  
-```shell
-sheeter tmpl -c
-```
-模板檔案使用golang的[template]語法, 同時可以參考以下變數來做結構名稱或是欄位名稱等的替換  
+模板檔案使用[go]的[template]語法, 同時可以參考以下變數來做結構名稱或是欄位名稱等的替換  
 
 | 名稱                | 參數        | 說明                                   |
 |:--------------------|:------------|:---------------------------------------|
@@ -262,8 +239,8 @@ sheeter tmpl -c
 | $.Sector            |             | 區段資料列表(僅限產生後製檔時使用)     |
 | $.Struct            |             | 結構資料列表(僅限產生後製檔時使用)     |
 
-# protobuf支援
-以下描述了如果要使用protobuf時的資訊
+# proto說明
+以下描述了如果要使用[proto]時的資訊  
 
 ## proto轉換為cs程式碼
 * 安裝[protoc]
@@ -272,7 +249,7 @@ sheeter tmpl -c
 ## proto轉換為go程式碼
 * 安裝[go]
 * 安裝[protoc]
-* 執行以下命令來安裝protobuf的[protoc-go]外掛
+* 執行以下命令來安裝[protoc-go]外掛
 ```shell
 go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 ```
@@ -281,16 +258,41 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 ## 格式化產出的proto檔案(非必要)
 * 安裝[go]
 * 安裝[buf]
-* 執行以下命令來格式化proto檔案
+* 執行以下命令來格式化[proto]檔案
 ```shell
 buf format -w 存放proto檔案的路徑
 ```
 
-# 在mac上執行各種.sh的預先步驟
-* 安裝homebrew: https://brew.sh/index_zh-tw
-* 安裝protobuf: brew install protobuf
-* 安裝go: brew install go
-* 改.sh權限: chmod 755 ****.sh
+## mac執行.sh
+可能要先執行`chmod 755 ****.sh`來把變更產生出來的腳本檔案的權限
+
+# 目錄說明
+
+| 目錄                   | 說明                                   |
+|:-----------------------|:---------------------------------------|
+| doc                    | 說明文件                               |
+| handmade               | 手製模板, 用來檢查模板程式碼是否有錯誤 |
+| handmade/.json         | json手製模板                           |
+| handmade/.proto        | proto手製模板                          |
+| cmd/sheeter            | 主程式                                 |
+| cmd/sheeter/build      | 建置表格命令                           |
+| cmd/sheeter/tmpl       | 產生模板命令                           |
+| cmd/sheeter/version    | 顯示版本命令                           |
+| internal/builds        | 表格轉換                               |
+| internal/fields        | 欄位組件                               |
+| internal/layers        | 階層組件                               |
+| internal/layouts       | 布局組件                               |
+| internal/mixeds        | 綜合工具                               |
+| internal/tmpls         | 模板組件                               |
+| internal/utils         | 協助組件                               |
+| support                | 支援說明與檔案                         |
+| testdata               | 測試資料                               |
+| verify/benchmark_count | 檔案數量效率測試資料                   |
+| verify/benchmark_size  | 檔案大小效率測試資料                   |
+| verify/example         | 範例資料                               |
+| verify/verifycs        | cs程式碼驗證                           |
+| verify/verifygo        | go程式碼驗證                           |
+| verify/verifyunity     | unity程式碼驗證                        |
 
 # TODO
 * 新增設定: [cs]是否要去除namespace
@@ -314,9 +316,28 @@ buf format -w 存放proto檔案的路徑
 * 嘗試 https://github.com/TheDataShed/xlsxreader
 * 產生flatbuffer message
 * 產生flatbuffer bytes data
+* 重整REAMDE.md
+    * Sheeter
+        * 在win/mac有通過測試, 但是linux沒測試過
+    * 系統需求
+    * 如何安裝
+    * 快速使用說明
+    * 範例檔案
+    * 產生目錄
+    * 命令說明
+    * 設定檔說明
+    * excel說明
+    * 模板檔案
+    * protobuf說明
+    * rebuild.bat/.sh
+        * win
+        * mac
+    * 目錄說明
+    * TODO
 
 [buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/
+[json]: https://www.json.org/json-en.html
 [proto]: https://github.com/protocolbuffers/protobuf
 [protoc-go]: https://github.com/protocolbuffers/protobuf-go
 [protoc]: https://github.com/protocolbuffers/protobuf
