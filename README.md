@@ -263,6 +263,12 @@ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
 buf format -w 存放proto檔案的路徑
 ```
 
+# 在mac上執行各種.sh的預先步驟
+* 安裝homebrew: https://brew.sh/index_zh-tw
+* 安裝protobuf: brew install protobuf
+* 安裝go: brew install go
+* 改.sh權限: chmod 755 ****.sh
+
 # TODO
 * 寫個mac的轉檔腳本(類似rebuild.bat)
 * .bat跟.sh都需要加權限+chmod
