@@ -52,8 +52,12 @@ func (this *SuiteEncodingProto) target() *Config {
 func (this *SuiteEncodingProto) TestEncodingProto() {
 	target := this.target()
 	runtime := &Runtime{}
-	assert.Nil(this.T(), Initialize(target, runtime))
-	assert.Nil(this.T(), Generate(runtime))
+	assert.Nil(this.T(), Initialize(runtime, target))
+	assert.Nil(this.T(), Generate(runtime, &Config{
+		Global: Global{
+			GenerateProto: true,
+		},
+	}))
 	assert.Nil(this.T(), encodingProto(runtime.Sector[0]))
 	assert.True(this.T(), utils.ExistFile(runtime.Sector[0].PathProtoData()))
 	runtime.Sector[0].Close()

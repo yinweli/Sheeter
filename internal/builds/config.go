@@ -20,11 +20,13 @@ type Config struct {
 
 // Global 全域設定
 type Global struct {
-	LineOfField int      `yaml:"lineOfField"` // 欄位行號(1為起始行)
-	LineOfLayer int      `yaml:"lineOfLayer"` // 階層行號(1為起始行)
-	LineOfNote  int      `yaml:"lineOfNote"`  // 註解行號(1為起始行)
-	LineOfData  int      `yaml:"lineOfData"`  // 資料行號(1為起始行)
-	Excludes    []string `yaml:"excludes"`    // 排除標籤列表
+	GenerateJson  bool     `yaml:"generateJson"`  // 是否產生json檔案
+	GenerateProto bool     `yaml:"generateProto"` // 是否產生proto檔案
+	LineOfField   int      `yaml:"lineOfField"`   // 欄位行號(1為起始行)
+	LineOfLayer   int      `yaml:"lineOfLayer"`   // 階層行號(1為起始行)
+	LineOfNote    int      `yaml:"lineOfNote"`    // 註解行號(1為起始行)
+	LineOfData    int      `yaml:"lineOfData"`    // 資料行號(1為起始行)
+	Excludes      []string `yaml:"excludes"`      // 排除標籤列表
 }
 
 // Element 項目設定
@@ -51,27 +53,44 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		} // if
 	} // if
 
+	if flags.Changed(flagGenerateJson) {
+		if value, err := flags.GetBool(flagGenerateJson); err == nil {
+			this.Global.GenerateJson = value
+		} // if
+	} // if
+
+	if flags.Changed(flagGenerateProto) {
+		if value, err := flags.GetBool(flagGenerateProto); err == nil {
+			this.Global.GenerateProto = value
+		} // if
+	} // if
+
+	if (this.Global.GenerateJson || this.Global.GenerateProto) == false { // 如果json與proto都沒輸出, 就會變成通通都輸出
+		this.Global.GenerateJson = true
+		this.Global.GenerateProto = true
+	} // if
+
 	if flags.Changed(flagLineOfField) {
-		if lineOfField, err := flags.GetInt(flagLineOfField); err == nil {
-			this.Global.LineOfField = lineOfField
+		if value, err := flags.GetInt(flagLineOfField); err == nil {
+			this.Global.LineOfField = value
 		} // if
 	} // if
 
 	if flags.Changed(flagLineOfLayer) {
-		if lineOfLayer, err := flags.GetInt(flagLineOfLayer); err == nil {
-			this.Global.LineOfLayer = lineOfLayer
+		if value, err := flags.GetInt(flagLineOfLayer); err == nil {
+			this.Global.LineOfLayer = value
 		} // if
 	} // if
 
 	if flags.Changed(flagLineOfNote) {
-		if lineOfNote, err := flags.GetInt(flagLineOfNote); err == nil {
-			this.Global.LineOfNote = lineOfNote
+		if value, err := flags.GetInt(flagLineOfNote); err == nil {
+			this.Global.LineOfNote = value
 		} // if
 	} // if
 
 	if flags.Changed(flagLineOfData) {
-		if lineOfData, err := flags.GetInt(flagLineOfData); err == nil {
-			this.Global.LineOfData = lineOfData
+		if value, err := flags.GetInt(flagLineOfData); err == nil {
+			this.Global.LineOfData = value
 		} // if
 	} // if
 

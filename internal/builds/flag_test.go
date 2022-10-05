@@ -31,6 +31,8 @@ func (this *SuiteFlag) TestSetFlags() {
 	cmd := SetFlags(&cobra.Command{})
 	assert.NotNil(this.T(), cmd)
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagConfig))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagGenerateJson))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagGenerateProto))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfField))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfLayer))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfNote))

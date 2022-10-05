@@ -11,7 +11,7 @@ import (
 )
 
 // Initialize 初始化
-func Initialize(config *Config, runtime *Runtime) (errs []error) {
+func Initialize(runtime *Runtime, config *Config) (errs []error) {
 	for _, itor := range config.Elements {
 		runtime.Sector = append(runtime.Sector, &RuntimeSector{
 			Global:  config.Global,
@@ -22,10 +22,10 @@ func Initialize(config *Config, runtime *Runtime) (errs []error) {
 	tasks := []func(*RuntimeSector) error{ // 工作函式列表
 		initializeSector,
 	}
+
 	itemCount := len(runtime.Sector)
 	taskCount := len(tasks)
 	totalCount := itemCount * taskCount
-
 	errors := make(chan error, itemCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
 	signaler := utils.NewWaitGroup(itemCount)
 	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))
