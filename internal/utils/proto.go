@@ -3,7 +3,6 @@ package utils
 import (
 	"fmt"
 
-	//nolint:staticcheck // 由於使用的proto反射庫沒有升級到proto.V2 所以必須使用舊的方式來轉換
 	"github.com/golang/protobuf/proto"
 	"github.com/jhump/protoreflect/desc"
 	"github.com/jhump/protoreflect/desc/protoparse"
