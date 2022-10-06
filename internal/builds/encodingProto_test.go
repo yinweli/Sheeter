@@ -26,8 +26,8 @@ func (this *SuiteEncodingProto) SetupSuite() {
 }
 
 func (this *SuiteEncodingProto) TearDownSuite() {
-	_ = os.RemoveAll(internal.PathJson)
-	_ = os.RemoveAll(internal.PathProto)
+	_ = os.RemoveAll(internal.JsonPath)
+	_ = os.RemoveAll(internal.ProtoPath)
 	testdata.RestoreWorkDir(this.workDir)
 }
 

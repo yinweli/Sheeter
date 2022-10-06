@@ -9,7 +9,7 @@ import (
 )
 
 func verifyJson(rootPath string) {
-	path := filepath.Join(rootPath, "target", internal.PathJson, internal.PathData)
+	path := filepath.Join(rootPath, "target", internal.JsonPath, internal.DataPath)
 	verifyJsonFrom1(path)
 	verifyJsonFrom2(path)
 	verifyJsonMerge1(path)

@@ -28,7 +28,7 @@ func (this *SuiteGenerateProto) SetupSuite() {
 }
 
 func (this *SuiteGenerateProto) TearDownSuite() {
-	_ = os.RemoveAll(internal.PathProto)
+	_ = os.RemoveAll(internal.ProtoPath)
 	testdata.RestoreWorkDir(this.workDir)
 }
 

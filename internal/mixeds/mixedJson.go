@@ -20,52 +20,52 @@ func (this *Json) JsonDataName() string {
 
 // JsonDataExt 取得json資料副檔名
 func (this *Json) JsonDataExt() string {
-	return internal.ExtJsonData
+	return internal.JsonDataExt
 }
 
 // JsonDataFile 取得json資料檔名
 func (this *Json) JsonDataFile() string {
 	return this.mixed.combine(params{
 		sheetUpper: true,
-		ext:        internal.ExtJsonData,
+		ext:        internal.JsonDataExt,
 	})
 }
 
 // JsonDataPath 取得json資料路徑
 func (this *Json) JsonDataPath() string {
-	return filepath.Join(internal.PathJson, internal.PathData, this.JsonDataFile())
+	return filepath.Join(internal.JsonPath, internal.DataPath, this.JsonDataFile())
 }
 
 // JsonCsStructPath 取得json-cs結構程式碼路徑
 func (this *Json) JsonCsStructPath() string {
-	return filepath.Join(internal.PathJson, internal.PathCs, this.mixed.combine(params{
+	return filepath.Join(internal.JsonPath, internal.CsPath, this.mixed.combine(params{
 		sheetUpper: true,
-		ext:        internal.ExtCs,
+		ext:        internal.CsExt,
 	}))
 }
 
 // JsonCsReaderPath 取得json-cs讀取器程式碼路徑
 func (this *Json) JsonCsReaderPath() string {
-	return filepath.Join(internal.PathJson, internal.PathCs, this.mixed.combine(params{
+	return filepath.Join(internal.JsonPath, internal.CsPath, this.mixed.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,
-		ext:        internal.ExtCs,
+		ext:        internal.CsExt,
 	}))
 }
 
 // JsonGoStructPath 取得json-go結構程式碼路徑
 func (this *Json) JsonGoStructPath() string {
-	return filepath.Join(internal.PathJson, internal.PathGo, this.mixed.combine(params{
+	return filepath.Join(internal.JsonPath, internal.GoPath, this.mixed.combine(params{
 		sheetUpper: true,
-		ext:        internal.ExtGo,
+		ext:        internal.GoExt,
 	}))
 }
 
 // JsonGoReaderPath 取得json-go讀取器程式碼檔名路徑
 func (this *Json) JsonGoReaderPath() string {
-	return filepath.Join(internal.PathJson, internal.PathGo, this.mixed.combine(params{
+	return filepath.Join(internal.JsonPath, internal.GoPath, this.mixed.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,
-		ext:        internal.ExtGo,
+		ext:        internal.GoExt,
 	}))
 }

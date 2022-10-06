@@ -9,7 +9,7 @@ import (
 )
 
 func verifyProto(rootPath string) {
-	path := filepath.Join(rootPath, "target", internal.PathProto, internal.PathData)
+	path := filepath.Join(rootPath, "target", internal.ProtoPath, internal.DataPath)
 	verifyProtoFrom1(path)
 	verifyProtoFrom2(path)
 	verifyProtoMerge1(path)

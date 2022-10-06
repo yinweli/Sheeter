@@ -33,44 +33,44 @@ const TokenRepeated = "repeated"  // 類型字串: repeated(proto)
 
 /* 模板相關 */
 
-const PathTmpl = "template"                         // 輸出路徑: 模板檔案
-const FileTmplJsonCsStruct = "json-cs-struct.txt"   // 輸出檔名: json-cs結構模板
-const FileTmplJsonCsReader = "json-cs-reader.txt"   // 輸出檔名: json-cs讀取器模板
-const FileTmplJsonGoStruct = "json-go-struct.txt"   // 輸出檔名: json-go結構模板
-const FileTmplJsonGoReader = "json-go-reader.txt"   // 輸出檔名: json-go讀取器模板
-const FileTmplProtoSchema = "proto-schema.txt"      // 輸出檔名: proto架構模板
-const FileTmplProtoCsReader = "proto-cs-reader.txt" // 輸出檔名: proto-cs讀取器模板
-const FileTmplProtoGoReader = "proto-go-reader.txt" // 輸出檔名: proto-go讀取器模板
-const FileTmplProtoCsBat = "proto-cs-bat.txt"       // 輸出檔名: proto-cs-bat模板
-const FileTmplProtoCsSh = "proto-cs-sh.txt"         // 輸出檔名: proto-cs-sh模板
-const FileTmplProtoGoBat = "proto-go-bat.txt"       // 輸出檔名: proto-go-bat模板
-const FileTmplProtoGoSh = "proto-go-sh.txt"         // 輸出檔名: proto-go-sh模板
+const TmplPath = "template"                         // 輸出路徑: 模板檔案
+const TmplJsonCsStructFile = "json-cs-struct.txt"   // 輸出檔名: json-cs結構模板
+const TmplJsonCsReaderFile = "json-cs-reader.txt"   // 輸出檔名: json-cs讀取器模板
+const TmplJsonGoStructFile = "json-go-struct.txt"   // 輸出檔名: json-go結構模板
+const TmplJsonGoReaderFile = "json-go-reader.txt"   // 輸出檔名: json-go讀取器模板
+const TmplProtoSchemaFile = "proto-schema.txt"      // 輸出檔名: proto架構模板
+const TmplProtoCsReaderFile = "proto-cs-reader.txt" // 輸出檔名: proto-cs讀取器模板
+const TmplProtoGoReaderFile = "proto-go-reader.txt" // 輸出檔名: proto-go讀取器模板
+const TmplProtoCsBatFile = "proto-cs-bat.txt"       // 輸出檔名: proto-cs-bat模板
+const TmplProtoCsShFile = "proto-cs-sh.txt"         // 輸出檔名: proto-cs-sh模板
+const TmplProtoGoBatFile = "proto-go-bat.txt"       // 輸出檔名: proto-go-bat模板
+const TmplProtoGoShFile = "proto-go-sh.txt"         // 輸出檔名: proto-go-sh模板
 
 /* 通用名稱 */
 
 const Reader = "Reader"     // 讀取器名稱
 const Storer = "Storer"     // 儲存器名稱
 const StorerDatas = "Datas" // 儲存器資料名稱
-const PathSchema = "schema" // 輸出路徑: 架構
-const PathData = "data"     // 輸出路徑: 資料
-const PathCs = "codeCs"     // 輸出路徑: cs
-const PathGo = "codeGo"     // 輸出路徑: go
-const ExtCs = "cs"          // 副檔名: cs
-const ExtGo = "go"          // 副檔名: go
+const SchemaPath = "schema" // 輸出路徑: 架構
+const DataPath = "data"     // 輸出路徑: 資料
+const CsPath = "codeCs"     // 輸出路徑: cs
+const CsExt = "cs"          // 副檔名: cs
+const GoPath = "codeGo"     // 輸出路徑: go
+const GoExt = "go"          // 副檔名: go
 
 /* json相關 */
 
-const NamespaceJson = AppName + "Json"
-const PathJson = "json"    // 輸出路徑: json
-const ExtJsonData = "json" // 副檔名: json資料
+const JsonNamespace = AppName + "Json" // 命名空間名稱: json
+const JsonPath = "json"                // 輸出路徑: json
+const JsonDataExt = "json"             // 副檔名: json資料
 
 /* proto相關 */
 
-const NamespaceProto = AppName + "Proto"
-const PathProto = "proto"            // 輸出路徑: proto
-const ExtProtoSchema = "proto"       // 副檔名: proto架構
-const ExtProtoData = "bytes"         // 副檔名: proto資料
-const FileProtoCsBat = "protoCs.bat" // 檔名: proto-cs-bat
-const FileProtoCsSh = "protoCs.sh"   // 檔名: proto-cs-sh
-const FileProtoGoBat = "protoGo.bat" // 檔名: proto-go-bat
-const FileProtoGoSh = "protoGo.sh"   // 檔名: proto-go-sh
+const ProtoNamespace = AppName + "Proto" // 命名空間名稱: proto
+const ProtoPath = "proto"                // 輸出路徑: proto
+const ProtoSchemaExt = "proto"           // 副檔名: proto架構
+const ProtoDataExt = "bytes"             // 副檔名: proto資料
+const ProtoCsBatFile = "protoCs.bat"     // 檔名: proto-cs-bat
+const ProtoCsShFile = "protoCs.sh"       // 檔名: proto-cs-sh
+const ProtoGoBatFile = "protoGo.bat"     // 檔名: proto-go-bat
+const ProtoGoShFile = "protoGo.sh"       // 檔名: proto-go-sh

@@ -26,7 +26,7 @@ func encodingProto(runtimeSector *RuntimeSector) error {
 
 	filename := runtimeSector.ProtoName()
 	message := runtimeSector.StorerMessage(runtimeSector.Global.SimpleNamespace)
-	imports := []string{filepath.Join(internal.PathProto, internal.PathSchema)}
+	imports := []string{filepath.Join(internal.ProtoPath, internal.SchemaPath)}
 	data, err := utils.JsonToProto(filename, message, imports, json)
 
 	if err != nil {

@@ -42,16 +42,16 @@ func (this *SuiteProto) TestName() {
 	name := this.excel + utils.FirstUpper(this.sheet)
 	structName := name + "."
 	readerName := name + internal.Reader + "."
-	protoCsPath := filepath.Join(internal.PathProto, internal.PathCs)
-	protoGoPath := filepath.Join(internal.PathProto, internal.PathGo)
-	protoSchemaPath := filepath.Join(internal.PathProto, internal.PathSchema)
-	protoName := structName + internal.ExtProtoSchema
+	protoCsPath := filepath.Join(internal.ProtoPath, internal.CsPath)
+	protoGoPath := filepath.Join(internal.ProtoPath, internal.GoPath)
+	protoSchemaPath := filepath.Join(internal.ProtoPath, internal.SchemaPath)
+	protoName := structName + internal.ProtoSchemaExt
 	protoPath := filepath.Join(protoSchemaPath, protoName)
-	protoDataFile := structName + internal.ExtProtoData
-	protoDataPath := filepath.Join(internal.PathProto, internal.PathData, protoDataFile)
-	protoCsReaderPath := filepath.Join(internal.PathProto, internal.PathCs, utils.FirstUpper(readerName)+internal.ExtCs)
-	protoGoReaderPath := filepath.Join(internal.PathProto, internal.PathGo, readerName+internal.ExtGo)
-	protoDepend := utils.FirstLower(this.excel) + "." + internal.ExtProtoSchema
+	protoDataFile := structName + internal.ProtoDataExt
+	protoDataPath := filepath.Join(internal.ProtoPath, internal.DataPath, protoDataFile)
+	protoCsReaderPath := filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(readerName)+internal.CsExt)
+	protoGoReaderPath := filepath.Join(internal.ProtoPath, internal.GoPath, readerName+internal.GoExt)
+	protoDepend := utils.FirstLower(this.excel) + "." + internal.ProtoSchemaExt
 
 	target := this.target()
 	assert.Equal(this.T(), protoCsPath, target.ProtoCsPath())
@@ -60,7 +60,7 @@ func (this *SuiteProto) TestName() {
 	assert.Equal(this.T(), protoName, target.ProtoName())
 	assert.Equal(this.T(), protoPath, target.ProtoPath())
 	assert.Equal(this.T(), name, target.ProtoDataName())
-	assert.Equal(this.T(), internal.ExtProtoData, target.ProtoDataExt())
+	assert.Equal(this.T(), internal.ProtoDataExt, target.ProtoDataExt())
 	assert.Equal(this.T(), protoDataFile, target.ProtoDataFile())
 	assert.Equal(this.T(), protoDataPath, target.ProtoDataPath())
 	assert.Equal(this.T(), protoCsReaderPath, target.ProtoCsReaderPath())

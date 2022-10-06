@@ -28,7 +28,7 @@ func (this *SuiteGenerateJson) SetupSuite() {
 }
 
 func (this *SuiteGenerateJson) TearDownSuite() {
-	_ = os.RemoveAll(internal.PathJson)
+	_ = os.RemoveAll(internal.JsonPath)
 	testdata.RestoreWorkDir(this.workDir)
 }
 

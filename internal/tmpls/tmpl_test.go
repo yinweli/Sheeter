@@ -35,7 +35,7 @@ func (this *SuiteTmpl) SetupSuite() {
 }
 
 func (this *SuiteTmpl) TearDownSuite() {
-	_ = os.RemoveAll(internal.PathTmpl)
+	_ = os.RemoveAll(internal.TmplPath)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
@@ -88,5 +88,5 @@ func (this *SuiteTmpl) TestSave() {
 
 func (this *SuiteTmpl) TestPath() {
 	target := this.target()
-	assert.Equal(this.T(), filepath.Join(internal.PathTmpl, target.Name), target.path())
+	assert.Equal(this.T(), filepath.Join(internal.TmplPath, target.Name), target.path())
 }

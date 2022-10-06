@@ -48,16 +48,16 @@ func (this *SuiteMixed) TestName() {
 
 	target := this.target()
 	assert.Equal(this.T(), internal.AppName, target.AppName())
-	assert.Equal(this.T(), internal.AppName, target.NamespaceJson(true))
-	assert.Equal(this.T(), internal.NamespaceJson, target.NamespaceJson(false))
-	assert.Equal(this.T(), internal.AppName, target.NamespaceProto(true))
-	assert.Equal(this.T(), internal.NamespaceProto, target.NamespaceProto(false))
+	assert.Equal(this.T(), internal.AppName, target.JsonNamespace(true))
+	assert.Equal(this.T(), internal.JsonNamespace, target.JsonNamespace(false))
+	assert.Equal(this.T(), internal.AppName, target.ProtoNamespace(true))
+	assert.Equal(this.T(), internal.ProtoNamespace, target.ProtoNamespace(false))
 	assert.Equal(this.T(), structName, target.StructName())
 	assert.Equal(this.T(), readerName, target.ReaderName())
 	assert.Equal(this.T(), storerName, target.StorerName())
 	assert.Equal(this.T(), internal.StorerDatas, target.StorerDatas())
 	assert.Equal(this.T(), internal.AppName+"."+storerName, target.StorerMessage(true))
-	assert.Equal(this.T(), internal.NamespaceProto+"."+storerName, target.StorerMessage(false))
+	assert.Equal(this.T(), internal.ProtoNamespace+"."+storerName, target.StorerMessage(false))
 }
 
 func (this *SuiteMixed) TestCombine() {
