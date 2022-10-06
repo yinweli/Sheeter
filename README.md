@@ -199,53 +199,54 @@ elements:
 使用者可以改變模板內容, 來產生自訂的程式碼  
 模板檔案使用[go]的[template]語法, 同時可以參考以下變數來做結構名稱或是欄位名稱等的替換  
 
-| 名稱                | 參數        | 說明                                   |
-|:--------------------|:------------|:---------------------------------------|
-| $.AppName           |             | 程式名稱                               |
-| $.NamespaceJson     |             | json命名空間名稱                       |
-| $.NamespaceProto    |             | proto命名空間名稱                      |
-| $.StructName        |             | 結構名稱                               |
-| $.ReaderName        |             | 讀取器名稱                             |
-| $.StorerName        |             | 儲存器名稱                             |
-| $.StorerDatas       |             | 儲存器資料名稱                         |
-| $.StorerMessage     |             | 儲存器proto message名稱                |
-| $.FieldName         | 欄位資料    | 欄位名稱                               |
-| $.FieldNote         | 欄位資料    | 欄位註解                               |
-| $.FieldTypeCs       | 欄位資料    | cs欄位類型                             |
-| $.FieldTypeGo       | 欄位資料    | go欄位類型                             |
-| $.FieldTypeProto    | 欄位資料    | go欄位類型                             |
-| $.PkeyTypeCs        |             | pkey的cs類型                           |
-| $.PkeyTypeGo        |             | pkey的go類型                           |
-| $.PkeyTypeProto     |             | pkey的proto類型                        |
-| $.FileJsonData      |             | json資料檔名                           |
-| $.PathJsonData      |             | json資料路徑                           |
-| $.PathJsonCsStruct  |             | json-cs結構程式碼路徑                  |
-| $.PathJsonCsReader  |             | json-cs讀取器程式碼路徑                |
-| $.PathJsonGoStruct  |             | json-go結構程式碼路徑                  |
-| $.PathJsonGoReader  |             | json-go讀取器程式碼檔名路徑            |
-| $.PathProtoCs       |             | proto-cs路徑                           |
-| $.PathProtoGo       |             | proto-go路徑                           |
-| $.PathProtoSchema   |             | proto-schema路徑                       |
-| $.FileProtoName     |             | proto架構檔名                          |
-| $.PathProtoName     |             | proto架構路徑                          |
-| $.FileProtoData     |             | proto資料檔名                          |
-| $.PathProtoData     |             | proto資料路徑                          |
-| $.PathProtoCsReader |             | proto-cs讀取器程式碼路徑               |
-| $.PathProtoGoReader |             | proto-go讀取器程式碼路徑               |
-| $.ProtoDepend       | 依賴名稱    | proto依賴檔案名稱                      |
-| $.FirstUpper        | 字串        | 字串首字母大寫                         |
-| $.FirstLower        | 字串        | 字串首字母小寫                         |
-| $.Add               | 數值1 數值2 | 加法(數值1 + 數值2)                    |
-| $.Sub               | 數值1 數值2 | 減法(數值1 - 數值2)                    |
-| $.Mul               | 數值1 數值2 | 乘法(數值1 x 數值2)                    |
-| $.Div               | 數值1 數值2 | 除法(數值1 / 數值2)                    |
-| $.Excel             |             | 表格檔案名稱(僅限產生程式碼時使用)     |
-| $.Sheet             |             | 表格表單名稱(僅限產生程式碼時使用)     |
-| $.Reader            |             | 是否要產生讀取器(僅限產生程式碼時使用) |
-| $.Fields            |             | 欄位列表(僅限產生程式碼時使用)         |
-| $.Depend            |             | 依賴列表(僅限產生程式碼時使用)         |
-| $.Sector            |             | 區段資料列表(僅限產生後製檔時使用)     |
-| $.Struct            |             | 結構資料列表(僅限產生後製檔時使用)     |
+| 名稱                | 參數                     | 說明                                           |
+|:--------------------|:-------------------------|:-----------------------------------------------|
+| $.AppName           |                          | 程式名稱                                       |
+| $.NamespaceJson     | 是否用簡單的命名空間名稱 | json命名空間名稱                               |
+| $.NamespaceProto    | 是否用簡單的命名空間名稱 | proto命名空間名稱                              |
+| $.StructName        |                          | 結構名稱                                       |
+| $.ReaderName        |                          | 讀取器名稱                                     |
+| $.StorerName        |                          | 儲存器名稱                                     |
+| $.StorerDatas       |                          | 儲存器資料名稱                                 |
+| $.StorerMessage     | 是否用簡單的命名空間名稱 | 儲存器proto message名稱                        |
+| $.FieldName         | 欄位資料                 | 欄位名稱                                       |
+| $.FieldNote         | 欄位資料                 | 欄位註解                                       |
+| $.FieldTypeCs       | 欄位資料                 | cs欄位類型                                     |
+| $.FieldTypeGo       | 欄位資料                 | go欄位類型                                     |
+| $.FieldTypeProto    | 欄位資料                 | go欄位類型                                     |
+| $.PkeyTypeCs        |                          | pkey的cs類型                                   |
+| $.PkeyTypeGo        |                          | pkey的go類型                                   |
+| $.PkeyTypeProto     |                          | pkey的proto類型                                |
+| $.FileJsonData      |                          | json資料檔名                                   |
+| $.PathJsonData      |                          | json資料路徑                                   |
+| $.PathJsonCsStruct  |                          | json-cs結構程式碼路徑                          |
+| $.PathJsonCsReader  |                          | json-cs讀取器程式碼路徑                        |
+| $.PathJsonGoStruct  |                          | json-go結構程式碼路徑                          |
+| $.PathJsonGoReader  |                          | json-go讀取器程式碼檔名路徑                    |
+| $.PathProtoCs       |                          | proto-cs路徑                                   |
+| $.PathProtoGo       |                          | proto-go路徑                                   |
+| $.PathProtoSchema   |                          | proto-schema路徑                               |
+| $.FileProtoName     |                          | proto架構檔名                                  |
+| $.PathProtoName     |                          | proto架構路徑                                  |
+| $.FileProtoData     |                          | proto資料檔名                                  |
+| $.PathProtoData     |                          | proto資料路徑                                  |
+| $.PathProtoCsReader |                          | proto-cs讀取器程式碼路徑                       |
+| $.PathProtoGoReader |                          | proto-go讀取器程式碼路徑                       |
+| $.ProtoDepend       | 依賴名稱                 | proto依賴檔案名稱                              |
+| $.FirstUpper        | 字串                     | 字串首字母大寫                                 |
+| $.FirstLower        | 字串                     | 字串首字母小寫                                 |
+| $.Add               | 數值1 數值2              | 加法(數值1 + 數值2)                            |
+| $.Sub               | 數值1 數值2              | 減法(數值1 - 數值2)                            |
+| $.Mul               | 數值1 數值2              | 乘法(數值1 x 數值2)                            |
+| $.Div               | 數值1 數值2              | 除法(數值1 / 數值2)                            |
+| $.Excel             |                          | 表格檔案名稱(僅限產生程式碼時使用)             |
+| $.Sheet             |                          | 表格表單名稱(僅限產生程式碼時使用)             |
+| $.Reader            |                          | 是否要產生讀取器(僅限產生程式碼時使用)         |
+| $.SimpleNamespace   |                          | 是否用簡單的命名空間名稱(僅限產生程式碼時使用) |
+| $.Fields            |                          | 欄位列表(僅限產生程式碼時使用)                 |
+| $.Depend            |                          | 依賴列表(僅限產生程式碼時使用)                 |
+| $.Sector            |                          | 區段資料列表(僅限產生後製檔時使用)             |
+| $.Struct            |                          | 結構資料列表(僅限產生後製檔時使用)             |
 
 # proto說明
 以下描述了如果要使用[proto]時的資訊  

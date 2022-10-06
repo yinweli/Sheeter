@@ -90,6 +90,6 @@ func (this *RuntimeSector) GetColumns(line int) (cols []string, err error) {
 type RuntimeStruct struct {
 	*mixeds.Mixed            // 綜合工具
 	*layouts.Type            // 類型資料
-	SimpleNamespace bool     // 是否使用通用的命名空間名稱
+	SimpleNamespace bool     // 是否用簡單的命名空間名稱
 	Depend          []string // 依賴列表
 }
