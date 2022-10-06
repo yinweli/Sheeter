@@ -114,7 +114,7 @@ using System.IO;
 namespace SheeterProto {
     public partial class TestDataReader {
         public static string FileName() {
-            return "testData.pbd";
+            return "testData.bytes";
         }
 
         public bool FromPath(string path) {
@@ -195,7 +195,7 @@ type TestDataReader struct {
 }
 
 func (this *TestDataReader) FileName() string {
-	return "testData.pbd"
+	return "testData.bytes"
 }
 
 func (this *TestDataReader) FromPath(path string) error {

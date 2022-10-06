@@ -7,7 +7,7 @@ using System.IO;
 namespace SheeterProto {
     public partial class VerifyData1Reader {
         public static string FileName() {
-            return "verifyData1.pbd";
+            return "verifyData1.bytes";
         }
 
         public bool FromPath(string path) {

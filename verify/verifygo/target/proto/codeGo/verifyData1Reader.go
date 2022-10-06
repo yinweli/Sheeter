@@ -16,7 +16,7 @@ type VerifyData1Reader struct {
 }
 
 func (this *VerifyData1Reader) FileName() string {
-	return "verifyData1.pbd"
+	return "verifyData1.bytes"
 }
 
 func (this *VerifyData1Reader) FromPath(path string) error {

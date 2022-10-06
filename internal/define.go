@@ -3,7 +3,7 @@ package internal
 /* 應用程式相關 */
 
 const AppName = "sheeter"   // 程式名稱
-const Version = "1.5.0"     // 版本字串, 遵循'大版本.小版本.修正版本'的規則
+const Version = "1.5.1"     // 版本字串, 遵循'大版本.小版本.修正版本'的規則
 const BarWidth = 40         // 進度條寬度
 const SeparateField = "#"   // 欄位字串以'#'符號分割為名稱與欄位
 const SeparateElement = "#" // 項目字串以'#'符號分割為檔案名稱與表單名稱
@@ -69,7 +69,7 @@ const ExtJsonData = "json" // 副檔名: json資料
 const NamespaceProto = AppName + "Proto"
 const PathProto = "proto"            // 輸出路徑: proto
 const ExtProtoSchema = "proto"       // 副檔名: proto架構
-const ExtProtoData = "pbd"           // 副檔名: proto資料
+const ExtProtoData = "bytes"         // 副檔名: proto資料
 const FileProtoCsBat = "protoCs.bat" // 檔名: proto-cs-bat
 const FileProtoCsSh = "protoCs.sh"   // 檔名: proto-cs-sh
 const FileProtoGoBat = "protoGo.bat" // 檔名: proto-go-bat
