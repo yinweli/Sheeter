@@ -96,12 +96,12 @@ message TestData {
 
 	target := this.target()
 	assert.Nil(this.T(), generateProtoSchema(target))
-	testdata.CompareFile(this.T(), target.PathProtoName(), data1)
+	testdata.CompareFile(this.T(), target.ProtoPath(), data1)
 
 	target = this.target()
 	target.Reader = false
 	assert.Nil(this.T(), generateProtoSchema(target))
-	testdata.CompareFile(this.T(), target.PathProtoName(), data2)
+	testdata.CompareFile(this.T(), target.ProtoPath(), data2)
 }
 
 func (this *SuiteGenerateProto) TestGenerateProtoCsReader() {
@@ -173,7 +173,7 @@ namespace SheeterProto {
 
 	target := this.target()
 	assert.Nil(this.T(), generateProtoCsReader(target))
-	testdata.CompareFile(this.T(), target.PathProtoCsReader(), data)
+	testdata.CompareFile(this.T(), target.ProtoCsReaderPath(), data)
 }
 
 func (this *SuiteGenerateProto) TestGenerateProtoGoReader() {
@@ -259,5 +259,5 @@ func (this *TestDataReader) MergeData(data []byte) (repeats []int64) {
 
 	target := this.target()
 	assert.Nil(this.T(), generateProtoGoReader(target))
-	testdata.CompareFile(this.T(), target.PathProtoGoReader(), data)
+	testdata.CompareFile(this.T(), target.ProtoGoReaderPath(), data)
 }

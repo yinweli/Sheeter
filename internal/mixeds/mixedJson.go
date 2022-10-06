@@ -11,29 +11,41 @@ type Json struct {
 	mixed *Mixed // 綜合工具
 }
 
-// FileJsonData 取得json資料檔名
-func (this *Json) FileJsonData() string {
+// JsonDataName 取得json資料名稱
+func (this *Json) JsonDataName() string {
+	return this.mixed.combine(params{
+		sheetUpper: true,
+	})
+}
+
+// JsonDataExt 取得json資料副檔名
+func (this *Json) JsonDataExt() string {
+	return internal.ExtJsonData
+}
+
+// JsonDataFile 取得json資料檔名
+func (this *Json) JsonDataFile() string {
 	return this.mixed.combine(params{
 		sheetUpper: true,
 		ext:        internal.ExtJsonData,
 	})
 }
 
-// PathJsonData 取得json資料路徑
-func (this *Json) PathJsonData() string {
-	return filepath.Join(internal.PathJson, internal.PathData, this.FileJsonData())
+// JsonDataPath 取得json資料路徑
+func (this *Json) JsonDataPath() string {
+	return filepath.Join(internal.PathJson, internal.PathData, this.JsonDataFile())
 }
 
-// PathJsonCsStruct 取得json-cs結構程式碼路徑
-func (this *Json) PathJsonCsStruct() string {
+// JsonCsStructPath 取得json-cs結構程式碼路徑
+func (this *Json) JsonCsStructPath() string {
 	return filepath.Join(internal.PathJson, internal.PathCs, this.mixed.combine(params{
 		sheetUpper: true,
 		ext:        internal.ExtCs,
 	}))
 }
 
-// PathJsonCsReader 取得json-cs讀取器程式碼路徑
-func (this *Json) PathJsonCsReader() string {
+// JsonCsReaderPath 取得json-cs讀取器程式碼路徑
+func (this *Json) JsonCsReaderPath() string {
 	return filepath.Join(internal.PathJson, internal.PathCs, this.mixed.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,
@@ -41,16 +53,16 @@ func (this *Json) PathJsonCsReader() string {
 	}))
 }
 
-// PathJsonGoStruct 取得json-go結構程式碼路徑
-func (this *Json) PathJsonGoStruct() string {
+// JsonGoStructPath 取得json-go結構程式碼路徑
+func (this *Json) JsonGoStructPath() string {
 	return filepath.Join(internal.PathJson, internal.PathGo, this.mixed.combine(params{
 		sheetUpper: true,
 		ext:        internal.ExtGo,
 	}))
 }
 
-// PathJsonGoReader 取得json-go讀取器程式碼檔名路徑
-func (this *Json) PathJsonGoReader() string {
+// JsonGoReaderPath 取得json-go讀取器程式碼檔名路徑
+func (this *Json) JsonGoReaderPath() string {
 	return filepath.Join(internal.PathJson, internal.PathGo, this.mixed.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,

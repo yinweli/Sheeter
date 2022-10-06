@@ -111,12 +111,12 @@ namespace SheeterJson {
 
 	target := this.target()
 	assert.Nil(this.T(), generateJsonCsStruct(target))
-	testdata.CompareFile(this.T(), target.PathJsonCsStruct(), data1)
+	testdata.CompareFile(this.T(), target.JsonCsStructPath(), data1)
 
 	target = this.target()
 	target.Reader = false
 	assert.Nil(this.T(), generateJsonCsStruct(target))
-	testdata.CompareFile(this.T(), target.PathJsonCsStruct(), data2)
+	testdata.CompareFile(this.T(), target.JsonCsStructPath(), data2)
 }
 
 func (this *SuiteGenerateJson) TestGenerateJsonCsReader() {
@@ -189,7 +189,7 @@ namespace SheeterJson {
 
 	target := this.target()
 	assert.Nil(this.T(), generateJsonCsReader(target))
-	testdata.CompareFile(this.T(), target.PathJsonCsReader(), data)
+	testdata.CompareFile(this.T(), target.JsonCsReaderPath(), data)
 }
 
 func (this *SuiteGenerateJson) TestGenerateJsonGoStruct() {
@@ -236,12 +236,12 @@ type TestData struct {
 
 	target := this.target()
 	assert.Nil(this.T(), generateJsonGoStruct(target))
-	testdata.CompareFile(this.T(), target.PathJsonGoStruct(), data1)
+	testdata.CompareFile(this.T(), target.JsonGoStructPath(), data1)
 
 	target = this.target()
 	target.Reader = false
 	assert.Nil(this.T(), generateJsonGoStruct(target))
-	testdata.CompareFile(this.T(), target.PathJsonGoStruct(), data2)
+	testdata.CompareFile(this.T(), target.JsonGoStructPath(), data2)
 }
 
 func (this *SuiteGenerateJson) TestGenerateJsonGoReader() {
@@ -326,5 +326,5 @@ func (this *TestDataReader) MergeData(data []byte) (repeats []int64) {
 
 	target := this.target()
 	assert.Nil(this.T(), generateJsonGoReader(target))
-	testdata.CompareFile(this.T(), target.PathJsonGoReader(), data)
+	testdata.CompareFile(this.T(), target.JsonGoReaderPath(), data)
 }

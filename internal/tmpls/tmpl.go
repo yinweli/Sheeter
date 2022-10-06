@@ -137,7 +137,7 @@ using System.IO;
 namespace {{$.NamespaceJson $.SimpleNamespace | $.FirstUpper}} {
     public partial class {{$.ReaderName}} {
         public static string FileName() {
-            return "{{$.FileJsonData}}";
+            return "{{$.JsonDataFile}}";
         }
 
         public bool FromPath(string path) {
@@ -234,7 +234,7 @@ type {{$.ReaderName}} struct {
 }
 
 func (this *{{$.ReaderName}}) FileName() string {
-	return "{{$.FileJsonData}}"
+	return "{{$.JsonDataFile}}"
 }
 
 func (this *{{$.ReaderName}}) FromPath(path string) error {
@@ -333,7 +333,7 @@ using System.IO;
 namespace {{$.NamespaceProto $.SimpleNamespace | $.FirstUpper}} {
     public partial class {{$.ReaderName}} {
         public static string FileName() {
-            return "{{$.FileProtoData}}";
+            return "{{$.ProtoDataFile}}";
         }
 
         public bool FromPath(string path) {
@@ -410,7 +410,7 @@ type {{$.ReaderName}} struct {
 }
 
 func (this *{{$.ReaderName}}) FileName() string {
-	return "{{$.FileProtoData}}"
+	return "{{$.ProtoDataFile}}"
 }
 
 func (this *{{$.ReaderName}}) FromPath(path string) error {
@@ -477,9 +477,9 @@ func (this *{{$.ReaderName}}) MergeData(data []byte) (repeats []{{$.PkeyTypeGo}}
 var ProtoCsBat = &Tmpl{
 	Name: internal.FileTmplProtoCsBat,
 	Data: HeaderBat + `
-mkdir {{.PathProtoCs}}
+mkdir {{.ProtoCsPath}}
 {{- range $.Struct}}
-protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} --csharp_out=./{{.PathProtoCs}} ./{{.PathProtoName}}
+protoc --experimental_allow_proto3_optional --proto_path=./{{.ProtoSchemaPath}} --csharp_out=./{{.ProtoCsPath}} ./{{.ProtoPath}}
 {{- end}}
 `,
 }
@@ -488,9 +488,9 @@ protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} 
 var ProtoCsSh = &Tmpl{
 	Name: internal.FileTmplProtoCsSh,
 	Data: HeaderSh + `
-mkdir {{.PathProtoCs}}
+mkdir {{.ProtoCsPath}}
 {{- range $.Struct}}
-protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} --csharp_out=./{{.PathProtoCs}} ./{{.PathProtoName}}
+protoc --experimental_allow_proto3_optional --proto_path=./{{.ProtoSchemaPath}} --csharp_out=./{{.ProtoCsPath}} ./{{.ProtoPath}}
 {{- end}}
 `,
 }
@@ -499,9 +499,9 @@ protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} 
 var ProtoGoBat = &Tmpl{
 	Name: internal.FileTmplProtoGoBat,
 	Data: HeaderBat + `
-mkdir {{.PathProtoGo}}
+mkdir {{.ProtoGoPath}}
 {{- range $.Struct}}
-protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} --go_out=./{{.PathProtoGo}} ./{{.PathProtoName}}
+protoc --experimental_allow_proto3_optional --proto_path=./{{.ProtoSchemaPath}} --go_out=./{{.ProtoGoPath}} ./{{.ProtoPath}}
 {{- end}}
 `,
 }
@@ -510,9 +510,9 @@ protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} 
 var ProtoGoSh = &Tmpl{
 	Name: internal.FileTmplProtoGoSh,
 	Data: HeaderSh + `
-mkdir {{.PathProtoGo}}
+mkdir {{.ProtoGoPath}}
 {{- range $.Struct}}
-protoc --experimental_allow_proto3_optional --proto_path=./{{.PathProtoSchema}} --go_out=./{{.PathProtoGo}} ./{{.PathProtoName}}
+protoc --experimental_allow_proto3_optional --proto_path=./{{.ProtoSchemaPath}} --go_out=./{{.ProtoGoPath}} ./{{.ProtoPath}}
 {{- end}}
 `,
 }
