@@ -14,11 +14,11 @@ import (
 func Encoding(runtime *Runtime, config *Config) (errs []error) {
 	tasks := []func(*RuntimeSector) error{}
 
-	if config.Global.GenerateJson {
+	if config.Global.ExportJson {
 		tasks = append(tasks, encodingJson)
 	} // if
 
-	if config.Global.GenerateProto {
+	if config.Global.ExportProto {
 		tasks = append(tasks, encodingProto)
 	} // if
 

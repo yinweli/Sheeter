@@ -48,45 +48,50 @@
 | ./template     | 存放模板檔案                  |
 
 # 命令說明
-* build: 建置資料檔案與程式碼
-  配置好yaml格式的設定檔與excel檔案, 然後在終端執行  
-  ```shell
-  sheeter build --config setting.yaml
-  ```
-  build命令有以下的旗標可用  
-  
-  | 旗標          | 參數                                    | 說明                 |
-  |:--------------|:----------------------------------------|:---------------------|
-  | --config      | 路徑與檔名; 例如: path/seeting.yaml     | 設定檔案路徑         |
-  | --json        |                                         | 是否產生json檔案     |
-  | --proto       |                                         | 是否產生proto檔案    |
-  | --lineOfField | 行號(1為起始行)                         | 欄位行號             |
-  | --lineOfLayer | 行號(1為起始行)                         | 階層行號             |
-  | --lineOfNote  | 行號(1為起始行)                         | 註解行號             |
-  | --lineOfData  | 行號(1為起始行)                         | 資料行號             |
-  | --excludes    | 標籤,標籤,...                           | 輸出時排除的標籤列表 |
-  | --elements    | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 項目列表             |
-  
-  若是--json與--proto都沒有在旗標列中, 則[json]與[proto]檔案都會被產生  
-  * 例如
+以下描述了[sheeter]提供的命令與旗標
+
+## build命令
+用於建置資料檔案與程式碼  
+```shell
+sheeter build --config setting.yaml
+```
+
+| 旗標          | 參數                                    | 說明                     |
+|:--------------|:----------------------------------------|:-------------------------|
+| --config      | 路徑與檔名; 例如: path/seeting.yaml     | 設定檔案路徑             |
+| --json        |                                         | 是否產生json檔案         |
+| --proto       |                                         | 是否產生proto檔案        |
+| --namespace   |                                         | 是否用簡單的命名空間名稱 |
+| --lineOfField | 行號(1為起始行)                         | 欄位行號                 |
+| --lineOfLayer | 行號(1為起始行)                         | 階層行號                 |
+| --lineOfNote  | 行號(1為起始行)                         | 註解行號                 |
+| --lineOfData  | 行號(1為起始行)                         | 資料行號                 |
+| --excludes    | 標籤,標籤,...                           | 輸出時排除的標籤列表     |
+| --elements    | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 項目列表                 |
+
+* --json / --proto: 用於控制是否要產生[json]與[proto]檔案
+    * sheeter build         => 輸出[json]與[proto]檔案
     * sheeter build --json  => 只輸出[json]檔案
     * sheeter build --proto => 只輸出[proto]檔案
-    * sheeter build         => 輸出[json]與[proto]檔案
-* tmpl: 產生模板檔案
-  這會產生執行時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
-  ```shell
-  sheeter tmpl
-  ```
-  tmpl命令有以下的旗標可用  
-  
-  | 旗標          | 參數 | 說明             |
-  |:--------------|:-----|:-----------------|
-  | --clean / -c  |      | 重新產生模板檔案 |
-  
-* version: 顯示版本資訊
-  ```shell
-  sheeter version
-  ```
+* --namespace: 用於控制產生的命名空間名稱
+    * sheeter build             => 命名空間名稱: sheeterJson / SheeterJson / sheeterProto / SheeterProto
+    * sheeter build --namespace => 命名空間名稱: sheeter / Sheeter
+
+## tmpl命令
+用於產生執行時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
+```shell
+sheeter tmpl
+```
+
+| 旗標          | 參數 | 說明             |
+|:--------------|:-----|:-----------------|
+| --clean / -c  |      | 重新產生模板檔案 |
+
+## version命令
+用於顯示版本資訊
+```shell
+sheeter version
+```
 
 # excel說明
 ![excel]
@@ -169,17 +174,20 @@
 # 設定說明
 ```yaml
 global:
-  lineOfField: 1       # 欄位行號(1為起始行)
-  lineOfLayer: 2       # 階層行號(1為起始行)
-  lineOfNote:  3       # 註解行號(1為起始行)
-  lineOfData:  4       # 資料行號(1為起始行)
-  excludes:            # 排除標籤列表
+  exportJson: true      # 是否產生json檔案
+  exportProto: true     # 是否產生proto檔案
+  simpleNamespace: true # 是否用簡單的命名空間名稱
+  lineOfField: 1        # 欄位行號(1為起始行)
+  lineOfLayer: 2        # 階層行號(1為起始行)
+  lineOfNote:  3        # 註解行號(1為起始行)
+  lineOfData:  4        # 資料行號(1為起始行)
+  excludes:             # 排除標籤列表
     - tag1
     - tag2
 
 elements:
-  - excel: excel1.xlsx # excel檔案名稱
-    sheet: Data        # excel表單名稱
+  - excel: excel1.xlsx  # excel檔案名稱
+    sheet: Data         # excel表單名稱
   - excel: excel2.xlsx
     sheet: Data
   - excel: excel3.xlsx
@@ -295,7 +303,6 @@ buf format -w 存放proto檔案的路徑
 | verify/verifyunity     | unity程式碼驗證                        |
 
 # TODO
-* 新增設定: [cs]是否要去除namespace
 * 修改讀取器提供的檔名
     * 檔名   Name
     * 副檔名 Ext
@@ -316,24 +323,6 @@ buf format -w 存放proto檔案的路徑
 * 嘗試 https://github.com/TheDataShed/xlsxreader
 * 產生flatbuffer message
 * 產生flatbuffer bytes data
-* 重整REAMDE.md
-    * Sheeter
-        * 在win/mac有通過測試, 但是linux沒測試過
-    * 系統需求
-    * 如何安裝
-    * 快速使用說明
-    * 範例檔案
-    * 產生目錄
-    * 命令說明
-    * 設定檔說明
-    * excel說明
-    * 模板檔案
-    * protobuf說明
-    * rebuild.bat/.sh
-        * win
-        * mac
-    * 目錄說明
-    * TODO
 
 [buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/

@@ -20,13 +20,14 @@ type Config struct {
 
 // Global 全域設定
 type Global struct {
-	GenerateJson  bool     `yaml:"generateJson"`  // 是否產生json檔案
-	GenerateProto bool     `yaml:"generateProto"` // 是否產生proto檔案
-	LineOfField   int      `yaml:"lineOfField"`   // 欄位行號(1為起始行)
-	LineOfLayer   int      `yaml:"lineOfLayer"`   // 階層行號(1為起始行)
-	LineOfNote    int      `yaml:"lineOfNote"`    // 註解行號(1為起始行)
-	LineOfData    int      `yaml:"lineOfData"`    // 資料行號(1為起始行)
-	Excludes      []string `yaml:"excludes"`      // 排除標籤列表
+	ExportJson      bool     `yaml:"exportJson"`      // 是否產生json檔案
+	ExportProto     bool     `yaml:"exportProto"`     // 是否產生proto檔案
+	SimpleNamespace bool     `yaml:"simpleNamespace"` // 是否用簡單的命名空間名稱
+	LineOfField     int      `yaml:"lineOfField"`     // 欄位行號(1為起始行)
+	LineOfLayer     int      `yaml:"lineOfLayer"`     // 階層行號(1為起始行)
+	LineOfNote      int      `yaml:"lineOfNote"`      // 註解行號(1為起始行)
+	LineOfData      int      `yaml:"lineOfData"`      // 資料行號(1為起始行)
+	Excludes        []string `yaml:"excludes"`        // 排除標籤列表
 }
 
 // Element 項目設定
@@ -53,21 +54,27 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		} // if
 	} // if
 
-	if flags.Changed(flagGenerateJson) {
-		if value, err := flags.GetBool(flagGenerateJson); err == nil {
-			this.Global.GenerateJson = value
+	if flags.Changed(flagExportJson) {
+		if value, err := flags.GetBool(flagExportJson); err == nil {
+			this.Global.ExportJson = value
 		} // if
 	} // if
 
-	if flags.Changed(flagGenerateProto) {
-		if value, err := flags.GetBool(flagGenerateProto); err == nil {
-			this.Global.GenerateProto = value
+	if flags.Changed(flagExportProto) {
+		if value, err := flags.GetBool(flagExportProto); err == nil {
+			this.Global.ExportProto = value
 		} // if
 	} // if
 
-	if (this.Global.GenerateJson || this.Global.GenerateProto) == false { // 如果json與proto都沒輸出, 就會變成通通都輸出
-		this.Global.GenerateJson = true
-		this.Global.GenerateProto = true
+	if (this.Global.ExportJson || this.Global.ExportProto) == false { // 如果json與proto都沒輸出, 就會變成通通都輸出
+		this.Global.ExportJson = true
+		this.Global.ExportProto = true
+	} // if
+
+	if flags.Changed(flagSimpleNamespace) {
+		if value, err := flags.GetBool(flagSimpleNamespace); err == nil {
+			this.Global.SimpleNamespace = value
+		} // if
 	} // if
 
 	if flags.Changed(flagLineOfField) {

@@ -45,17 +45,19 @@ func (this *SuiteMixed) TestName() {
 	structName := utils.FirstUpper(this.excel) + utils.FirstUpper(this.sheet)
 	readerName := structName + internal.Reader
 	storerName := structName + internal.Storer
-	storerMessage := internal.NamespaceProto + "." + storerName
 
 	target := this.target()
 	assert.Equal(this.T(), internal.AppName, target.AppName())
-	assert.Equal(this.T(), internal.NamespaceJson, target.NamespaceJson())
-	assert.Equal(this.T(), internal.NamespaceProto, target.NamespaceProto())
+	assert.Equal(this.T(), internal.AppName, target.NamespaceJson(true))
+	assert.Equal(this.T(), internal.NamespaceJson, target.NamespaceJson(false))
+	assert.Equal(this.T(), internal.AppName, target.NamespaceProto(true))
+	assert.Equal(this.T(), internal.NamespaceProto, target.NamespaceProto(false))
 	assert.Equal(this.T(), structName, target.StructName())
 	assert.Equal(this.T(), readerName, target.ReaderName())
 	assert.Equal(this.T(), storerName, target.StorerName())
 	assert.Equal(this.T(), internal.StorerDatas, target.StorerDatas())
-	assert.Equal(this.T(), storerMessage, target.StorerMessage())
+	assert.Equal(this.T(), internal.AppName+"."+storerName, target.StorerMessage(true))
+	assert.Equal(this.T(), internal.NamespaceProto+"."+storerName, target.StorerMessage(false))
 }
 
 func (this *SuiteMixed) TestCombine() {

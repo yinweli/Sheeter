@@ -13,7 +13,7 @@ import (
 func Poststep(runtime *Runtime, config *Config) error {
 	tasks := []func(*Runtime) error{}
 
-	if config.Global.GenerateProto {
+	if config.Global.ExportProto {
 		tasks = append(tasks, poststepProtoCsBat, poststepProtoCsSh, poststepProtoGoBat, poststepProtoGoSh)
 	} // if
 

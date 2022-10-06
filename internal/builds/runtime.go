@@ -88,7 +88,8 @@ func (this *RuntimeSector) GetColumns(line int) (cols []string, err error) {
 
 // RuntimeStruct 執行期結構資料
 type RuntimeStruct struct {
-	*mixeds.Mixed          // 綜合工具
-	*layouts.Type          // 類型資料
-	Depend        []string // 依賴列表
+	*mixeds.Mixed            // 綜合工具
+	*layouts.Type            // 類型資料
+	SimpleNamespace bool     // 是否使用通用的命名空間名稱
+	Depend          []string // 依賴列表
 }

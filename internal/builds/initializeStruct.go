@@ -8,7 +8,7 @@ import (
 )
 
 // initializeStruct 初始化結構
-func initializeStruct(runtime *Runtime) error {
+func initializeStruct(runtime *Runtime, config *Config) error {
 	layoutType := layouts.NewLayoutType()
 
 	for _, itor := range runtime.Sector {
@@ -29,9 +29,10 @@ func initializeStruct(runtime *Runtime) error {
 		types := layoutType.Types(itor)
 		depend := layoutDepend.Depends(itor)
 		runtime.Struct = append(runtime.Struct, &RuntimeStruct{
-			Mixed:  mixeds.NewMixed(types.Excel, types.Sheet),
-			Type:   types,
-			Depend: depend,
+			Mixed:           mixeds.NewMixed(types.Excel, types.Sheet),
+			Type:            types,
+			SimpleNamespace: config.Global.SimpleNamespace,
+			Depend:          depend,
 		})
 	} // for
 

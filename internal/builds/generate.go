@@ -14,11 +14,11 @@ import (
 func Generate(runtime *Runtime, config *Config) (errs []error) {
 	tasks := []func(*RuntimeStruct) error{}
 
-	if config.Global.GenerateJson {
+	if config.Global.ExportJson {
 		tasks = append(tasks, generateJsonCsStruct, generateJsonCsReader, generateJsonGoStruct, generateJsonGoReader)
 	} // if
 
-	if config.Global.GenerateProto {
+	if config.Global.ExportProto {
 		tasks = append(tasks, generateProtoSchema, generateProtoCsReader, generateProtoGoReader)
 	} // if
 

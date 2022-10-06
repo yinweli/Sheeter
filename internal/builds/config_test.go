@@ -56,6 +56,9 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Equal(this.T(), []Element{{Excel: "excel1", Sheet: "sheet1"}, {Excel: "excel2", Sheet: "sheet2"}}, config.Elements)
 
 	cmd = SetFlags(&cobra.Command{})
+	assert.Nil(this.T(), cmd.Flags().Set(flagExportJson, "true"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagExportProto, "true"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagSimpleNamespace, "true"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfField, "201"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfLayer, "202"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfNote, "203"))
@@ -64,6 +67,9 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Nil(this.T(), cmd.Flags().Set(flagElements, "excel3#sheet3,excel4#sheet4"))
 	config = Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
+	assert.Equal(this.T(), true, config.Global.ExportJson)
+	assert.Equal(this.T(), true, config.Global.ExportProto)
+	assert.Equal(this.T(), true, config.Global.SimpleNamespace)
 	assert.Equal(this.T(), 201, config.Global.LineOfField)
 	assert.Equal(this.T(), 202, config.Global.LineOfLayer)
 	assert.Equal(this.T(), 203, config.Global.LineOfNote)
