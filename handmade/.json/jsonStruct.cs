@@ -4,7 +4,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace sheeterJson {
+namespace SheeterJson {
     public partial class Reward {
         //
         [JsonProperty("Item")]
@@ -36,7 +36,7 @@ namespace sheeterJson {
 
 // 以下是為了通過編譯的程式碼, 不可使用
 
-namespace sheeterJson {
+namespace SheeterJson {
     public partial class Item {
         // 物品數量
         [JsonProperty("Count")]

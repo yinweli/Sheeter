@@ -2,35 +2,24 @@
 // Sheeter: https://github.com/yinweli/Sheeter
 
 using System.Collections.Generic;
-using System.IO;
 
-namespace {{$.NamespaceProto $.SimpleNamespace | $.FirstUpper}} {
+namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
     public partial class {{$.ReaderName}} {
-        public static string FileName() {
-            return "{{$.FileProtoData}}";
+        public string DataName() {
+            return "{{$.ProtoDataName}}";
         }
 
-        public bool FromPath(string path) {
-            return FromData(File.ReadAllBytes(Path.Combine(path, FileName())));
+        public string DataExt() {
+            return "{{$.ProtoDataExt}}";
+        }
+
+        public string DataFile() {
+            return "{{$.ProtoDataFile}}";
         }
 
         public bool FromData(byte[] data) {
             Datas = {{$.StorerName}}.Parser.ParseFrom(data);
             return Datas != null;
-        }
-
-        public {{$.PkeyTypeCs}}[] MergePath(params string[] path) {
-            var repeats = new List<{{$.PkeyTypeCs}}>();
-
-            foreach (var itor in path) {
-                try {
-                    repeats.AddRange(MergeData(File.ReadAllBytes(Path.Combine(itor, FileName()))));
-                } catch {
-                    // do nothing
-                }
-            }
-
-            return repeats.ToArray();
         }
 
         public {{$.PkeyTypeCs}}[] MergeData(byte[] data) {

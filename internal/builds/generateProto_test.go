@@ -109,35 +109,24 @@ func (this *SuiteGenerateProto) TestGenerateProtoCsReader() {
 // Sheeter: https://github.com/yinweli/Sheeter
 
 using System.Collections.Generic;
-using System.IO;
 
 namespace SheeterProto {
     public partial class TestDataReader {
-        public static string FileName() {
-            return "testData.bytes";
+        public string DataName() {
+            return "testData";
         }
 
-        public bool FromPath(string path) {
-            return FromData(File.ReadAllBytes(Path.Combine(path, FileName())));
+        public string DataExt() {
+            return "bytes";
+        }
+
+        public string DataFile() {
+            return "testData.bytes";
         }
 
         public bool FromData(byte[] data) {
             Datas = TestDataStorer.Parser.ParseFrom(data);
             return Datas != null;
-        }
-
-        public long[] MergePath(params string[] path) {
-            var repeats = new List<long>();
-
-            foreach (var itor in path) {
-                try {
-                    repeats.AddRange(MergeData(File.ReadAllBytes(Path.Combine(itor, FileName()))));
-                } catch {
-                    // do nothing
-                }
-            }
-
-            return repeats.ToArray();
         }
 
         public long[] MergeData(byte[] data) {
@@ -184,8 +173,6 @@ package sheeterProto
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
 
 	"google.golang.org/protobuf/proto"
 )
@@ -194,18 +181,16 @@ type TestDataReader struct {
 	*TestDataStorer
 }
 
-func (this *TestDataReader) FileName() string {
-	return "testData.bytes"
+func (this *TestDataReader) DataName() string {
+	return "testData"
 }
 
-func (this *TestDataReader) FromPath(path string) error {
-	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
+func (this *TestDataReader) DataExt() string {
+	return "bytes"
+}
 
-	if err != nil {
-		return fmt.Errorf("TestDataReader: from path failed: %w", err)
-	}
-
-	return this.FromData(data)
+func (this *TestDataReader) DataFile() string {
+	return "testData.bytes"
 }
 
 func (this *TestDataReader) FromData(data []byte) error {
@@ -218,16 +203,6 @@ func (this *TestDataReader) FromData(data []byte) error {
 	}
 
 	return nil
-}
-
-func (this *TestDataReader) MergePath(path ...string) (repeats []int64) {
-	for _, itor := range path {
-		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
-			repeats = append(repeats, this.MergeData(data)...)
-		}
-	}
-
-	return repeats
 }
 
 func (this *TestDataReader) MergeData(data []byte) (repeats []int64) {

@@ -4,8 +4,6 @@ package _proto
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
 
 	"google.golang.org/protobuf/proto"
 	"google.golang.org/protobuf/reflect/protoreflect"
@@ -15,18 +13,16 @@ type RewardReader struct {
 	*RewardStorer
 }
 
-func (this *RewardReader) FileName() string {
-	return "reward.pbd"
+func (this *RewardReader) DataName() string {
+	return "reward"
 }
 
-func (this *RewardReader) FromPath(path string) error {
-	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
+func (this *RewardReader) DataExt() string {
+	return "bytes"
+}
 
-	if err != nil {
-		return fmt.Errorf("RewardReader: from path failed: %w", err)
-	}
-
-	return this.FromData(data)
+func (this *RewardReader) DataFile() string {
+	return "reward.bytes"
 }
 
 func (this *RewardReader) FromData(data []byte) error {
@@ -39,16 +35,6 @@ func (this *RewardReader) FromData(data []byte) error {
 	}
 
 	return nil
-}
-
-func (this *RewardReader) MergePath(path ...string) (repeats []int64) {
-	for _, itor := range path {
-		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
-			repeats = append(repeats, this.MergeData(data)...)
-		}
-	}
-
-	return repeats
 }
 
 func (this *RewardReader) MergeData(data []byte) (repeats []int64) {

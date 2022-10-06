@@ -6,26 +6,22 @@ package sheeterJson
 import (
 	"encoding/json"
 	"fmt"
-	"os"
-	"path/filepath"
 )
 
 type VerifyData2Reader struct {
 	*VerifyData2Storer
 }
 
-func (this *VerifyData2Reader) FileName() string {
-	return "verifyData2.json"
+func (this *VerifyData2Reader) DataName() string {
+	return "verifyData2"
 }
 
-func (this *VerifyData2Reader) FromPath(path string) error {
-	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
+func (this *VerifyData2Reader) DataExt() string {
+	return "json"
+}
 
-	if err != nil {
-		return fmt.Errorf("VerifyData2Reader: from path failed: %w", err)
-	}
-
-	return this.FromData(data)
+func (this *VerifyData2Reader) DataFile() string {
+	return "verifyData2.json"
 }
 
 func (this *VerifyData2Reader) FromData(data []byte) error {
@@ -38,16 +34,6 @@ func (this *VerifyData2Reader) FromData(data []byte) error {
 	}
 
 	return nil
-}
-
-func (this *VerifyData2Reader) MergePath(path ...string) (repeats []int64) {
-	for _, itor := range path {
-		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
-			repeats = append(repeats, this.MergeData(data)...)
-		}
-	}
-
-	return repeats
 }
 
 func (this *VerifyData2Reader) MergeData(data []byte) (repeats []int64) {

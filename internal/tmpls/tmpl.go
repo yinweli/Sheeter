@@ -132,35 +132,24 @@ var JsonCsReader = &Tmpl{
 	Data: HeaderCode + `
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
 
 namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
     public partial class {{$.ReaderName}} {
-        public static string FileName() {
-            return "{{$.JsonDataFile}}";
+        public string DataName() {
+            return "{{$.JsonDataName}}";
         }
 
-        public bool FromPath(string path) {
-            return FromData(File.ReadAllText(Path.Combine(path, FileName())));
+        public string DataExt() {
+            return "{{$.JsonDataExt}}";
+        }
+
+        public string DataFile() {
+            return "{{$.JsonDataFile}}";
         }
 
         public bool FromData(string data) {
             Datas = JsonConvert.DeserializeObject<{{$.StorerName}}>(data);
             return Datas != null;
-        }
-
-        public {{$.PkeyTypeCs}}[] MergePath(params string[] path) {
-            var repeats = new List<{{$.PkeyTypeCs}}>();
-
-            foreach (var itor in path) {
-                try {
-                    repeats.AddRange(MergeData(File.ReadAllText(Path.Combine(itor, FileName()))));
-                } catch {
-                    // do nothing
-                }
-            }
-
-            return repeats.ToArray();
         }
 
         public {{$.PkeyTypeCs}}[] MergeData(string data) {
@@ -225,26 +214,22 @@ package {{$.JsonNamespace $.SimpleNamespace}}
 import (
 	"encoding/json"
 	"fmt"
-	"os"
-	"path/filepath"
 )
 
 type {{$.ReaderName}} struct {
 	*{{$.StorerName}}
 }
 
-func (this *{{$.ReaderName}}) FileName() string {
-	return "{{$.JsonDataFile}}"
+func (this *{{$.ReaderName}}) DataName() string {
+	return "{{$.JsonDataName}}"
 }
 
-func (this *{{$.ReaderName}}) FromPath(path string) error {
-	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
+func (this *{{$.ReaderName}}) DataExt() string {
+	return "{{$.JsonDataExt}}"
+}
 
-	if err != nil {
-		return fmt.Errorf("{{$.ReaderName}}: from path failed: %w", err)
-	}
-
-	return this.FromData(data)
+func (this *{{$.ReaderName}}) DataFile() string {
+	return "{{$.JsonDataFile}}"
 }
 
 func (this *{{$.ReaderName}}) FromData(data []byte) error {
@@ -257,16 +242,6 @@ func (this *{{$.ReaderName}}) FromData(data []byte) error {
 	}
 
 	return nil
-}
-
-func (this *{{$.ReaderName}}) MergePath(path ...string) (repeats []{{$.PkeyTypeGo}}) {
-	for _, itor := range path {
-		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
-			repeats = append(repeats, this.MergeData(data)...)
-		}
-	}
-
-	return repeats
 }
 
 func (this *{{$.ReaderName}}) MergeData(data []byte) (repeats []{{$.PkeyTypeGo}}) {
@@ -328,35 +303,24 @@ var ProtoCsReader = &Tmpl{
 	Name: internal.TmplProtoCsReaderFile,
 	Data: HeaderCode + `
 using System.Collections.Generic;
-using System.IO;
 
 namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
     public partial class {{$.ReaderName}} {
-        public static string FileName() {
-            return "{{$.ProtoDataFile}}";
+        public string DataName() {
+            return "{{$.ProtoDataName}}";
         }
 
-        public bool FromPath(string path) {
-            return FromData(File.ReadAllBytes(Path.Combine(path, FileName())));
+        public string DataExt() {
+            return "{{$.ProtoDataExt}}";
+        }
+
+        public string DataFile() {
+            return "{{$.ProtoDataFile}}";
         }
 
         public bool FromData(byte[] data) {
             Datas = {{$.StorerName}}.Parser.ParseFrom(data);
             return Datas != null;
-        }
-
-        public {{$.PkeyTypeCs}}[] MergePath(params string[] path) {
-            var repeats = new List<{{$.PkeyTypeCs}}>();
-
-            foreach (var itor in path) {
-                try {
-                    repeats.AddRange(MergeData(File.ReadAllBytes(Path.Combine(itor, FileName()))));
-                } catch {
-                    // do nothing
-                }
-            }
-
-            return repeats.ToArray();
         }
 
         public {{$.PkeyTypeCs}}[] MergeData(byte[] data) {
@@ -399,8 +363,6 @@ package {{$.ProtoNamespace $.SimpleNamespace}}
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
 
 	"google.golang.org/protobuf/proto"
 )
@@ -409,18 +371,16 @@ type {{$.ReaderName}} struct {
 	*{{$.StorerName}}
 }
 
-func (this *{{$.ReaderName}}) FileName() string {
-	return "{{$.ProtoDataFile}}"
+func (this *{{$.ReaderName}}) DataName() string {
+	return "{{$.ProtoDataName}}"
 }
 
-func (this *{{$.ReaderName}}) FromPath(path string) error {
-	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
+func (this *{{$.ReaderName}}) DataExt() string {
+	return "{{$.ProtoDataExt}}"
+}
 
-	if err != nil {
-		return fmt.Errorf("{{$.ReaderName}}: from path failed: %w", err)
-	}
-
-	return this.FromData(data)
+func (this *{{$.ReaderName}}) DataFile() string {
+	return "{{$.ProtoDataFile}}"
 }
 
 func (this *{{$.ReaderName}}) FromData(data []byte) error {
@@ -433,16 +393,6 @@ func (this *{{$.ReaderName}}) FromData(data []byte) error {
 	}
 
 	return nil
-}
-
-func (this *{{$.ReaderName}}) MergePath(path ...string) (repeats []{{$.PkeyTypeGo}}) {
-	for _, itor := range path {
-		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
-			repeats = append(repeats, this.MergeData(data)...)
-		}
-	}
-
-	return repeats
 }
 
 func (this *{{$.ReaderName}}) MergeData(data []byte) (repeats []{{$.PkeyTypeGo}}) {
