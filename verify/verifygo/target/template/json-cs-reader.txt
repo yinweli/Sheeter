@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
-namespace {{$.NamespaceJson}} {
+namespace {{$.NamespaceJson $.SimpleNamespace | $.FirstUpper}} {
     public partial class {{$.ReaderName}} {
         public static string FileName() {
             return "{{$.FileJsonData}}";

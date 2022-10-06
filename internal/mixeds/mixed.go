@@ -33,13 +33,21 @@ func (this *Mixed) AppName() string {
 }
 
 // NamespaceJson 取得json命名空間名稱
-func (this *Mixed) NamespaceJson() string {
-	return internal.NamespaceJson
+func (this *Mixed) NamespaceJson(simpleNamespace bool) string {
+	if simpleNamespace {
+		return internal.AppName
+	} else {
+		return internal.NamespaceJson
+	} // if
 }
 
 // NamespaceProto 取得proto命名空間名稱
-func (this *Mixed) NamespaceProto() string {
-	return internal.NamespaceProto
+func (this *Mixed) NamespaceProto(simpleNamespace bool) string {
+	if simpleNamespace {
+		return internal.AppName
+	} else {
+		return internal.NamespaceProto
+	} // if
 }
 
 // StructName 取得結構名稱
@@ -74,8 +82,8 @@ func (this *Mixed) StorerDatas() string {
 }
 
 // StorerMessage 取得儲存器proto message名稱
-func (this *Mixed) StorerMessage() string {
-	return this.NamespaceProto() + "." + this.StorerName()
+func (this *Mixed) StorerMessage(simpleNamespace bool) string {
+	return this.NamespaceProto(simpleNamespace) + "." + this.StorerName()
 }
 
 // params 組合名稱參數

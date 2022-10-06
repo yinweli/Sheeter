@@ -58,7 +58,7 @@ func (this *SuiteGenerateJson) TestGenerateJsonCsStruct() {
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace sheeterJson {
+namespace SheeterJson {
     public partial class TestData {
         // note1
         [JsonProperty("Name1")]
@@ -88,7 +88,7 @@ namespace sheeterJson {
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace sheeterJson {
+namespace SheeterJson {
     public partial class TestData {
         // note1
         [JsonProperty("Name1")]
@@ -127,7 +127,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
-namespace sheeterJson {
+namespace SheeterJson {
     public partial class TestDataReader {
         public static string FileName() {
             return "testData.json";

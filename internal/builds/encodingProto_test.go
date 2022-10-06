@@ -55,7 +55,8 @@ func (this *SuiteEncodingProto) TestEncodingProto() {
 	assert.Nil(this.T(), Initialize(runtime, target))
 	assert.Nil(this.T(), Generate(runtime, &Config{
 		Global: Global{
-			GenerateProto: true,
+			ExportProto:     true,
+			SimpleNamespace: false,
 		},
 	}))
 	assert.Nil(this.T(), encodingProto(runtime.Sector[0]))

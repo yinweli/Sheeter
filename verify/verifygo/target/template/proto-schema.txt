@@ -2,8 +2,8 @@
 // Sheeter: https://github.com/yinweli/Sheeter
 
 syntax = "proto3";
-package {{$.NamespaceProto}};
-option go_package = ".;{{$.NamespaceProto}}";
+package {{$.NamespaceProto $.SimpleNamespace}};
+option go_package = ".;{{$.NamespaceProto $.SimpleNamespace}}";
 
 {{- range $.Depend}}
 import '{{$.ProtoDepend .}}';

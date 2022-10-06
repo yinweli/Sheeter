@@ -60,7 +60,7 @@ func (this *SuiteInitializeStruct) TestInitializeStruct() {
 	target := this.target()
 	assert.Nil(this.T(), initializeSector(target.Sector[0]))
 	assert.Nil(this.T(), initializeSector(target.Sector[1]))
-	assert.Nil(this.T(), initializeStruct(target))
+	assert.Nil(this.T(), initializeStruct(target, &Config{}))
 
 	structNames := []string{}
 

@@ -4,7 +4,7 @@
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace {{$.NamespaceJson}} {
+namespace {{$.NamespaceJson $.SimpleNamespace | $.FirstUpper}} {
     public partial class {{$.StructName}} {
 {{- range $.Fields}}
         // {{$.FieldNote .}}

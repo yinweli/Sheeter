@@ -58,7 +58,7 @@ func Initialize(runtime *Runtime, config *Config) (errs []error) {
 
 	progress.Wait()
 
-	if err := initializeStruct(runtime); err != nil {
+	if err := initializeStruct(runtime, config); err != nil {
 		errors <- err
 	} // if
 

@@ -5,7 +5,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
 
-namespace sheeterJson {
+namespace SheeterJson {
     public partial class VerifyData1Reader {
         public static string FileName() {
             return "verifyData1.json";
