@@ -308,10 +308,6 @@ buf format -w 存放proto檔案的路徑
 | verify/verifyunity     | unity程式碼驗證                        |
 
 # TODO
-* 修改讀取器提供的檔名
-    * 檔名   Name
-    * 副檔名 Ext
-* 修改讀取器的介面, 只留讀取資料的部分
 * 全域管理器
   ```
   管理器 {
