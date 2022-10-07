@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/yinweli/Sheeter/internal"
-	sheeterJson "github.com/yinweli/Sheeter/verify/verifygo/target/json/codeGo"
+	sheeterJson "github.com/yinweli/Sheeter/support/verifygo/target/json/codeGo"
 )
 
 func verifyJson(rootPath string) {

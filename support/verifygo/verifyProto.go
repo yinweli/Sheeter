@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 
 	"github.com/yinweli/Sheeter/internal"
-	sheeterProto "github.com/yinweli/Sheeter/verify/verifygo/target/proto/codeGo"
+	sheeterProto "github.com/yinweli/Sheeter/support/verifygo/target/proto/codeGo"
 )
 
 func verifyProto(rootPath string) {
