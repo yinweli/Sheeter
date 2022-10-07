@@ -2,7 +2,9 @@ package builds
 
 import (
 	"fmt"
+	"strings"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/internal/fields"
 	"github.com/yinweli/Sheeter/internal/layers"
@@ -16,6 +18,10 @@ func initializeSector(runtimeSector *RuntimeSector) error {
 	runtimeSector.Mixed = mixeds.NewMixed(runtimeSector.Excel, runtimeSector.Sheet)
 	runtimeSector.excel = &excels.Excel{}
 	structName := runtimeSector.StructName()
+
+	if strings.EqualFold(structName, internal.DepotName) {
+		return fmt.Errorf("%s: initialize sector failed: invalid excel & sheet name", structName)
+	} // if
 
 	if err := runtimeSector.OpenExcel(); err != nil {
 		return fmt.Errorf("%s: initialize sector failed: open excel failed: %w", structName, err)

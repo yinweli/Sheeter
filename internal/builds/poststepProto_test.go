@@ -28,10 +28,11 @@ func (this *SuitePoststepProto) SetupSuite() {
 }
 
 func (this *SuitePoststepProto) TearDownSuite() {
-	_ = os.Remove(internal.ProtoCsBatFile)
-	_ = os.Remove(internal.ProtoCsShFile)
-	_ = os.Remove(internal.ProtoGoBatFile)
-	_ = os.Remove(internal.ProtoGoShFile)
+	target := this.target()
+	_ = os.Remove(target.ProtoCsBatFile())
+	_ = os.Remove(target.ProtoCsShFile())
+	_ = os.Remove(target.ProtoGoBatFile())
+	_ = os.Remove(target.ProtoGoShFile())
 	testdata.RestoreWorkDir(this.workDir)
 }
 
@@ -57,7 +58,7 @@ protoc --experimental_allow_proto3_optional --proto_path=./%s --csharp_out=./%s 
 
 	target := this.target()
 	assert.Nil(this.T(), poststepProtoCsBat(target))
-	testdata.CompareFile(this.T(), internal.ProtoCsBatFile, data)
+	testdata.CompareFile(this.T(), target.ProtoCsBatFile(), data)
 }
 
 func (this *SuitePoststepProto) TestPoststepProtoCsSh() {
@@ -73,7 +74,7 @@ protoc --experimental_allow_proto3_optional --proto_path=./%s --csharp_out=./%s 
 
 	target := this.target()
 	assert.Nil(this.T(), poststepProtoCsSh(target))
-	testdata.CompareFile(this.T(), internal.ProtoCsShFile, data)
+	testdata.CompareFile(this.T(), target.ProtoCsShFile(), data)
 }
 
 func (this *SuitePoststepProto) TestPoststepProtoGoBat() {
@@ -89,7 +90,7 @@ protoc --experimental_allow_proto3_optional --proto_path=./%s --go_out=./%s ./%s
 
 	target := this.target()
 	assert.Nil(this.T(), poststepProtoGoBat(target))
-	testdata.CompareFile(this.T(), internal.ProtoGoBatFile, data)
+	testdata.CompareFile(this.T(), target.ProtoGoBatFile(), data)
 }
 
 func (this *SuitePoststepProto) TestPoststepProtoGoSh() {
@@ -105,5 +106,5 @@ protoc --experimental_allow_proto3_optional --proto_path=./%s --go_out=./%s ./%s
 
 	target := this.target()
 	assert.Nil(this.T(), poststepProtoGoSh(target))
-	testdata.CompareFile(this.T(), internal.ProtoGoShFile, data)
+	testdata.CompareFile(this.T(), target.ProtoGoShFile(), data)
 }

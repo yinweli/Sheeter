@@ -84,6 +84,26 @@ func (this *Proto) ProtoGoReaderPath() string {
 	}))
 }
 
+// ProtoCsBatFile 取得proto-cs-bat檔名
+func (this *Proto) ProtoCsBatFile() string {
+	return internal.ProtoCsBatFile
+}
+
+// ProtoCsShFile 取得proto-cs-sh檔名
+func (this *Proto) ProtoCsShFile() string {
+	return internal.ProtoCsShFile
+}
+
+// ProtoGoBatFile 取得proto-go-bat檔名
+func (this *Proto) ProtoGoBatFile() string {
+	return internal.ProtoGoBatFile
+}
+
+// ProtoGoShFile 取得proto-go-sh檔名
+func (this *Proto) ProtoGoShFile() string {
+	return internal.ProtoGoShFile
+}
+
 // ProtoDepend 取得proto依賴檔名
 func (this *Proto) ProtoDepend(name string) string {
 	// proto依賴檔名必須跟已建立的proto檔名相符

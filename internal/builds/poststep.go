@@ -13,8 +13,24 @@ import (
 func Poststep(runtime *Runtime, config *Config) error {
 	tasks := []func(*Runtime) error{}
 
+	if config.Global.ExportJson {
+		tasks = append(
+			tasks,
+			poststepJsonCsDepot,
+			poststepJsonGoDepot,
+		)
+	} // if
+
 	if config.Global.ExportProto {
-		tasks = append(tasks, poststepProtoCsBat, poststepProtoCsSh, poststepProtoGoBat, poststepProtoGoSh)
+		tasks = append(
+			tasks,
+			poststepProtoCsDepot,
+			poststepProtoGoDepot,
+			poststepProtoCsBat,
+			poststepProtoCsSh,
+			poststepProtoGoBat,
+			poststepProtoGoSh,
+		)
 	} // if
 
 	totalCount := len(tasks)

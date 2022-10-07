@@ -67,6 +67,12 @@ func (this *SuiteInitializeSector) TestInitializeSector() {
 	target.CloseExcel()
 
 	target = this.target()
+	target.Excel = "Dep"
+	target.Sheet = "ot"
+	assert.NotNil(this.T(), initializeSector(target))
+	target.CloseExcel()
+
+	target = this.target()
 	target.Excel = testdata.UnknownStr
 	assert.NotNil(this.T(), initializeSector(target))
 	target.CloseExcel()

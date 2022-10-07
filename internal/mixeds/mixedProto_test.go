@@ -65,5 +65,9 @@ func (this *SuiteProto) TestName() {
 	assert.Equal(this.T(), protoDataPath, target.ProtoDataPath())
 	assert.Equal(this.T(), protoCsReaderPath, target.ProtoCsReaderPath())
 	assert.Equal(this.T(), protoGoReaderPath, target.ProtoGoReaderPath())
+	assert.Equal(this.T(), internal.ProtoCsBatFile, target.ProtoCsBatFile())
+	assert.Equal(this.T(), internal.ProtoCsShFile, target.ProtoCsShFile())
+	assert.Equal(this.T(), internal.ProtoGoBatFile, target.ProtoGoBatFile())
+	assert.Equal(this.T(), internal.ProtoGoShFile, target.ProtoGoShFile())
 	assert.Equal(this.T(), protoDepend, target.ProtoDepend(this.excel))
 }

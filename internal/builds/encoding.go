@@ -15,11 +15,17 @@ func Encoding(runtime *Runtime, config *Config) (errs []error) {
 	tasks := []func(*RuntimeSector) error{}
 
 	if config.Global.ExportJson {
-		tasks = append(tasks, encodingJson)
+		tasks = append(
+			tasks,
+			encodingJson,
+		)
 	} // if
 
 	if config.Global.ExportProto {
-		tasks = append(tasks, encodingProto)
+		tasks = append(
+			tasks,
+			encodingProto,
+		)
 	} // if
 
 	itemCount := len(runtime.Sector)
