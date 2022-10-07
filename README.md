@@ -293,31 +293,31 @@ buf format -w 存放proto檔案的路徑
 
 # 目錄說明
 
-| 目錄                   | 說明                                   |
-|:-----------------------|:---------------------------------------|
-| doc                    | 說明文件                               |
-| handmade               | 手製模板, 用來檢查模板程式碼是否有錯誤 |
-| handmade/.json         | json手製模板                           |
-| handmade/.proto        | proto手製模板                          |
-| cmd/sheeter            | 主程式                                 |
-| cmd/sheeter/build      | 建置表格命令                           |
-| cmd/sheeter/tmpl       | 產生模板命令                           |
-| cmd/sheeter/version    | 顯示版本命令                           |
-| internal/builds        | 表格轉換                               |
-| internal/fields        | 欄位組件                               |
-| internal/layers        | 階層組件                               |
-| internal/layouts       | 布局組件                               |
-| internal/mixeds        | 綜合工具                               |
-| internal/tmpls         | 模板組件                               |
-| internal/utils         | 協助組件                               |
-| support                | 支援說明與檔案                         |
-| testdata               | 測試資料                               |
-| verify/benchmark_count | 檔案數量效率測試資料                   |
-| verify/benchmark_size  | 檔案大小效率測試資料                   |
-| verify/example         | 範例資料                               |
-| verify/verifycs        | cs程式碼驗證                           |
-| verify/verifygo        | go程式碼驗證                           |
-| verify/verifyunity     | unity程式碼驗證                        |
+| 目錄                    | 說明                             |
+|:------------------------|:---------------------------------|
+| doc                     | 說明文件                         |
+| cmd/sheeter             | 主程式                           |
+| cmd/sheeter/build       | 建置表格命令                     |
+| cmd/sheeter/tmpl        | 產生模板命令                     |
+| cmd/sheeter/version     | 顯示版本命令                     |
+| internal/builds         | 表格轉換                         |
+| internal/fields         | 欄位組件                         |
+| internal/layers         | 階層組件                         |
+| internal/layouts        | 布局組件                         |
+| internal/mixeds         | 綜合工具                         |
+| internal/tmpls          | 模板組件                         |
+| internal/utils          | 協助組件                         |
+| testdata                | 測試資料                         |
+| support                 | 支援專案                         |
+| support/benchmark_count | 檔案數量效率測試資料             |
+| support/benchmark_size  | 檔案大小效率測試資料             |
+| support/example         | 範例資料                         |
+| support/handmade        | 手製模板, 用來檢查模板是否有錯誤 |
+| support/handmade/.json  | json手製模板                     |
+| support/handmade/.proto | proto手製模板                    |
+| support/verifycs        | cs程式碼驗證                     |
+| support/verifygo        | go程式碼驗證                     |
+| support/verifyunity     | unity程式碼驗證                  |
 
 # TODO
 * 全域管理器
