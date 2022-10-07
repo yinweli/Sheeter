@@ -68,20 +68,30 @@ func (this *Proto) ProtoDataPath() string {
 // ProtoCsReaderPath 取得proto-cs讀取器程式碼路徑
 func (this *Proto) ProtoCsReaderPath() string {
 	return filepath.Join(internal.ProtoPath, internal.CsPath, this.mixed.combine(params{
-		excelUpper: true, // 因為protoc產生出來的cs結構程式碼檔名是大寫開頭, 所以cs讀取器名稱也用大寫開頭
+		excelUpper: true, // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
 		sheetUpper: true,
 		last:       internal.Reader,
 		ext:        internal.CsExt,
 	}))
 }
 
+// ProtoCsDepotPath 取得proto-cs倉庫程式碼路徑
+func (this *Proto) ProtoCsDepotPath() string {
+	return filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(internal.DepotName)+"."+internal.CsExt) // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
+}
+
 // ProtoGoReaderPath 取得proto-go讀取器程式碼路徑
 func (this *Proto) ProtoGoReaderPath() string {
 	return filepath.Join(internal.ProtoPath, internal.GoPath, this.mixed.combine(params{
-		sheetUpper: true, // 因為protoc產生出來的go結構程式碼檔名是小寫開頭, 所以go讀取器名稱也用小寫開頭
+		sheetUpper: true, // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
 		last:       internal.Reader,
 		ext:        internal.GoExt,
 	}))
+}
+
+// ProtoGoDepotPath 取得proto-go倉庫程式碼路徑
+func (this *Proto) ProtoGoDepotPath() string {
+	return filepath.Join(internal.ProtoPath, internal.GoPath, utils.FirstUpper(internal.DepotName)+"."+internal.GoExt) // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
 }
 
 // ProtoCsBatFile 取得proto-cs-bat檔名

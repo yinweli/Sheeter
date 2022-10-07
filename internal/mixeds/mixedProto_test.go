@@ -50,7 +50,9 @@ func (this *SuiteProto) TestName() {
 	protoDataFile := structName + internal.ProtoDataExt
 	protoDataPath := filepath.Join(internal.ProtoPath, internal.DataPath, protoDataFile)
 	protoCsReaderPath := filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(readerName)+internal.CsExt)
+	protoCsDepotPath := filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(internal.DepotName)+"."+internal.CsExt)
 	protoGoReaderPath := filepath.Join(internal.ProtoPath, internal.GoPath, readerName+internal.GoExt)
+	protoGoDepotPath := filepath.Join(internal.ProtoPath, internal.GoPath, utils.FirstUpper(internal.DepotName)+"."+internal.GoExt)
 	protoDepend := utils.FirstLower(this.excel) + "." + internal.ProtoSchemaExt
 
 	target := this.target()
@@ -64,7 +66,9 @@ func (this *SuiteProto) TestName() {
 	assert.Equal(this.T(), protoDataFile, target.ProtoDataFile())
 	assert.Equal(this.T(), protoDataPath, target.ProtoDataPath())
 	assert.Equal(this.T(), protoCsReaderPath, target.ProtoCsReaderPath())
+	assert.Equal(this.T(), protoCsDepotPath, target.ProtoCsDepotPath())
 	assert.Equal(this.T(), protoGoReaderPath, target.ProtoGoReaderPath())
+	assert.Equal(this.T(), protoGoDepotPath, target.ProtoGoDepotPath())
 	assert.Equal(this.T(), internal.ProtoCsBatFile, target.ProtoCsBatFile())
 	assert.Equal(this.T(), internal.ProtoCsShFile, target.ProtoCsShFile())
 	assert.Equal(this.T(), internal.ProtoGoBatFile, target.ProtoGoBatFile())

@@ -53,6 +53,11 @@ func (this *Json) JsonCsReaderPath() string {
 	}))
 }
 
+// JsonCsDepotPath 取得json-cs倉庫程式碼路徑
+func (this *Json) JsonCsDepotPath() string {
+	return filepath.Join(internal.JsonPath, internal.CsPath, internal.DepotName+"."+internal.CsExt)
+}
+
 // JsonGoStructPath 取得json-go結構程式碼路徑
 func (this *Json) JsonGoStructPath() string {
 	return filepath.Join(internal.JsonPath, internal.GoPath, this.mixed.combine(params{
@@ -68,4 +73,9 @@ func (this *Json) JsonGoReaderPath() string {
 		last:       internal.Reader,
 		ext:        internal.GoExt,
 	}))
+}
+
+// JsonGoDepotPath 取得json-go倉庫程式碼路徑
+func (this *Json) JsonGoDepotPath() string {
+	return filepath.Join(internal.JsonPath, internal.GoPath, internal.DepotName+"."+internal.GoExt)
 }
