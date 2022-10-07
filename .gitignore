@@ -4,6 +4,7 @@
 # *.dll
 # *.so
 # *.dylib
+bin/
 
 # Test binary, built with `go test -c`
 *.test
@@ -13,29 +14,3 @@
 
 # Dependency directories (remove the comment below to include it)
 # vendor/
-
-# 自己的忽略目錄
-bin/
-verify/benchmark_count/json
-verify/benchmark_count/proto
-verify/benchmark_count/template
-verify/benchmark_count/protoCs.bat
-verify/benchmark_count/protoCs.sh
-verify/benchmark_count/protoGo.bat
-verify/benchmark_count/protoGo.sh
-verify/benchmark_count/*.xlsx
-verify/benchmark_size/json
-verify/benchmark_size/proto
-verify/benchmark_size/template
-verify/benchmark_size/protoCs.bat
-verify/benchmark_size/protoCs.sh
-verify/benchmark_size/protoGo.bat
-verify/benchmark_size/protoGo.sh
-verify/benchmark_size/*.xlsx
-verify/example/json
-verify/example/proto
-verify/example/template
-verify/example/protoCs.bat
-verify/example/protoCs.sh
-verify/example/protoGo.bat
-verify/example/protoGo.sh
