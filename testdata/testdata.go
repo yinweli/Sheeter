@@ -3,8 +3,6 @@ package testdata
 import (
 	"runtime"
 
-	"github.com/xuri/excelize/v2"
-
 	"github.com/yinweli/Sheeter/internal"
 )
 
@@ -29,17 +27,6 @@ const ProtoNameTest = "test1.proto"
 // IsWindows 取得是否在windows下執行
 func IsWindows() bool {
 	return runtime.GOOS == "windows"
-}
-
-// GetTestExcel 取得測試excel
-func GetTestExcel(path string) *excelize.File {
-	excel, err := excelize.OpenFile(path)
-
-	if err != nil {
-		return nil
-	} // if
-
-	return excel
 }
 
 // GetExcelContentEmpty 取得ExcelNameEmpty所指的excel檔案轉為物件後的內容

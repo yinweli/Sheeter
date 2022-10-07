@@ -329,12 +329,10 @@ buf format -w 存放proto檔案的路徑
   ```
 * 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
     * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
-* 把excel層抽象出來, 方便以後換excel組件
 * 目前的表格讀取方式會把全部需要的表格都讀取進來, 然後分析跟輸出; 但是在大量表格時會使用到大量記憶體, 可能需要想辦法減少記憶體使用量
 * 嘗試 https://github.com/tealeg/xlsx
 * 嘗試 https://github.com/TheDataShed/xlsxreader
-* 產生flatbuffer message
-* 產生flatbuffer bytes data
+* 產生flatbuffer
 
 [buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/

@@ -60,6 +60,6 @@ func (this *SuiteEncodingProto) TestEncodingProto() {
 		},
 	}))
 	assert.Nil(this.T(), encodingProto(runtime.Sector[0]))
-	assert.True(this.T(), utils.ExistFile(runtime.Sector[0].ProtoDataPath()))
-	runtime.Sector[0].Close()
+	assert.True(this.T(), utils.FileExist(runtime.Sector[0].ProtoDataPath()))
+	runtime.Sector[0].CloseExcel()
 }

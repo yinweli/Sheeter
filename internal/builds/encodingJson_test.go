@@ -58,26 +58,26 @@ func (this *SuiteEncodingJson) TestEncodingJson() {
 	assert.Nil(this.T(), initializeSector(target))
 	assert.Nil(this.T(), encodingJson(target))
 	testdata.CompareFile(this.T(), target.JsonDataPath(), data)
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.LineOfData = -1
 	assert.Nil(this.T(), initializeSector(target))
 	assert.NotNil(this.T(), encodingJson(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameEmpty
 	assert.Nil(this.T(), initializeSector(target))
 	assert.Nil(this.T(), encodingJson(target))
 	testdata.CompareFile(this.T(), target.JsonDataPath(), empty)
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameInvalidData
 	assert.Nil(this.T(), initializeSector(target))
 	assert.NotNil(this.T(), encodingJson(target))
-	target.Close()
+	target.CloseExcel()
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
@@ -85,12 +85,12 @@ func (this *SuiteEncodingJson) TestEncodingJson() {
 		assert.Nil(this.T(), initializeSector(target))
 		target.Mixed = mixeds.NewMixed(testdata.UnknownStr, target.Sheet)
 		assert.NotNil(this.T(), encodingJson(target))
-		target.Close()
+		target.CloseExcel()
 
 		target = this.target()
 		assert.Nil(this.T(), initializeSector(target))
 		target.Mixed = mixeds.NewMixed(target.Excel, testdata.UnknownStr)
 		assert.NotNil(this.T(), encodingJson(target))
-		target.Close()
+		target.CloseExcel()
 	} // if
 }

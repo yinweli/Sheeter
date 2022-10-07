@@ -5,8 +5,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
-	"github.com/xuri/excelize/v2"
 
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/internal/fields"
 	"github.com/yinweli/Sheeter/internal/layers"
 	"github.com/yinweli/Sheeter/internal/utils"
@@ -25,7 +25,7 @@ type SuiteJsonPack struct {
 	lineOfField int
 	lineOfLayer int
 	lineOfData  int
-	excel       *excelize.File
+	excel       excels.Excel
 }
 
 func (this *SuiteJsonPack) SetupSuite() {
@@ -35,45 +35,26 @@ func (this *SuiteJsonPack) SetupSuite() {
 	this.lineOfField = 1
 	this.lineOfLayer = 2
 	this.lineOfData = 4
-
-	excel, err := excelize.OpenFile(this.excelName)
-	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), excel)
-	this.excel = excel
+	assert.Nil(this.T(), this.excel.Open(this.excelName))
 }
 
 func (this *SuiteJsonPack) TearDownSuite() {
-	_ = this.excel.Close()
+	this.excel.Close()
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteJsonPack) getRows(line int) *excelize.Rows {
-	rows, err := this.excel.Rows(this.sheetName)
+func (this *SuiteJsonPack) getLine(index int) *excels.Line {
+	line, err := this.excel.GetLine(this.sheetName, index)
 	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), rows)
-
-	for l := 0; l < line; l++ {
-		assert.True(this.T(), rows.Next())
-	} // for
-
-	return rows
+	assert.NotNil(this.T(), line)
+	return line
 }
 
-func (this *SuiteJsonPack) getCols(line int) []string {
-	rows, err := this.excel.Rows(this.sheetName)
+func (this *SuiteJsonPack) getData(index int) []string {
+	data, err := this.excel.GetData(this.sheetName, index)
 	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), rows)
-	defer func() { _ = rows.Close() }()
-
-	for l := 0; l < line; l++ {
-		assert.True(this.T(), rows.Next())
-	} // for
-
-	cols, err := rows.Columns()
-	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), cols)
-
-	return cols
+	assert.NotNil(this.T(), data)
+	return data
 }
 
 func (this *SuiteJsonPack) TestJsonPack() {
@@ -82,8 +63,8 @@ func (this *SuiteJsonPack) TestJsonPack() {
 	data2, err := utils.JsonMarshal(testdata.GetExcelContentJsonPack(false))
 	assert.Nil(this.T(), err)
 
-	fieldCol := this.getCols(this.lineOfField)
-	layerCol := this.getCols(this.lineOfLayer)
+	fieldCol := this.getData(this.lineOfField)
+	layerCol := this.getData(this.lineOfLayer)
 	layoutJson := NewLayoutJson()
 
 	for col, itor := range fieldCol {
@@ -94,17 +75,17 @@ func (this *SuiteJsonPack) TestJsonPack() {
 		assert.Nil(this.T(), layoutJson.Add(name, field, tag, layer, back))
 	} // for
 
-	rows := this.getRows(this.lineOfData)
-	json, err := JsonPack(rows, layoutJson, []string{"tag"})
+	line := this.getLine(this.lineOfData)
+	json, err := JsonPack(line, layoutJson, []string{"tag"})
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), string(data1), string(json))
-	_ = rows.Close()
+	line.Close()
 
-	rows = this.getRows(this.lineOfData)
-	json, err = JsonPack(rows, layoutJson, []string{})
+	line = this.getLine(this.lineOfData)
+	json, err = JsonPack(line, layoutJson, []string{})
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), string(data2), string(json))
-	_ = rows.Close()
+	line.Close()
 }
 
 func (this *SuiteJsonPack) TestJsonFirstUpper() {

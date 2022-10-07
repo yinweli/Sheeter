@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -26,74 +27,59 @@ func (this *SuiteRuntime) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteRuntime) runtimeSector() *RuntimeSector {
-	sector := &RuntimeSector{
-		Global: Global{
-			LineOfField: 1,
-			LineOfLayer: 2,
-			LineOfNote:  3,
-			LineOfData:  4,
-		},
+func (this *SuiteRuntime) target() *RuntimeSector {
+	target := &RuntimeSector{
 		Element: Element{
 			Excel: testdata.ExcelNameReal,
 			Sheet: testdata.SheetName,
 		},
+		excel: &excels.Excel{},
 	}
-	return sector
+	return target
 }
 
-func (this *SuiteRuntime) TestGetRows() {
-	sector := this.runtimeSector()
-	sector.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
+func (this *SuiteRuntime) TestOpenExcel() {
+	target := this.target()
+	assert.Nil(this.T(), target.OpenExcel())
+	target.CloseExcel()
 
-	rows, err := sector.GetRows(1)
-	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), rows)
-	_ = rows.Close()
+	target = this.target()
+	target.Excel = testdata.UnknownStr
+	assert.NotNil(this.T(), target.OpenExcel())
 
-	rows, err = sector.GetRows(10)
-	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), rows)
-	_ = rows.Close()
-
-	_, err = sector.GetRows(0)
-	assert.NotNil(this.T(), err)
-
-	sector.Sheet = testdata.UnknownStr
-	_, err = sector.GetRows(1)
-	assert.NotNil(this.T(), err)
-
-	sector.Close()
+	target = this.target()
+	target.Sheet = testdata.UnknownStr
+	assert.NotNil(this.T(), target.OpenExcel())
 }
 
-func (this *SuiteRuntime) TestGetColumns() {
-	sector := this.runtimeSector()
-	sector.excel = testdata.GetTestExcel(testdata.ExcelNameReal)
-
-	cols, err := sector.GetColumns(1)
+func (this *SuiteRuntime) TestGetExcelLine() {
+	target := this.target()
+	assert.Nil(this.T(), target.OpenExcel())
+	line, err := target.GetExcelLine(1)
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(),
-		[]string{
-			"name0#pkey",
-			"empty#empty",
-			"name1#bool",
-			"name2#int",
-			"name3#text",
-			"name2#int",
-			"name3#text",
-			"name2#int",
-			"name3#text",
-		}, cols)
+	assert.NotNil(this.T(), line)
+	target.CloseExcel()
 
-	_, err = sector.GetColumns(10)
+	target = this.target()
+	assert.Nil(this.T(), target.OpenExcel())
+	target.Sheet = testdata.UnknownStr
+	_, err = target.GetExcelLine(1)
 	assert.NotNil(this.T(), err)
+	target.CloseExcel()
+}
 
-	_, err = sector.GetColumns(0)
+func (this *SuiteRuntime) TestGetExcelData() {
+	target := this.target()
+	assert.Nil(this.T(), target.OpenExcel())
+	data, err := target.GetExcelData(1)
+	assert.Nil(this.T(), err)
+	assert.NotNil(this.T(), data)
+	target.CloseExcel()
+
+	target = this.target()
+	assert.Nil(this.T(), target.OpenExcel())
+	target.Sheet = testdata.UnknownStr
+	_, err = target.GetExcelData(1)
 	assert.NotNil(this.T(), err)
-
-	sector.Sheet = testdata.UnknownStr
-	_, err = sector.GetColumns(1)
-	assert.NotNil(this.T(), err)
-
-	sector.Close()
+	target.CloseExcel()
 }

@@ -58,7 +58,7 @@ type Tmpl struct {
 func (this *Tmpl) load() error {
 	path := this.path()
 
-	if utils.ExistFile(path) == false {
+	if utils.FileExist(path) == false {
 		return nil
 	} // if
 

@@ -3,8 +3,7 @@ package builds
 import (
 	"fmt"
 
-	"github.com/xuri/excelize/v2"
-
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/internal/fields"
 	"github.com/yinweli/Sheeter/internal/layers"
 	"github.com/yinweli/Sheeter/internal/layouts"
@@ -15,31 +14,26 @@ import (
 // initializeSector 初始化區段
 func initializeSector(runtimeSector *RuntimeSector) error {
 	runtimeSector.Mixed = mixeds.NewMixed(runtimeSector.Excel, runtimeSector.Sheet)
+	runtimeSector.excel = &excels.Excel{}
 	structName := runtimeSector.StructName()
-	excel, err := excelize.OpenFile(runtimeSector.Excel)
 
-	if err != nil {
-		return fmt.Errorf("%s: initialize sector failed: excel can't open: %w", structName, err)
+	if err := runtimeSector.OpenExcel(); err != nil {
+		return fmt.Errorf("%s: initialize sector failed: open excel failed: %w", structName, err)
 	} // if
 
-	if excel.GetSheetIndex(runtimeSector.Sheet) == -1 {
-		return fmt.Errorf("%s: initialize sector failed: sheet not found", structName)
-	} // if
-
-	runtimeSector.excel = excel
-	fieldLine, err := runtimeSector.GetColumns(runtimeSector.LineOfField)
+	fieldLine, err := runtimeSector.GetExcelData(runtimeSector.LineOfField)
 
 	if err != nil {
 		return fmt.Errorf("%s: initialize sector failed: field line not found: %w", structName, err)
 	} // if
 
-	layerLine, err := runtimeSector.GetColumns(runtimeSector.LineOfLayer)
+	layerLine, err := runtimeSector.GetExcelData(runtimeSector.LineOfLayer)
 
 	if err != nil {
 		return fmt.Errorf("%s: initialize sector failed: layer line not found: %w", structName, err)
 	} // if
 
-	noteLine, err := runtimeSector.GetColumns(runtimeSector.LineOfNote)
+	noteLine, err := runtimeSector.GetExcelData(runtimeSector.LineOfNote)
 
 	if err != nil {
 		return fmt.Errorf("%s: initialize sector failed: note line not found: %w", structName, err)

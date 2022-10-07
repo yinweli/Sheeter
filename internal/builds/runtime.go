@@ -3,8 +3,7 @@ package builds
 import (
 	"fmt"
 
-	"github.com/xuri/excelize/v2"
-
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/internal/layouts"
 	"github.com/yinweli/Sheeter/internal/mixeds"
 )
@@ -21,69 +20,50 @@ type RuntimeSector struct {
 	Global                              // 全域設定
 	Element                             // 項目設定
 	*mixeds.Mixed                       // 綜合工具
-	excel         *excelize.File        // excel物件
+	excel         *excels.Excel         // excel物件
 	layoutJson    *layouts.LayoutJson   // json布局器
 	layoutType    *layouts.LayoutType   // 類型布局器
 	layoutDepend  *layouts.LayoutDepend // 依賴布局器
 }
 
-// Close 關閉excel物件
-func (this *RuntimeSector) Close() {
-	if this.excel != nil {
-		_ = this.excel.Close()
+// OpenExcel 開啟excel
+func (this *RuntimeSector) OpenExcel() error {
+	if err := this.excel.Open(this.Element.Excel); err != nil {
+		return fmt.Errorf("open excel failed: %w", err)
 	} // if
+
+	if this.excel.SheetExist(this.Element.Sheet) == false {
+		return fmt.Errorf("open excel failed: sheet not found")
+	} // if
+
+	return nil
 }
 
-// GetRows 取得表格行資料, line從1起算; 如果該行不存在, 回傳成功並取得最後一行物件
-func (this *RuntimeSector) GetRows(line int) (rows *excelize.Rows, err error) {
-	if line <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
-		return nil, fmt.Errorf("get row failed: row <= 0")
-	} // if
-
-	rows, err = this.excel.Rows(this.Sheet)
-
-	if err != nil {
-		return nil, fmt.Errorf("get row failed: %w", err)
-	} // if
-
-	for l := 0; l < line; l++ {
-		rows.Next()
-	} // for
-
-	return rows, nil
+// CloseExcel 關閉excel
+func (this *RuntimeSector) CloseExcel() {
+	this.excel.Close()
 }
 
-// GetColumns 取得表格行內容, line從1起算; 如果該行不存在, 回傳失敗
-func (this *RuntimeSector) GetColumns(line int) (cols []string, err error) {
-	if line <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
-		return nil, fmt.Errorf("get columns failed: row <= 0")
-	} // if
-
-	rows, err := this.excel.Rows(this.Sheet)
+// GetExcelLine 取得excel行資料, index從1起算; 當行不存在時不會發生錯誤
+func (this *RuntimeSector) GetExcelLine(index int) (line *excels.Line, err error) {
+	line, err = this.excel.GetLine(this.Element.Sheet, index)
 
 	if err != nil {
-		return nil, fmt.Errorf("get columns failed: %w", err)
+		return nil, fmt.Errorf("get excel line failed: %w", err)
 	} // if
 
-	defer func() { _ = rows.Close() }()
+	return line, nil
+}
 
-	for l := 0; l < line; l++ {
-		if rows.Next() == false {
-			return nil, fmt.Errorf("get columns failed: row not found")
-		} // if
-	} // for
-
-	cols, err = rows.Columns()
+// GetExcelData 取得excel行資料列表, index從1起算; 當行不存在時會發生錯誤
+func (this *RuntimeSector) GetExcelData(index int) (data []string, err error) {
+	data, err = this.excel.GetData(this.Element.Sheet, index)
 
 	if err != nil {
-		return nil, fmt.Errorf("get columns failed: invalid columns: %w", err)
+		return nil, fmt.Errorf("get excel data failed: %w", err)
 	} // if
 
-	if cols == nil {
-		cols = []string{} // 如果取得空行, 就回傳個空切片吧
-	} // if
-
-	return cols, nil
+	return data, nil
 }
 
 // RuntimeStruct 執行期結構資料
