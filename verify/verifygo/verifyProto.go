@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/yinweli/Sheeter/internal"
@@ -9,18 +10,34 @@ import (
 )
 
 func verifyProto(rootPath string) {
-	path := filepath.Join(rootPath, "target", internal.PathProto, internal.PathData)
+	path := filepath.Join(rootPath, "target", internal.ProtoPath, internal.DataPath)
 	verifyProtoFrom1(path)
 	verifyProtoFrom2(path)
 	verifyProtoMerge1(path)
 	verifyProtoMerge2(path)
 }
 
+func readProto(path, name string) []byte {
+	data, err := os.ReadFile(filepath.Join(path, name))
+
+	if err != nil {
+		panic(fmt.Errorf("verify proto: %w", err))
+	} // if
+
+	return data
+}
+
+func assertProto(condition bool) {
+	if condition == false {
+		panic(fmt.Errorf("verify proto: verify failed"))
+	} // if
+}
+
 //nolint // 太多魔術數字了, 所以只好略過lint
 func verifyProtoFrom1(path string) {
 	reader := sheeterProto.VerifyData1Reader{}
 
-	if err := reader.FromPath(path); err != nil {
+	if err := reader.FromData(readProto(path, reader.DataFile())); err != nil {
 		panic(fmt.Errorf("verify proto: %w", err))
 	} // if
 
@@ -80,7 +97,7 @@ func verifyProtoFrom1(path string) {
 func verifyProtoFrom2(path string) {
 	reader := sheeterProto.VerifyData2Reader{}
 
-	if err := reader.FromPath(path); err != nil {
+	if err := reader.FromData(readProto(path, reader.DataFile())); err != nil {
 		panic(fmt.Errorf("verify proto: %w", err))
 	} // if
 
@@ -140,7 +157,7 @@ func verifyProtoFrom2(path string) {
 func verifyProtoMerge1(path string) {
 	reader := sheeterProto.VerifyData1Reader{}
 
-	if repeats := reader.MergePath(path); len(repeats) != 0 {
+	if repeats := reader.MergeData(readProto(path, reader.DataFile())); len(repeats) != 0 {
 		panic(fmt.Errorf("verify proto: %v", repeats))
 	} // if
 
@@ -200,7 +217,7 @@ func verifyProtoMerge1(path string) {
 func verifyProtoMerge2(path string) {
 	reader := sheeterProto.VerifyData2Reader{}
 
-	if repeats := reader.MergePath(path); len(repeats) != 0 {
+	if repeats := reader.MergeData(readProto(path, reader.DataFile())); len(repeats) != 0 {
 		panic(fmt.Errorf("verify proto: %v", repeats))
 	} // if
 
@@ -254,10 +271,4 @@ func verifyProtoMerge2(path string) {
 	assertProto(ok == false)
 
 	fmt.Println("verify proto merge 2: success")
-}
-
-func assertProto(condition bool) {
-	if condition == false {
-		panic(fmt.Errorf("verify proto: verify failed"))
-	} // if
 }

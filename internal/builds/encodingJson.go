@@ -22,7 +22,7 @@ func encodingJson(runtimeSector *RuntimeSector) error {
 		return fmt.Errorf("%s: encoding json failed: %w", structName, err)
 	} // if
 
-	if err := utils.WriteFile(runtimeSector.PathJsonData(), json); err != nil {
+	if err := utils.WriteFile(runtimeSector.JsonDataPath(), json); err != nil {
 		return fmt.Errorf("%s: encoding json failed: %w", structName, err)
 	} // if
 

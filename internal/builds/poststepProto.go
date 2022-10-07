@@ -10,8 +10,8 @@ import (
 
 // poststepProtoCsBat 後製proto-cs.bat
 func poststepProtoCsBat(runtime *Runtime) error {
-	if err := utils.WriteTmpl(internal.FileProtoCsBat, tmpls.ProtoCsBat.Data, runtime); err != nil {
-		return fmt.Errorf("poststep %s failed: %w", internal.FileProtoCsBat, err)
+	if err := utils.WriteTmpl(internal.ProtoCsBatFile, tmpls.ProtoCsBat.Data, runtime); err != nil {
+		return fmt.Errorf("poststep %s failed: %w", internal.ProtoCsBatFile, err)
 	} // if
 
 	return nil
@@ -19,8 +19,8 @@ func poststepProtoCsBat(runtime *Runtime) error {
 
 // poststepProtoCsSh 後製proto-cs.sh
 func poststepProtoCsSh(runtime *Runtime) error {
-	if err := utils.WriteTmpl(internal.FileProtoCsSh, tmpls.ProtoCsSh.Data, runtime); err != nil {
-		return fmt.Errorf("poststep %s failed: %w", internal.FileProtoCsSh, err)
+	if err := utils.WriteTmpl(internal.ProtoCsShFile, tmpls.ProtoCsSh.Data, runtime); err != nil {
+		return fmt.Errorf("poststep %s failed: %w", internal.ProtoCsShFile, err)
 	} // if
 
 	return nil
@@ -28,8 +28,8 @@ func poststepProtoCsSh(runtime *Runtime) error {
 
 // poststepProtoGoBat 後製proto-go.bat
 func poststepProtoGoBat(runtime *Runtime) error {
-	if err := utils.WriteTmpl(internal.FileProtoGoBat, tmpls.ProtoGoBat.Data, runtime); err != nil {
-		return fmt.Errorf("poststep %s failed: %w", internal.FileProtoGoBat, err)
+	if err := utils.WriteTmpl(internal.ProtoGoBatFile, tmpls.ProtoGoBat.Data, runtime); err != nil {
+		return fmt.Errorf("poststep %s failed: %w", internal.ProtoGoBatFile, err)
 	} // if
 
 	return nil
@@ -37,8 +37,8 @@ func poststepProtoGoBat(runtime *Runtime) error {
 
 // poststepProtoGoSh 後製proto-go.sh
 func poststepProtoGoSh(runtime *Runtime) error {
-	if err := utils.WriteTmpl(internal.FileProtoGoSh, tmpls.ProtoGoSh.Data, runtime); err != nil {
-		return fmt.Errorf("poststep %s failed: %w", internal.FileProtoGoSh, err)
+	if err := utils.WriteTmpl(internal.ProtoGoShFile, tmpls.ProtoGoSh.Data, runtime); err != nil {
+		return fmt.Errorf("poststep %s failed: %w", internal.ProtoGoShFile, err)
 	} // if
 
 	return nil

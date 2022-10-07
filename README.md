@@ -202,8 +202,8 @@ elements:
 | 名稱                | 參數                     | 說明                                           |
 |:--------------------|:-------------------------|:-----------------------------------------------|
 | $.AppName           |                          | 程式名稱                                       |
-| $.NamespaceJson     | 是否用簡單的命名空間名稱 | json命名空間名稱                               |
-| $.NamespaceProto    | 是否用簡單的命名空間名稱 | proto命名空間名稱                              |
+| $.JsonNamespace     | 是否用簡單的命名空間名稱 | json命名空間名稱                               |
+| $.ProtoNamespace    | 是否用簡單的命名空間名稱 | proto命名空間名稱                              |
 | $.StructName        |                          | 結構名稱                                       |
 | $.ReaderName        |                          | 讀取器名稱                                     |
 | $.StorerName        |                          | 儲存器名稱                                     |
@@ -217,21 +217,25 @@ elements:
 | $.PkeyTypeCs        |                          | pkey的cs類型                                   |
 | $.PkeyTypeGo        |                          | pkey的go類型                                   |
 | $.PkeyTypeProto     |                          | pkey的proto類型                                |
-| $.FileJsonData      |                          | json資料檔名                                   |
-| $.PathJsonData      |                          | json資料路徑                                   |
-| $.PathJsonCsStruct  |                          | json-cs結構程式碼路徑                          |
-| $.PathJsonCsReader  |                          | json-cs讀取器程式碼路徑                        |
-| $.PathJsonGoStruct  |                          | json-go結構程式碼路徑                          |
-| $.PathJsonGoReader  |                          | json-go讀取器程式碼檔名路徑                    |
-| $.PathProtoCs       |                          | proto-cs路徑                                   |
-| $.PathProtoGo       |                          | proto-go路徑                                   |
-| $.PathProtoSchema   |                          | proto-schema路徑                               |
-| $.FileProtoName     |                          | proto架構檔名                                  |
-| $.PathProtoName     |                          | proto架構路徑                                  |
-| $.FileProtoData     |                          | proto資料檔名                                  |
-| $.PathProtoData     |                          | proto資料路徑                                  |
-| $.PathProtoCsReader |                          | proto-cs讀取器程式碼路徑                       |
-| $.PathProtoGoReader |                          | proto-go讀取器程式碼路徑                       |
+| $.JsonDataName      |                          | json資料名稱                                   |
+| $.JsonDataExt       |                          | json資料副檔名                                 |
+| $.JsonDataFile      |                          | json資料檔名                                   |
+| $.JsonDataPath      |                          | json資料路徑                                   |
+| $.JsonCsStructPath  |                          | json-cs結構程式碼路徑                          |
+| $.JsonCsReaderPath  |                          | json-cs讀取器程式碼路徑                        |
+| $.JsonGoStructPath  |                          | json-go結構程式碼路徑                          |
+| $.JsonGoReaderPath  |                          | json-go讀取器程式碼檔名路徑                    |
+| $.ProtoCsPath       |                          | proto-cs路徑                                   |
+| $.ProtoGoPath       |                          | proto-go路徑                                   |
+| $.ProtoSchemaPath   |                          | proto-schema路徑                               |
+| $.ProtoName         |                          | proto架構檔名                                  |
+| $.ProtoPath         |                          | proto架構路徑                                  |
+| $.ProtoDataName     |                          | proto資料名稱                                  |
+| $.ProtoDataExt      |                          | proto資料副檔名                                |
+| $.ProtoDataFile     |                          | proto資料檔名                                  |
+| $.ProtoDataPath     |                          | proto資料路徑                                  |
+| $.ProtoCsReaderPath |                          | proto-cs讀取器程式碼路徑                       |
+| $.ProtoGoReaderPath |                          | proto-go讀取器程式碼路徑                       |
 | $.ProtoDepend       | 依賴名稱                 | proto依賴檔案名稱                              |
 | $.FirstUpper        | 字串                     | 字串首字母大寫                                 |
 | $.FirstLower        | 字串                     | 字串首字母小寫                                 |
@@ -304,10 +308,6 @@ buf format -w 存放proto檔案的路徑
 | verify/verifyunity     | unity程式碼驗證                        |
 
 # TODO
-* 修改讀取器提供的檔名
-    * 檔名   Name
-    * 副檔名 Ext
-* 修改讀取器的介面, 只留讀取資料的部分
 * 全域管理器
   ```
   管理器 {

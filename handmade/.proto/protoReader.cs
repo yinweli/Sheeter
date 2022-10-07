@@ -4,36 +4,25 @@
 using Google.Protobuf; // 這為了通過編譯的程式碼, 不可使用
 using Google.Protobuf.Reflection; // 這為了通過編譯的程式碼, 不可使用
 using System.Collections.Generic;
-using System.IO;
 using pb = global::Google.Protobuf; // 這為了通過編譯的程式碼, 不可使用
 
 namespace SheeterProto {
     public partial class RewardReader {
-        public static string FileName() {
-            return "reward.pbd";
+        public string DataName() {
+            return "reward";
         }
 
-        public bool FromPath(string path) {
-            return FromData(File.ReadAllBytes(Path.Combine(path, FileName())));
+        public string DataExt() {
+            return "bytes";
+        }
+
+        public string DataFile() {
+            return "reward.bytes";
         }
 
         public bool FromData(byte[] data) {
             Datas = RewardStorer.Parser.ParseFrom(data);
             return Datas != null;
-        }
-
-        public long[] MergePath(params string[] path) {
-            var repeats = new List<long>();
-
-            foreach (var itor in path) {
-                try {
-                    repeats.AddRange(MergeData(File.ReadAllBytes(Path.Combine(itor, FileName()))));
-                } catch {
-                    // do nothing
-                }
-            }
-
-            return repeats.ToArray();
         }
 
         public long[] MergeData(byte[] data) {

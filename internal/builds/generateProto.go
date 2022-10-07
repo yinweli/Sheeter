@@ -11,7 +11,7 @@ import (
 func generateProtoSchema(runtimeStruct *RuntimeStruct) error {
 	structName := runtimeStruct.StructName()
 
-	if err := utils.WriteTmpl(runtimeStruct.PathProtoName(), tmpls.ProtoSchema.Data, runtimeStruct); err != nil {
+	if err := utils.WriteTmpl(runtimeStruct.ProtoPath(), tmpls.ProtoSchema.Data, runtimeStruct); err != nil {
 		return fmt.Errorf("%s: generate proto schema failed: %w", structName, err)
 	} // if
 
@@ -26,7 +26,7 @@ func generateProtoCsReader(runtimeStruct *RuntimeStruct) error {
 
 	structName := runtimeStruct.StructName()
 
-	if err := utils.WriteTmpl(runtimeStruct.PathProtoCsReader(), tmpls.ProtoCsReader.Data, runtimeStruct); err != nil {
+	if err := utils.WriteTmpl(runtimeStruct.ProtoCsReaderPath(), tmpls.ProtoCsReader.Data, runtimeStruct); err != nil {
 		return fmt.Errorf("%s: generate proto-cs reader failed: %w", structName, err)
 	} // if
 
@@ -41,11 +41,11 @@ func generateProtoGoReader(runtimeStruct *RuntimeStruct) error {
 
 	structName := runtimeStruct.StructName()
 
-	if err := utils.WriteTmpl(runtimeStruct.PathProtoGoReader(), tmpls.ProtoGoReader.Data, runtimeStruct); err != nil {
+	if err := utils.WriteTmpl(runtimeStruct.ProtoGoReaderPath(), tmpls.ProtoGoReader.Data, runtimeStruct); err != nil {
 		return fmt.Errorf("%s: generate proto-cs reader failed: %w", structName, err)
 	} // if
 
-	if err := utils.ShellRun("gofmt", "-w", runtimeStruct.PathProtoGoReader()); err != nil {
+	if err := utils.ShellRun("gofmt", "-w", runtimeStruct.ProtoGoReaderPath()); err != nil {
 		return fmt.Errorf("%s: generate proto-go reader failed: gofmt error: %w", structName, err)
 	} // if
 

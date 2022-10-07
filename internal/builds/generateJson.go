@@ -11,7 +11,7 @@ import (
 func generateJsonCsStruct(runtimeStruct *RuntimeStruct) error {
 	structName := runtimeStruct.StructName()
 
-	if err := utils.WriteTmpl(runtimeStruct.PathJsonCsStruct(), tmpls.JsonCsStruct.Data, runtimeStruct); err != nil {
+	if err := utils.WriteTmpl(runtimeStruct.JsonCsStructPath(), tmpls.JsonCsStruct.Data, runtimeStruct); err != nil {
 		return fmt.Errorf("%s: generate json-cs struct failed: %w", structName, err)
 	} // if
 
@@ -26,7 +26,7 @@ func generateJsonCsReader(runtimeStruct *RuntimeStruct) error {
 
 	structName := runtimeStruct.StructName()
 
-	if err := utils.WriteTmpl(runtimeStruct.PathJsonCsReader(), tmpls.JsonCsReader.Data, runtimeStruct); err != nil {
+	if err := utils.WriteTmpl(runtimeStruct.JsonCsReaderPath(), tmpls.JsonCsReader.Data, runtimeStruct); err != nil {
 		return fmt.Errorf("%s: generate json-cs reader failed: %w", structName, err)
 	} // if
 
@@ -37,11 +37,11 @@ func generateJsonCsReader(runtimeStruct *RuntimeStruct) error {
 func generateJsonGoStruct(runtimeStruct *RuntimeStruct) error {
 	structName := runtimeStruct.StructName()
 
-	if err := utils.WriteTmpl(runtimeStruct.PathJsonGoStruct(), tmpls.JsonGoStruct.Data, runtimeStruct); err != nil {
+	if err := utils.WriteTmpl(runtimeStruct.JsonGoStructPath(), tmpls.JsonGoStruct.Data, runtimeStruct); err != nil {
 		return fmt.Errorf("%s: generate json-go struct failed: %w", structName, err)
 	} // if
 
-	if err := utils.ShellRun("gofmt", "-w", runtimeStruct.PathJsonGoStruct()); err != nil {
+	if err := utils.ShellRun("gofmt", "-w", runtimeStruct.JsonGoStructPath()); err != nil {
 		return fmt.Errorf("%s: generate json-go struct failed: gofmt error: %w", structName, err)
 	} // if
 
@@ -56,11 +56,11 @@ func generateJsonGoReader(runtimeStruct *RuntimeStruct) error {
 
 	structName := runtimeStruct.StructName()
 
-	if err := utils.WriteTmpl(runtimeStruct.PathJsonGoReader(), tmpls.JsonGoReader.Data, runtimeStruct); err != nil {
+	if err := utils.WriteTmpl(runtimeStruct.JsonGoReaderPath(), tmpls.JsonGoReader.Data, runtimeStruct); err != nil {
 		return fmt.Errorf("%s: generate json-go reader failed: %w", structName, err)
 	} // if
 
-	if err := utils.ShellRun("gofmt", "-w", runtimeStruct.PathJsonGoReader()); err != nil {
+	if err := utils.ShellRun("gofmt", "-w", runtimeStruct.JsonGoReaderPath()); err != nil {
 		return fmt.Errorf("%s: generate json-go reader failed: gofmt error: %w", structName, err)
 	} // if
 

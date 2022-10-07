@@ -5,8 +5,6 @@ package sheeterProto
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
 
 	"google.golang.org/protobuf/proto"
 )
@@ -15,18 +13,16 @@ type VerifyData1Reader struct {
 	*VerifyData1Storer
 }
 
-func (this *VerifyData1Reader) FileName() string {
-	return "verifyData1.bytes"
+func (this *VerifyData1Reader) DataName() string {
+	return "verifyData1"
 }
 
-func (this *VerifyData1Reader) FromPath(path string) error {
-	data, err := os.ReadFile(filepath.Join(path, this.FileName()))
+func (this *VerifyData1Reader) DataExt() string {
+	return "bytes"
+}
 
-	if err != nil {
-		return fmt.Errorf("VerifyData1Reader: from path failed: %w", err)
-	}
-
-	return this.FromData(data)
+func (this *VerifyData1Reader) DataFile() string {
+	return "verifyData1.bytes"
 }
 
 func (this *VerifyData1Reader) FromData(data []byte) error {
@@ -39,16 +35,6 @@ func (this *VerifyData1Reader) FromData(data []byte) error {
 	}
 
 	return nil
-}
-
-func (this *VerifyData1Reader) MergePath(path ...string) (repeats []int64) {
-	for _, itor := range path {
-		if data, err := os.ReadFile(filepath.Join(itor, this.FileName())); err == nil {
-			repeats = append(repeats, this.MergeData(data)...)
-		}
-	}
-
-	return repeats
 }
 
 func (this *VerifyData1Reader) MergeData(data []byte) (repeats []int64) {

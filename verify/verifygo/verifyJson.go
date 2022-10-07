@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"path/filepath"
 
 	"github.com/yinweli/Sheeter/internal"
@@ -9,18 +10,34 @@ import (
 )
 
 func verifyJson(rootPath string) {
-	path := filepath.Join(rootPath, "target", internal.PathJson, internal.PathData)
+	path := filepath.Join(rootPath, "target", internal.JsonPath, internal.DataPath)
 	verifyJsonFrom1(path)
 	verifyJsonFrom2(path)
 	verifyJsonMerge1(path)
 	verifyJsonMerge2(path)
 }
 
+func readJson(path, name string) []byte {
+	data, err := os.ReadFile(filepath.Join(path, name))
+
+	if err != nil {
+		panic(fmt.Errorf("verify json: %w", err))
+	} // if
+
+	return data
+}
+
+func assertJson(condition bool) {
+	if condition == false {
+		panic(fmt.Errorf("verify json: verify failed"))
+	} // if
+}
+
 //nolint // 太多魔術數字了, 所以只好略過lint
 func verifyJsonFrom1(path string) {
 	reader := sheeterJson.VerifyData1Reader{}
 
-	if err := reader.FromPath(path); err != nil {
+	if err := reader.FromData(readJson(path, reader.DataFile())); err != nil {
 		panic(fmt.Errorf("verify json: %w", err))
 	} // if
 
@@ -80,7 +97,7 @@ func verifyJsonFrom1(path string) {
 func verifyJsonFrom2(path string) {
 	reader := sheeterJson.VerifyData2Reader{}
 
-	if err := reader.FromPath(path); err != nil {
+	if err := reader.FromData(readJson(path, reader.DataFile())); err != nil {
 		panic(fmt.Errorf("verify json: %w", err))
 	} // if
 
@@ -140,7 +157,7 @@ func verifyJsonFrom2(path string) {
 func verifyJsonMerge1(path string) {
 	reader := sheeterJson.VerifyData1Reader{}
 
-	if repeats := reader.MergePath(path); len(repeats) != 0 {
+	if repeats := reader.MergeData(readJson(path, reader.DataFile())); len(repeats) != 0 {
 		panic(fmt.Errorf("verify json: %v", repeats))
 	} // if
 
@@ -200,7 +217,7 @@ func verifyJsonMerge1(path string) {
 func verifyJsonMerge2(path string) {
 	reader := sheeterJson.VerifyData2Reader{}
 
-	if repeats := reader.MergePath(path); len(repeats) != 0 {
+	if repeats := reader.MergeData(readJson(path, reader.DataFile())); len(repeats) != 0 {
 		panic(fmt.Errorf("verify json: %v", repeats))
 	} // if
 
@@ -254,10 +271,4 @@ func verifyJsonMerge2(path string) {
 	assertJson(ok == false)
 
 	fmt.Println("verify json merge 2: success")
-}
-
-func assertJson(condition bool) {
-	if condition == false {
-		panic(fmt.Errorf("verify json: verify failed"))
-	} // if
 }

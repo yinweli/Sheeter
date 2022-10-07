@@ -24,16 +24,16 @@ func encodingProto(runtimeSector *RuntimeSector) error {
 		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)
 	} // if
 
-	filename := runtimeSector.FileProtoName()
+	filename := runtimeSector.ProtoName()
 	message := runtimeSector.StorerMessage(runtimeSector.Global.SimpleNamespace)
-	imports := []string{filepath.Join(internal.PathProto, internal.PathSchema)}
+	imports := []string{filepath.Join(internal.ProtoPath, internal.SchemaPath)}
 	data, err := utils.JsonToProto(filename, message, imports, json)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)
 	} // if
 
-	if err := utils.WriteFile(runtimeSector.PathProtoData(), data); err != nil {
+	if err := utils.WriteFile(runtimeSector.ProtoDataPath(), data); err != nil {
 		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)
 	} // if
 

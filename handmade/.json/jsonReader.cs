@@ -3,35 +3,24 @@
 
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using System.IO;
 
-namespace sheeterJson {
+namespace SheeterJson {
     public partial class RewardReader {
-        public static string FileName() {
-            return "reward.json";
+        public string DataName() {
+            return "reward";
         }
 
-        public bool FromPath(string path) {
-            return FromData(File.ReadAllText(Path.Combine(path, FileName())));
+        public string DataExt() {
+            return "json";
+        }
+
+        public string DataFile() {
+            return "reward.json";
         }
 
         public bool FromData(string data) {
             Datas = JsonConvert.DeserializeObject<RewardStorer>(data);
             return Datas != null;
-        }
-
-        public long[] MergePath(params string[] path) {
-            var repeats = new List<long>();
-
-            foreach (var itor in path) {
-                try {
-                    repeats.AddRange(MergeData(File.ReadAllText(Path.Combine(itor, FileName()))));
-                } catch {
-                    // do nothing
-                }
-            }
-
-            return repeats.ToArray();
         }
 
         public long[] MergeData(string data) {

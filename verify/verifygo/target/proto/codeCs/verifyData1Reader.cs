@@ -2,35 +2,24 @@
 // Sheeter: https://github.com/yinweli/Sheeter
 
 using System.Collections.Generic;
-using System.IO;
 
 namespace SheeterProto {
     public partial class VerifyData1Reader {
-        public static string FileName() {
-            return "verifyData1.bytes";
+        public string DataName() {
+            return "verifyData1";
         }
 
-        public bool FromPath(string path) {
-            return FromData(File.ReadAllBytes(Path.Combine(path, FileName())));
+        public string DataExt() {
+            return "bytes";
+        }
+
+        public string DataFile() {
+            return "verifyData1.bytes";
         }
 
         public bool FromData(byte[] data) {
             Datas = VerifyData1Storer.Parser.ParseFrom(data);
             return Datas != null;
-        }
-
-        public long[] MergePath(params string[] path) {
-            var repeats = new List<long>();
-
-            foreach (var itor in path) {
-                try {
-                    repeats.AddRange(MergeData(File.ReadAllBytes(Path.Combine(itor, FileName()))));
-                } catch {
-                    // do nothing
-                }
-            }
-
-            return repeats.ToArray();
         }
 
         public long[] MergeData(byte[] data) {

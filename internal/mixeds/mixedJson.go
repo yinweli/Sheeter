@@ -11,49 +11,61 @@ type Json struct {
 	mixed *Mixed // 綜合工具
 }
 
-// FileJsonData 取得json資料檔名
-func (this *Json) FileJsonData() string {
+// JsonDataName 取得json資料名稱
+func (this *Json) JsonDataName() string {
 	return this.mixed.combine(params{
 		sheetUpper: true,
-		ext:        internal.ExtJsonData,
 	})
 }
 
-// PathJsonData 取得json資料路徑
-func (this *Json) PathJsonData() string {
-	return filepath.Join(internal.PathJson, internal.PathData, this.FileJsonData())
+// JsonDataExt 取得json資料副檔名
+func (this *Json) JsonDataExt() string {
+	return internal.JsonDataExt
 }
 
-// PathJsonCsStruct 取得json-cs結構程式碼路徑
-func (this *Json) PathJsonCsStruct() string {
-	return filepath.Join(internal.PathJson, internal.PathCs, this.mixed.combine(params{
+// JsonDataFile 取得json資料檔名
+func (this *Json) JsonDataFile() string {
+	return this.mixed.combine(params{
 		sheetUpper: true,
-		ext:        internal.ExtCs,
+		ext:        internal.JsonDataExt,
+	})
+}
+
+// JsonDataPath 取得json資料路徑
+func (this *Json) JsonDataPath() string {
+	return filepath.Join(internal.JsonPath, internal.DataPath, this.JsonDataFile())
+}
+
+// JsonCsStructPath 取得json-cs結構程式碼路徑
+func (this *Json) JsonCsStructPath() string {
+	return filepath.Join(internal.JsonPath, internal.CsPath, this.mixed.combine(params{
+		sheetUpper: true,
+		ext:        internal.CsExt,
 	}))
 }
 
-// PathJsonCsReader 取得json-cs讀取器程式碼路徑
-func (this *Json) PathJsonCsReader() string {
-	return filepath.Join(internal.PathJson, internal.PathCs, this.mixed.combine(params{
+// JsonCsReaderPath 取得json-cs讀取器程式碼路徑
+func (this *Json) JsonCsReaderPath() string {
+	return filepath.Join(internal.JsonPath, internal.CsPath, this.mixed.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,
-		ext:        internal.ExtCs,
+		ext:        internal.CsExt,
 	}))
 }
 
-// PathJsonGoStruct 取得json-go結構程式碼路徑
-func (this *Json) PathJsonGoStruct() string {
-	return filepath.Join(internal.PathJson, internal.PathGo, this.mixed.combine(params{
+// JsonGoStructPath 取得json-go結構程式碼路徑
+func (this *Json) JsonGoStructPath() string {
+	return filepath.Join(internal.JsonPath, internal.GoPath, this.mixed.combine(params{
 		sheetUpper: true,
-		ext:        internal.ExtGo,
+		ext:        internal.GoExt,
 	}))
 }
 
-// PathJsonGoReader 取得json-go讀取器程式碼檔名路徑
-func (this *Json) PathJsonGoReader() string {
-	return filepath.Join(internal.PathJson, internal.PathGo, this.mixed.combine(params{
+// JsonGoReaderPath 取得json-go讀取器程式碼檔名路徑
+func (this *Json) JsonGoReaderPath() string {
+	return filepath.Join(internal.JsonPath, internal.GoPath, this.mixed.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,
-		ext:        internal.ExtGo,
+		ext:        internal.GoExt,
 	}))
 }

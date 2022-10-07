@@ -26,8 +26,8 @@ func (this *SuiteEncodingProto) SetupSuite() {
 }
 
 func (this *SuiteEncodingProto) TearDownSuite() {
-	_ = os.RemoveAll(internal.PathJson)
-	_ = os.RemoveAll(internal.PathProto)
+	_ = os.RemoveAll(internal.JsonPath)
+	_ = os.RemoveAll(internal.ProtoPath)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
@@ -60,6 +60,6 @@ func (this *SuiteEncodingProto) TestEncodingProto() {
 		},
 	}))
 	assert.Nil(this.T(), encodingProto(runtime.Sector[0]))
-	assert.True(this.T(), utils.ExistFile(runtime.Sector[0].PathProtoData()))
+	assert.True(this.T(), utils.ExistFile(runtime.Sector[0].ProtoDataPath()))
 	runtime.Sector[0].Close()
 }
