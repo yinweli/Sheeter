@@ -166,6 +166,11 @@ sheeter tmpl [flags]
 轉換時, 只會轉換到第一個空行為止  
 
 ## 其他的限制
+* 表格名稱
+    * excel與表格的名稱合併後不能是depot / Depot
+        * excel名稱: de, 表格名稱: pot => 合併後變成depot => 錯誤
+        * excel名稱: dep, 表格名稱: ot => 合併後變成depot => 錯誤
+        * excel名稱: depot, 表格名稱: Data => 合併後變成depotData => 正確
 * 表格設置
     * 表格必須有欄位行, 階層行, 註解行, 但是可以不需要有資料行
     * 欄位行, 階層行, 註解行必須在資料行之前
