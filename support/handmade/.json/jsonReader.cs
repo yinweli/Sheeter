@@ -5,20 +5,24 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace SheeterJson {
+    using Data_ = Reward;
+    using PKey_ = System.Int64;
+    using Storer_ = RewardStorer;
+
     public partial class RewardReader : ReaderInterface {
-        public Reward this[long key] {
+        public Data_ this[PKey_ key] {
             get {
                 return storer.Datas[key];
             }
         }
 
-        public ICollection<long> Keys {
+        public ICollection<PKey_> Keys {
             get {
                 return storer.Datas.Keys;
             }
         }
 
-        public ICollection<Reward> Values {
+        public ICollection<Data_> Values {
             get {
                 return storer.Datas.Values;
             }
@@ -30,15 +34,15 @@ namespace SheeterJson {
             }
         }
 
-        public bool ContainsKey(long key) {
+        public bool ContainsKey(PKey_ key) {
             return storer.Datas.ContainsKey(key);
         }
 
-        public bool TryGetValue(long key, out Reward value) {
+        public bool TryGetValue(PKey_ key, out Data_ value) {
             return storer.Datas.TryGetValue(key, out value);
         }
 
-        public IEnumerator<KeyValuePair<long, Reward>> GetEnumerator() {
+        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
             return storer.Datas.GetEnumerator();
         }
 
@@ -55,36 +59,44 @@ namespace SheeterJson {
         }
 
         public string FromData(string data) {
+            Storer_ result;
+
             try {
-                storer = JsonConvert.DeserializeObject<RewardStorer>(data);
+                result = JsonConvert.DeserializeObject<Storer_>(data);
             } catch {
-                return "from data failed: json deserialize failed";
+                return "from data failed: deserialize failed";
             }
 
-            return storer != null ? string.Empty : "from data failed: storer null";
+            if (result == null)
+                return "from data failed: result null";
+
+            storer = result;
+            return string.Empty;
         }
 
         public string MergeData(string data) {
-            var repeats = new List<long>();
-            var tmpl = JsonConvert.DeserializeObject<RewardStorer>(data);
+            Storer_ result;
 
-            if (tmpl == null)
-                return repeats.ToArray();
-
-            if (storer == null)
-                storer = new RewardStorer();
-
-            foreach (var itor in tmpl.Datas) {
-                if (storer.Datas.ContainsKey(itor.Key) == false)
-                    storer.Datas[itor.Key] = itor.Value;
-                else
-                    repeats.Add(itor.Key);
+            try {
+                result = JsonConvert.DeserializeObject<Storer_>(data);
+            } catch {
+                return "merge data failed: deserialize failed";
             }
 
-            return repeats.ToArray();
+            if (result == null)
+                return "merge data failed: result null";
+
+            foreach (var itor in result.Datas) {
+                if (storer.Datas.ContainsKey(itor.Key))
+                    return "merge data failed: key repeat";
+
+                storer.Datas[itor.Key] = itor.Value;
+            }
+
+            return string.Empty;
         }
 
-        private RewardStorer storer = new RewardStorer();
+        private Storer_ storer = new Storer_();
     }
 }
 

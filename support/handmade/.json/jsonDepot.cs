@@ -4,47 +4,63 @@ using System.Collections.Generic;
 
 namespace SheeterJson {
     public partial class Depot {
-        public readonly RewardReader Reward = new RewardReader();
+        public delegate void DelegateError(string name, string message);
+        public delegate string DelegateLoad(string name, string ext);
 
-        public string[] FromData(DelegateFromData func) {
-            var errors = new List<string>();
+        public bool FromData(DelegateLoad load, DelegateError error) {
+            var result = true;
 
-            foreach (var itor in readers) {
-                var data = func(itor.DataName(), itor.DataExt());
+            foreach (var itor in Readers) {
+                var data = load(itor.DataName(), itor.DataExt());
 
-                if (data != null && itor.FromData(data) == false) {
-                    errors.Add(itor.DataFile());
+                if (data == null || data.Length == 0)
+                    continue;
+
+                var message = itor.FromData(data);
+
+                if (message.Length != 0) {
+                    result = false;
+                    error(itor.DataName(), message);
                 }
             }
 
-
-
-            return errors.ToArray();
+            return result;
         }
 
-        public delegate string DelegateFromData(string name, string ext);
+        public bool MergeData(DelegateLoad load, DelegateError error) {
+            var result = true;
 
-        public string[] MergeData(DelegateMergeData func) {
-            var errors = new List<string>();
+            foreach (var itor in Readers) {
+                var data = load(itor.DataName(), itor.DataExt());
 
-            return errors.ToArray();
+                if (data == null || data.Length == 0)
+                    continue;
+
+                var message = itor.MergeData(data);
+
+                if (message.Length != 0) {
+                    result = false;
+                    error(itor.DataName(), message);
+                }
+            }
+
+            return result;
         }
-
-        public delegate byte[] DelegateMergeData(string name, string ext);
 
         public Depot() {
-            readers.Add(Reward);
+            Readers.Add(Reward);
         }
 
-        private readonly List<ReaderInterface> readers = new List<ReaderInterface>();
+        public readonly RewardReader Reward = new RewardReader();
+        private readonly List<ReaderInterface> Readers = new List<ReaderInterface>();
     }
 
     public interface ReaderInterface {
         public string DataName();
         public string DataExt();
         public string DataFile();
-        public bool FromData(string data);
-        public long[] MergeData(string data);
+        public string FromData(string data);
+        public string MergeData(string data);
     }
 }
 

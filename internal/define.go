@@ -13,24 +13,24 @@ const DepotName = "depot"   // 倉庫名稱
 
 type PkeyType = int64 // pkey類型, 修改時要記得跟著修改TokenPkey...系列的類型字串
 
-const TokenPkeyCs = "long"        // 類型字串: pkey(cs)
-const TokenPkeyGo = "int64"       // 類型字串: pkey(go)
-const TokenPkeyProto = "int64"    // 類型字串: pkey(proto)
-const TokenBoolCs = "bool"        // 類型字串: 布林值(cs)
-const TokenBoolGo = "bool"        // 類型字串: 布林值(go)
-const TokenBoolProto = "bool"     // 類型字串: 布林值(proto)
-const TokenIntCs = "long"         // 類型字串: 整數(cs)
-const TokenIntGo = "int64"        // 類型字串: 整數(go)
-const TokenIntProto = "int64"     // 類型字串: 整數(proto)
-const TokenFloatCs = "double"     // 類型字串: 浮點數(cs)
-const TokenFloatGo = "float64"    // 類型字串: 浮點數(go)
-const TokenFloatProto = "double"  // 類型字串: 浮點數(proto)
-const TokenStringCs = "string"    // 類型字串: 字串(cs)
-const TokenStringGo = "string"    // 類型字串: 字串(go)
-const TokenStringProto = "string" // 類型字串: 字串(proto)
-const TokenArray = "[]"           // 類型字串: 陣列
-const TokenOptional = "optional"  // 類型字串: optional(proto)
-const TokenRepeated = "repeated"  // 類型字串: repeated(proto)
+const TokenPkeyCs = "System.Int64" // 類型字串: pkey(cs)
+const TokenPkeyGo = "int64"        // 類型字串: pkey(go)
+const TokenPkeyProto = "int64"     // 類型字串: pkey(proto)
+const TokenBoolCs = "bool"         // 類型字串: 布林值(cs)
+const TokenBoolGo = "bool"         // 類型字串: 布林值(go)
+const TokenBoolProto = "bool"      // 類型字串: 布林值(proto)
+const TokenIntCs = "long"          // 類型字串: 整數(cs)
+const TokenIntGo = "int64"         // 類型字串: 整數(go)
+const TokenIntProto = "int64"      // 類型字串: 整數(proto)
+const TokenFloatCs = "double"      // 類型字串: 浮點數(cs)
+const TokenFloatGo = "float64"     // 類型字串: 浮點數(go)
+const TokenFloatProto = "double"   // 類型字串: 浮點數(proto)
+const TokenStringCs = "string"     // 類型字串: 字串(cs)
+const TokenStringGo = "string"     // 類型字串: 字串(go)
+const TokenStringProto = "string"  // 類型字串: 字串(proto)
+const TokenArray = "[]"            // 類型字串: 陣列
+const TokenOptional = "optional"   // 類型字串: optional(proto)
+const TokenRepeated = "repeated"   // 類型字串: repeated(proto)
 
 /* 模板相關 */
 
