@@ -50,10 +50,28 @@
 # 命令說明
 以下描述了[sheeter]提供的命令與旗標
 
+## help命令
+用於顯示命令說明  
+```shell
+sheeter help [command]
+```
+
+## version命令
+用於顯示版本資訊  
+```shell
+sheeter version
+```
+
 ## build命令
 用於建置資料檔案與程式碼  
 ```shell
+sheeter build [flags]
+```
+例如  
+```shell
 sheeter build --config setting.yaml
+sheeter build --config setting.yaml --json --namespace
+sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 ```
 
 | 旗標          | 參數                                    | 說明                     |
@@ -80,18 +98,12 @@ sheeter build --config setting.yaml
 ## tmpl命令
 用於產生執行時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
 ```shell
-sheeter tmpl
+sheeter tmpl [flags]
 ```
 
 | 旗標          | 參數 | 說明             |
 |:--------------|:-----|:-----------------|
 | --clean / -c  |      | 重新產生模板檔案 |
-
-## version命令
-用於顯示版本資訊
-```shell
-sheeter version
-```
 
 # excel說明
 ![excel]
