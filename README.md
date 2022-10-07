@@ -327,7 +327,6 @@ buf format -w 存放proto檔案的路徑
       public 取得Reader資訊列表, 包含fileName, fileExt, Reader物件
   }
   ```
-* 額外的支援說明與檔案放在support目錄下
 * 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
     * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
 * 把excel層抽象出來, 方便以後換excel組件
