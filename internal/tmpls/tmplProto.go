@@ -87,6 +87,13 @@ namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
 `,
 }
 
+// ProtoCsDepot proto-cs倉庫模板 // TODO: proto-cs倉庫模板
+var ProtoCsDepot = &Tmpl{
+	Name: internal.TmplProtoCsDepotFile,
+	Data: HeaderCode + `
+`,
+}
+
 // ProtoGoReader proto-go讀取器模板
 var ProtoGoReader = &Tmpl{
 	Name: internal.TmplProtoGoReaderFile,
@@ -152,6 +159,13 @@ func (this *{{$.ReaderName}}) MergeData(data []byte) (repeats []{{$.PkeyTypeGo}}
 
 	return repeats
 }
+`,
+}
+
+// ProtoGoDepot proto-go倉庫模板 // TODO: proto-go倉庫模板
+var ProtoGoDepot = &Tmpl{
+	Name: internal.TmplProtoGoDepotFile,
+	Data: HeaderCode + `
 `,
 }
 

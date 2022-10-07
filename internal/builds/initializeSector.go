@@ -23,6 +23,9 @@ func initializeSector(runtimeSector *RuntimeSector) error {
 		return fmt.Errorf("%s: initialize sector failed: invalid excel & sheet name", structName)
 	} // if
 
+	// TODO: 名稱也不能叫做ReaderInterface
+	// TODO: 名稱也不能叫做readers
+
 	if err := runtimeSector.OpenExcel(); err != nil {
 		return fmt.Errorf("%s: initialize sector failed: open excel failed: %w", structName, err)
 	} // if

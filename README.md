@@ -338,6 +338,18 @@ buf format -w 存放proto檔案的路徑
 * 嘗試 https://github.com/tealeg/xlsx
 * 嘗試 https://github.com/TheDataShed/xlsxreader
 * 產生flatbuffer
+* TODO: json-cs倉庫模板
+* TODO: json-go倉庫模板
+* TODO: proto-cs倉庫模板
+* TODO: proto-go倉庫模板
+* TODO: handmade-json-cs-reader
+* TODO: handmade-json-cs-depot
+* TODO: handmade-json-go-reader
+* TODO: handmade-json-go-depot
+* TODO: handmade-proto-cs-reader
+* TODO: handmade-proto-cs-depot
+* TODO: handmade-proto-go-reader
+* TODO: handmade-proto-go-depot
 
 [buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/

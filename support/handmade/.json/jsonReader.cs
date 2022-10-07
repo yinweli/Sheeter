@@ -5,7 +5,43 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 
 namespace SheeterJson {
-    public partial class RewardReader {
+    public partial class RewardReader : ReaderInterface {
+        public Reward this[long key] {
+            get {
+                return storer.Datas[key];
+            }
+        }
+
+        public ICollection<long> Keys {
+            get {
+                return storer.Datas.Keys;
+            }
+        }
+
+        public ICollection<Reward> Values {
+            get {
+                return storer.Datas.Values;
+            }
+        }
+
+        public int Count {
+            get {
+                return storer.Datas.Count;
+            }
+        }
+
+        public bool ContainsKey(long key) {
+            return storer.Datas.ContainsKey(key);
+        }
+
+        public bool TryGetValue(long key, out Reward value) {
+            return storer.Datas.TryGetValue(key, out value);
+        }
+
+        public IEnumerator<KeyValuePair<long, Reward>> GetEnumerator() {
+            return storer.Datas.GetEnumerator();
+        }
+
         public string DataName() {
             return "reward";
         }
@@ -18,24 +54,29 @@ namespace SheeterJson {
             return "reward.json";
         }
 
-        public bool FromData(string data) {
-            Datas = JsonConvert.DeserializeObject<RewardStorer>(data);
-            return Datas != null;
+        public string FromData(string data) {
+            try {
+                storer = JsonConvert.DeserializeObject<RewardStorer>(data);
+            } catch {
+                return "from data failed: json deserialize failed";
+            }
+
+            return storer != null ? string.Empty : "from data failed: storer null";
         }
 
-        public long[] MergeData(string data) {
+        public string MergeData(string data) {
             var repeats = new List<long>();
             var tmpl = JsonConvert.DeserializeObject<RewardStorer>(data);
 
             if (tmpl == null)
                 return repeats.ToArray();
 
-            if (Datas == null)
-                Datas = new RewardStorer();
+            if (storer == null)
+                storer = new RewardStorer();
 
             foreach (var itor in tmpl.Datas) {
-                if (Data.ContainsKey(itor.Key) == false)
-                    Data[itor.Key] = itor.Value;
+                if (storer.Datas.ContainsKey(itor.Key) == false)
+                    storer.Datas[itor.Key] = itor.Value;
                 else
                     repeats.Add(itor.Key);
             }
@@ -43,13 +84,7 @@ namespace SheeterJson {
             return repeats.ToArray();
         }
 
-        public IDictionary<long, Reward> Data {
-            get {
-                return Datas.Datas;
-            }
-        }
-
-        private RewardStorer Datas = null;
+        private RewardStorer storer = new RewardStorer();
     }
 }
 

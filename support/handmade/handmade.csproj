@@ -21,8 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include=".json\jsonDepot.cs" />
     <Compile Include=".json\jsonReader.cs" />
     <Compile Include=".json\jsonStruct.cs" />
+    <Compile Include=".proto\protoDepot.cs" />
     <Compile Include=".proto\protoReader.cs" />
   </ItemGroup>
 

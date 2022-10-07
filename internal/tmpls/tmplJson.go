@@ -87,6 +87,13 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
 `,
 }
 
+// JsonCsDepot json-cs倉庫模板 // TODO: json-cs倉庫模板
+var JsonCsDepot = &Tmpl{
+	Name: internal.TmplJsonCsDepotFile,
+	Data: HeaderCode + `
+`,
+}
+
 // JsonGoStruct json-go結構模板
 var JsonGoStruct = &Tmpl{
 	Name: internal.TmplJsonGoStructFile,
@@ -172,5 +179,12 @@ func (this *{{$.ReaderName}}) MergeData(data []byte) (repeats []{{$.PkeyTypeGo}}
 
 	return repeats
 }
+`,
+}
+
+// JsonGoDepot json-go倉庫模板 // TODO: json-go倉庫模板
+var JsonGoDepot = &Tmpl{
+	Name: internal.TmplJsonGoDepotFile,
+	Data: HeaderCode + `
 `,
 }
