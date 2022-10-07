@@ -10,13 +10,13 @@ import (
 // encodingJson 產生json資料
 func encodingJson(runtimeSector *RuntimeSector) error {
 	structName := runtimeSector.StructName()
-	rows, err := runtimeSector.GetRows(runtimeSector.LineOfData)
+	line, err := runtimeSector.GetExcelLine(runtimeSector.LineOfData)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding json failed: data line not found", structName)
 	} // if
 
-	json, err := layouts.JsonPack(rows, runtimeSector.layoutJson, runtimeSector.Excludes)
+	json, err := layouts.JsonPack(line, runtimeSector.layoutJson, runtimeSector.Excludes)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding json failed: %w", structName, err)

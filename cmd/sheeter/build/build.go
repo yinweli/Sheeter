@@ -82,7 +82,7 @@ func execute(cmd *cobra.Command, _ []string) {
 	} // if
 
 	for _, itor := range runtime.Sector {
-		itor.Close()
+		itor.CloseExcel()
 	} // for
 
 	cmd.Printf("usage time=%s\n", durafmt.Parse(time.Since(startTime)))

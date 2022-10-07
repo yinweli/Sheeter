@@ -3,19 +3,18 @@ package layouts
 import (
 	"fmt"
 
-	"github.com/xuri/excelize/v2"
-
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // JsonPack 打包json資料
-func JsonPack(rows *excelize.Rows, layoutJson *LayoutJson, excludes []string) (json []byte, err error) {
-	defer func() { _ = rows.Close() }()
+func JsonPack(line *excels.Line, layoutJson *LayoutJson, excludes []string) (json []byte, err error) {
+	defer line.Close()
 	datas := map[internal.PkeyType]interface{}{}
 
-	for ok := true; ok; ok = rows.Next() {
-		raws, _ := rows.Columns()
+	for ok := true; ok; ok = line.Next() {
+		raws, _ := line.Data()
 
 		if raws == nil {
 			break // 碰到空行就結束了

@@ -40,9 +40,9 @@ func (this *SuiteWrite) TestFileName() {
 	assert.Equal(this.T(), name, FileName(path))
 }
 
-func (this *SuiteWrite) TestExistFile() {
-	assert.True(this.T(), ExistFile(testdata.ConfigNameReal))
-	assert.False(this.T(), ExistFile(testdata.UnknownStr))
+func (this *SuiteWrite) TestFileExist() {
+	assert.True(this.T(), FileExist(testdata.ConfigNameReal))
+	assert.False(this.T(), FileExist(testdata.UnknownStr))
 }
 
 func (this *SuiteWrite) TestWriteFile() {

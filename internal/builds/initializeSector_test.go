@@ -49,70 +49,70 @@ func (this *SuiteInitializeSector) TestInitializeSector() {
 	assert.NotNil(this.T(), target.layoutJson)
 	assert.NotNil(this.T(), target.layoutType)
 	assert.NotNil(this.T(), target.layoutDepend)
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.LineOfField = 10
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.LineOfLayer = 10
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.LineOfNote = 10
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Excel = testdata.UnknownStr
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameInvalidFile
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameCleanAll
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameCleanField
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameInvalidField
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameInvalidLayer
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameInvalidLayout
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameInvalidPkeyZero
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Excel = testdata.ExcelNameInvalidPkeyDupl
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 
 	target = this.target()
 	target.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), initializeSector(target))
-	target.Close()
+	target.CloseExcel()
 }

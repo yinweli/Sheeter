@@ -15,8 +15,8 @@ func FileName(path string) string {
 	return strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
 }
 
-// ExistFile 檔案是否存在
-func ExistFile(path string) bool {
+// FileExist 檔案是否存在
+func FileExist(path string) bool {
 	_, err := os.Stat(path)
 	return err == nil
 }
