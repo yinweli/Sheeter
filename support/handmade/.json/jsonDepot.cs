@@ -4,8 +4,12 @@ using System.Collections.Generic;
 
 namespace SheeterJson {
     public partial class Depot {
-        public delegate void DelegateError(string name, string message);
-        public delegate string DelegateLoad(string name, string ext);
+        public readonly RewardReader Reward = new RewardReader();
+        private readonly List<ReaderInterface> Readers = new List<ReaderInterface>();
+
+        public Depot() {
+            Readers.Add(Reward);
+        }
 
         public bool FromData(DelegateLoad load, DelegateError error) {
             var result = true;
@@ -47,12 +51,8 @@ namespace SheeterJson {
             return result;
         }
 
-        public Depot() {
-            Readers.Add(Reward);
-        }
-
-        public readonly RewardReader Reward = new RewardReader();
-        private readonly List<ReaderInterface> Readers = new List<ReaderInterface>();
+        public delegate void DelegateError(string name, string message);
+        public delegate string DelegateLoad(string name, string ext);
     }
 
     public interface ReaderInterface {

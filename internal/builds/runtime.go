@@ -10,6 +10,7 @@ import (
 
 // Runtime 執行期資料
 type Runtime struct {
+	Global                        // 全域設定
 	mixeds.Mixed                  // 綜合工具
 	Sector       []*RuntimeSector // 區段資料列表
 	Struct       []*RuntimeStruct // 結構資料列表
@@ -68,6 +69,7 @@ func (this *RuntimeSector) GetExcelData(index int) (data []string, err error) {
 
 // RuntimeStruct 執行期結構資料
 type RuntimeStruct struct {
+	Global                   // 全域設定
 	*mixeds.Mixed            // 綜合工具
 	*layouts.Type            // 類型資料
 	SimpleNamespace bool     // 是否用簡單的命名空間名稱

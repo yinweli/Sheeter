@@ -6,6 +6,7 @@ type Depot struct {
 }
 
 func (this *Depot) FromData(load DepotLoad, error DepotError) bool {
+	this.build()
 	result := true
 
 	for _, itor := range this.readers {
@@ -25,6 +26,7 @@ func (this *Depot) FromData(load DepotLoad, error DepotError) bool {
 }
 
 func (this *Depot) MergeData(load DepotLoad, error DepotError) bool {
+	this.build()
 	result := true
 
 	for _, itor := range this.readers {

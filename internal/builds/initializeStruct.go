@@ -29,6 +29,7 @@ func initializeStruct(runtime *Runtime, config *Config) error {
 		types := layoutType.Types(itor)
 		depend := layoutDepend.Depends(itor)
 		runtime.Struct = append(runtime.Struct, &RuntimeStruct{
+			Global:          config.Global,
 			Mixed:           mixeds.NewMixed(types.Excel, types.Sheet),
 			Type:            types,
 			SimpleNamespace: config.Global.SimpleNamespace,

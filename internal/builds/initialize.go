@@ -12,6 +12,8 @@ import (
 
 // Initialize 初始化
 func Initialize(runtime *Runtime, config *Config) (errs []error) {
+	runtime.Global = config.Global
+
 	for _, itor := range config.Elements {
 		runtime.Sector = append(runtime.Sector, &RuntimeSector{
 			Global:  config.Global,
