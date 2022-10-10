@@ -11,7 +11,7 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
 {{- end}}
 {{- end}}
         private readonly List<ReaderInterface> Readers = new List<ReaderInterface>();
-        
+
         public Depot() {
 {{- range $.Struct}}
 {{- if .Reader}}

@@ -18,12 +18,12 @@ func Initialize(context *Context) (errs []error) {
 		})
 	} // for
 
-	itemCount := len(context.Sector)
-	errors := make(chan error, itemCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
-	signaler := utils.NewWaitGroup(itemCount)
+	totalCount := len(context.Sector)
+	errors := make(chan error, totalCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
+	signaler := utils.NewWaitGroup(totalCount)
 	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))
 	progressbar := progress.AddBar(
-		int64(itemCount),
+		int64(totalCount),
 		mpb.PrependDecorators(
 			decor.Percentage(decor.WCSyncSpace),
 		),

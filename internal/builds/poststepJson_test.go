@@ -59,7 +59,7 @@ namespace SheeterJson {
     public partial class Depot {
         public readonly TestDataReader TestData = new TestDataReader();
         private readonly List<ReaderInterface> Readers = new List<ReaderInterface>();
-        
+
         public Depot() {
             Readers.Add(TestData);
         }

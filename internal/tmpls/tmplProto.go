@@ -37,7 +37,47 @@ var ProtoCsReader = &Tmpl{
 using System.Collections.Generic;
 
 namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
-    public partial class {{$.ReaderName}} {
+    using Data_ = {{$.StructName}};
+    using PKey_ = {{$.PkeyTypeCs}};
+    using Storer_ = {{$.StorerName}};
+
+    public partial class {{$.ReaderName}} : ReaderInterface {
+        public Data_ this[PKey_ key] {
+            get {
+                return storer.{{$.StorerDatas}}[key];
+            }
+        }
+
+        public ICollection<PKey_> Keys {
+            get {
+                return storer.{{$.StorerDatas}}.Keys;
+            }
+        }
+
+        public ICollection<Data_> Values {
+            get {
+                return storer.{{$.StorerDatas}}.Values;
+            }
+        }
+
+        public int Count {
+            get {
+                return storer.{{$.StorerDatas}}.Count;
+            }
+        }
+
+        public bool ContainsKey(PKey_ key) {
+            return storer.{{$.StorerDatas}}.ContainsKey(key);
+        }
+
+        public bool TryGetValue(PKey_ key, out Data_ value) {
+            return storer.{{$.StorerDatas}}.TryGetValue(key, out value);
+        }
+
+        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
+            return storer.{{$.StorerDatas}}.GetEnumerator();
+        }
+
         public string DataName() {
             return "{{$.ProtoDataName}}";
         }
@@ -50,47 +90,125 @@ namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
             return "{{$.ProtoDataFile}}";
         }
 
-        public bool FromData(byte[] data) {
-            Datas = {{$.StorerName}}.Parser.ParseFrom(data);
-            return Datas != null;
-        }
+        public string FromData(byte[] data) {
+            Storer_ result;
 
-        public {{$.PkeyTypeCs}}[] MergeData(byte[] data) {
-            var repeats = new List<{{$.PkeyTypeCs}}>();
-            var tmpl = {{$.StorerName}}.Parser.ParseFrom(data);
-
-            if (tmpl == null)
-                return repeats.ToArray();
-
-            if (Datas == null)
-                Datas = new {{$.StorerName}}();
-
-            foreach (var itor in tmpl.{{$.StorerDatas}}) {
-                if (Data.ContainsKey(itor.Key) == false)
-                    Data[itor.Key] = itor.Value;
-                else
-                    repeats.Add(itor.Key);
+            try {
+                result = Storer_.Parser.ParseFrom(data);
+            } catch {
+                return "from data failed: deserialize failed";
             }
 
-            return repeats.ToArray();
+            if (result == null)
+                return "from data failed: result null";
+
+            storer = result;
+            return string.Empty;
         }
 
-        public IDictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> Data {
-            get {
-                return Datas.{{$.StorerDatas}};
+        public string MergeData(byte[] data) {
+            Storer_ result;
+
+            try {
+                result = Storer_.Parser.ParseFrom(data);
+            } catch {
+                return "merge data failed: deserialize failed";
             }
+
+            if (result == null)
+                return "merge data failed: result null";
+
+            foreach (var itor in result.{{$.StorerDatas}}) {
+                if (storer.{{$.StorerDatas}}.ContainsKey(itor.Key))
+                    return "merge data failed: key repeat";
+
+                storer.{{$.StorerDatas}}[itor.Key] = itor.Value;
+            }
+
+            return string.Empty;
         }
 
-        private {{$.StorerName}} Datas = null;
+        private Storer_ storer = new Storer_();
     }
 }
 `,
 }
 
-// ProtoCsDepot proto-cs倉庫模板 // TODO: proto-cs倉庫模板
+// ProtoCsDepot proto-cs倉庫模板
 var ProtoCsDepot = &Tmpl{
 	Name: internal.TmplProtoCsDepotFile,
 	Data: HeaderCode + `
+using System.Collections.Generic;
+
+namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
+    public partial class Depot {
+{{- range $.Struct}}
+{{- if .Reader}}
+        public readonly {{.ReaderName}} {{.StructName}} = new {{.ReaderName}}();
+{{- end}}
+{{- end}}
+        private readonly List<ReaderInterface> Readers = new List<ReaderInterface>();
+
+        public Depot() {
+{{- range $.Struct}}
+{{- if .Reader}}
+            Readers.Add({{.StructName}});
+{{- end}}
+{{- end}}
+        }
+
+        public bool FromData(DelegateLoad load, DelegateError error) {
+            var result = true;
+
+            foreach (var itor in Readers) {
+                var data = load(itor.DataName(), itor.DataExt());
+
+                if (data == null || data.Length == 0)
+                    continue;
+
+                var message = itor.FromData(data);
+
+                if (message.Length != 0) {
+                    result = false;
+                    error(itor.DataName(), message);
+                }
+            }
+
+            return result;
+        }
+
+        public bool MergeData(DelegateLoad load, DelegateError error) {
+            var result = true;
+
+            foreach (var itor in Readers) {
+                var data = load(itor.DataName(), itor.DataExt());
+
+                if (data == null || data.Length == 0)
+                    continue;
+
+                var message = itor.MergeData(data);
+
+                if (message.Length != 0) {
+                    result = false;
+                    error(itor.DataName(), message);
+                }
+            }
+
+            return result;
+        }
+
+        public delegate void DelegateError(string name, string message);
+        public delegate byte[] DelegateLoad(string name, string ext);
+    }
+
+    public interface ReaderInterface {
+        public string DataName();
+        public string DataExt();
+        public string DataFile();
+        public string FromData(byte[] data);
+        public string MergeData(byte[] data);
+    }
+}
 `,
 }
 
@@ -124,23 +242,23 @@ func (this *{{$.ReaderName}}) DataFile() string {
 
 func (this *{{$.ReaderName}}) FromData(data []byte) error {
 	this.{{$.StorerName}} = &{{$.StorerName}}{
-		Datas: map[{{$.PkeyTypeGo}}]*{{$.StructName}}{},
+		{{$.StorerDatas}}: map[{{$.PkeyTypeGo}}]*{{$.StructName}}{},
 	}
 
 	if err := proto.Unmarshal(data, this.{{$.StorerName}}); err != nil {
-		return fmt.Errorf("{{$.ReaderName}}: from data failed: %w", err)
+		return fmt.Errorf("from data failed: %w", err)
 	}
 
 	return nil
 }
 
-func (this *{{$.ReaderName}}) MergeData(data []byte) (repeats []{{$.PkeyTypeGo}}) {
+func (this *{{$.ReaderName}}) MergeData(data []byte) error {
 	tmpl := &{{$.StorerName}}{
 		{{$.StorerDatas}}: map[{{$.PkeyTypeGo}}]*{{$.StructName}}{},
 	}
 
 	if err := proto.Unmarshal(data, tmpl); err != nil {
-		return repeats
+		return fmt.Errorf("merge data failed: %w", err)
 	}
 
 	if this.{{$.StorerName}} == nil {
@@ -150,22 +268,96 @@ func (this *{{$.ReaderName}}) MergeData(data []byte) (repeats []{{$.PkeyTypeGo}}
 	}
 
 	for k, v := range tmpl.{{$.StorerDatas}} {
-		if _, ok := this.{{$.StorerName}}.{{$.StorerDatas}}[k]; ok == false {
-			this.{{$.StorerName}}.{{$.StorerDatas}}[k] = v
-		} else {
-			repeats = append(repeats, k)
+		if _, ok := this.{{$.StorerName}}.{{$.StorerDatas}}[k]; ok {
+			return fmt.Errorf("merge data failed: key repeat")
 		}
+
+		this.{{$.StorerName}}.{{$.StorerDatas}}[k] = v
 	}
 
-	return repeats
+	return nil
 }
 `,
 }
 
-// ProtoGoDepot proto-go倉庫模板 // TODO: proto-go倉庫模板
+// ProtoGoDepot proto-go倉庫模板
 var ProtoGoDepot = &Tmpl{
 	Name: internal.TmplProtoGoDepotFile,
 	Data: HeaderCode + `
+package {{$.ProtoNamespace $.SimpleNamespace}}
+
+type Depot struct {
+{{- range $.Struct}}
+{{- if .Reader}}
+	{{.StructName}} {{.ReaderName}}
+{{- end}}
+{{- end}}
+	readers []ReaderInterface
+}
+
+func (this *Depot) FromData(load DepotLoad, error DepotError) bool {
+	this.build()
+	result := true
+
+	for _, itor := range this.readers {
+		data := load(itor.DataName(), itor.DataExt())
+
+		if data == nil || len(data) == 0 {
+			continue
+		}
+
+		if err := itor.FromData(data); err != nil {
+			result = false
+			error(itor.DataName(), err)
+		}
+	}
+
+	return result
+}
+
+func (this *Depot) MergeData(load DepotLoad, error DepotError) bool {
+	this.build()
+	result := true
+
+	for _, itor := range this.readers {
+		data := load(itor.DataName(), itor.DataExt())
+
+		if data == nil || len(data) == 0 {
+			continue
+		}
+
+		if err := itor.MergeData(data); err != nil {
+			result = false
+			error(itor.DataName(), err)
+		}
+	}
+
+	return result
+}
+
+func (this *Depot) build() {
+	if len(this.readers) == 0 {
+		this.readers = append(
+			this.readers,
+{{- range $.Struct}}
+{{- if .Reader}}
+			&this.{{.StructName}},
+{{- end}}
+{{- end}}
+		)
+	}
+}
+
+type DepotError func(name string, err error)
+type DepotLoad func(name, ext string) []byte
+
+type ReaderInterface interface {
+	DataName() string
+	DataExt() string
+	DataFile() string
+	FromData(data []byte) error
+	MergeData(data []byte) error
+}
 `,
 }
 

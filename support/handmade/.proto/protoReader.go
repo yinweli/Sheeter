@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"google.golang.org/protobuf/proto"
-	"google.golang.org/protobuf/reflect/protoreflect"
+	"google.golang.org/protobuf/reflect/protoreflect" // 這為了通過編譯的程式碼, 不可使用
 )
 
 type RewardReader struct {

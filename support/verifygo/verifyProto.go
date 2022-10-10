@@ -157,8 +157,8 @@ func verifyProtoFrom2(path string) {
 func verifyProtoMerge1(path string) {
 	reader := sheeterProto.VerifyData1Reader{}
 
-	if repeats := reader.MergeData(readProto(path, reader.DataFile())); len(repeats) != 0 {
-		panic(fmt.Errorf("verify proto: %v", repeats))
+	if err := reader.MergeData(readJson(path, reader.DataFile())); err != nil {
+		panic(fmt.Errorf("verify proto: %w", err))
 	} // if
 
 	actual, ok := reader.Datas[1]
@@ -217,8 +217,8 @@ func verifyProtoMerge1(path string) {
 func verifyProtoMerge2(path string) {
 	reader := sheeterProto.VerifyData2Reader{}
 
-	if repeats := reader.MergeData(readProto(path, reader.DataFile())); len(repeats) != 0 {
-		panic(fmt.Errorf("verify proto: %v", repeats))
+	if err := reader.MergeData(readJson(path, reader.DataFile())); err != nil {
+		panic(fmt.Errorf("verify proto: %w", err))
 	} // if
 
 	actual, ok := reader.Datas[1]

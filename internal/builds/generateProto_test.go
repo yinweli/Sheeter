@@ -112,7 +112,47 @@ func (this *SuiteGenerateProto) TestGenerateProtoCsReader() {
 using System.Collections.Generic;
 
 namespace SheeterProto {
-    public partial class TestDataReader {
+    using Data_ = TestData;
+    using PKey_ = System.Int64;
+    using Storer_ = TestDataStorer;
+
+    public partial class TestDataReader : ReaderInterface {
+        public Data_ this[PKey_ key] {
+            get {
+                return storer.Datas[key];
+            }
+        }
+
+        public ICollection<PKey_> Keys {
+            get {
+                return storer.Datas.Keys;
+            }
+        }
+
+        public ICollection<Data_> Values {
+            get {
+                return storer.Datas.Values;
+            }
+        }
+
+        public int Count {
+            get {
+                return storer.Datas.Count;
+            }
+        }
+
+        public bool ContainsKey(PKey_ key) {
+            return storer.Datas.ContainsKey(key);
+        }
+
+        public bool TryGetValue(PKey_ key, out Data_ value) {
+            return storer.Datas.TryGetValue(key, out value);
+        }
+
+        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
+            return storer.Datas.GetEnumerator();
+        }
+
         public string DataName() {
             return "testData";
         }
@@ -125,38 +165,45 @@ namespace SheeterProto {
             return "testData.bytes";
         }
 
-        public bool FromData(byte[] data) {
-            Datas = TestDataStorer.Parser.ParseFrom(data);
-            return Datas != null;
-        }
+        public string FromData(byte[] data) {
+            Storer_ result;
 
-        public System.Int64[] MergeData(byte[] data) {
-            var repeats = new List<System.Int64>();
-            var tmpl = TestDataStorer.Parser.ParseFrom(data);
-
-            if (tmpl == null)
-                return repeats.ToArray();
-
-            if (Datas == null)
-                Datas = new TestDataStorer();
-
-            foreach (var itor in tmpl.Datas) {
-                if (Data.ContainsKey(itor.Key) == false)
-                    Data[itor.Key] = itor.Value;
-                else
-                    repeats.Add(itor.Key);
+            try {
+                result = Storer_.Parser.ParseFrom(data);
+            } catch {
+                return "from data failed: deserialize failed";
             }
 
-            return repeats.ToArray();
+            if (result == null)
+                return "from data failed: result null";
+
+            storer = result;
+            return string.Empty;
         }
 
-        public IDictionary<System.Int64, TestData> Data {
-            get {
-                return Datas.Datas;
+        public string MergeData(byte[] data) {
+            Storer_ result;
+
+            try {
+                result = Storer_.Parser.ParseFrom(data);
+            } catch {
+                return "merge data failed: deserialize failed";
             }
+
+            if (result == null)
+                return "merge data failed: result null";
+
+            foreach (var itor in result.Datas) {
+                if (storer.Datas.ContainsKey(itor.Key))
+                    return "merge data failed: key repeat";
+
+                storer.Datas[itor.Key] = itor.Value;
+            }
+
+            return string.Empty;
         }
 
-        private TestDataStorer Datas = null;
+        private Storer_ storer = new Storer_();
     }
 }
 `)
@@ -200,19 +247,19 @@ func (this *TestDataReader) FromData(data []byte) error {
 	}
 
 	if err := proto.Unmarshal(data, this.TestDataStorer); err != nil {
-		return fmt.Errorf("TestDataReader: from data failed: %w", err)
+		return fmt.Errorf("from data failed: %w", err)
 	}
 
 	return nil
 }
 
-func (this *TestDataReader) MergeData(data []byte) (repeats []int64) {
+func (this *TestDataReader) MergeData(data []byte) error {
 	tmpl := &TestDataStorer{
 		Datas: map[int64]*TestData{},
 	}
 
 	if err := proto.Unmarshal(data, tmpl); err != nil {
-		return repeats
+		return fmt.Errorf("merge data failed: %w", err)
 	}
 
 	if this.TestDataStorer == nil {
@@ -222,14 +269,14 @@ func (this *TestDataReader) MergeData(data []byte) (repeats []int64) {
 	}
 
 	for k, v := range tmpl.Datas {
-		if _, ok := this.TestDataStorer.Datas[k]; ok == false {
-			this.TestDataStorer.Datas[k] = v
-		} else {
-			repeats = append(repeats, k)
+		if _, ok := this.TestDataStorer.Datas[k]; ok {
+			return fmt.Errorf("merge data failed: key repeat")
 		}
+
+		this.TestDataStorer.Datas[k] = v
 	}
 
-	return repeats
+	return nil
 }
 `)
 

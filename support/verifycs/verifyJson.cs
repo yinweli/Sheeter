@@ -13,7 +13,7 @@ namespace verifycs {
             verifyJsonMerge2(path);
         }
 
-        private static string readJson(string path, string name) {
+        private static string read(string path, string name) {
             return File.ReadAllText(Path.Combine(path, name));
         }
 
@@ -25,7 +25,7 @@ namespace verifycs {
         private static void verifyJsonFrom1(string path) {
             var reader = new VerifyData1Reader();
 
-            if (string.IsNullOrEmpty(reader.FromData(readJson(path, reader.DataFile()))) == false) {
+            if (string.IsNullOrEmpty(reader.FromData(read(path, reader.DataFile()))) == false) {
                 throw new Exception("verify json: read failed");
             } // if
 
@@ -86,7 +86,7 @@ namespace verifycs {
         private static void verifyJsonFrom2(string path) {
             var reader = new VerifyData2Reader();
 
-            if (string.IsNullOrEmpty(reader.FromData(readJson(path, reader.DataFile()))) == false) {
+            if (string.IsNullOrEmpty(reader.FromData(read(path, reader.DataFile()))) == false) {
                 throw new Exception("verify json: read failed");
             } // if
 
@@ -147,7 +147,7 @@ namespace verifycs {
         private static void verifyJsonMerge1(string path) {
             var reader = new VerifyData1Reader();
 
-            if (string.IsNullOrEmpty(reader.MergeData(readJson(path, reader.DataFile()))) == false) {
+            if (string.IsNullOrEmpty(reader.MergeData(read(path, reader.DataFile()))) == false) {
                 throw new Exception("verify json: read failed");
             } // if
 
@@ -208,7 +208,7 @@ namespace verifycs {
         private static void verifyJsonMerge2(string path) {
             var reader = new VerifyData2Reader();
 
-            if (string.IsNullOrEmpty(reader.MergeData(readJson(path, reader.DataFile()))) == false) {
+            if (string.IsNullOrEmpty(reader.MergeData(read(path, reader.DataFile()))) == false) {
                 throw new Exception("verify json: read failed");
             } // if
 

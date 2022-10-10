@@ -136,7 +136,7 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
 
 // JsonCsDepot json-cs倉庫模板
 var JsonCsDepot = &Tmpl{
-	Name: internal.TmplJsonCsDepotFile, // TODO: 產生讀取器列表時, 必須把不會產生讀取器的Struct過濾掉
+	Name: internal.TmplJsonCsDepotFile,
 	Data: HeaderCode + `
 using System.Collections.Generic;
 
@@ -148,7 +148,7 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
 {{- end}}
 {{- end}}
         private readonly List<ReaderInterface> Readers = new List<ReaderInterface>();
-        
+
         public Depot() {
 {{- range $.Struct}}
 {{- if .Reader}}
@@ -300,7 +300,7 @@ func (this *{{$.ReaderName}}) MergeData(data []byte) error {
 `,
 }
 
-// JsonGoDepot json-go倉庫模板 // TODO: json-go倉庫模板
+// JsonGoDepot json-go倉庫模板
 var JsonGoDepot = &Tmpl{
 	Name: internal.TmplJsonGoDepotFile,
 	Data: HeaderCode + `

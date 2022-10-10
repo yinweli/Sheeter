@@ -31,19 +31,19 @@ func (this *VerifyData2Reader) FromData(data []byte) error {
 	}
 
 	if err := proto.Unmarshal(data, this.VerifyData2Storer); err != nil {
-		return fmt.Errorf("VerifyData2Reader: from data failed: %w", err)
+		return fmt.Errorf("from data failed: %w", err)
 	}
 
 	return nil
 }
 
-func (this *VerifyData2Reader) MergeData(data []byte) (repeats []int64) {
+func (this *VerifyData2Reader) MergeData(data []byte) error {
 	tmpl := &VerifyData2Storer{
 		Datas: map[int64]*VerifyData2{},
 	}
 
 	if err := proto.Unmarshal(data, tmpl); err != nil {
-		return repeats
+		return fmt.Errorf("merge data failed: %w", err)
 	}
 
 	if this.VerifyData2Storer == nil {
@@ -53,12 +53,12 @@ func (this *VerifyData2Reader) MergeData(data []byte) (repeats []int64) {
 	}
 
 	for k, v := range tmpl.Datas {
-		if _, ok := this.VerifyData2Storer.Datas[k]; ok == false {
-			this.VerifyData2Storer.Datas[k] = v
-		} else {
-			repeats = append(repeats, k)
+		if _, ok := this.VerifyData2Storer.Datas[k]; ok {
+			return fmt.Errorf("merge data failed: key repeat")
 		}
+
+		this.VerifyData2Storer.Datas[k] = v
 	}
 
-	return repeats
+	return nil
 }

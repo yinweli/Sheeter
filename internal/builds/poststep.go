@@ -26,8 +26,8 @@ func Poststep(context *Context) error {
 	if context.Global.ExportProto {
 		tasks = append(
 			tasks,
-			// poststepProtoCsDepot, // TODO: 等待proto-cs-depot
-			// poststepProtoGoDepot, // TODO: 等待proto-go-depot
+			poststepProtoCsDepot,
+			poststepProtoGoDepot,
 			poststepProtoCsBat,
 			poststepProtoCsSh,
 			poststepProtoGoBat,
@@ -68,6 +68,7 @@ func Poststep(context *Context) error {
 		progressbar.Increment()
 	} // for
 
+	progress.Wait()
 	return nil
 }
 

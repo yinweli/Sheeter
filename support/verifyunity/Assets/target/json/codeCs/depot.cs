@@ -8,7 +8,7 @@ namespace SheeterJson {
         public readonly VerifyData1Reader VerifyData1 = new VerifyData1Reader();
         public readonly VerifyData2Reader VerifyData2 = new VerifyData2Reader();
         private readonly List<ReaderInterface> Readers = new List<ReaderInterface>();
-        
+
         public Depot() {
             Readers.Add(VerifyData1);
             Readers.Add(VerifyData2);

@@ -4,7 +4,47 @@
 using System.Collections.Generic;
 
 namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
-    public partial class {{$.ReaderName}} {
+    using Data_ = {{$.StructName}};
+    using PKey_ = {{$.PkeyTypeCs}};
+    using Storer_ = {{$.StorerName}};
+
+    public partial class {{$.ReaderName}} : ReaderInterface {
+        public Data_ this[PKey_ key] {
+            get {
+                return storer.{{$.StorerDatas}}[key];
+            }
+        }
+
+        public ICollection<PKey_> Keys {
+            get {
+                return storer.{{$.StorerDatas}}.Keys;
+            }
+        }
+
+        public ICollection<Data_> Values {
+            get {
+                return storer.{{$.StorerDatas}}.Values;
+            }
+        }
+
+        public int Count {
+            get {
+                return storer.{{$.StorerDatas}}.Count;
+            }
+        }
+
+        public bool ContainsKey(PKey_ key) {
+            return storer.{{$.StorerDatas}}.ContainsKey(key);
+        }
+
+        public bool TryGetValue(PKey_ key, out Data_ value) {
+            return storer.{{$.StorerDatas}}.TryGetValue(key, out value);
+        }
+
+        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
+            return storer.{{$.StorerDatas}}.GetEnumerator();
+        }
+
         public string DataName() {
             return "{{$.ProtoDataName}}";
         }
@@ -17,37 +57,44 @@ namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
             return "{{$.ProtoDataFile}}";
         }
 
-        public bool FromData(byte[] data) {
-            Datas = {{$.StorerName}}.Parser.ParseFrom(data);
-            return Datas != null;
-        }
+        public string FromData(byte[] data) {
+            Storer_ result;
 
-        public {{$.PkeyTypeCs}}[] MergeData(byte[] data) {
-            var repeats = new List<{{$.PkeyTypeCs}}>();
-            var tmpl = {{$.StorerName}}.Parser.ParseFrom(data);
-
-            if (tmpl == null)
-                return repeats.ToArray();
-
-            if (Datas == null)
-                Datas = new {{$.StorerName}}();
-
-            foreach (var itor in tmpl.{{$.StorerDatas}}) {
-                if (Data.ContainsKey(itor.Key) == false)
-                    Data[itor.Key] = itor.Value;
-                else
-                    repeats.Add(itor.Key);
+            try {
+                result = Storer_.Parser.ParseFrom(data);
+            } catch {
+                return "from data failed: deserialize failed";
             }
 
-            return repeats.ToArray();
+            if (result == null)
+                return "from data failed: result null";
+
+            storer = result;
+            return string.Empty;
         }
 
-        public IDictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> Data {
-            get {
-                return Datas.{{$.StorerDatas}};
+        public string MergeData(byte[] data) {
+            Storer_ result;
+
+            try {
+                result = Storer_.Parser.ParseFrom(data);
+            } catch {
+                return "merge data failed: deserialize failed";
             }
+
+            if (result == null)
+                return "merge data failed: result null";
+
+            foreach (var itor in result.{{$.StorerDatas}}) {
+                if (storer.{{$.StorerDatas}}.ContainsKey(itor.Key))
+                    return "merge data failed: key repeat";
+
+                storer.{{$.StorerDatas}}[itor.Key] = itor.Value;
+            }
+
+            return string.Empty;
         }
 
-        private {{$.StorerName}} Datas = null;
+        private Storer_ storer = new Storer_();
     }
 }

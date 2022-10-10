@@ -325,28 +325,15 @@ buf format -w 存放proto檔案的路徑
 | support/verifyunity     | unity程式碼驗證                  |
 
 # TODO
-* 全域管理器
-  ```
-  管理器 {
-      public 所有Reader的物件
-      public 取得Reader資訊列表, 包含fileName, fileExt, Reader物件
-  }
-  ```
+* 更新說明文件
+    * 如何使用產生出來的讀取器
+    * 如何使用產生出來的管理器
 * 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
     * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
 * 目前的表格讀取方式會把全部需要的表格都讀取進來, 然後分析跟輸出; 但是在大量表格時會使用到大量記憶體, 可能需要想辦法減少記憶體使用量
 * 嘗試 https://github.com/tealeg/xlsx
 * 嘗試 https://github.com/TheDataShed/xlsxreader
 * 產生flatbuffer
-* 以下的驗證可能得要等全部做完才能一口氣驗證了
-* json-cs-reader  handmade[o] tmpl[o] test[o] verify[ ]
-* json-cs-depot   handmade[o] tmpl[o] test[o] verify[ ]
-* json-go-reader  handmade[o] tmpl[o] test[o] verify[ ]
-* json-go-depot   handmade[ ] tmpl[ ] test[ ] verify[ ]
-* proto-cs-reader handmade[ ] tmpl[ ] test[ ] verify[ ]
-* proto-cs-depot  handmade[ ] tmpl[ ] test[ ] verify[ ]
-* proto-go-reader handmade[ ] tmpl[ ] test[ ] verify[ ]
-* proto-go-depot  handmade[ ] tmpl[ ] test[ ] verify[ ]
 
 [buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/
