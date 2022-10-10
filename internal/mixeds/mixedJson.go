@@ -55,7 +55,7 @@ func (this *Json) JsonCsReaderPath() string {
 
 // JsonCsDepotPath 取得json-cs倉庫程式碼路徑
 func (this *Json) JsonCsDepotPath() string {
-	return filepath.Join(internal.JsonPath, internal.CsPath, internal.DepotName+"."+internal.CsExt)
+	return filepath.Join(internal.JsonPath, internal.CsPath, internal.Depot+"."+internal.CsExt)
 }
 
 // JsonGoStructPath 取得json-go結構程式碼路徑
@@ -77,5 +77,5 @@ func (this *Json) JsonGoReaderPath() string {
 
 // JsonGoDepotPath 取得json-go倉庫程式碼路徑
 func (this *Json) JsonGoDepotPath() string {
-	return filepath.Join(internal.JsonPath, internal.GoPath, internal.DepotName+"."+internal.GoExt)
+	return filepath.Join(internal.JsonPath, internal.GoPath, internal.Depot+"."+internal.GoExt)
 }

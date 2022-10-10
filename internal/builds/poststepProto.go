@@ -8,10 +8,10 @@ import (
 )
 
 // poststepProtoCsDepot 後製proto-cs倉庫程式碼
-func poststepProtoCsDepot(runtime *Runtime) error {
-	filename := runtime.ProtoCsDepotPath()
+func poststepProtoCsDepot(data *poststepData) error {
+	filename := data.ProtoCsDepotPath()
 
-	if err := utils.WriteTmpl(filename, tmpls.ProtoCsDepot.Data, runtime); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.ProtoCsDepot.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 
@@ -19,10 +19,10 @@ func poststepProtoCsDepot(runtime *Runtime) error {
 }
 
 // poststepProtoGoDepot 後製proto-go倉庫程式碼
-func poststepProtoGoDepot(runtime *Runtime) error {
-	filename := runtime.ProtoGoDepotPath()
+func poststepProtoGoDepot(data *poststepData) error {
+	filename := data.ProtoGoDepotPath()
 
-	if err := utils.WriteTmpl(filename, tmpls.ProtoGoDepot.Data, runtime); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.ProtoGoDepot.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 
@@ -34,10 +34,10 @@ func poststepProtoGoDepot(runtime *Runtime) error {
 }
 
 // poststepProtoCsBat 後製proto-cs.bat
-func poststepProtoCsBat(runtime *Runtime) error {
-	filename := runtime.ProtoCsBatFile()
+func poststepProtoCsBat(data *poststepData) error {
+	filename := data.ProtoCsBatFile()
 
-	if err := utils.WriteTmpl(filename, tmpls.ProtoCsBat.Data, runtime); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.ProtoCsBat.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 
@@ -45,10 +45,10 @@ func poststepProtoCsBat(runtime *Runtime) error {
 }
 
 // poststepProtoCsSh 後製proto-cs.sh
-func poststepProtoCsSh(runtime *Runtime) error {
-	filename := runtime.ProtoCsShFile()
+func poststepProtoCsSh(data *poststepData) error {
+	filename := data.ProtoCsShFile()
 
-	if err := utils.WriteTmpl(filename, tmpls.ProtoCsSh.Data, runtime); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.ProtoCsSh.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 
@@ -56,10 +56,10 @@ func poststepProtoCsSh(runtime *Runtime) error {
 }
 
 // poststepProtoGoBat 後製proto-go.bat
-func poststepProtoGoBat(runtime *Runtime) error {
-	filename := runtime.ProtoGoBatFile()
+func poststepProtoGoBat(data *poststepData) error {
+	filename := data.ProtoGoBatFile()
 
-	if err := utils.WriteTmpl(filename, tmpls.ProtoGoBat.Data, runtime); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.ProtoGoBat.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 
@@ -67,10 +67,10 @@ func poststepProtoGoBat(runtime *Runtime) error {
 }
 
 // poststepProtoGoSh 後製proto-go.sh
-func poststepProtoGoSh(runtime *Runtime) error {
-	filename := runtime.ProtoGoShFile()
+func poststepProtoGoSh(data *poststepData) error {
+	filename := data.ProtoGoShFile()
 
-	if err := utils.WriteTmpl(filename, tmpls.ProtoGoSh.Data, runtime); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.ProtoGoSh.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 

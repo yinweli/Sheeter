@@ -7,28 +7,31 @@ import (
 	"github.com/vbauerster/mpb/v7/decor"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/excels"
+	"github.com/yinweli/Sheeter/internal/layouts"
+	"github.com/yinweli/Sheeter/internal/mixeds"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Encoding 產生資料
-func Encoding(runtime *Runtime, config *Config) (errs []error) {
-	tasks := []func(*RuntimeSector) error{}
+func Encoding(context *Context) (errs []error) {
+	tasks := []func(*encodingData) error{}
 
-	if config.Global.ExportJson {
+	if context.Global.ExportJson {
 		tasks = append(
 			tasks,
 			encodingJson,
 		)
 	} // if
 
-	if config.Global.ExportProto {
+	if context.Global.ExportProto {
 		tasks = append(
 			tasks,
 			encodingProto,
 		)
 	} // if
 
-	itemCount := len(runtime.Sector)
+	itemCount := len(context.Sector)
 	taskCount := len(tasks)
 	totalCount := itemCount * taskCount
 	errors := make(chan error, itemCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
@@ -45,14 +48,20 @@ func Encoding(runtime *Runtime, config *Config) (errs []error) {
 		),
 	)
 
-	for _, itor := range runtime.Sector {
-		runtimeSector := itor // 多執行緒需要使用中間變數
+	for _, itor := range context.Sector {
+		data := &encodingData{ // 多執行緒需要使用中間變數
+			Global:     &context.Config.Global,
+			Element:    &itor.Element,
+			Mixed:      mixeds.NewMixed(itor.Element.Excel, itor.Element.Sheet),
+			excel:      itor.excel,
+			layoutJson: itor.layoutJson,
+		}
 
 		go func() {
 			defer signaler.Done()
 
 			for _, itor := range tasks {
-				if err := itor(runtimeSector); err != nil {
+				if err := itor(data); err != nil {
 					errors <- fmt.Errorf("encoding failed: %w", err)
 				} // if
 
@@ -71,4 +80,13 @@ func Encoding(runtime *Runtime, config *Config) (errs []error) {
 	} // for
 
 	return errs
+}
+
+// encodingData 產生資料資料
+type encodingData struct {
+	*Global                           // 全域設定
+	*Element                          // 項目設定
+	*mixeds.Mixed                     // 綜合工具
+	excel         *excels.Excel       // excel物件
+	layoutJson    *layouts.LayoutJson // json布局器
 }

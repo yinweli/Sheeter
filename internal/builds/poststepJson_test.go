@@ -30,10 +30,12 @@ func (this *SuitePoststepJson) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuitePoststepJson) target() *Runtime {
-	target := &Runtime{
-		Struct: []*RuntimeStruct{
-			{Mixed: mixeds.NewMixed("test", "data")},
+func (this *SuitePoststepJson) target() *poststepData {
+	target := &poststepData{
+		Global: &Global{},
+		Mixed:  mixeds.NewMixed("", ""),
+		Struct: []*mixeds.Mixed{
+			mixeds.NewMixed("test", "data"),
 		},
 	}
 	return target

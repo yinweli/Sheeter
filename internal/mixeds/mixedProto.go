@@ -77,7 +77,7 @@ func (this *Proto) ProtoCsReaderPath() string {
 
 // ProtoCsDepotPath 取得proto-cs倉庫程式碼路徑
 func (this *Proto) ProtoCsDepotPath() string {
-	return filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(internal.DepotName)+"."+internal.CsExt) // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
+	return filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(internal.Depot)+"."+internal.CsExt) // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
 }
 
 // ProtoGoReaderPath 取得proto-go讀取器程式碼路徑
@@ -91,7 +91,7 @@ func (this *Proto) ProtoGoReaderPath() string {
 
 // ProtoGoDepotPath 取得proto-go倉庫程式碼路徑
 func (this *Proto) ProtoGoDepotPath() string {
-	return filepath.Join(internal.ProtoPath, internal.GoPath, utils.FirstUpper(internal.DepotName)+"."+internal.GoExt) // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
+	return filepath.Join(internal.ProtoPath, internal.GoPath, utils.FirstUpper(internal.Depot)+"."+internal.GoExt) // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
 }
 
 // ProtoCsBatFile 取得proto-cs-bat檔名

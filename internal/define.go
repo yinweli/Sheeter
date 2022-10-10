@@ -3,11 +3,10 @@ package internal
 /* 應用程式相關 */
 
 const AppName = "sheeter"   // 程式名稱
-const Version = "1.5.3"     // 版本字串, 遵循'大版本.小版本.修正版本'的規則
+const Version = "1.6.0"     // 版本字串, 遵循'大版本.小版本.修正版本'的規則
 const BarWidth = 40         // 進度條寬度
 const SeparateField = "#"   // 欄位字串以'#'符號分割為名稱與欄位
 const SeparateElement = "#" // 項目字串以'#'符號分割為檔案名稱與表單名稱
-const DepotName = "depot"   // 倉庫名稱
 
 /* 類型相關 */
 
@@ -56,6 +55,7 @@ const TmplProtoGoShFile = "proto-go-sh.txt"         // 輸出檔名: proto-go-sh
 const Reader = "Reader"     // 讀取器名稱
 const Storer = "Storer"     // 儲存器名稱
 const StorerDatas = "Datas" // 儲存器資料名稱
+const Depot = "depot"       // 倉庫名稱
 const SchemaPath = "schema" // 輸出路徑: 架構
 const DataPath = "data"     // 輸出路徑: 資料
 const CsPath = "codeCs"     // 輸出路徑: cs
@@ -79,3 +79,10 @@ const ProtoCsBatFile = "protoCs.bat"     // 檔名: proto-cs-bat
 const ProtoCsShFile = "protoCs.sh"       // 檔名: proto-cs-sh
 const ProtoGoBatFile = "protoGo.bat"     // 檔名: proto-go-bat
 const ProtoGoShFile = "protoGo.sh"       // 檔名: proto-go-sh
+
+// Keywords 關鍵字列表
+var Keywords = []string{
+	Depot,
+	"readerinterface",
+	"readers",
+}

@@ -8,10 +8,10 @@ import (
 )
 
 // poststepJsonCsDepot 後製json-cs倉庫程式碼
-func poststepJsonCsDepot(runtime *Runtime) error {
-	filename := runtime.JsonCsDepotPath()
+func poststepJsonCsDepot(data *poststepData) error {
+	filename := data.JsonCsDepotPath()
 
-	if err := utils.WriteTmpl(filename, tmpls.JsonCsDepot.Data, runtime); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.JsonCsDepot.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 
@@ -19,10 +19,10 @@ func poststepJsonCsDepot(runtime *Runtime) error {
 }
 
 // poststepJsonGoDepot 後製json-go倉庫程式碼
-func poststepJsonGoDepot(runtime *Runtime) error {
-	filename := runtime.JsonGoDepotPath()
+func poststepJsonGoDepot(data *poststepData) error {
+	filename := data.JsonGoDepotPath()
 
-	if err := utils.WriteTmpl(filename, tmpls.JsonGoDepot.Data, runtime); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.JsonGoDepot.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 

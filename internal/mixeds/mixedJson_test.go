@@ -46,10 +46,10 @@ func (this *SuiteJson) TestName() {
 	jsonDataPath := filepath.Join(internal.JsonPath, internal.DataPath, structName+internal.JsonDataExt)
 	jsonCsStructPath := filepath.Join(internal.JsonPath, internal.CsPath, structName+internal.CsExt)
 	jsonCsReaderPath := filepath.Join(internal.JsonPath, internal.CsPath, readerName+internal.CsExt)
-	jsonCsDepotPath := filepath.Join(internal.JsonPath, internal.CsPath, internal.DepotName+"."+internal.CsExt)
+	jsonCsDepotPath := filepath.Join(internal.JsonPath, internal.CsPath, internal.Depot+"."+internal.CsExt)
 	jsonGoStructPath := filepath.Join(internal.JsonPath, internal.GoPath, structName+internal.GoExt)
 	jsonGoReaderPath := filepath.Join(internal.JsonPath, internal.GoPath, readerName+internal.GoExt)
-	jsonGoDepotPath := filepath.Join(internal.JsonPath, internal.GoPath, internal.DepotName+"."+internal.GoExt)
+	jsonGoDepotPath := filepath.Join(internal.JsonPath, internal.GoPath, internal.Depot+"."+internal.GoExt)
 
 	target := this.target()
 	assert.Equal(this.T(), name, target.JsonDataName())

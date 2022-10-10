@@ -7,13 +7,14 @@ import (
 	"github.com/vbauerster/mpb/v7/decor"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/mixeds"
 )
 
 // Poststep 後製
-func Poststep(runtime *Runtime, config *Config) error {
-	tasks := []func(*Runtime) error{}
+func Poststep(context *Context) error {
+	tasks := []func(*poststepData) error{}
 
-	if config.Global.ExportJson {
+	if context.Global.ExportJson {
 		tasks = append(
 			tasks,
 			poststepJsonCsDepot,
@@ -21,7 +22,7 @@ func Poststep(runtime *Runtime, config *Config) error {
 		)
 	} // if
 
-	if config.Global.ExportProto {
+	if context.Global.ExportProto {
 		tasks = append(
 			tasks,
 			poststepProtoCsDepot,
@@ -46,8 +47,17 @@ func Poststep(runtime *Runtime, config *Config) error {
 		),
 	)
 
+	data := &poststepData{
+		Global: &context.Config.Global,
+		Mixed:  mixeds.NewMixed("", ""),
+	}
+
+	for _, itor := range context.Struct {
+		data.Struct = append(data.Struct, mixeds.NewMixed(itor.types.Excel, itor.types.Sheet))
+	} // for
+
 	for _, itor := range tasks {
-		if err := itor(runtime); err != nil {
+		if err := itor(data); err != nil {
 			return fmt.Errorf("poststep failed: %w", err)
 		} // if
 
@@ -55,4 +65,11 @@ func Poststep(runtime *Runtime, config *Config) error {
 	} // for
 
 	return nil
+}
+
+// poststepData 後製資料
+type poststepData struct {
+	*Global                       // 全域設定
+	*mixeds.Mixed                 // 綜合工具
+	Struct        []*mixeds.Mixed // 結構列表
 }

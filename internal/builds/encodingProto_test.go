@@ -8,6 +8,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/mixeds"
 	"github.com/yinweli/Sheeter/internal/utils"
 	"github.com/yinweli/Sheeter/testdata"
 )
@@ -31,35 +32,54 @@ func (this *SuiteEncodingProto) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteEncodingProto) target() *Config {
-	target := &Config{
-		Global: Global{
-			LineOfField: 1,
-			LineOfLayer: 2,
-			LineOfNote:  3,
-			LineOfData:  4,
-		},
-		Elements: []Element{
-			{
-				Excel: testdata.ExcelNameReal,
-				Sheet: testdata.SheetName,
+func (this *SuiteEncodingProto) target(excel string) *encodingData {
+	context := &Context{
+		Config: &Config{
+			Global: Global{
+				ExportProto: true,
+				LineOfField: 1,
+				LineOfLayer: 2,
+				LineOfNote:  3,
+				LineOfData:  4,
 			},
 		},
+		Sector: []*ContextSector{
+			{
+				Element: Element{
+					Excel: excel,
+					Sheet: testdata.SheetName,
+				},
+			},
+		},
+	}
+	sector := context.Sector[0]
+
+	assert.Nil(this.T(), Initialize(context))
+	assert.Nil(this.T(), Generate(context))
+
+	target := &encodingData{
+		Global:     &context.Global,
+		Element:    &sector.Element,
+		Mixed:      mixeds.NewMixed(excel, testdata.SheetName),
+		excel:      sector.excel,
+		layoutJson: sector.layoutJson,
 	}
 	return target
 }
 
 func (this *SuiteEncodingProto) TestEncodingProto() {
-	target := this.target()
-	runtime := &Runtime{}
-	assert.Nil(this.T(), Initialize(runtime, target))
-	assert.Nil(this.T(), Generate(runtime, &Config{
-		Global: Global{
-			ExportProto:     true,
-			SimpleNamespace: false,
-		},
-	}))
-	assert.Nil(this.T(), encodingProto(runtime.Sector[0]))
-	assert.True(this.T(), utils.FileExist(runtime.Sector[0].ProtoDataPath()))
-	runtime.Sector[0].CloseExcel()
+	target := this.target(testdata.ExcelNameReal)
+	assert.Nil(this.T(), encodingProto(target))
+	assert.True(this.T(), utils.FileExist(target.ProtoDataPath()))
+
+	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
+	if testdata.IsWindows() {
+		target = this.target(testdata.ExcelNameReal)
+		target.Mixed = mixeds.NewMixed(testdata.UnknownStr, target.Sheet)
+		assert.NotNil(this.T(), encodingProto(target))
+
+		target = this.target(testdata.ExcelNameReal)
+		target.Mixed = mixeds.NewMixed(target.Excel, testdata.UnknownStr)
+		assert.NotNil(this.T(), encodingProto(target))
+	} // if
 }

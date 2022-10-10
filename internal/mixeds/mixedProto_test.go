@@ -50,9 +50,9 @@ func (this *SuiteProto) TestName() {
 	protoDataFile := structName + internal.ProtoDataExt
 	protoDataPath := filepath.Join(internal.ProtoPath, internal.DataPath, protoDataFile)
 	protoCsReaderPath := filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(readerName)+internal.CsExt)
-	protoCsDepotPath := filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(internal.DepotName)+"."+internal.CsExt)
+	protoCsDepotPath := filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(internal.Depot)+"."+internal.CsExt)
 	protoGoReaderPath := filepath.Join(internal.ProtoPath, internal.GoPath, readerName+internal.GoExt)
-	protoGoDepotPath := filepath.Join(internal.ProtoPath, internal.GoPath, utils.FirstUpper(internal.DepotName)+"."+internal.GoExt)
+	protoGoDepotPath := filepath.Join(internal.ProtoPath, internal.GoPath, utils.FirstUpper(internal.Depot)+"."+internal.GoExt)
 	protoDepend := utils.FirstLower(this.excel) + "." + internal.ProtoSchemaExt
 
 	target := this.target()

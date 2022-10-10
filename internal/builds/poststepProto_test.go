@@ -36,10 +36,12 @@ func (this *SuitePoststepProto) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuitePoststepProto) target() *Runtime {
-	target := &Runtime{
-		Struct: []*RuntimeStruct{
-			{Mixed: mixeds.NewMixed("test", "data")},
+func (this *SuitePoststepProto) target() *poststepData {
+	target := &poststepData{
+		Global: &Global{},
+		Mixed:  mixeds.NewMixed("", ""),
+		Struct: []*mixeds.Mixed{
+			mixeds.NewMixed("test", "data"),
 		},
 	}
 	return target

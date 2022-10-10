@@ -14,35 +14,38 @@ import (
 )
 
 // initializeSector 初始化區段
-func initializeSector(runtimeSector *RuntimeSector) error {
-	runtimeSector.Mixed = mixeds.NewMixed(runtimeSector.Excel, runtimeSector.Sheet)
-	runtimeSector.excel = &excels.Excel{}
-	structName := runtimeSector.StructName()
+func initializeSector(context *Context, sector *ContextSector) error {
+	structName := mixeds.NewMixed(sector.Excel, sector.Sheet).StructName()
 
-	if strings.EqualFold(structName, internal.DepotName) {
-		return fmt.Errorf("%s: initialize sector failed: invalid excel & sheet name", structName)
-	} // if
+	for _, itor := range internal.Keywords {
+		if strings.EqualFold(structName, itor) {
+			return fmt.Errorf("%s: initialize sector failed: invalid excel & sheet name", structName)
+		} // if
+	} // for
 
-	// TODO: 名稱也不能叫做ReaderInterface
-	// TODO: 名稱也不能叫做readers
+	excel := &excels.Excel{}
 
-	if err := runtimeSector.OpenExcel(); err != nil {
+	if err := excel.Open(sector.Excel); err != nil {
 		return fmt.Errorf("%s: initialize sector failed: open excel failed: %w", structName, err)
 	} // if
 
-	fieldLine, err := runtimeSector.GetExcelData(runtimeSector.LineOfField)
+	if excel.SheetExist(sector.Sheet) == false {
+		return fmt.Errorf("%s: initialize sector failed: open excel failed: sheet not found", structName)
+	} // if
+
+	fieldLine, err := excel.GetData(sector.Sheet, context.Global.LineOfField)
 
 	if err != nil {
 		return fmt.Errorf("%s: initialize sector failed: field line not found: %w", structName, err)
 	} // if
 
-	layerLine, err := runtimeSector.GetExcelData(runtimeSector.LineOfLayer)
+	layerLine, err := excel.GetData(sector.Sheet, context.Global.LineOfLayer)
 
 	if err != nil {
 		return fmt.Errorf("%s: initialize sector failed: layer line not found: %w", structName, err)
 	} // if
 
-	noteLine, err := runtimeSector.GetExcelData(runtimeSector.LineOfNote)
+	noteLine, err := excel.GetData(sector.Sheet, context.Global.LineOfNote)
 
 	if err != nil {
 		return fmt.Errorf("%s: initialize sector failed: note line not found: %w", structName, err)
@@ -52,7 +55,7 @@ func initializeSector(runtimeSector *RuntimeSector) error {
 	layoutType := layouts.NewLayoutType()
 	layoutDepend := layouts.NewLayoutDepend()
 
-	if err := layoutType.Begin(structName, runtimeSector.Excel, runtimeSector.Sheet); err != nil {
+	if err := layoutType.Begin(structName, sector.Excel, sector.Sheet); err != nil {
 		return fmt.Errorf("%s: initialize sector failed: layoutType begin failed: %w", structName, err)
 	} // if
 
@@ -110,8 +113,9 @@ func initializeSector(runtimeSector *RuntimeSector) error {
 		return fmt.Errorf("%s: initialize sector failed: pkey not found", structName)
 	} // if
 
-	runtimeSector.layoutJson = layoutJson
-	runtimeSector.layoutType = layoutType
-	runtimeSector.layoutDepend = layoutDepend
+	sector.excel = excel
+	sector.layoutJson = layoutJson
+	sector.layoutType = layoutType
+	sector.layoutDepend = layoutDepend
 	return nil
 }

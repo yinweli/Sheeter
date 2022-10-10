@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal/mixeds"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -26,26 +27,23 @@ func (this *SuiteInitializeStruct) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteInitializeStruct) target() *Runtime {
-	target := &Runtime{
-		Sector: []*RuntimeSector{
+func (this *SuiteInitializeStruct) target() *Context {
+	target := &Context{
+		Config: &Config{
+			Global: Global{
+				LineOfField: 1,
+				LineOfLayer: 2,
+				LineOfNote:  3,
+			},
+		},
+		Sector: []*ContextSector{
 			{
-				Global: Global{
-					LineOfField: 1,
-					LineOfLayer: 2,
-					LineOfNote:  3,
-				},
 				Element: Element{
 					Excel: testdata.ExcelNameReal,
 					Sheet: testdata.SheetName,
 				},
 			},
 			{
-				Global: Global{
-					LineOfField: 1,
-					LineOfLayer: 2,
-					LineOfNote:  3,
-				},
 				Element: Element{
 					Excel: testdata.ExcelNameReal,
 					Sheet: testdata.SheetName,
@@ -58,14 +56,15 @@ func (this *SuiteInitializeStruct) target() *Runtime {
 
 func (this *SuiteInitializeStruct) TestInitializeStruct() {
 	target := this.target()
-	assert.Nil(this.T(), initializeSector(target.Sector[0]))
-	assert.Nil(this.T(), initializeSector(target.Sector[1]))
-	assert.Nil(this.T(), initializeStruct(target, &Config{}))
+	assert.Nil(this.T(), initializeSector(target, target.Sector[0]))
+	assert.Nil(this.T(), initializeSector(target, target.Sector[1]))
+	assert.Nil(this.T(), initializeStruct(target))
 
 	structNames := []string{}
 
 	for _, itor := range target.Struct {
-		structNames = append(structNames, itor.StructName())
+		structName := mixeds.NewMixed(itor.types.Excel, itor.types.Sheet).StructName()
+		structNames = append(structNames, structName)
 	} // for
 
 	assert.ElementsMatch(this.T(), []string{"RealData", "S", "A"}, structNames)

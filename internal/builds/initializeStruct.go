@@ -4,14 +4,13 @@ import (
 	"fmt"
 
 	"github.com/yinweli/Sheeter/internal/layouts"
-	"github.com/yinweli/Sheeter/internal/mixeds"
 )
 
 // initializeStruct 初始化結構
-func initializeStruct(runtime *Runtime, config *Config) error {
+func initializeStruct(context *Context) error {
 	layoutType := layouts.NewLayoutType()
 
-	for _, itor := range runtime.Sector {
+	for _, itor := range context.Sector {
 		if err := layoutType.Merge(itor.layoutType); err != nil {
 			return fmt.Errorf("initialize struct failed: %w", err)
 		} // if
@@ -19,21 +18,16 @@ func initializeStruct(runtime *Runtime, config *Config) error {
 
 	layoutDepend := layouts.NewLayoutDepend()
 
-	for _, itor := range runtime.Sector {
+	for _, itor := range context.Sector {
 		if err := layoutDepend.Merge(itor.layoutDepend); err != nil {
 			return fmt.Errorf("initialize struct failed: %w", err)
 		} // if
 	} // for
 
 	for _, itor := range layoutType.TypeNames() {
-		types := layoutType.Types(itor)
-		depend := layoutDepend.Depends(itor)
-		runtime.Struct = append(runtime.Struct, &RuntimeStruct{
-			Global:          config.Global,
-			Mixed:           mixeds.NewMixed(types.Excel, types.Sheet),
-			Type:            types,
-			SimpleNamespace: config.Global.SimpleNamespace,
-			Depend:          depend,
+		context.Struct = append(context.Struct, &ContextStruct{
+			types:  layoutType.Types(itor),
+			depend: layoutDepend.Depends(itor),
 		})
 	} // for
 

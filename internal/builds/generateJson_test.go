@@ -32,9 +32,10 @@ func (this *SuiteGenerateJson) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteGenerateJson) target() *RuntimeStruct {
-	target := &RuntimeStruct{
-		Mixed: mixeds.NewMixed("test", "data"),
+func (this *SuiteGenerateJson) target() *generateData {
+	target := &generateData{
+		Global: &Global{},
+		Mixed:  mixeds.NewMixed("test", "data"),
 		Type: &layouts.Type{
 			Excel:  "test",
 			Sheet:  "data",

@@ -300,5 +300,6 @@ func (this *{{$.ReaderName}}) MergeData(data []byte) error {
 var JsonGoDepot = &Tmpl{
 	Name: internal.TmplJsonGoDepotFile,
 	Data: HeaderCode + `
+package {{$.JsonNamespace $.SimpleNamespace}}
 `,
 }

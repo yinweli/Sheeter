@@ -338,14 +338,15 @@ buf format -w 存放proto檔案的路徑
 * 嘗試 https://github.com/tealeg/xlsx
 * 嘗試 https://github.com/TheDataShed/xlsxreader
 * 產生flatbuffer
-* TODO: handmade-json-cs-reader
-* TODO: handmade-json-cs-depot
-* TODO: handmade-json-go-reader
-* TODO: handmade-json-go-depot
-* TODO: handmade-proto-cs-reader
-* TODO: handmade-proto-cs-depot
-* TODO: handmade-proto-go-reader
-* TODO: handmade-proto-go-depot
+* 以下的驗證可能得要等全部做完才能一口氣驗證了
+* json-cs-reader  handmade[o] tmpl[o] test[o] verify[ ]
+* json-cs-depot   handmade[ ] tmpl[ ] test[ ] verify[ ]
+* json-go-reader  handmade[ ] tmpl[ ] test[ ] verify[ ]
+* json-go-depot   handmade[ ] tmpl[ ] test[ ] verify[ ]
+* proto-cs-reader handmade[ ] tmpl[ ] test[ ] verify[ ]
+* proto-cs-depot  handmade[ ] tmpl[ ] test[ ] verify[ ]
+* proto-go-reader handmade[ ] tmpl[ ] test[ ] verify[ ]
+* proto-go-depot  handmade[ ] tmpl[ ] test[ ] verify[ ]
 
 [buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/
