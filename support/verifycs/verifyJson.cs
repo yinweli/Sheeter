@@ -25,13 +25,13 @@ namespace verifycs {
         private static void verifyJsonFrom1(string path) {
             var reader = new VerifyData1Reader();
 
-            if (reader.FromData(readJson(path, reader.DataFile())) == false) {
+            if (string.IsNullOrEmpty(reader.FromData(readJson(path, reader.DataFile()))) == false) {
                 throw new Exception("verify json: read failed");
             } // if
 
             VerifyData1 actual;
 
-            assert(reader.Data.TryGetValue(1, out actual));
+            assert(reader.TryGetValue(1, out actual));
             assert(actual != null);
             assert(actual.Key == 1);
             assert(actual.Hide == false);
@@ -54,7 +54,7 @@ namespace verifycs {
             assert(actual.Reward.Item[2].Type == 0);
             assert(actual.Reward.Item[2].Count == 0);
 
-            assert(reader.Data.TryGetValue(2, out actual));
+            assert(reader.TryGetValue(2, out actual));
             assert(actual != null);
             assert(actual.Key == 2);
             assert(actual.Hide == false);
@@ -77,7 +77,7 @@ namespace verifycs {
             assert(actual.Reward.Item[2].Type == 3);
             assert(actual.Reward.Item[2].Count == 3);
 
-            assert(reader.Data.TryGetValue(3, out actual) == false);
+            assert(reader.TryGetValue(3, out actual) == false);
             assert(actual == null);
 
             Console.WriteLine("verify json from 1: success");
@@ -86,13 +86,13 @@ namespace verifycs {
         private static void verifyJsonFrom2(string path) {
             var reader = new VerifyData2Reader();
 
-            if (reader.FromData(readJson(path, reader.DataFile())) == false) {
+            if (string.IsNullOrEmpty(reader.FromData(readJson(path, reader.DataFile()))) == false) {
                 throw new Exception("verify json: read failed");
             } // if
 
             VerifyData2 actual;
 
-            assert(reader.Data.TryGetValue(1, out actual));
+            assert(reader.TryGetValue(1, out actual));
             assert(actual != null);
             assert(actual.Key == 1);
             assert(actual.Hide == false);
@@ -115,7 +115,7 @@ namespace verifycs {
             assert(actual.Reward.Item[2].Type == 0);
             assert(actual.Reward.Item[2].Count == 0);
 
-            assert(reader.Data.TryGetValue(2, out actual));
+            assert(reader.TryGetValue(2, out actual));
             assert(actual != null);
             assert(actual.Key == 2);
             assert(actual.Hide == false);
@@ -138,7 +138,7 @@ namespace verifycs {
             assert(actual.Reward.Item[2].Type == 3);
             assert(actual.Reward.Item[2].Count == 3);
 
-            assert(reader.Data.TryGetValue(3, out actual) == false);
+            assert(reader.TryGetValue(3, out actual) == false);
             assert(actual == null);
 
             Console.WriteLine("verify json from 2: success");
@@ -147,13 +147,13 @@ namespace verifycs {
         private static void verifyJsonMerge1(string path) {
             var reader = new VerifyData1Reader();
 
-            if (reader.MergeData(readJson(path, reader.DataFile())).Length != 0) {
+            if (string.IsNullOrEmpty(reader.MergeData(readJson(path, reader.DataFile()))) == false) {
                 throw new Exception("verify json: read failed");
             } // if
 
             VerifyData1 actual;
 
-            assert(reader.Data.TryGetValue(1, out actual));
+            assert(reader.TryGetValue(1, out actual));
             assert(actual != null);
             assert(actual.Key == 1);
             assert(actual.Hide == false);
@@ -176,7 +176,7 @@ namespace verifycs {
             assert(actual.Reward.Item[2].Type == 0);
             assert(actual.Reward.Item[2].Count == 0);
 
-            assert(reader.Data.TryGetValue(2, out actual));
+            assert(reader.TryGetValue(2, out actual));
             assert(actual != null);
             assert(actual.Key == 2);
             assert(actual.Hide == false);
@@ -199,7 +199,7 @@ namespace verifycs {
             assert(actual.Reward.Item[2].Type == 3);
             assert(actual.Reward.Item[2].Count == 3);
 
-            assert(reader.Data.TryGetValue(3, out actual) == false);
+            assert(reader.TryGetValue(3, out actual) == false);
             assert(actual == null);
 
             Console.WriteLine("verify json merge 1: success");
@@ -208,13 +208,13 @@ namespace verifycs {
         private static void verifyJsonMerge2(string path) {
             var reader = new VerifyData2Reader();
 
-            if (reader.MergeData(readJson(path, reader.DataFile())).Length != 0) {
+            if (string.IsNullOrEmpty(reader.MergeData(readJson(path, reader.DataFile()))) == false) {
                 throw new Exception("verify json: read failed");
             } // if
 
             VerifyData2 actual;
 
-            assert(reader.Data.TryGetValue(1, out actual));
+            assert(reader.TryGetValue(1, out actual));
             assert(actual != null);
             assert(actual.Key == 1);
             assert(actual.Hide == false);
@@ -237,7 +237,7 @@ namespace verifycs {
             assert(actual.Reward.Item[2].Type == 0);
             assert(actual.Reward.Item[2].Count == 0);
 
-            assert(reader.Data.TryGetValue(2, out actual));
+            assert(reader.TryGetValue(2, out actual));
             assert(actual != null);
             assert(actual.Key == 2);
             assert(actual.Hide == false);
@@ -260,7 +260,7 @@ namespace verifycs {
             assert(actual.Reward.Item[2].Type == 3);
             assert(actual.Reward.Item[2].Count == 3);
 
-            assert(reader.Data.TryGetValue(3, out actual) == false);
+            assert(reader.TryGetValue(3, out actual) == false);
             assert(actual == null);
 
             Console.WriteLine("verify json merge 2: success");

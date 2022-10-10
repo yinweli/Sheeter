@@ -10,6 +10,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/layouts"
 	"github.com/yinweli/Sheeter/internal/mixeds"
 	"github.com/yinweli/Sheeter/testdata"
 )
@@ -40,8 +41,15 @@ func (this *SuitePoststepProto) target() *poststepData {
 	target := &poststepData{
 		Global: &Global{},
 		Mixed:  mixeds.NewMixed("", ""),
-		Struct: []*mixeds.Mixed{
-			mixeds.NewMixed("test", "data"),
+		Struct: []poststepStruct{
+			{
+				Mixed: mixeds.NewMixed("test", "data"),
+				Type: &layouts.Type{
+					Excel:  "test",
+					Sheet:  "data",
+					Reader: true,
+				},
+			},
 		},
 	}
 	return target

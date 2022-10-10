@@ -30,19 +30,19 @@ func (this *{{$.ReaderName}}) FromData(data []byte) error {
 	}
 
 	if err := json.Unmarshal(data, this.{{$.StorerName}}); err != nil {
-		return fmt.Errorf("{{$.ReaderName}}: from data failed: %w", err)
+		return fmt.Errorf("from data failed: %w", err)
 	}
 
 	return nil
 }
 
-func (this *{{$.ReaderName}}) MergeData(data []byte) (repeats []{{$.PkeyTypeGo}}) {
+func (this *{{$.ReaderName}}) MergeData(data []byte) error {
 	tmpl := &{{$.StorerName}}{
 		{{$.StorerDatas}}: map[{{$.PkeyTypeGo}}]{{$.StructName}}{},
 	}
 
 	if err := json.Unmarshal(data, tmpl); err != nil {
-		return repeats
+		return fmt.Errorf("merge data failed: %w", err)
 	}
 
 	if this.{{$.StorerName}} == nil {
@@ -52,12 +52,12 @@ func (this *{{$.ReaderName}}) MergeData(data []byte) (repeats []{{$.PkeyTypeGo}}
 	}
 
 	for k, v := range tmpl.{{$.StorerDatas}} {
-		if _, ok := this.{{$.StorerName}}.{{$.StorerDatas}}[k]; ok == false {
-			this.{{$.StorerName}}.{{$.StorerDatas}}[k] = v
-		} else {
-			repeats = append(repeats, k)
+		if _, ok := this.{{$.StorerName}}.{{$.StorerDatas}}[k]; ok {
+			return fmt.Errorf("merge data failed: key repeat")
 		}
+
+		this.{{$.StorerName}}.{{$.StorerDatas}}[k] = v
 	}
 
-	return repeats
+	return nil
 }

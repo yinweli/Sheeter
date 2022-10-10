@@ -157,8 +157,8 @@ func verifyJsonFrom2(path string) {
 func verifyJsonMerge1(path string) {
 	reader := sheeterJson.VerifyData1Reader{}
 
-	if repeats := reader.MergeData(readJson(path, reader.DataFile())); len(repeats) != 0 {
-		panic(fmt.Errorf("verify json: %v", repeats))
+	if err := reader.MergeData(readJson(path, reader.DataFile())); err != nil {
+		panic(fmt.Errorf("verify json: %w", err))
 	} // if
 
 	actual, ok := reader.Datas[1]
@@ -217,8 +217,8 @@ func verifyJsonMerge1(path string) {
 func verifyJsonMerge2(path string) {
 	reader := sheeterJson.VerifyData2Reader{}
 
-	if repeats := reader.MergeData(readJson(path, reader.DataFile())); len(repeats) != 0 {
-		panic(fmt.Errorf("verify json: %v", repeats))
+	if err := reader.MergeData(readJson(path, reader.DataFile())); err != nil {
+		panic(fmt.Errorf("verify json: %w", err))
 	} // if
 
 	actual, ok := reader.Datas[1]

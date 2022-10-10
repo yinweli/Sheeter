@@ -22,8 +22,8 @@ namespace SheeterProto {
             return Datas != null;
         }
 
-        public long[] MergeData(byte[] data) {
-            var repeats = new List<long>();
+        public System.Int64[] MergeData(byte[] data) {
+            var repeats = new List<System.Int64>();
             var tmpl = VerifyData2Storer.Parser.ParseFrom(data);
 
             if (tmpl == null)
@@ -42,7 +42,7 @@ namespace SheeterProto {
             return repeats.ToArray();
         }
 
-        public IDictionary<long, VerifyData2> Data {
+        public IDictionary<System.Int64, VerifyData2> Data {
             get {
                 return Datas.Datas;
             }

@@ -340,8 +340,8 @@ buf format -w 存放proto檔案的路徑
 * 產生flatbuffer
 * 以下的驗證可能得要等全部做完才能一口氣驗證了
 * json-cs-reader  handmade[o] tmpl[o] test[o] verify[ ]
-* json-cs-depot   handmade[ ] tmpl[ ] test[ ] verify[ ]
-* json-go-reader  handmade[ ] tmpl[ ] test[ ] verify[ ]
+* json-cs-depot   handmade[o] tmpl[o] test[o] verify[ ]
+* json-go-reader  handmade[o] tmpl[o] test[o] verify[ ]
 * json-go-depot   handmade[ ] tmpl[ ] test[ ] verify[ ]
 * proto-cs-reader handmade[ ] tmpl[ ] test[ ] verify[ ]
 * proto-cs-depot  handmade[ ] tmpl[ ] test[ ] verify[ ]
