@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace SheeterJson {
     public partial class Depot {
         public readonly RewardReader Reward = new RewardReader();
-        private readonly List<ReaderInterface> Readers = new List<ReaderInterface>();
+        private readonly List<Reader> Readers = new List<Reader>();
 
         public Depot() {
             Readers.Add(Reward);
@@ -55,7 +55,7 @@ namespace SheeterJson {
         public delegate string DelegateLoad(string name, string ext);
     }
 
-    public interface ReaderInterface {
+    public interface Reader {
         public string DataName();
         public string DataExt();
         public string DataFile();

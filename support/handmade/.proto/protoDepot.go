@@ -2,7 +2,7 @@ package _proto
 
 type Depot struct {
 	Reward  RewardReader
-	readers []ReaderInterface
+	readers []Reader
 }
 
 func (this *Depot) FromData(load DepotLoad, error DepotError) bool {
@@ -57,7 +57,7 @@ func (this *Depot) build() {
 type DepotError func(name string, err error)
 type DepotLoad func(name, ext string) []byte
 
-type ReaderInterface interface {
+type Reader interface {
 	DataName() string
 	DataExt() string
 	DataFile() string
