@@ -64,18 +64,22 @@ using System.Collections.Generic;
 
 namespace SheeterProto {
     public partial class Depot {
+        public Loader Loader { get; set; }
         public readonly TestDataReader TestData = new TestDataReader();
-        private readonly List<ReaderInterface> Readers = new List<ReaderInterface>();
+        private readonly List<Reader> Readers = new List<Reader>();
 
         public Depot() {
             Readers.Add(TestData);
         }
 
-        public bool FromData(DelegateLoad load, DelegateError error) {
+        public bool FromData() {
+            if (Loader == null)
+                return false;
+
             var result = true;
 
             foreach (var itor in Readers) {
-                var data = load(itor.DataName(), itor.DataExt());
+                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -84,18 +88,21 @@ namespace SheeterProto {
 
                 if (message.Length != 0) {
                     result = false;
-                    error(itor.DataName(), message);
+                    Loader.Error(itor.DataName(), message);
                 }
             }
 
             return result;
         }
 
-        public bool MergeData(DelegateLoad load, DelegateError error) {
+        public bool MergeData() {
+            if (Loader == null)
+                return false;
+
             var result = true;
 
             foreach (var itor in Readers) {
-                var data = load(itor.DataName(), itor.DataExt());
+                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -104,18 +111,20 @@ namespace SheeterProto {
 
                 if (message.Length != 0) {
                     result = false;
-                    error(itor.DataName(), message);
+                    Loader.Error(itor.DataName(), message);
                 }
             }
 
             return result;
         }
-
-        public delegate void DelegateError(string name, string message);
-        public delegate byte[] DelegateLoad(string name, string ext);
     }
 
-    public interface ReaderInterface {
+    public interface Loader {
+        public void Error(string name, string message);
+        public byte[] Load(string name, string ext, string fullname);
+    }
+
+    public interface Reader {
         public string DataName();
         public string DataExt();
         public string DataFile();
@@ -138,15 +147,29 @@ package sheeterProto
 
 type Depot struct {
 	TestData TestDataReader
-	readers  []ReaderInterface
+	loader   Loader
+	readers  []Reader
 }
 
-func (this *Depot) FromData(load DepotLoad, error DepotError) bool {
-	this.build()
+func NewDepot(loader Loader) *Depot {
+	depot := &Depot{}
+	depot.loader = loader
+	depot.readers = append(
+		depot.readers,
+		&depot.TestData,
+	)
+	return depot
+}
+
+func (this *Depot) FromData() bool {
+	if this.loader == nil {
+		return false
+	}
+
 	result := true
 
 	for _, itor := range this.readers {
-		data := load(itor.DataName(), itor.DataExt())
+		data := this.loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile())
 
 		if data == nil || len(data) == 0 {
 			continue
@@ -154,19 +177,22 @@ func (this *Depot) FromData(load DepotLoad, error DepotError) bool {
 
 		if err := itor.FromData(data); err != nil {
 			result = false
-			error(itor.DataName(), err)
+			this.loader.Error(itor.DataName(), err)
 		}
 	}
 
 	return result
 }
 
-func (this *Depot) MergeData(load DepotLoad, error DepotError) bool {
-	this.build()
+func (this *Depot) MergeData() bool {
+	if this.loader == nil {
+		return false
+	}
+
 	result := true
 
 	for _, itor := range this.readers {
-		data := load(itor.DataName(), itor.DataExt())
+		data := this.loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile())
 
 		if data == nil || len(data) == 0 {
 			continue
@@ -174,26 +200,19 @@ func (this *Depot) MergeData(load DepotLoad, error DepotError) bool {
 
 		if err := itor.MergeData(data); err != nil {
 			result = false
-			error(itor.DataName(), err)
+			this.loader.Error(itor.DataName(), err)
 		}
 	}
 
 	return result
 }
 
-func (this *Depot) build() {
-	if len(this.readers) == 0 {
-		this.readers = append(
-			this.readers,
-			&this.TestData,
-		)
-	}
+type Loader interface {
+	Error(name string, err error)
+	Load(name, ext, fullname string) []byte
 }
 
-type DepotError func(name string, err error)
-type DepotLoad func(name, ext string) []byte
-
-type ReaderInterface interface {
+type Reader interface {
 	DataName() string
 	DataExt() string
 	DataFile() string

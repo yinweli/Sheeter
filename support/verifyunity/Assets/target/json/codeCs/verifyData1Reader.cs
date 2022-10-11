@@ -9,43 +9,7 @@ namespace SheeterJson {
     using PKey_ = System.Int64;
     using Storer_ = VerifyData1Storer;
 
-    public partial class VerifyData1Reader : ReaderInterface {
-        public Data_ this[PKey_ key] {
-            get {
-                return storer.Datas[key];
-            }
-        }
-
-        public ICollection<PKey_> Keys {
-            get {
-                return storer.Datas.Keys;
-            }
-        }
-
-        public ICollection<Data_> Values {
-            get {
-                return storer.Datas.Values;
-            }
-        }
-
-        public int Count {
-            get {
-                return storer.Datas.Count;
-            }
-        }
-
-        public bool ContainsKey(PKey_ key) {
-            return storer.Datas.ContainsKey(key);
-        }
-
-        public bool TryGetValue(PKey_ key, out Data_ value) {
-            return storer.Datas.TryGetValue(key, out value);
-        }
-
-        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
-            return storer.Datas.GetEnumerator();
-        }
-
+    public partial class VerifyData1Reader : Reader {
         public string DataName() {
             return "verifyData1";
         }
@@ -94,6 +58,42 @@ namespace SheeterJson {
             }
 
             return string.Empty;
+        }
+
+        public bool TryGetValue(PKey_ key, out Data_ value) {
+            return storer.Datas.TryGetValue(key, out value);
+        }
+
+        public bool ContainsKey(PKey_ key) {
+            return storer.Datas.ContainsKey(key);
+        }
+
+        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
+            return storer.Datas.GetEnumerator();
+        }
+
+        public Data_ this[PKey_ key] {
+            get {
+                return storer.Datas[key];
+            }
+        }
+
+        public ICollection<PKey_> Keys {
+            get {
+                return storer.Datas.Keys;
+            }
+        }
+
+        public ICollection<Data_> Values {
+            get {
+                return storer.Datas.Values;
+            }
+        }
+
+        public int Count {
+            get {
+                return storer.Datas.Count;
+            }
         }
 
         private Storer_ storer = new Storer_();

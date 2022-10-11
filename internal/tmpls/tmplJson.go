@@ -41,43 +41,7 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
     using PKey_ = {{$.PkeyTypeCs}};
     using Storer_ = {{$.StorerName}};
 
-    public partial class {{$.ReaderName}} : ReaderInterface {
-        public Data_ this[PKey_ key] {
-            get {
-                return storer.{{$.StorerDatas}}[key];
-            }
-        }
-
-        public ICollection<PKey_> Keys {
-            get {
-                return storer.{{$.StorerDatas}}.Keys;
-            }
-        }
-
-        public ICollection<Data_> Values {
-            get {
-                return storer.{{$.StorerDatas}}.Values;
-            }
-        }
-
-        public int Count {
-            get {
-                return storer.{{$.StorerDatas}}.Count;
-            }
-        }
-
-        public bool ContainsKey(PKey_ key) {
-            return storer.{{$.StorerDatas}}.ContainsKey(key);
-        }
-
-        public bool TryGetValue(PKey_ key, out Data_ value) {
-            return storer.{{$.StorerDatas}}.TryGetValue(key, out value);
-        }
-
-        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
-            return storer.{{$.StorerDatas}}.GetEnumerator();
-        }
-
+    public partial class {{$.ReaderName}} : Reader {
         public string DataName() {
             return "{{$.JsonDataName}}";
         }
@@ -128,6 +92,42 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
             return string.Empty;
         }
 
+        public bool TryGetValue(PKey_ key, out Data_ value) {
+            return storer.{{$.StorerDatas}}.TryGetValue(key, out value);
+        }
+
+        public bool ContainsKey(PKey_ key) {
+            return storer.{{$.StorerDatas}}.ContainsKey(key);
+        }
+
+        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
+            return storer.{{$.StorerDatas}}.GetEnumerator();
+        }
+
+        public Data_ this[PKey_ key] {
+            get {
+                return storer.{{$.StorerDatas}}[key];
+            }
+        }
+
+        public ICollection<PKey_> Keys {
+            get {
+                return storer.{{$.StorerDatas}}.Keys;
+            }
+        }
+
+        public ICollection<Data_> Values {
+            get {
+                return storer.{{$.StorerDatas}}.Values;
+            }
+        }
+
+        public int Count {
+            get {
+                return storer.{{$.StorerDatas}}.Count;
+            }
+        }
+
         private Storer_ storer = new Storer_();
     }
 }
@@ -142,12 +142,13 @@ using System.Collections.Generic;
 
 namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
     public partial class Depot {
+        public Loader Loader { get; set; }
 {{- range $.Struct}}
 {{- if .Reader}}
         public readonly {{.ReaderName}} {{.StructName}} = new {{.ReaderName}}();
 {{- end}}
 {{- end}}
-        private readonly List<ReaderInterface> Readers = new List<ReaderInterface>();
+        private readonly List<Reader> Readers = new List<Reader>();
 
         public Depot() {
 {{- range $.Struct}}
@@ -157,11 +158,14 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
 {{- end}}
         }
 
-        public bool FromData(DelegateLoad load, DelegateError error) {
+        public bool FromData() {
+            if (Loader == null)
+                return false;
+
             var result = true;
 
             foreach (var itor in Readers) {
-                var data = load(itor.DataName(), itor.DataExt());
+                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -170,18 +174,21 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
 
                 if (message.Length != 0) {
                     result = false;
-                    error(itor.DataName(), message);
+                    Loader.Error(itor.DataName(), message);
                 }
             }
 
             return result;
         }
 
-        public bool MergeData(DelegateLoad load, DelegateError error) {
+        public bool MergeData() {
+            if (Loader == null)
+                return false;
+
             var result = true;
 
             foreach (var itor in Readers) {
-                var data = load(itor.DataName(), itor.DataExt());
+                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -190,18 +197,20 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
 
                 if (message.Length != 0) {
                     result = false;
-                    error(itor.DataName(), message);
+                    Loader.Error(itor.DataName(), message);
                 }
             }
 
             return result;
         }
-
-        public delegate void DelegateError(string name, string message);
-        public delegate string DelegateLoad(string name, string ext);
     }
 
-    public interface ReaderInterface {
+    public interface Loader {
+        public void Error(string name, string message);
+        public string Load(string name, string ext, string fullname);
+    }
+
+    public interface Reader {
         public string DataName();
         public string DataExt();
         public string DataFile();
@@ -297,6 +306,31 @@ func (this *{{$.ReaderName}}) MergeData(data []byte) error {
 
 	return nil
 }
+
+func (this *{{$.ReaderName}}) Get(key {{$.PkeyTypeGo}}) (result *{{$.StructName}}, ok bool) {
+	result, ok = this.{{$.StorerDatas}}[key]
+	return result, ok
+}
+
+func (this *{{$.ReaderName}}) Keys() (result []{{$.PkeyTypeGo}}) {
+	for itor := range this.{{$.StorerDatas}} {
+		result = append(result, itor)
+	}
+
+	return result
+}
+
+func (this *{{$.ReaderName}}) Values() (result []*{{$.StructName}}) {
+	for _, itor := range this.{{$.StorerDatas}} {
+		result = append(result, itor)
+	}
+
+	return result
+}
+
+func (this *{{$.ReaderName}}) Count() int {
+	return len(this.{{$.StorerDatas}})
+}
 `,
 }
 
@@ -312,15 +346,33 @@ type Depot struct {
 	{{.StructName}} {{.ReaderName}}
 {{- end}}
 {{- end}}
-	readers []ReaderInterface
+	loader  Loader
+	readers []Reader
 }
 
-func (this *Depot) FromData(load DepotLoad, error DepotError) bool {
-	this.build()
+func NewDepot(loader Loader) *Depot {
+	depot := &Depot{}
+	depot.loader = loader
+	depot.readers = append(
+		depot.readers,
+{{- range $.Struct}}
+{{- if .Reader}}
+		&depot.{{.StructName}},
+{{- end}}
+{{- end}}
+	)
+	return depot
+}
+
+func (this *Depot) FromData() bool {
+	if this.loader == nil {
+		return false
+	}
+
 	result := true
 
 	for _, itor := range this.readers {
-		data := load(itor.DataName(), itor.DataExt())
+		data := this.loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile())
 
 		if data == nil || len(data) == 0 {
 			continue
@@ -328,19 +380,22 @@ func (this *Depot) FromData(load DepotLoad, error DepotError) bool {
 
 		if err := itor.FromData(data); err != nil {
 			result = false
-			error(itor.DataName(), err)
+			this.loader.Error(itor.DataName(), err)
 		}
 	}
 
 	return result
 }
 
-func (this *Depot) MergeData(load DepotLoad, error DepotError) bool {
-	this.build()
+func (this *Depot) MergeData() bool {
+	if this.loader == nil {
+		return false
+	}
+
 	result := true
 
 	for _, itor := range this.readers {
-		data := load(itor.DataName(), itor.DataExt())
+		data := this.loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile())
 
 		if data == nil || len(data) == 0 {
 			continue
@@ -348,30 +403,19 @@ func (this *Depot) MergeData(load DepotLoad, error DepotError) bool {
 
 		if err := itor.MergeData(data); err != nil {
 			result = false
-			error(itor.DataName(), err)
+			this.loader.Error(itor.DataName(), err)
 		}
 	}
 
 	return result
 }
 
-func (this *Depot) build() {
-	if len(this.readers) == 0 {
-		this.readers = append(
-			this.readers,
-{{- range $.Struct}}
-{{- if .Reader}}
-			&this.{{.StructName}},
-{{- end}}
-{{- end}}
-		)
-	}
+type Loader interface {
+	Error(name string, err error)
+	Load(name, ext, fullname string) []byte
 }
 
-type DepotError func(name string, err error)
-type DepotLoad func(name, ext string) []byte
-
-type ReaderInterface interface {
+type Reader interface {
 	DataName() string
 	DataExt() string
 	DataFile() string

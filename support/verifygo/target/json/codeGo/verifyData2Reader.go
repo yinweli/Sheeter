@@ -61,3 +61,28 @@ func (this *VerifyData2Reader) MergeData(data []byte) error {
 
 	return nil
 }
+
+func (this *VerifyData2Reader) Get(key int64) (result *VerifyData2, ok bool) {
+	result, ok = this.Datas[key]
+	return result, ok
+}
+
+func (this *VerifyData2Reader) Keys() (result []int64) {
+	for itor := range this.Datas {
+		result = append(result, itor)
+	}
+
+	return result
+}
+
+func (this *VerifyData2Reader) Values() (result []*VerifyData2) {
+	for _, itor := range this.Datas {
+		result = append(result, itor)
+	}
+
+	return result
+}
+
+func (this *VerifyData2Reader) Count() int {
+	return len(this.Datas)
+}

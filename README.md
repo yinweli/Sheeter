@@ -325,33 +325,6 @@ buf format -w 存放proto檔案的路徑
 | support/verifyunity     | unity程式碼驗證                  |
 
 # TODO
-* [ok] jsonStruct.go
-    * [ok] Storer的Datas改成map[int64]*資料類型
-* jsonReader.cs, protoReader.cs
-    * ReaderInterface => Reader
-    * 函式順序
-        * DataName, DataExt, DataFile, FromData, MergeData
-        * TryGetValue, ContainsKey, GetEnumerator, [], Keys, Values, Count
-* jsonReader.go, protoReader.go
-    * ReaderInterface => Reader
-    * Storer的Datas改成map[int64]*資料類型
-    * 新增map取資料系列函式
-        * Get, All, Keys, Values, Count
-* jsonDepot.cs, protoDepot.cs
-    * 把委派改為介面(Loader)
-    * 新增Loader的檔案讀取實作
-* jsonDepot.go, protoDepot.go
-    * 把委派改為介面(Loader)
-    * 新增Loader的檔案讀取實作
-* jsonStruct.go   [o]handmade [o]tmpl [o]test [o]verify
-* jsonReader.cs   [ ]handmade [ ]tmpl [ ]test [ ]verify
-* jsonReader.go   [ ]handmade [ ]tmpl [ ]test [ ]verify
-* protoReader.cs  [ ]handmade [ ]tmpl [ ]test [ ]verify
-* protoReader.go  [ ]handmade [ ]tmpl [ ]test [ ]verify
-* jsonDepot.cs    [ ]handmade [ ]tmpl [ ]test [ ]verify
-* jsonDepot.go    [ ]handmade [ ]tmpl [ ]test [ ]verify
-* protoDepot.cs   [ ]handmade [ ]tmpl [ ]test [ ]verify
-* protoDepot.go   [ ]handmade [ ]tmpl [ ]test [ ]verify
 * 更新說明文件
     * 如何使用產生出來的讀取器
     * 如何使用產生出來的管理器

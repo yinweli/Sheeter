@@ -83,6 +83,7 @@ const ProtoGoShFile = "protoGo.sh"       // 檔名: proto-go-sh
 // Keywords 關鍵字列表
 var Keywords = []string{
 	Depot,
-	"readerinterface",
+	"loader",
+	"reader",
 	"readers",
 }

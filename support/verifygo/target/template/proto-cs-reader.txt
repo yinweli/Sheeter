@@ -8,43 +8,7 @@ namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
     using PKey_ = {{$.PkeyTypeCs}};
     using Storer_ = {{$.StorerName}};
 
-    public partial class {{$.ReaderName}} : ReaderInterface {
-        public Data_ this[PKey_ key] {
-            get {
-                return storer.{{$.StorerDatas}}[key];
-            }
-        }
-
-        public ICollection<PKey_> Keys {
-            get {
-                return storer.{{$.StorerDatas}}.Keys;
-            }
-        }
-
-        public ICollection<Data_> Values {
-            get {
-                return storer.{{$.StorerDatas}}.Values;
-            }
-        }
-
-        public int Count {
-            get {
-                return storer.{{$.StorerDatas}}.Count;
-            }
-        }
-
-        public bool ContainsKey(PKey_ key) {
-            return storer.{{$.StorerDatas}}.ContainsKey(key);
-        }
-
-        public bool TryGetValue(PKey_ key, out Data_ value) {
-            return storer.{{$.StorerDatas}}.TryGetValue(key, out value);
-        }
-
-        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
-            return storer.{{$.StorerDatas}}.GetEnumerator();
-        }
-
+    public partial class {{$.ReaderName}} : Reader {
         public string DataName() {
             return "{{$.ProtoDataName}}";
         }
@@ -93,6 +57,42 @@ namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
             }
 
             return string.Empty;
+        }
+
+        public bool TryGetValue(PKey_ key, out Data_ value) {
+            return storer.{{$.StorerDatas}}.TryGetValue(key, out value);
+        }
+
+        public bool ContainsKey(PKey_ key) {
+            return storer.{{$.StorerDatas}}.ContainsKey(key);
+        }
+
+        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
+            return storer.{{$.StorerDatas}}.GetEnumerator();
+        }
+
+        public Data_ this[PKey_ key] {
+            get {
+                return storer.{{$.StorerDatas}}[key];
+            }
+        }
+
+        public ICollection<PKey_> Keys {
+            get {
+                return storer.{{$.StorerDatas}}.Keys;
+            }
+        }
+
+        public ICollection<Data_> Values {
+            get {
+                return storer.{{$.StorerDatas}}.Values;
+            }
+        }
+
+        public int Count {
+            get {
+                return storer.{{$.StorerDatas}}.Count;
+            }
         }
 
         private Storer_ storer = new Storer_();
