@@ -5,7 +5,7 @@
 
 # Sheeter
 以[go]做成的excel轉換工具, 前身是[sheet]  
-用於將指定格式的excel轉換為[json]資料檔案, [proto]資料檔案, 結構與讀取器程式碼; 程式碼目前支援的語言為cs, go  
+用於將指定格式的excel轉換為[json]資料檔案, [proto]資料檔案, 讀取資料的程式碼; 程式碼目前支援的語言為cs, go  
 在windows以及mac通過測試, 但是沒有在linux上測試過  
 
 # 系統需求
@@ -325,9 +325,34 @@ buf format -w 存放proto檔案的路徑
 | support/verifyunity     | unity程式碼驗證                  |
 
 # TODO
+* jsonReader.cs, protoReader.cs
+    * ReaderInterface => Reader
+    * 函式順序
+        * DataName, DataExt, DataFile, FromData, MergeData
+        * TryGetValue, ContainsKey, GetEnumerator, [], Keys, Values, Count
+* jsonReader.go, protoReader.go
+    * ReaderInterface => Reader
+    * 新增map取資料系列函式
+        * Get, All, Keys, Values, Count
+* jsonDepot.cs, protoDepot.cs
+    * 把委派改為介面(Loader)
+    * 新增Loader的檔案讀取實作
+* jsonDepot.go, protoDepot.go
+    * 把委派改為介面(Loader)
+    * 新增Loader的檔案讀取實作
+* jsonReader.cs   [ ]handmade [ ]tmpl [ ]test [ ]verify
+* jsonReader.go   [ ]handmade [ ]tmpl [ ]test [ ]verify
+* protoReader.cs  [ ]handmade [ ]tmpl [ ]test [ ]verify
+* protoReader.go  [ ]handmade [ ]tmpl [ ]test [ ]verify
+* jsonDepot.cs    [ ]handmade [ ]tmpl [ ]test [ ]verify
+* jsonDepot.go    [ ]handmade [ ]tmpl [ ]test [ ]verify
+* protoDepot.cs   [ ]handmade [ ]tmpl [ ]test [ ]verify
+* protoDepot.go   [ ]handmade [ ]tmpl [ ]test [ ]verify
 * 更新說明文件
     * 如何使用產生出來的讀取器
     * 如何使用產生出來的管理器
+    * 新版模板語法列表
+    * 關鍵字
 * 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
     * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
 * 目前的表格讀取方式會把全部需要的表格都讀取進來, 然後分析跟輸出; 但是在大量表格時會使用到大量記憶體, 可能需要想辦法減少記憶體使用量
