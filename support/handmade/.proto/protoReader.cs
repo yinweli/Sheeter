@@ -7,7 +7,11 @@ using System.Collections.Generic;
 using pb = global::Google.Protobuf; // 這為了通過編譯的程式碼, 不可使用
 
 namespace SheeterProto {
-    public partial class RewardReader {
+    using Data_ = Reward;
+    using PKey_ = System.Int64;
+    using Storer_ = RewardStorer;
+
+    public partial class RewardReader : Reader {
         public string DataName() {
             return "reward";
         }
@@ -20,38 +24,81 @@ namespace SheeterProto {
             return "reward.bytes";
         }
 
-        public bool FromData(byte[] data) {
-            Datas = RewardStorer.Parser.ParseFrom(data);
-            return Datas != null;
-        }
+        public string FromData(byte[] data) {
+            Storer_ result;
 
-        public long[] MergeData(byte[] data) {
-            var repeats = new List<long>();
-            var tmpl = RewardStorer.Parser.ParseFrom(data);
-
-            if (tmpl == null)
-                return repeats.ToArray();
-
-            if (Datas == null)
-                Datas = new RewardStorer();
-
-            foreach (var itor in tmpl.Datas) {
-                if (Data.ContainsKey(itor.Key) == false)
-                    Data[itor.Key] = itor.Value;
-                else
-                    repeats.Add(itor.Key);
+            try {
+                result = Storer_.Parser.ParseFrom(data);
+            } catch {
+                return "from data failed: deserialize failed";
             }
 
-            return repeats.ToArray();
+            if (result == null)
+                return "from data failed: result null";
+
+            storer = result;
+            return string.Empty;
         }
 
-        public IDictionary<long, Reward> Data {
+        public string MergeData(byte[] data) {
+            Storer_ result;
+
+            try {
+                result = Storer_.Parser.ParseFrom(data);
+            } catch {
+                return "merge data failed: deserialize failed";
+            }
+
+            if (result == null)
+                return "merge data failed: result null";
+
+            foreach (var itor in result.Datas) {
+                if (storer.Datas.ContainsKey(itor.Key))
+                    return "merge data failed: key repeat";
+
+                storer.Datas[itor.Key] = itor.Value;
+            }
+
+            return string.Empty;
+        }
+
+        public bool TryGetValue(PKey_ key, out Data_ value) {
+            return storer.Datas.TryGetValue(key, out value);
+        }
+
+        public bool ContainsKey(PKey_ key) {
+            return storer.Datas.ContainsKey(key);
+        }
+
+        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
+            return storer.Datas.GetEnumerator();
+        }
+
+        public Data_ this[PKey_ key] {
             get {
-                return Datas.Datas;
+                return storer.Datas[key];
             }
         }
 
-        private RewardStorer Datas = null;
+        public ICollection<PKey_> Keys {
+            get {
+                return storer.Datas.Keys;
+            }
+        }
+
+        public ICollection<Data_> Values {
+            get {
+                return storer.Datas.Values;
+            }
+        }
+
+        public int Count {
+            get {
+                return storer.Datas.Count;
+            }
+        }
+
+        private Storer_ storer = new Storer_();
     }
 }
 

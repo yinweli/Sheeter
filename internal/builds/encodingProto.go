@@ -10,30 +10,30 @@ import (
 )
 
 // encodingProto 產生proto資料
-func encodingProto(runtimeSector *RuntimeSector) error {
-	structName := runtimeSector.StructName()
-	line, err := runtimeSector.GetExcelLine(runtimeSector.LineOfData)
+func encodingProto(data *encodingData) error {
+	structName := data.StructName()
+	line, err := data.excel.GetLine(data.Sheet, data.LineOfData)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding proto failed: data line not found", structName)
 	} // if
 
-	json, err := layouts.JsonPack(line, runtimeSector.layoutJson, runtimeSector.Excludes)
+	json, err := layouts.JsonPack(line, data.layoutJson, data.Excludes)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)
 	} // if
 
-	filename := runtimeSector.ProtoName()
-	message := runtimeSector.StorerMessage(runtimeSector.Global.SimpleNamespace)
+	filename := data.ProtoName()
+	message := data.StorerMessage(data.SimpleNamespace)
 	imports := []string{filepath.Join(internal.ProtoPath, internal.SchemaPath)}
-	data, err := utils.JsonToProto(filename, message, imports, json)
+	proto, err := utils.JsonToProto(filename, message, imports, json)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)
 	} // if
 
-	if err := utils.WriteFile(runtimeSector.ProtoDataPath(), data); err != nil {
+	if err := utils.WriteFile(data.ProtoDataPath(), proto); err != nil {
 		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)
 	} // if
 

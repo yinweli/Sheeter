@@ -11,23 +11,16 @@ import (
 )
 
 // Initialize 初始化
-func Initialize(runtime *Runtime, config *Config) (errs []error) {
-	for _, itor := range config.Elements {
-		runtime.Sector = append(runtime.Sector, &RuntimeSector{
-			Global:  config.Global,
-			Element: itor,
+func Initialize(context *Context) (errs []error) {
+	for _, itor := range context.Elements {
+		context.Sector = append(context.Sector, &ContextSector{
+			Element: itor, // 這裡複製會比取用指標好
 		})
 	} // for
 
-	tasks := []func(*RuntimeSector) error{ // 工作函式列表
-		initializeSector,
-	}
-
-	itemCount := len(runtime.Sector)
-	taskCount := len(tasks)
-	totalCount := itemCount * taskCount
-	errors := make(chan error, itemCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
-	signaler := utils.NewWaitGroup(itemCount)
+	totalCount := len(context.Sector)
+	errors := make(chan error, totalCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
+	signaler := utils.NewWaitGroup(totalCount)
 	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))
 	progressbar := progress.AddBar(
 		int64(totalCount),
@@ -40,25 +33,23 @@ func Initialize(runtime *Runtime, config *Config) (errs []error) {
 		),
 	)
 
-	for _, itor := range runtime.Sector {
-		runtimeSector := itor // 多執行緒需要使用中間變數
+	for _, itor := range context.Sector {
+		ref := itor // 多執行緒需要使用中間變數
 
 		go func() {
 			defer signaler.Done()
 
-			for _, itor := range tasks {
-				if err := itor(runtimeSector); err != nil {
-					errors <- fmt.Errorf("initialize failed: %w", err)
-				} // if
+			if err := initializeSector(context, ref); err != nil {
+				errors <- fmt.Errorf("initialize failed: %w", err)
+			} // if
 
-				progressbar.Increment()
-			} // for
+			progressbar.Increment()
 		}()
 	} // for
 
 	progress.Wait()
 
-	if err := initializeStruct(runtime, config); err != nil {
+	if err := initializeStruct(context); err != nil {
 		errors <- err
 	} // if
 

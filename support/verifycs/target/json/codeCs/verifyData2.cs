@@ -17,13 +17,13 @@ namespace SheeterJson {
         public bool Hide { get; set; }
         // 索引
         [JsonProperty("Key")]
-        public long Key { get; set; }
+        public System.Int64 Key { get; set; }
         // 名稱
         [JsonProperty("Name")]
         public string Name { get; set; }
     }
 
     public partial class VerifyData2Storer {
-        public Dictionary<long, VerifyData2> Datas = new Dictionary<long, VerifyData2>(); 
+        public Dictionary<System.Int64, VerifyData2> Datas = new Dictionary<System.Int64, VerifyData2>(); 
     }
 }

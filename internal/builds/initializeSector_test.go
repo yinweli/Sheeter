@@ -26,16 +26,22 @@ func (this *SuiteInitializeSector) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteInitializeSector) target() *RuntimeSector {
-	target := &RuntimeSector{
-		Global: Global{
-			LineOfField: 1,
-			LineOfLayer: 2,
-			LineOfNote:  3,
+func (this *SuiteInitializeSector) target() *Context {
+	target := &Context{
+		Config: &Config{
+			Global: Global{
+				LineOfField: 1,
+				LineOfLayer: 2,
+				LineOfNote:  3,
+			},
 		},
-		Element: Element{
-			Excel: testdata.ExcelNameReal,
-			Sheet: testdata.SheetName,
+		Sector: []*ContextSector{
+			{
+				Element: Element{
+					Excel: testdata.ExcelNameReal,
+					Sheet: testdata.SheetName,
+				},
+			},
 		},
 	}
 	return target
@@ -43,76 +49,96 @@ func (this *SuiteInitializeSector) target() *RuntimeSector {
 
 func (this *SuiteInitializeSector) TestInitializeSector() {
 	target := this.target()
-	assert.Nil(this.T(), initializeSector(target))
-	assert.NotNil(this.T(), target.Mixed)
-	assert.NotNil(this.T(), target.excel)
-	assert.NotNil(this.T(), target.layoutJson)
-	assert.NotNil(this.T(), target.layoutType)
-	assert.NotNil(this.T(), target.layoutDepend)
-	target.CloseExcel()
+	sector := target.Sector[0]
+	assert.Nil(this.T(), initializeSector(target, sector))
+	assert.NotNil(this.T(), sector.excel)
+	assert.NotNil(this.T(), sector.layoutJson)
+	assert.NotNil(this.T(), sector.layoutType)
+	assert.NotNil(this.T(), sector.layoutDepend)
+	sector.Close()
 
 	target = this.target()
-	target.LineOfField = 10
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	target.Global.LineOfField = 10
+	sector = target.Sector[0]
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.LineOfLayer = 10
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	target.Global.LineOfLayer = 10
+	sector = target.Sector[0]
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.LineOfNote = 10
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	target.Global.LineOfNote = 10
+	sector = target.Sector[0]
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.Excel = testdata.UnknownStr
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	sector = target.Sector[0]
+	sector.Excel = "Dep"
+	sector.Sheet = "ot"
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.Excel = testdata.ExcelNameInvalidFile
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	sector = target.Sector[0]
+	sector.Excel = testdata.UnknownStr
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.Excel = testdata.ExcelNameCleanAll
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	sector = target.Sector[0]
+	sector.Excel = testdata.ExcelNameInvalidFile
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.Excel = testdata.ExcelNameCleanField
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	sector = target.Sector[0]
+	sector.Excel = testdata.ExcelNameCleanAll
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.Excel = testdata.ExcelNameInvalidField
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	sector = target.Sector[0]
+	sector.Excel = testdata.ExcelNameCleanField
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.Excel = testdata.ExcelNameInvalidLayer
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	sector = target.Sector[0]
+	sector.Excel = testdata.ExcelNameInvalidField
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.Excel = testdata.ExcelNameInvalidLayout
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	sector = target.Sector[0]
+	sector.Excel = testdata.ExcelNameInvalidLayer
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.Excel = testdata.ExcelNameInvalidPkeyZero
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	sector = target.Sector[0]
+	sector.Excel = testdata.ExcelNameInvalidLayout
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.Excel = testdata.ExcelNameInvalidPkeyDupl
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	sector = target.Sector[0]
+	sector.Excel = testdata.ExcelNameInvalidPkeyZero
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 
 	target = this.target()
-	target.Sheet = testdata.UnknownStr
-	assert.NotNil(this.T(), initializeSector(target))
-	target.CloseExcel()
+	sector = target.Sector[0]
+	sector.Excel = testdata.ExcelNameInvalidPkeyDupl
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
+
+	target = this.target()
+	sector = target.Sector[0]
+	sector.Sheet = testdata.UnknownStr
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
 }
