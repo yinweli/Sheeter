@@ -27,6 +27,8 @@
   sheeter build --config setting.yaml
   ```
 * 如果要產生[proto]程式碼, 可以執行產生出來的protoCs.bat/.sh或是protoGo.bat/.sh
+* 最後會產生結構程式碼, 讀取器程式碼, 倉庫程式碼讓程式可以控制表格
+* 關於程式碼的範例可以看[範例檔案](#範例檔案)
 
 # 範例檔案
 [example]
@@ -155,7 +157,6 @@ sheeter tmpl [flags]
 | {Item         | 建立Item結構                                         |
 | {[]Item       | 建立以Item結構為元素的陣列                           |
 | {Reward {Item | 建立Reward結構, Item結構; Item結構是Reward結構的成員 |
-
 
 ## 註解行
 單行註解, 若為空格就輸出空註解  
@@ -399,11 +400,7 @@ buf format -w 存放proto檔案的路徑
 | testdata                | 測試資料                         |
 
 # TODO
-* 更新說明文件
-    * 如何使用產生出來的讀取器
-    * 如何使用產生出來的管理器
-    * 新版模板語法列表
-    * 關鍵字
+* 新增exampleCode
 * 新增clear功能
 * 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
     * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
