@@ -2,15 +2,29 @@ package _json
 
 type Depot struct {
 	Reward  RewardReader
+	loader  Loader
 	readers []Reader
 }
 
-func (this *Depot) FromData(load DepotLoad, error DepotError) bool {
-	this.build()
+func NewDepot(loader Loader) *Depot {
+	depot := &Depot{}
+	depot.loader = loader
+	depot.readers = append(
+		depot.readers,
+		&depot.Reward,
+	)
+	return depot
+}
+
+func (this *Depot) FromData() bool {
+	if this.loader == nil {
+		return false
+	}
+
 	result := true
 
 	for _, itor := range this.readers {
-		data := load(itor.DataName(), itor.DataExt())
+		data := this.loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile())
 
 		if data == nil || len(data) == 0 {
 			continue
@@ -18,19 +32,22 @@ func (this *Depot) FromData(load DepotLoad, error DepotError) bool {
 
 		if err := itor.FromData(data); err != nil {
 			result = false
-			error(itor.DataName(), err)
+			this.loader.Error(itor.DataName(), err)
 		}
 	}
 
 	return result
 }
 
-func (this *Depot) MergeData(load DepotLoad, error DepotError) bool {
-	this.build()
+func (this *Depot) MergeData() bool {
+	if this.loader == nil {
+		return false
+	}
+
 	result := true
 
 	for _, itor := range this.readers {
-		data := load(itor.DataName(), itor.DataExt())
+		data := this.loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile())
 
 		if data == nil || len(data) == 0 {
 			continue
@@ -38,24 +55,17 @@ func (this *Depot) MergeData(load DepotLoad, error DepotError) bool {
 
 		if err := itor.MergeData(data); err != nil {
 			result = false
-			error(itor.DataName(), err)
+			this.loader.Error(itor.DataName(), err)
 		}
 	}
 
 	return result
 }
 
-func (this *Depot) build() {
-	if len(this.readers) == 0 {
-		this.readers = append(
-			this.readers,
-			&this.Reward,
-		)
-	}
+type Loader interface {
+	Error(name string, err error)
+	Load(name, ext, fullname string) []byte
 }
-
-type DepotError func(name string, err error)
-type DepotLoad func(name, ext string) []byte
 
 type Reader interface {
 	DataName() string

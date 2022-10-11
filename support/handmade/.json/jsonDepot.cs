@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace SheeterJson {
     public partial class Depot {
+        public Loader Loader { get; set; }
         public readonly RewardReader Reward = new RewardReader();
         private readonly List<Reader> Readers = new List<Reader>();
 
@@ -11,11 +12,14 @@ namespace SheeterJson {
             Readers.Add(Reward);
         }
 
-        public bool FromData(DelegateLoad load, DelegateError error) {
+        public bool FromData() {
+            if (Loader == null)
+                return false;
+
             var result = true;
 
             foreach (var itor in Readers) {
-                var data = load(itor.DataName(), itor.DataExt());
+                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -24,18 +28,21 @@ namespace SheeterJson {
 
                 if (message.Length != 0) {
                     result = false;
-                    error(itor.DataName(), message);
+                    Loader.Error(itor.DataName(), message);
                 }
             }
 
             return result;
         }
 
-        public bool MergeData(DelegateLoad load, DelegateError error) {
+        public bool MergeData() {
+            if (Loader == null)
+                return false;
+
             var result = true;
 
             foreach (var itor in Readers) {
-                var data = load(itor.DataName(), itor.DataExt());
+                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -44,15 +51,17 @@ namespace SheeterJson {
 
                 if (message.Length != 0) {
                     result = false;
-                    error(itor.DataName(), message);
+                    Loader.Error(itor.DataName(), message);
                 }
             }
 
             return result;
         }
+    }
 
-        public delegate void DelegateError(string name, string message);
-        public delegate string DelegateLoad(string name, string ext);
+    public interface Loader {
+        public void Error(string name, string message);
+        public string Load(string name, string ext, string fullname);
     }
 
     public interface Reader {

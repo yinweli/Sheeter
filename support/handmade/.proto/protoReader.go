@@ -63,6 +63,31 @@ func (this *RewardReader) MergeData(data []byte) error {
 	return nil
 }
 
+func (this *RewardReader) Get(key int64) (result *Reward, ok bool) {
+	result, ok = this.Datas[key]
+	return result, ok
+}
+
+func (this *RewardReader) Keys() (result []int64) {
+	for itor := range this.Datas {
+		result = append(result, itor)
+	}
+
+	return result
+}
+
+func (this *RewardReader) Values() (result []*Reward) {
+	for _, itor := range this.Datas {
+		result = append(result, itor)
+	}
+
+	return result
+}
+
+func (this *RewardReader) Count() int {
+	return len(this.Datas)
+}
+
 // 以下是為了通過編譯的程式碼, 不可使用
 
 type RewardStorer struct {
