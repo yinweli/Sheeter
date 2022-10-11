@@ -26,7 +26,7 @@ func (this *VerifyData2Reader) DataFile() string {
 
 func (this *VerifyData2Reader) FromData(data []byte) error {
 	this.VerifyData2Storer = &VerifyData2Storer{
-		Datas: map[int64]VerifyData2{},
+		Datas: map[int64]*VerifyData2{},
 	}
 
 	if err := json.Unmarshal(data, this.VerifyData2Storer); err != nil {
@@ -38,7 +38,7 @@ func (this *VerifyData2Reader) FromData(data []byte) error {
 
 func (this *VerifyData2Reader) MergeData(data []byte) error {
 	tmpl := &VerifyData2Storer{
-		Datas: map[int64]VerifyData2{},
+		Datas: map[int64]*VerifyData2{},
 	}
 
 	if err := json.Unmarshal(data, tmpl); err != nil {
@@ -47,7 +47,7 @@ func (this *VerifyData2Reader) MergeData(data []byte) error {
 
 	if this.VerifyData2Storer == nil {
 		this.VerifyData2Storer = &VerifyData2Storer{
-			Datas: map[int64]VerifyData2{},
+			Datas: map[int64]*VerifyData2{},
 		}
 	}
 

@@ -17,5 +17,5 @@ type VerifyData1 struct {
 }
 
 type VerifyData1Storer struct {
-	Datas map[int64]VerifyData1
+	Datas map[int64]*VerifyData1
 }

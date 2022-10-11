@@ -12,6 +12,6 @@ type {{$.StructName}} struct {
 {{- if $.Reader}}
 
 type {{$.StorerName}} struct {
-	{{$.StorerDatas}} map[{{$.PkeyTypeGo}}]{{$.StructName}}
+	{{$.StorerDatas}} map[{{$.PkeyTypeGo}}]*{{$.StructName}}
 }
 {{- end}}

@@ -227,7 +227,7 @@ type {{$.StructName}} struct {
 {{- if $.Reader}}
 
 type {{$.StorerName}} struct {
-	{{$.StorerDatas}} map[{{$.PkeyTypeGo}}]{{$.StructName}}
+	{{$.StorerDatas}} map[{{$.PkeyTypeGo}}]*{{$.StructName}}
 }
 {{- end}}
 `,
@@ -262,7 +262,7 @@ func (this *{{$.ReaderName}}) DataFile() string {
 
 func (this *{{$.ReaderName}}) FromData(data []byte) error {
 	this.{{$.StorerName}} = &{{$.StorerName}}{
-		{{$.StorerDatas}}: map[{{$.PkeyTypeGo}}]{{$.StructName}}{},
+		{{$.StorerDatas}}: map[{{$.PkeyTypeGo}}]*{{$.StructName}}{},
 	}
 
 	if err := json.Unmarshal(data, this.{{$.StorerName}}); err != nil {
@@ -274,7 +274,7 @@ func (this *{{$.ReaderName}}) FromData(data []byte) error {
 
 func (this *{{$.ReaderName}}) MergeData(data []byte) error {
 	tmpl := &{{$.StorerName}}{
-		{{$.StorerDatas}}: map[{{$.PkeyTypeGo}}]{{$.StructName}}{},
+		{{$.StorerDatas}}: map[{{$.PkeyTypeGo}}]*{{$.StructName}}{},
 	}
 
 	if err := json.Unmarshal(data, tmpl); err != nil {
@@ -283,7 +283,7 @@ func (this *{{$.ReaderName}}) MergeData(data []byte) error {
 
 	if this.{{$.StorerName}} == nil {
 		this.{{$.StorerName}} = &{{$.StorerName}}{
-			{{$.StorerDatas}}: map[{{$.PkeyTypeGo}}]{{$.StructName}}{},
+			{{$.StorerDatas}}: map[{{$.PkeyTypeGo}}]*{{$.StructName}}{},
 		}
 	}
 

@@ -25,7 +25,7 @@ func (this *RewardReader) DataFile() string {
 
 func (this *RewardReader) FromData(data []byte) error {
 	this.RewardStorer = &RewardStorer{
-		Datas: map[int64]Reward{},
+		Datas: map[int64]*Reward{},
 	}
 
 	if err := json.Unmarshal(data, this.RewardStorer); err != nil {
@@ -37,7 +37,7 @@ func (this *RewardReader) FromData(data []byte) error {
 
 func (this *RewardReader) MergeData(data []byte) error {
 	tmpl := &RewardStorer{
-		Datas: map[int64]Reward{},
+		Datas: map[int64]*Reward{},
 	}
 
 	if err := json.Unmarshal(data, tmpl); err != nil {
@@ -46,7 +46,7 @@ func (this *RewardReader) MergeData(data []byte) error {
 
 	if this.RewardStorer == nil {
 		this.RewardStorer = &RewardStorer{
-			Datas: map[int64]Reward{},
+			Datas: map[int64]*Reward{},
 		}
 	}
 

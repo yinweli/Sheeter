@@ -20,7 +20,7 @@ type Reward struct {
 }
 
 type RewardStorer struct {
-	Datas map[int64]Reward
+	Datas map[int64]*Reward
 }
 
 // 以下是為了通過編譯的程式碼, 不可使用

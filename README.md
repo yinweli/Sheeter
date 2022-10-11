@@ -325,8 +325,8 @@ buf format -w 存放proto檔案的路徑
 | support/verifyunity     | unity程式碼驗證                  |
 
 # TODO
-* jsonStruct.go
-    * Storer的Datas改成map[int64]*資料類型
+* [ok] jsonStruct.go
+    * [ok] Storer的Datas改成map[int64]*資料類型
 * jsonReader.cs, protoReader.cs
     * ReaderInterface => Reader
     * 函式順序
@@ -343,7 +343,7 @@ buf format -w 存放proto檔案的路徑
 * jsonDepot.go, protoDepot.go
     * 把委派改為介面(Loader)
     * 新增Loader的檔案讀取實作
-* jsonStruct.go   [ ]handmade [ ]tmpl [ ]test [ ]verify
+* jsonStruct.go   [o]handmade [o]tmpl [o]test [o]verify
 * jsonReader.cs   [ ]handmade [ ]tmpl [ ]test [ ]verify
 * jsonReader.go   [ ]handmade [ ]tmpl [ ]test [ ]verify
 * protoReader.cs  [ ]handmade [ ]tmpl [ ]test [ ]verify
