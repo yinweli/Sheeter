@@ -63,6 +63,10 @@ func (this *RewardReader) MergeData(data []byte) error {
 	return nil
 }
 
+func (this *RewardReader) Clear() {
+	this.RewardStorer = nil
+}
+
 func (this *RewardReader) Get(key int64) (result *Reward, ok bool) {
 	result, ok = this.Datas[key]
 	return result, ok

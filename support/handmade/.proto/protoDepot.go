@@ -62,6 +62,12 @@ func (this *Depot) MergeData() bool {
 	return result
 }
 
+func (this *Depot) Clear() {
+	for _, itor := range this.readers {
+		itor.Clear()
+	}
+}
+
 type Loader interface {
 	Error(name string, err error)
 	Load(name, ext, fullname string) []byte
@@ -73,4 +79,5 @@ type Reader interface {
 	DataFile() string
 	FromData(data []byte) error
 	MergeData(data []byte) error
+	Clear()
 }

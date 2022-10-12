@@ -63,6 +63,10 @@ func (this *VerifyData2Reader) MergeData(data []byte) error {
 	return nil
 }
 
+func (this *VerifyData2Reader) Clear() {
+	this.VerifyData2Storer = nil
+}
+
 func (this *VerifyData2Reader) Get(key int64) (result *VerifyData2, ok bool) {
 	result, ok = this.Datas[key]
 	return result, ok
