@@ -10,22 +10,22 @@ namespace Example {
         }
 
         /// <summary>
-        /// json½d¨Ò
+        /// jsonç¯„ä¾‹
         /// </summary>
         private static void exampleJson() {
-            // ­n¨Ï¥Îsheeter, ­º¥ı«Ø¥ßÄ~©Ó¦ÛsheeterJson.Loader¤¶­±ªºÅª¨ú¾¹
+            // è¦ä½¿ç”¨sheeter, é¦–å…ˆå»ºç«‹ç¹¼æ‰¿è‡ªsheeterJson.Loaderä»‹é¢çš„è®€å–å™¨
             var loader = new JsonFileLoader();
-            // ±µµÛ«Ø¥ßsheeterJson.Depotª«¥ó, ³o¬O¦s¨úªí®æ¸ê®Æ³Ì¥D­nªºª«¥ó
-            // ­n°O±o§â­è­è«Ø¥ßªºÅª¨ú¾¹³]©w¶i¥h
+            // æ¥è‘—å»ºç«‹sheeterJson.Depotç‰©ä»¶, é€™æ˜¯å­˜å–è¡¨æ ¼è³‡æ–™æœ€ä¸»è¦çš„ç‰©ä»¶
+            // è¦è¨˜å¾—æŠŠå‰›å‰›å»ºç«‹çš„è®€å–å™¨è¨­å®šé€²å»
             var depot = new SheeterJson.Depot() { Loader = loader };
 
-            // µM«á°õ¦æFromData(©Î¬OMergeData)¨ç¦¡¨ÓÅª¨úªí®æ¸ê®Æ
+            // ç„¶å¾ŒåŸ·è¡ŒFromData(æˆ–æ˜¯MergeData)å‡½å¼ä¾†è®€å–è¡¨æ ¼è³‡æ–™
             if (depot.FromData() == false) {
                 Console.WriteLine("json failed: from data failed");
                 return;
             }
 
-            // ¤§«á´N¥i¥H¥ÎDepot©³¤Uªº¦U­Óªí®æª«¥ó¨Ó¨ú¥Î¸ê®Æ¤º®e
+            // ä¹‹å¾Œå°±å¯ä»¥ç”¨Depotåº•ä¸‹çš„å„å€‹è¡¨æ ¼ç‰©ä»¶ä¾†å–ç”¨è³‡æ–™å…§å®¹
             if (depot.ExampleData.TryGetValue(1, out var data)) {
                 Console.WriteLine(JsonConvert.SerializeObject(data));
                 Console.WriteLine("json success");
@@ -35,22 +35,22 @@ namespace Example {
         }
 
         /// <summary>
-        /// proto½d¨Ò
+        /// protoç¯„ä¾‹
         /// </summary>
         private static void exampleProto() {
-            // ­n¨Ï¥Îsheeter, ­º¥ı«Ø¥ßÄ~©Ó¦ÛsheeterProto.Loader¤¶­±ªºÅª¨ú¾¹
+            // è¦ä½¿ç”¨sheeter, é¦–å…ˆå»ºç«‹ç¹¼æ‰¿è‡ªsheeterProto.Loaderä»‹é¢çš„è®€å–å™¨
             var loader = new ProtoFileLoader();
-            // ±µµÛ«Ø¥ßsheeterProto.Depotª«¥ó, ³o¬O¦s¨úªí®æ¸ê®Æ³Ì¥D­nªºª«¥ó
-            // ­n°O±o§â­è­è«Ø¥ßªºÅª¨ú¾¹³]©w¶i¥h
+            // æ¥è‘—å»ºç«‹sheeterProto.Depotç‰©ä»¶, é€™æ˜¯å­˜å–è¡¨æ ¼è³‡æ–™æœ€ä¸»è¦çš„ç‰©ä»¶
+            // è¦è¨˜å¾—æŠŠå‰›å‰›å»ºç«‹çš„è®€å–å™¨è¨­å®šé€²å»
             var depot = new SheeterProto.Depot() { Loader = loader };
 
-            // µM«á°õ¦æFromData(©Î¬OMergeData)¨ç¦¡¨ÓÅª¨úªí®æ¸ê®Æ
+            // ç„¶å¾ŒåŸ·è¡ŒFromData(æˆ–æ˜¯MergeData)å‡½å¼ä¾†è®€å–è¡¨æ ¼è³‡æ–™
             if (depot.FromData() == false) {
                 Console.WriteLine("proto failed: from data failed");
                 return;
             }
 
-            // ¤§«á´N¥i¥H¥ÎDepot©³¤Uªº¦U­Óªí®æª«¥ó¨Ó¨ú¥Î¸ê®Æ¤º®e
+            // ä¹‹å¾Œå°±å¯ä»¥ç”¨Depotåº•ä¸‹çš„å„å€‹è¡¨æ ¼ç‰©ä»¶ä¾†å–ç”¨è³‡æ–™å…§å®¹
             if (depot.ExampleData.TryGetValue(1, out var data)) {
                 Console.WriteLine(data);
                 Console.WriteLine("proto success");
@@ -61,55 +61,55 @@ namespace Example {
     }
 
     /// <summary>
-    /// jsonÀÉ®×Åª¨ú¾¹
+    /// jsonæª”æ¡ˆè®€å–å™¨
     /// </summary>
     class JsonFileLoader : SheeterJson.Loader {
         /// <summary>
-        /// ¥Î©ó³B²zÅª¨ú¸ê®Æ¿ù»~, ½d¨Ò¤¤¥u¬O³æ¯Â¦L¥X¿ù»~°T®§
+        /// ç”¨æ–¼è™•ç†è®€å–è³‡æ–™éŒ¯èª¤, ç¯„ä¾‹ä¸­åªæ˜¯å–®ç´”å°å‡ºéŒ¯èª¤è¨Šæ¯
         /// </summary>
-        /// <param name="name">ÀÉ®×¦WºÙ</param>
-        /// <param name="message">¿ù»~°T®§</param>
+        /// <param name="name">æª”æ¡ˆåç¨±</param>
+        /// <param name="message">éŒ¯èª¤è¨Šæ¯</param>
         public void Error(string name, string message) {
             Console.WriteLine(name + ": json file load failed: " + message);
         }
 
         /// <summary>
-        /// ¥Î©óÅª¨ú¸ê®ÆÀÉ®×, Depot·|´£¨Ñµ¹§AÀÉ®×¦WºÙ, °ÆÀÉ¦W, §¹¾ã¦WºÙ
-        /// ¨Ï¥ÎªÌ»İ­n¨Ì¾a¥H¤W¸ê°T¨ÓÅª¨ú¸ê®ÆÀÉ®×, ¨Ã¦^¶Ç¸ê®Æµ¹Depot
+        /// ç”¨æ–¼è®€å–è³‡æ–™æª”æ¡ˆ, Depotæœƒæä¾›çµ¦ä½ æª”æ¡ˆåç¨±, å‰¯æª”å, å®Œæ•´åç¨±
+        /// ä½¿ç”¨è€…éœ€è¦ä¾é ä»¥ä¸Šè³‡è¨Šä¾†è®€å–è³‡æ–™æª”æ¡ˆ, ä¸¦å›å‚³è³‡æ–™çµ¦Depot
         /// </summary>
-        /// <param name="name">ÀÉ®×¦WºÙ</param>
-        /// <param name="ext">°ÆÀÉ¦W</param>
-        /// <param name="fullname">§¹¾ã¦WºÙ</param>
+        /// <param name="name">æª”æ¡ˆåç¨±</param>
+        /// <param name="ext">å‰¯æª”å</param>
+        /// <param name="fullname">å®Œæ•´åç¨±</param>
         /// <returns></returns>
         public string Load(string name, string ext, string fullname) {
-            // ¦]¬°¤u§@¸ô®|¦b bin/Debug/net5.0/ ©³¤U,©Ò¥H¥u¦n¥[3­Ó ".."¤F
+            // å› ç‚ºå·¥ä½œè·¯å¾‘åœ¨ bin/Debug/net5.0/ åº•ä¸‹,æ‰€ä»¥åªå¥½åŠ 3å€‹ ".."äº†
             return File.ReadAllText(Path.Combine("..", "..", "..", "json", "data", fullname));
         }
     }
 
     /// <summary>
-    /// protoÀÉ®×Åª¨ú¾¹
+    /// protoæª”æ¡ˆè®€å–å™¨
     /// </summary>
     class ProtoFileLoader : SheeterProto.Loader {
         /// <summary>
-        /// ¥Î©ó³B²zÅª¨ú¸ê®Æ¿ù»~, ½d¨Ò¤¤¥u¬O³æ¯Â¦L¥X¿ù»~°T®§
+        /// ç”¨æ–¼è™•ç†è®€å–è³‡æ–™éŒ¯èª¤, ç¯„ä¾‹ä¸­åªæ˜¯å–®ç´”å°å‡ºéŒ¯èª¤è¨Šæ¯
         /// </summary>
-        /// <param name="name">ÀÉ®×¦WºÙ</param>
-        /// <param name="message">¿ù»~°T®§</param>
+        /// <param name="name">æª”æ¡ˆåç¨±</param>
+        /// <param name="message">éŒ¯èª¤è¨Šæ¯</param>
         public void Error(string name, string message) {
             Console.WriteLine(name + ": proto file load failed: " + message);
         }
 
         /// <summary>
-        /// ¥Î©óÅª¨ú¸ê®ÆÀÉ®×, Depot·|´£¨Ñµ¹§AÀÉ®×¦WºÙ, °ÆÀÉ¦W, §¹¾ã¦WºÙ
-        /// ¨Ï¥ÎªÌ»İ­n¨Ì¾a¥H¤W¸ê°T¨ÓÅª¨ú¸ê®ÆÀÉ®×, ¨Ã¦^¶Ç¸ê®Æµ¹Depot
+        /// ç”¨æ–¼è®€å–è³‡æ–™æª”æ¡ˆ, Depotæœƒæä¾›çµ¦ä½ æª”æ¡ˆåç¨±, å‰¯æª”å, å®Œæ•´åç¨±
+        /// ä½¿ç”¨è€…éœ€è¦ä¾é ä»¥ä¸Šè³‡è¨Šä¾†è®€å–è³‡æ–™æª”æ¡ˆ, ä¸¦å›å‚³è³‡æ–™çµ¦Depot
         /// </summary>
-        /// <param name="name">ÀÉ®×¦WºÙ</param>
-        /// <param name="ext">°ÆÀÉ¦W</param>
-        /// <param name="fullname">§¹¾ã¦WºÙ</param>
+        /// <param name="name">æª”æ¡ˆåç¨±</param>
+        /// <param name="ext">å‰¯æª”å</param>
+        /// <param name="fullname">å®Œæ•´åç¨±</param>
         /// <returns></returns>
         public byte[] Load(string name, string ext, string fullname) {
-            // ¦]¬°¤u§@¸ô®|¦b bin/Debug/net5.0/ ©³¤U,©Ò¥H¥u¦n¥[3­Ó ".."¤F
+            // å› ç‚ºå·¥ä½œè·¯å¾‘åœ¨ bin/Debug/net5.0/ åº•ä¸‹,æ‰€ä»¥åªå¥½åŠ 3å€‹ ".."äº†
             return File.ReadAllBytes(Path.Combine("..", "..", "..", "proto", "data", fullname));
         }
     }

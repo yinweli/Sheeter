@@ -400,7 +400,6 @@ buf format -w 存放proto檔案的路徑
 | testdata                | 測試資料                         |
 
 # TODO
-* 新增exampleCode
 * 新增clear功能
 * 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
     * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)

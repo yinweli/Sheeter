@@ -3,8 +3,10 @@ using UnityEngine;
 namespace verifycs {
     public class Verify : MonoBehaviour {
         void Start() {
-            VerifyJson.Test();
-            VerifyProto.Test();
+            VerifyJson.verifyJsonFrom();
+            VerifyJson.verifyJsonMerge();
+            VerifyProto.verifyProtoFrom();
+            VerifyProto.verifyProtoMerge();
         }
     }
 }
