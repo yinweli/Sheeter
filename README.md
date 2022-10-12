@@ -400,15 +400,6 @@ buf format -w 存放proto檔案的路徑
 | testdata                | 測試資料                         |
 
 # TODO
-* 新增clear功能
-* jsonReader  C# [o]hand [ ]tmpl [ ]test [ ]verify
-* jsonReader  go [o]hand [ ]tmpl [ ]test [ ]verify
-* jsonDepot   C# [o]hand [ ]tmpl [ ]test [ ]verify
-* jsonDepot   go [o]hand [ ]tmpl [ ]test [ ]verify
-* protoReader C# [o]hand [ ]tmpl [ ]test [ ]verify
-* protoReader go [o]hand [ ]tmpl [ ]test [ ]verify
-* protoDepot  C# [o]hand [ ]tmpl [ ]test [ ]verify
-* protoDepot  go [o]hand [ ]tmpl [ ]test [ ]verify
 * 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
     * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
 * 目前的表格讀取方式會把全部需要的表格都讀取進來, 然後分析跟輸出; 但是在大量表格時會使用到大量記憶體, 可能需要想辦法減少記憶體使用量
