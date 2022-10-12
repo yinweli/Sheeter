@@ -33,7 +33,7 @@ func (this *Excel) Close() {
 
 // GetLine 取得excel行資料, index從1起算; 當行不存在時不會發生錯誤
 func (this *Excel) GetLine(sheet string, index int) (line *Line, err error) {
-	if index <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
+	if index <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若index <= 0, 就表示錯誤
 		return nil, fmt.Errorf("get line failed: index <= 0")
 	} // if
 
@@ -52,7 +52,7 @@ func (this *Excel) GetLine(sheet string, index int) (line *Line, err error) {
 
 // GetData 取得excel行資料列表, index從1起算; 當行不存在時會發生錯誤
 func (this *Excel) GetData(sheet string, index int) (data []string, err error) {
-	if index <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
+	if index <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若index <= 0, 就表示錯誤
 		return nil, fmt.Errorf("get data failed: index <= 0")
 	} // if
 
