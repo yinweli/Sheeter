@@ -29,6 +29,8 @@
 * 如果要產生[proto]程式碼, 可以執行產生出來的protoCs.bat/.sh或是protoGo.bat/.sh
 * 最後會產生結構程式碼, 讀取器程式碼, 倉庫程式碼讓程式可以控制表格
 * 關於程式碼的範例可以看[範例檔案](#範例檔案)
+    * cs範例在 example/example.cs
+    * go範例在 example/example.go
 
 # 範例檔案
 [example]
@@ -252,58 +254,58 @@ elements:
 
 ## 綜合工具參數
 
-| 名稱               | 參數                     | 說明                        |
-|:-------------------|:-------------------------|:----------------------------|
-| .AppName           |                          | 程式名稱                    |
-| .JsonNamespace     | 是否用簡單的命名空間名稱 | json命名空間名稱            |
-| .ProtoNamespace    | 是否用簡單的命名空間名稱 | proto命名空間名稱           |
-| .StructName        |                          | 結構名稱                    |
-| .ReaderName        |                          | 讀取器名稱                  |
-| .StorerName        |                          | 儲存器名稱                  |
-| .StorerDatas       |                          | 儲存器資料名稱              |
-| .StorerMessage     | 是否用簡單的命名空間名稱 | 儲存器proto message名稱     |
-| .FieldName         | 欄位資料                 | 欄位名稱                    |
-| .FieldNote         | 欄位資料                 | 欄位註解                    |
-| .FieldTypeCs       | 欄位資料                 | cs欄位類型                  |
-| .FieldTypeGo       | 欄位資料                 | go欄位類型                  |
-| .FieldTypeProto    | 欄位資料                 | go欄位類型                  |
-| .PkeyTypeCs        |                          | pkey的cs類型                |
-| .PkeyTypeGo        |                          | pkey的go類型                |
-| .PkeyTypeProto     |                          | pkey的proto類型             |
-| .JsonDataName      |                          | json資料名稱                |
-| .JsonDataExt       |                          | json資料副檔名              |
-| .JsonDataFile      |                          | json資料檔名                |
-| .JsonDataPath      |                          | json資料路徑                |
-| .JsonCsStructPath  |                          | json-cs結構程式碼路徑       |
-| .JsonCsReaderPath  |                          | json-cs讀取器程式碼路徑     |
-| .JsonCsDepotPath   |                          | json-cs倉庫程式碼路徑       |
-| .JsonGoStructPath  |                          | json-go結構程式碼路徑       |
-| .JsonGoReaderPath  |                          | json-go讀取器程式碼檔名路徑 |
-| .JsonGoDepotPath   |                          | json-go倉庫程式碼路徑       |
-| .ProtoCsPath       |                          | proto-cs路徑                |
-| .ProtoGoPath       |                          | proto-go路徑                |
-| .ProtoSchemaPath   |                          | proto-schema路徑            |
-| .ProtoName         |                          | proto架構檔名               |
-| .ProtoPath         |                          | proto架構路徑               |
-| .ProtoDataName     |                          | proto資料名稱               |
-| .ProtoDataExt      |                          | proto資料副檔名             |
-| .ProtoDataFile     |                          | proto資料檔名               |
-| .ProtoDataPath     |                          | proto資料路徑               |
-| .ProtoCsReaderPath |                          | proto-cs讀取器程式碼路徑    |
-| .ProtoCsDepotPath  |                          | proto-cs倉庫程式碼路徑      |
-| .ProtoGoReaderPath |                          | proto-go讀取器程式碼路徑    |
-| .ProtoGoDepotPath  |                          | proto-go倉庫程式碼路徑      |
-| .ProtoCsBatFile    |                          | proto-cs-bat檔名            |
-| .ProtoCsShFile     |                          | proto-cs-sh檔名             |
-| .ProtoGoBatFile    |                          | proto-go-bat檔名            |
-| .ProtoGoShFile     |                          | proto-go-sh檔名             |
-| .ProtoDepend       | 依賴名稱                 | proto依賴檔案名稱           |
-| .FirstUpper        | 字串                     | 字串首字母大寫              |
-| .FirstLower        | 字串                     | 字串首字母小寫              |
-| .Add               | 數值1 數值2              | 加法(數值1 + 數值2)         |
-| .Sub               | 數值1 數值2              | 減法(數值1 - 數值2)         |
-| .Mul               | 數值1 數值2              | 乘法(數值1 x 數值2)         |
-| .Div               | 數值1 數值2              | 除法(數值1 / 數值2)         |
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+| .AppName           |             | 程式名稱                                                  |
+| .JsonNamespace     | bool        | json命名空間名稱, 參數影響是否用簡單的命名空間名稱        |
+| .ProtoNamespace    | bool        | proto命名空間名稱, 參數影響是否用簡單的命名空間名稱       |
+| .StructName        |             | 結構名稱                                                  |
+| .ReaderName        |             | 讀取器名稱                                                |
+| .StorerName        |             | 儲存器名稱                                                |
+| .StorerDatas       |             | 儲存器資料名稱                                            |
+| .StorerMessage     | bool        | 儲存器proto message名稱, 參數影響是否用簡單的命名空間名稱 |
+| .FieldName         | 欄位資料    | 欄位名稱                                                  |
+| .FieldNote         | 欄位資料    | 欄位註解                                                  |
+| .FieldTypeCs       | 欄位資料    | cs欄位類型                                                |
+| .FieldTypeGo       | 欄位資料    | go欄位類型                                                |
+| .FieldTypeProto    | 欄位資料    | go欄位類型                                                |
+| .PkeyTypeCs        |             | pkey的cs類型                                              |
+| .PkeyTypeGo        |             | pkey的go類型                                              |
+| .PkeyTypeProto     |             | pkey的proto類型                                           |
+| .JsonDataName      |             | json資料名稱                                              |
+| .JsonDataExt       |             | json資料副檔名                                            |
+| .JsonDataFile      |             | json資料檔名                                              |
+| .JsonDataPath      |             | json資料路徑                                              |
+| .JsonCsStructPath  |             | json-cs結構程式碼路徑                                     |
+| .JsonCsReaderPath  |             | json-cs讀取器程式碼路徑                                   |
+| .JsonCsDepotPath   |             | json-cs倉庫程式碼路徑                                     |
+| .JsonGoStructPath  |             | json-go結構程式碼路徑                                     |
+| .JsonGoReaderPath  |             | json-go讀取器程式碼檔名路徑                               |
+| .JsonGoDepotPath   |             | json-go倉庫程式碼路徑                                     |
+| .ProtoCsPath       |             | proto-cs路徑                                              |
+| .ProtoGoPath       |             | proto-go路徑                                              |
+| .ProtoSchemaPath   |             | proto-schema路徑                                          |
+| .ProtoName         |             | proto架構檔名                                             |
+| .ProtoPath         |             | proto架構路徑                                             |
+| .ProtoDataName     |             | proto資料名稱                                             |
+| .ProtoDataExt      |             | proto資料副檔名                                           |
+| .ProtoDataFile     |             | proto資料檔名                                             |
+| .ProtoDataPath     |             | proto資料路徑                                             |
+| .ProtoCsReaderPath |             | proto-cs讀取器程式碼路徑                                  |
+| .ProtoCsDepotPath  |             | proto-cs倉庫程式碼路徑                                    |
+| .ProtoGoReaderPath |             | proto-go讀取器程式碼路徑                                  |
+| .ProtoGoDepotPath  |             | proto-go倉庫程式碼路徑                                    |
+| .ProtoCsBatFile    |             | proto-cs-bat檔名                                          |
+| .ProtoCsShFile     |             | proto-cs-sh檔名                                           |
+| .ProtoGoBatFile    |             | proto-go-bat檔名                                          |
+| .ProtoGoShFile     |             | proto-go-sh檔名                                           |
+| .ProtoDepend       | 依賴名稱    | proto依賴檔案名稱                                         |
+| .FirstUpper        | 字串        | 字串首字母大寫                                            |
+| .FirstLower        | 字串        | 字串首字母小寫                                            |
+| .Add               | 數值1 數值2 | 加法(數值1 + 數值2)                                       |
+| .Sub               | 數值1 數值2 | 減法(數值1 - 數值2)                                       |
+| .Mul               | 數值1 數值2 | 乘法(數值1 x 數值2)                                       |
+| .Div               | 數值1 數值2 | 除法(數值1 / 數值2)                                       |
 
 ## 類型資料參數
 
@@ -400,11 +402,11 @@ buf format -w 存放proto檔案的路徑
 | testdata                | 測試資料                         |
 
 # TODO
-* 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
-    * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
 * 目前的表格讀取方式會把全部需要的表格都讀取進來, 然後分析跟輸出; 但是在大量表格時會使用到大量記憶體, 可能需要想辦法減少記憶體使用量
 * 嘗試 https://github.com/tealeg/xlsx
 * 嘗試 https://github.com/TheDataShed/xlsxreader
+* 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
+    * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
 * 產生flatbuffer
 
 [buf]: https://github.com/bufbuild/buf
