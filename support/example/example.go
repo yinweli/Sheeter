@@ -76,7 +76,7 @@ func (this *fileLoader) Error(name string, err error) {
 }
 
 // Load 用於讀取資料檔案, Depot會提供給你檔案名稱(name), 副檔名(ext), 完整名稱(fullname)
-//      使用者需要依靠以上資訊來讀取資料檔案, 並回傳資料給Depot
+// 使用者需要依靠以上資訊來讀取資料檔案, 並回傳資料給Depot
 func (this *fileLoader) Load(name, ext, fullname string) []byte {
 	path := filepath.Join(this.path, fullname)
 	data, err := os.ReadFile(path)
