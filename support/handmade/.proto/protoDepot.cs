@@ -57,6 +57,12 @@ namespace SheeterProto {
 
             return result;
         }
+
+        public void Clear() {
+            foreach (var itor in Readers) {
+                itor.Clear();
+            }
+        }
     }
 
     public interface Loader {
@@ -70,6 +76,7 @@ namespace SheeterProto {
         public string DataFile();
         public string FromData(byte[] data);
         public string MergeData(byte[] data);
+        public void Clear();
     }
 }
 

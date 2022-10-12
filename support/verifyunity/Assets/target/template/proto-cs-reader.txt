@@ -59,6 +59,10 @@ namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
             return string.Empty;
         }
 
+        public void Clear() {
+            storer.{{$.StorerDatas}}.Clear();
+        }
+
         public bool TryGetValue(PKey_ key, out Data_ value) {
             return storer.{{$.StorerDatas}}.TryGetValue(key, out value);
         }

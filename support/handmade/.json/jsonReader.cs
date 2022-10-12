@@ -60,6 +60,10 @@ namespace SheeterJson {
             return string.Empty;
         }
 
+        public void Clear() {
+            storer.Datas.Clear();
+        }
+
         public bool TryGetValue(PKey_ key, out Data_ value) {
             return storer.Datas.TryGetValue(key, out value);
         }

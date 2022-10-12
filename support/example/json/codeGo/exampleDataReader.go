@@ -62,6 +62,10 @@ func (this *ExampleDataReader) MergeData(data []byte) error {
 	return nil
 }
 
+func (this *ExampleDataReader) Clear() {
+	this.ExampleDataStorer = nil
+}
+
 func (this *ExampleDataReader) Get(key int64) (result *ExampleData, ok bool) {
 	result, ok = this.Datas[key]
 	return result, ok

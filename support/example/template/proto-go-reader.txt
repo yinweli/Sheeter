@@ -63,6 +63,10 @@ func (this *{{$.ReaderName}}) MergeData(data []byte) error {
 	return nil
 }
 
+func (this *{{$.ReaderName}}) Clear() {
+	this.{{$.StorerName}} = nil
+}
+
 func (this *{{$.ReaderName}}) Get(key {{$.PkeyTypeGo}}) (result *{{$.StructName}}, ok bool) {
 	result, ok = this.{{$.StorerDatas}}[key]
 	return result, ok

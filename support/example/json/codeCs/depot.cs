@@ -58,6 +58,12 @@ namespace SheeterJson {
 
             return result;
         }
+
+        public void Clear() {
+            foreach (var itor in Readers) {
+                itor.Clear();
+            }
+        }
     }
 
     public interface Loader {
@@ -71,5 +77,6 @@ namespace SheeterJson {
         public string DataFile();
         public string FromData(string data);
         public string MergeData(string data);
+        public void Clear();
     }
 }

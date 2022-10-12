@@ -167,6 +167,10 @@ namespace SheeterProto {
             return string.Empty;
         }
 
+        public void Clear() {
+            storer.Datas.Clear();
+        }
+
         public bool TryGetValue(PKey_ key, out Data_ value) {
             return storer.Datas.TryGetValue(key, out value);
         }
@@ -277,6 +281,10 @@ func (this *TestDataReader) MergeData(data []byte) error {
 	}
 
 	return nil
+}
+
+func (this *TestDataReader) Clear() {
+	this.TestDataStorer = nil
 }
 
 func (this *TestDataReader) Get(key int64) (result *TestData, ok bool) {
