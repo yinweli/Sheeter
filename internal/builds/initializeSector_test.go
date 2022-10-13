@@ -58,19 +58,19 @@ func (this *SuiteInitializeSector) TestInitializeSector() {
 	sector.Close()
 
 	target = this.target()
-	target.Global.LineOfField = 10
+	target.Global.LineOfField = -1
 	sector = target.Sector[0]
 	assert.NotNil(this.T(), initializeSector(target, sector))
 	sector.Close()
 
 	target = this.target()
-	target.Global.LineOfLayer = 10
+	target.Global.LineOfLayer = -1
 	sector = target.Sector[0]
 	assert.NotNil(this.T(), initializeSector(target, sector))
 	sector.Close()
 
 	target = this.target()
-	target.Global.LineOfNote = 10
+	target.Global.LineOfNote = -1
 	sector = target.Sector[0]
 	assert.NotNil(this.T(), initializeSector(target, sector))
 	sector.Close()

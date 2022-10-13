@@ -91,7 +91,7 @@ func (this *SuiteExcel) TestGetLine() {
 		"}}",
 	}, line[2])
 
-	_, err = target.GetLine(this.sheet, 100)
+	_, err = target.GetLine(this.sheet, -1)
 	assert.NotNil(this.T(), err)
 
 	_, err = target.GetLine(testdata.UnknownStr, 1)
