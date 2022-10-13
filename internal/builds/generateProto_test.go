@@ -215,6 +215,10 @@ namespace SheeterProto {
 	target := this.target()
 	assert.Nil(this.T(), generateProtoCsReader(target))
 	testdata.CompareFile(this.T(), target.ProtoCsReaderPath(), data)
+
+	target = this.target()
+	target.Reader = false
+	assert.Nil(this.T(), generateProtoCsReader(target))
 }
 
 func (this *SuiteGenerateProto) TestGenerateProtoGoReader() {
@@ -316,4 +320,8 @@ func (this *TestDataReader) Count() int {
 	target := this.target()
 	assert.Nil(this.T(), generateProtoGoReader(target))
 	testdata.CompareFile(this.T(), target.ProtoGoReaderPath(), data)
+
+	target = this.target()
+	target.Reader = false
+	assert.Nil(this.T(), generateProtoGoReader(target))
 }

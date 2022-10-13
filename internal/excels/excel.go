@@ -158,7 +158,7 @@ func (this *Sheet) Data() (result []string, err error) {
 	} // if
 
 	if this.row.Index != this.line {
-		return result, nil
+		return nil, nil
 	} // if
 
 	for _, itor := range this.row.Cells {

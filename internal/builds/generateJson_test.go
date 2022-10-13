@@ -231,6 +231,10 @@ namespace SheeterJson {
 	target := this.target()
 	assert.Nil(this.T(), generateJsonCsReader(target))
 	testdata.CompareFile(this.T(), target.JsonCsReaderPath(), data)
+
+	target = this.target()
+	target.Reader = false
+	assert.Nil(this.T(), generateJsonCsReader(target))
 }
 
 func (this *SuiteGenerateJson) TestGenerateJsonGoStruct() {
@@ -383,4 +387,8 @@ func (this *TestDataReader) Count() int {
 	target := this.target()
 	assert.Nil(this.T(), generateJsonGoReader(target))
 	testdata.CompareFile(this.T(), target.JsonGoReaderPath(), data)
+
+	target = this.target()
+	target.Reader = false
+	assert.Nil(this.T(), generateJsonGoReader(target))
 }
