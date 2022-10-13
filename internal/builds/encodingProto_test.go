@@ -72,6 +72,10 @@ func (this *SuiteEncodingProto) TestEncodingProto() {
 	assert.Nil(this.T(), encodingProto(target))
 	assert.True(this.T(), utils.FileExist(target.ProtoDataPath()))
 
+	target = this.target(testdata.ExcelNameEmpty)
+	assert.Nil(this.T(), encodingProto(target))
+	assert.True(this.T(), utils.FileExist(target.ProtoDataPath()))
+
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
 		target = this.target(testdata.ExcelNameReal)

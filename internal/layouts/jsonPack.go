@@ -9,12 +9,12 @@ import (
 )
 
 // JsonPack 打包json資料
-func JsonPack(line *excels.Line, layoutJson *LayoutJson, excludes []string) (json []byte, err error) {
-	defer line.Close()
+func JsonPack(sheet *excels.Sheet, layoutJson *LayoutJson, excludes []string) (json []byte, err error) {
+	defer sheet.Close()
 	datas := map[internal.PkeyType]interface{}{}
 
-	for ok := true; ok; ok = line.Next() {
-		raws, _ := line.Data()
+	for ok := true; ok; ok = sheet.Next() {
+		raws, _ := sheet.Data()
 
 		if raws == nil {
 			break // 碰到空行就結束了

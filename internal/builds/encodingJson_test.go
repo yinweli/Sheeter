@@ -75,10 +75,6 @@ func (this *SuiteEncodingJson) TestEncodingJson() {
 	assert.Nil(this.T(), encodingJson(target))
 	testdata.CompareFile(this.T(), target.JsonDataPath(), data)
 
-	target = this.target(testdata.ExcelNameReal)
-	target.LineOfData = -1
-	assert.NotNil(this.T(), encodingJson(target))
-
 	target = this.target(testdata.ExcelNameEmpty)
 	assert.Nil(this.T(), encodingJson(target))
 	testdata.CompareFile(this.T(), target.JsonDataPath(), empty)
