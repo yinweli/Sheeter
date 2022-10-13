@@ -2,19 +2,21 @@ package excels
 
 import (
 	"fmt"
+	"regexp"
 	"sort"
+	"strings"
 
-	"github.com/xuri/excelize/v2"
+	"github.com/thedatashed/xlsxreader"
 )
 
 // Excel excel資料
 type Excel struct {
-	excel *excelize.File // excel物件
+	excel *xlsxreader.XlsxFileCloser // excel物件
 }
 
 // Open 開啟excel
 func (this *Excel) Open(name string) error {
-	excel, err := excelize.OpenFile(name)
+	excel, err := xlsxreader.OpenFile(name)
 
 	if err != nil {
 		return fmt.Errorf("open failed: %w", err)
@@ -34,13 +36,14 @@ func (this *Excel) Close() {
 
 // Get 取得表格
 func (this *Excel) Get(name string) (sheet *Sheet, err error) {
-	rows, err := this.excel.Rows(name)
-
-	if err != nil {
-		return nil, fmt.Errorf("get failed: %w", err)
+	if this.Exist(name) == false {
+		return nil, fmt.Errorf("get failed: sheet not exist")
 	} // if
 
-	return &Sheet{rows: rows}, nil
+	sheet = &Sheet{
+		rows: this.excel.ReadRows(name),
+	}
+	return sheet, nil
 }
 
 // GetLine 取得表格行資料
@@ -83,8 +86,16 @@ func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, e
 }
 
 // Exist 表格是否存在
-func (this *Excel) Exist(sheet string) bool {
-	return this.excel.GetSheetIndex(sheet) != -1
+func (this *Excel) Exist(name string) bool {
+	if this.excel != nil {
+		for _, itor := range this.excel.Sheets {
+			if itor == name {
+				return true
+			} // if
+		} // for
+	} // if
+
+	return false
 }
 
 // IsOpen 是否開啟excel
@@ -94,20 +105,35 @@ func (this *Excel) IsOpen() bool {
 
 // Sheet 表格資料
 type Sheet struct {
-	rows *excelize.Rows
+	rows chan xlsxreader.Row // 表格資料
+	row  *xlsxreader.Row     // 行資料
+	line int                 // 目前行數
 }
 
 // Close 關閉表格資料
 func (this *Sheet) Close() {
 	if this.rows != nil {
-		_ = this.rows.Close()
+		// 由於xlsxreader的要求, 必須在關閉前把表格尋訪完畢
+		// 不然會遺留未完成的goroutine與channel物件
+		for range this.rows {
+			// do nothing...
+		} // for
+
 		this.rows = nil
 	} // if
 }
 
 // Next 往下一行
 func (this *Sheet) Next() bool {
-	return this.rows.Next()
+	if this.row != nil && this.row.Index != this.line {
+		this.line++
+		return true
+	} // if
+
+	row := <-this.rows
+	this.row = &row
+	this.line++
+	return this.row.Error == nil
 }
 
 // Nextn 往下n行
@@ -117,7 +143,7 @@ func (this *Sheet) Nextn(n int) bool {
 	} // if
 
 	for i := 0; i < n; i++ {
-		if this.rows.Next() == false {
+		if this.Next() == false {
 			return false
 		} // if
 	} // for
@@ -127,11 +153,41 @@ func (this *Sheet) Nextn(n int) bool {
 
 // Data 取得行資料
 func (this *Sheet) Data() (result []string, err error) {
-	result, err = this.rows.Columns()
-
-	if err != nil {
-		return nil, fmt.Errorf("data failed: %w", err)
+	if this.row == nil {
+		return nil, fmt.Errorf("data failed: row nil")
 	} // if
+
+	if this.row.Index != this.line {
+		return result, nil
+	} // if
+
+	for _, itor := range this.row.Cells {
+		index := columnToIndex(itor.Column)
+
+		for len(result) < index {
+			result = append(result, "")
+		} // for
+
+		result[index-1] = itor.Value // 由於欄位從1開始, 而陣列從0開始, 所以要減1
+	} // for
 
 	return result, nil
 }
+
+// columnToIndex 欄位字串轉為索引值
+func columnToIndex(letter string) int {
+	if columnChecker(letter) == false {
+		panic("invalid column") // 正常狀況下應該不會跑出異常
+	} // if
+
+	result := 0
+
+	for _, itor := range strings.ToLower(letter) {
+		value := int(itor - 'a' + 1)
+		result = result*26 + value // 英文字母26個字
+	} // for
+
+	return result
+}
+
+var columnChecker = regexp.MustCompile("^[a-zA-Z]+$").MatchString // 檢查欄位字串
