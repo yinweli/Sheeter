@@ -20,8 +20,6 @@ func TestJsonPack(t *testing.T) {
 type SuiteJsonPack struct {
 	suite.Suite
 	workDir     string
-	excelName   string
-	sheetName   string
 	lineOfField int
 	lineOfLayer int
 	lineOfData  int
@@ -30,31 +28,15 @@ type SuiteJsonPack struct {
 
 func (this *SuiteJsonPack) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.excelName = testdata.ExcelNameJsonPack
-	this.sheetName = testdata.SheetName
 	this.lineOfField = 1
 	this.lineOfLayer = 2
 	this.lineOfData = 4
-	assert.Nil(this.T(), this.excel.Open(this.excelName))
+	assert.Nil(this.T(), this.excel.Open(testdata.ExcelNameJsonPack))
 }
 
 func (this *SuiteJsonPack) TearDownSuite() {
 	this.excel.Close()
 	testdata.RestoreWorkDir(this.workDir)
-}
-
-func (this *SuiteJsonPack) getLine(index int) *excels.Line {
-	line, err := this.excel.GetLine(this.sheetName, index)
-	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), line)
-	return line
-}
-
-func (this *SuiteJsonPack) getData(index int) []string {
-	data, err := this.excel.GetData(this.sheetName, index)
-	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), data)
-	return data
 }
 
 func (this *SuiteJsonPack) TestJsonPack() {
@@ -63,8 +45,10 @@ func (this *SuiteJsonPack) TestJsonPack() {
 	data2, err := utils.JsonMarshal(testdata.GetExcelContentJsonPack(false))
 	assert.Nil(this.T(), err)
 
-	fieldCol := this.getData(this.lineOfField)
-	layerCol := this.getData(this.lineOfLayer)
+	line, err := this.excel.GetLine(testdata.SheetName, this.lineOfField, this.lineOfLayer)
+	assert.Nil(this.T(), err)
+	fieldCol := line[this.lineOfField]
+	layerCol := line[this.lineOfLayer]
 	layoutJson := NewLayoutJson()
 
 	for col, itor := range fieldCol {
@@ -75,17 +59,21 @@ func (this *SuiteJsonPack) TestJsonPack() {
 		assert.Nil(this.T(), layoutJson.Add(name, field, tag, layer, back))
 	} // for
 
-	line := this.getLine(this.lineOfData)
-	json, err := JsonPack(line, layoutJson, []string{"tag"})
+	sheet, err := this.excel.Get(testdata.SheetName)
+	assert.Nil(this.T(), err)
+	assert.True(this.T(), sheet.Nextn(this.lineOfData))
+	json, err := JsonPack(sheet, layoutJson, []string{"tag"})
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), string(data1), string(json))
-	line.Close()
+	sheet.Close()
 
-	line = this.getLine(this.lineOfData)
-	json, err = JsonPack(line, layoutJson, []string{})
+	sheet, err = this.excel.Get(testdata.SheetName)
+	assert.Nil(this.T(), err)
+	assert.True(this.T(), sheet.Nextn(this.lineOfData))
+	json, err = JsonPack(sheet, layoutJson, []string{})
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), string(data2), string(json))
-	line.Close()
+	sheet.Close()
 }
 
 func (this *SuiteJsonPack) TestJsonFirstUpper() {

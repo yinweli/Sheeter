@@ -2,6 +2,7 @@ package excels
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/xuri/excelize/v2"
 )
@@ -12,8 +13,8 @@ type Excel struct {
 }
 
 // Open 開啟excel
-func (this *Excel) Open(filename string) error {
-	excel, err := excelize.OpenFile(filename)
+func (this *Excel) Open(name string) error {
+	excel, err := excelize.OpenFile(name)
 
 	if err != nil {
 		return fmt.Errorf("open failed: %w", err)
@@ -31,60 +32,58 @@ func (this *Excel) Close() {
 	} // if
 }
 
-// GetLine 取得excel行資料, index從1起算; 當行不存在時不會發生錯誤
-func (this *Excel) GetLine(sheet string, index int) (line *Line, err error) {
-	if index <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
-		return nil, fmt.Errorf("get line failed: index <= 0")
+// Get 取得表格
+func (this *Excel) Get(name string) (sheet *Sheet, err error) {
+	rows, err := this.excel.Rows(name)
+
+	if err != nil {
+		return nil, fmt.Errorf("get failed: %w", err)
 	} // if
 
-	rows, err := this.excel.Rows(sheet)
+	return &Sheet{rows: rows}, nil
+}
+
+// GetLine 取得表格行資料
+func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, err error) {
+	sheet, err := this.Get(name)
 
 	if err != nil {
 		return nil, fmt.Errorf("get line failed: %w", err)
 	} // if
 
-	for l := 0; l < index; l++ {
-		rows.Next()
-	} // for
+	defer sheet.Close()
+	result = map[int][]string{}
+	current := 0 // 最少要一次才能定位到第1行, 所以起始位置設為0
+	sort.Ints(line)
 
-	return &Line{rows: rows}, nil
-}
-
-// GetData 取得excel行資料列表, index從1起算; 當行不存在時會發生錯誤
-func (this *Excel) GetData(sheet string, index int) (data []string, err error) {
-	if index <= 0 { // 注意! 最少要一次才能定位到第1行; 所以若line <= 0, 就表示錯誤
-		return nil, fmt.Errorf("get data failed: index <= 0")
-	} // if
-
-	rows, err := this.excel.Rows(sheet)
-
-	if err != nil {
-		return nil, fmt.Errorf("get data failed: %w", err)
-	} // if
-
-	defer func() { _ = rows.Close() }()
-
-	for l := 0; l < index; l++ {
-		if rows.Next() == false {
-			return nil, fmt.Errorf("get data failed: data not found")
+	for _, itor := range line {
+		if itor <= 0 { // 最少要一次才能定位到第1行, 所以若起始位置設為0line <= 0, 就表示錯誤
+			return nil, fmt.Errorf("get line failed: line <= 0")
 		} // if
+
+		if sheet.Nextn(itor-current) == false {
+			return nil, fmt.Errorf("get line failed: line not found")
+		} // if
+
+		current = itor
+		data, err := sheet.Data()
+
+		if err != nil {
+			return nil, fmt.Errorf("get line failed: %w", err)
+		} // if
+
+		if data == nil { // 如果取得空行, 就回傳個空切片吧
+			data = []string{}
+		} // if
+
+		result[itor] = data
 	} // for
 
-	data, err = rows.Columns()
-
-	if err != nil {
-		return nil, fmt.Errorf("get data failed: invalid columns: %w", err)
-	} // if
-
-	if data == nil {
-		data = []string{} // 如果取得空行, 就回傳個空切片吧
-	} // if
-
-	return data, nil
+	return result, nil
 }
 
-// SheetExist 表單是否存在
-func (this *Excel) SheetExist(sheet string) bool {
+// Exist 表格是否存在
+func (this *Excel) Exist(sheet string) bool {
 	return this.excel.GetSheetIndex(sheet) != -1
 }
 
@@ -93,13 +92,13 @@ func (this *Excel) IsOpen() bool {
 	return this.excel != nil
 }
 
-// Line excel行資料
-type Line struct {
+// Sheet 表格資料
+type Sheet struct {
 	rows *excelize.Rows
 }
 
-// Close 關閉行資料
-func (this *Line) Close() {
+// Close 關閉表格資料
+func (this *Sheet) Close() {
 	if this.rows != nil {
 		_ = this.rows.Close()
 		this.rows = nil
@@ -107,12 +106,27 @@ func (this *Line) Close() {
 }
 
 // Next 往下一行
-func (this *Line) Next() bool {
+func (this *Sheet) Next() bool {
 	return this.rows.Next()
 }
 
-// Data 取得資料列表
-func (this *Line) Data() (result []string, err error) {
+// Nextn 往下n行
+func (this *Sheet) Nextn(n int) bool {
+	if n < 0 {
+		return false
+	} // if
+
+	for i := 0; i < n; i++ {
+		if this.rows.Next() == false {
+			return false
+		} // if
+	} // for
+
+	return true
+}
+
+// Data 取得行資料
+func (this *Sheet) Data() (result []string, err error) {
 	result, err = this.rows.Columns()
 
 	if err != nil {

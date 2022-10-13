@@ -12,13 +12,14 @@ import (
 // encodingProto 產生proto資料
 func encodingProto(data *encodingData) error {
 	structName := data.StructName()
-	line, err := data.excel.GetLine(data.Sheet, data.LineOfData)
+	sheet, err := data.excel.Get(data.Sheet)
 
 	if err != nil {
-		return fmt.Errorf("%s: encoding proto failed: data line not found", structName)
+		return fmt.Errorf("%s: encoding proto failed: sheet not found", structName)
 	} // if
 
-	json, err := layouts.JsonPack(line, data.layoutJson, data.Excludes)
+	sheet.Nextn(data.LineOfData)
+	json, err := layouts.JsonPack(sheet, data.layoutJson, data.Excludes)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)

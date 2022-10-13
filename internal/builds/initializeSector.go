@@ -29,28 +29,19 @@ func initializeSector(context *Context, sector *ContextSector) error {
 		return fmt.Errorf("%s: initialize sector failed: open excel failed: %w", structName, err)
 	} // if
 
-	if excel.SheetExist(sector.Sheet) == false {
+	if excel.Exist(sector.Sheet) == false {
 		return fmt.Errorf("%s: initialize sector failed: open excel failed: sheet not found", structName)
 	} // if
 
-	fieldLine, err := excel.GetData(sector.Sheet, context.Global.LineOfField)
+	line, err := excel.GetLine(sector.Sheet, context.Global.LineOfField, context.Global.LineOfLayer, context.Global.LineOfNote)
 
 	if err != nil {
-		return fmt.Errorf("%s: initialize sector failed: field line not found: %w", structName, err)
+		return fmt.Errorf("%s: initialize sector failed: get line failed: %w", structName, err)
 	} // if
 
-	layerLine, err := excel.GetData(sector.Sheet, context.Global.LineOfLayer)
-
-	if err != nil {
-		return fmt.Errorf("%s: initialize sector failed: layer line not found: %w", structName, err)
-	} // if
-
-	noteLine, err := excel.GetData(sector.Sheet, context.Global.LineOfNote)
-
-	if err != nil {
-		return fmt.Errorf("%s: initialize sector failed: note line not found: %w", structName, err)
-	} // if
-
+	fieldLine := line[context.Global.LineOfField]
+	layerLine := line[context.Global.LineOfLayer]
+	noteLine := line[context.Global.LineOfNote]
 	layoutJson := layouts.NewLayoutJson()
 	layoutType := layouts.NewLayoutType()
 	layoutDepend := layouts.NewLayoutDepend()
