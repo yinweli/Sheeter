@@ -412,8 +412,8 @@ buf format -w 存放proto檔案的路徑
 * nameLine, noteLine, fieldLine, layerLine
 * 改程式碼                [o]code
 * 改單元測試              [o]code
-* testdata                [ ]excel [ ]yaml
-* support/benchmark_count [ ]excel [ ]yaml
+* testdata                [o]excel [o]yaml
+* support/benchmark_count [o]excel [o]yaml
 * support/benchmark_size  [ ]excel [ ]yaml
 * support/example         [ ]excel [ ]yaml
 * support/verifycs        [ ]excel [ ]yaml

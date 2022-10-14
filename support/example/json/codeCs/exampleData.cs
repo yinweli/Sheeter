@@ -12,6 +12,9 @@ namespace SheeterJson {
         // 是否啟用
         [JsonProperty("Enable")]
         public bool Enable { get; set; }
+        // 忽略
+        [JsonProperty("Ignore")]
+        public long Ignore { get; set; }
         // 索引
         [JsonProperty("Key")]
         public System.Int64 Key { get; set; }

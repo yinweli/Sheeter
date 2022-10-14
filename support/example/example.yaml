@@ -1,8 +1,14 @@
 global:
-    lineOfField: 1
-    lineOfLayer: 2
-    lineOfNote: 3
-    lineOfData: 4
+    exportJson: true
+    exportProto: true
+    simpleNamespace: false
+    lineOfName: 1
+    lineOfNote: 2
+    lineOfField: 3
+    lineOfLayer: 4
+    lineOfData: 5
+    excludes:
+        - ignore
 
 elements:
     - excel: example.xlsx
