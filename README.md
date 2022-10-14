@@ -406,11 +406,6 @@ buf format -w 存放proto檔案的路徑
 | support/verifyunity     | unity程式碼驗證                  |
 | testdata                | 測試資料                         |
 
-# TODO
-* 建立一個專門從excel產生列舉的命令模式
-* 產生flatbuffer
-* README.md & excel.jpg
-
 [buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/
 [json]: https://www.json.org/json-en.html
