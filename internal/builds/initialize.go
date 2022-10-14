@@ -54,8 +54,10 @@ func Initialize(context *Context) (errs []error) {
 
 	progress.Wait()
 
-	if err := initializeStruct(context); err != nil {
-		errors <- err
+	if len(errors) == 0 {
+		if err := initializeStruct(context); err != nil {
+			errors <- err
+		} // if
 	} // if
 
 	close(errors) // 先關閉結果通訊通道, 免得下面的for變成無限迴圈
