@@ -411,7 +411,7 @@ buf format -w 存放proto檔案的路徑
 * 產生flatbuffer
 * nameLine, noteLine, fieldLine, layerLine
 * 改程式碼                [o]code
-* 改單元測試              [ ]code
+* 改單元測試              [o]code
 * testdata                [ ]excel [ ]yaml
 * support/benchmark_count [ ]excel [ ]yaml
 * support/benchmark_size  [ ]excel [ ]yaml
@@ -419,6 +419,7 @@ buf format -w 存放proto檔案的路徑
 * support/verifycs        [ ]excel [ ]yaml
 * support/verifygo        [ ]excel [ ]yaml
 * support/verifyunity     [ ]excel [ ]yaml
+* README.md & excel.jpg
 
 [buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/
