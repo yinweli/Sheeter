@@ -1,8 +1,9 @@
 global:
-    lineOfField: 101
-    lineOfLayer: 102
-    lineOfNote: 103
-    lineOfData: 104
+    lineOfName: 101
+    lineOfNote: 102
+    lineOfField: 103
+    lineOfLayer: 104
+    lineOfData: 105
     excludes:
         - tag1
         - tag2

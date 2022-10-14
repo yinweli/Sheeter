@@ -5,7 +5,6 @@ import (
 	"strings"
 
 	"github.com/yinweli/Sheeter/internal"
-	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // 實作新的欄位結構需要: 製作欄位結構, 實作欄位介面函式, 把結構加入到fields全域變數中
@@ -52,25 +51,15 @@ var fields = []Field{
 	&TextArray{},
 }
 
-// Parser 欄位解析, 格式為 name#field
-func Parser(input string) (name string, field Field, tag string, err error) {
-	name, other, ok := strings.Cut(input, internal.SeparateField)
-
-	if ok == false {
-		return "", nil, "", fmt.Errorf("%s: parser field failed: invalid format", input)
-	} // if
-
-	if utils.NameCheck(name) == false {
-		return "", nil, "", fmt.Errorf("%s: parser field failed: invalid name", input)
-	} // if
-
-	type_, tag, _ := strings.Cut(other, internal.SeparateField)
+// Parser 欄位解析, 格式為 field#tag
+func Parser(input string) (field Field, tag string, err error) {
+	type_, tag, _ := strings.Cut(input, internal.SeparateField)
 
 	for _, itor := range fields {
 		if itor.Type() == type_ {
-			return name, itor, tag, nil
+			return itor, tag, nil
 		} // if
 	} // for
 
-	return "", nil, "", fmt.Errorf("%s: parser field failed: field not found", input)
+	return nil, "", fmt.Errorf("%s: parser field failed: field not found", input)
 }

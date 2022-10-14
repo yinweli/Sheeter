@@ -31,9 +31,10 @@ func (this *SuiteInitializeStruct) target() *Context {
 	target := &Context{
 		Config: &Config{
 			Global: Global{
-				LineOfField: 1,
-				LineOfLayer: 2,
-				LineOfNote:  3,
+				LineOfName:  1,
+				LineOfNote:  2,
+				LineOfField: 3,
+				LineOfLayer: 4,
 			},
 		},
 		Sector: []*ContextSector{

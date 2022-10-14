@@ -8,6 +8,8 @@ type ExampleData struct {
 	Reward Reward `json:"Reward"`
 	// 是否啟用
 	Enable bool `json:"Enable"`
+	// 忽略
+	Ignore int64 `json:"Ignore"`
 	// 索引
 	Key int64 `json:"Key"`
 	// 名稱

@@ -409,6 +409,17 @@ buf format -w 存放proto檔案的路徑
     * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
 * 建立一個專門從excel產生列舉的命令模式
 * 產生flatbuffer
+* nameLine, noteLine, fieldLine, layerLine
+* 改程式碼                [o]code
+* 改單元測試              [o]code
+* testdata                [o]excel [o]yaml
+* support/benchmark_count [o]excel [o]yaml
+* support/benchmark_size  [ ]excel [ ]yaml
+* support/example         [ ]excel [ ]yaml
+* support/verifycs        [ ]excel [ ]yaml
+* support/verifygo        [ ]excel [ ]yaml
+* support/verifyunity     [ ]excel [ ]yaml
+* README.md & excel.jpg
 
 [buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/

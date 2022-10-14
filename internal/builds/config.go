@@ -23,9 +23,10 @@ type Global struct {
 	ExportJson      bool     `yaml:"exportJson"`      // 是否產生json檔案
 	ExportProto     bool     `yaml:"exportProto"`     // 是否產生proto檔案
 	SimpleNamespace bool     `yaml:"simpleNamespace"` // 是否用簡單的命名空間名稱
+	LineOfName      int      `yaml:"lineOfName"`      // 名稱行號(1為起始行)
+	LineOfNote      int      `yaml:"lineOfNote"`      // 註解行號(1為起始行)
 	LineOfField     int      `yaml:"lineOfField"`     // 欄位行號(1為起始行)
 	LineOfLayer     int      `yaml:"lineOfLayer"`     // 階層行號(1為起始行)
-	LineOfNote      int      `yaml:"lineOfNote"`      // 註解行號(1為起始行)
 	LineOfData      int      `yaml:"lineOfData"`      // 資料行號(1為起始行)
 	Excludes        []string `yaml:"excludes"`        // 排除標籤列表
 }
@@ -77,6 +78,18 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		} // if
 	} // if
 
+	if flags.Changed(flagLineOfName) {
+		if value, err := flags.GetInt(flagLineOfName); err == nil {
+			this.Global.LineOfName = value
+		} // if
+	} // if
+
+	if flags.Changed(flagLineOfNote) {
+		if value, err := flags.GetInt(flagLineOfNote); err == nil {
+			this.Global.LineOfNote = value
+		} // if
+	} // if
+
 	if flags.Changed(flagLineOfField) {
 		if value, err := flags.GetInt(flagLineOfField); err == nil {
 			this.Global.LineOfField = value
@@ -86,12 +99,6 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 	if flags.Changed(flagLineOfLayer) {
 		if value, err := flags.GetInt(flagLineOfLayer); err == nil {
 			this.Global.LineOfLayer = value
-		} // if
-	} // if
-
-	if flags.Changed(flagLineOfNote) {
-		if value, err := flags.GetInt(flagLineOfNote); err == nil {
-			this.Global.LineOfNote = value
 		} // if
 	} // if
 
@@ -125,6 +132,14 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 
 // Check 檢查設定
 func (this *Config) Check() error {
+	if this.Global.LineOfName <= 0 {
+		return fmt.Errorf("config check failed: lineOfName <= 0")
+	} // if
+
+	if this.Global.LineOfNote <= 0 {
+		return fmt.Errorf("config check failed: lineOfNote <= 0")
+	} // if
+
 	if this.Global.LineOfField <= 0 {
 		return fmt.Errorf("config check failed: lineOfField <= 0")
 	} // if
@@ -133,12 +148,16 @@ func (this *Config) Check() error {
 		return fmt.Errorf("config check failed: lineOfLayer <= 0")
 	} // if
 
-	if this.Global.LineOfNote <= 0 {
-		return fmt.Errorf("config check failed: lineOfNote <= 0")
-	} // if
-
 	if this.Global.LineOfData <= 0 {
 		return fmt.Errorf("config check failed: lineOfData <= 0")
+	} // if
+
+	if this.Global.LineOfName >= this.Global.LineOfData {
+		return fmt.Errorf("config check failed: lineOfName(%d) >= lineOfData(%d)", this.Global.LineOfName, this.Global.LineOfData)
+	} // if
+
+	if this.Global.LineOfNote >= this.Global.LineOfData {
+		return fmt.Errorf("config check failed: lineOfNote(%d) >= lineOfData(%d)", this.Global.LineOfNote, this.Global.LineOfData)
 	} // if
 
 	if this.Global.LineOfField >= this.Global.LineOfData {
@@ -147,10 +166,6 @@ func (this *Config) Check() error {
 
 	if this.Global.LineOfLayer >= this.Global.LineOfData {
 		return fmt.Errorf("config check failed: lineOfLayer(%d) >= lineOfData(%d)", this.Global.LineOfLayer, this.Global.LineOfData)
-	} // if
-
-	if this.Global.LineOfNote >= this.Global.LineOfData {
-		return fmt.Errorf("config check failed: lineOfNote(%d) >= lineOfData(%d)", this.Global.LineOfNote, this.Global.LineOfData)
 	} // if
 
 	for _, itor := range this.Elements {
