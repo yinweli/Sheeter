@@ -36,6 +36,11 @@ func Poststep(context *Context) error {
 	} // if
 
 	totalCount := len(tasks)
+
+	if totalCount <= 0 {
+		return nil
+	} // if
+
 	progress := mpb.New(mpb.WithWidth(internal.BarWidth))
 	progressbar := progress.AddBar(
 		int64(totalCount),

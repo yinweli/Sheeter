@@ -34,6 +34,11 @@ func Encoding(context *Context) (errs []error) {
 	itemCount := len(context.Sector)
 	taskCount := len(tasks)
 	totalCount := itemCount * taskCount
+
+	if totalCount <= 0 {
+		return []error{}
+	} // if
+
 	errors := make(chan error, itemCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
 	signaler := utils.NewWaitGroup(itemCount)
 	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))

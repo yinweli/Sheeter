@@ -29,11 +29,11 @@ func (this *SuitePoststepProto) SetupSuite() {
 }
 
 func (this *SuitePoststepProto) TearDownSuite() {
-	target := this.target()
-	_ = os.Remove(target.ProtoCsBatFile())
-	_ = os.Remove(target.ProtoCsShFile())
-	_ = os.Remove(target.ProtoGoBatFile())
-	_ = os.Remove(target.ProtoGoShFile())
+	mixed := mixeds.NewMixed("", "")
+	_ = os.Remove(mixed.ProtoCsBatFile())
+	_ = os.Remove(mixed.ProtoCsShFile())
+	_ = os.Remove(mixed.ProtoGoBatFile())
+	_ = os.Remove(mixed.ProtoGoShFile())
 	_ = os.RemoveAll(internal.ProtoPath)
 	testdata.RestoreWorkDir(this.workDir)
 }

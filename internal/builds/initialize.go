@@ -19,6 +19,11 @@ func Initialize(context *Context) (errs []error) {
 	} // for
 
 	totalCount := len(context.Sector)
+
+	if totalCount <= 0 {
+		return []error{}
+	} // if
+
 	errors := make(chan error, totalCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
 	signaler := utils.NewWaitGroup(totalCount)
 	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))
