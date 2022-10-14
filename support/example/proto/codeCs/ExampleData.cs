@@ -25,18 +25,19 @@ namespace SheeterProto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChFleGFtcGxlRGF0YS5wcm90bxIMc2hlZXRlclByb3RvGgxyZXdhcmQucHJv",
-            "dG8imQEKC0V4YW1wbGVEYXRhEikKBlJld2FyZBgBIAEoCzIULnNoZWV0ZXJQ",
-            "cm90by5SZXdhcmRIAIgBARITCgZFbmFibGUYAiABKAhIAYgBARIQCgNLZXkY",
-            "AyABKANIAogBARIRCgROYW1lGAQgASgJSAOIAQFCCQoHX1Jld2FyZEIJCgdf",
-            "RW5hYmxlQgYKBF9LZXlCBwoFX05hbWUilwEKEUV4YW1wbGVEYXRhU3RvcmVy",
-            "EjkKBURhdGFzGAEgAygLMiouc2hlZXRlclByb3RvLkV4YW1wbGVEYXRhU3Rv",
-            "cmVyLkRhdGFzRW50cnkaRwoKRGF0YXNFbnRyeRILCgNrZXkYASABKAMSKAoF",
-            "dmFsdWUYAiABKAsyGS5zaGVldGVyUHJvdG8uRXhhbXBsZURhdGE6AjgBQhBa",
-            "Di47c2hlZXRlclByb3RvYgZwcm90bzM="));
+            "dG8iuQEKC0V4YW1wbGVEYXRhEikKBlJld2FyZBgBIAEoCzIULnNoZWV0ZXJQ",
+            "cm90by5SZXdhcmRIAIgBARITCgZFbmFibGUYAiABKAhIAYgBARITCgZJZ25v",
+            "cmUYAyABKANIAogBARIQCgNLZXkYBCABKANIA4gBARIRCgROYW1lGAUgASgJ",
+            "SASIAQFCCQoHX1Jld2FyZEIJCgdfRW5hYmxlQgkKB19JZ25vcmVCBgoEX0tl",
+            "eUIHCgVfTmFtZSKXAQoRRXhhbXBsZURhdGFTdG9yZXISOQoFRGF0YXMYASAD",
+            "KAsyKi5zaGVldGVyUHJvdG8uRXhhbXBsZURhdGFTdG9yZXIuRGF0YXNFbnRy",
+            "eRpHCgpEYXRhc0VudHJ5EgsKA2tleRgBIAEoAxIoCgV2YWx1ZRgCIAEoCzIZ",
+            "LnNoZWV0ZXJQcm90by5FeGFtcGxlRGF0YToCOAFCEFoOLjtzaGVldGVyUHJv",
+            "dG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { global::SheeterProto.RewardReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::SheeterProto.ExampleData), global::SheeterProto.ExampleData.Parser, new[]{ "Reward", "Enable", "Key", "Name" }, new[]{ "Reward", "Enable", "Key", "Name" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SheeterProto.ExampleData), global::SheeterProto.ExampleData.Parser, new[]{ "Reward", "Enable", "Ignore", "Key", "Name" }, new[]{ "Reward", "Enable", "Ignore", "Key", "Name" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SheeterProto.ExampleDataStorer), global::SheeterProto.ExampleDataStorer.Parser, new[]{ "Datas" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
           }));
     }
@@ -82,6 +83,7 @@ namespace SheeterProto {
       _hasBits0 = other._hasBits0;
       reward_ = other.reward_ != null ? other.reward_.Clone() : null;
       enable_ = other.enable_;
+      ignore_ = other.ignore_;
       key_ = other.key_;
       name_ = other.name_;
       _unknownFields = pb::UnknownFieldSet.Clone(other._unknownFields);
@@ -136,8 +138,36 @@ namespace SheeterProto {
       _hasBits0 &= ~1;
     }
 
+    /// <summary>Field number for the "Ignore" field.</summary>
+    public const int IgnoreFieldNumber = 3;
+    private long ignore_;
+    /// <summary>
+    /// 忽略
+    /// </summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public long Ignore {
+      get { if ((_hasBits0 & 2) != 0) { return ignore_; } else { return 0L; } }
+      set {
+        _hasBits0 |= 2;
+        ignore_ = value;
+      }
+    }
+    /// <summary>Gets whether the "Ignore" field is set</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public bool HasIgnore {
+      get { return (_hasBits0 & 2) != 0; }
+    }
+    /// <summary>Clears the value of the "Ignore" field</summary>
+    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
+    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
+    public void ClearIgnore() {
+      _hasBits0 &= ~2;
+    }
+
     /// <summary>Field number for the "Key" field.</summary>
-    public const int KeyFieldNumber = 3;
+    public const int KeyFieldNumber = 4;
     private long key_;
     /// <summary>
     /// 索引
@@ -145,9 +175,9 @@ namespace SheeterProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long Key {
-      get { if ((_hasBits0 & 2) != 0) { return key_; } else { return 0L; } }
+      get { if ((_hasBits0 & 4) != 0) { return key_; } else { return 0L; } }
       set {
-        _hasBits0 |= 2;
+        _hasBits0 |= 4;
         key_ = value;
       }
     }
@@ -155,17 +185,17 @@ namespace SheeterProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool HasKey {
-      get { return (_hasBits0 & 2) != 0; }
+      get { return (_hasBits0 & 4) != 0; }
     }
     /// <summary>Clears the value of the "Key" field</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void ClearKey() {
-      _hasBits0 &= ~2;
+      _hasBits0 &= ~4;
     }
 
     /// <summary>Field number for the "Name" field.</summary>
-    public const int NameFieldNumber = 4;
+    public const int NameFieldNumber = 5;
     private string name_;
     /// <summary>
     /// 名稱
@@ -208,6 +238,7 @@ namespace SheeterProto {
       }
       if (!object.Equals(Reward, other.Reward)) return false;
       if (Enable != other.Enable) return false;
+      if (Ignore != other.Ignore) return false;
       if (Key != other.Key) return false;
       if (Name != other.Name) return false;
       return Equals(_unknownFields, other._unknownFields);
@@ -219,6 +250,7 @@ namespace SheeterProto {
       int hash = 1;
       if (reward_ != null) hash ^= Reward.GetHashCode();
       if (HasEnable) hash ^= Enable.GetHashCode();
+      if (HasIgnore) hash ^= Ignore.GetHashCode();
       if (HasKey) hash ^= Key.GetHashCode();
       if (HasName) hash ^= Name.GetHashCode();
       if (_unknownFields != null) {
@@ -247,12 +279,16 @@ namespace SheeterProto {
         output.WriteRawTag(16);
         output.WriteBool(Enable);
       }
-      if (HasKey) {
+      if (HasIgnore) {
         output.WriteRawTag(24);
+        output.WriteInt64(Ignore);
+      }
+      if (HasKey) {
+        output.WriteRawTag(32);
         output.WriteInt64(Key);
       }
       if (HasName) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteString(Name);
       }
       if (_unknownFields != null) {
@@ -273,12 +309,16 @@ namespace SheeterProto {
         output.WriteRawTag(16);
         output.WriteBool(Enable);
       }
-      if (HasKey) {
+      if (HasIgnore) {
         output.WriteRawTag(24);
+        output.WriteInt64(Ignore);
+      }
+      if (HasKey) {
+        output.WriteRawTag(32);
         output.WriteInt64(Key);
       }
       if (HasName) {
-        output.WriteRawTag(34);
+        output.WriteRawTag(42);
         output.WriteString(Name);
       }
       if (_unknownFields != null) {
@@ -296,6 +336,9 @@ namespace SheeterProto {
       }
       if (HasEnable) {
         size += 1 + 1;
+      }
+      if (HasIgnore) {
+        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Ignore);
       }
       if (HasKey) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(Key);
@@ -323,6 +366,9 @@ namespace SheeterProto {
       }
       if (other.HasEnable) {
         Enable = other.Enable;
+      }
+      if (other.HasIgnore) {
+        Ignore = other.Ignore;
       }
       if (other.HasKey) {
         Key = other.Key;
@@ -357,10 +403,14 @@ namespace SheeterProto {
             break;
           }
           case 24: {
+            Ignore = input.ReadInt64();
+            break;
+          }
+          case 32: {
             Key = input.ReadInt64();
             break;
           }
-          case 34: {
+          case 42: {
             Name = input.ReadString();
             break;
           }
@@ -391,10 +441,14 @@ namespace SheeterProto {
             break;
           }
           case 24: {
+            Ignore = input.ReadInt64();
+            break;
+          }
+          case 32: {
             Key = input.ReadInt64();
             break;
           }
-          case 34: {
+          case 42: {
             Name = input.ReadString();
             break;
           }

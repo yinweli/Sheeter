@@ -30,10 +30,11 @@ func (this *SuiteConfig) TearDownSuite() {
 func (this *SuiteConfig) target() *Config {
 	target := &Config{
 		Global: Global{
-			LineOfField: 1,
-			LineOfLayer: 2,
-			LineOfNote:  3,
-			LineOfData:  4,
+			LineOfName:  1,
+			LineOfNote:  2,
+			LineOfField: 3,
+			LineOfLayer: 4,
+			LineOfData:  5,
 		},
 		Elements: []Element{
 			{Excel: "excel1", Sheet: "sheet1"},
@@ -48,10 +49,11 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigNameReal))
 	config := Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
-	assert.Equal(this.T(), 101, config.Global.LineOfField)
-	assert.Equal(this.T(), 102, config.Global.LineOfLayer)
-	assert.Equal(this.T(), 103, config.Global.LineOfNote)
-	assert.Equal(this.T(), 104, config.Global.LineOfData)
+	assert.Equal(this.T(), 101, config.Global.LineOfName)
+	assert.Equal(this.T(), 102, config.Global.LineOfNote)
+	assert.Equal(this.T(), 103, config.Global.LineOfField)
+	assert.Equal(this.T(), 104, config.Global.LineOfLayer)
+	assert.Equal(this.T(), 105, config.Global.LineOfData)
 	assert.Equal(this.T(), []string{"tag1", "tag2"}, config.Global.Excludes)
 	assert.Equal(this.T(), []Element{{Excel: "excel1", Sheet: "sheet1"}, {Excel: "excel2", Sheet: "sheet2"}}, config.Elements)
 
@@ -59,10 +61,11 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Nil(this.T(), cmd.Flags().Set(flagExportJson, "true"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagExportProto, "true"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagSimpleNamespace, "true"))
-	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfField, "201"))
-	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfLayer, "202"))
-	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfNote, "203"))
-	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfData, "204"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfName, "201"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfNote, "202"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfField, "203"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfLayer, "204"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfData, "205"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagExcludes, "tag3,tag4"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagElements, "excel3#sheet3,excel4#sheet4"))
 	config = Config{}
@@ -70,10 +73,11 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Equal(this.T(), true, config.Global.ExportJson)
 	assert.Equal(this.T(), true, config.Global.ExportProto)
 	assert.Equal(this.T(), true, config.Global.SimpleNamespace)
-	assert.Equal(this.T(), 201, config.Global.LineOfField)
-	assert.Equal(this.T(), 202, config.Global.LineOfLayer)
-	assert.Equal(this.T(), 203, config.Global.LineOfNote)
-	assert.Equal(this.T(), 204, config.Global.LineOfData)
+	assert.Equal(this.T(), 201, config.Global.LineOfName)
+	assert.Equal(this.T(), 202, config.Global.LineOfNote)
+	assert.Equal(this.T(), 203, config.Global.LineOfField)
+	assert.Equal(this.T(), 204, config.Global.LineOfLayer)
+	assert.Equal(this.T(), 205, config.Global.LineOfData)
 	assert.Equal(this.T(), []string{"tag3", "tag4"}, config.Global.Excludes)
 	assert.Equal(this.T(), []Element{{Excel: "excel3", Sheet: "sheet3"}, {Excel: "excel4", Sheet: "sheet4"}}, config.Elements)
 
@@ -93,6 +97,14 @@ func (this *SuiteConfig) TestCheck() {
 	assert.Nil(this.T(), target.Check())
 
 	target = this.target()
+	target.Global.LineOfName = 0
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Global.LineOfNote = 0
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
 	target.Global.LineOfField = 0
 	assert.NotNil(this.T(), target.Check())
 
@@ -101,11 +113,15 @@ func (this *SuiteConfig) TestCheck() {
 	assert.NotNil(this.T(), target.Check())
 
 	target = this.target()
-	target.Global.LineOfNote = 0
+	target.Global.LineOfData = 0
 	assert.NotNil(this.T(), target.Check())
 
 	target = this.target()
-	target.Global.LineOfData = 0
+	target.Global.LineOfName = 999
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Global.LineOfNote = 999
 	assert.NotNil(this.T(), target.Check())
 
 	target = this.target()
@@ -114,10 +130,6 @@ func (this *SuiteConfig) TestCheck() {
 
 	target = this.target()
 	target.Global.LineOfLayer = 999
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.Global.LineOfNote = 999
 	assert.NotNil(this.T(), target.Check())
 
 	target = this.target()

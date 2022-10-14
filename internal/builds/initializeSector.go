@@ -33,15 +33,22 @@ func initializeSector(context *Context, sector *ContextSector) error {
 		return fmt.Errorf("%s: initialize sector failed: open excel failed: sheet not found", structName)
 	} // if
 
-	line, err := excel.GetLine(sector.Sheet, context.Global.LineOfField, context.Global.LineOfLayer, context.Global.LineOfNote)
+	line, err := excel.GetLine(
+		sector.Sheet,
+		context.Global.LineOfName,
+		context.Global.LineOfNote,
+		context.Global.LineOfField,
+		context.Global.LineOfLayer,
+	)
 
 	if err != nil {
 		return fmt.Errorf("%s: initialize sector failed: get line failed: %w", structName, err)
 	} // if
 
+	nameLine := line[context.Global.LineOfName]
+	noteLine := line[context.Global.LineOfNote]
 	fieldLine := line[context.Global.LineOfField]
 	layerLine := line[context.Global.LineOfLayer]
-	noteLine := line[context.Global.LineOfNote]
 	layoutJson := layouts.NewLayoutJson()
 	layoutType := layouts.NewLayoutType()
 	layoutDepend := layouts.NewLayoutDepend()
@@ -54,12 +61,19 @@ func initializeSector(context *Context, sector *ContextSector) error {
 		return fmt.Errorf("%s: initialize sector failed: layoutDepend begin failed: %w", structName, err)
 	} // if
 
-	for col, itor := range fieldLine {
+	for col, itor := range nameLine {
 		if itor == "" { // 一旦遇到空欄位, 就結束建立欄位列表
 			break
 		} // if
 
-		name, field, tag, err := fields.Parser(itor)
+		name := itor
+		note := utils.GetItem(noteLine, col)
+
+		if utils.NameCheck(name) == false {
+			return fmt.Errorf("%s: initialize sector failed: invalid name", structName)
+		} // if
+
+		field, tag, err := fields.Parser(utils.GetItem(fieldLine, col))
 
 		if err != nil {
 			return fmt.Errorf("%s: initialize sector failed: parse field failed: %w", structName, err)
@@ -70,8 +84,6 @@ func initializeSector(context *Context, sector *ContextSector) error {
 		if err != nil {
 			return fmt.Errorf("%s: initialize sector failed: parse layer failed: %w", structName, err)
 		} // if
-
-		note := utils.GetItem(noteLine, col)
 
 		if err := layoutJson.Add(name, field, tag, layer, back); err != nil {
 			return fmt.Errorf("%s: initialize sector failed: layoutJson add failed: %w", structName, err)

@@ -65,26 +65,26 @@ func (this *SuiteExcel) TestGetLine() {
 	assert.NotNil(this.T(), line)
 	assert.Len(this.T(), line, 2)
 	assert.Equal(this.T(), []string{
-		"name0#pkey",
-		"empty#empty",
-		"name1#bool",
-		"name2#int",
-		"name3#text",
-		"name2#int",
-		"name3#text",
-		"name2#int",
-		"name3#text",
+		"name0",
+		"empty",
+		"name1",
+		"name2",
+		"name3",
+		"name2",
+		"name3",
+		"name2",
+		"name3",
 	}, line[1])
 	assert.Equal(this.T(), []string{
-		"",
-		"",
-		"{S",
-		"{[]A",
-		"",
-		"/",
-		"",
-		"/",
-		"}}",
+		"note0",
+		"empty",
+		"note1",
+		"note2",
+		"note3",
+		"note4",
+		"note5",
+		"note6",
+		"note7",
 	}, line[2])
 
 	_, err = target.GetLine(testdata.SheetName, -1)
@@ -106,34 +106,37 @@ func (this *SuiteExcel) TestExist() {
 
 func (this *SuiteExcel) TestSheet() {
 	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelNameEmpty))
+	assert.Nil(this.T(), target.Open(testdata.ExcelNameSheet))
 
 	sheet, err := target.Get(testdata.SheetName)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), sheet)
+
 	assert.True(this.T(), sheet.Next())
 	data, err := sheet.Data()
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(),
 		[]string{
-			"name0#pkey",
-			"name1#bool",
-			"name2#int",
-			"name3#text",
-			"empty#empty",
+			"name0",
+			"name1",
+			"name2",
+			"name3",
+			"empty",
 		}, data)
+
 	assert.True(this.T(), sheet.Next())
 	data, err = sheet.Data()
 	assert.Nil(this.T(), err)
 	assert.Nil(this.T(), data)
+
 	assert.True(this.T(), sheet.Next())
 	data, err = sheet.Data()
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []string{
-		"note0",
-		"note1",
-		"note2",
-		"note3",
+		"pkey",
+		"bool",
+		"int",
+		"text",
 		"empty",
 	}, data)
 	sheet.Close()

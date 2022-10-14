@@ -84,9 +84,10 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --json        |                                         | 是否產生json檔案         |
 | --proto       |                                         | 是否產生proto檔案        |
 | --namespace   |                                         | 是否用簡單的命名空間名稱 |
+| --lineOfName  | 行號(1為起始行)                         | 名稱行號                 |
+| --lineOfNote  | 行號(1為起始行)                         | 註解行號                 |
 | --lineOfField | 行號(1為起始行)                         | 欄位行號                 |
 | --lineOfLayer | 行號(1為起始行)                         | 階層行號                 |
-| --lineOfNote  | 行號(1為起始行)                         | 註解行號                 |
 | --lineOfData  | 行號(1為起始行)                         | 資料行號                 |
 | --excludes    | 標籤,標籤,...                           | 輸出時排除的標籤列表     |
 | --elements    | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 項目列表                 |
@@ -112,10 +113,16 @@ sheeter tmpl [flags]
 # excel說明
 ![excel]
 
-## 欄位行
-欄位的格式為`名稱#格式`或是`名稱#格式#標籤`, 空格之後的欄位不會輸出  
+## 名稱行
+欄位名稱, 只能是英文與數字與`_`的組合, 並且不能以數字開頭, 也不允許空白
 
-| 格式        | 說明                                 |
+## 註解行
+單行註解, 若為空格就輸出空註解  
+
+## 欄位行
+欄位類型與標籤設置, 格式為`類型`或是`類型#標籤`, 空格之後的欄位不會輸出  
+
+| 類型        | 說明                                 |
 |:------------|:-------------------------------------|
 | empty       | 不會輸出的欄位                       |
 | pkey        | 表格主要索引, 編號可跳號但是不可重複 |
@@ -130,13 +137,13 @@ sheeter tmpl [flags]
 
 ## 欄位行範例
 
-| 範例        | 欄位名稱 | 欄位類型 |
-|:------------|:---------|:---------|
-| itemID#pkey | itemID   | pkey     |
-| enable#bool | enable   | bool     |
-| gold#int    | gold     | int      |
-| note#text   | note     | text     |
-| hide#text#A | note     | text     |
+| 範例   | 欄位類型 | 標籤 |
+|:-------|:---------|:-----|
+| pkey   | pkey     |      |
+| bool   | bool     |      |
+| int    | int      |      |
+| text   | text     |      |
+| text#A | text     | A    |
 
 ## 標籤與排除機制
 欄位行可用標籤來控制欄位與其資料是否要輸出到資料檔案  
@@ -163,11 +170,8 @@ sheeter tmpl [flags]
 | {[]Item       | 建立以Item結構為元素的陣列                           |
 | {Reward {Item | 建立Reward結構, Item結構; Item結構是Reward結構的成員 |
 
-## 註解行
-單行註解, 若為空格就輸出空註解  
-
 ## 資料行
-依照格式填寫相應的內容即可, 其中`empty`, `text`, `textArray`這三種格式允許空格, 其他格式的空格會造成錯誤  
+依照類型填寫相應的內容即可, 其中`empty`, `text`, `textArray`這三種類型允許空格, 其他類型的空格會造成錯誤  
 空表格(也就是沒有任何資料行)是允許的  
 轉換時, 只會轉換到第一個空行為止  
 
@@ -179,17 +183,16 @@ sheeter tmpl [flags]
         * reader
         * readers
 * 表格設置
-    * 表格必須有欄位行, 階層行, 註解行, 但是可以不需要有資料行
-    * 欄位行, 階層行, 註解行必須在資料行之前
-    * 設定檔中必須設定好欄位行, 階層行, 註解行, 資料行的位置
+    * 表格必須有名稱行, 註解行, 欄位行, 階層行, 但是可以不需要有資料行
+    * 名稱行, 註解行, 欄位行, 階層行必須在資料行之前
+    * 設定檔中必須設定好名稱行, 註解行, 欄位行, 階層行, 資料行的位置
     * 設定檔中行數是從1開始的
 * 主索引
     * 表格必須有`pkey`欄位
     * 表格只能有一個`pkey`欄位
     * `pkey`欄位中的內容不能重複
-* 欄位
-    * 欄位名稱不能重複(包括`empty`欄位)
 * 階層
+    * 不屬於結構/陣列的欄位名稱不能重複(包括`empty`欄位)
     * 結構/陣列名稱可以重複, 重複的結構/陣列的欄位會合併
     * 結構/陣列的欄位可以不必填上所有的名稱
         * 第一個表格設定了結構/陣列欄位: `data { field1, field2, field3 }`
@@ -198,13 +201,14 @@ sheeter tmpl [flags]
 # 設定說明
 ```yaml
 global:
-  exportJson: true      # 是否產生json檔案
-  exportProto: true     # 是否產生proto檔案
+  exportJson:      true # 是否產生json檔案
+  exportProto:     true # 是否產生proto檔案
   simpleNamespace: true # 是否用簡單的命名空間名稱
-  lineOfField: 1        # 欄位行號(1為起始行)
-  lineOfLayer: 2        # 階層行號(1為起始行)
-  lineOfNote:  3        # 註解行號(1為起始行)
-  lineOfData:  4        # 資料行號(1為起始行)
+  lineOfName:      1    # 名稱行號(1為起始行)
+  lineOfNote:      2    # 註解行號(1為起始行)
+  lineOfField:     3    # 欄位行號(1為起始行)
+  lineOfLayer:     4    # 階層行號(1為起始行)
+  lineOfData:      5    # 資料行號(1為起始行)
   excludes:             # 排除標籤列表
     - tag1
     - tag2
@@ -213,9 +217,7 @@ elements:
   - excel: excel1.xlsx  # excel檔案名稱
     sheet: Data         # excel表單名稱
   - excel: excel2.xlsx
-    sheet: Data
-  - excel: excel3.xlsx
-    sheet: Data
+    sheet: Data2
 ```
 
 # 模板檔案
@@ -405,10 +407,9 @@ buf format -w 存放proto檔案的路徑
 | testdata                | 測試資料                         |
 
 # TODO
-* 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
-    * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
 * 建立一個專門從excel產生列舉的命令模式
 * 產生flatbuffer
+* README.md & excel.jpg
 
 [buf]: https://github.com/bufbuild/buf
 [go]: https://go.dev/dl/

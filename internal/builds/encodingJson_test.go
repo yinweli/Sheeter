@@ -36,10 +36,11 @@ func (this *SuiteEncodingJson) target(excel string) *encodingData {
 		Config: &Config{
 			Global: Global{
 				ExportJson:  true,
-				LineOfField: 1,
-				LineOfLayer: 2,
-				LineOfNote:  3,
-				LineOfData:  4,
+				LineOfName:  1,
+				LineOfNote:  2,
+				LineOfField: 3,
+				LineOfLayer: 4,
+				LineOfData:  5,
 			},
 		},
 		Sector: []*ContextSector{

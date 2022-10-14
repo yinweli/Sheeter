@@ -30,9 +30,10 @@ func (this *SuiteInitializeSector) target() *Context {
 	target := &Context{
 		Config: &Config{
 			Global: Global{
-				LineOfField: 1,
-				LineOfLayer: 2,
-				LineOfNote:  3,
+				LineOfName:  1,
+				LineOfNote:  2,
+				LineOfField: 3,
+				LineOfLayer: 4,
 			},
 		},
 		Sector: []*ContextSector{
@@ -58,6 +59,18 @@ func (this *SuiteInitializeSector) TestInitializeSector() {
 	sector.Close()
 
 	target = this.target()
+	target.Global.LineOfName = -1
+	sector = target.Sector[0]
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
+
+	target = this.target()
+	target.Global.LineOfNote = -1
+	sector = target.Sector[0]
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
+
+	target = this.target()
 	target.Global.LineOfField = -1
 	sector = target.Sector[0]
 	assert.NotNil(this.T(), initializeSector(target, sector))
@@ -65,12 +78,6 @@ func (this *SuiteInitializeSector) TestInitializeSector() {
 
 	target = this.target()
 	target.Global.LineOfLayer = -1
-	sector = target.Sector[0]
-	assert.NotNil(this.T(), initializeSector(target, sector))
-	sector.Close()
-
-	target = this.target()
-	target.Global.LineOfNote = -1
 	sector = target.Sector[0]
 	assert.NotNil(this.T(), initializeSector(target, sector))
 	sector.Close()

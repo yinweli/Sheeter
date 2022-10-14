@@ -27,29 +27,22 @@ func (this *SuiteParser) TearDownSuite() {
 }
 
 func (this *SuiteParser) TestParser() {
-	name, field, tag, err := Parser("real#bool#tag")
+	field, tag, err := Parser("bool#tag")
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), "real", name)
 	assert.Equal(this.T(), (&Bool{}).Type(), field.Type())
 	assert.Equal(this.T(), "tag", tag)
 
-	//nolint:dogsled
-	_, _, _, err = Parser(testdata.UnknownStr)
+	field, tag, err = Parser("bool")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), (&Bool{}).Type(), field.Type())
+	assert.Equal(this.T(), "", tag)
+
+	_, _, err = Parser(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 
-	//nolint:dogsled
-	_, _, _, err = Parser("fake:fake")
+	_, _, err = Parser("fake#fake")
 	assert.NotNil(this.T(), err)
 
-	//nolint:dogsled
-	_, _, _, err = Parser("fa-ke#fake")
-	assert.NotNil(this.T(), err)
-
-	//nolint:dogsled
-	_, _, _, err = Parser("fake#fake")
-	assert.NotNil(this.T(), err)
-
-	//nolint:dogsled
-	_, _, _, err = Parser("fake#fake:fake")
+	_, _, err = Parser("fake:fake")
 	assert.NotNil(this.T(), err)
 }

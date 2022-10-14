@@ -36,15 +36,14 @@ func (this *SuiteEncoding) target() *Context {
 			Global: Global{
 				ExportJson:  true,
 				ExportProto: true,
-				LineOfField: 1,
-				LineOfLayer: 2,
-				LineOfNote:  3,
-				LineOfData:  4,
+				LineOfName:  1,
+				LineOfNote:  2,
+				LineOfField: 3,
+				LineOfLayer: 4,
+				LineOfData:  5,
 			},
-		},
-		Sector: []*ContextSector{
-			{
-				Element: Element{
+			Elements: []Element{
+				{
 					Excel: testdata.ExcelNameReal,
 					Sheet: testdata.SheetName,
 				},
