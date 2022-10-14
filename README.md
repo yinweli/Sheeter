@@ -407,6 +407,7 @@ buf format -w 存放proto檔案的路徑
 # TODO
 * 考慮看看: 把欄位名稱與欄位類型跟標籤分開為不同行
     * 例如: 欄位名稱行, 欄位設定行(欄位類型與標籤)
+* 建立一個專門從excel產生列舉的命令模式
 * 產生flatbuffer
 
 [buf]: https://github.com/bufbuild/buf
