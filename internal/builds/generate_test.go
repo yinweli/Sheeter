@@ -42,10 +42,8 @@ func (this *SuiteGenerate) target() *Context {
 				LineOfLayer: 4,
 				LineOfData:  5,
 			},
-		},
-		Sector: []*ContextSector{
-			{
-				Element: Element{
+			Elements: []Element{
+				{
 					Excel: testdata.ExcelNameReal,
 					Sheet: testdata.SheetName,
 				},

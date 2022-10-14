@@ -106,7 +106,7 @@ func (this *SuiteExcel) TestExist() {
 
 func (this *SuiteExcel) TestSheet() {
 	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelNameEmpty))
+	assert.Nil(this.T(), target.Open(testdata.ExcelNameSheet))
 
 	sheet, err := target.Get(testdata.SheetName)
 	assert.Nil(this.T(), err)
@@ -127,13 +127,7 @@ func (this *SuiteExcel) TestSheet() {
 	assert.True(this.T(), sheet.Next())
 	data, err = sheet.Data()
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), []string{
-		"note0",
-		"note1",
-		"note2",
-		"note3",
-		"empty",
-	}, data)
+	assert.Nil(this.T(), data)
 
 	assert.True(this.T(), sheet.Next())
 	data, err = sheet.Data()
@@ -145,11 +139,6 @@ func (this *SuiteExcel) TestSheet() {
 		"text",
 		"empty",
 	}, data)
-
-	assert.True(this.T(), sheet.Next())
-	data, err = sheet.Data()
-	assert.Nil(this.T(), err)
-	assert.Nil(this.T(), data)
 	sheet.Close()
 
 	sheet, err = target.Get(testdata.SheetName)
