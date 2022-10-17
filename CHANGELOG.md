@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+- 升級go版本到1.19.2
 - 改變測試資料的檔名, 避免檔名判斷錯誤
 - 變更倉庫模板內的函式順序
 - 重構工作流程, 讓工作流程更容易維護

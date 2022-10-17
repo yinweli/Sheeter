@@ -9,7 +9,6 @@ import (
 	sheeterProto "github.com/yinweli/Sheeter/support/verifygo/target/proto/codeGo"
 )
 
-//nolint // 太多魔術數字了, 所以只好略過lint
 func verifyProtoFrom() {
 	loader := newProtoFileLoader()
 	depot := sheeterProto.NewDepot(loader)
@@ -117,7 +116,6 @@ func verifyProtoFrom() {
 	fmt.Println("verify proto from: success")
 }
 
-//nolint // 太多魔術數字了, 所以只好略過lint
 func verifyProtoMerge() {
 	loader := newProtoFileLoader()
 	depot := sheeterProto.NewDepot(loader)

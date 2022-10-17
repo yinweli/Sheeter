@@ -9,7 +9,6 @@ import (
 	sheeterJson "github.com/yinweli/Sheeter/support/verifygo/target/json/codeGo"
 )
 
-//nolint // 太多魔術數字了, 所以只好略過lint
 func verifyJsonFrom() {
 	loader := newJsonFileLoader()
 	depot := sheeterJson.NewDepot(loader)
@@ -117,7 +116,6 @@ func verifyJsonFrom() {
 	fmt.Println("verify json from: success")
 }
 
-//nolint // 太多魔術數字了, 所以只好略過lint
 func verifyJsonMerge() {
 	loader := newJsonFileLoader()
 	depot := sheeterJson.NewDepot(loader)

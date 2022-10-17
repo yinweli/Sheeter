@@ -2,6 +2,7 @@ package workflow
 
 import (
 	"sync"
+	"sync/atomic"
 
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
@@ -26,7 +27,7 @@ func NewWorkflow(name string, count int) *Workflow {
 		),
 	)
 	workflow.errors = make(chan error, count)
-	workflow.count = count
+	workflow.count.Store(int64(count))
 	return workflow
 }
 
@@ -36,21 +37,21 @@ type Workflow struct {
 	progress    *mpb.Progress   // 進度條管理器
 	progressbar *mpb.Bar        // 進度條物件
 	errors      chan error      // 錯誤通道
-	count       int             // 工作數量
+	count       atomic.Int64    // 工作數量
 }
 
 // Increment 增加工作進度
 func (this *Workflow) Increment() {
 	this.progressbar.Increment()
 	this.signaler.Done()
-	this.count--
+	this.count.Add(-1)
 }
 
 // Abort 放棄工作
 func (this *Workflow) Abort() {
 	this.progressbar.Abort(false)
-	this.signaler.Add(-this.count)
-	this.count = 0
+	this.signaler.Add(int(-this.count.Load()))
+	this.count.Store(0)
 }
 
 // Error 增加錯誤
