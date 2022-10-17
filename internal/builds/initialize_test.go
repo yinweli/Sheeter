@@ -41,7 +41,7 @@ func (this *SuiteInitialize) target() *Context {
 			Elements: []Element{
 				{
 					Excel: testdata.ExcelNameReal,
-					Sheet: testdata.SheetName,
+					Sheet: testdata.SheetData,
 				},
 			},
 		},

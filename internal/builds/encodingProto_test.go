@@ -48,7 +48,7 @@ func (this *SuiteEncodingProto) target(excel string) *encodingData {
 			{
 				Element: Element{
 					Excel: excel,
-					Sheet: testdata.SheetName,
+					Sheet: testdata.SheetData,
 				},
 			},
 		},
@@ -61,7 +61,7 @@ func (this *SuiteEncodingProto) target(excel string) *encodingData {
 	target := &encodingData{
 		Global:     &context.Global,
 		Element:    &sector.Element,
-		Mixed:      mixeds.NewMixed(excel, testdata.SheetName),
+		Mixed:      mixeds.NewMixed(excel, testdata.SheetData),
 		excel:      sector.excel,
 		layoutJson: sector.layoutJson,
 	}

@@ -45,7 +45,7 @@ func (this *SuiteExcel) TestGet() {
 	target := this.target()
 	assert.Nil(this.T(), target.Open(testdata.ExcelNameReal))
 
-	sheet, err := target.Get(testdata.SheetName)
+	sheet, err := target.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), sheet)
 	sheet.Close()
@@ -60,7 +60,7 @@ func (this *SuiteExcel) TestGetLine() {
 	target := this.target()
 	assert.Nil(this.T(), target.Open(testdata.ExcelNameReal))
 
-	line, err := target.GetLine(testdata.SheetName, 1, 2)
+	line, err := target.GetLine(testdata.SheetData, 1, 2)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), line)
 	assert.Len(this.T(), line, 2)
@@ -87,7 +87,7 @@ func (this *SuiteExcel) TestGetLine() {
 		"note7",
 	}, line[2])
 
-	_, err = target.GetLine(testdata.SheetName, -1)
+	_, err = target.GetLine(testdata.SheetData, -1)
 	assert.NotNil(this.T(), err)
 
 	_, err = target.GetLine(testdata.UnknownStr, 1)
@@ -99,7 +99,7 @@ func (this *SuiteExcel) TestGetLine() {
 func (this *SuiteExcel) TestExist() {
 	target := this.target()
 	assert.Nil(this.T(), target.Open(testdata.ExcelNameReal))
-	assert.True(this.T(), target.Exist(testdata.SheetName))
+	assert.True(this.T(), target.Exist(testdata.SheetData))
 	assert.False(this.T(), target.Exist(testdata.UnknownStr))
 	target.Close()
 }
@@ -108,7 +108,7 @@ func (this *SuiteExcel) TestSheet() {
 	target := this.target()
 	assert.Nil(this.T(), target.Open(testdata.ExcelNameSheet))
 
-	sheet, err := target.Get(testdata.SheetName)
+	sheet, err := target.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), sheet)
 
@@ -141,14 +141,14 @@ func (this *SuiteExcel) TestSheet() {
 	}, data)
 	sheet.Close()
 
-	sheet, err = target.Get(testdata.SheetName)
+	sheet, err = target.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), sheet)
 	assert.True(this.T(), sheet.Nextn(2))
 	assert.False(this.T(), sheet.Nextn(-1))
 	sheet.Close()
 
-	sheet, err = target.Get(testdata.SheetName)
+	sheet, err = target.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), sheet)
 	_, err = sheet.Data()

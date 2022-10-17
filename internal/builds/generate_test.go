@@ -45,7 +45,7 @@ func (this *SuiteGenerate) target() *Context {
 			Elements: []Element{
 				{
 					Excel: testdata.ExcelNameReal,
-					Sheet: testdata.SheetName,
+					Sheet: testdata.SheetData,
 				},
 			},
 		},

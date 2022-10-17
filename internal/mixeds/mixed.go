@@ -27,6 +27,16 @@ type Mixed struct {
 	sheetName string // excel表單名稱
 }
 
+// ExcelName 取得excel檔案名稱
+func (this *Mixed) ExcelName() string {
+	return this.excelName
+}
+
+// SheetName 取得excel表單名稱
+func (this *Mixed) SheetName() string {
+	return this.sheetName
+}
+
 // AppName 取得程式名稱
 func (this *Mixed) AppName() string {
 	return internal.AppName

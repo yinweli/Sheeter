@@ -2,9 +2,7 @@ package builds
 
 import (
 	"fmt"
-	"strings"
 
-	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/internal/fields"
 	"github.com/yinweli/Sheeter/internal/layers"
@@ -17,11 +15,13 @@ import (
 func initializeSector(context *Context, sector *ContextSector) error {
 	structName := mixeds.NewMixed(sector.Excel, sector.Sheet).StructName()
 
-	for _, itor := range internal.Keywords {
-		if strings.EqualFold(structName, itor) {
-			return fmt.Errorf("%s: initialize sector failed: invalid excel & sheet name", structName)
-		} // if
-	} // for
+	if utils.NameCheck(structName) == false {
+		return fmt.Errorf("%s: initialize sector failed: invalid excel & sheet name", structName)
+	} // if
+
+	if utils.NameKeywords(structName) == false {
+		return fmt.Errorf("%s: initialize sector failed: conflict with keywords", structName)
+	} // if
 
 	excel := &excels.Excel{}
 
@@ -30,7 +30,7 @@ func initializeSector(context *Context, sector *ContextSector) error {
 	} // if
 
 	if excel.Exist(sector.Sheet) == false {
-		return fmt.Errorf("%s: initialize sector failed: open excel failed: sheet not found", structName)
+		return fmt.Errorf("%s: initialize sector failed: sheet not found", structName)
 	} // if
 
 	line, err := excel.GetLine(

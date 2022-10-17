@@ -43,3 +43,12 @@ func (this *SuiteName) TestNameCheck() {
 	assert.False(this.T(), NameCheck("value@"))
 	assert.False(this.T(), NameCheck("{value}"))
 }
+
+func (this *SuiteName) TestNameKeywords() {
+	assert.True(this.T(), NameKeywords("value"))
+	assert.False(this.T(), NameKeywords("depot"))
+	assert.False(this.T(), NameKeywords("Depot"))
+	assert.False(this.T(), NameKeywords("dePot"))
+	assert.False(this.T(), NameKeywords("depoT"))
+	assert.False(this.T(), NameKeywords("DEPOT"))
+}

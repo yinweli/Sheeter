@@ -78,8 +78,11 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // if
 
-	if err := builds.Poststep(context); err != nil {
-		cmd.Println(fmt.Errorf("build failed: %w", err))
+	if errs := builds.Poststep(context); len(errs) > 0 {
+		for _, itor := range errs {
+			cmd.Println(fmt.Errorf("build failed: %w", itor))
+		} // for
+
 		return
 	} // if
 

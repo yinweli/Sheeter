@@ -145,12 +145,6 @@ func (this *SuitePoststepJson) TestPoststepJsonGoDepot() {
 
 package sheeterJson
 
-type Depot struct {
-	TestData TestDataReader
-	loader   Loader
-	readers  []Reader
-}
-
 func NewDepot(loader Loader) *Depot {
 	depot := &Depot{}
 	depot.loader = loader
@@ -159,6 +153,12 @@ func NewDepot(loader Loader) *Depot {
 		&depot.TestData,
 	)
 	return depot
+}
+
+type Depot struct {
+	TestData TestDataReader
+	loader   Loader
+	readers  []Reader
 }
 
 func (this *Depot) FromData() bool {
