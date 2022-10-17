@@ -40,7 +40,7 @@ func (this *SuiteInitializeSector) target() *Context {
 			{
 				Element: Element{
 					Excel: testdata.ExcelNameReal,
-					Sheet: testdata.SheetName,
+					Sheet: testdata.SheetData,
 				},
 			},
 		},
@@ -97,6 +97,12 @@ func (this *SuiteInitializeSector) TestInitializeSector() {
 
 	target = this.target()
 	sector = target.Sector[0]
+	sector.Sheet = testdata.UnknownStr
+	assert.NotNil(this.T(), initializeSector(target, sector))
+	sector.Close()
+
+	target = this.target()
+	sector = target.Sector[0]
 	sector.Excel = testdata.ExcelNameInvalidFile
 	assert.NotNil(this.T(), initializeSector(target, sector))
 	sector.Close()
@@ -140,12 +146,6 @@ func (this *SuiteInitializeSector) TestInitializeSector() {
 	target = this.target()
 	sector = target.Sector[0]
 	sector.Excel = testdata.ExcelNameInvalidPkeyDupl
-	assert.NotNil(this.T(), initializeSector(target, sector))
-	sector.Close()
-
-	target = this.target()
-	sector = target.Sector[0]
-	sector.Sheet = testdata.UnknownStr
 	assert.NotNil(this.T(), initializeSector(target, sector))
 	sector.Close()
 }

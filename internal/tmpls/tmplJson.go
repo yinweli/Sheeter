@@ -355,16 +355,6 @@ var JsonGoDepot = &Tmpl{
 	Data: HeaderCode + `
 package {{$.JsonNamespace $.SimpleNamespace}}
 
-type Depot struct {
-{{- range $.Struct}}
-{{- if .Reader}}
-	{{.StructName}} {{.ReaderName}}
-{{- end}}
-{{- end}}
-	loader  Loader
-	readers []Reader
-}
-
 func NewDepot(loader Loader) *Depot {
 	depot := &Depot{}
 	depot.loader = loader
@@ -377,6 +367,16 @@ func NewDepot(loader Loader) *Depot {
 {{- end}}
 	)
 	return depot
+}
+
+type Depot struct {
+{{- range $.Struct}}
+{{- if .Reader}}
+	{{.StructName}} {{.ReaderName}}
+{{- end}}
+{{- end}}
+	loader  Loader
+	readers []Reader
 }
 
 func (this *Depot) FromData() bool {

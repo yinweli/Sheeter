@@ -3,12 +3,6 @@
 
 package sheeterJson
 
-type Depot struct {
-	ExampleData ExampleDataReader
-	loader      Loader
-	readers     []Reader
-}
-
 func NewDepot(loader Loader) *Depot {
 	depot := &Depot{}
 	depot.loader = loader
@@ -17,6 +11,12 @@ func NewDepot(loader Loader) *Depot {
 		&depot.ExampleData,
 	)
 	return depot
+}
+
+type Depot struct {
+	ExampleData ExampleDataReader
+	loader      Loader
+	readers     []Reader
 }
 
 func (this *Depot) FromData() bool {

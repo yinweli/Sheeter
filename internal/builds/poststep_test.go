@@ -51,7 +51,7 @@ func (this *SuitePoststep) target() *Context {
 			Elements: []Element{
 				{
 					Excel: testdata.ExcelNameReal,
-					Sheet: testdata.SheetName,
+					Sheet: testdata.SheetData,
 				},
 			},
 		},
@@ -64,5 +64,5 @@ func (this *SuitePoststep) TestEncoding() {
 	assert.Empty(this.T(), Initialize(target))
 	assert.Empty(this.T(), Generate(target))
 	assert.Empty(this.T(), Encoding(target))
-	assert.Nil(this.T(), Poststep(target))
+	assert.Empty(this.T(), Poststep(target))
 }

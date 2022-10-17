@@ -47,6 +47,8 @@ func (this *SuiteMixed) TestName() {
 	storerName := structName + internal.Storer
 
 	target := this.target()
+	assert.Equal(this.T(), this.excel, target.ExcelName())
+	assert.Equal(this.T(), this.sheet, target.SheetName())
 	assert.Equal(this.T(), internal.AppName, target.AppName())
 	assert.Equal(this.T(), internal.AppName, target.JsonNamespace(true))
 	assert.Equal(this.T(), internal.JsonNamespace, target.JsonNamespace(false))

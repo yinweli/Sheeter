@@ -41,13 +41,13 @@ func (this *SuiteInitializeStruct) target() *Context {
 			{
 				Element: Element{
 					Excel: testdata.ExcelNameReal,
-					Sheet: testdata.SheetName,
+					Sheet: testdata.SheetData,
 				},
 			},
 			{
 				Element: Element{
 					Excel: testdata.ExcelNameReal,
-					Sheet: testdata.SheetName,
+					Sheet: testdata.SheetData,
 				},
 			},
 		},

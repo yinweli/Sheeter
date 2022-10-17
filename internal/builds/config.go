@@ -9,13 +9,12 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"github.com/yinweli/Sheeter/internal"
-	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Config 設定資料
 type Config struct {
 	Global   Global    `yaml:"global"`   // 全域設定
-	Elements []Element `yaml:"elements"` // 項目設定列表
+	Elements []Element `yaml:"elements"` // 項目列表
 }
 
 // Global 全域設定
@@ -167,16 +166,6 @@ func (this *Config) Check() error {
 	if this.Global.LineOfLayer >= this.Global.LineOfData {
 		return fmt.Errorf("config check failed: lineOfLayer(%d) >= lineOfData(%d)", this.Global.LineOfLayer, this.Global.LineOfData)
 	} // if
-
-	for _, itor := range this.Elements {
-		if utils.NameCheck(utils.FileName(itor.Excel)) == false {
-			return fmt.Errorf("config check failed: invalid excel name")
-		} // if
-
-		if utils.NameCheck(itor.Sheet) == false {
-			return fmt.Errorf("config check failed: invalid sheet name")
-		} // if
-	} // for
 
 	return nil
 }

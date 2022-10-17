@@ -45,7 +45,7 @@ func (this *SuiteEncoding) target() *Context {
 			Elements: []Element{
 				{
 					Excel: testdata.ExcelNameReal,
-					Sheet: testdata.SheetName,
+					Sheet: testdata.SheetData,
 				},
 			},
 		},

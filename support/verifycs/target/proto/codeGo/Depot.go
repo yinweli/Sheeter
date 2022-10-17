@@ -3,13 +3,6 @@
 
 package sheeterProto
 
-type Depot struct {
-	VerifyData1 VerifyData1Reader
-	VerifyData2 VerifyData2Reader
-	loader      Loader
-	readers     []Reader
-}
-
 func NewDepot(loader Loader) *Depot {
 	depot := &Depot{}
 	depot.loader = loader
@@ -19,6 +12,13 @@ func NewDepot(loader Loader) *Depot {
 		&depot.VerifyData2,
 	)
 	return depot
+}
+
+type Depot struct {
+	VerifyData1 VerifyData1Reader
+	VerifyData2 VerifyData2Reader
+	loader      Loader
+	readers     []Reader
 }
 
 func (this *Depot) FromData() bool {

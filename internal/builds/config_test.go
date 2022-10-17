@@ -49,6 +49,9 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigNameReal))
 	config := Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
+	assert.Equal(this.T(), true, config.Global.ExportJson)
+	assert.Equal(this.T(), true, config.Global.ExportProto)
+	assert.Equal(this.T(), false, config.Global.SimpleNamespace)
 	assert.Equal(this.T(), 101, config.Global.LineOfName)
 	assert.Equal(this.T(), 102, config.Global.LineOfNote)
 	assert.Equal(this.T(), 103, config.Global.LineOfField)
@@ -130,21 +133,5 @@ func (this *SuiteConfig) TestCheck() {
 
 	target = this.target()
 	target.Global.LineOfLayer = 999
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.Elements[0].Excel = ""
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.Elements[0].Sheet = ""
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.Elements[1].Excel = ""
-	assert.NotNil(this.T(), target.Check())
-
-	target = this.target()
-	target.Elements[1].Sheet = ""
 	assert.NotNil(this.T(), target.Check())
 }

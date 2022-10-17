@@ -14,13 +14,13 @@ func JsonPack(sheet *excels.Sheet, layoutJson *LayoutJson, excludes []string) (j
 	datas := map[internal.PkeyType]interface{}{}
 
 	for ok := true; ok; ok = sheet.Next() {
-		raws, _ := sheet.Data()
+		data, _ := sheet.Data()
 
-		if raws == nil {
+		if data == nil {
 			break // 碰到空行就結束了
 		} // if
 
-		packs, pkey, err := layoutJson.Pack(raws, excludes)
+		packs, pkey, err := layoutJson.Pack(data, excludes)
 
 		if err != nil {
 			return nil, fmt.Errorf("json pack failed: %w", err)

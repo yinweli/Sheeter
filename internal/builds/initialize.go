@@ -3,15 +3,11 @@ package builds
 import (
 	"fmt"
 
-	"github.com/vbauerster/mpb/v7"
-	"github.com/vbauerster/mpb/v7/decor"
-
-	"github.com/yinweli/Sheeter/internal"
-	"github.com/yinweli/Sheeter/internal/utils"
+	"github.com/yinweli/Sheeter/internal/workflow"
 )
 
 // Initialize 初始化
-func Initialize(context *Context) (errs []error) {
+func Initialize(context *Context) []error {
 	for _, itor := range context.Elements {
 		context.Sector = append(context.Sector, &ContextSector{
 			Element: itor, // 這裡複製會比取用指標好
@@ -24,49 +20,27 @@ func Initialize(context *Context) (errs []error) {
 		return []error{}
 	} // if
 
-	errors := make(chan error, totalCount) // 結果通訊通道, 拿來緩存執行結果(或是錯誤), 最後全部完成後才印出來
-	signaler := utils.NewWaitGroup(totalCount)
-	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))
-	progressbar := progress.AddBar(
-		int64(totalCount),
-		mpb.PrependDecorators(
-			decor.Percentage(decor.WCSyncSpace),
-		),
-		mpb.AppendDecorators(
-			decor.Name("initialize "),
-			decor.OnComplete(decor.Spinner(nil), "complete"),
-		),
-	)
+	work := workflow.NewWorkflow("initialize ", totalCount)
 
 	for _, itor := range context.Sector {
 		ref := itor // 多執行緒需要使用中間變數
 
 		go func() {
-			defer signaler.Done()
-
 			if err := initializeSector(context, ref); err != nil {
-				errors <- fmt.Errorf("initialize failed: %w", err)
+				work.Error(fmt.Errorf("initialize failed: %w", err))
 			} // if
 
-			progressbar.Increment()
+			work.Increment()
 		}()
 	} // for
 
-	progress.Wait()
+	errs := work.End()
 
-	if len(errors) == 0 {
+	if len(errs) == 0 {
 		if err := initializeStruct(context); err != nil {
-			errors <- err
+			errs = append(errs, err)
 		} // if
 	} // if
-
-	close(errors) // 先關閉結果通訊通道, 免得下面的for變成無限迴圈
-
-	for itor := range errors {
-		if itor != nil {
-			errs = append(errs, itor)
-		} // if
-	} // for
 
 	return errs
 }

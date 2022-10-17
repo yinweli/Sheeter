@@ -3,16 +3,13 @@ package builds
 import (
 	"fmt"
 
-	"github.com/vbauerster/mpb/v7"
-	"github.com/vbauerster/mpb/v7/decor"
-
-	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/layouts"
 	"github.com/yinweli/Sheeter/internal/mixeds"
+	"github.com/yinweli/Sheeter/internal/workflow"
 )
 
 // Poststep 後製
-func Poststep(context *Context) error {
+func Poststep(context *Context) []error {
 	tasks := []func(*poststepData) error{}
 
 	if context.Global.ExportJson {
@@ -38,21 +35,10 @@ func Poststep(context *Context) error {
 	totalCount := len(tasks)
 
 	if totalCount <= 0 {
-		return nil
+		return []error{}
 	} // if
 
-	progress := mpb.New(mpb.WithWidth(internal.BarWidth))
-	progressbar := progress.AddBar(
-		int64(totalCount),
-		mpb.PrependDecorators(
-			decor.Percentage(decor.WCSyncSpace),
-		),
-		mpb.AppendDecorators(
-			decor.Name("poststep "),
-			decor.OnComplete(decor.Spinner(nil), "complete"),
-		),
-	)
-
+	work := workflow.NewWorkflow("poststep ", totalCount)
 	data := &poststepData{
 		Global: &context.Config.Global,
 		Mixed:  mixeds.NewMixed("", ""),
@@ -67,14 +53,16 @@ func Poststep(context *Context) error {
 
 	for _, itor := range tasks {
 		if err := itor(data); err != nil {
-			return fmt.Errorf("poststep failed: %w", err)
+			work.Error(fmt.Errorf("poststep failed: %w", err))
+			work.Abort()
+			break
 		} // if
 
-		progressbar.Increment()
+		work.Increment()
 	} // for
 
-	progress.Wait()
-	return nil
+	errs := work.End()
+	return errs
 }
 
 // poststepData 後製資料
