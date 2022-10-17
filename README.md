@@ -14,6 +14,20 @@
 
 # 安裝說明
 * 安裝[go]
+* 安裝[dotnet]
+* 安裝[protoc]
+* 安裝[protoc-go], 在終端執行以下命令
+  ```shell
+  go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+  ```
+* 安裝[csharpier], 在終端執行以下命令
+  ```shell
+  dotnet tool install csharpier -g
+  ```
+* 安裝[buf], 在終端執行以下命令
+  ```shell
+  go install github.com/bufbuild/buf/cmd/buf@v1.8.0
+  ```
 * 安裝[sheeter], 在終端執行以下命令
   ```shell
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
@@ -84,6 +98,7 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --json        |                                         | 是否產生json檔案         |
 | --proto       |                                         | 是否產生proto檔案        |
 | --namespace   |                                         | 是否用簡單的命名空間名稱 |
+| --format      |                                         | 是否格式化程式碼         |
 | --lineOfName  | 行號(1為起始行)                         | 名稱行號                 |
 | --lineOfNote  | 行號(1為起始行)                         | 註解行號                 |
 | --lineOfField | 行號(1為起始行)                         | 欄位行號                 |
@@ -204,6 +219,7 @@ global:
   exportJson:      true # 是否產生json檔案
   exportProto:     true # 是否產生proto檔案
   simpleNamespace: true # 是否用簡單的命名空間名稱
+  format:          true # 是否格式化程式碼
   lineOfName:      1    # 名稱行號(1為起始行)
   lineOfNote:      2    # 註解行號(1為起始行)
   lineOfField:     3    # 欄位行號(1為起始行)
@@ -251,6 +267,7 @@ elements:
 | .ExportJson      |      | 是否產生json檔案         |
 | .ExportProto     |      | 是否產生proto檔案        |
 | .SimpleNamespace |      | 是否用簡單的命名空間名稱 |
+| .Format          |      | 是否格式化程式碼         |
 | .LineOfField     |      | 欄位行號(1為起始行)      |
 | .LineOfLayer     |      | 階層行號(1為起始行)      |
 | .LineOfNote      |      | 註解行號(1為起始行)      |
@@ -395,6 +412,7 @@ buf format -w 存放proto檔案的路徑
 | internal/mixeds         | 綜合工具                         |
 | internal/tmpls          | 模板組件                         |
 | internal/utils          | 協助組件                         |
+| internal/workflow       | 工作流組件                       |
 | testdata                | 測試資料                         |
 | support                 | 支援專案                         |
 | support/benchmark_count | 檔案數量效率測試資料             |
@@ -409,6 +427,8 @@ buf format -w 存放proto檔案的路徑
 | testdata                | 測試資料                         |
 
 [buf]: https://github.com/bufbuild/buf
+[csharpier]: https://github.com/belav/csharpier
+[dotnet]: https://learn.microsoft.com/zh-tw/dotnet/core/sdk
 [go]: https://go.dev/dl/
 [json]: https://www.json.org/json-en.html
 [proto]: https://github.com/protocolbuffers/protobuf

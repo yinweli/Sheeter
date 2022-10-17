@@ -30,8 +30,3 @@ func (this *SuiteShell) TestShellRun() {
 	assert.Nil(this.T(), ShellRun("go", "version"))
 	assert.NotNil(this.T(), ShellRun("unknown"))
 }
-
-func (this *SuiteShell) TestShellExist() {
-	assert.True(this.T(), ShellExist("go"))
-	assert.False(this.T(), ShellExist("unknown"))
-}

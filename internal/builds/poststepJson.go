@@ -7,27 +7,23 @@ import (
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
-// poststepJsonCsDepot 後製json-cs倉庫程式碼
-func poststepJsonCsDepot(data *poststepData) error {
-	filename := data.JsonCsDepotPath()
+// poststepJsonDepotCs 後製json倉庫cs程式碼
+func poststepJsonDepotCs(data *poststepData) error {
+	filename := data.JsonDepotCsPath()
 
-	if err := utils.WriteTmpl(filename, tmpls.JsonCsDepot.Data, data); err != nil {
-		return fmt.Errorf("%s: poststep failed: %w", filename, err)
+	if err := utils.WriteTmpl(filename, tmpls.JsonDepotCs.Data, data); err != nil {
+		return fmt.Errorf("%s: poststep json-depot-cs failed: %w", filename, err)
 	} // if
 
 	return nil
 }
 
-// poststepJsonGoDepot 後製json-go倉庫程式碼
-func poststepJsonGoDepot(data *poststepData) error {
-	filename := data.JsonGoDepotPath()
+// poststepJsonDepotGo 後製json-go倉庫程式碼
+func poststepJsonDepotGo(data *poststepData) error {
+	filename := data.JsonDepotGoPath()
 
-	if err := utils.WriteTmpl(filename, tmpls.JsonGoDepot.Data, data); err != nil {
-		return fmt.Errorf("%s: poststep failed: %w", filename, err)
-	} // if
-
-	if err := utils.ShellRun("gofmt", "-w", filename); err != nil {
-		return fmt.Errorf("%s: poststep failed: gofmt error: %w", filename, err)
+	if err := utils.WriteTmpl(filename, tmpls.JsonDepotGo.Data, data); err != nil {
+		return fmt.Errorf("%s: poststep json-go-depot failed: %w", filename, err)
 	} // if
 
 	return nil

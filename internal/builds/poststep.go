@@ -15,20 +15,27 @@ func Poststep(context *Context) []error {
 	if context.Global.ExportJson {
 		tasks = append(
 			tasks,
-			poststepJsonCsDepot,
-			poststepJsonGoDepot,
+			poststepJsonDepotCs,
+			poststepJsonDepotGo,
 		)
 	} // if
 
 	if context.Global.ExportProto {
 		tasks = append(
 			tasks,
-			poststepProtoCsDepot,
-			poststepProtoGoDepot,
-			poststepProtoCsBat,
-			poststepProtoCsSh,
-			poststepProtoGoBat,
-			poststepProtoGoSh,
+			poststepProtoDepotCs,
+			poststepProtoDepotGo,
+			poststepProtoBatCs,
+			poststepProtoShCs,
+			poststepProtoBatGo,
+			poststepProtoShGo,
+		)
+	} // if
+
+	if context.Global.Format {
+		tasks = append(
+			tasks,
+			poststepFormat,
 		)
 	} // if
 

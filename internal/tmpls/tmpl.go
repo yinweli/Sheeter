@@ -22,21 +22,21 @@ func Initialize(cmd *cobra.Command) error {
 	} // if
 
 	tmpls := []*Tmpl{
-		JsonCsStruct,
-		JsonCsReader,
-		JsonCsDepot,
-		JsonGoStruct,
-		JsonGoReader,
-		JsonGoDepot,
+		JsonStructCs,
+		JsonReaderCs,
+		JsonDepotCs,
+		JsonStructGo,
+		JsonReaderGo,
+		JsonDepotGo,
 		ProtoSchema,
-		ProtoCsReader,
-		ProtoCsDepot,
-		ProtoGoReader,
-		ProtoGoDepot,
-		ProtoCsBat,
-		ProtoCsSh,
-		ProtoGoBat,
-		ProtoGoSh,
+		ProtoReaderCs,
+		ProtoDepotCs,
+		ProtoReaderGo,
+		ProtoDepotGo,
+		ProtoBatCs,
+		ProtoShCs,
+		ProtoBatGo,
+		ProtoShGo,
 	}
 
 	for _, itor := range tmpls {

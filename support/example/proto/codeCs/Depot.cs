@@ -3,23 +3,28 @@
 
 using System.Collections.Generic;
 
-namespace SheeterProto {
-    public partial class Depot {
+namespace SheeterProto
+{
+    public partial class Depot
+    {
         public Loader Loader { get; set; }
         public readonly ExampleDataReader ExampleData = new ExampleDataReader();
         private readonly List<Reader> Readers = new List<Reader>();
 
-        public Depot() {
+        public Depot()
+        {
             Readers.Add(ExampleData);
         }
 
-        public bool FromData() {
+        public bool FromData()
+        {
             if (Loader == null)
                 return false;
 
             var result = true;
 
-            foreach (var itor in Readers) {
+            foreach (var itor in Readers)
+            {
                 var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
 
                 if (data == null || data.Length == 0)
@@ -27,7 +32,8 @@ namespace SheeterProto {
 
                 var message = itor.FromData(data);
 
-                if (message.Length != 0) {
+                if (message.Length != 0)
+                {
                     result = false;
                     Loader.Error(itor.DataName(), message);
                 }
@@ -36,13 +42,15 @@ namespace SheeterProto {
             return result;
         }
 
-        public bool MergeData() {
+        public bool MergeData()
+        {
             if (Loader == null)
                 return false;
 
             var result = true;
 
-            foreach (var itor in Readers) {
+            foreach (var itor in Readers)
+            {
                 var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
 
                 if (data == null || data.Length == 0)
@@ -50,7 +58,8 @@ namespace SheeterProto {
 
                 var message = itor.MergeData(data);
 
-                if (message.Length != 0) {
+                if (message.Length != 0)
+                {
                     result = false;
                     Loader.Error(itor.DataName(), message);
                 }
@@ -59,19 +68,23 @@ namespace SheeterProto {
             return result;
         }
 
-        public void Clear() {
-            foreach (var itor in Readers) {
+        public void Clear()
+        {
+            foreach (var itor in Readers)
+            {
                 itor.Clear();
             }
         }
     }
 
-    public interface Loader {
+    public interface Loader
+    {
         public void Error(string name, string message);
         public byte[] Load(string name, string ext, string fullname);
     }
 
-    public interface Reader {
+    public interface Reader
+    {
         public string DataName();
         public string DataExt();
         public string DataFile();

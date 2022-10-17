@@ -99,7 +99,6 @@ namespace SheeterProto {
         = pb::FieldCodec.ForMessage(10, global::SheeterProto.Item.Parser);
     private readonly pbc::RepeatedField<global::SheeterProto.Item> item_ = new pbc::RepeatedField<global::SheeterProto.Item>();
     /// <summary>
-    /// 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

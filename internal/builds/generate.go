@@ -15,10 +15,10 @@ func Generate(context *Context) []error {
 	if context.Global.ExportJson {
 		tasks = append(
 			tasks,
-			generateJsonCsStruct,
-			generateJsonCsReader,
-			generateJsonGoStruct,
-			generateJsonGoReader,
+			generateJsonStructCs,
+			generateJsonReaderCs,
+			generateJsonStructGo,
+			generateJsonReaderGo,
 		)
 	} // if
 
@@ -26,8 +26,8 @@ func Generate(context *Context) []error {
 		tasks = append(
 			tasks,
 			generateProtoSchema,
-			generateProtoCsReader,
-			generateProtoGoReader,
+			generateProtoReaderCs,
+			generateProtoReaderGo,
 		)
 	} // if
 

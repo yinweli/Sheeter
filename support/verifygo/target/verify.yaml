@@ -1,14 +1,18 @@
 global:
-    lineOfName: 1
-    lineOfNote: 2
-    lineOfField: 3
-    lineOfLayer: 4
-    lineOfData: 5
-    excludes:
-        - tag
+  exportJson: true
+  exportProto: true
+  simpleNamespace: false
+  format: true
+  lineOfName: 1
+  lineOfNote: 2
+  lineOfField: 3
+  lineOfLayer: 4
+  lineOfData: 5
+  excludes:
+    - tag
 
 elements:
-    - excel: verify.xlsx
-      sheet: Data1
-    - excel: verify.xlsx
-      sheet: Data2
+  - excel: verify.xlsx
+    sheet: Data1
+  - excel: verify.xlsx
+    sheet: Data2

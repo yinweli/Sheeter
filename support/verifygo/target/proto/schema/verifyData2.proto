@@ -2,12 +2,15 @@
 // Sheeter: https://github.com/yinweli/Sheeter
 
 syntax = "proto3";
+
 package sheeterProto;
-option go_package = ".;sheeterProto";
+
 import 'reward.proto';
 
+option go_package = ".;sheeterProto";
+
 message VerifyData2 {
-  optional Reward Reward = 1; // 
+  optional Reward Reward = 1; //
   optional bool Enable = 2; // 是否啟用
   optional bool Hide = 3; // 隱藏
   optional int64 Key = 4; // 索引

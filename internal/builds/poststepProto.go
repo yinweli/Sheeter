@@ -7,70 +7,66 @@ import (
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
-// poststepProtoCsDepot 後製proto-cs倉庫程式碼
-func poststepProtoCsDepot(data *poststepData) error {
-	filename := data.ProtoCsDepotPath()
+// poststepProtoDepotCs 後製proto倉庫cs程式碼
+func poststepProtoDepotCs(data *poststepData) error {
+	filename := data.ProtoDepotCsPath()
 
-	if err := utils.WriteTmpl(filename, tmpls.ProtoCsDepot.Data, data); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.ProtoDepotCs.Data, data); err != nil {
+		return fmt.Errorf("%s: poststep proto-depot-cs failed: %w", filename, err)
+	} // if
+
+	return nil
+}
+
+// poststepProtoDepotGo 後製proto倉庫go程式碼
+func poststepProtoDepotGo(data *poststepData) error {
+	filename := data.ProtoDepotGoPath()
+
+	if err := utils.WriteTmpl(filename, tmpls.ProtoDepotGo.Data, data); err != nil {
+		return fmt.Errorf("%s: poststep proto-depot-go failed: %w", filename, err)
+	} // if
+
+	return nil
+}
+
+// poststepProtoBatCs 後製proto-bat-cs
+func poststepProtoBatCs(data *poststepData) error {
+	filename := data.ProtoBatCsFile()
+
+	if err := utils.WriteTmpl(filename, tmpls.ProtoBatCs.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 
 	return nil
 }
 
-// poststepProtoGoDepot 後製proto-go倉庫程式碼
-func poststepProtoGoDepot(data *poststepData) error {
-	filename := data.ProtoGoDepotPath()
+// poststepProtoShCs 後製proto-sh-cs
+func poststepProtoShCs(data *poststepData) error {
+	filename := data.ProtoShCsFile()
 
-	if err := utils.WriteTmpl(filename, tmpls.ProtoGoDepot.Data, data); err != nil {
-		return fmt.Errorf("%s: poststep failed: %w", filename, err)
-	} // if
-
-	if err := utils.ShellRun("gofmt", "-w", filename); err != nil {
-		return fmt.Errorf("%s: poststep failed: gofmt error: %w", filename, err)
-	} // if
-
-	return nil
-}
-
-// poststepProtoCsBat 後製proto-cs.bat
-func poststepProtoCsBat(data *poststepData) error {
-	filename := data.ProtoCsBatFile()
-
-	if err := utils.WriteTmpl(filename, tmpls.ProtoCsBat.Data, data); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.ProtoShCs.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 
 	return nil
 }
 
-// poststepProtoCsSh 後製proto-cs.sh
-func poststepProtoCsSh(data *poststepData) error {
-	filename := data.ProtoCsShFile()
+// poststepProtoBatGo 後製proto-bat-go
+func poststepProtoBatGo(data *poststepData) error {
+	filename := data.ProtoBatGoFile()
 
-	if err := utils.WriteTmpl(filename, tmpls.ProtoCsSh.Data, data); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.ProtoBatGo.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 
 	return nil
 }
 
-// poststepProtoGoBat 後製proto-go.bat
-func poststepProtoGoBat(data *poststepData) error {
-	filename := data.ProtoGoBatFile()
+// poststepProtoShGo 後製proto-sh-go
+func poststepProtoShGo(data *poststepData) error {
+	filename := data.ProtoShGoFile()
 
-	if err := utils.WriteTmpl(filename, tmpls.ProtoGoBat.Data, data); err != nil {
-		return fmt.Errorf("%s: poststep failed: %w", filename, err)
-	} // if
-
-	return nil
-}
-
-// poststepProtoGoSh 後製proto-go.sh
-func poststepProtoGoSh(data *poststepData) error {
-	filename := data.ProtoGoShFile()
-
-	if err := utils.WriteTmpl(filename, tmpls.ProtoGoSh.Data, data); err != nil {
+	if err := utils.WriteTmpl(filename, tmpls.ProtoShGo.Data, data); err != nil {
 		return fmt.Errorf("%s: poststep failed: %w", filename, err)
 	} // if
 

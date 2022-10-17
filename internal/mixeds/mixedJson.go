@@ -36,16 +36,16 @@ func (this *Json) JsonDataPath() string {
 	return filepath.Join(internal.JsonPath, internal.DataPath, this.JsonDataFile())
 }
 
-// JsonCsStructPath 取得json-cs結構程式碼路徑
-func (this *Json) JsonCsStructPath() string {
+// JsonStructCsPath 取得json結構cs程式碼路徑
+func (this *Json) JsonStructCsPath() string {
 	return filepath.Join(internal.JsonPath, internal.CsPath, this.mixed.combine(params{
 		sheetUpper: true,
 		ext:        internal.CsExt,
 	}))
 }
 
-// JsonCsReaderPath 取得json-cs讀取器程式碼路徑
-func (this *Json) JsonCsReaderPath() string {
+// JsonReaderCsPath 取得json讀取器cs程式碼路徑
+func (this *Json) JsonReaderCsPath() string {
 	return filepath.Join(internal.JsonPath, internal.CsPath, this.mixed.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,
@@ -53,21 +53,21 @@ func (this *Json) JsonCsReaderPath() string {
 	}))
 }
 
-// JsonCsDepotPath 取得json-cs倉庫程式碼路徑
-func (this *Json) JsonCsDepotPath() string {
+// JsonDepotCsPath 取得json倉庫cs程式碼路徑
+func (this *Json) JsonDepotCsPath() string {
 	return filepath.Join(internal.JsonPath, internal.CsPath, internal.Depot+"."+internal.CsExt)
 }
 
-// JsonGoStructPath 取得json-go結構程式碼路徑
-func (this *Json) JsonGoStructPath() string {
+// JsonStructGoPath 取得json-go結構程式碼路徑
+func (this *Json) JsonStructGoPath() string {
 	return filepath.Join(internal.JsonPath, internal.GoPath, this.mixed.combine(params{
 		sheetUpper: true,
 		ext:        internal.GoExt,
 	}))
 }
 
-// JsonGoReaderPath 取得json-go讀取器程式碼檔名路徑
-func (this *Json) JsonGoReaderPath() string {
+// JsonReaderGoPath 取得json-go讀取器程式碼檔名路徑
+func (this *Json) JsonReaderGoPath() string {
 	return filepath.Join(internal.JsonPath, internal.GoPath, this.mixed.combine(params{
 		sheetUpper: true,
 		last:       internal.Reader,
@@ -75,7 +75,7 @@ func (this *Json) JsonGoReaderPath() string {
 	}))
 }
 
-// JsonGoDepotPath 取得json-go倉庫程式碼路徑
-func (this *Json) JsonGoDepotPath() string {
+// JsonDepotGoPath 取得json-go倉庫程式碼路徑
+func (this *Json) JsonDepotGoPath() string {
 	return filepath.Join(internal.JsonPath, internal.GoPath, internal.Depot+"."+internal.GoExt)
 }

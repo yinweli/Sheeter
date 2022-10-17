@@ -27,10 +27,10 @@ func (this *SuitePoststep) SetupSuite() {
 
 func (this *SuitePoststep) TearDownSuite() {
 	mixed := mixeds.NewMixed("", "")
-	_ = os.Remove(mixed.ProtoCsBatFile())
-	_ = os.Remove(mixed.ProtoCsShFile())
-	_ = os.Remove(mixed.ProtoGoBatFile())
-	_ = os.Remove(mixed.ProtoGoShFile())
+	_ = os.Remove(mixed.ProtoBatCsFile())
+	_ = os.Remove(mixed.ProtoShCsFile())
+	_ = os.Remove(mixed.ProtoBatGoFile())
+	_ = os.Remove(mixed.ProtoShGoFile())
 	_ = os.RemoveAll(internal.JsonPath)
 	_ = os.RemoveAll(internal.ProtoPath)
 	testdata.RestoreWorkDir(this.workDir)

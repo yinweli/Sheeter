@@ -34,6 +34,7 @@ func (this *SuiteFlag) TestSetFlags() {
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagExportJson))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagExportProto))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagSimpleNamespace))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagFormat))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfName))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfNote))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfField))

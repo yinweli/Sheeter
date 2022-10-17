@@ -9,7 +9,6 @@ import (
 
 	"github.com/yinweli/Sheeter/internal/builds"
 	"github.com/yinweli/Sheeter/internal/tmpls"
-	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // NewCommand 建立命令物件
@@ -27,11 +26,6 @@ func NewCommand() *cobra.Command {
 // execute 執行命令
 func execute(cmd *cobra.Command, _ []string) {
 	startTime := time.Now()
-
-	if utils.ShellExist("gofmt") == false {
-		cmd.Println(fmt.Errorf("build failed: `gofmt` not installed"))
-		return
-	} // if
 
 	if err := tmpls.Initialize(cmd); err != nil {
 		cmd.Println(fmt.Errorf("build failed: %w", err))

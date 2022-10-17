@@ -1,8 +1,10 @@
 syntax = "proto3";
+
 package test;
-option go_package = ".;test";
 
 import 'test2.proto';
+
+option go_package = ".;test";
 
 message Test1 {
   // proto轉json時, 只要是int64的欄位, 轉為json時都會被轉為字串

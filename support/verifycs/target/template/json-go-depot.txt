@@ -23,7 +23,7 @@ type Depot struct {
 	{{.StructName}} {{.ReaderName}}
 {{- end}}
 {{- end}}
-	loader  Loader
+	loader Loader
 	readers []Reader
 }
 

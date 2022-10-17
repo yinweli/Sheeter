@@ -4,9 +4,9 @@ package internal
 
 const AppName = "sheeter"   // 程式名稱
 const Version = "1.9.0"     // 版本字串, 遵循'大版本.小版本.修正版本'的規則
-const BarWidth = 40         // 進度條寬度
 const SeparateField = "#"   // 欄位字串以'#'符號分割為名稱與欄位
 const SeparateElement = "#" // 項目字串以'#'符號分割為檔案名稱與表單名稱
+const BarWidth = 40         // 進度條寬度
 
 /* 類型相關 */
 
@@ -34,21 +34,21 @@ const TokenRepeated = "repeated"   // 類型字串: repeated(proto)
 /* 模板相關 */
 
 const TmplPath = "template"                         // 輸出路徑: 模板檔案
-const TmplJsonCsStructFile = "json-cs-struct.txt"   // 輸出檔名: json-cs結構模板
-const TmplJsonCsReaderFile = "json-cs-reader.txt"   // 輸出檔名: json-cs讀取器模板
-const TmplJsonCsDepotFile = "json-cs-depot.txt"     // 輸出檔名: json-cs倉庫模板
-const TmplJsonGoStructFile = "json-go-struct.txt"   // 輸出檔名: json-go結構模板
-const TmplJsonGoReaderFile = "json-go-reader.txt"   // 輸出檔名: json-go讀取器模板
-const TmplJsonGoDepotFile = "json-go-depot.txt"     // 輸出檔名: json-go倉庫模板
+const TmplJsonStructCsFile = "json-struct-cs.txt"   // 輸出檔名: json結構cs模板
+const TmplJsonReaderCsFile = "json-reader-cs.txt"   // 輸出檔名: json讀取器cs模板
+const TmplJsonDepotCsFile = "json-depot-cs.txt"     // 輸出檔名: json倉庫cs模板
+const TmplJsonStructGoFile = "json-struct-go.txt"   // 輸出檔名: json結構go模板
+const TmplJsonReaderGoFile = "json-reader-go.txt"   // 輸出檔名: json讀取器go模板
+const TmplJsonDepotGoFile = "json-depot-go.txt"     // 輸出檔名: json倉庫go模板
 const TmplProtoSchemaFile = "proto-schema.txt"      // 輸出檔名: proto架構模板
-const TmplProtoCsReaderFile = "proto-cs-reader.txt" // 輸出檔名: proto-cs讀取器模板
-const TmplProtoCsDepotFile = "proto-cs-depot.txt"   // 輸出檔名: proto-cs倉庫模板
-const TmplProtoGoReaderFile = "proto-go-reader.txt" // 輸出檔名: proto-go讀取器模板
-const TmplProtoGoDepotFile = "proto-go-depot.txt"   // 輸出檔名: proto-go倉庫模板
-const TmplProtoCsBatFile = "proto-cs-bat.txt"       // 輸出檔名: proto-cs-bat模板
-const TmplProtoCsShFile = "proto-cs-sh.txt"         // 輸出檔名: proto-cs-sh模板
-const TmplProtoGoBatFile = "proto-go-bat.txt"       // 輸出檔名: proto-go-bat模板
-const TmplProtoGoShFile = "proto-go-sh.txt"         // 輸出檔名: proto-go-sh模板
+const TmplProtoReaderCsFile = "proto-reader-cs.txt" // 輸出檔名: proto讀取器cs模板
+const TmplProtoDepotCsFile = "proto-depot-cs.txt"   // 輸出檔名: proto倉庫cs模板
+const TmplProtoReaderGoFile = "proto-reader-go.txt" // 輸出檔名: proto讀取器go模板
+const TmplProtoDepotGoFile = "proto-depot-go.txt"   // 輸出檔名: proto倉庫go模板
+const TmplProtoBatCsFile = "proto-bat-cs.txt"       // 輸出檔名: proto-bat-cs模板
+const TmplProtoShCsFile = "proto-sh-cs.txt"         // 輸出檔名: proto-sh-cs模板
+const TmplProtoBatGoFile = "proto-bat-go.txt"       // 輸出檔名: proto-bat-go模板
+const TmplProtoShGoFile = "proto-sh-go.txt"         // 輸出檔名: proto-sh-go模板
 
 /* 通用名稱 */
 
@@ -75,10 +75,10 @@ const ProtoNamespace = AppName + "Proto" // 命名空間名稱: proto
 const ProtoPath = "proto"                // 輸出路徑: proto
 const ProtoSchemaExt = "proto"           // 副檔名: proto架構
 const ProtoDataExt = "bytes"             // 副檔名: proto資料
-const ProtoCsBatFile = "protoCs.bat"     // 檔名: proto-cs-bat
-const ProtoCsShFile = "protoCs.sh"       // 檔名: proto-cs-sh
-const ProtoGoBatFile = "protoGo.bat"     // 檔名: proto-go-bat
-const ProtoGoShFile = "protoGo.sh"       // 檔名: proto-go-sh
+const ProtoBatCsFile = "protoCs.bat"     // 檔名: proto-bat-cs
+const ProtoShCsFile = "protoCs.sh"       // 檔名: proto-sh-cs
+const ProtoBatGoFile = "protoGo.bat"     // 檔名: proto-bat-go
+const ProtoShGoFile = "protoGo.sh"       // 檔名: proto-sh-go
 
 // Keywords 關鍵字列表
 var Keywords = []string{

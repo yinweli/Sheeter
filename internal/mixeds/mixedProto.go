@@ -65,8 +65,8 @@ func (this *Proto) ProtoDataPath() string {
 	return filepath.Join(internal.ProtoPath, internal.DataPath, this.ProtoDataFile())
 }
 
-// ProtoCsReaderPath 取得proto-cs讀取器程式碼路徑
-func (this *Proto) ProtoCsReaderPath() string {
+// ProtoReaderCsPath 取得proto讀取器cs程式碼路徑
+func (this *Proto) ProtoReaderCsPath() string {
 	return filepath.Join(internal.ProtoPath, internal.CsPath, this.mixed.combine(params{
 		excelUpper: true, // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
 		sheetUpper: true,
@@ -75,13 +75,13 @@ func (this *Proto) ProtoCsReaderPath() string {
 	}))
 }
 
-// ProtoCsDepotPath 取得proto-cs倉庫程式碼路徑
-func (this *Proto) ProtoCsDepotPath() string {
+// ProtoDepotCsPath 取得proto倉庫cs程式碼路徑
+func (this *Proto) ProtoDepotCsPath() string {
 	return filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(internal.Depot)+"."+internal.CsExt) // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
 }
 
-// ProtoGoReaderPath 取得proto-go讀取器程式碼路徑
-func (this *Proto) ProtoGoReaderPath() string {
+// ProtoReaderGoPath 取得proto-go讀取器程式碼路徑
+func (this *Proto) ProtoReaderGoPath() string {
 	return filepath.Join(internal.ProtoPath, internal.GoPath, this.mixed.combine(params{
 		sheetUpper: true, // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
 		last:       internal.Reader,
@@ -89,29 +89,29 @@ func (this *Proto) ProtoGoReaderPath() string {
 	}))
 }
 
-// ProtoGoDepotPath 取得proto-go倉庫程式碼路徑
-func (this *Proto) ProtoGoDepotPath() string {
+// ProtoDepotGoPath 取得proto-go倉庫程式碼路徑
+func (this *Proto) ProtoDepotGoPath() string {
 	return filepath.Join(internal.ProtoPath, internal.GoPath, utils.FirstUpper(internal.Depot)+"."+internal.GoExt) // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
 }
 
-// ProtoCsBatFile 取得proto-cs-bat檔名
-func (this *Proto) ProtoCsBatFile() string {
-	return internal.ProtoCsBatFile
+// ProtoBatCsFile 取得proto-bat-cs檔名
+func (this *Proto) ProtoBatCsFile() string {
+	return internal.ProtoBatCsFile
 }
 
-// ProtoCsShFile 取得proto-cs-sh檔名
-func (this *Proto) ProtoCsShFile() string {
-	return internal.ProtoCsShFile
+// ProtoShCsFile 取得proto-sh-cs檔名
+func (this *Proto) ProtoShCsFile() string {
+	return internal.ProtoShCsFile
 }
 
-// ProtoGoBatFile 取得proto-go-bat檔名
-func (this *Proto) ProtoGoBatFile() string {
-	return internal.ProtoGoBatFile
+// ProtoBatGoFile 取得proto-bat-go檔名
+func (this *Proto) ProtoBatGoFile() string {
+	return internal.ProtoBatGoFile
 }
 
-// ProtoGoShFile 取得proto-go-sh檔名
-func (this *Proto) ProtoGoShFile() string {
-	return internal.ProtoGoShFile
+// ProtoShGoFile 取得proto-sh-go檔名
+func (this *Proto) ProtoShGoFile() string {
+	return internal.ProtoShGoFile
 }
 
 // ProtoDepend 取得proto依賴檔名
