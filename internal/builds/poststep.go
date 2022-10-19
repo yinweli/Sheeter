@@ -1,86 +1,20 @@
 package builds
 
 import (
-	"fmt"
-
-	"github.com/yinweli/Sheeter/internal/layouts"
-	"github.com/yinweli/Sheeter/internal/mixeds"
-	"github.com/yinweli/Sheeter/internal/workflow"
+	"github.com/yinweli/Sheeter/internal/pipelines"
 )
 
-// Poststep 後製
+// Poststep 後製處理
 func Poststep(context *Context) []error {
-	tasks := []func(*poststepData) error{}
-
-	if context.Global.ExportJson {
-		tasks = append(
-			tasks,
-			poststepJsonDepotCs,
-			poststepJsonDepotGo,
-		)
-	} // if
-
-	if context.Global.ExportProto {
-		tasks = append(
-			tasks,
-			poststepProtoDepotCs,
-			poststepProtoDepotGo,
-			poststepProtoBatCs,
-			poststepProtoShCs,
-			poststepProtoBatGo,
-			poststepProtoShGo,
-		)
-	} // if
-
-	if context.Global.Format {
-		tasks = append(
-			tasks,
-			poststepFormat,
-		)
-	} // if
-
-	totalCount := len(tasks)
-
-	if totalCount <= 0 {
-		return []error{}
-	} // if
-
-	work := workflow.NewWorkflow("poststep ", totalCount)
-	data := &poststepData{
-		Global: &context.Config.Global,
-		Mixed:  mixeds.NewMixed("", ""),
-	}
-
-	for _, itor := range context.Struct {
-		data.Struct = append(data.Struct, poststepStruct{
-			Mixed: mixeds.NewMixed(itor.types.Excel, itor.types.Sheet),
-			Type:  itor.types,
-		})
-	} // for
-
-	for _, itor := range tasks {
-		if err := itor(data); err != nil {
-			work.Error(fmt.Errorf("poststep failed: %w", err))
-			work.Abort()
-			break
-		} // if
-
-		work.Increment()
-	} // for
-
-	errs := work.End()
-	return errs
-}
-
-// poststepData 後製資料
-type poststepData struct {
-	*Global                        // 全域設定
-	*mixeds.Mixed                  // 綜合工具
-	Struct        []poststepStruct // 結構列表
-}
-
-// poststepStruct 後製結構資料
-type poststepStruct struct {
-	*mixeds.Mixed // 結構列表
-	*layouts.Type // 類型資料
+	return pipelines.Execute("poststep ", context.Poststep, []pipelines.Executor{
+		PoststepJsonDepotCs,
+		PoststepJsonDepotGo,
+		PoststepProtoDepotCs,
+		PoststepProtoDepotGo,
+		PoststepConvertCs,
+		PoststepConvertGo,
+		PoststepFormatCs,
+		PoststepFormatGo,
+		PoststepFormatProto,
+	})
 }

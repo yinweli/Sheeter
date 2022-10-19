@@ -5,55 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- 變更產生機制, 移除.bat, .sh檔案, 讓命令直接產生proto程式碼
 - 新增從excel產生列舉的命令模式
 - 產生flatbuffer
 
-initialize(config) context { []generate material, []encoding material, []poststep material }
-    => 拆箱
-    => 揀選generate {
-        => generate json struct cs *
-        => generate json struct go *
-        => generate proto schema(.proto) *
-        => generate enum schema(.proto)
-    }
-    => 揀選encoding {
-        => encoding json * 缺test
-        => encoding proto * 缺test
-    }
-    => 揀選poststep {
-        => poststep json depot cs *
-        => poststep json depot go *
-        => poststep proto depot cs *
-        => poststep proto depot go *
-        => poststep convert => cs *
-        => poststep convert => go *
-        => poststep format cs *
-        => poststep format go *
-        => poststep format proto *
-    }
-
-generate(context.generate material)
-    for material {
-        run pipeline
-    }
-
-encoding(context.encoding material)
-
-poststep(context.poststep material)
-
 ## [1.9.0] - 2022-10-
 ### Changed
-- 升級go版本到1.19.2
 - 改變測試資料的檔名, 避免檔名判斷錯誤
-- 改變倉庫模板內的函式順序
-- 重構工作流程, 讓工作流程更容易維護
-- 改變格式化方式, 後製時才一次格式化所有程式碼
+- 內部流程改用管線機制重構
+- 變更模板檔案名稱
+- 後製時會執行protoc產生程式碼
+- 後製時會格式化所有程式碼
+- 變更範例專案
 ### Added
 - 新增格式化旗標, 讓使用者可以選擇是否要格式化cs, go, proto檔案
 ### Removed
-
-### Fixed
+- 移除proto**.bat/.sh
 
 ## [1.8.1] - 2022-10-14
 ### Changed

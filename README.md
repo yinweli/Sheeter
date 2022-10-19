@@ -4,12 +4,13 @@
 ![codecov](https://codecov.io/gh/yinweli/Sheeter/branch/main/graph/badge.svg?token=LK5HL58LSN)
 
 # Sheeter
-以[go]做成的excel轉換工具, 前身是[sheet]  
-用於將指定格式的excel轉換為[json]資料檔案, [proto]資料檔案, 讀取資料的程式碼; 程式碼目前支援的語言為cs, go  
+以[go]做成的excel轉換工具, 用於將指定格式的excel轉換為[json]資料檔案, [proto]資料檔案, 讀取資料的程式碼  
+程式碼目前支援的語言為cs, go  
 在windows以及mac通過測試, 但是沒有在linux上測試過  
+前身是[sheet]  
 
 # 系統需求
-* [go]1.19.2以上
+* [go]1.18以上
 * [proto]3以上
 
 # 安裝說明
@@ -40,7 +41,6 @@
   ```shell
   sheeter build --config setting.yaml
   ```
-* 如果要產生[proto]程式碼, 可以執行產生出來的protoCs.bat/.sh或是protoGo.bat/.sh
 * 最後會產生結構程式碼, 讀取器程式碼, 倉庫程式碼讓程式可以控制表格
 * 關於程式碼的範例可以看[範例檔案](#範例檔案)
     * cs範例在 example/example.cs
@@ -51,19 +51,19 @@
 
 # 產生目錄
 
-| 名稱           | 說明                          |
-|:---------------|:------------------------------|
-| ./             | 存放建置proto的批次檔/腳本    |
-| ./json         | json目錄                      |
-| ./json/codeCs  | 存放結構與讀取器程式碼        |
-| ./json/codeGo  | 存放結構與讀取器程式碼        |
-| ./json/data    | 存放資料檔案                  |
-| ./proto        | proto目錄                     |
-| ./proto/codeCs | 存放結構與讀取器程式碼        |
-| ./proto/codeGo | 存放結構與讀取器程式碼        |
-| ./proto/data   | 存放資料檔案                  |
-| ./proto/schema | 存放.proto檔案                |
-| ./template     | 存放模板檔案                  |
+| 名稱           | 說明                       |
+|:---------------|:---------------------------|
+| ./             | 存放建置proto的批次檔/腳本 |
+| ./json         | json目錄                   |
+| ./json/codeCs  | 存放結構與讀取器程式碼     |
+| ./json/codeGo  | 存放結構與讀取器程式碼     |
+| ./json/data    | 存放資料檔案               |
+| ./proto        | proto目錄                  |
+| ./proto/codeCs | 存放結構與讀取器程式碼     |
+| ./proto/codeGo | 存放結構與讀取器程式碼     |
+| ./proto/data   | 存放資料檔案               |
+| ./proto/schema | 存放.proto檔案             |
+| ./template     | 存放模板檔案               |
 
 # 命令說明
 以下描述了[sheeter]提供的命令與旗標
@@ -97,8 +97,8 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --config      | 路徑與檔名; 例如: path/seeting.yaml     | 設定檔案路徑             |
 | --json        |                                         | 是否產生json檔案         |
 | --proto       |                                         | 是否產生proto檔案        |
-| --namespace   |                                         | 是否用簡單的命名空間名稱 |
 | --format      |                                         | 是否格式化程式碼         |
+| --namespace   |                                         | 是否用簡單的命名空間名稱 |
 | --lineOfName  | 行號(1為起始行)                         | 名稱行號                 |
 | --lineOfNote  | 行號(1為起始行)                         | 註解行號                 |
 | --lineOfField | 行號(1為起始行)                         | 欄位行號                 |
@@ -108,12 +108,17 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --elements    | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 項目列表                 |
 
 * --json / --proto: 用於控制是否要產生[json]與[proto]檔案
-    * sheeter build         => 輸出[json]與[proto]檔案
-    * sheeter build --json  => 只輸出[json]檔案
-    * sheeter build --proto => 只輸出[proto]檔案
+    * sheeter build
+        * 輸出[json]與[proto]檔案
+    * sheeter build --json
+        * 只輸出[json]檔案
+    * sheeter build --proto
+        * 只輸出[proto]檔案
 * --namespace: 用於控制產生的命名空間名稱
-    * sheeter build             => 命名空間名稱: sheeterJson / SheeterJson / sheeterProto / SheeterProto
-    * sheeter build --namespace => 命名空間名稱: sheeter / Sheeter
+    * sheeter build
+        * 命名空間名稱: sheeterJson / SheeterJson / sheeterProto / SheeterProto
+    * sheeter build --namespace
+        * 命名空間名稱: sheeter / Sheeter
 
 ## tmpl命令
 用於產生執行時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
@@ -121,9 +126,9 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 sheeter tmpl [flags]
 ```
 
-| 旗標          | 參數 | 說明             |
-|:--------------|:-----|:-----------------|
-| --clean / -c  |      | 重新產生模板檔案 |
+| 旗標         | 參數 | 說明             |
+|:-------------|:-----|:-----------------|
+| --clean / -c |      | 重新產生模板檔案 |
 
 # excel說明
 ![excel]
@@ -137,18 +142,18 @@ sheeter tmpl [flags]
 ## 欄位行
 欄位類型與標籤設置, 格式為`類型`或是`類型#標籤`, 空格之後的欄位不會輸出  
 
-| 類型        | 說明                                 |
-|:------------|:-------------------------------------|
-| empty       | 不會輸出的欄位                       |
-| pkey        | 表格主要索引, 編號可跳號但是不可重複 |
-| bool        | 布林值                               |
-| boolArray   | 以逗號分隔的布林值陣列               |
-| int         | 64位元整數                           |
-| intArray    | 以逗號分隔的64位元整數陣列           |
-| float       | 64位元浮點數                         |
-| floatArray  | 以逗號分隔的64位元整數陣列           |
-| text        | 字串                                 |
-| textArray   | 以逗號分隔的字串陣列                 |
+| 類型       | 說明                                 |
+|:-----------|:-------------------------------------|
+| empty      | 不會輸出的欄位                       |
+| pkey       | 表格主要索引, 編號可跳號但是不可重複 |
+| bool       | 布林值                               |
+| boolArray  | 以逗號分隔的布林值陣列               |
+| int        | 64位元整數                           |
+| intArray   | 以逗號分隔的64位元整數陣列           |
+| float      | 64位元浮點數                         |
+| floatArray | 以逗號分隔的64位元整數陣列           |
+| text       | 字串                                 |
+| textArray  | 以逗號分隔的字串陣列                 |
 
 ## 欄位行範例
 
@@ -170,12 +175,12 @@ sheeter tmpl [flags]
 ## 階層行
 欄位結構布局, 格式有`{名稱`, `{[]名稱`, `/`, `}`, 之間以空格分隔  
 
-| 格式        | 說明                                 |
-|:------------|:-------------------------------------|
-| {結構名稱   | 結構的開始                           |
-| {[]陣列名稱 | 陣列的開始                           |
-| /           | 分隔陣列                             |
-| }           | 結構/陣列結束, 可以連續結束, 如`}}`  |
+| 格式        | 說明                                |
+|:------------|:------------------------------------|
+| {結構名稱   | 結構的開始                          |
+| {[]陣列名稱 | 陣列的開始                          |
+| /           | 分隔陣列                            |
+| }           | 結構/陣列結束, 可以連續結束, 如`}}` |
 
 ## 階層行範例
 
@@ -218,8 +223,8 @@ sheeter tmpl [flags]
 global:
   exportJson:      true # 是否產生json檔案
   exportProto:     true # 是否產生proto檔案
-  simpleNamespace: true # 是否用簡單的命名空間名稱
   format:          true # 是否格式化程式碼
+  simpleNamespace: true # 是否用簡單的命名空間名稱
   lineOfName:      1    # 名稱行號(1為起始行)
   lineOfNote:      2    # 註解行號(1為起始行)
   lineOfField:     3    # 欄位行號(1為起始行)
@@ -241,45 +246,83 @@ elements:
 使用者可以改變模板內容, 來產生自訂的程式碼  
 模板檔案使用[go]的[template]語法, 同時可以參考以下模板參數來做名稱的替換  
 
-## 產生程式碼模板參數
-包括struct-cs/go, reader-cs/go, proto-schema等檔案  
-
-| 名稱    | 參數 | 說明                      |
-|:--------|:-----|:--------------------------|
-|         |      | [全域設定](#全域設定參數) |
-|         |      | [綜合工具](#綜合工具參數) |
-|         |      | [類型資料](#類型資料參數) |
-| .Depend |      | 依賴列表                  |
-
-## 產生後製檔案模板參數
-包括depot-cs/go, proto-bat/sh等檔案  
-
-| 名稱    | 參數 | 說明                      |
-|:--------|:-----|:--------------------------|
-|         |      | [全域設定](#全域設定參數) |
-|         |      | [綜合工具](#綜合工具參數) |
-| .Struct |      | [結構列表](#結構資料參數) |
-
-## 全域設定參數
-
-| 名稱             | 參數 | 說明                     |
-|:-----------------|:-----|:-------------------------|
-| .ExportJson      |      | 是否產生json檔案         |
-| .ExportProto     |      | 是否產生proto檔案        |
-| .SimpleNamespace |      | 是否用簡單的命名空間名稱 |
-| .Format          |      | 是否格式化程式碼         |
-| .LineOfField     |      | 欄位行號(1為起始行)      |
-| .LineOfLayer     |      | 階層行號(1為起始行)      |
-| .LineOfNote      |      | 註解行號(1為起始行)      |
-| .LineOfData      |      | 資料行號(1為起始行)      |
-| .Excludes        |      | 排除標籤列表             |
-
-## 綜合工具參數
+## json結構, 讀取器模板參數
+struct-cs/go, reader-cs/go  
 
 | 名稱               | 參數        | 說明                                                      |
 |:-------------------|:------------|:----------------------------------------------------------|
-| .ExcelName         |             | excel檔案名稱                                             |
-| .SheetName         |             | excel表單名稱                                             |
+|                    |             | [全域設定](#全域設定參數)                                 |
+|                    |             | [命名工具](#命名工具參數)                                 |
+|                    |             | [欄位命名工具](#欄位命名工具參數)                         |
+|                    |             | [json命名工具](#json命名工具參數)                         |
+|                    |             | [類型資料](#類型資料參數)                                 |
+
+## json倉庫模板參數
+depot-cs/go  
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+|                    |             | [全域設定](#全域設定參數)                                 |
+|                    |             | [命名工具](#命名工具參數)                                 |
+|                    |             | [json命名工具](#json命名工具參數)                         |
+| .Struct            |             | 結構列表                                                  |
+
+結構列表內容為  
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+|                    |             | [命名工具](#命名工具參數)                                 |
+| Reader             |             | 是否要產生讀取器                                          |
+
+## proto結構, 讀取器, proto架構模板參數
+struct-cs/go, reader-cs/go, proto-schema  
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+|                    |             | [全域設定](#全域設定參數)                                 |
+|                    |             | [命名工具](#命名工具參數)                                 |
+|                    |             | [欄位命名工具](#欄位命名工具參數)                         |
+|                    |             | [proto命名工具](#proto命名工具參數)                       |
+|                    |             | [類型資料](#類型資料參數)                                 |
+| .Depend            |             | 依賴列表                                                  |
+
+## proto倉庫模板參數
+depot-cs/go  
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+|                    |             | [全域設定](#全域設定參數)                                 |
+|                    |             | [命名工具](#命名工具參數)                                 |
+|                    |             | [proto命名工具](#proto命名工具參數)                       |
+| .Struct            |             | 結構列表                                                  |
+
+結構列表內容為  
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+|                    |             | [命名工具](#命名工具參數)                                 |
+| Reader             |             | 是否要產生讀取器                                          |
+
+## 全域設定參數
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+| .ExportJson        |             | 是否產生json檔案                                          |
+| .ExportProto       |             | 是否產生proto檔案                                         |
+| .SimpleNamespace   |             | 是否用簡單的命名空間名稱                                  |
+| .Format            |             | 是否格式化程式碼                                          |
+| .LineOfField       |             | 欄位行號(1為起始行)                                       |
+| .LineOfLayer       |             | 階層行號(1為起始行)                                       |
+| .LineOfNote        |             | 註解行號(1為起始行)                                       |
+| .LineOfData        |             | 資料行號(1為起始行)                                       |
+| .Excludes          |             | 排除標籤列表                                              |
+
+## 命名工具參數
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+| .ExcelName         |             | excel名稱                                                 |
+| .SheetName         |             | sheet名稱                                                 |
 | .AppName           |             | 程式名稱                                                  |
 | .JsonNamespace     | bool        | json命名空間名稱, 參數影響是否用簡單的命名空間名稱        |
 | .ProtoNamespace    | bool        | proto命名空間名稱, 參數影響是否用簡單的命名空間名稱       |
@@ -288,6 +331,17 @@ elements:
 | .StorerName        |             | 儲存器名稱                                                |
 | .StorerDatas       |             | 儲存器資料名稱                                            |
 | .StorerMessage     | bool        | 儲存器proto message名稱, 參數影響是否用簡單的命名空間名稱 |
+| .FirstUpper        | 字串        | 字串首字母大寫                                            |
+| .FirstLower        | 字串        | 字串首字母小寫                                            |
+| .Add               | 數值1 數值2 | 加法(數值1 + 數值2)                                       |
+| .Sub               | 數值1 數值2 | 減法(數值1 - 數值2)                                       |
+| .Mul               | 數值1 數值2 | 乘法(數值1 x 數值2)                                       |
+| .Div               | 數值1 數值2 | 除法(數值1 / 數值2)                                       |
+
+## 欄位命名工具參數
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
 | .FieldName         | 欄位資料    | 欄位名稱                                                  |
 | .FieldNote         | 欄位資料    | 欄位註解                                                  |
 | .FieldTypeCs       | 欄位資料    | cs欄位類型                                                |
@@ -296,16 +350,26 @@ elements:
 | .PkeyTypeCs        |             | pkey的cs類型                                              |
 | .PkeyTypeGo        |             | pkey的go類型                                              |
 | .PkeyTypeProto     |             | pkey的proto類型                                           |
+
+## json命名工具參數
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
 | .JsonDataName      |             | json資料名稱                                              |
 | .JsonDataExt       |             | json資料副檔名                                            |
 | .JsonDataFile      |             | json資料檔名                                              |
 | .JsonDataPath      |             | json資料路徑                                              |
-| .JsonCsStructPath  |             | json-cs結構程式碼路徑                                     |
-| .JsonCsReaderPath  |             | json-cs讀取器程式碼路徑                                   |
-| .JsonCsDepotPath   |             | json-cs倉庫程式碼路徑                                     |
-| .JsonGoStructPath  |             | json-go結構程式碼路徑                                     |
-| .JsonGoReaderPath  |             | json-go讀取器程式碼檔名路徑                               |
-| .JsonGoDepotPath   |             | json-go倉庫程式碼路徑                                     |
+| .JsonStructCsPath  |             | json-cs結構程式碼路徑                                     |
+| .JsonReaderCsPath  |             | json-cs讀取器程式碼路徑                                   |
+| .JsonDepotCsPath   |             | json-cs倉庫程式碼路徑                                     |
+| .JsonStructGoPath  |             | json-go結構程式碼路徑                                     |
+| .JsonReaderGoPath  |             | json-go讀取器程式碼檔名路徑                               |
+| .JsonDepotGoPath   |             | json-go倉庫程式碼路徑                                     |
+
+## proto命名工具參數
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
 | .ProtoCsPath       |             | proto-cs路徑                                              |
 | .ProtoGoPath       |             | proto-go路徑                                              |
 | .ProtoSchemaPath   |             | proto-schema路徑                                          |
@@ -315,85 +379,41 @@ elements:
 | .ProtoDataExt      |             | proto資料副檔名                                           |
 | .ProtoDataFile     |             | proto資料檔名                                             |
 | .ProtoDataPath     |             | proto資料路徑                                             |
-| .ProtoCsReaderPath |             | proto-cs讀取器程式碼路徑                                  |
-| .ProtoCsDepotPath  |             | proto-cs倉庫程式碼路徑                                    |
-| .ProtoGoReaderPath |             | proto-go讀取器程式碼路徑                                  |
-| .ProtoGoDepotPath  |             | proto-go倉庫程式碼路徑                                    |
-| .ProtoCsBatFile    |             | proto-cs-bat檔名                                          |
-| .ProtoCsShFile     |             | proto-cs-sh檔名                                           |
-| .ProtoGoBatFile    |             | proto-go-bat檔名                                          |
-| .ProtoGoShFile     |             | proto-go-sh檔名                                           |
+| .ProtoReaderCsPath |             | proto-cs讀取器程式碼路徑                                  |
+| .ProtoDepotCsPath  |             | proto-cs倉庫程式碼路徑                                    |
+| .ProtoReaderGoPath |             | proto-go讀取器程式碼路徑                                  |
+| .ProtoDepotGoPath  |             | proto-go倉庫程式碼路徑                                    |
 | .ProtoDepend       | 依賴名稱    | proto依賴檔案名稱                                         |
-| .FirstUpper        | 字串        | 字串首字母大寫                                            |
-| .FirstLower        | 字串        | 字串首字母小寫                                            |
-| .Add               | 數值1 數值2 | 加法(數值1 + 數值2)                                       |
-| .Sub               | 數值1 數值2 | 減法(數值1 - 數值2)                                       |
-| .Mul               | 數值1 數值2 | 乘法(數值1 x 數值2)                                       |
-| .Div               | 數值1 數值2 | 除法(數值1 / 數值2)                                       |
 
 ## 類型資料參數
 
-| 名稱    | 參數 | 說明                      |
-|:--------|:-----|:--------------------------|
-| .Excel  |      | excel檔案名稱             |
-| .Sheet  |      | excel表格名稱             |
-| .Reader |      | 是否要產生讀取器          |
-| .Fields |      | [欄位列表](#欄位資料參數) |
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+| .Excel             |             | excel檔案名稱                                             |
+| .Sheet             |             | excel表格名稱                                             |
+| .Reader            |             | 是否要產生讀取器                                          |
+| .Fields            |             | [欄位列表](#欄位資料參數)                                 |
 
 ## 欄位資料參數
 
-| 名稱   | 參數 | 說明                      |
-|:-------|:-----|:--------------------------|
-| .Name  |      | 欄位名稱                  |
-| .Note  |      | 欄位註解                  |
-| .Field |      | [欄位類型](#欄位類型參數) |
-| .Alter |      | 欄位類型別名              |
-| .Array |      | 陣列旗標                  |
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+| .Name              |             | 欄位名稱                                                  |
+| .Note              |             | 欄位註解                                                  |
+| .Field             |             | [欄位類型](#欄位類型參數)                                 |
+| .Alter             |             | 欄位類型別名                                              |
+| .Array             |             | 陣列旗標                                                  |
 
 ## 欄位類型參數
 
-| 名稱         | 參數 | 說明           |
-|:-------------|:-----|:---------------|
-| .Type        |      | excel欄位類型  |
-| .IsShow      |      | 是否顯示欄位   |
-| .IsPkey      |      | 是否是主要索引 |
-| .ToTypeCs    |      | cs類型字串     |
-| .ToTypeGo    |      | go類型字串     |
-| .ToTypeProto |      | proto類型字串  |
-
-## 結構資料參數
-
-| 名稱   | 參數 | 說明                      |
-|:-------|:-----|:--------------------------|
-|        |      | [綜合工具](#綜合工具參數) |
-|        |      | [類型資料](#類型資料參數) |
-
-# proto說明
-以下描述了如果要使用[proto]時的資訊  
-
-## proto轉換為cs程式碼
-* 安裝[protoc]
-* 執行產生出來的.bat/.sh
-
-## proto轉換為go程式碼
-* 安裝[go]
-* 安裝[protoc]
-* 執行以下命令來安裝[protoc-go]外掛
-```shell
-go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-```
-* 執行產生出來的.bat/.sh
-
-## 格式化產出的proto檔案(非必要)
-* 安裝[go]
-* 安裝[buf]
-* 執行以下命令來格式化[proto]檔案
-```shell
-buf format -w 存放proto檔案的路徑
-```
-
-## mac執行.sh
-可能要先執行`chmod 755 ****.sh`來把變更產生出來的腳本檔案的權限
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+| .Type              |             | excel欄位類型                                             |
+| .IsShow            |             | 是否顯示欄位                                              |
+| .IsPkey            |             | 是否是主要索引                                            |
+| .ToTypeCs          |             | cs類型字串                                                |
+| .ToTypeGo          |             | go類型字串                                                |
+| .ToTypeProto       |             | proto類型字串                                             |
 
 # 目錄說明
 

@@ -105,26 +105,6 @@ func (this *Proto) ProtoDepotGoPath() string {
 	return filepath.Join(internal.ProtoPath, internal.GoPath, utils.FirstUpper(internal.Depot)+"."+internal.GoExt) // 因為protoc產生出來的檔名為大寫開頭, 所以這裡也用大寫開頭
 }
 
-// ProtoBatCsFile 取得proto-bat-cs檔名
-func (this *Proto) ProtoBatCsFile() string {
-	return internal.ProtoBatCsFile
-}
-
-// ProtoShCsFile 取得proto-sh-cs檔名
-func (this *Proto) ProtoShCsFile() string {
-	return internal.ProtoShCsFile
-}
-
-// ProtoBatGoFile 取得proto-bat-go檔名
-func (this *Proto) ProtoBatGoFile() string {
-	return internal.ProtoBatGoFile
-}
-
-// ProtoShGoFile 取得proto-sh-go檔名
-func (this *Proto) ProtoShGoFile() string {
-	return internal.ProtoShGoFile
-}
-
 // ProtoDepend 取得proto依賴檔名
 func (this *Proto) ProtoDepend(name string) string {
 	// proto依賴檔名必須跟已建立的proto檔名相符

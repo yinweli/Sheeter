@@ -21,8 +21,8 @@ type Config struct {
 type Global struct {
 	ExportJson      bool     `yaml:"exportJson"`      // 是否產生json檔案
 	ExportProto     bool     `yaml:"exportProto"`     // 是否產生proto檔案
-	SimpleNamespace bool     `yaml:"simpleNamespace"` // 是否用簡單的命名空間名稱
 	Format          bool     `yaml:"format"`          // 是否格式化程式碼
+	SimpleNamespace bool     `yaml:"simpleNamespace"` // 是否用簡單的命名空間名稱
 	LineOfName      int      `yaml:"lineOfName"`      // 名稱行號(1為起始行)
 	LineOfNote      int      `yaml:"lineOfNote"`      // 註解行號(1為起始行)
 	LineOfField     int      `yaml:"lineOfField"`     // 欄位行號(1為起始行)
@@ -72,15 +72,15 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		this.Global.ExportProto = true
 	} // if
 
-	if flags.Changed(flagSimpleNamespace) {
-		if value, err := flags.GetBool(flagSimpleNamespace); err == nil {
-			this.Global.SimpleNamespace = value
-		} // if
-	} // if
-
 	if flags.Changed(flagFormat) {
 		if value, err := flags.GetBool(flagFormat); err == nil {
 			this.Global.Format = value
+		} // if
+	} // if
+
+	if flags.Changed(flagSimpleNamespace) {
+		if value, err := flags.GetBool(flagSimpleNamespace); err == nil {
+			this.Global.SimpleNamespace = value
 		} // if
 	} // if
 

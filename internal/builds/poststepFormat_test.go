@@ -26,11 +26,16 @@ func (this *SuitePoststepFormat) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuitePoststepFormat) target() *poststepData {
-	return &poststepData{}
+func (this *SuitePoststepFormat) target() *poststepFormat {
+	return &poststepFormat{}
 }
 
 func (this *SuitePoststepFormat) TestPoststepFormat() {
 	target := this.target()
-	assert.Nil(this.T(), poststepFormat(target))
+	assert.Nil(this.T(), PoststepFormatCs(target))
+	assert.Nil(this.T(), PoststepFormatGo(target))
+	assert.Nil(this.T(), PoststepFormatProto(target))
+	assert.Nil(this.T(), PoststepFormatCs(nil))
+	assert.Nil(this.T(), PoststepFormatGo(nil))
+	assert.Nil(this.T(), PoststepFormatProto(nil))
 }

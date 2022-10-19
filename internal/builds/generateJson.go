@@ -3,12 +3,29 @@ package builds
 import (
 	"fmt"
 
+	"github.com/yinweli/Sheeter/internal/layouts"
+	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/internal/tmpls"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
-// generateJsonStructCs 產生json結構cs程式碼
-func generateJsonStructCs(data *generateData) error {
+// generateJson 產生json資料
+type generateJson struct {
+	*Global       // 全域設定
+	*nameds.Named // 命名工具
+	*nameds.Field // 欄位命名工具
+	*nameds.Json  // json命名工具
+	*layouts.Type // 類型資料
+}
+
+// GenerateJsonStructCs 產生json結構cs
+func GenerateJsonStructCs(material any) error {
+	data, ok := material.(*generateJson)
+
+	if ok == false {
+		return nil
+	} // if
+
 	structName := data.StructName()
 
 	if err := utils.WriteTmpl(data.JsonStructCsPath(), tmpls.JsonStructCs.Data, data); err != nil {
@@ -18,8 +35,14 @@ func generateJsonStructCs(data *generateData) error {
 	return nil
 }
 
-// generateJsonReaderCs 產生json讀取器cs程式碼
-func generateJsonReaderCs(data *generateData) error {
+// GenerateJsonReaderCs 產生json讀取器cs
+func GenerateJsonReaderCs(material any) error {
+	data, ok := material.(*generateJson)
+
+	if ok == false {
+		return nil
+	} // if
+
 	if data.Reader == false {
 		return nil
 	} // if
@@ -33,8 +56,14 @@ func generateJsonReaderCs(data *generateData) error {
 	return nil
 }
 
-// generateJsonStructGo 產生json結構go程式碼
-func generateJsonStructGo(data *generateData) error {
+// GenerateJsonStructGo 產生json結構go
+func GenerateJsonStructGo(material any) error {
+	data, ok := material.(*generateJson)
+
+	if ok == false {
+		return nil
+	} // if
+
 	structName := data.StructName()
 
 	if err := utils.WriteTmpl(data.JsonStructGoPath(), tmpls.JsonStructGo.Data, data); err != nil {
@@ -44,8 +73,14 @@ func generateJsonStructGo(data *generateData) error {
 	return nil
 }
 
-// generateJsonReaderGo 產生json讀取器go程式碼
-func generateJsonReaderGo(data *generateData) error {
+// GenerateJsonReaderGo 產生json讀取器go
+func GenerateJsonReaderGo(material any) error {
+	data, ok := material.(*generateJson)
+
+	if ok == false {
+		return nil
+	} // if
+
 	if data.Reader == false {
 		return nil
 	} // if

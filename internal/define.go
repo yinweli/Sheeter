@@ -45,10 +45,6 @@ const TmplProtoReaderCsFile = "proto-reader-cs.txt" // 輸出檔名: proto讀取
 const TmplProtoDepotCsFile = "proto-depot-cs.txt"   // 輸出檔名: proto倉庫cs模板
 const TmplProtoReaderGoFile = "proto-reader-go.txt" // 輸出檔名: proto讀取器go模板
 const TmplProtoDepotGoFile = "proto-depot-go.txt"   // 輸出檔名: proto倉庫go模板
-const TmplProtoBatCsFile = "proto-bat-cs.txt"       // 輸出檔名: proto-bat-cs模板
-const TmplProtoShCsFile = "proto-sh-cs.txt"         // 輸出檔名: proto-sh-cs模板
-const TmplProtoBatGoFile = "proto-bat-go.txt"       // 輸出檔名: proto-bat-go模板
-const TmplProtoShGoFile = "proto-sh-go.txt"         // 輸出檔名: proto-sh-go模板
 
 /* 通用名稱 */
 
@@ -75,10 +71,6 @@ const ProtoNamespace = AppName + "Proto" // 命名空間名稱: proto
 const ProtoPath = "proto"                // 輸出路徑: proto
 const ProtoSchemaExt = "proto"           // 副檔名: proto架構
 const ProtoDataExt = "bytes"             // 副檔名: proto資料
-const ProtoBatCsFile = "protoCs.bat"     // 檔名: proto-bat-cs
-const ProtoShCsFile = "protoCs.sh"       // 檔名: proto-sh-cs
-const ProtoBatGoFile = "protoGo.bat"     // 檔名: proto-bat-go
-const ProtoShGoFile = "protoGo.sh"       // 檔名: proto-sh-go
 
 // Keywords 關鍵字列表
 var Keywords = []string{

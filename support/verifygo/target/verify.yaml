@@ -1,8 +1,8 @@
 global:
   exportJson: true
   exportProto: true
-  simpleNamespace: false
   format: true
+  simpleNamespace: false
   lineOfName: 1
   lineOfNote: 2
   lineOfField: 3

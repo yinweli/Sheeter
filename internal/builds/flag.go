@@ -7,8 +7,8 @@ import (
 const flagConfig = "config"             // 旗標名稱: 設定檔案路徑
 const flagExportJson = "json"           // 旗標名稱: 是否產生json檔案
 const flagExportProto = "proto"         // 旗標名稱: 是否產生proto檔案
-const flagSimpleNamespace = "namespace" // 旗標名稱: 是否用簡單的命名空間名稱
 const flagFormat = "fmt"                // 旗標名稱: 是否格式化程式碼
+const flagSimpleNamespace = "namespace" // 旗標名稱: 是否用簡單的命名空間名稱
 const flagLineOfName = "lineOfName"     // 旗標名稱: 名稱行號
 const flagLineOfNote = "lineOfNote"     // 旗標名稱: 註解行號
 const flagLineOfField = "lineOfField"   // 旗標名稱: 欄位行號
@@ -23,8 +23,8 @@ func SetFlags(cmd *cobra.Command) *cobra.Command {
 	flags.String(flagConfig, "", "config file path")
 	flags.Bool(flagExportJson, false, "export json files")
 	flags.Bool(flagExportProto, false, "export proto files")
-	flags.Bool(flagSimpleNamespace, false, "use simple namespace")
 	flags.Bool(flagFormat, false, "format code")
+	flags.Bool(flagSimpleNamespace, false, "use simple namespace")
 	flags.Int(flagLineOfName, 0, "line of name")
 	flags.Int(flagLineOfNote, 0, "line of note")
 	flags.Int(flagLineOfField, 0, "line of field")

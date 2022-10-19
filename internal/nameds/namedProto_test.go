@@ -72,9 +72,5 @@ func (this *SuiteProto) TestName() {
 	assert.Equal(this.T(), protoDepotCsPath, target.ProtoDepotCsPath())
 	assert.Equal(this.T(), protoReaderGoPath, target.ProtoReaderGoPath())
 	assert.Equal(this.T(), protoDepotGoPath, target.ProtoDepotGoPath())
-	assert.Equal(this.T(), internal.ProtoBatCsFile, target.ProtoBatCsFile())
-	assert.Equal(this.T(), internal.ProtoShCsFile, target.ProtoShCsFile())
-	assert.Equal(this.T(), internal.ProtoBatGoFile, target.ProtoBatGoFile())
-	assert.Equal(this.T(), internal.ProtoShGoFile, target.ProtoShGoFile())
 	assert.Equal(this.T(), protoDepend, target.ProtoDepend(this.excelName))
 }

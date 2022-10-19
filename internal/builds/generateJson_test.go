@@ -10,7 +10,7 @@ import (
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/fields"
 	"github.com/yinweli/Sheeter/internal/layouts"
-	"github.com/yinweli/Sheeter/internal/mixeds"
+	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -32,13 +32,18 @@ func (this *SuiteGenerateJson) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteGenerateJson) target() *generateData {
-	target := &generateData{
+func (this *SuiteGenerateJson) target() *generateJson {
+	const excelName = "test"
+	const sheetName = "data"
+
+	target := &generateJson{
 		Global: &Global{},
-		Mixed:  mixeds.NewMixed("test", "data"),
+		Named:  &nameds.Named{ExcelName: excelName, SheetName: sheetName},
+		Field:  &nameds.Field{},
+		Json:   &nameds.Json{ExcelName: excelName, SheetName: sheetName},
 		Type: &layouts.Type{
-			Excel:  "test",
-			Sheet:  "data",
+			Excel:  excelName,
+			Sheet:  sheetName,
 			Reader: true,
 			Fields: []*layouts.Field{
 				{Name: "name1", Note: "note1", Field: &fields.Pkey{}, Alter: "", Array: false},
@@ -111,13 +116,15 @@ namespace SheeterJson {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), generateJsonStructCs(target))
+	assert.Nil(this.T(), GenerateJsonStructCs(target))
 	testdata.CompareFile(this.T(), target.JsonStructCsPath(), data1)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), generateJsonStructCs(target))
+	assert.Nil(this.T(), GenerateJsonStructCs(target))
 	testdata.CompareFile(this.T(), target.JsonStructCsPath(), data2)
+
+	assert.Nil(this.T(), GenerateJsonStructCs(nil))
 }
 
 func (this *SuiteGenerateJson) TestGenerateJsonReaderCs() {
@@ -229,12 +236,14 @@ namespace SheeterJson {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), generateJsonReaderCs(target))
+	assert.Nil(this.T(), GenerateJsonReaderCs(target))
 	testdata.CompareFile(this.T(), target.JsonReaderCsPath(), data)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), generateJsonReaderCs(target))
+	assert.Nil(this.T(), GenerateJsonReaderCs(target))
+
+	assert.Nil(this.T(), GenerateJsonReaderCs(nil))
 }
 
 func (this *SuiteGenerateJson) TestGenerateJsonStructGo() {
@@ -280,13 +289,15 @@ type TestData struct {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), generateJsonStructGo(target))
+	assert.Nil(this.T(), GenerateJsonStructGo(target))
 	testdata.CompareFile(this.T(), target.JsonStructGoPath(), data1)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), generateJsonStructGo(target))
+	assert.Nil(this.T(), GenerateJsonStructGo(target))
 	testdata.CompareFile(this.T(), target.JsonStructGoPath(), data2)
+
+	assert.Nil(this.T(), GenerateJsonStructGo(nil))
 }
 
 func (this *SuiteGenerateJson) TestGenerateJsonReaderGo() {
@@ -385,10 +396,12 @@ func (this *TestDataReader) Count() int {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), generateJsonReaderGo(target))
+	assert.Nil(this.T(), GenerateJsonReaderGo(target))
 	testdata.CompareFile(this.T(), target.JsonReaderGoPath(), data)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), generateJsonReaderGo(target))
+	assert.Nil(this.T(), GenerateJsonReaderGo(target))
+
+	assert.Nil(this.T(), GenerateJsonReaderGo(nil))
 }

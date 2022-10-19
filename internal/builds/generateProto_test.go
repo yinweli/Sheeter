@@ -10,7 +10,7 @@ import (
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/fields"
 	"github.com/yinweli/Sheeter/internal/layouts"
-	"github.com/yinweli/Sheeter/internal/mixeds"
+	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -32,13 +32,18 @@ func (this *SuiteGenerateProto) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteGenerateProto) target() *generateData {
-	target := &generateData{
+func (this *SuiteGenerateProto) target() *generateProto {
+	const excelName = "test"
+	const sheetName = "data"
+
+	target := &generateProto{
 		Global: &Global{},
-		Mixed:  mixeds.NewMixed("test", "data"),
+		Named:  &nameds.Named{ExcelName: excelName, SheetName: sheetName},
+		Field:  &nameds.Field{},
+		Proto:  &nameds.Proto{ExcelName: excelName, SheetName: sheetName},
 		Type: &layouts.Type{
-			Excel:  "test",
-			Sheet:  "data",
+			Excel:  excelName,
+			Sheet:  sheetName,
 			Reader: true,
 			Fields: []*layouts.Field{
 				{Name: "name1", Note: "note1", Field: &fields.Pkey{}, Alter: "", Array: false},
@@ -96,13 +101,15 @@ message TestData {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), generateProtoSchema(target))
+	assert.Nil(this.T(), GenerateProtoSchema(target))
 	testdata.CompareFile(this.T(), target.ProtoPath(), data1)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), generateProtoSchema(target))
+	assert.Nil(this.T(), GenerateProtoSchema(target))
 	testdata.CompareFile(this.T(), target.ProtoPath(), data2)
+
+	assert.Nil(this.T(), GenerateProtoSchema(nil))
 }
 
 func (this *SuiteGenerateProto) TestGenerateProtoReaderCs() {
@@ -213,12 +220,14 @@ namespace SheeterProto {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), generateProtoReaderCs(target))
+	assert.Nil(this.T(), GenerateProtoReaderCs(target))
 	testdata.CompareFile(this.T(), target.ProtoReaderCsPath(), data)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), generateProtoReaderCs(target))
+	assert.Nil(this.T(), GenerateProtoReaderCs(target))
+
+	assert.Nil(this.T(), GenerateProtoReaderCs(nil))
 }
 
 func (this *SuiteGenerateProto) TestGenerateProtoReaderGo() {
@@ -318,10 +327,12 @@ func (this *TestDataReader) Count() int {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), generateProtoReaderGo(target))
+	assert.Nil(this.T(), GenerateProtoReaderGo(target))
 	testdata.CompareFile(this.T(), target.ProtoReaderGoPath(), data)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), generateProtoReaderGo(target))
+	assert.Nil(this.T(), GenerateProtoReaderGo(target))
+
+	assert.Nil(this.T(), GenerateProtoReaderGo(nil))
 }

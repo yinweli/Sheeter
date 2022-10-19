@@ -99,6 +99,7 @@ namespace SheeterProto {
     public const int RewardFieldNumber = 1;
     private global::SheeterProto.Reward reward_;
     /// <summary>
+    /// 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]

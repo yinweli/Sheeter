@@ -1,6 +1,6 @@
 module github.com/yinweli/Sheeter
 
-go 1.19 // 使用1.19.2
+go 1.18
 
 require (
 	github.com/emirpasic/gods v1.18.1
