@@ -61,24 +61,24 @@ func (this *SuiteEncodingJson) TestEncodingJson() {
 	data, err := utils.JsonMarshal(testdata.GetExcelContentReal())
 	assert.Nil(this.T(), err)
 
-	target := this.target(testdata.ExcelNameReal)
+	target := this.target(testdata.ExcelReal)
 	assert.Nil(this.T(), EncodingJson(target))
 	testdata.CompareFile(this.T(), target.JsonDataPath(), data)
 
-	target = this.target(testdata.ExcelNameEmpty)
+	target = this.target(testdata.ExcelEmpty)
 	assert.Nil(this.T(), EncodingJson(target))
 	testdata.CompareFile(this.T(), target.JsonDataPath(), empty)
 
-	target = this.target(testdata.ExcelNameInvalidData)
+	target = this.target(testdata.ExcelInvalidData)
 	assert.NotNil(this.T(), EncodingJson(target))
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
-		target = this.target(testdata.ExcelNameReal)
+		target = this.target(testdata.ExcelReal)
 		target.Json.ExcelName = testdata.UnknownStr
 		assert.NotNil(this.T(), EncodingJson(target))
 
-		target = this.target(testdata.ExcelNameReal)
+		target = this.target(testdata.ExcelReal)
 		target.Json.SheetName = testdata.UnknownStr
 		assert.NotNil(this.T(), EncodingJson(target))
 	} // if

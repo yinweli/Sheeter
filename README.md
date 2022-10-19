@@ -15,19 +15,10 @@
 
 # 安裝說明
 * 安裝[go]
-* 安裝[dotnet]
 * 安裝[protoc]
 * 安裝[protoc-go], 在終端執行以下命令
   ```shell
   go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-  ```
-* 安裝[csharpier], 在終端執行以下命令
-  ```shell
-  dotnet tool install csharpier -g
-  ```
-* 安裝[buf], 在終端執行以下命令
-  ```shell
-  go install github.com/bufbuild/buf/cmd/buf@v1.8.0
   ```
 * 安裝[sheeter], 在終端執行以下命令
   ```shell
@@ -51,19 +42,22 @@
 
 # 產生目錄
 
-| 名稱           | 說明                       |
-|:---------------|:---------------------------|
-| ./             | 存放建置proto的批次檔/腳本 |
-| ./json         | json目錄                   |
-| ./json/codeCs  | 存放結構與讀取器程式碼     |
-| ./json/codeGo  | 存放結構與讀取器程式碼     |
-| ./json/data    | 存放資料檔案               |
-| ./proto        | proto目錄                  |
-| ./proto/codeCs | 存放結構與讀取器程式碼     |
-| ./proto/codeGo | 存放結構與讀取器程式碼     |
-| ./proto/data   | 存放資料檔案               |
-| ./proto/schema | 存放.proto檔案             |
-| ./template     | 存放模板檔案               |
+| 名稱         | 說明               |
+|:-------------|:-------------------|
+| json         | json目錄           |
+| json/codeCs  | 存放產生的cs程式碼 |
+| json/codeGo  | 存放產生的go程式碼 |
+| json/data    | 存放資料檔案       |
+| proto        | proto目錄          |
+| proto/codeCs | 存放產生的cs程式碼 |
+| proto/codeGo | 存放產生的go程式碼 |
+| proto/data   | 存放資料檔案       |
+| proto/schema | 存放.proto檔案     |
+| enum         | enum目錄           |
+| enum/codeCs  | 存放列舉程式碼     |
+| enum/codeGo  | 存放列舉程式碼     |
+| enum/schema  | 存放.proto檔案     |
+| template     | 存放模板檔案       |
 
 # 命令說明
 以下描述了[sheeter]提供的命令與旗標
@@ -97,15 +91,17 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --config      | 路徑與檔名; 例如: path/seeting.yaml     | 設定檔案路徑             |
 | --json        |                                         | 是否產生json檔案         |
 | --proto       |                                         | 是否產生proto檔案        |
-| --format      |                                         | 是否格式化程式碼         |
+| --enum        |                                         | 是否產生enum檔案         |
 | --namespace   |                                         | 是否用簡單的命名空間名稱 |
 | --lineOfName  | 行號(1為起始行)                         | 名稱行號                 |
 | --lineOfNote  | 行號(1為起始行)                         | 註解行號                 |
 | --lineOfField | 行號(1為起始行)                         | 欄位行號                 |
 | --lineOfLayer | 行號(1為起始行)                         | 階層行號                 |
 | --lineOfData  | 行號(1為起始行)                         | 資料行號                 |
+| --lineOfEnum  | 行號(1為起始行)                         | 列舉行號                 |
 | --excludes    | 標籤,標籤,...                           | 輸出時排除的標籤列表     |
 | --elements    | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 項目列表                 |
+| --enums       | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 列舉列表                 |
 
 * --json / --proto: 用於控制是否要產生[json]與[proto]檔案
     * sheeter build
@@ -130,8 +126,8 @@ sheeter tmpl [flags]
 |:-------------|:-----|:-----------------|
 | --clean / -c |      | 重新產生模板檔案 |
 
-# excel說明
-![excel]
+# 資料excel說明
+![exceldata]
 
 ## 名稱行
 欄位名稱, 只能是英文與數字與`_`的組合, 並且不能以數字開頭, 也不允許空白
@@ -218,18 +214,37 @@ sheeter tmpl [flags]
         * 第一個表格設定了結構/陣列欄位: `data { field1, field2, field3 }`
         * 另一個表格同樣使用了`data`結構/陣列, 而欄位只設定 `data { field1, field2 }`, 忽略了`field3`
 
+# 列舉excel說明
+![excelenum]
+
+## 名稱行
+實際上不寫也沒關係, 僅提供給使用者辨識用
+
+## 資料行
+必須是以下欄位格式  
+* 第一欄: 列舉名稱
+    * 只能是英文與數字與`_`的組合, 並且不能以數字開頭, 也不允許空白
+    * 列舉名稱不允許重複
+    * 不能是規定的關鍵字(參考[其他的限制](#其他的限制))
+* 第二欄: 索引編號
+    * 只能是數字
+    * 索引編號不允許重複
+* 第三欄: 註解字串
+    * 單行註解, 此欄空白也可以
+
 # 設定說明
 ```yaml
 global:
   exportJson:      true # 是否產生json檔案
   exportProto:     true # 是否產生proto檔案
-  format:          true # 是否格式化程式碼
+  exportEnum       true # 是否產生enum檔案
   simpleNamespace: true # 是否用簡單的命名空間名稱
   lineOfName:      1    # 名稱行號(1為起始行)
   lineOfNote:      2    # 註解行號(1為起始行)
   lineOfField:     3    # 欄位行號(1為起始行)
   lineOfLayer:     4    # 階層行號(1為起始行)
   lineOfData:      5    # 資料行號(1為起始行)
+  lineOfEnum:      2    # 列舉行號(1為起始行)
   excludes:             # 排除標籤列表
     - tag1
     - tag2
@@ -238,7 +253,13 @@ elements:
   - excel: excel1.xlsx  # excel檔案名稱
     sheet: Data         # excel表單名稱
   - excel: excel2.xlsx
-    sheet: Data2
+    sheet: Data
+
+enums
+  - excel: excel1.xlsx  # excel檔案名稱
+    sheet: Enum         # excel表單名稱
+  - excel: excel2.xlsx
+    sheet: Enum
 ```
 
 # 模板檔案
@@ -265,7 +286,7 @@ depot-cs/go
 |                    |             | [全域設定](#全域設定參數)                                 |
 |                    |             | [命名工具](#命名工具參數)                                 |
 |                    |             | [json命名工具](#json命名工具參數)                         |
-| .Struct            |             | 結構列表                                                  |
+| .Struct            |             | 結構列表(註)                                              |
 
 結構列表內容為  
 
@@ -294,7 +315,7 @@ depot-cs/go
 |                    |             | [全域設定](#全域設定參數)                                 |
 |                    |             | [命名工具](#命名工具參數)                                 |
 |                    |             | [proto命名工具](#proto命名工具參數)                       |
-| .Struct            |             | 結構列表                                                  |
+| .Struct            |             | 結構列表(註)                                              |
 
 結構列表內容為  
 
@@ -303,6 +324,24 @@ depot-cs/go
 |                    |             | [命名工具](#命名工具參數)                                 |
 | Reader             |             | 是否要產生讀取器                                          |
 
+## enum架構模板參數
+enum-schema  
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+|                    |             | [全域設定](#全域設定參數)                                 |
+|                    |             | [命名工具](#命名工具參數)                                 |
+|                    |             | [enum命名工具](#enum命名工具參數)                         |
+| .Enums             |             | 列舉列表(註)                                              |
+
+結構列表內容為  
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+| Name               |             | 列舉名稱                                                  |
+| Index              |             | 列舉編號                                                  |
+| Comment            |             | 列舉說明                                                  |
+
 ## 全域設定參數
 
 | 名稱               | 參數        | 說明                                                      |
@@ -310,7 +349,6 @@ depot-cs/go
 | .ExportJson        |             | 是否產生json檔案                                          |
 | .ExportProto       |             | 是否產生proto檔案                                         |
 | .SimpleNamespace   |             | 是否用簡單的命名空間名稱                                  |
-| .Format            |             | 是否格式化程式碼                                          |
 | .LineOfField       |             | 欄位行號(1為起始行)                                       |
 | .LineOfLayer       |             | 階層行號(1為起始行)                                       |
 | .LineOfNote        |             | 註解行號(1為起始行)                                       |
@@ -385,6 +423,16 @@ depot-cs/go
 | .ProtoDepotGoPath  |             | proto-go倉庫程式碼路徑                                    |
 | .ProtoDepend       | 依賴名稱    | proto依賴檔案名稱                                         |
 
+## enum命名工具參數
+
+| 名稱               | 參數        | 說明                                                      |
+|:-------------------|:------------|:----------------------------------------------------------|
+| .EnumCsPath        |             | enum-cs路徑                                               |
+| .EnumGoPath        |             | enum-go路徑                                               |
+| .EnumSchemaPath    |             | enum-schema路徑                                           |
+| .EnumName          |             | enum架構檔名                                              |
+| .EnumPath          |             | enum架構路徑                                              |
+
 ## 類型資料參數
 
 | 名稱               | 參數        | 說明                                                      |
@@ -392,19 +440,19 @@ depot-cs/go
 | .Excel             |             | excel檔案名稱                                             |
 | .Sheet             |             | excel表格名稱                                             |
 | .Reader            |             | 是否要產生讀取器                                          |
-| .Fields            |             | [欄位列表](#欄位資料參數)                                 |
+| .Fields            |             | 欄位列表(註)                                              |
 
-## 欄位資料參數
+欄位列表內容為  
 
 | 名稱               | 參數        | 說明                                                      |
 |:-------------------|:------------|:----------------------------------------------------------|
 | .Name              |             | 欄位名稱                                                  |
 | .Note              |             | 欄位註解                                                  |
-| .Field             |             | [欄位類型](#欄位類型參數)                                 |
+| .Field             |             | 欄位類型(註)                                              |
 | .Alter             |             | 欄位類型別名                                              |
 | .Array             |             | 陣列旗標                                                  |
 
-## 欄位類型參數
+欄位類型內容為  
 
 | 名稱               | 參數        | 說明                                                      |
 |:-------------------|:------------|:----------------------------------------------------------|
@@ -414,6 +462,47 @@ depot-cs/go
 | .ToTypeCs          |             | cs類型字串                                                |
 | .ToTypeGo          |             | go類型字串                                                |
 | .ToTypeProto       |             | proto類型字串                                             |
+
+# 格式化程式碼
+[sheeter]並不負責幫產生的檔案排版, 如果需要排版, 就需要自己寫.bat/.sh來執行  
+以下介紹cs, go, proto的排版工具, 有需要可以自己去安裝  
+
+## csharpier
+用於cs的排版工具  
+* 安裝
+    * 安裝[dotnet], 如果有安裝.net sdk, 或有安裝unity可能可以省略此步驟
+    * 安裝[csharpier], 在終端執行以下命令
+      ```shell
+      dotnet tool install csharpier -g
+      ```
+* 使用
+    * 在終端執行以下命令
+      ```shell
+      dotnet csharpier .
+      ```
+
+## gofmt
+用於go的排版工具  
+* 安裝
+    * 安裝[go]時會順便安裝
+* 使用
+    * 在終端執行以下命令
+      ```shell
+      gofmt -w .
+      ```
+
+## buf
+用於proto的排版工具  
+* 安裝
+    * 安裝[buf], 在終端執行以下命令
+      ```shell
+      go install github.com/bufbuild/buf/cmd/buf@v1.8.0
+      ```
+* 使用
+    * 在終端執行以下命令
+      ```shell
+      buf format -w .
+      ```
 
 # 目錄說明
 
@@ -459,4 +548,5 @@ depot-cs/go
 [template]: https://pkg.go.dev/text/template
 
 [example]: doc/example/example.7z
-[excel]: doc/image/excel.jpg
+[exceldata]: doc/image/exceldata.jpg
+[excelenum]: doc/image/excelenum.jpg

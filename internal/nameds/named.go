@@ -36,6 +36,15 @@ func (this *Named) ProtoNamespace(simpleNamespace bool) string {
 	} // if
 }
 
+// EnumNamespace 取得enum命名空間名稱
+func (this *Named) EnumNamespace(simpleNamespace bool) string {
+	if simpleNamespace {
+		return internal.AppName
+	} else {
+		return internal.EnumNamespace
+	} // if
+}
+
 // StructName 取得結構名稱
 func (this *Named) StructName() string {
 	return combine(&params{

@@ -5,21 +5,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- 新增從excel產生列舉的命令模式
 - 產生flatbuffer
 
 ## [1.9.0] - 2022-10-
 ### Changed
-- 改變測試資料的檔名, 避免檔名判斷錯誤
 - 內部流程改用管線機制重構
 - 變更模板檔案名稱
 - 後製時會執行protoc產生程式碼
-- 後製時會格式化所有程式碼
 - 變更範例專案
 ### Added
-- 新增格式化旗標, 讓使用者可以選擇是否要格式化cs, go, proto檔案
+- 新增從excel產生列舉
 ### Removed
-- 移除proto**.bat/.sh
+- 不再產生proto**.bat/.sh
 
 ## [1.8.1] - 2022-10-14
 ### Changed

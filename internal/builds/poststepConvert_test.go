@@ -38,7 +38,7 @@ func (this *SuitePoststepConvert) target() *poststepConvert {
 		include:  "",
 		outputCs: internal.CsPath,
 		outputGo: internal.GoPath,
-		source:   testdata.ProtoNameTest,
+		source:   testdata.ProtoTest,
 	}
 	return target
 }

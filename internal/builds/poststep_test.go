@@ -36,7 +36,6 @@ func (this *SuitePoststep) target() *Config {
 		Global: Global{
 			ExportJson:      true,
 			ExportProto:     true,
-			Format:          true,
 			SimpleNamespace: false,
 			LineOfName:      1,
 			LineOfNote:      2,
@@ -45,7 +44,7 @@ func (this *SuitePoststep) target() *Config {
 			LineOfData:      5,
 		},
 		Elements: []Element{
-			{Excel: testdata.ExcelNameReal, Sheet: testdata.SheetData},
+			{Excel: testdata.ExcelReal, Sheet: testdata.SheetData},
 		},
 	}
 	return target

@@ -35,8 +35,13 @@ func (this *SuiteConfig) target() *Config {
 			LineOfField: 3,
 			LineOfLayer: 4,
 			LineOfData:  5,
+			LineOfEnum:  6,
 		},
 		Elements: []Element{
+			{Excel: "excel1", Sheet: "sheet1"},
+			{Excel: "excel2", Sheet: "sheet2"},
+		},
+		Enums: []Element{
 			{Excel: "excel1", Sheet: "sheet1"},
 			{Excel: "excel2", Sheet: "sheet2"},
 		},
@@ -46,49 +51,55 @@ func (this *SuiteConfig) target() *Config {
 
 func (this *SuiteConfig) TestInitialize() {
 	cmd := SetFlags(&cobra.Command{})
-	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigNameReal))
+	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigReal))
 	config := Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
 	assert.Equal(this.T(), true, config.Global.ExportJson)
 	assert.Equal(this.T(), true, config.Global.ExportProto)
-	assert.Equal(this.T(), false, config.Global.Format)
+	assert.Equal(this.T(), false, config.Global.ExportEnum)
 	assert.Equal(this.T(), false, config.Global.SimpleNamespace)
 	assert.Equal(this.T(), 101, config.Global.LineOfName)
 	assert.Equal(this.T(), 102, config.Global.LineOfNote)
 	assert.Equal(this.T(), 103, config.Global.LineOfField)
 	assert.Equal(this.T(), 104, config.Global.LineOfLayer)
 	assert.Equal(this.T(), 105, config.Global.LineOfData)
+	assert.Equal(this.T(), 106, config.Global.LineOfEnum)
 	assert.Equal(this.T(), []string{"tag1", "tag2"}, config.Global.Excludes)
 	assert.Equal(this.T(), []Element{{Excel: "excel1", Sheet: "sheet1"}, {Excel: "excel2", Sheet: "sheet2"}}, config.Elements)
+	assert.Equal(this.T(), []Element{{Excel: "excel1", Sheet: "sheet1"}, {Excel: "excel2", Sheet: "sheet2"}}, config.Enums)
 
 	cmd = SetFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagExportJson, "true"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagExportProto, "true"))
-	assert.Nil(this.T(), cmd.Flags().Set(flagFormat, "true"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagExportEnum, "true"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagSimpleNamespace, "true"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfName, "201"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfNote, "202"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfField, "203"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfLayer, "204"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfData, "205"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfEnum, "206"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagExcludes, "tag3,tag4"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagElements, "excel3#sheet3,excel4#sheet4"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagEnums, "excel3#sheet3,excel4#sheet4"))
 	config = Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
 	assert.Equal(this.T(), true, config.Global.ExportJson)
 	assert.Equal(this.T(), true, config.Global.ExportProto)
-	assert.Equal(this.T(), true, config.Global.Format)
+	assert.Equal(this.T(), true, config.Global.ExportEnum)
 	assert.Equal(this.T(), true, config.Global.SimpleNamespace)
 	assert.Equal(this.T(), 201, config.Global.LineOfName)
 	assert.Equal(this.T(), 202, config.Global.LineOfNote)
 	assert.Equal(this.T(), 203, config.Global.LineOfField)
 	assert.Equal(this.T(), 204, config.Global.LineOfLayer)
 	assert.Equal(this.T(), 205, config.Global.LineOfData)
+	assert.Equal(this.T(), 206, config.Global.LineOfEnum)
 	assert.Equal(this.T(), []string{"tag3", "tag4"}, config.Global.Excludes)
 	assert.Equal(this.T(), []Element{{Excel: "excel3", Sheet: "sheet3"}, {Excel: "excel4", Sheet: "sheet4"}}, config.Elements)
+	assert.Equal(this.T(), []Element{{Excel: "excel3", Sheet: "sheet3"}, {Excel: "excel4", Sheet: "sheet4"}}, config.Enums)
 
 	cmd = SetFlags(&cobra.Command{})
-	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigNameFake))
+	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigFake))
 	config = Config{}
 	assert.NotNil(this.T(), config.Initialize(cmd))
 
@@ -120,6 +131,10 @@ func (this *SuiteConfig) TestCheck() {
 
 	target = this.target()
 	target.Global.LineOfData = 0
+	assert.NotNil(this.T(), target.Check())
+
+	target = this.target()
+	target.Global.LineOfEnum = 0
 	assert.NotNil(this.T(), target.Check())
 
 	target = this.target()

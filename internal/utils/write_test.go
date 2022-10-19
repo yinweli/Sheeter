@@ -41,7 +41,7 @@ func (this *SuiteWrite) TestFileName() {
 }
 
 func (this *SuiteWrite) TestFileExist() {
-	assert.True(this.T(), FileExist(testdata.ConfigNameReal))
+	assert.True(this.T(), FileExist(testdata.ConfigReal))
 	assert.False(this.T(), FileExist(testdata.UnknownStr))
 }
 

@@ -15,19 +15,21 @@ import (
 type Config struct {
 	Global   Global    `yaml:"global"`   // 全域設定
 	Elements []Element `yaml:"elements"` // 項目列表
+	Enums    []Element `yaml:"enums"`    // 列舉列表
 }
 
 // Global 全域設定
 type Global struct {
 	ExportJson      bool     `yaml:"exportJson"`      // 是否產生json檔案
 	ExportProto     bool     `yaml:"exportProto"`     // 是否產生proto檔案
-	Format          bool     `yaml:"format"`          // 是否格式化程式碼
+	ExportEnum      bool     `yaml:"exportEnum"`      // 是否產生enum檔案
 	SimpleNamespace bool     `yaml:"simpleNamespace"` // 是否用簡單的命名空間名稱
 	LineOfName      int      `yaml:"lineOfName"`      // 名稱行號(1為起始行)
 	LineOfNote      int      `yaml:"lineOfNote"`      // 註解行號(1為起始行)
 	LineOfField     int      `yaml:"lineOfField"`     // 欄位行號(1為起始行)
 	LineOfLayer     int      `yaml:"lineOfLayer"`     // 階層行號(1為起始行)
 	LineOfData      int      `yaml:"lineOfData"`      // 資料行號(1為起始行)
+	LineOfEnum      int      `yaml:"lineOfEnum"`      // 列舉行號(1為起始行)
 	Excludes        []string `yaml:"excludes"`        // 排除標籤列表
 }
 
@@ -72,9 +74,9 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		this.Global.ExportProto = true
 	} // if
 
-	if flags.Changed(flagFormat) {
-		if value, err := flags.GetBool(flagFormat); err == nil {
-			this.Global.Format = value
+	if flags.Changed(flagExportEnum) {
+		if value, err := flags.GetBool(flagExportEnum); err == nil {
+			this.Global.ExportEnum = value
 		} // if
 	} // if
 
@@ -114,6 +116,12 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		} // if
 	} // if
 
+	if flags.Changed(flagLineOfEnum) {
+		if value, err := flags.GetInt(flagLineOfEnum); err == nil {
+			this.Global.LineOfEnum = value
+		} // if
+	} // if
+
 	if flags.Changed(flagExcludes) {
 		if items, err := flags.GetStringSlice(flagExcludes); err == nil {
 			this.Global.Excludes = append(this.Global.Excludes, items...)
@@ -125,6 +133,19 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 			for _, itor := range items {
 				if before, after, ok := strings.Cut(itor, internal.SeparateElement); ok {
 					this.Elements = append(this.Elements, Element{
+						Excel: before,
+						Sheet: after,
+					})
+				} // if
+			} // for
+		} // if
+	} // if
+
+	if flags.Changed(flagEnums) {
+		if items, err := flags.GetStringSlice(flagEnums); err == nil {
+			for _, itor := range items {
+				if before, after, ok := strings.Cut(itor, internal.SeparateElement); ok {
+					this.Enums = append(this.Enums, Element{
 						Excel: before,
 						Sheet: after,
 					})
@@ -156,6 +177,10 @@ func (this *Config) Check() error {
 
 	if this.Global.LineOfData <= 0 {
 		return fmt.Errorf("config check failed: lineOfData <= 0")
+	} // if
+
+	if this.Global.LineOfEnum <= 0 {
+		return fmt.Errorf("config check failed: lineOfEnum <= 0")
 	} // if
 
 	if this.Global.LineOfName >= this.Global.LineOfData {

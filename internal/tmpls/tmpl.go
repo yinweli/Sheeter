@@ -33,6 +33,7 @@ func Initialize(cmd *cobra.Command) error {
 		ProtoDepotCs,
 		ProtoReaderGo,
 		ProtoDepotGo,
+		EnumSchema,
 	}
 
 	for _, itor := range tmpls {

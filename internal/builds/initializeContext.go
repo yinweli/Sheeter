@@ -17,5 +17,12 @@ func InitializeContext(config *Config) *Context {
 		})
 	} // for
 
+	for _, itor := range config.Enums {
+		context.Element = append(context.Element, &initializeEnum{
+			Global: &config.Global,
+			Named:  &nameds.Named{ExcelName: itor.Excel, SheetName: itor.Sheet},
+		})
+	} // for
+
 	return context
 }

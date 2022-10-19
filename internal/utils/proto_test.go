@@ -31,17 +31,17 @@ func (this *SuiteProto) TestJsonToProto() {
 	// 所以測試的欄位要注意不要改成int64, 會造成測試錯誤
 
 	raw := []byte(`{"Value":123456,"Data":{"Value":654321}}`)
-	data, err := JsonToProto(testdata.ProtoNameTest, "test.Test1", []string{}, raw)
+	data, err := JsonToProto(testdata.ProtoTest, "test.Test1", []string{}, raw)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), data)
-	json, err := ProtoToJson(testdata.ProtoNameTest, "test.Test1", []string{}, data)
+	json, err := ProtoToJson(testdata.ProtoTest, "test.Test1", []string{}, data)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), json)
 	assert.Equal(this.T(), string(raw), string(json))
 }
 
 func (this *SuiteProto) TestParseProto() {
-	file, err := parseProto(testdata.ProtoNameTest, []string{})
+	file, err := parseProto(testdata.ProtoTest, []string{})
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), file)
 	assert.NotNil(this.T(), file.FindMessage("test.Test1"))

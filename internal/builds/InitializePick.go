@@ -23,56 +23,79 @@ func InitializePick(context *Context) error {
 	}
 
 	for _, itor := range context.Element {
-		data, ok := itor.(*initializeElement)
+		if data, ok := itor.(*initializeElement); ok {
+			if err := layoutType.Merge(data.layoutType); err != nil {
+				return fmt.Errorf("initialize pick failed: %w", err)
+			} // if
 
-		if ok == false {
-			return fmt.Errorf("initialize pick failed: cast failed")
+			if err := layoutDepend.Merge(data.layoutDepend); err != nil {
+				return fmt.Errorf("initialize pick failed: %w", err)
+			} // if
+
+			named := &nameds.Named{ExcelName: data.ExcelName, SheetName: data.SheetName}
+			json := &nameds.Json{ExcelName: data.ExcelName, SheetName: data.SheetName}
+			proto := &nameds.Proto{ExcelName: data.ExcelName, SheetName: data.SheetName}
+
+			if context.ExportJson {
+				context.Encoding = append(context.Encoding, &encodingJson{
+					Global:     context.Global,
+					Named:      named,
+					Json:       json,
+					excel:      data.excel,
+					layoutJson: data.layoutJson,
+				})
+			} // if
+
+			if context.ExportProto {
+				context.Encoding = append(context.Encoding, &encodingProto{
+					Global:     context.Global,
+					Named:      named,
+					Proto:      proto,
+					excel:      data.excel,
+					layoutJson: data.layoutJson,
+				})
+			} // if
 		} // if
 
-		if err := layoutType.Merge(data.layoutType); err != nil {
-			return fmt.Errorf("initialize pick failed: %w", err)
-		} // if
+		if data, ok := itor.(*initializeEnum); ok {
+			named := &nameds.Named{ExcelName: data.ExcelName, SheetName: data.SheetName}
+			enum := &nameds.Enum{ExcelName: data.ExcelName, SheetName: data.SheetName}
 
-		if err := layoutDepend.Merge(data.layoutDepend); err != nil {
-			return fmt.Errorf("initialize pick failed: %w", err)
-		} // if
-
-		if context.ExportJson {
-			context.Encoding = append(context.Encoding, &encodingJson{
-				Global:     context.Global,
-				Named:      &nameds.Named{ExcelName: data.ExcelName, SheetName: data.SheetName},
-				Json:       &nameds.Json{ExcelName: data.ExcelName, SheetName: data.SheetName},
-				excel:      data.excel,
-				layoutJson: data.layoutJson,
-			})
-		} // if
-
-		if context.ExportProto {
-			context.Encoding = append(context.Encoding, &encodingProto{
-				Global:     context.Global,
-				Named:      &nameds.Named{ExcelName: data.ExcelName, SheetName: data.SheetName},
-				Proto:      &nameds.Proto{ExcelName: data.ExcelName, SheetName: data.SheetName},
-				excel:      data.excel,
-				layoutJson: data.layoutJson,
-			})
+			if context.ExportEnum {
+				context.Generate = append(context.Generate, &generateEnum{
+					Global: context.Global,
+					Named:  named,
+					Enum:   enum,
+					Enums:  data.layoutEnum.Enums(),
+				})
+				context.Poststep = append(context.Poststep, &poststepConvert{
+					include:  enum.EnumSchemaPath(),
+					outputCs: enum.EnumCsPath(),
+					outputGo: enum.EnumGoPath(),
+					source:   enum.EnumPath(),
+				})
+			} // if
 		} // if
 	} // for
 
 	for _, itor := range layoutType.TypeNames() {
-		// 由於這些組件都會在多執行緒環境下執行, 所以要注意不能有改變自身資料的操作出現
 		types := layoutType.Types(itor)
+		named := &nameds.Named{ExcelName: types.Excel, SheetName: types.Sheet}
+		field := &nameds.Field{}
+		json := &nameds.Json{ExcelName: types.Excel, SheetName: types.Sheet}
+		proto := &nameds.Proto{ExcelName: types.Excel, SheetName: types.Sheet}
 		depend := layoutDepend.Depends(itor)
 
 		if context.ExportJson {
 			context.Generate = append(context.Generate, &generateJson{
 				Global: context.Global,
-				Named:  &nameds.Named{ExcelName: types.Excel, SheetName: types.Sheet},
-				Field:  &nameds.Field{},
-				Json:   &nameds.Json{ExcelName: types.Excel, SheetName: types.Sheet},
+				Named:  named,
+				Field:  field,
+				Json:   json,
 				Type:   types,
 			})
 			poststepJsonDepot.Struct = append(poststepJsonDepot.Struct, poststepJsonStruct{
-				Named:  &nameds.Named{ExcelName: types.Excel, SheetName: types.Sheet},
+				Named:  named,
 				Reader: types.Reader,
 			})
 		} // if
@@ -80,13 +103,12 @@ func InitializePick(context *Context) error {
 		if context.ExportProto {
 			context.Generate = append(context.Generate, &generateProto{
 				Global: context.Global,
-				Named:  &nameds.Named{ExcelName: types.Excel, SheetName: types.Sheet},
-				Field:  &nameds.Field{},
-				Proto:  &nameds.Proto{ExcelName: types.Excel, SheetName: types.Sheet},
+				Named:  named,
+				Field:  field,
+				Proto:  proto,
 				Type:   types,
 				Depend: depend,
 			})
-			proto := &nameds.Proto{ExcelName: types.Excel, SheetName: types.Sheet}
 			context.Poststep = append(context.Poststep, &poststepConvert{
 				include:  proto.ProtoSchemaPath(),
 				outputCs: proto.ProtoCsPath(),
@@ -94,7 +116,7 @@ func InitializePick(context *Context) error {
 				source:   proto.ProtoPath(),
 			})
 			poststepProtoDepot.Struct = append(poststepProtoDepot.Struct, poststepProtoStruct{
-				Named:  &nameds.Named{ExcelName: types.Excel, SheetName: types.Sheet},
+				Named:  named,
 				Reader: types.Reader,
 			})
 		} // if
@@ -106,10 +128,6 @@ func InitializePick(context *Context) error {
 
 	if context.ExportProto {
 		context.Poststep = append(context.Poststep, poststepProtoDepot)
-	} // if
-
-	if context.Format {
-		context.Poststep = append(context.Poststep, &poststepFormat{})
 	} // if
 
 	return nil

@@ -41,6 +41,10 @@ func (this *SuiteInitializeContext) target() *Config {
 			{Excel: "test1", Sheet: "data1"},
 			{Excel: "test2", Sheet: "data2"},
 		},
+		Enums: []Element{
+			{Excel: "test1", Sheet: "data1"},
+			{Excel: "test2", Sheet: "data2"},
+		},
 	}
 	return target
 }
@@ -50,7 +54,7 @@ func (this *SuiteInitializeContext) TestInitializeContext() {
 	context := InitializeContext(target)
 	assert.NotNil(this.T(), context)
 	assert.Equal(this.T(), &target.Global, context.Global)
-	assert.Len(this.T(), context.Element, len(target.Elements))
+	assert.Len(this.T(), context.Element, len(target.Elements)+len(target.Enums))
 	element0, ok := context.Element[0].(*initializeElement)
 	assert.True(this.T(), ok)
 	assert.NotNil(this.T(), element0)
@@ -63,4 +67,16 @@ func (this *SuiteInitializeContext) TestInitializeContext() {
 	assert.Equal(this.T(), &target.Global, element1.Global)
 	assert.Equal(this.T(), target.Elements[1].Excel, element1.ExcelName)
 	assert.Equal(this.T(), target.Elements[1].Sheet, element1.SheetName)
+	element2, ok := context.Element[2].(*initializeEnum)
+	assert.True(this.T(), ok)
+	assert.NotNil(this.T(), element2)
+	assert.Equal(this.T(), &target.Global, element2.Global)
+	assert.Equal(this.T(), target.Enums[0].Excel, element2.ExcelName)
+	assert.Equal(this.T(), target.Enums[0].Sheet, element2.SheetName)
+	element3, ok := context.Element[3].(*initializeEnum)
+	assert.True(this.T(), ok)
+	assert.NotNil(this.T(), element3)
+	assert.Equal(this.T(), &target.Global, element3.Global)
+	assert.Equal(this.T(), target.Enums[1].Excel, element3.ExcelName)
+	assert.Equal(this.T(), target.Enums[1].Sheet, element3.SheetName)
 }

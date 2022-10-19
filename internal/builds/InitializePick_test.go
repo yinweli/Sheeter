@@ -31,6 +31,7 @@ func (this *SuiteInitializePick) target() *Config {
 		Global: Global{
 			ExportJson:  true,
 			ExportProto: true,
+			ExportEnum:  true,
 			LineOfName:  1,
 			LineOfNote:  2,
 			LineOfField: 3,
@@ -38,7 +39,10 @@ func (this *SuiteInitializePick) target() *Config {
 			LineOfData:  5,
 		},
 		Elements: []Element{
-			{Excel: testdata.ExcelNameReal, Sheet: testdata.SheetData},
+			{Excel: testdata.ExcelReal, Sheet: testdata.SheetData},
+		},
+		Enums: []Element{
+			{Excel: testdata.ExcelReal, Sheet: testdata.SheetEnum},
 		},
 	}
 	return target
@@ -50,6 +54,7 @@ func (this *SuiteInitializePick) TestInitializePick() {
 
 	for _, itor := range context.Element {
 		assert.Nil(this.T(), InitializeElement(itor))
+		assert.Nil(this.T(), InitializeEnum(itor))
 	} // for
 
 	assert.Nil(this.T(), InitializePick(context))

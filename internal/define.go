@@ -45,6 +45,7 @@ const TmplProtoReaderCsFile = "proto-reader-cs.txt" // 輸出檔名: proto讀取
 const TmplProtoDepotCsFile = "proto-depot-cs.txt"   // 輸出檔名: proto倉庫cs模板
 const TmplProtoReaderGoFile = "proto-reader-go.txt" // 輸出檔名: proto讀取器go模板
 const TmplProtoDepotGoFile = "proto-depot-go.txt"   // 輸出檔名: proto倉庫go模板
+const TmplEnumSchemaFile = "enum-schema.txt"        // 輸出檔名: enum架構模板
 
 /* 通用名稱 */
 
@@ -71,6 +72,12 @@ const ProtoNamespace = AppName + "Proto" // 命名空間名稱: proto
 const ProtoPath = "proto"                // 輸出路徑: proto
 const ProtoSchemaExt = "proto"           // 副檔名: proto架構
 const ProtoDataExt = "bytes"             // 副檔名: proto資料
+
+/* enum相關 */
+
+const EnumNamespace = AppName + "Enum" // 命名空間名稱: enum
+const EnumPath = "enum"                // 輸出路徑: enum
+const EnumSchemaExt = "proto"          // 副檔名: enum架構
 
 // Keywords 關鍵字列表
 var Keywords = []string{

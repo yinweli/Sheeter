@@ -10,6 +10,7 @@ import (
 func Initialize(config *Config) (context *Context, errs []error) {
 	executor := []pipelines.Executor{
 		InitializeElement,
+		InitializeEnum,
 	}
 	context = InitializeContext(config)
 

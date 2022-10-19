@@ -51,6 +51,8 @@ func (this *SuiteNamed) TestName() {
 	assert.Equal(this.T(), internal.JsonNamespace, target.JsonNamespace(false))
 	assert.Equal(this.T(), internal.AppName, target.ProtoNamespace(true))
 	assert.Equal(this.T(), internal.ProtoNamespace, target.ProtoNamespace(false))
+	assert.Equal(this.T(), internal.AppName, target.EnumNamespace(true))
+	assert.Equal(this.T(), internal.EnumNamespace, target.EnumNamespace(false))
 	assert.Equal(this.T(), structName, target.StructName())
 	assert.Equal(this.T(), readerName, target.ReaderName())
 	assert.Equal(this.T(), storerName, target.StorerName())

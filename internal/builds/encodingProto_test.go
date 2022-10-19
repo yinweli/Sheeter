@@ -74,21 +74,21 @@ func (this *SuiteEncodingProto) target(excel string) *encodingProto {
 }
 
 func (this *SuiteEncodingProto) TestEncodingProto() {
-	target := this.target(testdata.ExcelNameReal)
+	target := this.target(testdata.ExcelReal)
 	assert.Nil(this.T(), EncodingProto(target))
 	assert.FileExists(this.T(), target.ProtoDataPath())
 
-	target = this.target(testdata.ExcelNameEmpty)
+	target = this.target(testdata.ExcelEmpty)
 	assert.Nil(this.T(), EncodingProto(target))
 	assert.FileExists(this.T(), target.ProtoDataPath())
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
-		target = this.target(testdata.ExcelNameReal)
+		target = this.target(testdata.ExcelReal)
 		target.Proto.ExcelName = testdata.UnknownStr
 		assert.NotNil(this.T(), EncodingProto(target))
 
-		target = this.target(testdata.ExcelNameReal)
+		target = this.target(testdata.ExcelReal)
 		target.Proto.SheetName = testdata.UnknownStr
 		assert.NotNil(this.T(), EncodingProto(target))
 	} // if

@@ -35,7 +35,7 @@ func (this *SuiteInitializeElement) target() *initializeElement {
 			LineOfField: 3,
 			LineOfLayer: 4,
 		},
-		Named: &nameds.Named{ExcelName: testdata.ExcelNameReal, SheetName: testdata.SheetData},
+		Named: &nameds.Named{ExcelName: testdata.ExcelReal, SheetName: testdata.SheetData},
 	}
 	return target
 }
@@ -93,42 +93,42 @@ func (this *SuiteInitializeElement) TestInitializeElement() {
 	target.Close()
 
 	target = this.target()
-	target.Named.ExcelName = testdata.ExcelNameInvalidFile
+	target.Named.ExcelName = testdata.ExcelInvalidFile
 	assert.NotNil(this.T(), InitializeElement(target))
 	target.Close()
 
 	target = this.target()
-	target.Named.ExcelName = testdata.ExcelNameCleanAll
+	target.Named.ExcelName = testdata.ExcelCleanAll
 	assert.NotNil(this.T(), InitializeElement(target))
 	target.Close()
 
 	target = this.target()
-	target.Named.ExcelName = testdata.ExcelNameCleanField
+	target.Named.ExcelName = testdata.ExcelCleanField
 	assert.NotNil(this.T(), InitializeElement(target))
 	target.Close()
 
 	target = this.target()
-	target.Named.ExcelName = testdata.ExcelNameInvalidField
+	target.Named.ExcelName = testdata.ExcelInvalidField
 	assert.NotNil(this.T(), InitializeElement(target))
 	target.Close()
 
 	target = this.target()
-	target.Named.ExcelName = testdata.ExcelNameInvalidLayer
+	target.Named.ExcelName = testdata.ExcelInvalidLayer
 	assert.NotNil(this.T(), InitializeElement(target))
 	target.Close()
 
 	target = this.target()
-	target.Named.ExcelName = testdata.ExcelNameInvalidLayout
+	target.Named.ExcelName = testdata.ExcelInvalidLayout
 	assert.NotNil(this.T(), InitializeElement(target))
 	target.Close()
 
 	target = this.target()
-	target.Named.ExcelName = testdata.ExcelNameInvalidPkeyZero
+	target.Named.ExcelName = testdata.ExcelInvalidPkeyZero
 	assert.NotNil(this.T(), InitializeElement(target))
 	target.Close()
 
 	target = this.target()
-	target.Named.ExcelName = testdata.ExcelNameInvalidPkeyDupl
+	target.Named.ExcelName = testdata.ExcelInvalidPkeyDupl
 	assert.NotNil(this.T(), InitializeElement(target))
 	target.Close()
 }

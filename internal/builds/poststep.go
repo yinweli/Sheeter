@@ -13,8 +13,5 @@ func Poststep(context *Context) []error {
 		PoststepProtoDepotGo,
 		PoststepConvertCs,
 		PoststepConvertGo,
-		PoststepFormatCs,
-		PoststepFormatGo,
-		PoststepFormatProto,
 	})
 }
