@@ -4,6 +4,7 @@ import (
 	"path/filepath"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Json json命名工具
@@ -46,6 +47,7 @@ func (this *Json) JsonStructCsPath() string {
 	return filepath.Join(internal.JsonPath, internal.CsPath, combine(&params{
 		excelName:  this.ExcelName,
 		sheetName:  this.SheetName,
+		excelUpper: true, // cs程式碼一律大寫開頭
 		sheetUpper: true,
 		ext:        internal.CsExt,
 	}))
@@ -56,6 +58,7 @@ func (this *Json) JsonReaderCsPath() string {
 	return filepath.Join(internal.JsonPath, internal.CsPath, combine(&params{
 		excelName:  this.ExcelName,
 		sheetName:  this.SheetName,
+		excelUpper: true, // cs程式碼一律大寫開頭
 		sheetUpper: true,
 		last:       internal.Reader,
 		ext:        internal.CsExt,
@@ -64,7 +67,7 @@ func (this *Json) JsonReaderCsPath() string {
 
 // JsonDepotCsPath 取得json倉庫cs程式碼路徑
 func (this *Json) JsonDepotCsPath() string {
-	return filepath.Join(internal.JsonPath, internal.CsPath, internal.Depot+"."+internal.CsExt)
+	return filepath.Join(internal.JsonPath, internal.CsPath, utils.FirstUpper(internal.Depot)+"."+internal.CsExt) // cs程式碼一律大寫開頭
 }
 
 // JsonStructGoPath 取得json-go結構程式碼路徑

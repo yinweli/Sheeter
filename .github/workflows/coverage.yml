@@ -12,6 +12,7 @@ jobs:
       matrix:
           os: [ubuntu-latest]
           go: [1.18.x]
+          proto: [3.x]
     name: ${{ matrix.os }} @ go ${{ matrix.go }}
     runs-on: ${{ matrix.os }}
     steps:
@@ -21,8 +22,15 @@ jobs:
       uses: actions/setup-go@v3
       with:
         go-version: ${{ matrix.go }}
+    - name: setup protoc
+      uses: arduino/setup-protoc@v1
+      with:
+        version: ${{ matrix.proto }}
+        repo-token: ${{ secrets.WORKFLOW }}
+    - name: setup protoc-go
+      run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
     - name: test
-      run: go test -race -coverprofile=coverage.txt -covermode=atomic ./...
+      run: go test -coverprofile=coverage.txt -covermode=atomic ./...
     - name: upload coverage to Codecov
       uses: codecov/codecov-action@v3
       with:

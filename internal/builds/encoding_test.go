@@ -26,6 +26,7 @@ func (this *SuiteEncoding) SetupSuite() {
 }
 
 func (this *SuiteEncoding) TearDownSuite() {
+	_ = os.RemoveAll(internal.EnumPath)
 	_ = os.RemoveAll(internal.JsonPath)
 	_ = os.RemoveAll(internal.ProtoPath)
 	testdata.RestoreWorkDir(this.workDir)
@@ -36,15 +37,20 @@ func (this *SuiteEncoding) target() *Config {
 		Global: Global{
 			ExportJson:      true,
 			ExportProto:     true,
+			ExportEnum:      true,
 			SimpleNamespace: false,
 			LineOfName:      1,
 			LineOfNote:      2,
 			LineOfField:     3,
 			LineOfLayer:     4,
 			LineOfData:      5,
+			LineOfEnum:      2,
 		},
 		Elements: []Element{
 			{Excel: testdata.ExcelReal, Sheet: testdata.SheetData},
+		},
+		Enums: []Element{
+			{Excel: testdata.ExcelReal, Sheet: testdata.SheetEnum},
 		},
 	}
 	return target

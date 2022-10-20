@@ -47,9 +47,9 @@ func (this *SuiteJson) TestName() {
 	readerName := name + internal.Reader + "."
 	jsonDataFile := structName + internal.JsonDataExt
 	jsonDataPath := filepath.Join(internal.JsonPath, internal.DataPath, structName+internal.JsonDataExt)
-	jsonStructCsPath := filepath.Join(internal.JsonPath, internal.CsPath, structName+internal.CsExt)
-	jsonReaderCsPath := filepath.Join(internal.JsonPath, internal.CsPath, readerName+internal.CsExt)
-	jsonDepotCsPath := filepath.Join(internal.JsonPath, internal.CsPath, internal.Depot+"."+internal.CsExt)
+	jsonStructCsPath := filepath.Join(internal.JsonPath, internal.CsPath, utils.FirstUpper(structName)+internal.CsExt)
+	jsonReaderCsPath := filepath.Join(internal.JsonPath, internal.CsPath, utils.FirstUpper(readerName)+internal.CsExt)
+	jsonDepotCsPath := filepath.Join(internal.JsonPath, internal.CsPath, utils.FirstUpper(internal.Depot)+"."+internal.CsExt)
 	jsonStructGoPath := filepath.Join(internal.JsonPath, internal.GoPath, structName+internal.GoExt)
 	jsonReaderGoPath := filepath.Join(internal.JsonPath, internal.GoPath, readerName+internal.GoExt)
 	jsonDepotGoPath := filepath.Join(internal.JsonPath, internal.GoPath, internal.Depot+"."+internal.GoExt)

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 變更模板檔案名稱
 - 後製時會執行protoc產生程式碼
 - 變更範例專案
+- 產生的cs程式碼一律為大寫開頭
 ### Added
 - 新增從excel產生列舉
 ### Removed

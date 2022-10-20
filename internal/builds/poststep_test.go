@@ -26,6 +26,7 @@ func (this *SuitePoststep) SetupSuite() {
 }
 
 func (this *SuitePoststep) TearDownSuite() {
+	_ = os.RemoveAll(internal.EnumPath)
 	_ = os.RemoveAll(internal.JsonPath)
 	_ = os.RemoveAll(internal.ProtoPath)
 	testdata.RestoreWorkDir(this.workDir)
@@ -36,15 +37,20 @@ func (this *SuitePoststep) target() *Config {
 		Global: Global{
 			ExportJson:      true,
 			ExportProto:     true,
+			ExportEnum:      true,
 			SimpleNamespace: false,
 			LineOfName:      1,
 			LineOfNote:      2,
 			LineOfField:     3,
 			LineOfLayer:     4,
 			LineOfData:      5,
+			LineOfEnum:      2,
 		},
 		Elements: []Element{
 			{Excel: testdata.ExcelReal, Sheet: testdata.SheetData},
+		},
+		Enums: []Element{
+			{Excel: testdata.ExcelReal, Sheet: testdata.SheetEnum},
 		},
 	}
 	return target
@@ -60,8 +66,8 @@ func (this *SuitePoststep) TestPoststep() {
 	assert.Len(this.T(), errs, 0)
 	errs = Poststep(context)
 	assert.Len(this.T(), errs, 0)
-	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.CsPath, "depot.cs"))
+	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.CsPath, "Depot.cs"))
 	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.GoPath, "depot.go"))
-	assert.FileExists(this.T(), filepath.Join(internal.ProtoPath, internal.CsPath, "depot.cs"))
+	assert.FileExists(this.T(), filepath.Join(internal.ProtoPath, internal.CsPath, "Depot.cs"))
 	assert.FileExists(this.T(), filepath.Join(internal.ProtoPath, internal.GoPath, "depot.go"))
 }

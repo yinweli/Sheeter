@@ -45,7 +45,7 @@ func (this *SuitePoststepConvert) target() *poststepConvert {
 
 func (this *SuitePoststepConvert) TestPoststepConvertCs() {
 	assert.Nil(this.T(), PoststepConvertCs(this.target()))
-	assert.FileExists(this.T(), filepath.Join(internal.CsPath, "test1.cs"))
+	assert.FileExists(this.T(), filepath.Join(internal.CsPath, "Test1.cs"))
 
 	assert.Nil(this.T(), PoststepConvertCs(nil))
 }
