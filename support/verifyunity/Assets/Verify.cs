@@ -7,6 +7,7 @@ namespace verifycs {
             VerifyJson.verifyJsonMerge();
             VerifyProto.verifyProtoFrom();
             VerifyProto.verifyProtoMerge();
+            VerifyEnum.verifyEnum();
         }
     }
 }

@@ -2,6 +2,7 @@ package builds
 
 import (
 	"fmt"
+	"os"
 
 	"github.com/yinweli/Sheeter/internal/utils"
 )
@@ -22,6 +23,7 @@ func PoststepConvertCs(material any) error {
 		return nil
 	} // if
 
+	_ = os.MkdirAll(data.outputCs, os.ModePerm)
 	include := fmt.Sprintf("--proto_path=./%s", data.include)
 	output := fmt.Sprintf("--csharp_out=./%s", data.outputCs)
 	source := fmt.Sprintf("./%s", data.source)
@@ -41,6 +43,7 @@ func PoststepConvertGo(material any) error {
 		return nil
 	} // if
 
+	_ = os.MkdirAll(data.outputGo, os.ModePerm)
 	include := fmt.Sprintf("--proto_path=./%s", data.include)
 	output := fmt.Sprintf("--go_out=./%s", data.outputGo)
 	source := fmt.Sprintf("./%s", data.source)

@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 	"runtime"
 
+	sheeterEnum "github.com/yinweli/Sheeter/support/example/enum/codeGo"
 	sheeterJson "github.com/yinweli/Sheeter/support/example/json/codeGo"
 	sheeterProto "github.com/yinweli/Sheeter/support/example/proto/codeGo"
 )
@@ -13,6 +14,7 @@ import (
 func main() {
 	exampleJson()
 	exampleProto()
+	exampleEnum()
 }
 
 // exampleJson json範例
@@ -63,6 +65,15 @@ func exampleProto() {
 	} else {
 		fmt.Println("proto failed: get data failed")
 	}
+}
+
+// exampleEnum enum範例
+func exampleEnum() {
+	// 列舉就直接使用就好
+	fmt.Println(sheeterEnum.ExampleEnum_Name0)
+	fmt.Println(sheeterEnum.ExampleEnum_Name1)
+	fmt.Println(sheeterEnum.ExampleEnum_Name2)
+	fmt.Println("enum success")
 }
 
 // fileLoader 檔案讀取器

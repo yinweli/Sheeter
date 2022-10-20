@@ -10,6 +10,7 @@ namespace Example
         {
             exampleJson();
             exampleProto();
+            exampleEnum();
         }
 
         /// <summary>
@@ -70,6 +71,18 @@ namespace Example
             {
                 Console.WriteLine("proto failed: get data failed");
             }
+        }
+
+        /// <summary>
+        /// enum範例
+        /// </summary>
+        private static void exampleEnum()
+        {
+            // 列舉就直接使用就好
+            Console.WriteLine(SheeterEnum.ExampleEnum.Name0);
+            Console.WriteLine(SheeterEnum.ExampleEnum.Name1);
+            Console.WriteLine(SheeterEnum.ExampleEnum.Name2);
+            Console.WriteLine("enum success");
         }
     }
 

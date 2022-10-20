@@ -1,13 +1,14 @@
 global:
   exportJson: true
   exportProto: true
+  exportEnum: true
   simpleNamespace: false
-  format: true
   lineOfName: 1
   lineOfNote: 2
   lineOfField: 3
   lineOfLayer: 4
   lineOfData: 5
+  lineOfEnum: 2
   excludes:
     - tag
 
@@ -16,3 +17,7 @@ elements:
     sheet: Data1
   - excel: verify.xlsx
     sheet: Data2
+
+enums:
+  - excel: verify.xlsx
+    sheet: Enum

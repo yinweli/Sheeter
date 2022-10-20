@@ -14,5 +14,6 @@ func Generate(context *Context) []error {
 		GenerateProtoSchema,
 		GenerateProtoReaderCs,
 		GenerateProtoReaderGo,
+		GenerateEnumSchema,
 	})
 }

@@ -5,4 +5,5 @@ func main() {
 	verifyJsonMerge()
 	verifyProtoFrom()
 	verifyProtoMerge()
+	verifyEnum()
 }

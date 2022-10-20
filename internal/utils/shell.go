@@ -13,7 +13,7 @@ func ShellRun(name string, args ...string) error {
 	cmd.Stderr = buffer
 
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("shell run failed: %w", err)
+		return fmt.Errorf("shell run failed: %w: %s", err, buffer.String())
 	} // if
 
 	return nil
