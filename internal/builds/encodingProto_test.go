@@ -8,8 +8,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/yinweli/Sheeter/internal"
-	"github.com/yinweli/Sheeter/internal/mixeds"
-	"github.com/yinweli/Sheeter/internal/utils"
+	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -32,59 +31,65 @@ func (this *SuiteEncodingProto) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteEncodingProto) target(excel string) *encodingData {
-	context := &Context{
-		Config: &Config{
-			Global: Global{
-				ExportProto: true,
-				LineOfName:  1,
-				LineOfNote:  2,
-				LineOfField: 3,
-				LineOfLayer: 4,
-				LineOfData:  5,
-			},
+func (this *SuiteEncodingProto) target(excel string) *encodingProto {
+	element := &initializeElement{
+		Global: &Global{
+			LineOfName:  1,
+			LineOfNote:  2,
+			LineOfField: 3,
+			LineOfLayer: 4,
+			LineOfData:  5,
 		},
-		Sector: []*ContextSector{
-			{
-				Element: Element{
-					Excel: excel,
-					Sheet: testdata.SheetData,
-				},
-			},
-		},
+		Named: &nameds.Named{ExcelName: excel, SheetName: testdata.SheetData},
 	}
-	sector := context.Sector[0]
 
-	assert.Nil(this.T(), Initialize(context))
-	assert.Nil(this.T(), Generate(context))
+	assert.Nil(this.T(), InitializeElement(element))
+	generate := []any{}
 
-	target := &encodingData{
-		Global:     &context.Global,
-		Element:    &sector.Element,
-		Mixed:      mixeds.NewMixed(excel, testdata.SheetData),
-		excel:      sector.excel,
-		layoutJson: sector.layoutJson,
+	for _, itor := range element.layoutType.TypeNames() {
+		types := element.layoutType.Types(itor)
+		depend := element.layoutDepend.Depends(itor)
+		generate = append(generate, &generateProto{
+			Global: element.Global,
+			Named:  &nameds.Named{ExcelName: types.Excel, SheetName: types.Sheet},
+			Field:  &nameds.Field{},
+			Proto:  &nameds.Proto{ExcelName: types.Excel, SheetName: types.Sheet},
+			Type:   types,
+			Depend: depend,
+		})
+	} // for
+
+	for _, itor := range generate {
+		assert.Nil(this.T(), GenerateProtoSchema(itor))
+	} // for
+
+	target := &encodingProto{
+		Global:     element.Global,
+		Named:      element.Named,
+		Proto:      &nameds.Proto{ExcelName: excel, SheetName: testdata.SheetData},
+		excel:      element.excel,
+		layoutJson: element.layoutJson,
 	}
 	return target
 }
 
 func (this *SuiteEncodingProto) TestEncodingProto() {
-	target := this.target(testdata.ExcelNameReal)
-	assert.Nil(this.T(), encodingProto(target))
-	assert.True(this.T(), utils.FileExist(target.ProtoDataPath()))
+	target := this.target(testdata.ExcelReal)
+	assert.Nil(this.T(), EncodingProto(target))
+	assert.FileExists(this.T(), target.ProtoDataPath())
 
-	target = this.target(testdata.ExcelNameEmpty)
-	assert.Nil(this.T(), encodingProto(target))
-	assert.True(this.T(), utils.FileExist(target.ProtoDataPath()))
+	target = this.target(testdata.ExcelEmpty)
+	assert.Nil(this.T(), EncodingProto(target))
+	assert.FileExists(this.T(), target.ProtoDataPath())
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
-		target = this.target(testdata.ExcelNameReal)
-		target.Mixed = mixeds.NewMixed(testdata.UnknownStr, target.Sheet)
-		assert.NotNil(this.T(), encodingProto(target))
+		target = this.target(testdata.ExcelReal)
+		target.Proto.ExcelName = testdata.UnknownStr
+		assert.NotNil(this.T(), EncodingProto(target))
 
-		target = this.target(testdata.ExcelNameReal)
-		target.Mixed = mixeds.NewMixed(target.Excel, testdata.UnknownStr)
-		assert.NotNil(this.T(), encodingProto(target))
+		target = this.target(testdata.ExcelReal)
+		target.Proto.SheetName = testdata.UnknownStr
+		assert.NotNil(this.T(), EncodingProto(target))
 	} // if
 }

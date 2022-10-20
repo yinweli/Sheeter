@@ -2,6 +2,7 @@ package builds
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -25,37 +26,44 @@ func (this *SuiteEncoding) SetupSuite() {
 }
 
 func (this *SuiteEncoding) TearDownSuite() {
+	_ = os.RemoveAll(internal.EnumPath)
 	_ = os.RemoveAll(internal.JsonPath)
 	_ = os.RemoveAll(internal.ProtoPath)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteEncoding) target() *Context {
-	target := &Context{
-		Config: &Config{
-			Global: Global{
-				ExportJson:  true,
-				ExportProto: true,
-				LineOfName:  1,
-				LineOfNote:  2,
-				LineOfField: 3,
-				LineOfLayer: 4,
-				LineOfData:  5,
-			},
-			Elements: []Element{
-				{
-					Excel: testdata.ExcelNameReal,
-					Sheet: testdata.SheetData,
-				},
-			},
+func (this *SuiteEncoding) target() *Config {
+	target := &Config{
+		Global: Global{
+			ExportJson:      true,
+			ExportProto:     true,
+			ExportEnum:      true,
+			SimpleNamespace: false,
+			LineOfName:      1,
+			LineOfNote:      2,
+			LineOfField:     3,
+			LineOfLayer:     4,
+			LineOfData:      5,
+			LineOfEnum:      2,
+		},
+		Elements: []Element{
+			{Excel: testdata.ExcelReal, Sheet: testdata.SheetData},
+		},
+		Enums: []Element{
+			{Excel: testdata.ExcelReal, Sheet: testdata.SheetEnum},
 		},
 	}
 	return target
 }
 
 func (this *SuiteEncoding) TestEncoding() {
-	target := this.target()
-	assert.Empty(this.T(), Initialize(target))
-	assert.Empty(this.T(), Generate(target))
-	assert.Empty(this.T(), Encoding(target))
+	context, errs := Initialize(this.target())
+	assert.Len(this.T(), errs, 0)
+	assert.NotNil(this.T(), context)
+	errs = Generate(context)
+	assert.Len(this.T(), errs, 0)
+	errs = Encoding(context)
+	assert.Len(this.T(), errs, 0)
+	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.DataPath, "realData.json"))
+	assert.FileExists(this.T(), filepath.Join(internal.ProtoPath, internal.DataPath, "realData.bytes"))
 }

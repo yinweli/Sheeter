@@ -4,11 +4,18 @@ global:
     lineOfField: 103
     lineOfLayer: 104
     lineOfData: 105
+    lineOfEnum: 106
     excludes:
         - tag1
         - tag2
 
 elements:
+    - excel: excel1
+      sheet: sheet1
+    - excel: excel2
+      sheet: sheet2
+
+enums:
     - excel: excel1
       sheet: sheet1
     - excel: excel2

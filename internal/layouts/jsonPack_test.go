@@ -33,7 +33,7 @@ func (this *SuiteJsonPack) SetupSuite() {
 	this.lineOfField = 3
 	this.lineOfLayer = 4
 	this.lineOfData = 5
-	assert.Nil(this.T(), this.excel.Open(testdata.ExcelNameJsonPack))
+	assert.Nil(this.T(), this.excel.Open(testdata.ExcelJsonPack))
 }
 
 func (this *SuiteJsonPack) TearDownSuite() {

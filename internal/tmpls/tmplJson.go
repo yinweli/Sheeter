@@ -4,9 +4,9 @@ import (
 	"github.com/yinweli/Sheeter/internal"
 )
 
-// JsonCsStruct json-cs結構模板
-var JsonCsStruct = &Tmpl{
-	Name: internal.TmplJsonCsStructFile,
+// JsonStructCs json結構cs模板
+var JsonStructCs = &Tmpl{
+	Name: internal.TmplJsonStructCsFile,
 	Data: HeaderCode + `
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -29,9 +29,9 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
 `,
 }
 
-// JsonCsReader json-cs讀取器模板
-var JsonCsReader = &Tmpl{
-	Name: internal.TmplJsonCsReaderFile,
+// JsonReaderCs json讀取器cs模板
+var JsonReaderCs = &Tmpl{
+	Name: internal.TmplJsonReaderCsFile,
 	Data: HeaderCode + `
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -138,9 +138,9 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
 `,
 }
 
-// JsonCsDepot json-cs倉庫模板
-var JsonCsDepot = &Tmpl{
-	Name: internal.TmplJsonCsDepotFile,
+// JsonDepotCs json倉庫cs模板
+var JsonDepotCs = &Tmpl{
+	Name: internal.TmplJsonDepotCsFile,
 	Data: HeaderCode + `
 using System.Collections.Generic;
 
@@ -232,9 +232,9 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
 `,
 }
 
-// JsonGoStruct json-go結構模板
-var JsonGoStruct = &Tmpl{
-	Name: internal.TmplJsonGoStructFile,
+// JsonStructGo json-go結構模板
+var JsonStructGo = &Tmpl{
+	Name: internal.TmplJsonStructGoFile,
 	Data: HeaderCode + `
 package {{$.JsonNamespace $.SimpleNamespace}}
 
@@ -253,9 +253,9 @@ type {{$.StorerName}} struct {
 `,
 }
 
-// JsonGoReader json-go讀取器模板
-var JsonGoReader = &Tmpl{
-	Name: internal.TmplJsonGoReaderFile,
+// JsonReaderGo json-go讀取器模板
+var JsonReaderGo = &Tmpl{
+	Name: internal.TmplJsonReaderGoFile,
 	Data: HeaderCode + `
 package {{$.JsonNamespace $.SimpleNamespace}}
 
@@ -349,9 +349,9 @@ func (this *{{$.ReaderName}}) Count() int {
 `,
 }
 
-// JsonGoDepot json-go倉庫模板
-var JsonGoDepot = &Tmpl{
-	Name: internal.TmplJsonGoDepotFile,
+// JsonDepotGo json-go倉庫模板
+var JsonDepotGo = &Tmpl{
+	Name: internal.TmplJsonDepotGoFile,
 	Data: HeaderCode + `
 package {{$.JsonNamespace $.SimpleNamespace}}
 
@@ -375,7 +375,7 @@ type Depot struct {
 	{{.StructName}} {{.ReaderName}}
 {{- end}}
 {{- end}}
-	loader  Loader
+	loader Loader
 	readers []Reader
 }
 

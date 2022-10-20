@@ -1,15 +1,21 @@
 global:
-    exportJson: true
-    exportProto: true
-    simpleNamespace: false
-    lineOfName: 1
-    lineOfNote: 2
-    lineOfField: 3
-    lineOfLayer: 4
-    lineOfData: 5
-    excludes:
-        - ignore
+  exportJson: true
+  exportProto: true
+  exportEnum: true
+  simpleNamespace: false
+  lineOfName: 1
+  lineOfNote: 2
+  lineOfField: 3
+  lineOfLayer: 4
+  lineOfData: 5
+  lineOfEnum: 2
+  excludes:
+    - ignore
 
 elements:
-    - excel: example.xlsx
-      sheet: Data
+  - excel: example.xlsx
+    sheet: Data
+
+enums:
+  - excel: example.xlsx
+    sheet: Enum

@@ -5,14 +5,31 @@ import (
 	"path/filepath"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/internal/layouts"
+	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
-// encodingProto 產生proto資料
-func encodingProto(data *encodingData) error {
+// encodingProto 編碼proto資料
+type encodingProto struct {
+	*Global                           // 全域設定
+	*nameds.Named                     // 命名工具
+	*nameds.Proto                     // proto命名工具
+	excel         *excels.Excel       // excel物件
+	layoutJson    *layouts.LayoutJson // json布局器
+}
+
+// EncodingProto 編碼proto資料
+func EncodingProto(material any) error {
+	data, ok := material.(*encodingProto)
+
+	if ok == false {
+		return nil
+	} // if
+
 	structName := data.StructName()
-	sheet, err := data.excel.Get(data.Sheet)
+	sheet, err := data.excel.Get(data.Named.SheetName)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding proto failed: sheet not found", structName)

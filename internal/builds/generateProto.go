@@ -3,12 +3,30 @@ package builds
 import (
 	"fmt"
 
+	"github.com/yinweli/Sheeter/internal/layouts"
+	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/internal/tmpls"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
-// generateProtoSchema 產生proto架構檔案
-func generateProtoSchema(data *generateData) error {
+// generateProto 產生proto資料
+type generateProto struct {
+	*Global                // 全域設定
+	*nameds.Named          // 命名工具
+	*nameds.Field          // 欄位命名工具
+	*nameds.Proto          // proto命名工具
+	*layouts.Type          // 類型資料
+	Depend        []string // 依賴列表
+}
+
+// GenerateProtoSchema 產生proto架構檔案
+func GenerateProtoSchema(material any) error {
+	data, ok := material.(*generateProto)
+
+	if ok == false {
+		return nil
+	} // if
+
 	structName := data.StructName()
 
 	if err := utils.WriteTmpl(data.ProtoPath(), tmpls.ProtoSchema.Data, data); err != nil {
@@ -18,35 +36,43 @@ func generateProtoSchema(data *generateData) error {
 	return nil
 }
 
-// generateProtoCsReader 產生proto-cs讀取器程式碼
-func generateProtoCsReader(data *generateData) error {
+// GenerateProtoReaderCs 產生proto讀取器cs
+func GenerateProtoReaderCs(material any) error {
+	data, ok := material.(*generateProto)
+
+	if ok == false {
+		return nil
+	} // if
+
 	if data.Reader == false {
 		return nil
 	} // if
 
 	structName := data.StructName()
 
-	if err := utils.WriteTmpl(data.ProtoCsReaderPath(), tmpls.ProtoCsReader.Data, data); err != nil {
-		return fmt.Errorf("%s: generate proto-cs reader failed: %w", structName, err)
+	if err := utils.WriteTmpl(data.ProtoReaderCsPath(), tmpls.ProtoReaderCs.Data, data); err != nil {
+		return fmt.Errorf("%s: generate proto-reader-cs failed: %w", structName, err)
 	} // if
 
 	return nil
 }
 
-// generateProtoGoReader 產生proto-go讀取器程式碼
-func generateProtoGoReader(data *generateData) error {
+// GenerateProtoReaderGo 產生proto讀取器go
+func GenerateProtoReaderGo(material any) error {
+	data, ok := material.(*generateProto)
+
+	if ok == false {
+		return nil
+	} // if
+
 	if data.Reader == false {
 		return nil
 	} // if
 
 	structName := data.StructName()
 
-	if err := utils.WriteTmpl(data.ProtoGoReaderPath(), tmpls.ProtoGoReader.Data, data); err != nil {
-		return fmt.Errorf("%s: generate proto-cs reader failed: %w", structName, err)
-	} // if
-
-	if err := utils.ShellRun("gofmt", "-w", data.ProtoGoReaderPath()); err != nil {
-		return fmt.Errorf("%s: generate proto-go reader failed: gofmt error: %w", structName, err)
+	if err := utils.WriteTmpl(data.ProtoReaderGoPath(), tmpls.ProtoReaderGo.Data, data); err != nil {
+		return fmt.Errorf("%s: generate proto-reader-cs failed: %w", structName, err)
 	} // if
 
 	return nil

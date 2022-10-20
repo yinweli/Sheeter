@@ -2,6 +2,7 @@ package builds
 
 import (
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -25,36 +26,48 @@ func (this *SuiteGenerate) SetupSuite() {
 }
 
 func (this *SuiteGenerate) TearDownSuite() {
+	_ = os.RemoveAll(internal.EnumPath)
 	_ = os.RemoveAll(internal.JsonPath)
 	_ = os.RemoveAll(internal.ProtoPath)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteGenerate) target() *Context {
-	target := &Context{
-		Config: &Config{
-			Global: Global{
-				ExportJson:  true,
-				ExportProto: true,
-				LineOfName:  1,
-				LineOfNote:  2,
-				LineOfField: 3,
-				LineOfLayer: 4,
-				LineOfData:  5,
-			},
-			Elements: []Element{
-				{
-					Excel: testdata.ExcelNameReal,
-					Sheet: testdata.SheetData,
-				},
-			},
+func (this *SuiteGenerate) target() *Config {
+	target := &Config{
+		Global: Global{
+			ExportJson:      true,
+			ExportProto:     true,
+			ExportEnum:      true,
+			SimpleNamespace: false,
+			LineOfName:      1,
+			LineOfNote:      2,
+			LineOfField:     3,
+			LineOfLayer:     4,
+			LineOfData:      5,
+			LineOfEnum:      2,
+		},
+		Elements: []Element{
+			{Excel: testdata.ExcelReal, Sheet: testdata.SheetData},
+		},
+		Enums: []Element{
+			{Excel: testdata.ExcelReal, Sheet: testdata.SheetEnum},
 		},
 	}
 	return target
 }
 
 func (this *SuiteGenerate) TestGenerate() {
-	target := this.target()
-	assert.Empty(this.T(), Initialize(target))
-	assert.Empty(this.T(), Generate(target))
+	context, errs := Initialize(this.target())
+	assert.Len(this.T(), errs, 0)
+	assert.NotNil(this.T(), context)
+	errs = Generate(context)
+	assert.Len(this.T(), errs, 0)
+	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.CsPath, "RealData.cs"))
+	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.CsPath, "RealDataReader.cs"))
+	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.GoPath, "realData.go"))
+	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.GoPath, "realDataReader.go"))
+	assert.FileExists(this.T(), filepath.Join(internal.ProtoPath, internal.SchemaPath, "realData.proto"))
+	assert.FileExists(this.T(), filepath.Join(internal.ProtoPath, internal.CsPath, "RealDataReader.cs"))
+	assert.FileExists(this.T(), filepath.Join(internal.ProtoPath, internal.GoPath, "realDataReader.go"))
+	assert.FileExists(this.T(), filepath.Join(internal.EnumPath, internal.SchemaPath, "realEnum.proto"))
 }

@@ -18,8 +18,8 @@ func NewLayoutJson() *LayoutJson {
 
 // LayoutJson json布局器
 type LayoutJson struct {
-	types   map[string]int // 類型列表
 	layouts []layoutJson   // 布局列表
+	types   map[string]int // 類型列表
 }
 
 // layoutJson 布局資料

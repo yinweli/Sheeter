@@ -5,18 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- 升級go版本到1.19.2
-- 改變測試資料的檔名, 避免檔名判斷錯誤
-- 變更倉庫模板內的函式順序
-- 重構工作流程, 讓工作流程更容易維護
-- 變更格式化機制, 後製時才一次性格式化所有程式碼
-- 新增在後製執行cs格式化(使用https://github.com/belav/csharpier)
-- 新增在後製執行proto格式化
-- 變更產生機制, 移除.bat, .sh檔案, 讓命令直接產生proto程式碼
-- 新增格式化旗標, 讓使用者可以選擇是否要格式化cs, go, proto檔案
-- 新增外部程式檢查(如gofmt, protoc, csharpier), 並且要隨旗標來檢查會使用到的外部程式
-- 新增從excel產生列舉的命令模式
 - 產生flatbuffer
+
+## [1.9.0] - 2022-10-20
+### Changed
+- 內部流程改用管線機制重構
+- 變更模板檔案名稱
+- 後製時會執行protoc產生程式碼
+- 變更範例專案
+- 產生的cs程式碼一律為大寫開頭
+### Added
+- 新增從excel產生列舉
+### Removed
+- 不再產生proto**.bat/.sh
 
 ## [1.8.1] - 2022-10-14
 ### Changed

@@ -32,7 +32,7 @@ func (this *SuiteExcel) target() *Excel {
 
 func (this *SuiteExcel) TestOpen() {
 	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelNameReal))
+	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
 	assert.True(this.T(), target.IsOpen())
 	target.Close()
 	assert.False(this.T(), target.IsOpen())
@@ -43,7 +43,7 @@ func (this *SuiteExcel) TestOpen() {
 
 func (this *SuiteExcel) TestGet() {
 	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelNameReal))
+	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
 
 	sheet, err := target.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)
@@ -58,7 +58,7 @@ func (this *SuiteExcel) TestGet() {
 
 func (this *SuiteExcel) TestGetLine() {
 	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelNameReal))
+	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
 
 	line, err := target.GetLine(testdata.SheetData, 1, 2)
 	assert.Nil(this.T(), err)
@@ -98,7 +98,7 @@ func (this *SuiteExcel) TestGetLine() {
 
 func (this *SuiteExcel) TestExist() {
 	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelNameReal))
+	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
 	assert.True(this.T(), target.Exist(testdata.SheetData))
 	assert.False(this.T(), target.Exist(testdata.UnknownStr))
 	target.Close()
@@ -106,7 +106,7 @@ func (this *SuiteExcel) TestExist() {
 
 func (this *SuiteExcel) TestSheet() {
 	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelNameSheet))
+	assert.Nil(this.T(), target.Open(testdata.ExcelSheet))
 
 	sheet, err := target.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)

@@ -9,7 +9,6 @@ import (
 
 	"github.com/yinweli/Sheeter/internal/builds"
 	"github.com/yinweli/Sheeter/internal/tmpls"
-	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // NewCommand 建立命令物件
@@ -28,11 +27,6 @@ func NewCommand() *cobra.Command {
 func execute(cmd *cobra.Command, _ []string) {
 	startTime := time.Now()
 
-	if utils.ShellExist("gofmt") == false {
-		cmd.Println(fmt.Errorf("build failed: `gofmt` not installed"))
-		return
-	} // if
-
 	if err := tmpls.Initialize(cmd); err != nil {
 		cmd.Println(fmt.Errorf("build failed: %w", err))
 		return
@@ -50,19 +44,9 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // if
 
-	context := &builds.Context{
-		Config: config,
-	}
+	context, errs := builds.Initialize(config)
 
-	if errs := builds.Initialize(context); len(errs) > 0 {
-		for _, itor := range errs {
-			cmd.Println(fmt.Errorf("build failed: %w", itor))
-		} // for
-
-		return
-	} // id
-
-	if errs := builds.Generate(context); len(errs) > 0 {
+	if len(errs) > 0 {
 		for _, itor := range errs {
 			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for
@@ -70,7 +54,7 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // if
 
-	if errs := builds.Encoding(context); len(errs) > 0 {
+	if errs = builds.Generate(context); len(errs) > 0 {
 		for _, itor := range errs {
 			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for
@@ -78,7 +62,15 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // if
 
-	if errs := builds.Poststep(context); len(errs) > 0 {
+	if errs = builds.Encoding(context); len(errs) > 0 {
+		for _, itor := range errs {
+			cmd.Println(fmt.Errorf("build failed: %w", itor))
+		} // for
+
+		return
+	} // if
+
+	if errs = builds.Poststep(context); len(errs) > 0 {
 		for _, itor := range errs {
 			cmd.Println(fmt.Errorf("build failed: %w", itor))
 		} // for

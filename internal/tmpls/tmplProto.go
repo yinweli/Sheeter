@@ -30,9 +30,9 @@ message {{$.StorerName}} {
 `,
 }
 
-// ProtoCsReader proto-cs讀取器模板
-var ProtoCsReader = &Tmpl{
-	Name: internal.TmplProtoCsReaderFile,
+// ProtoReaderCs proto讀取器cs模板
+var ProtoReaderCs = &Tmpl{
+	Name: internal.TmplProtoReaderCsFile,
 	Data: HeaderCode + `
 using System.Collections.Generic;
 
@@ -138,9 +138,9 @@ namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
 `,
 }
 
-// ProtoCsDepot proto-cs倉庫模板
-var ProtoCsDepot = &Tmpl{
-	Name: internal.TmplProtoCsDepotFile,
+// ProtoDepotCs proto倉庫cs模板
+var ProtoDepotCs = &Tmpl{
+	Name: internal.TmplProtoDepotCsFile,
 	Data: HeaderCode + `
 using System.Collections.Generic;
 
@@ -232,9 +232,9 @@ namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
 `,
 }
 
-// ProtoGoReader proto-go讀取器模板
-var ProtoGoReader = &Tmpl{
-	Name: internal.TmplProtoGoReaderFile,
+// ProtoReaderGo proto-go讀取器模板
+var ProtoReaderGo = &Tmpl{
+	Name: internal.TmplProtoReaderGoFile,
 	Data: HeaderCode + `
 package {{$.ProtoNamespace $.SimpleNamespace}}
 
@@ -329,9 +329,9 @@ func (this *{{$.ReaderName}}) Count() int {
 `,
 }
 
-// ProtoGoDepot proto-go倉庫模板
-var ProtoGoDepot = &Tmpl{
-	Name: internal.TmplProtoGoDepotFile,
+// ProtoDepotGo proto-go倉庫模板
+var ProtoDepotGo = &Tmpl{
+	Name: internal.TmplProtoDepotGoFile,
 	Data: HeaderCode + `
 package {{$.ProtoNamespace $.SimpleNamespace}}
 
@@ -355,7 +355,7 @@ type Depot struct {
 	{{.StructName}} {{.ReaderName}}
 {{- end}}
 {{- end}}
-	loader  Loader
+	loader Loader
 	readers []Reader
 }
 
@@ -424,49 +424,5 @@ type Reader interface {
 	MergeData(data []byte) error
 	Clear()
 }
-`,
-}
-
-// ProtoCsBat proto-cs-bat模板
-var ProtoCsBat = &Tmpl{
-	Name: internal.TmplProtoCsBatFile,
-	Data: HeaderBat + `
-mkdir {{.ProtoCsPath}}
-{{- range $.Struct}}
-protoc --experimental_allow_proto3_optional --proto_path=./{{.ProtoSchemaPath}} --csharp_out=./{{.ProtoCsPath}} ./{{.ProtoPath}}
-{{- end}}
-`,
-}
-
-// ProtoCsSh proto-cs-sh模板
-var ProtoCsSh = &Tmpl{
-	Name: internal.TmplProtoCsShFile,
-	Data: HeaderSh + `
-mkdir {{.ProtoCsPath}}
-{{- range $.Struct}}
-protoc --experimental_allow_proto3_optional --proto_path=./{{.ProtoSchemaPath}} --csharp_out=./{{.ProtoCsPath}} ./{{.ProtoPath}}
-{{- end}}
-`,
-}
-
-// ProtoGoBat proto-go-bat模板
-var ProtoGoBat = &Tmpl{
-	Name: internal.TmplProtoGoBatFile,
-	Data: HeaderBat + `
-mkdir {{.ProtoGoPath}}
-{{- range $.Struct}}
-protoc --experimental_allow_proto3_optional --proto_path=./{{.ProtoSchemaPath}} --go_out=./{{.ProtoGoPath}} ./{{.ProtoPath}}
-{{- end}}
-`,
-}
-
-// ProtoGoSh proto-go-sh模板
-var ProtoGoSh = &Tmpl{
-	Name: internal.TmplProtoGoShFile,
-	Data: HeaderSh + `
-mkdir {{.ProtoGoPath}}
-{{- range $.Struct}}
-protoc --experimental_allow_proto3_optional --proto_path=./{{.ProtoSchemaPath}} --go_out=./{{.ProtoGoPath}} ./{{.ProtoPath}}
-{{- end}}
 `,
 }

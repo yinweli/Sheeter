@@ -1,11 +1,13 @@
 package builds
 
 import (
+	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -23,33 +25,36 @@ func (this *SuiteInitialize) SetupSuite() {
 }
 
 func (this *SuiteInitialize) TearDownSuite() {
+	_ = os.RemoveAll(internal.JsonPath)
+	_ = os.RemoveAll(internal.ProtoPath)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteInitialize) target() *Context {
-	target := &Context{
-		Config: &Config{
-			Global: Global{
-				ExportJson:  true,
-				ExportProto: true,
-				LineOfName:  1,
-				LineOfNote:  2,
-				LineOfField: 3,
-				LineOfLayer: 4,
-				LineOfData:  5,
-			},
-			Elements: []Element{
-				{
-					Excel: testdata.ExcelNameReal,
-					Sheet: testdata.SheetData,
-				},
-			},
+func (this *SuiteInitialize) target() *Config {
+	target := &Config{
+		Global: Global{
+			ExportJson:      true,
+			ExportProto:     true,
+			SimpleNamespace: false,
+			LineOfName:      1,
+			LineOfNote:      2,
+			LineOfField:     3,
+			LineOfLayer:     4,
+			LineOfData:      5,
+		},
+		Elements: []Element{
+			{Excel: testdata.ExcelReal, Sheet: testdata.SheetData},
 		},
 	}
 	return target
 }
 
 func (this *SuiteInitialize) TestInitialize() {
-	target := this.target()
-	assert.Empty(this.T(), Initialize(target))
+	context, errs := Initialize(this.target())
+	assert.Len(this.T(), errs, 0)
+	assert.NotNil(this.T(), context)
+	assert.NotEmpty(this.T(), context.Element)
+	assert.NotEmpty(this.T(), context.Generate)
+	assert.NotEmpty(this.T(), context.Encoding)
+	assert.NotEmpty(this.T(), context.Poststep)
 }
