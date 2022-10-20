@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 - 產生flatbuffer
 
-## [1.9.0] - 2022-10-
+## [1.9.0] - 2022-10-20
 ### Changed
 - 內部流程改用管線機制重構
 - 變更模板檔案名稱
