@@ -237,7 +237,7 @@ sheeter tmpl [flags]
 global:
   exportJson:      true # 是否產生json檔案
   exportProto:     true # 是否產生proto檔案
-  exportEnum       true # 是否產生enum檔案
+  exportEnum:      true # 是否產生enum檔案
   simpleNamespace: true # 是否用簡單的命名空間名稱
   lineOfName:      1    # 名稱行號(1為起始行)
   lineOfNote:      2    # 註解行號(1為起始行)
@@ -255,7 +255,7 @@ elements:
   - excel: excel2.xlsx
     sheet: Data
 
-enums
+enums:
   - excel: excel1.xlsx  # excel檔案名稱
     sheet: Enum         # excel表單名稱
   - excel: excel2.xlsx
@@ -268,7 +268,7 @@ enums
 模板檔案使用[go]的[template]語法, 同時可以參考以下模板參數來做名稱的替換  
 
 ## json結構, 讀取器模板參數
-struct-cs/go, reader-cs/go  
+影響的檔案: json-struct-cs/go, json-reader-cs/go  
 
 | 名稱               | 參數        | 說明                                                      |
 |:-------------------|:------------|:----------------------------------------------------------|
@@ -279,7 +279,7 @@ struct-cs/go, reader-cs/go
 |                    |             | [類型資料](#類型資料參數)                                 |
 
 ## json倉庫模板參數
-depot-cs/go  
+影響的檔案: json-depot-cs/go  
 
 | 名稱               | 參數        | 說明                                                      |
 |:-------------------|:------------|:----------------------------------------------------------|
@@ -296,7 +296,7 @@ depot-cs/go
 | Reader             |             | 是否要產生讀取器                                          |
 
 ## proto結構, 讀取器, proto架構模板參數
-struct-cs/go, reader-cs/go, proto-schema  
+影響的檔案: proto-struct-cs/go, proto-reader-cs/go, proto-schema  
 
 | 名稱               | 參數        | 說明                                                      |
 |:-------------------|:------------|:----------------------------------------------------------|
@@ -308,7 +308,7 @@ struct-cs/go, reader-cs/go, proto-schema
 | .Depend            |             | 依賴列表                                                  |
 
 ## proto倉庫模板參數
-depot-cs/go  
+影響的檔案: proto-depot-cs/go  
 
 | 名稱               | 參數        | 說明                                                      |
 |:-------------------|:------------|:----------------------------------------------------------|
@@ -325,7 +325,7 @@ depot-cs/go
 | Reader             |             | 是否要產生讀取器                                          |
 
 ## enum架構模板參數
-enum-schema  
+影響的檔案: enum-schema  
 
 | 名稱               | 參數        | 說明                                                      |
 |:-------------------|:------------|:----------------------------------------------------------|
@@ -348,11 +348,14 @@ enum-schema
 |:-------------------|:------------|:----------------------------------------------------------|
 | .ExportJson        |             | 是否產生json檔案                                          |
 | .ExportProto       |             | 是否產生proto檔案                                         |
+| .ExportEnum        |             | 是否產生enum檔案                                          |
 | .SimpleNamespace   |             | 是否用簡單的命名空間名稱                                  |
+| .LineOfName        |             | 名稱行號(1為起始行)                                       |
+| .LineOfNote        |             | 註解行號(1為起始行)                                       |
 | .LineOfField       |             | 欄位行號(1為起始行)                                       |
 | .LineOfLayer       |             | 階層行號(1為起始行)                                       |
-| .LineOfNote        |             | 註解行號(1為起始行)                                       |
 | .LineOfData        |             | 資料行號(1為起始行)                                       |
+| .LineOfEnum        |             | 列舉行號(1為起始行)                                       |
 | .Excludes          |             | 排除標籤列表                                              |
 
 ## 命名工具參數
@@ -364,6 +367,7 @@ enum-schema
 | .AppName           |             | 程式名稱                                                  |
 | .JsonNamespace     | bool        | json命名空間名稱, 參數影響是否用簡單的命名空間名稱        |
 | .ProtoNamespace    | bool        | proto命名空間名稱, 參數影響是否用簡單的命名空間名稱       |
+| .EnumNamespace     | bool        | enum命名空間名稱, 參數影響是否用簡單的命名空間名稱        |
 | .StructName        |             | 結構名稱                                                  |
 | .ReaderName        |             | 讀取器名稱                                                |
 | .StorerName        |             | 儲存器名稱                                                |
@@ -518,10 +522,10 @@ enum-schema
 | internal/fields         | 欄位組件                         |
 | internal/layers         | 階層組件                         |
 | internal/layouts        | 布局組件                         |
-| internal/mixeds         | 綜合工具                         |
+| internal/nameds         | 命名工具                         |
+| internal/pipelines      | 管線組件                         |
 | internal/tmpls          | 模板組件                         |
 | internal/utils          | 協助組件                         |
-| internal/workflow       | 工作流組件                       |
 | testdata                | 測試資料                         |
 | support                 | 支援專案                         |
 | support/benchmark_count | 檔案數量效率測試資料             |
