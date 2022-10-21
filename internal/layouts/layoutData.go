@@ -24,11 +24,11 @@ type LayoutData struct {
 
 // Data 布局資料
 type Data struct {
-	name   string         // 欄位名稱
-	field  fields.Field   // 欄位類型
-	tag    string         // 欄位標籤
-	layers []layers.Layer // 階層列表
-	back   int            // 倒退數量
+	Name   string         // 欄位名稱
+	Field  fields.Field   // 欄位類型
+	Tag    string         // 欄位標籤
+	Layers []layers.Layer // 階層列表
+	Back   int            // 倒退數量
 }
 
 // Add 新增布局
@@ -56,11 +56,11 @@ func (this *LayoutData) Add(name string, field fields.Field, tag string, layer [
 	} // if
 
 	this.layouts = append(this.layouts, Data{
-		name:   name,
-		field:  field,
-		tag:    tag,
-		layers: layer,
-		back:   back,
+		Name:   name,
+		Field:  field,
+		Tag:    tag,
+		Layers: layer,
+		Back:   back,
 	})
 	return nil
 }
@@ -70,26 +70,26 @@ func (this *LayoutData) Pack(datas, excludes []string) (result map[string]interf
 	structor := newStructor()
 
 	for i, itor := range this.layouts {
-		if itor.field.IsShow() == false {
+		if itor.Field.IsShow() == false {
 			continue
 		} // if
 
-		if isExclude(itor.tag, excludes) {
+		if isExclude(itor.Tag, excludes) {
 			continue
 		} // if
 
 		data := utils.GetItem(datas, i)
-		value, err := itor.field.ToJsonValue(data)
+		value, err := itor.Field.ToJsonValue(data)
 
 		if err != nil {
 			return nil, 0, fmt.Errorf("layoutData pack failed: %w", err)
 		} // if
 
-		if itor.field.IsPkey() {
+		if itor.Field.IsPkey() {
 			pkey = value.(int64)
 		} // if
 
-		for _, layer := range itor.layers {
+		for _, layer := range itor.Layers {
 			if layer.Type == layers.LayerArray {
 				if structor.pushArray(layer.Name) == false || structor.pushStructA() == false {
 					return nil, 0, fmt.Errorf("layoutData pack failed: invalid format")
@@ -119,11 +119,11 @@ func (this *LayoutData) Pack(datas, excludes []string) (result map[string]interf
 			return nil, 0, fmt.Errorf("layoutData pack failed: unknown layer")
 		} // for
 
-		if structor.pushValue(itor.name, value) == false {
+		if structor.pushValue(itor.Name, value) == false {
 			return nil, 0, fmt.Errorf("layoutData pack failed: push value")
 		} // if
 
-		structor.pop(itor.back, true)
+		structor.pop(itor.Back, true)
 	} // for
 
 	if structor.closure() == false {
@@ -144,7 +144,7 @@ func (this *LayoutData) PkeyCount() int {
 	count := 0
 
 	for _, itor := range this.layouts {
-		if itor.field.IsPkey() {
+		if itor.Field.IsPkey() {
 			count++
 		} // if
 	} // for
