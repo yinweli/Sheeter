@@ -11,11 +11,12 @@ import (
 
 // generateJson 產生json資料
 type generateJson struct {
-	*Global       // 全域設定
-	*nameds.Named // 命名工具
-	*nameds.Field // 欄位命名工具
-	*nameds.Json  // json命名工具
-	*layouts.Type // 類型資料
+	*Global                        // 全域設定
+	*nameds.Named                  // 命名工具
+	*nameds.Field                  // 欄位命名工具
+	*nameds.Json                   // json命名工具
+	Reader        bool             // 是否要產生讀取器
+	Fields        []*layouts.Field // 欄位列表
 }
 
 // GenerateJsonStructCs 產生json結構cs

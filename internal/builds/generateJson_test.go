@@ -41,17 +41,13 @@ func (this *SuiteGenerateJson) target() *generateJson {
 		Named:  &nameds.Named{ExcelName: excelName, SheetName: sheetName},
 		Field:  &nameds.Field{},
 		Json:   &nameds.Json{ExcelName: excelName, SheetName: sheetName},
-		Type: &layouts.Type{
-			Excel:  excelName,
-			Sheet:  sheetName,
-			Reader: true,
-			Fields: []*layouts.Field{
-				{Name: "name1", Note: "note1", Field: &fields.Pkey{}, Alter: "", Array: false},
-				{Name: "name2", Note: "note2", Field: &fields.Int{}, Alter: "", Array: false},
-				{Name: "name3", Note: "note3", Field: &fields.IntArray{}, Alter: "", Array: false},
-				{Name: "name4", Note: "note4", Field: nil, Alter: "Data", Array: false},
-				{Name: "name5", Note: "note5", Field: nil, Alter: "Data", Array: true},
-			},
+		Reader: true,
+		Fields: []*layouts.Field{
+			{Name: "name1", Note: "note1", Field: &fields.Pkey{}, Alter: "", Array: false},
+			{Name: "name2", Note: "note2", Field: &fields.Int{}, Alter: "", Array: false},
+			{Name: "name3", Note: "note3", Field: &fields.IntArray{}, Alter: "", Array: false},
+			{Name: "name4", Note: "note4", Field: nil, Alter: "Data", Array: false},
+			{Name: "name5", Note: "note5", Field: nil, Alter: "Data", Array: true},
 		},
 	}
 	return target

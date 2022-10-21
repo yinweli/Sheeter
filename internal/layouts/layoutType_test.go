@@ -119,7 +119,27 @@ func (this *SuiteLayoutType) TestMerge() {
 	assert.NotNil(this.T(), target.Merge(this.target()))
 }
 
-func (this *SuiteLayoutType) TestTypes() {
+func (this *SuiteLayoutType) TestTypeNames() {
+	target := this.target()
+	assert.True(this.T(), target.pushType("type1", "", "", false))
+	assert.True(this.T(), target.pushType("type2", "", "", false))
+	assert.Equal(this.T(), []string{"type1", "type2"}, target.TypeNames())
+}
+
+func (this *SuiteLayoutType) TestType() {
+	target := this.target()
+	assert.True(this.T(), target.pushType("type", "excel", "sheet", true))
+	type_ := target.Type("type")
+	assert.NotNil(this.T(), type_)
+	assert.Equal(this.T(), "excel", type_.Excel)
+	assert.Equal(this.T(), "sheet", type_.Sheet)
+	assert.True(this.T(), type_.Reader)
+
+	target = this.target()
+	assert.Nil(this.T(), target.Type("type"))
+}
+
+func (this *SuiteLayoutType) TestFields() {
 	field1 := &Field{Name: "name1", Note: "note1", Field: &fields.Pkey{}, Alter: "alter1", Array: true}
 	field2 := &Field{Name: "name2", Note: "note2", Field: &fields.Text{}, Alter: "alter2", Array: false}
 	field3 := &Field{Name: "name3", Note: "note3", Field: &fields.TextArray{}, Alter: "alter3", Array: true}
@@ -129,22 +149,10 @@ func (this *SuiteLayoutType) TestTypes() {
 	assert.True(this.T(), target.pushField(field1.Name, field1.Note, field1.Field, field1.Alter, field1.Array))
 	assert.True(this.T(), target.pushField(field2.Name, field2.Note, field2.Field, field2.Alter, field2.Array))
 	assert.True(this.T(), target.pushField(field3.Name, field3.Note, field3.Field, field3.Alter, field3.Array))
-	type_ := target.Types("type")
-	assert.NotNil(this.T(), type_)
-	assert.Equal(this.T(), "excel", type_.Excel)
-	assert.Equal(this.T(), "sheet", type_.Sheet)
-	assert.True(this.T(), type_.Reader)
-	assert.Equal(this.T(), []*Field{field1, field2, field3}, type_.Fields)
+	assert.Equal(this.T(), []*Field{field1, field2, field3}, target.Fields("type"))
 
 	target = this.target()
-	assert.Nil(this.T(), target.Types("type"))
-}
-
-func (this *SuiteLayoutType) TestTypeNames() {
-	target := this.target()
-	assert.True(this.T(), target.pushType("type1", "", "", false))
-	assert.True(this.T(), target.pushType("type2", "", "", false))
-	assert.Equal(this.T(), []string{"type1", "type2"}, target.TypeNames())
+	assert.Empty(this.T(), target.Fields("type"))
 }
 
 func (this *SuiteLayoutType) TestFieldNames() {

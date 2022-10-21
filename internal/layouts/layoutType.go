@@ -13,23 +13,23 @@ import (
 // NewLayoutType 建立類型布局器
 func NewLayoutType() *LayoutType {
 	return &LayoutType{
-		types: map[string]*layoutType{},
+		types: map[string]*Type{},
 		stack: arraystack.New(),
 	}
 }
 
 // LayoutType 類型布局器
 type LayoutType struct {
-	types map[string]*layoutType // 類型列表
-	stack *arraystack.Stack      // 類型堆疊
+	types map[string]*Type  // 類型列表
+	stack *arraystack.Stack // 類型堆疊
 }
 
-// layoutType 類型資料
-type layoutType struct {
-	excel  string            // excel檔案名稱
-	sheet  string            // excel表格名稱
-	reader bool              // 是否要產生讀取器
-	fields map[string]*Field // 欄位列表
+// Type 類型資料
+type Type struct {
+	Excel  string            // excel檔案名稱
+	Sheet  string            // excel表格名稱
+	Reader bool              // 是否要產生讀取器
+	Fields map[string]*Field // 欄位列表
 }
 
 // Field 欄位資料
@@ -39,14 +39,6 @@ type Field struct {
 	Field fields.Field // 欄位類型
 	Alter string       // 欄位類型別名
 	Array bool         // 陣列旗標
-}
-
-// Type 提供給外部使用的類型資料
-type Type struct {
-	Excel  string   // excel檔案名稱
-	Sheet  string   // excel表格名稱
-	Reader bool     // 是否要產生讀取器
-	Fields []*Field // 欄位列表
 }
 
 // Begin 開始類型紀錄
@@ -108,19 +100,19 @@ func (this *LayoutType) Merge(merge *LayoutType) error {
 
 	for typeName, source := range merge.types {
 		if _, ok := this.types[typeName]; ok == false {
-			this.types[typeName] = &layoutType{
-				excel:  source.excel,
-				sheet:  source.sheet,
-				reader: source.reader,
-				fields: map[string]*Field{},
+			this.types[typeName] = &Type{
+				Excel:  source.Excel,
+				Sheet:  source.Sheet,
+				Reader: source.Reader,
+				Fields: map[string]*Field{},
 			}
 		} // if
 
 		target := this.types[typeName]
 
-		for fieldName, field := range source.fields {
-			if _, ok := target.fields[fieldName]; ok == false {
-				target.fields[fieldName] = &Field{
+		for fieldName, field := range source.Fields {
+			if _, ok := target.Fields[fieldName]; ok == false {
+				target.Fields[fieldName] = &Field{
 					Name:  field.Name,
 					Note:  field.Note,
 					Field: field.Field,
@@ -138,29 +130,6 @@ func (this *LayoutType) Merge(merge *LayoutType) error {
 	return nil
 }
 
-// Types 取得類型資料
-func (this *LayoutType) Types(name string) *Type {
-	if value, ok := this.types[name]; ok {
-		field := []*Field{}
-
-		for _, itor := range value.fields {
-			field = append(field, itor)
-		} // for
-
-		sort.Slice(field, func(r, l int) bool {
-			return field[r].Name < field[l].Name
-		})
-		return &Type{
-			Excel:  value.excel,
-			Sheet:  value.sheet,
-			Reader: value.reader,
-			Fields: field,
-		}
-	} // if
-
-	return nil
-}
-
 // TypeNames 取得類型名稱列表
 func (this *LayoutType) TypeNames() (result []string) {
 	for itor := range this.types {
@@ -173,10 +142,34 @@ func (this *LayoutType) TypeNames() (result []string) {
 	return result
 }
 
+// Type 取得類型資料
+func (this *LayoutType) Type(name string) *Type {
+	if value, ok := this.types[name]; ok {
+		return value
+	} // if
+
+	return nil
+}
+
+// Fields 取得類型欄位列表
+func (this *LayoutType) Fields(name string) (result []*Field) {
+	if value, ok := this.types[name]; ok {
+		for _, itor := range value.Fields {
+			result = append(result, itor)
+		} // for
+
+		sort.Slice(result, func(r, l int) bool {
+			return result[r].Name < result[l].Name
+		})
+	} // if
+
+	return result
+}
+
 // FieldNames 取得類型欄位名稱列表
 func (this *LayoutType) FieldNames(name string) (result []string) {
 	if value, ok := this.types[name]; ok {
-		for _, itor := range value.fields {
+		for _, itor := range value.Fields {
 			result = append(result, itor.Name)
 		} // for
 
@@ -199,11 +192,11 @@ func (this *LayoutType) pushType(name, excel, sheet string, reader bool) bool {
 		return false
 	} // if
 
-	this.types[name] = &layoutType{
-		excel:  excel,
-		sheet:  sheet,
-		reader: reader,
-		fields: map[string]*Field{},
+	this.types[name] = &Type{
+		Excel:  excel,
+		Sheet:  sheet,
+		Reader: reader,
+		Fields: map[string]*Field{},
 	}
 	this.stack.Push(name)
 	return true
@@ -227,7 +220,7 @@ func (this *LayoutType) pushField(name, note string, field fields.Field, alter s
 		return false
 	} // if
 
-	type_.fields[name] = &Field{
+	type_.Fields[name] = &Field{
 		Name:  name,
 		Note:  note,
 		Field: field,
