@@ -26,11 +26,10 @@ func Execute(name string, material []any, executor []Executor) []error {
 	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))
 	progressbar := progress.AddBar(
 		int64(count),
-		mpb.PrependDecorators(
-			decor.Percentage(decor.WCSyncSpace),
-		),
 		mpb.AppendDecorators(
-			decor.Name(name),
+			decor.Name(fmt.Sprintf("%-10s ", name)),
+			decor.CountersNoUnit("(%6d/%6d) ", decor.WCSyncWidth),
+			decor.NewPercentage("%d "),
 			decor.OnComplete(decor.Spinner(nil), "complete"),
 		),
 	)
