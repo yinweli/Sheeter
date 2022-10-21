@@ -9,7 +9,7 @@ import (
 )
 
 // JsonPack 打包json資料
-func JsonPack(sheet *excels.Sheet, layoutJson *LayoutJson, excludes []string) (json []byte, err error) {
+func JsonPack(sheet *excels.Sheet, layoutData *LayoutData, excludes []string) (json []byte, err error) {
 	defer sheet.Close()
 	datas := map[internal.PkeyType]interface{}{}
 
@@ -20,7 +20,7 @@ func JsonPack(sheet *excels.Sheet, layoutJson *LayoutJson, excludes []string) (j
 			break // 碰到空行就結束了
 		} // if
 
-		packs, pkey, err := layoutJson.Pack(data, excludes)
+		packs, pkey, err := layoutData.Pack(data, excludes)
 
 		if err != nil {
 			return nil, fmt.Errorf("json pack failed: %w", err)

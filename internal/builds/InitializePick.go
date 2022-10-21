@@ -42,7 +42,7 @@ func InitializePick(context *Context) error {
 					Named:      named,
 					Json:       json,
 					excel:      data.excel,
-					layoutJson: data.layoutJson,
+					layoutData: data.layoutData,
 				})
 			} // if
 
@@ -52,7 +52,7 @@ func InitializePick(context *Context) error {
 					Named:      named,
 					Proto:      proto,
 					excel:      data.excel,
-					layoutJson: data.layoutJson,
+					layoutData: data.layoutData,
 				})
 			} // if
 		} // if

@@ -68,7 +68,7 @@ func (this *SuiteEncodingProto) target(excel string) *encodingProto {
 		Named:      element.Named,
 		Proto:      &nameds.Proto{ExcelName: excel, SheetName: testdata.SheetData},
 		excel:      element.excel,
-		layoutJson: element.layoutJson,
+		layoutData: element.layoutData,
 	}
 	return target
 }

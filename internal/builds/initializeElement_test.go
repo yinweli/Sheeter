@@ -44,7 +44,7 @@ func (this *SuiteInitializeElement) TestInitializeElement() {
 	target := this.target()
 	assert.Nil(this.T(), InitializeElement(target))
 	assert.NotNil(this.T(), target.excel)
-	assert.NotNil(this.T(), target.layoutJson)
+	assert.NotNil(this.T(), target.layoutData)
 	assert.NotNil(this.T(), target.layoutType)
 	assert.NotNil(this.T(), target.layoutDepend)
 	target.Close()

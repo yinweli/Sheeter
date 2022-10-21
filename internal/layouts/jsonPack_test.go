@@ -52,7 +52,7 @@ func (this *SuiteJsonPack) TestJsonPack() {
 	nameLine := line[this.lineOfName]
 	fieldLine := line[this.lineOfField]
 	layerLine := line[this.lineOfLayer]
-	layoutJson := NewLayoutJson()
+	layoutData := NewLayoutData()
 
 	for col, itor := range nameLine {
 		name := itor
@@ -60,13 +60,13 @@ func (this *SuiteJsonPack) TestJsonPack() {
 		assert.Nil(this.T(), err)
 		layer, back, err := layers.Parser(utils.GetItem(layerLine, col))
 		assert.Nil(this.T(), err)
-		assert.Nil(this.T(), layoutJson.Add(name, field, tag, layer, back))
+		assert.Nil(this.T(), layoutData.Add(name, field, tag, layer, back))
 	} // for
 
 	sheet, err := this.excel.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)
 	assert.True(this.T(), sheet.Nextn(this.lineOfData))
-	json, err := JsonPack(sheet, layoutJson, []string{"tag"})
+	json, err := JsonPack(sheet, layoutData, []string{"tag"})
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), string(data1), string(json))
 	sheet.Close()
@@ -74,7 +74,7 @@ func (this *SuiteJsonPack) TestJsonPack() {
 	sheet, err = this.excel.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)
 	assert.True(this.T(), sheet.Nextn(this.lineOfData))
-	json, err = JsonPack(sheet, layoutJson, []string{})
+	json, err = JsonPack(sheet, layoutData, []string{})
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), string(data2), string(json))
 	sheet.Close()

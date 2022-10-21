@@ -15,7 +15,7 @@ type encodingJson struct {
 	*nameds.Named                     // 命名工具
 	*nameds.Json                      // json命名工具
 	excel         *excels.Excel       // excel物件
-	layoutJson    *layouts.LayoutJson // json布局器
+	layoutData    *layouts.LayoutData // 資料布局器
 }
 
 // EncodingJson 編碼json資料
@@ -34,7 +34,7 @@ func EncodingJson(material any) error {
 	} // if
 
 	sheet.Nextn(data.LineOfData)
-	json, err := layouts.JsonPack(sheet, data.layoutJson, data.Excludes)
+	json, err := layouts.JsonPack(sheet, data.layoutData, data.Excludes)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding json failed: %w", structName, err)
