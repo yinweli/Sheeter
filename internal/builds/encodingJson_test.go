@@ -50,7 +50,7 @@ func (this *SuiteEncodingJson) target(excel string) *encodingJson {
 		Named:      element.Named,
 		Json:       &nameds.Json{ExcelName: excel, SheetName: testdata.SheetData},
 		excel:      element.excel,
-		layoutJson: element.layoutJson,
+		layoutData: element.layoutData,
 	}
 	return target
 }

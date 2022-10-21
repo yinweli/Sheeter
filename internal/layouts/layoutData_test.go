@@ -11,37 +11,37 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestLayoutJson(t *testing.T) {
-	suite.Run(t, new(SuiteLayoutJson))
+func TestLayoutData(t *testing.T) {
+	suite.Run(t, new(SuiteLayoutData))
 }
 
-type SuiteLayoutJson struct {
+type SuiteLayoutData struct {
 	suite.Suite
 	workDir string
 }
 
-func (this *SuiteLayoutJson) SetupSuite() {
+func (this *SuiteLayoutData) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 }
 
-func (this *SuiteLayoutJson) TearDownSuite() {
+func (this *SuiteLayoutData) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteLayoutJson) target() *LayoutJson {
-	return NewLayoutJson()
+func (this *SuiteLayoutData) target() *LayoutData {
+	return NewLayoutData()
 }
 
-func (this *SuiteLayoutJson) layer(input string) []layers.Layer {
+func (this *SuiteLayoutData) layer(input string) []layers.Layer {
 	layer, _, _ := layers.Parser(input)
 	return layer
 }
 
-func (this *SuiteLayoutJson) TestNewLayoutJson() {
-	assert.NotNil(this.T(), NewLayoutJson())
+func (this *SuiteLayoutData) TestNewLayoutData() {
+	assert.NotNil(this.T(), NewLayoutData())
 }
 
-func (this *SuiteLayoutJson) TestAdd() {
+func (this *SuiteLayoutData) TestAdd() {
 	target := this.target()
 	assert.Nil(this.T(), target.Add("name1", &fields.Pkey{}, "", this.layer("{type1"), 0))
 	assert.Nil(this.T(), target.Add("name2", &fields.Int{}, "", this.layer("{[]type2"), 0))
@@ -54,7 +54,7 @@ func (this *SuiteLayoutJson) TestAdd() {
 	assert.NotNil(this.T(), target.Add("name7", &fields.Int{}, "", this.layer(""), -1))
 }
 
-func (this *SuiteLayoutJson) TestPack() {
+func (this *SuiteLayoutData) TestPack() {
 	actual1 := map[string]interface{}{
 		"data": map[string]interface{}{
 			"name1": int64(1),
@@ -105,14 +105,14 @@ func (this *SuiteLayoutJson) TestPack() {
 	assert.NotNil(this.T(), err)
 }
 
-func (this *SuiteLayoutJson) TestPkeyCount() {
+func (this *SuiteLayoutData) TestPkeyCount() {
 	target := this.target()
 	assert.Equal(this.T(), 0, target.PkeyCount())
 	assert.Nil(this.T(), target.Add("name", &fields.Pkey{}, "", this.layer(""), 0))
 	assert.Equal(this.T(), 1, target.PkeyCount())
 }
 
-func (this *SuiteLayoutJson) TestIsExclude() {
+func (this *SuiteLayoutData) TestIsExclude() {
 	assert.True(this.T(), isExclude("tag1", []string{"tag1"}))
 	assert.False(this.T(), isExclude("tag2", []string{}))
 }

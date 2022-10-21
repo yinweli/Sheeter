@@ -11,12 +11,13 @@ import (
 
 // generateProto 產生proto資料
 type generateProto struct {
-	*Global                // 全域設定
-	*nameds.Named          // 命名工具
-	*nameds.Field          // 欄位命名工具
-	*nameds.Proto          // proto命名工具
-	*layouts.Type          // 類型資料
-	Depend        []string // 依賴列表
+	*Global                        // 全域設定
+	*nameds.Named                  // 命名工具
+	*nameds.Field                  // 欄位命名工具
+	*nameds.Proto                  // proto命名工具
+	Reader        bool             // 是否要產生讀取器
+	Fields        []*layouts.Field // 欄位列表
+	Depend        []string         // 依賴列表
 }
 
 // GenerateProtoSchema 產生proto架構檔案

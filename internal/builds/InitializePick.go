@@ -42,7 +42,7 @@ func InitializePick(context *Context) error {
 					Named:      named,
 					Json:       json,
 					excel:      data.excel,
-					layoutJson: data.layoutJson,
+					layoutData: data.layoutData,
 				})
 			} // if
 
@@ -52,7 +52,7 @@ func InitializePick(context *Context) error {
 					Named:      named,
 					Proto:      proto,
 					excel:      data.excel,
-					layoutJson: data.layoutJson,
+					layoutData: data.layoutData,
 				})
 			} // if
 		} // if
@@ -79,11 +79,13 @@ func InitializePick(context *Context) error {
 	} // for
 
 	for _, itor := range layoutType.TypeNames() {
-		types := layoutType.Types(itor)
-		named := &nameds.Named{ExcelName: types.Excel, SheetName: types.Sheet}
+		type_ := layoutType.Type(itor)
+		named := &nameds.Named{ExcelName: type_.Excel, SheetName: type_.Sheet}
 		field := &nameds.Field{}
-		json := &nameds.Json{ExcelName: types.Excel, SheetName: types.Sheet}
-		proto := &nameds.Proto{ExcelName: types.Excel, SheetName: types.Sheet}
+		json := &nameds.Json{ExcelName: type_.Excel, SheetName: type_.Sheet}
+		proto := &nameds.Proto{ExcelName: type_.Excel, SheetName: type_.Sheet}
+		reader := type_.Reader
+		fields := layoutType.Fields(itor)
 		depend := layoutDepend.Depends(itor)
 
 		if context.ExportJson {
@@ -92,11 +94,12 @@ func InitializePick(context *Context) error {
 				Named:  named,
 				Field:  field,
 				Json:   json,
-				Type:   types,
+				Reader: reader,
+				Fields: fields,
 			})
 			poststepJsonDepot.Struct = append(poststepJsonDepot.Struct, poststepJsonStruct{
 				Named:  named,
-				Reader: types.Reader,
+				Reader: type_.Reader,
 			})
 		} // if
 
@@ -106,7 +109,8 @@ func InitializePick(context *Context) error {
 				Named:  named,
 				Field:  field,
 				Proto:  proto,
-				Type:   types,
+				Reader: reader,
+				Fields: fields,
 				Depend: depend,
 			})
 			context.Poststep = append(context.Poststep, &poststepConvert{
@@ -117,7 +121,7 @@ func InitializePick(context *Context) error {
 			})
 			poststepProtoDepot.Struct = append(poststepProtoDepot.Struct, poststepProtoStruct{
 				Named:  named,
-				Reader: types.Reader,
+				Reader: type_.Reader,
 			})
 		} // if
 	} // for

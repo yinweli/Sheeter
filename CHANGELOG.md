@@ -5,9 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-- 改進layoutJson, LayoutJson改名為LayoutData, layoutJson改名為Data
-- 改進layoutType
 - 產生flatbuffer
+
+## [1.9.1] - 2022-10-21
+### Changed
+- 簡化layoutType機制
+- 變更進度條顯示文字
 
 ## [1.9.0] - 2022-10-20
 ### Changed

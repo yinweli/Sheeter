@@ -17,7 +17,7 @@ type encodingProto struct {
 	*nameds.Named                     // 命名工具
 	*nameds.Proto                     // proto命名工具
 	excel         *excels.Excel       // excel物件
-	layoutJson    *layouts.LayoutJson // json布局器
+	layoutData    *layouts.LayoutData // 資料布局器
 }
 
 // EncodingProto 編碼proto資料
@@ -36,7 +36,7 @@ func EncodingProto(material any) error {
 	} // if
 
 	sheet.Nextn(data.LineOfData)
-	json, err := layouts.JsonPack(sheet, data.layoutJson, data.Excludes)
+	json, err := layouts.JsonPack(sheet, data.layoutData, data.Excludes)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding proto failed: %w", structName, err)

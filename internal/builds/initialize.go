@@ -14,7 +14,7 @@ func Initialize(config *Config) (context *Context, errs []error) {
 	}
 	context = InitializeContext(config)
 
-	if errs = pipelines.Execute("initialize ", context.Element, executor); len(errs) > 0 {
+	if errs = pipelines.Execute("initialize", context.Element, executor); len(errs) > 0 {
 		return nil, errs
 	} // if
 

@@ -47,15 +47,15 @@ func (this *SuiteEncodingProto) target(excel string) *encodingProto {
 	generate := []any{}
 
 	for _, itor := range element.layoutType.TypeNames() {
-		types := element.layoutType.Types(itor)
-		depend := element.layoutDepend.Depends(itor)
+		type_ := element.layoutType.Type(itor)
 		generate = append(generate, &generateProto{
 			Global: element.Global,
-			Named:  &nameds.Named{ExcelName: types.Excel, SheetName: types.Sheet},
+			Named:  &nameds.Named{ExcelName: type_.Excel, SheetName: type_.Sheet},
 			Field:  &nameds.Field{},
-			Proto:  &nameds.Proto{ExcelName: types.Excel, SheetName: types.Sheet},
-			Type:   types,
-			Depend: depend,
+			Proto:  &nameds.Proto{ExcelName: type_.Excel, SheetName: type_.Sheet},
+			Reader: type_.Reader,
+			Fields: element.layoutType.Fields(itor),
+			Depend: element.layoutDepend.Depends(itor),
 		})
 	} // for
 
@@ -68,7 +68,7 @@ func (this *SuiteEncodingProto) target(excel string) *encodingProto {
 		Named:      element.Named,
 		Proto:      &nameds.Proto{ExcelName: excel, SheetName: testdata.SheetData},
 		excel:      element.excel,
-		layoutJson: element.layoutJson,
+		layoutData: element.layoutData,
 	}
 	return target
 }

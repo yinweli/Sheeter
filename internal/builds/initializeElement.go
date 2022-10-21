@@ -16,7 +16,7 @@ type initializeElement struct {
 	*Global                             // 全域設定
 	*nameds.Named                       // 命名工具
 	excel         *excels.Excel         // excel物件
-	layoutJson    *layouts.LayoutJson   // json布局器
+	layoutData    *layouts.LayoutData   // 資料布局器
 	layoutType    *layouts.LayoutType   // 類型布局器
 	layoutDepend  *layouts.LayoutDepend // 依賴布局器
 }
@@ -72,7 +72,7 @@ func InitializeElement(material any) error {
 	noteLine := line[data.LineOfNote]
 	fieldLine := line[data.LineOfField]
 	layerLine := line[data.LineOfLayer]
-	layoutJson := layouts.NewLayoutJson()
+	layoutData := layouts.NewLayoutData()
 	layoutType := layouts.NewLayoutType()
 	layoutDepend := layouts.NewLayoutDepend()
 
@@ -108,8 +108,8 @@ func InitializeElement(material any) error {
 			return fmt.Errorf("%s: initialize element failed: parse layer failed: %w", structName, err)
 		} // if
 
-		if err := layoutJson.Add(name, field, tag, layer, back); err != nil {
-			return fmt.Errorf("%s: initialize element failed: layoutJson add failed: %w", structName, err)
+		if err := layoutData.Add(name, field, tag, layer, back); err != nil {
+			return fmt.Errorf("%s: initialize element failed: layoutData add failed: %w", structName, err)
 		} // if
 
 		if err := layoutType.Add(name, note, field, layer, back); err != nil {
@@ -129,7 +129,7 @@ func InitializeElement(material any) error {
 		return fmt.Errorf("%s: initialize element failed: layoutDepend end failed: %w", structName, err)
 	} // if
 
-	pkeyCount := layoutJson.PkeyCount()
+	pkeyCount := layoutData.PkeyCount()
 
 	if pkeyCount > 1 {
 		return fmt.Errorf("%s: initialize element failed: pkey duplicate", structName)
@@ -140,7 +140,7 @@ func InitializeElement(material any) error {
 	} // if
 
 	data.excel = excel
-	data.layoutJson = layoutJson
+	data.layoutData = layoutData
 	data.layoutType = layoutType
 	data.layoutDepend = layoutDepend
 	return nil
