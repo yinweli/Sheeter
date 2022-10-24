@@ -12,9 +12,7 @@ func NameCheck(input string) bool {
 		return false
 	} // if
 
-	first := input[0]
-
-	if first >= '0' && first <= '9' { // 名稱不能以數字開頭
+	if input[0] >= '0' && input[0] <= '9' { // 名稱不能以數字開頭
 		return false
 	} // if
 

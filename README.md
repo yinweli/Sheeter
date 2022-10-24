@@ -4,9 +4,9 @@
 ![codecov](https://codecov.io/gh/yinweli/Sheeter/branch/main/graph/badge.svg?token=LK5HL58LSN)
 
 # Sheeter
-以[go]做成的excel轉換工具, 用於將指定格式的excel轉換為[json]資料檔案, [proto]資料檔案, 讀取資料的程式碼  
+以[go]做成的excel轉換工具  
+用於將指定格式的excel轉換為[json]資料檔案, [proto]資料檔案, 讀取資料的程式碼, 列舉程式碼  
 程式碼目前支援的語言為cs, go  
-在windows以及mac通過測試, 但是沒有在linux上測試過  
 前身是[sheet]  
 
 # 系統需求
@@ -39,25 +39,6 @@
 
 # 範例檔案
 [example]
-
-# 產生目錄
-
-| 名稱         | 說明               |
-|:-------------|:-------------------|
-| json         | json目錄           |
-| json/codeCs  | 存放產生的cs程式碼 |
-| json/codeGo  | 存放產生的go程式碼 |
-| json/data    | 存放資料檔案       |
-| proto        | proto目錄          |
-| proto/codeCs | 存放產生的cs程式碼 |
-| proto/codeGo | 存放產生的go程式碼 |
-| proto/data   | 存放資料檔案       |
-| proto/schema | 存放.proto檔案     |
-| enum         | enum目錄           |
-| enum/codeCs  | 存放列舉程式碼     |
-| enum/codeGo  | 存放列舉程式碼     |
-| enum/schema  | 存放.proto檔案     |
-| template     | 存放模板檔案       |
 
 # 命令說明
 以下描述了[sheeter]提供的命令與旗標
@@ -137,6 +118,7 @@ sheeter tmpl [flags]
 
 ## 欄位行
 欄位類型與標籤設置, 格式為`類型`或是`類型#標籤`, 空格之後的欄位不會輸出  
+一個欄位只能設置一個標籤  
 
 | 類型       | 說明                                 |
 |:-----------|:-------------------------------------|
@@ -156,8 +138,6 @@ sheeter tmpl [flags]
 | 範例   | 欄位類型 | 標籤 |
 |:-------|:---------|:-----|
 | pkey   | pkey     |      |
-| bool   | bool     |      |
-| int    | int      |      |
 | text   | text     |      |
 | text#A | text     | A    |
 
@@ -167,6 +147,7 @@ sheeter tmpl [flags]
 欄位若是沒有設定標籤, 則永遠會輸出到資料檔案  
 當欄位的類型是`empty`, 則永遠不會輸出到資料檔案  
 標籤與排除設置不會影響產生的程式碼  
+一個欄位只能設置一個標籤  
 
 ## 階層行
 欄位結構布局, 格式有`{名稱`, `{[]名稱`, `/`, `}`, 之間以空格分隔  
@@ -249,18 +230,37 @@ global:
     - tag1
     - tag2
 
-elements:
+elements:               # 資料列表
   - excel: excel1.xlsx  # excel檔案名稱
     sheet: Data         # excel表單名稱
   - excel: excel2.xlsx
     sheet: Data
 
-enums:
+enums:                  # 列舉列表
   - excel: excel1.xlsx  # excel檔案名稱
     sheet: Enum         # excel表單名稱
   - excel: excel2.xlsx
     sheet: Enum
 ```
+
+# 產生目錄
+
+| 名稱         | 說明               |
+|:-------------|:-------------------|
+| json         | json目錄           |
+| json/codeCs  | 存放產生的cs程式碼 |
+| json/codeGo  | 存放產生的go程式碼 |
+| json/data    | 存放資料檔案       |
+| proto        | proto目錄          |
+| proto/codeCs | 存放產生的cs程式碼 |
+| proto/codeGo | 存放產生的go程式碼 |
+| proto/data   | 存放資料檔案       |
+| proto/schema | 存放.proto檔案     |
+| enum         | enum目錄           |
+| enum/codeCs  | 存放列舉程式碼     |
+| enum/codeGo  | 存放列舉程式碼     |
+| enum/schema  | 存放.proto檔案     |
+| template     | 存放模板檔案       |
 
 # 模板檔案
 [sheeter]轉換時會把使用的程式碼模板輸出到`template`目錄下  
@@ -390,7 +390,7 @@ enums:
 | .FieldNote         | 欄位資料    | 欄位註解                                                  |
 | .FieldTypeCs       | 欄位資料    | cs欄位類型                                                |
 | .FieldTypeGo       | 欄位資料    | go欄位類型                                                |
-| .FieldTypeProto    | 欄位資料    | go欄位類型                                                |
+| .FieldTypeProto    | 欄位資料    | proto欄位類型                                             |
 | .PkeyTypeCs        |             | pkey的cs類型                                              |
 | .PkeyTypeGo        |             | pkey的go類型                                              |
 | .PkeyTypeProto     |             | pkey的proto類型                                           |

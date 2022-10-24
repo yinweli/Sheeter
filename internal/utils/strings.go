@@ -33,10 +33,10 @@ func AllSame(input string) bool {
 	return true
 }
 
-// GetItem 從列表中取得項目
-func GetItem(lists []string, i int) string {
-	if i >= 0 && i < len(lists) { // 列表的數量可能因為空白格的關係會短缺, 所以要檢查一下
-		return lists[i]
+// GetItem 從列表中取得項目; 如果列表數量比索引值還小, 就傳回空字串
+func GetItem(lists []string, index int) string {
+	if index >= 0 && index < len(lists) {
+		return lists[index]
 	} // if
 
 	return ""

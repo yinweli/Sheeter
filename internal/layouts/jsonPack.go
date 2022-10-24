@@ -8,7 +8,7 @@ import (
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
-// JsonPack 打包json資料
+// JsonPack 打包json資料; 將會把excel中的資料, 依據資料布局與排除標籤, 轉換為json格式的位元陣列
 func JsonPack(sheet *excels.Sheet, layoutData *LayoutData, excludes []string) (json []byte, err error) {
 	defer sheet.Close()
 	datas := map[internal.PkeyType]interface{}{}
@@ -16,8 +16,8 @@ func JsonPack(sheet *excels.Sheet, layoutData *LayoutData, excludes []string) (j
 	for ok := true; ok; ok = sheet.Next() {
 		data, _ := sheet.Data()
 
-		if data == nil {
-			break // 碰到空行就結束了
+		if data == nil { // 碰到空行就結束了
+			break
 		} // if
 
 		packs, pkey, err := layoutData.Pack(data, excludes)

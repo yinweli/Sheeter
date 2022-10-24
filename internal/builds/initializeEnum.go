@@ -52,8 +52,8 @@ func InitializeEnum(material any) error {
 	for ok := true; ok; ok = sheet.Next() {
 		data, _ := sheet.Data()
 
-		if data == nil {
-			break // 碰到空行就結束了
+		if data == nil { // 碰到空行就結束了
+			break
 		} // if
 
 		if err := layoutEnum.Add(data); err != nil {

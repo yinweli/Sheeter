@@ -19,6 +19,8 @@ namespace Example
         private static void exampleJson()
         {
             // 要使用sheeter, 首先建立繼承自sheeterJson.Loader介面的讀取器
+            // 讀取器負責從磁碟(或是其他的資料來源)取得資料的流程, 這部分由使用者自行處理
+            // 範例中的讀取器只是簡單的從磁碟讀取檔案而已
             var loader = new JsonFileLoader();
             // 接著建立sheeterJson.Depot物件, 這是存取表格資料最主要的物件
             // 要記得把剛剛建立的讀取器設定進去
@@ -49,6 +51,8 @@ namespace Example
         private static void exampleProto()
         {
             // 要使用sheeter, 首先建立繼承自sheeterProto.Loader介面的讀取器
+            // 讀取器負責從磁碟(或是其他的資料來源)取得資料的流程, 這部分由使用者自行處理
+            // 範例中的讀取器只是簡單的從磁碟讀取檔案而已
             var loader = new ProtoFileLoader();
             // 接著建立sheeterProto.Depot物件, 這是存取表格資料最主要的物件
             // 要記得把剛剛建立的讀取器設定進去
@@ -111,7 +115,7 @@ namespace Example
         /// <returns></returns>
         public string Load(string name, string ext, string fullname)
         {
-            // 因為工作路徑在 bin/Debug/net5.0/ 底下,所以只好加3個 ".."了
+            // 因為工作路徑在 bin/Debug/net5.0/ 底下,所以只好加3個".."了
             return File.ReadAllText(Path.Combine("..", "..", "..", "json", "data", fullname));
         }
     }
@@ -141,7 +145,7 @@ namespace Example
         /// <returns></returns>
         public byte[] Load(string name, string ext, string fullname)
         {
-            // 因為工作路徑在 bin/Debug/net5.0/ 底下,所以只好加3個 ".."了
+            // 因為工作路徑在 bin/Debug/net5.0/ 底下,所以只好加3個".."了
             return File.ReadAllBytes(Path.Combine("..", "..", "..", "proto", "data", fullname));
         }
     }

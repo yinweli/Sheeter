@@ -2,18 +2,20 @@ package pipelines
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
 
 	"github.com/yinweli/Sheeter/internal"
-	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Executor 執行函式類型
 type Executor = func(material any) error
 
-// Execute 執行管線
+// Execute 執行管線; 說是管線機制, 但其實更像帶有進度條顯示的重複執行功能;
+// 執行時會用executor列表中的執行函式對每個material執行一次;
+// 不管有無錯誤, 都會把所有該執行的都跑完, 並回傳執行的錯誤列表
 func Execute(name string, material []any, executor []Executor) []error {
 	errs := []error{}
 
@@ -22,8 +24,9 @@ func Execute(name string, material []any, executor []Executor) []error {
 	} // if
 
 	count := len(material) * len(executor)
-	signaler := utils.NewWaitGroup(count)
-	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(signaler))
+	waitGroup := &sync.WaitGroup{}
+	waitGroup.Add(count)
+	progress := mpb.New(mpb.WithWidth(internal.BarWidth), mpb.WithWaitGroup(waitGroup))
 	progressbar := progress.AddBar(
 		int64(count),
 		mpb.AppendDecorators(
@@ -44,7 +47,7 @@ func Execute(name string, material []any, executor []Executor) []error {
 					errors <- fmt.Errorf("%w", err)
 				} // if
 
-				signaler.Done()
+				waitGroup.Done()
 				progressbar.Increment()
 			} // for
 		}()

@@ -20,9 +20,10 @@ func main() {
 // exampleJson json範例
 func exampleJson() {
 	// 要使用sheeter, 首先建立繼承自sheeterJson.Loader介面的讀取器
-	// 由於要設定資料檔案的路徑, 所以執行rootPath函式來取得當前路徑, 並且跟json資料的路徑組合來獲得最終路徑
+	// 讀取器負責從磁碟(或是其他的資料來源)取得資料的流程, 這部分由使用者自行處理
+	// 範例中的讀取器只是簡單的從磁碟讀取檔案而已
 	loader := &fileLoader{
-		path: filepath.Join(rootPath(), "json", "data"),
+		path: filepath.Join(rootPath(), "json", "data"), // 資料來源在json/data
 	}
 	// 接著建立sheeterJson.Depot物件, 這是存取表格資料最主要的物件
 	// 要記得把剛剛建立的讀取器設定進去
@@ -45,9 +46,10 @@ func exampleJson() {
 // exampleProto proto範例
 func exampleProto() {
 	// 要使用sheeter, 首先建立繼承自sheeterProto.Loader介面的讀取器
-	// 由於要設定資料檔案的路徑, 所以執行rootPath函式來取得當前路徑, 並且跟proto資料的路徑組合來獲得最終路徑
+	// 讀取器負責從磁碟(或是其他的資料來源)取得資料的流程, 這部分由使用者自行處理
+	// 範例中的讀取器只是簡單的從磁碟讀取檔案而已
 	loader := &fileLoader{
-		path: filepath.Join(rootPath(), "proto", "data"),
+		path: filepath.Join(rootPath(), "proto", "data"), // 資料來源在proto/data
 	}
 	// 接著建立sheeterProto.Depot物件, 這是存取表格資料最主要的物件
 	// 要記得把剛剛建立的讀取器設定進去
