@@ -141,8 +141,8 @@ func (this *SuiteLayoutType) TestType() {
 
 func (this *SuiteLayoutType) TestFields() {
 	field1 := &Field{Name: "name1", Note: "note1", Field: &fields.Pkey{}, Alter: "alter1", Array: true}
-	field2 := &Field{Name: "name2", Note: "note2", Field: &fields.Text{}, Alter: "alter2", Array: false}
-	field3 := &Field{Name: "name3", Note: "note3", Field: &fields.TextArray{}, Alter: "alter3", Array: true}
+	field2 := &Field{Name: "name2", Note: "note2", Field: &fields.String{}, Alter: "alter2", Array: false}
+	field3 := &Field{Name: "name3", Note: "note3", Field: &fields.StringArray{}, Alter: "alter3", Array: true}
 
 	target := this.target()
 	assert.True(this.T(), target.pushType("type", "excel", "sheet", true))

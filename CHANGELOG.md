@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased-uncomplete]
 - 產生flatbuffer
 
+## [1.9.3] - 2022-10-25
+### Changed
+- text, testArray類型更名為string, stringArray
+
 ## [1.9.2] - 2022-10-24
 ### Changed
 - 精簡程式碼, 並增加組件說明

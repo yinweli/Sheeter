@@ -136,7 +136,7 @@ func (this *SuiteExcel) TestSheet() {
 		"pkey",
 		"bool",
 		"int",
-		"text",
+		"string",
 		"empty",
 	}, data)
 	sheet.Close()

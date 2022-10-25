@@ -27,13 +27,13 @@ func (this *SuiteText) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteText) target() *Text {
-	return &Text{}
+func (this *SuiteText) target() *String {
+	return &String{}
 }
 
 func (this *SuiteText) TestField() {
 	target := this.target()
-	assert.Equal(this.T(), "text", target.Type())
+	assert.Equal(this.T(), "string", target.Type())
 	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
 	assert.Equal(this.T(), internal.TokenStringCs, target.ToTypeCs())

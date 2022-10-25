@@ -47,8 +47,8 @@ var fields = []Field{
 	&IntArray{},
 	&Float{},
 	&FloatArray{},
-	&Text{},
-	&TextArray{},
+	&String{},
+	&StringArray{},
 }
 
 // Parser 欄位解析, 格式為 field#tag
