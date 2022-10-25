@@ -10,30 +10,30 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestTextArray(t *testing.T) {
-	suite.Run(t, new(SuiteTextArray))
+func TestStringArray(t *testing.T) {
+	suite.Run(t, new(SuiteStringArray))
 }
 
-type SuiteTextArray struct {
+type SuiteStringArray struct {
 	suite.Suite
 	workDir string
 }
 
-func (this *SuiteTextArray) SetupSuite() {
+func (this *SuiteStringArray) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 }
 
-func (this *SuiteTextArray) TearDownSuite() {
+func (this *SuiteStringArray) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteTextArray) target() *TextArray {
-	return &TextArray{}
+func (this *SuiteStringArray) target() *StringArray {
+	return &StringArray{}
 }
 
-func (this *SuiteTextArray) TestField() {
+func (this *SuiteStringArray) TestField() {
 	target := this.target()
-	assert.Equal(this.T(), "textArray", target.Type())
+	assert.Equal(this.T(), "stringArray", target.Type())
 	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
 	assert.Equal(this.T(), internal.TokenStringCs+internal.TokenArray, target.ToTypeCs())
@@ -41,7 +41,7 @@ func (this *SuiteTextArray) TestField() {
 	assert.Equal(this.T(), internal.TokenRepeated+" "+internal.TokenStringProto, target.ToTypeProto())
 }
 
-func (this *SuiteTextArray) TestToJsonValue() {
+func (this *SuiteStringArray) TestToJsonValue() {
 	target := this.target()
 
 	result, err := target.ToJsonValue("ball,book,pack")
