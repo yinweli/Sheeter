@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased-uncomplete]
+- 嘗試看看用excel, sheet名稱以及資料夾搜尋(包括子資料夾)來建立表格資料; 取代寫一堆的設定檔案
 - 產生flatbuffer
 
 ## [1.9.3] - 2022-10-25
