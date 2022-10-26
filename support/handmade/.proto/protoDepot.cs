@@ -1,4 +1,4 @@
-﻿// 以下是模板驗證用程式碼
+// 以下是模板驗證用程式碼
 
 using System.Collections.Generic;
 

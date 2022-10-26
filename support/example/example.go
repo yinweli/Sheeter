@@ -17,6 +17,9 @@ func main() {
 	exampleEnum()
 }
 
+// 在多執行緒環境下執行時, 各個表格物件的取用資料內容操作都是執行緒安全的
+// 但是倉庫物件的FromData與MergeData操作則是非執行緒安全的, 請注意此點
+
 // exampleJson json範例
 func exampleJson() {
 	// 要使用sheeter, 首先建立繼承自sheeterJson.Loader介面的讀取器

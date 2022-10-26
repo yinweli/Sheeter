@@ -1,4 +1,4 @@
-﻿namespace verifycs {
+namespace verifycs {
     public class Verifycs {
         public static void Main() {
             VerifyJson.verifyJsonFrom();
