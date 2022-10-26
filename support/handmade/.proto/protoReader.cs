@@ -1,4 +1,4 @@
-// 以下是模板驗證用程式碼
+﻿// 以下是模板驗證用程式碼
 // using區段可能與實際給的不一致, 要注意
 
 using Google.Protobuf; // 這為了通過編譯的程式碼, 不可使用
@@ -139,7 +139,11 @@ namespace SheeterProto {
 
     public sealed partial class RewardStorer : pb::IMessage<RewardStorer> {
         private static readonly pb::MessageParser<RewardStorer> _parser = new pb::MessageParser<RewardStorer>(() => new RewardStorer());
-        public static pb::MessageParser<RewardStorer> Parser { get { return _parser; } }
+        public static pb::MessageParser<RewardStorer> Parser {
+            get {
+                return _parser;
+            }
+        }
         public Dictionary<long, Reward> Datas = new Dictionary<long, Reward>();
         public MessageDescriptor Descriptor => throw new System.NotImplementedException();
 

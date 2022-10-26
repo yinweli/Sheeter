@@ -1,9 +1,11 @@
 package main
 
 func main() {
-	verifyJsonFrom()
-	verifyJsonMerge()
-	verifyProtoFrom()
-	verifyProtoMerge()
+	const threads = 1000
+
+	verifyJsonFrom(threads)
+	verifyJsonMerge(threads)
+	verifyProtoFrom(threads)
+	verifyProtoMerge(threads)
 	verifyEnum()
 }

@@ -3,10 +3,12 @@ using UnityEngine;
 namespace verifycs {
     public class Verify : MonoBehaviour {
         void Start() {
-            VerifyJson.verifyJsonFrom();
-            VerifyJson.verifyJsonMerge();
-            VerifyProto.verifyProtoFrom();
-            VerifyProto.verifyProtoMerge();
+            const int threads = 1000;
+
+            VerifyJson.verifyJsonFrom(threads);
+            VerifyJson.verifyJsonMerge(threads);
+            VerifyProto.verifyProtoFrom(threads);
+            VerifyProto.verifyProtoMerge(threads);
             VerifyEnum.verifyEnum();
         }
     }
