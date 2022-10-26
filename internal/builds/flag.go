@@ -16,8 +16,7 @@ const flagLineOfLayer = "lineOfLayer"   // 旗標名稱: 階層行號
 const flagLineOfData = "lineOfData"     // 旗標名稱: 資料行號
 const flagLineOfEnum = "lineOfEnum"     // 旗標名稱: 列舉行號
 const flagExcludes = "excludes"         // 旗標名稱: 排除列表
-const flagElements = "elements"         // 旗標名稱: 項目列表
-const flagEnums = "enums"               // 旗標名稱: 列舉列表
+const flagInputs = "inputs"             // 旗標名稱: 輸入列表
 
 // SetFlags 設定命令旗標
 func SetFlags(cmd *cobra.Command) *cobra.Command {
@@ -34,7 +33,6 @@ func SetFlags(cmd *cobra.Command) *cobra.Command {
 	flags.Int(flagLineOfData, 0, "line of data")
 	flags.Int(flagLineOfEnum, 0, "line of enum")
 	flags.StringSlice(flagExcludes, []string{}, "exclude tags(tag,tag,tag...)")
-	flags.StringSlice(flagElements, []string{}, "element lists(excel#sheet,excel#sheet,excel#sheet,...)")
-	flags.StringSlice(flagEnums, []string{}, "enum lists(excel#sheet,excel#sheet,excel#sheet,...)")
+	flags.StringSlice(flagInputs, []string{}, "input list(path / file.xlsx / file.xlsx#sheet,...)")
 	return cmd
 }

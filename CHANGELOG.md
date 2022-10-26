@@ -12,8 +12,7 @@ build --element xxxx\xxxx#xxxx
 build --enum xxxx\xxxx#xxxx
 
 build --config xxxx
-build --path xxxx\xxxx.xlsx
-build --path xxxx\
+build --input xxxx,xxxx\xxxx.xlsx,xxxx.xlsx#sheet
 
 如何分辨
     非excel檔案
@@ -21,12 +20,91 @@ build --path xxxx\
     資料表單 @
     列舉表單 $
 
-額外目標
-    多執行緒環境下重複利用excel物件!?
+執行流程
+    從設定檔或是命令行獲取path list, excel list, sheet list
+    initializeInput {
+        in:  result chan any
+             path string
+        out: path&file list
+    }
+    initializeExcel {
+        in:  result chan any
+             path&file
+        out: sheetInfo
+    }
+    initializeSheet { 
+        struct sheetInfo {
+            excel path&file
+            sheet name
+            excel object
+        }
+        in:  result chan any
+             sheetInfo
+        out: data or enum object
+    }
+    initializeData => 填滿data結構中其餘項目
+    initializeEnum => 填滿enum結構中其餘項目
+    initializePick => pick!
+
+單元測試流程
+    flag_test
+    config_test
 
 技術資訊
     遍歷目錄與檔案使用filepath.Walk
     err := filepath.Walk(path, 處理函式)
+    ////////////////////////////////////////////
+    path := "./path/to/fileOrDir"
+    fileInfo, err := os.Stat(path)
+    if err != nil {
+        // error handling
+    }
+
+    if fileInfo.IsDir() {
+        // is a directory
+    } else {
+        // is not a directory
+    }
+    ////////////////////////////////////////////
+    // Source 來源資料
+    type Source struct {
+        Source string // 來源資料
+    }
+
+    // Path 取得路徑
+    func (this *Source) Path() (path string, ok bool) {
+        if info, err := os.Stat(this.Source); err == nil {
+            if info.IsDir() {
+                return this.Source, true
+            } // if
+        } // if
+
+        return "", false
+    }
+
+    // Excel 取得excel名稱(含路徑)
+    func (this *Source) Excel() (excel string, ok bool) {
+        if info, err := os.Stat(this.Source); err == nil {
+            if info.IsDir() == false {
+                if filepath.Ext(this.Source) == internal.ExcelExt {
+                    return this.Source, true
+                } // if
+            } // if
+        } // if
+
+        return "", false
+    }
+
+    // Sheet 取得excel名稱(含路徑), sheet名稱
+    func (this *Source) Sheet() (excel, sheet string, ok bool) {
+        if excel, ok = this.Excel(); ok {
+            if before, after, ok := strings.Cut(excel, internal.SeparateSheet); ok {
+                return before, after, true
+            } // if
+        } // if
+
+        return "", "", false
+    }
 ```
 - 產生flatbuffer
 

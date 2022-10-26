@@ -2,11 +2,9 @@ package internal
 
 /* 應用程式相關 */
 
-const AppName = "sheeter"   // 程式名稱
-const Version = "1.9.4"     // 版本字串, 遵循'大版本.小版本.修正版本'的規則
-const SeparateField = "#"   // 欄位字串以'#'符號分割為名稱與欄位
-const SeparateElement = "#" // 項目字串以'#'符號分割為檔案名稱與表單名稱
-const BarWidth = 40         // 進度條寬度
+const AppName = "sheeter" // 程式名稱
+const Version = "1.9.5"   // 版本字串, 遵循'大版本.小版本.修正版本'的規則
+const BarWidth = 40       // 進度條寬度
 
 /* 類型相關 */
 
@@ -49,6 +47,11 @@ const TmplEnumSchemaFile = "enum-schema.txt"        // 輸出檔名: enum架構�
 
 /* 通用名稱 */
 
+const ExcelExt = "xlsx"     // 副檔名: excel
+const SignData = "@"        // 資料表單開頭字元
+const SignEnum = "$"        // 列舉表單開頭字元
+const SeparateSheet = "#"   // 表單字串以'#'符號分割為檔案名稱與表單名稱
+const SeparateField = "#"   // 欄位字串以'#'符號分割為名稱與欄位
 const Reader = "Reader"     // 讀取器名稱
 const Storer = "Storer"     // 儲存器名稱
 const StorerDatas = "Datas" // 儲存器資料名稱
