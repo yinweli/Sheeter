@@ -3,7 +3,7 @@ package internal
 /* 應用程式相關 */
 
 const AppName = "sheeter"   // 程式名稱
-const Version = "1.9.3"     // 版本字串, 遵循'大版本.小版本.修正版本'的規則
+const Version = "1.9.4"     // 版本字串, 遵循'大版本.小版本.修正版本'的規則
 const SeparateField = "#"   // 欄位字串以'#'符號分割為名稱與欄位
 const SeparateElement = "#" // 項目字串以'#'符號分割為檔案名稱與表單名稱
 const BarWidth = 40         // 進度條寬度
