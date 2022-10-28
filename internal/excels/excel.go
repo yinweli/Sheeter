@@ -34,7 +34,7 @@ func (this *Excel) Close() {
 	} // if
 }
 
-// Get 取得表格
+// Get 取得表單
 func (this *Excel) Get(name string) (sheet *Sheet, err error) {
 	if this.Exist(name) == false {
 		return nil, fmt.Errorf("get failed: sheet not exist")
@@ -46,7 +46,7 @@ func (this *Excel) Get(name string) (sheet *Sheet, err error) {
 	return sheet, nil
 }
 
-// GetLine 取得表格行資料
+// GetLine 取得表單行資料
 func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, err error) {
 	sheet, err := this.Get(name)
 
@@ -84,7 +84,16 @@ func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, e
 	return result, nil
 }
 
-// Exist 表格是否存在
+// Sheets 取得表單列表
+func (this *Excel) Sheets() []string {
+	if this.excel != nil {
+		return this.excel.Sheets
+	} // if
+
+	return []string{}
+}
+
+// Exist 表單是否存在
 func (this *Excel) Exist(name string) bool {
 	if this.excel != nil {
 		for _, itor := range this.excel.Sheets {
@@ -102,17 +111,17 @@ func (this *Excel) IsOpen() bool {
 	return this.excel != nil
 }
 
-// Sheet 表格資料
+// Sheet 表單資料
 type Sheet struct {
-	rows chan xlsxreader.Row // 表格資料
+	rows chan xlsxreader.Row // 表單資料
 	row  *xlsxreader.Row     // 行資料
 	line int                 // 目前行數
 }
 
-// Close 關閉表格資料
+// Close 關閉表單資料
 func (this *Sheet) Close() {
 	if this.rows != nil {
-		// 由於xlsxreader的要求, 必須在關閉前把表格尋訪完畢
+		// 由於xlsxreader的要求, 必須在關閉前把表單尋訪完畢
 		// 不然會遺留未完成的goroutine與channel物件
 		for range this.rows {
 			// do nothing...

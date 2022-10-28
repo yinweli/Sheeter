@@ -96,6 +96,12 @@ func (this *SuiteExcel) TestGetLine() {
 	target.Close()
 }
 
+func (this *SuiteExcel) TestSheets() {
+	target := this.target()
+	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
+	assert.Equal(this.T(), []string{"Data", "Enum"}, target.Sheets())
+}
+
 func (this *SuiteExcel) TestExist() {
 	target := this.target()
 	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
