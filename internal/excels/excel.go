@@ -64,19 +64,18 @@ func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, e
 			return nil, fmt.Errorf("get line failed: line <= 0")
 		} // if
 
-		if sheet.Nextn(itor-current) == false {
-			return nil, fmt.Errorf("get line failed: line not found")
-		} // if
+		data := []string{}
 
-		current = itor
-		data, err := sheet.Data()
+		if sheet.Nextn(itor - current) {
+			current = itor
 
-		if err != nil {
-			return nil, fmt.Errorf("get line failed: %w", err)
-		} // if
+			if data, err = sheet.Data(); err != nil {
+				return nil, fmt.Errorf("get line failed: %w", err)
+			} // if
 
-		if data == nil { // 如果取得空行, 就回傳個空切片吧
-			data = []string{}
+			if data == nil { // 如果取得空行, 就回傳個空切片吧
+				data = []string{}
+			} // if
 		} // if
 
 		result[itor] = data
@@ -133,7 +132,7 @@ func (this *Sheet) Next() bool {
 	row := <-this.rows
 	this.row = &row
 	this.line++
-	return this.row.Error == nil
+	return this.row.Error == nil && this.row.Index > 0 && this.row.Cells != nil
 }
 
 // Nextn 往下n行
