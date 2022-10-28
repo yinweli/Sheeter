@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -29,7 +30,7 @@ func (this *SuiteJson) TearDownSuite() {
 
 func (this *SuiteJson) TestJsonMarshal() {
 	datas := map[string]string{"data": "value"}
-	bytes, _ := json.MarshalIndent(datas, jsonPrefix, jsonIdent)
+	bytes, _ := json.MarshalIndent(datas, internal.JsonPrefix, internal.JsonIdent)
 
 	result, err := JsonMarshal(datas)
 	assert.Nil(this.T(), err)
