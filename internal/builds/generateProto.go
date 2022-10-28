@@ -21,7 +21,7 @@ type generateProto struct {
 }
 
 // GenerateProtoSchema 產生proto架構檔案
-func GenerateProtoSchema(material any) error {
+func GenerateProtoSchema(material any, _ chan any) error {
 	data, ok := material.(*generateProto)
 
 	if ok == false {
@@ -38,7 +38,7 @@ func GenerateProtoSchema(material any) error {
 }
 
 // GenerateProtoReaderCs 產生proto讀取器cs
-func GenerateProtoReaderCs(material any) error {
+func GenerateProtoReaderCs(material any, _ chan any) error {
 	data, ok := material.(*generateProto)
 
 	if ok == false {
@@ -59,7 +59,7 @@ func GenerateProtoReaderCs(material any) error {
 }
 
 // GenerateProtoReaderGo 產生proto讀取器go
-func GenerateProtoReaderGo(material any) error {
+func GenerateProtoReaderGo(material any, _ chan any) error {
 	data, ok := material.(*generateProto)
 
 	if ok == false {

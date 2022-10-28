@@ -21,7 +21,7 @@ type encodingProto struct {
 }
 
 // EncodingProto 編碼proto資料
-func EncodingProto(material any) error {
+func EncodingProto(material any, _ chan any) error {
 	data, ok := material.(*encodingProto)
 
 	if ok == false {

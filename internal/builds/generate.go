@@ -6,7 +6,7 @@ import (
 
 // Generate 產生處理
 func Generate(context *Context) []error {
-	return pipelines.Execute("generate", context.Generate, []pipelines.Executor{
+	_, errs := pipelines.Pipeline("generate", context.Generate, []pipelines.PipelineFunc{
 		GenerateJsonStructCs,
 		GenerateJsonReaderCs,
 		GenerateJsonStructGo,
@@ -16,4 +16,5 @@ func Generate(context *Context) []error {
 		GenerateProtoReaderGo,
 		GenerateEnumSchema,
 	})
+	return errs
 }

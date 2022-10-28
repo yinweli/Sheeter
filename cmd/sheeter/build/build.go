@@ -78,6 +78,5 @@ func execute(cmd *cobra.Command, _ []string) {
 		return
 	} // if
 
-	context.Close()
 	cmd.Printf("usage time=%s\n", durafmt.Parse(time.Since(startTime)))
 }

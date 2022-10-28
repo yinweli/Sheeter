@@ -10,25 +10,25 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestInitializeEnum(t *testing.T) {
-	suite.Run(t, new(SuiteInitializeEnum))
+func TestInitializeSheetEnum(t *testing.T) {
+	suite.Run(t, new(SuiteInitializeSheetEnum))
 }
 
-type SuiteInitializeEnum struct {
+type SuiteInitializeSheetEnum struct {
 	suite.Suite
 	workDir string
 }
 
-func (this *SuiteInitializeEnum) SetupSuite() {
+func (this *SuiteInitializeSheetEnum) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
 }
 
-func (this *SuiteInitializeEnum) TearDownSuite() {
+func (this *SuiteInitializeSheetEnum) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuiteInitializeEnum) target() *initializeEnum {
-	target := &initializeEnum{
+func (this *SuiteInitializeSheetEnum) target() *initializeSheetEnum {
+	target := &initializeSheetEnum{
 		Global: &Global{
 			LineOfEnum: 2,
 		},
@@ -37,43 +37,44 @@ func (this *SuiteInitializeEnum) target() *initializeEnum {
 	return target
 }
 
-func (this *SuiteInitializeEnum) TestInitializeEnum() {
+func (this *SuiteInitializeSheetEnum) TestInitializeSheetEnum() {
+	result := make(chan any, 1)
 	target := this.target()
-	assert.Nil(this.T(), InitializeEnum(target))
+	assert.Nil(this.T(), InitializeSheetEnum(target, result))
 	assert.NotNil(this.T(), target.layoutEnum)
 
-	assert.Nil(this.T(), InitializeEnum(nil))
+	assert.Nil(this.T(), InitializeSheetEnum(nil, result))
 
 	target = this.target()
 	target.Named.ExcelName = "dep"
 	target.Named.SheetName = "oT"
-	assert.NotNil(this.T(), InitializeEnum(target))
+	assert.NotNil(this.T(), InitializeSheetEnum(target, result))
 
 	target = this.target()
 	target.Named.ExcelName = testdata.UnknownStr
-	assert.NotNil(this.T(), InitializeEnum(target))
+	assert.NotNil(this.T(), InitializeSheetEnum(target, result))
 
 	target = this.target()
 	target.Named.SheetName = testdata.UnknownStr
-	assert.NotNil(this.T(), InitializeEnum(target))
+	assert.NotNil(this.T(), InitializeSheetEnum(target, result))
 
 	target = this.target()
 	target.Named.SheetName = "Enum2"
-	assert.NotNil(this.T(), InitializeEnum(target))
+	assert.NotNil(this.T(), InitializeSheetEnum(target, result))
 
 	target = this.target()
 	target.Named.ExcelName = testdata.ExcelInvalidEnum
-	assert.NotNil(this.T(), InitializeEnum(target))
+	assert.NotNil(this.T(), InitializeSheetEnum(target, result))
 
 	target = this.target()
 	target.Named.ExcelName = testdata.ExcelInvalidEnumDupl
-	assert.NotNil(this.T(), InitializeEnum(target))
+	assert.NotNil(this.T(), InitializeSheetEnum(target, result))
 
 	target = this.target()
 	target.Named.ExcelName = testdata.ExcelInvalidIndex
-	assert.NotNil(this.T(), InitializeEnum(target))
+	assert.NotNil(this.T(), InitializeSheetEnum(target, result))
 
 	target = this.target()
 	target.Named.ExcelName = testdata.ExcelInvalidIndexDupl
-	assert.NotNil(this.T(), InitializeEnum(target))
+	assert.NotNil(this.T(), InitializeSheetEnum(target, result))
 }

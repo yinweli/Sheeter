@@ -46,11 +46,9 @@ func (this *SuitePoststep) target() *Config {
 			LineOfData:      5,
 			LineOfEnum:      2,
 		},
-		Elements: []Element{
-			{Excel: testdata.ExcelReal, Sheet: testdata.SheetData},
-		},
-		Enums: []Element{
-			{Excel: testdata.ExcelReal, Sheet: testdata.SheetEnum},
+		Inputs: []string{
+			testdata.ExcelReal + internal.SeparateSheet + testdata.SheetData,
+			testdata.ExcelReal + internal.SeparateSheet + testdata.SheetEnum,
 		},
 	}
 	return target
@@ -58,14 +56,10 @@ func (this *SuitePoststep) target() *Config {
 
 func (this *SuitePoststep) TestPoststep() {
 	context, errs := Initialize(this.target())
-	assert.Len(this.T(), errs, 0)
-	assert.NotNil(this.T(), context)
-	errs = Generate(context)
-	assert.Len(this.T(), errs, 0)
-	errs = Encoding(context)
-	assert.Len(this.T(), errs, 0)
-	errs = Poststep(context)
-	assert.Len(this.T(), errs, 0)
+	assert.Empty(this.T(), errs)
+	assert.Empty(this.T(), Generate(context))
+	assert.Empty(this.T(), Encoding(context))
+	assert.Empty(this.T(), Poststep(context))
 	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.CsPath, "Depot.cs"))
 	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.GoPath, "depot.go"))
 	assert.FileExists(this.T(), filepath.Join(internal.ProtoPath, internal.CsPath, "Depot.cs"))

@@ -1,6 +1,9 @@
 package nameds
 
 import (
+	"strings"
+
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/utils"
 )
 
@@ -24,7 +27,7 @@ func combine(params *params) string {
 		excel = utils.FirstLower(excel)
 	} // if
 
-	sheet := params.sheetName
+	sheet := removeSheetPrefix(params.sheetName)
 
 	if params.sheetUpper {
 		sheet = utils.FirstUpper(sheet)
@@ -35,8 +38,20 @@ func combine(params *params) string {
 	name := excel + sheet + params.last
 
 	if params.ext != "" {
-		name = name + params.ext
+		name += params.ext
 	} // if
 
 	return name
+}
+
+func removeSheetPrefix(sheet string) string {
+	if strings.HasPrefix(sheet, internal.SignData) {
+		return strings.TrimPrefix(sheet, internal.SignData)
+	} // if
+
+	if strings.HasPrefix(sheet, internal.SignEnum) {
+		return strings.TrimPrefix(sheet, internal.SignEnum)
+	} // if
+
+	return sheet
 }

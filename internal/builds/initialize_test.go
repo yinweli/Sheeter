@@ -35,15 +35,18 @@ func (this *SuiteInitialize) target() *Config {
 		Global: Global{
 			ExportJson:      true,
 			ExportProto:     true,
+			ExportEnum:      true,
 			SimpleNamespace: false,
 			LineOfName:      1,
 			LineOfNote:      2,
 			LineOfField:     3,
 			LineOfLayer:     4,
 			LineOfData:      5,
+			LineOfEnum:      2,
 		},
-		Elements: []Element{
-			{Excel: testdata.ExcelReal, Sheet: testdata.SheetData},
+		Inputs: []string{
+			testdata.ExcelReal + internal.SeparateSheet + testdata.SheetData,
+			testdata.ExcelReal + internal.SeparateSheet + testdata.SheetEnum,
 		},
 	}
 	return target
@@ -51,9 +54,9 @@ func (this *SuiteInitialize) target() *Config {
 
 func (this *SuiteInitialize) TestInitialize() {
 	context, errs := Initialize(this.target())
-	assert.Len(this.T(), errs, 0)
+	assert.Empty(this.T(), errs)
 	assert.NotNil(this.T(), context)
-	assert.NotEmpty(this.T(), context.Element)
+	assert.NotNil(this.T(), context.Global)
 	assert.NotEmpty(this.T(), context.Generate)
 	assert.NotEmpty(this.T(), context.Encoding)
 	assert.NotEmpty(this.T(), context.Poststep)

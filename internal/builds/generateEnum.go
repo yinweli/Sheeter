@@ -18,7 +18,7 @@ type generateEnum struct {
 }
 
 // GenerateEnumSchema 產生enum架構檔案
-func GenerateEnumSchema(material any) error {
+func GenerateEnumSchema(material any, _ chan any) error {
 	data, ok := material.(*generateEnum)
 
 	if ok == false {

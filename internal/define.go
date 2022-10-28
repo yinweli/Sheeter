@@ -3,7 +3,7 @@ package internal
 /* 應用程式相關 */
 
 const AppName = "sheeter" // 程式名稱
-const Version = "1.9.5"   // 版本字串, 遵循'大版本.小版本.修正版本'的規則
+const Version = "1.10.0"  // 版本字串, 遵循'大版本.小版本.修正版本'的規則
 const BarWidth = 40       // 進度條寬度
 
 /* 類型相關 */
@@ -45,45 +45,45 @@ const TmplProtoReaderGoFile = "proto-reader-go.txt" // 輸出檔名: proto讀取
 const TmplProtoDepotGoFile = "proto-depot-go.txt"   // 輸出檔名: proto倉庫go模板
 const TmplEnumSchemaFile = "enum-schema.txt"        // 輸出檔名: enum架構模板
 
-/* 通用名稱 */
+/* 路徑名 */
 
-const ExcelExt = ".xlsx"    // 副檔名: excel
-const SignData = "@"        // 資料表單開頭字元
-const SignEnum = "$"        // 列舉表單開頭字元
-const SeparateSheet = "#"   // 表單字串以'#'符號分割為檔案名稱與表單名稱
-const SeparateField = "#"   // 欄位字串以'#'符號分割為名稱與欄位
-const SeparateArray = ","   // 陣列字串','符號分割
-const JsonPrefix = ""       // json前綴字串
-const JsonIdent = "    "    // json縮排字串
-const Reader = "Reader"     // 讀取器名稱
-const Storer = "Storer"     // 儲存器名稱
-const StorerDatas = "Datas" // 儲存器資料名稱
-const Depot = "depot"       // 倉庫名稱
 const SchemaPath = "schema" // 輸出路徑: 架構
 const DataPath = "data"     // 輸出路徑: 資料
 const CsPath = "codeCs"     // 輸出路徑: cs
-const CsExt = ".cs"         // 副檔名: cs
 const GoPath = "codeGo"     // 輸出路徑: go
-const GoExt = ".go"         // 副檔名: go
+const JsonPath = "json"     // 輸出路徑: json
+const ProtoPath = "proto"   // 輸出路徑: proto
+const EnumPath = "enum"     // 輸出路徑: enum
 
-/* json相關 */
+/* 副檔名 */
 
-const JsonNamespace = AppName + "Json" // 命名空間名稱: json
-const JsonPath = "json"                // 輸出路徑: json
-const JsonDataExt = ".json"            // 副檔名: json資料
+const ExcelExt = ".xlsx"        // 副檔名: excel
+const CsExt = ".cs"             // 副檔名: cs
+const GoExt = ".go"             // 副檔名: go
+const JsonDataExt = ".json"     // 副檔名: json資料
+const ProtoSchemaExt = ".proto" // 副檔名: proto架構
+const ProtoDataExt = ".bytes"   // 副檔名: proto資料
+const EnumSchemaExt = ".proto"  // 副檔名: enum架構
 
-/* proto相關 */
+/* 程式名稱 */
 
+const Reader = "Reader"                  // 讀取器名稱
+const Storer = "Storer"                  // 儲存器名稱
+const StorerDatas = "Datas"              // 儲存器資料名稱
+const Depot = "depot"                    // 倉庫名稱
+const JsonNamespace = AppName + "Json"   // 命名空間名稱: json
 const ProtoNamespace = AppName + "Proto" // 命名空間名稱: proto
-const ProtoPath = "proto"                // 輸出路徑: proto
-const ProtoSchemaExt = ".proto"          // 副檔名: proto架構
-const ProtoDataExt = ".bytes"            // 副檔名: proto資料
+const EnumNamespace = AppName + "Enum"   // 命名空間名稱: enum
 
-/* enum相關 */
+/* 其他名稱 */
 
-const EnumNamespace = AppName + "Enum" // 命名空間名稱: enum
-const EnumPath = "enum"                // 輸出路徑: enum
-const EnumSchemaExt = ".proto"         // 副檔名: enum架構
+const SignData = "@"      // 資料表單開頭字元
+const SignEnum = "$"      // 列舉表單開頭字元
+const SeparateSheet = "#" // 表單字串以'#'符號分割為檔案名稱與表單名稱
+const SeparateField = "#" // 欄位字串以'#'符號分割為名稱與欄位
+const SeparateArray = "," // 陣列字串以','符號分割
+const JsonPrefix = ""     // json前綴字串
+const JsonIdent = "    "  // json縮排字串
 
 // Keywords 關鍵字列表
 var Keywords = []string{

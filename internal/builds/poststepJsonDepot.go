@@ -23,7 +23,7 @@ type poststepJsonStruct struct {
 }
 
 // PoststepJsonDepotCs 後製json倉庫cs
-func PoststepJsonDepotCs(material any) error {
+func PoststepJsonDepotCs(material any, _ chan any) error {
 	data, ok := material.(*poststepJsonDepot)
 
 	if ok == false {
@@ -40,7 +40,7 @@ func PoststepJsonDepotCs(material any) error {
 }
 
 // PoststepJsonDepotGo 後製json倉庫go
-func PoststepJsonDepotGo(material any) error {
+func PoststepJsonDepotGo(material any, _ chan any) error {
 	data, ok := material.(*poststepJsonDepot)
 
 	if ok == false {

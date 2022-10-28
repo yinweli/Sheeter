@@ -8,7 +8,7 @@ import (
 )
 
 // InitializePick 初始化揀選
-func InitializePick(context *Context) error {
+func InitializePick(material []any, context *Context) error {
 	layoutType := layouts.NewLayoutType()
 	layoutDepend := layouts.NewLayoutDepend()
 	poststepJsonDepot := &poststepJsonDepot{
@@ -22,8 +22,8 @@ func InitializePick(context *Context) error {
 		Proto:  &nameds.Proto{},
 	}
 
-	for _, itor := range context.Element {
-		if data, ok := itor.(*initializeElement); ok {
+	for _, itor := range material {
+		if data, ok := itor.(*initializeSheetData); ok {
 			if err := layoutType.Merge(data.layoutType); err != nil {
 				return fmt.Errorf("initialize pick failed: %w", err)
 			} // if
@@ -57,7 +57,7 @@ func InitializePick(context *Context) error {
 			} // if
 		} // if
 
-		if data, ok := itor.(*initializeEnum); ok {
+		if data, ok := itor.(*initializeSheetEnum); ok {
 			named := &nameds.Named{ExcelName: data.ExcelName, SheetName: data.SheetName}
 			enum := &nameds.Enum{ExcelName: data.ExcelName, SheetName: data.SheetName}
 

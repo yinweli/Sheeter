@@ -97,15 +97,15 @@ message TestData {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), GenerateProtoSchema(target))
+	assert.Nil(this.T(), GenerateProtoSchema(target, nil))
 	testdata.CompareFile(this.T(), target.ProtoPath(), data1)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), GenerateProtoSchema(target))
+	assert.Nil(this.T(), GenerateProtoSchema(target, nil))
 	testdata.CompareFile(this.T(), target.ProtoPath(), data2)
 
-	assert.Nil(this.T(), GenerateProtoSchema(nil))
+	assert.Nil(this.T(), GenerateProtoSchema(nil, nil))
 }
 
 func (this *SuiteGenerateProto) TestGenerateProtoReaderCs() {
@@ -125,7 +125,7 @@ namespace SheeterProto {
         }
 
         public string DataExt() {
-            return "bytes";
+            return ".bytes";
         }
 
         public string DataFile() {
@@ -216,14 +216,14 @@ namespace SheeterProto {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), GenerateProtoReaderCs(target))
+	assert.Nil(this.T(), GenerateProtoReaderCs(target, nil))
 	testdata.CompareFile(this.T(), target.ProtoReaderCsPath(), data)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), GenerateProtoReaderCs(target))
+	assert.Nil(this.T(), GenerateProtoReaderCs(target, nil))
 
-	assert.Nil(this.T(), GenerateProtoReaderCs(nil))
+	assert.Nil(this.T(), GenerateProtoReaderCs(nil, nil))
 }
 
 func (this *SuiteGenerateProto) TestGenerateProtoReaderGo() {
@@ -247,7 +247,7 @@ func (this *TestDataReader) DataName() string {
 }
 
 func (this *TestDataReader) DataExt() string {
-	return "bytes"
+	return ".bytes"
 }
 
 func (this *TestDataReader) DataFile() string {
@@ -323,12 +323,12 @@ func (this *TestDataReader) Count() int {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), GenerateProtoReaderGo(target))
+	assert.Nil(this.T(), GenerateProtoReaderGo(target, nil))
 	testdata.CompareFile(this.T(), target.ProtoReaderGoPath(), data)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), GenerateProtoReaderGo(target))
+	assert.Nil(this.T(), GenerateProtoReaderGo(target, nil))
 
-	assert.Nil(this.T(), GenerateProtoReaderGo(nil))
+	assert.Nil(this.T(), GenerateProtoReaderGo(nil, nil))
 }

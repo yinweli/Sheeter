@@ -64,8 +64,8 @@ enum TestData {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), GenerateEnumSchema(target))
+	assert.Nil(this.T(), GenerateEnumSchema(target, nil))
 	testdata.CompareFile(this.T(), target.EnumPath(), data)
 
-	assert.Nil(this.T(), GenerateEnumSchema(nil))
+	assert.Nil(this.T(), GenerateEnumSchema(nil, nil))
 }

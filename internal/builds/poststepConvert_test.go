@@ -44,15 +44,15 @@ func (this *SuitePoststepConvert) target() *poststepConvert {
 }
 
 func (this *SuitePoststepConvert) TestPoststepConvertCs() {
-	assert.Nil(this.T(), PoststepConvertCs(this.target()))
+	assert.Nil(this.T(), PoststepConvertCs(this.target(), nil))
 	assert.FileExists(this.T(), filepath.Join(internal.CsPath, "Test1.cs"))
 
-	assert.Nil(this.T(), PoststepConvertCs(nil))
+	assert.Nil(this.T(), PoststepConvertCs(nil, nil))
 }
 
 func (this *SuitePoststepConvert) TestPoststepConvertGo() {
-	assert.Nil(this.T(), PoststepConvertGo(this.target()))
+	assert.Nil(this.T(), PoststepConvertGo(this.target(), nil))
 	assert.FileExists(this.T(), filepath.Join(internal.GoPath, "test1.pb.go")) // proto轉換go都會帶pb後綴
 
-	assert.Nil(this.T(), PoststepConvertGo(nil))
+	assert.Nil(this.T(), PoststepConvertGo(nil, nil))
 }

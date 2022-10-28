@@ -65,48 +65,15 @@ build --input xxxx,xxxx\xxxx.xlsx,xxxx.xlsx#sheet
     } else {
         // is not a directory
     }
-    ////////////////////////////////////////////
-    // Source 來源資料
-    type Source struct {
-        Source string // 來源資料
-    }
-
-    // Path 取得路徑
-    func (this *Source) Path() (path string, ok bool) {
-        if info, err := os.Stat(this.Source); err == nil {
-            if info.IsDir() {
-                return this.Source, true
-            } // if
-        } // if
-
-        return "", false
-    }
-
-    // Excel 取得excel名稱(含路徑)
-    func (this *Source) Excel() (excel string, ok bool) {
-        if info, err := os.Stat(this.Source); err == nil {
-            if info.IsDir() == false {
-                if filepath.Ext(this.Source) == internal.ExcelExt {
-                    return this.Source, true
-                } // if
-            } // if
-        } // if
-
-        return "", false
-    }
-
-    // Sheet 取得excel名稱(含路徑), sheet名稱
-    func (this *Source) Sheet() (excel, sheet string, ok bool) {
-        if excel, ok = this.Excel(); ok {
-            if before, after, ok := strings.Cut(excel, internal.SeparateSheet); ok {
-                return before, after, true
-            } // if
-        } // if
-
-        return "", "", false
-    }
 ```
 - 產生flatbuffer
+
+## [1.10.0]
+### Changed
+- 產生出來的讀取器程式碼中的DataExt函式, 回傳的副檔名會在最前面添加"."符號
+- 設定檔中的element與enum區塊被inputs區塊代替
+### Added
+- build命令可從指定目錄中搜尋excel檔案, 並辨別帶有"@"符號或是"$"符號的表單來建置成資料檔案或是列舉檔案
 
 ## [1.9.4] - 2022-10-28
 ### Changed

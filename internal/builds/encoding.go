@@ -6,8 +6,9 @@ import (
 
 // Encoding 編碼處理
 func Encoding(context *Context) []error {
-	return pipelines.Execute("encoding", context.Encoding, []pipelines.Executor{
+	_, errs := pipelines.Pipeline("encoding", context.Encoding, []pipelines.PipelineFunc{
 		EncodingJson,
 		EncodingProto,
 	})
+	return errs
 }

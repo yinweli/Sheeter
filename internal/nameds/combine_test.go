@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -27,6 +28,14 @@ func (this *SuiteCombine) TearDownSuite() {
 }
 
 func (this *SuiteCombine) TestCombine() {
+	assert.Equal(this.T(), "ab", combine(&params{
+		excelName: "a",
+		sheetName: internal.SignData + "b",
+	}))
+	assert.Equal(this.T(), "ab", combine(&params{
+		excelName: "a",
+		sheetName: internal.SignEnum + "b",
+	}))
 	assert.Equal(this.T(), "ab", combine(&params{
 		excelName: "a",
 		sheetName: "b",
@@ -63,4 +72,11 @@ func (this *SuiteCombine) TestCombine() {
 		last:      "c",
 		ext:       ".x",
 	}))
+}
+
+func (this *SuiteCombine) TestRemoveSheetPrefix() {
+	sheet := "test"
+	assert.Equal(this.T(), sheet, removeSheetPrefix(internal.SignData+sheet))
+	assert.Equal(this.T(), sheet, removeSheetPrefix(internal.SignEnum+sheet))
+	assert.Equal(this.T(), sheet, removeSheetPrefix(sheet))
 }

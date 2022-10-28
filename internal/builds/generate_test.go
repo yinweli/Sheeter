@@ -46,11 +46,9 @@ func (this *SuiteGenerate) target() *Config {
 			LineOfData:      5,
 			LineOfEnum:      2,
 		},
-		Elements: []Element{
-			{Excel: testdata.ExcelReal, Sheet: testdata.SheetData},
-		},
-		Enums: []Element{
-			{Excel: testdata.ExcelReal, Sheet: testdata.SheetEnum},
+		Inputs: []string{
+			testdata.ExcelReal + internal.SeparateSheet + testdata.SheetData,
+			testdata.ExcelReal + internal.SeparateSheet + testdata.SheetEnum,
 		},
 	}
 	return target
@@ -58,10 +56,8 @@ func (this *SuiteGenerate) target() *Config {
 
 func (this *SuiteGenerate) TestGenerate() {
 	context, errs := Initialize(this.target())
-	assert.Len(this.T(), errs, 0)
-	assert.NotNil(this.T(), context)
-	errs = Generate(context)
-	assert.Len(this.T(), errs, 0)
+	assert.Empty(this.T(), errs)
+	assert.Empty(this.T(), Generate(context))
 	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.CsPath, "RealData.cs"))
 	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.CsPath, "RealDataReader.cs"))
 	assert.FileExists(this.T(), filepath.Join(internal.JsonPath, internal.GoPath, "realData.go"))
