@@ -16,14 +16,10 @@ func TestCombine(t *testing.T) {
 type SuiteCombine struct {
 	suite.Suite
 	workDir string
-	last    string
-	ext     string
 }
 
 func (this *SuiteCombine) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.last = "#"
-	this.ext = "@"
 }
 
 func (this *SuiteCombine) TearDownSuite() {
@@ -59,12 +55,12 @@ func (this *SuiteCombine) TestCombine() {
 	assert.Equal(this.T(), "ab.x", combine(&params{
 		excelName: "a",
 		sheetName: "b",
-		ext:       "x",
+		ext:       ".x",
 	}))
 	assert.Equal(this.T(), "abc.x", combine(&params{
 		excelName: "a",
 		sheetName: "b",
 		last:      "c",
-		ext:       "x",
+		ext:       ".x",
 	}))
 }

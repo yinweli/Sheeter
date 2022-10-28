@@ -86,7 +86,7 @@ func (this *Proto) ProtoReaderCsPath() string {
 
 // ProtoDepotCsPath 取得proto倉庫cs程式碼路徑
 func (this *Proto) ProtoDepotCsPath() string {
-	return filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(internal.Depot)+"."+internal.CsExt) // cs程式碼一律大寫開頭
+	return filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(internal.Depot)+internal.CsExt) // cs程式碼一律大寫開頭
 }
 
 // ProtoReaderGoPath 取得proto-go讀取器程式碼路徑
@@ -102,7 +102,7 @@ func (this *Proto) ProtoReaderGoPath() string {
 
 // ProtoDepotGoPath 取得proto-go倉庫程式碼路徑
 func (this *Proto) ProtoDepotGoPath() string {
-	return filepath.Join(internal.ProtoPath, internal.GoPath, internal.Depot+"."+internal.GoExt)
+	return filepath.Join(internal.ProtoPath, internal.GoPath, internal.Depot+internal.GoExt)
 }
 
 // ProtoDepend 取得proto依賴檔名
@@ -110,5 +110,5 @@ func (this *Proto) ProtoDepend(name string) string {
 	// proto依賴檔名必須跟已建立的proto檔名相符
 	// 因為proto檔名是小寫駝峰, 所以這裡也必須是小寫駝峰
 
-	return utils.FirstLower(name) + "." + internal.ProtoSchemaExt
+	return utils.FirstLower(name) + internal.ProtoSchemaExt
 }

@@ -35,7 +35,7 @@ func combine(params *params) string {
 	name := excel + sheet + params.last
 
 	if params.ext != "" {
-		name = name + "." + params.ext
+		name = name + params.ext
 	} // if
 
 	return name
