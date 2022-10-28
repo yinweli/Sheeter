@@ -36,6 +36,10 @@ build --path xxxx\
 - 更新範例檔案, 加入關於多執行緒相關的說明
 - 驗證程式加入多執行緒驗證
 
+## [1.9.4] - 2022-10-28
+### Fixed
+- 修正sheet組件的next會造成無法判斷是否到達最後一行的問題
+
 ## [1.9.3] - 2022-10-25
 ### Changed
 - text, testArray類型更名為string, stringArray
