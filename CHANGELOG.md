@@ -28,15 +28,12 @@ build --path xxxx\
     遍歷目錄與檔案使用filepath.Walk
     err := filepath.Walk(path, 處理函式)
 ```
-- 新增驗證測試產出的程式碼是否可以用在多執行緒環境下(cs/go)
-  目前查詢不管是map還是Dictionary, 在唯讀的狀況下都可以用在多執行緒
 - 產生flatbuffer
 
-## [Unreleased]
+## [1.9.4] - 2022-10-28
+### Changed
 - 更新範例檔案, 加入關於多執行緒相關的說明
 - 驗證程式加入多執行緒驗證
-
-## [1.9.4] - 2022-10-28
 ### Fixed
 - 修正sheet組件的next會造成無法判斷是否到達最後一行的問題
 
