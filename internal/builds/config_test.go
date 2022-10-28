@@ -37,14 +37,6 @@ func (this *SuiteConfig) target() *Config {
 			LineOfData:  5,
 			LineOfEnum:  6,
 		},
-		Elements: []Element{
-			{Excel: "excel1", Sheet: "sheet1"},
-			{Excel: "excel2", Sheet: "sheet2"},
-		},
-		Enums: []Element{
-			{Excel: "excel1", Sheet: "sheet1"},
-			{Excel: "excel2", Sheet: "sheet2"},
-		},
 	}
 	return target
 }
@@ -65,8 +57,7 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Equal(this.T(), 105, config.Global.LineOfData)
 	assert.Equal(this.T(), 106, config.Global.LineOfEnum)
 	assert.Equal(this.T(), []string{"tag1", "tag2"}, config.Global.Excludes)
-	assert.Equal(this.T(), []Element{{Excel: "excel1", Sheet: "sheet1"}, {Excel: "excel2", Sheet: "sheet2"}}, config.Elements)
-	assert.Equal(this.T(), []Element{{Excel: "excel1", Sheet: "sheet1"}, {Excel: "excel2", Sheet: "sheet2"}}, config.Enums)
+	assert.Equal(this.T(), []string{"path", "path/path", "path/path.xlsx", "path/path.xlsx#sheet"}, config.Inputs)
 
 	cmd = SetFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagExportJson, "true"))
@@ -80,8 +71,7 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfData, "205"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfEnum, "206"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagExcludes, "tag3,tag4"))
-	assert.Nil(this.T(), cmd.Flags().Set(flagElements, "excel3#sheet3,excel4#sheet4"))
-	assert.Nil(this.T(), cmd.Flags().Set(flagEnums, "excel3#sheet3,excel4#sheet4"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagInputs, "excel1#sheet1,excel2#sheet2"))
 	config = Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
 	assert.Equal(this.T(), true, config.Global.ExportJson)
@@ -95,8 +85,7 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Equal(this.T(), 205, config.Global.LineOfData)
 	assert.Equal(this.T(), 206, config.Global.LineOfEnum)
 	assert.Equal(this.T(), []string{"tag3", "tag4"}, config.Global.Excludes)
-	assert.Equal(this.T(), []Element{{Excel: "excel3", Sheet: "sheet3"}, {Excel: "excel4", Sheet: "sheet4"}}, config.Elements)
-	assert.Equal(this.T(), []Element{{Excel: "excel3", Sheet: "sheet3"}, {Excel: "excel4", Sheet: "sheet4"}}, config.Enums)
+	assert.Equal(this.T(), []string{"excel1#sheet1", "excel2#sheet2"}, config.Inputs)
 
 	cmd = SetFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigFake))

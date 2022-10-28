@@ -3,19 +3,15 @@ package builds
 import (
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
-
-	"github.com/yinweli/Sheeter/internal"
 )
 
 // Config 設定資料
 type Config struct {
-	Global   Global    `yaml:"global"`   // 全域設定
-	Elements []Element `yaml:"elements"` // 項目列表
-	Enums    []Element `yaml:"enums"`    // 列舉列表
+	Global Global   `yaml:"global"` // 全域設定
+	Inputs []string `yaml:"inputs"` // 輸入列表
 }
 
 // Global 全域設定
@@ -31,12 +27,6 @@ type Global struct {
 	LineOfData      int      `yaml:"lineOfData"`      // 資料行號(1為起始行)
 	LineOfEnum      int      `yaml:"lineOfEnum"`      // 列舉行號(1為起始行)
 	Excludes        []string `yaml:"excludes"`        // 排除標籤列表
-}
-
-// Element 項目設定
-type Element struct {
-	Excel string `yaml:"excel"` // excel檔案名稱
-	Sheet string `yaml:"sheet"` // excel表單名稱
 }
 
 // Initialize 初始化設定
@@ -128,29 +118,9 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		} // if
 	} // if
 
-	if flags.Changed(flagElements) {
-		if items, err := flags.GetStringSlice(flagElements); err == nil {
-			for _, itor := range items {
-				if before, after, ok := strings.Cut(itor, internal.SeparateElement); ok {
-					this.Elements = append(this.Elements, Element{
-						Excel: before,
-						Sheet: after,
-					})
-				} // if
-			} // for
-		} // if
-	} // if
-
-	if flags.Changed(flagEnums) {
-		if items, err := flags.GetStringSlice(flagEnums); err == nil {
-			for _, itor := range items {
-				if before, after, ok := strings.Cut(itor, internal.SeparateElement); ok {
-					this.Enums = append(this.Enums, Element{
-						Excel: before,
-						Sheet: after,
-					})
-				} // if
-			} // for
+	if flags.Changed(flagInputs) {
+		if items, err := flags.GetStringSlice(flagInputs); err == nil {
+			this.Inputs = append(this.Inputs, items...)
 		} // if
 	} // if
 
