@@ -5,72 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Planning]
-- 嘗試看看用excel, sheet名稱以及資料夾搜尋(包括子資料夾)來建立表格資料; 取代寫一堆的設定檔案
-```
-build --config xxxx
-build --element xxxx\xxxx#xxxx
-build --enum xxxx\xxxx#xxxx
-
-build --config xxxx
-build --input xxxx,xxxx\xxxx.xlsx,xxxx.xlsx#sheet
-
-如何分辨
-    非excel檔案
-    跳過檔案/表單
-    資料表單 @
-    列舉表單 $
-
-執行流程
-    從設定檔或是命令行獲取path list, excel list, sheet list
-    initializeInput {
-        in:  result chan any
-             path string
-        out: path&file list
-    }
-    initializeExcel {
-        in:  result chan any
-             path&file
-        out: sheetInfo
-    }
-    initializeSheet { 
-        struct sheetInfo {
-            excel path&file
-            sheet name
-            excel object
-        }
-        in:  result chan any
-             sheetInfo
-        out: data or enum object
-    }
-    initializeData => 填滿data結構中其餘項目
-    initializeEnum => 填滿enum結構中其餘項目
-    initializePick => pick!
-
-單元測試流程
-    flag_test
-    config_test
-
-技術資訊
-    遍歷目錄與檔案使用filepath.Walk
-    err := filepath.Walk(path, 處理函式)
-    ////////////////////////////////////////////
-    path := "./path/to/fileOrDir"
-    fileInfo, err := os.Stat(path)
-    if err != nil {
-        // error handling
-    }
-
-    if fileInfo.IsDir() {
-        // is a directory
-    } else {
-        // is not a directory
-    }
-```
 - 產生flatbuffer
 
-## [1.10.0]
+## [1.10.0] - 2022-10-31
 ### Changed
-- 產生出來的讀取器程式碼中的DataExt函式, 回傳的副檔名會在最前面添加"."符號
+- 產生出來的讀取器程式碼中的DataExt函式, 回傳的副檔名字串會在最前面添加"."符號
 - 設定檔中的element與enum區塊被inputs區塊代替
 ### Added
 - build命令可從指定目錄中搜尋excel檔案, 並辨別帶有"@"符號或是"$"符號的表單來建置成資料檔案或是列舉檔案

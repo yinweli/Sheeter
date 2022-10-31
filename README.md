@@ -81,8 +81,7 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --lineOfData  | 行號(1為起始行)                         | 資料行號                 |
 | --lineOfEnum  | 行號(1為起始行)                         | 列舉行號                 |
 | --excludes    | 標籤,標籤,...                           | 輸出時排除的標籤列表     |
-| --elements    | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 項目列表                 |
-| --enums       | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 列舉列表                 |
+| --inputs      | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 輸入列表                 |
 
 * --json / --proto: 用於控制是否要產生[json]與[proto]檔案
     * sheeter build
@@ -93,7 +92,7 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
         * 只輸出[proto]檔案
 * --namespace: 用於控制產生的命名空間名稱
     * sheeter build
-        * 命名空間名稱: sheeterJson / SheeterJson / sheeterProto / SheeterProto
+        * 命名空間名稱: sheeterJson / SheeterJson / sheeterProto / SheeterProto / sheeterEnum / SheeterEnum
     * sheeter build --namespace
         * 命名空間名稱: sheeter / Sheeter
 
@@ -109,6 +108,9 @@ sheeter tmpl [flags]
 
 # 資料excel說明
 ![exceldata]
+
+## 表單名稱
+需以`@`開頭, [sheeter]會自動辨識以`@`開頭的表單為資料表單
 
 ## 名稱行
 欄位名稱, 只能是英文與數字與`_`的組合, 並且不能以數字開頭, 也不允許空白
@@ -198,6 +200,9 @@ sheeter tmpl [flags]
 # 列舉excel說明
 ![excelenum]
 
+## 表單名稱
+需以`$`開頭, [sheeter]會自動辨識以`$`開頭的表單為列舉表單
+
 ## 名稱行
 實際上不寫也沒關係, 僅提供給使用者辨識用
 
@@ -230,17 +235,12 @@ global:
     - tag1
     - tag2
 
-elements:               # 資料列表
-  - excel: excel1.xlsx  # excel檔案名稱
-    sheet: Data         # excel表單名稱
-  - excel: excel2.xlsx
-    sheet: Data
-
-enums:                  # 列舉列表
-  - excel: excel1.xlsx  # excel檔案名稱
-    sheet: Enum         # excel表單名稱
-  - excel: excel2.xlsx
-    sheet: Enum
+inputs:                   # 輸入列表
+  - path1                 # 轉換path1目錄底下符合規格的excel檔案
+  - path2                 # 轉換path2目錄底下符合規格的excel檔案
+  - path/excel.xlsx       # 轉換指定的excel檔案內符合規格的表單
+  - path/excel.xlsx#@Data # 轉換指定的excel檔案內的@Data表單
+  - path/excel.xlsx#$Enum # 轉換指定的excel檔案內的$Enum表單
 ```
 
 # 產生目錄
@@ -519,7 +519,6 @@ enums:                  # 列舉列表
 | internal/pipelines      | 管線組件                         |
 | internal/tmpls          | 模板組件                         |
 | internal/utils          | 協助組件                         |
-| testdata                | 測試資料                         |
 | support                 | 支援專案                         |
 | support/benchmark_count | 檔案數量效率測試資料             |
 | support/benchmark_size  | 檔案大小效率測試資料             |
