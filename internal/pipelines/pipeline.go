@@ -3,6 +3,7 @@ package pipelines
 import (
 	"fmt"
 	"sync"
+	"time"
 
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
@@ -43,6 +44,7 @@ func Pipeline(name string, material []any, funcs []PipelineFunc) (result []any, 
 					output <- err
 				} // if
 
+				time.Sleep(time.Millisecond) // 用來預防資料來不及添加道結果/錯誤列表中
 				waitGroup.Done()
 				progressbar.Increment()
 			} // for
