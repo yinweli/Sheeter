@@ -1,0 +1,21 @@
+global:
+  exportJson: true
+  exportProto: true
+  exportEnum: true
+  simpleNamespace: false
+  lineOfName: 1
+  lineOfNote: 2
+  lineOfField: 3
+  lineOfLayer: 4
+  lineOfData: 5
+  lineOfEnum: 2
+  excludes:
+    - ignore
+
+inputs:
+  - path1
+  - path2
+  - path3
+  - file1.xlsx
+  - file2.xlsx#@Data
+  - file2.xlsx#$Enum

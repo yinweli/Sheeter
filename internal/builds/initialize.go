@@ -6,16 +6,12 @@ import (
 	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/internal/pipelines"
+	"github.com/yinweli/Sheeter/internal/utils"
 )
 
 // Initialize 初始化處理
 func Initialize(config *Config) (context *Context, errs []error) {
-	path := []any{}
-
-	for _, itor := range config.Path() {
-		path = append(path, itor)
-	} // for
-
+	path := preparePath(config.Path())
 	excel, errs := pipelines.Pipeline("initialize file", path, []pipelines.PipelineFunc{
 		InitializeFile,
 	})
@@ -24,10 +20,7 @@ func Initialize(config *Config) (context *Context, errs []error) {
 		return nil, errs
 	} // if
 
-	for _, itor := range config.Excel() {
-		excel = append(excel, itor)
-	} // for
-
+	excel = prepareExcel(config.Excel(), excel)
 	sheet, errs := pipelines.Pipeline("initialize excel", excel, []pipelines.PipelineFunc{
 		InitializeExcel,
 	})
@@ -36,30 +29,7 @@ func Initialize(config *Config) (context *Context, errs []error) {
 		return nil, errs
 	} // if
 
-	for _, itor := range config.Sheet() {
-		if strings.HasPrefix(itor.SheetName, internal.SignData) {
-			sheet = append(sheet, &initializeSheetData{
-				Named: &nameds.Named{ExcelName: itor.ExcelName, SheetName: itor.SheetName},
-			})
-		} // if
-
-		if strings.HasPrefix(itor.SheetName, internal.SignEnum) {
-			sheet = append(sheet, &initializeSheetEnum{
-				Named: &nameds.Named{ExcelName: itor.ExcelName, SheetName: itor.SheetName},
-			})
-		} // if
-	} // for
-
-	for _, itor := range sheet {
-		if value, ok := itor.(*initializeSheetData); ok {
-			value.Global = &config.Global
-		} // if
-
-		if value, ok := itor.(*initializeSheetEnum); ok {
-			value.Global = &config.Global
-		} // if
-	} // for
-
+	sheet = prepareSheet(config.Sheet(), sheet, &config.Global) // 由於InitializePick會用到sheet列表, 所以必須在外面準備好列表
 	_, errs = pipelines.Pipeline("initialize sheet", sheet, []pipelines.PipelineFunc{
 		InitializeSheetData,
 		InitializeSheetEnum,
@@ -78,4 +48,88 @@ func Initialize(config *Config) (context *Context, errs []error) {
 	} // if
 
 	return context, errs
+}
+
+// preparePath 準備路徑列表
+func preparePath(config []string) []any {
+	result := []any{}
+	duplicate := utils.NewDuplicate()
+
+	for _, itor := range config {
+		if duplicate.Check(itor) {
+			result = append(result, itor)
+		} // if
+	} // for
+
+	return result
+}
+
+// prepareExcel 準備excel列表
+func prepareExcel(config []string, native []any) []any {
+	result := []any{}
+	duplicate := utils.NewDuplicate()
+
+	for _, itor := range config {
+		if duplicate.Check(itor) {
+			result = append(result, itor)
+		} // if
+	} // for
+
+	for _, itor := range native {
+		if value, ok := itor.(string); ok {
+			if duplicate.Check(value) {
+				result = append(result, value)
+			} // if
+		} // if
+	} // for
+
+	return result
+}
+
+// prepareSheet 準備sheet列表
+func prepareSheet(config []Sheet, native []any, global *Global) []any {
+	result := []any{}
+	duplicate := utils.NewDuplicate()
+
+	for _, itor := range config {
+		if duplicate.Check(itor.ExcelName, itor.SheetName) {
+			if strings.HasPrefix(itor.SheetName, internal.SignData) {
+				result = append(result, &initializeSheetData{
+					Named: &nameds.Named{ExcelName: itor.ExcelName, SheetName: itor.SheetName},
+				})
+			} // if
+
+			if strings.HasPrefix(itor.SheetName, internal.SignEnum) {
+				result = append(result, &initializeSheetEnum{
+					Named: &nameds.Named{ExcelName: itor.ExcelName, SheetName: itor.SheetName},
+				})
+			} // if
+		} // if
+	} // for
+
+	for _, itor := range native {
+		if value, ok := itor.(*initializeSheetData); ok {
+			if duplicate.Check(value.ExcelName, value.SheetName) {
+				result = append(result, itor)
+			} // if
+		} // if
+
+		if value, ok := itor.(*initializeSheetEnum); ok {
+			if duplicate.Check(value.ExcelName, value.SheetName) {
+				result = append(result, itor)
+			} // if
+		} // if
+	} // for
+
+	for _, itor := range result {
+		if value, ok := itor.(*initializeSheetData); ok {
+			value.Global = global
+		} // if
+
+		if value, ok := itor.(*initializeSheetEnum); ok {
+			value.Global = global
+		} // if
+	} // for
+
+	return result
 }

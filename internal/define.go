@@ -3,7 +3,7 @@ package internal
 /* 應用程式相關 */
 
 const AppName = "sheeter" // 程式名稱
-const Version = "1.10.0"  // 版本字串, 遵循'大版本.小版本.修正版本'的規則
+const Version = "1.10.1"  // 版本字串, 遵循'大版本.小版本.修正版本'的規則
 const BarWidth = 40       // 進度條寬度
 
 /* 類型相關 */
