@@ -18,7 +18,7 @@ namespace SheeterProto
 
         public string DataExt()
         {
-            return "bytes";
+            return ".bytes";
         }
 
         public string DataFile()

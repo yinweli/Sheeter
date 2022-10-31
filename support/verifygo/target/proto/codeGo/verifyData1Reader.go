@@ -18,7 +18,7 @@ func (this *VerifyData1Reader) DataName() string {
 }
 
 func (this *VerifyData1Reader) DataExt() string {
-	return "bytes"
+	return ".bytes"
 }
 
 func (this *VerifyData1Reader) DataFile() string {

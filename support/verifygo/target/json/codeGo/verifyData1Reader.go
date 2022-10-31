@@ -17,7 +17,7 @@ func (this *VerifyData1Reader) DataName() string {
 }
 
 func (this *VerifyData1Reader) DataExt() string {
-	return "json"
+	return ".json"
 }
 
 func (this *VerifyData1Reader) DataFile() string {

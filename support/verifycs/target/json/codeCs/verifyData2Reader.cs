@@ -19,7 +19,7 @@ namespace SheeterJson
 
         public string DataExt()
         {
-            return "json";
+            return ".json";
         }
 
         public string DataFile()
