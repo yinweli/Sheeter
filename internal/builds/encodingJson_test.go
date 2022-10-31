@@ -32,7 +32,7 @@ func (this *SuiteEncodingJson) TearDownSuite() {
 }
 
 func (this *SuiteEncodingJson) target(excel string) *encodingJson {
-	element := &initializeElement{
+	sheet := &initializeSheetData{
 		Global: &Global{
 			LineOfName:  1,
 			LineOfNote:  2,
@@ -42,15 +42,21 @@ func (this *SuiteEncodingJson) target(excel string) *encodingJson {
 		},
 		Named: &nameds.Named{ExcelName: excel, SheetName: testdata.SheetData},
 	}
+	result := make(chan any, 1)
 
-	assert.Nil(this.T(), InitializeElement(element))
+	assert.Nil(this.T(), InitializeSheetData(sheet, result))
+	assert.Empty(this.T(), result)
+	assert.NotNil(this.T(), sheet.excel)
+	assert.NotNil(this.T(), sheet.layoutData)
+	assert.NotNil(this.T(), sheet.layoutType)
+	assert.NotNil(this.T(), sheet.layoutDepend)
 
 	target := &encodingJson{
-		Global:     element.Global,
-		Named:      element.Named,
-		Json:       &nameds.Json{ExcelName: excel, SheetName: testdata.SheetData},
-		excel:      element.excel,
-		layoutData: element.layoutData,
+		Global:     sheet.Global,
+		Named:      sheet.Named,
+		Json:       &nameds.Json{ExcelName: sheet.ExcelName, SheetName: sheet.SheetName},
+		excel:      sheet.excel,
+		layoutData: sheet.layoutData,
 	}
 	return target
 }
@@ -62,24 +68,24 @@ func (this *SuiteEncodingJson) TestEncodingJson() {
 	assert.Nil(this.T(), err)
 
 	target := this.target(testdata.ExcelReal)
-	assert.Nil(this.T(), EncodingJson(target))
+	assert.Nil(this.T(), EncodingJson(target, nil))
 	testdata.CompareFile(this.T(), target.JsonDataPath(), data)
 
 	target = this.target(testdata.ExcelEmpty)
-	assert.Nil(this.T(), EncodingJson(target))
+	assert.Nil(this.T(), EncodingJson(target, nil))
 	testdata.CompareFile(this.T(), target.JsonDataPath(), empty)
 
 	target = this.target(testdata.ExcelInvalidData)
-	assert.NotNil(this.T(), EncodingJson(target))
+	assert.NotNil(this.T(), EncodingJson(target, nil))
 
 	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
 	if testdata.IsWindows() {
 		target = this.target(testdata.ExcelReal)
 		target.Json.ExcelName = testdata.UnknownStr
-		assert.NotNil(this.T(), EncodingJson(target))
+		assert.NotNil(this.T(), EncodingJson(target, nil))
 
 		target = this.target(testdata.ExcelReal)
 		target.Json.SheetName = testdata.UnknownStr
-		assert.NotNil(this.T(), EncodingJson(target))
+		assert.NotNil(this.T(), EncodingJson(target, nil))
 	} // if
 }

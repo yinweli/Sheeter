@@ -9,14 +9,8 @@ global:
         - tag1
         - tag2
 
-elements:
-    - excel: excel1
-      sheet: sheet1
-    - excel: excel2
-      sheet: sheet2
-
-enums:
-    - excel: excel1
-      sheet: sheet1
-    - excel: excel2
-      sheet: sheet2
+inputs:
+  - path
+  - path/path
+  - path/path.xlsx
+  - path/path.xlsx#sheet

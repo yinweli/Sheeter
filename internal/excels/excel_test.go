@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -94,6 +95,12 @@ func (this *SuiteExcel) TestGetLine() {
 	assert.NotNil(this.T(), err)
 
 	target.Close()
+}
+
+func (this *SuiteExcel) TestSheets() {
+	target := this.target()
+	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
+	assert.Equal(this.T(), []string{internal.SignData + "Data", internal.SignEnum + "Enum"}, target.Sheets())
 }
 
 func (this *SuiteExcel) TestExist() {

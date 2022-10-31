@@ -43,16 +43,16 @@ func (this *SuiteJson) target() *Json {
 
 func (this *SuiteJson) TestName() {
 	name := this.excelName + utils.FirstUpper(this.sheetName)
-	structName := name + "."
-	readerName := name + internal.Reader + "."
+	structName := name
+	readerName := name + internal.Reader
 	jsonDataFile := structName + internal.JsonDataExt
 	jsonDataPath := filepath.Join(internal.JsonPath, internal.DataPath, structName+internal.JsonDataExt)
 	jsonStructCsPath := filepath.Join(internal.JsonPath, internal.CsPath, utils.FirstUpper(structName)+internal.CsExt)
 	jsonReaderCsPath := filepath.Join(internal.JsonPath, internal.CsPath, utils.FirstUpper(readerName)+internal.CsExt)
-	jsonDepotCsPath := filepath.Join(internal.JsonPath, internal.CsPath, utils.FirstUpper(internal.Depot)+"."+internal.CsExt)
+	jsonDepotCsPath := filepath.Join(internal.JsonPath, internal.CsPath, utils.FirstUpper(internal.Depot)+internal.CsExt)
 	jsonStructGoPath := filepath.Join(internal.JsonPath, internal.GoPath, structName+internal.GoExt)
 	jsonReaderGoPath := filepath.Join(internal.JsonPath, internal.GoPath, readerName+internal.GoExt)
-	jsonDepotGoPath := filepath.Join(internal.JsonPath, internal.GoPath, internal.Depot+"."+internal.GoExt)
+	jsonDepotGoPath := filepath.Join(internal.JsonPath, internal.GoPath, internal.Depot+internal.GoExt)
 
 	target := this.target()
 	assert.Equal(this.T(), name, target.JsonDataName())

@@ -134,10 +134,10 @@ namespace SheeterProto {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), PoststepProtoDepotCs(target))
+	assert.Nil(this.T(), PoststepProtoDepotCs(target, nil))
 	testdata.CompareFile(this.T(), target.ProtoDepotCsPath(), data)
 
-	assert.Nil(this.T(), PoststepProtoDepotCs(nil))
+	assert.Nil(this.T(), PoststepProtoDepotCs(nil, nil))
 }
 
 func (this *SuitePoststepProtoDepot) TestPoststepProtoDepotGo() {
@@ -230,8 +230,8 @@ type Reader interface {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), PoststepProtoDepotGo(target))
+	assert.Nil(this.T(), PoststepProtoDepotGo(target, nil))
 	testdata.CompareFile(this.T(), target.ProtoDepotGoPath(), data)
 
-	assert.Nil(this.T(), PoststepProtoDepotGo(nil))
+	assert.Nil(this.T(), PoststepProtoDepotGo(nil, nil))
 }

@@ -43,7 +43,7 @@ func (this *SuiteEnum) target() *Enum {
 
 func (this *SuiteEnum) TestName() {
 	name := this.excelName + utils.FirstUpper(this.sheetName)
-	structName := name + "."
+	structName := name
 	protoCsPath := filepath.Join(internal.EnumPath, internal.CsPath)
 	protoGoPath := filepath.Join(internal.EnumPath, internal.GoPath)
 	protoSchemaPath := filepath.Join(internal.EnumPath, internal.SchemaPath)

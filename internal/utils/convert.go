@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-)
 
-const separateArray = "," // 陣列分隔字串
+	"github.com/yinweli/Sheeter/internal"
+)
 
 // StrToBool 字串轉布林值
 func StrToBool(input string) (result bool, err error) {
@@ -21,7 +21,7 @@ func StrToBool(input string) (result bool, err error) {
 
 // StrToBoolArray 字串轉布林值陣列
 func StrToBoolArray(input string) (result []bool, err error) {
-	for _, itor := range strings.Split(input, separateArray) {
+	for _, itor := range strings.Split(input, internal.SeparateArray) {
 		value, err := StrToBool(itor)
 
 		if err != nil {
@@ -47,7 +47,7 @@ func StrToInt(input string) (result int64, err error) {
 
 // StrToIntArray 字串轉整數陣列
 func StrToIntArray(input string) (result []int64, err error) {
-	for _, itor := range strings.Split(input, separateArray) {
+	for _, itor := range strings.Split(input, internal.SeparateArray) {
 		value, err := StrToInt(itor)
 
 		if err != nil {
@@ -73,7 +73,7 @@ func StrToFloat(input string) (result float64, err error) {
 
 // StrToFloatArray 字串轉浮點數陣列
 func StrToFloatArray(input string) (result []float64, err error) {
-	for _, itor := range strings.Split(input, separateArray) {
+	for _, itor := range strings.Split(input, internal.SeparateArray) {
 		value, err := StrToFloat(itor)
 
 		if err != nil {
@@ -88,5 +88,5 @@ func StrToFloatArray(input string) (result []float64, err error) {
 
 // StrToStrArray 字串轉為字串陣列
 func StrToStrArray(input string) []string {
-	return strings.Split(input, separateArray)
+	return strings.Split(input, internal.SeparateArray)
 }

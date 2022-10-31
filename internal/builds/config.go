@@ -3,6 +3,7 @@ package builds
 import (
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -13,9 +14,8 @@ import (
 
 // Config 設定資料
 type Config struct {
-	Global   Global    `yaml:"global"`   // 全域設定
-	Elements []Element `yaml:"elements"` // 項目列表
-	Enums    []Element `yaml:"enums"`    // 列舉列表
+	Global Global   `yaml:"global"` // 全域設定
+	Inputs []string `yaml:"inputs"` // 輸入列表
 }
 
 // Global 全域設定
@@ -33,10 +33,10 @@ type Global struct {
 	Excludes        []string `yaml:"excludes"`        // 排除標籤列表
 }
 
-// Element 項目設定
-type Element struct {
-	Excel string `yaml:"excel"` // excel檔案名稱
-	Sheet string `yaml:"sheet"` // excel表單名稱
+// Sheet 表單資料
+type Sheet struct {
+	ExcelName string // excel名稱
+	SheetName string // sheet名稱
 }
 
 // Initialize 初始化設定
@@ -44,14 +44,14 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 	flags := cmd.Flags()
 
 	if flags.Changed(flagConfig) {
-		if filepath, err := flags.GetString(flagConfig); err == nil {
-			datas, err := os.ReadFile(filepath)
+		if value, err := flags.GetString(flagConfig); err == nil {
+			file, err := os.ReadFile(value)
 
 			if err != nil {
 				return fmt.Errorf("config initialize failed: %w", err)
 			} // if
 
-			if err = yaml.Unmarshal(datas, this); err != nil {
+			if err = yaml.Unmarshal(file, this); err != nil {
 				return fmt.Errorf("config initialize failed: %w", err)
 			} // if
 		} // if
@@ -123,38 +123,98 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 	} // if
 
 	if flags.Changed(flagExcludes) {
-		if items, err := flags.GetStringSlice(flagExcludes); err == nil {
-			this.Global.Excludes = append(this.Global.Excludes, items...)
+		if value, err := flags.GetStringSlice(flagExcludes); err == nil {
+			this.Global.Excludes = append(this.Global.Excludes, value...)
 		} // if
 	} // if
 
-	if flags.Changed(flagElements) {
-		if items, err := flags.GetStringSlice(flagElements); err == nil {
-			for _, itor := range items {
-				if before, after, ok := strings.Cut(itor, internal.SeparateElement); ok {
-					this.Elements = append(this.Elements, Element{
-						Excel: before,
-						Sheet: after,
-					})
-				} // if
-			} // for
-		} // if
-	} // if
-
-	if flags.Changed(flagEnums) {
-		if items, err := flags.GetStringSlice(flagEnums); err == nil {
-			for _, itor := range items {
-				if before, after, ok := strings.Cut(itor, internal.SeparateElement); ok {
-					this.Enums = append(this.Enums, Element{
-						Excel: before,
-						Sheet: after,
-					})
-				} // if
-			} // for
+	if flags.Changed(flagInputs) {
+		if value, err := flags.GetStringSlice(flagInputs); err == nil {
+			this.Inputs = append(this.Inputs, value...)
 		} // if
 	} // if
 
 	return nil
+}
+
+// Path 從輸入列表取得路徑列表
+func (this *Config) Path() []string {
+	result := []string{}
+
+	for _, itor := range this.Inputs {
+		info, err := os.Stat(itor)
+
+		if err != nil {
+			continue
+		} // if
+
+		if info.IsDir() == false {
+			continue
+		} // if
+
+		result = append(result, itor)
+	} // for
+
+	return result
+}
+
+// Excel 從輸入列表取得excel列表
+func (this *Config) Excel() []string {
+	result := []string{}
+
+	for _, itor := range this.Inputs {
+		info, err := os.Stat(itor)
+
+		if err != nil {
+			continue
+		} // if
+
+		if info.IsDir() {
+			continue
+		} // if
+
+		if filepath.Ext(itor) != internal.ExcelExt {
+			continue
+		} // if
+
+		result = append(result, itor)
+	} // for
+
+	return result
+}
+
+// Sheet 從輸入列表取得sheet列表
+func (this *Config) Sheet() []Sheet {
+	result := []Sheet{}
+
+	for _, itor := range this.Inputs {
+		before, after, ok := strings.Cut(itor, internal.SeparateSheet)
+
+		if ok == false {
+			continue
+		} // if
+
+		info, err := os.Stat(before)
+
+		if err != nil {
+			continue
+		} // if
+
+		if info.IsDir() {
+			continue
+		} // if
+
+		if filepath.Ext(before) != internal.ExcelExt {
+			continue
+		} // if
+
+		result = append(result, Sheet{
+			ExcelName: before,
+			SheetName: after,
+		})
+	} // for
+
+	return result
 }
 
 // Check 檢查設定

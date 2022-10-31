@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -16,14 +17,10 @@ func TestCombine(t *testing.T) {
 type SuiteCombine struct {
 	suite.Suite
 	workDir string
-	last    string
-	ext     string
 }
 
 func (this *SuiteCombine) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
-	this.last = "#"
-	this.ext = "@"
 }
 
 func (this *SuiteCombine) TearDownSuite() {
@@ -31,6 +28,14 @@ func (this *SuiteCombine) TearDownSuite() {
 }
 
 func (this *SuiteCombine) TestCombine() {
+	assert.Equal(this.T(), "ab", combine(&params{
+		excelName: "a",
+		sheetName: internal.SignData + "b",
+	}))
+	assert.Equal(this.T(), "ab", combine(&params{
+		excelName: "a",
+		sheetName: internal.SignEnum + "b",
+	}))
 	assert.Equal(this.T(), "ab", combine(&params{
 		excelName: "a",
 		sheetName: "b",
@@ -59,12 +64,19 @@ func (this *SuiteCombine) TestCombine() {
 	assert.Equal(this.T(), "ab.x", combine(&params{
 		excelName: "a",
 		sheetName: "b",
-		ext:       "x",
+		ext:       ".x",
 	}))
 	assert.Equal(this.T(), "abc.x", combine(&params{
 		excelName: "a",
 		sheetName: "b",
 		last:      "c",
-		ext:       "x",
+		ext:       ".x",
 	}))
+}
+
+func (this *SuiteCombine) TestRemoveSheetPrefix() {
+	sheet := "test"
+	assert.Equal(this.T(), sheet, removeSheetPrefix(internal.SignData+sheet))
+	assert.Equal(this.T(), sheet, removeSheetPrefix(internal.SignEnum+sheet))
+	assert.Equal(this.T(), sheet, removeSheetPrefix(sheet))
 }

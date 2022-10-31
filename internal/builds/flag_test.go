@@ -42,6 +42,5 @@ func (this *SuiteFlag) TestSetFlags() {
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfData))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfEnum))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagExcludes))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagElements))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagEnums))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagInputs))
 }

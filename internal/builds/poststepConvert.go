@@ -16,7 +16,7 @@ type poststepConvert struct {
 }
 
 // PoststepConvertCs 後製轉換cs
-func PoststepConvertCs(material any) error {
+func PoststepConvertCs(material any, _ chan any) error {
 	data, ok := material.(*poststepConvert)
 
 	if ok == false {
@@ -36,7 +36,7 @@ func PoststepConvertCs(material any) error {
 }
 
 // PoststepConvertGo 後製轉換go
-func PoststepConvertGo(material any) error {
+func PoststepConvertGo(material any, _ chan any) error {
 	data, ok := material.(*poststepConvert)
 
 	if ok == false {

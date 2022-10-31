@@ -19,7 +19,7 @@ type encodingJson struct {
 }
 
 // EncodingJson 編碼json資料
-func EncodingJson(material any) error {
+func EncodingJson(material any, _ chan any) error {
 	data, ok := material.(*encodingJson)
 
 	if ok == false {

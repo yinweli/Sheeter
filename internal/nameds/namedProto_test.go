@@ -43,8 +43,8 @@ func (this *SuiteProto) target() *Proto {
 
 func (this *SuiteProto) TestName() {
 	name := this.excelName + utils.FirstUpper(this.sheetName)
-	structName := name + "."
-	readerName := name + internal.Reader + "."
+	structName := name
+	readerName := name + internal.Reader
 	protoCsPath := filepath.Join(internal.ProtoPath, internal.CsPath)
 	protoGoPath := filepath.Join(internal.ProtoPath, internal.GoPath)
 	protoSchemaPath := filepath.Join(internal.ProtoPath, internal.SchemaPath)
@@ -53,10 +53,10 @@ func (this *SuiteProto) TestName() {
 	protoDataFile := structName + internal.ProtoDataExt
 	protoDataPath := filepath.Join(internal.ProtoPath, internal.DataPath, protoDataFile)
 	protoReaderCsPath := filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(readerName)+internal.CsExt)
-	protoDepotCsPath := filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(internal.Depot)+"."+internal.CsExt)
+	protoDepotCsPath := filepath.Join(internal.ProtoPath, internal.CsPath, utils.FirstUpper(internal.Depot)+internal.CsExt)
 	protoReaderGoPath := filepath.Join(internal.ProtoPath, internal.GoPath, readerName+internal.GoExt)
-	protoDepotGoPath := filepath.Join(internal.ProtoPath, internal.GoPath, internal.Depot+"."+internal.GoExt)
-	protoDepend := utils.FirstLower(this.excelName) + "." + internal.ProtoSchemaExt
+	protoDepotGoPath := filepath.Join(internal.ProtoPath, internal.GoPath, internal.Depot+internal.GoExt)
+	protoDepend := utils.FirstLower(this.excelName) + internal.ProtoSchemaExt
 
 	target := this.target()
 	assert.Equal(this.T(), protoCsPath, target.ProtoCsPath())

@@ -17,19 +17,19 @@
 * 安裝[go]
 * 安裝[protoc]
 * 安裝[protoc-go], 在終端執行以下命令
-  ```shell
+  ```sh
   go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
   ```
 * 安裝[sheeter], 在終端執行以下命令
-  ```shell
+  ```sh
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
   ```
 
 # 如何使用
-* 建立[excel檔案](#excel說明)
+* 建立[資料表單](#資料表單說明)或是[列舉表單](#列舉表單說明)
 * 建立[設定檔案](#設定說明)
 * 在終端執行[建置命令](#命令說明)
-  ```shell
+  ```sh
   sheeter build --config setting.yaml
   ```
 * 最後會產生結構程式碼, 讀取器程式碼, 倉庫程式碼讓程式可以控制表格
@@ -45,23 +45,23 @@
 
 ## help命令
 用於顯示命令說明  
-```shell
+```sh
 sheeter help [command]
 ```
 
 ## version命令
 用於顯示版本資訊  
-```shell
+```sh
 sheeter version
 ```
 
 ## build命令
 用於建置資料檔案與程式碼  
-```shell
+```sh
 sheeter build [flags]
 ```
 例如  
-```shell
+```sh
 sheeter build --config setting.yaml
 sheeter build --config setting.yaml --json --namespace
 sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
@@ -81,8 +81,7 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --lineOfData  | 行號(1為起始行)                         | 資料行號                 |
 | --lineOfEnum  | 行號(1為起始行)                         | 列舉行號                 |
 | --excludes    | 標籤,標籤,...                           | 輸出時排除的標籤列表     |
-| --elements    | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 項目列表                 |
-| --enums       | 檔案名稱#表單名稱,檔案名稱#表單名稱,... | 列舉列表                 |
+| --inputs      | 路徑,檔案名稱,檔案名稱#表單名稱,...     | 輸入列表                 |
 
 * --json / --proto: 用於控制是否要產生[json]與[proto]檔案
     * sheeter build
@@ -93,13 +92,21 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
         * 只輸出[proto]檔案
 * --namespace: 用於控制產生的命名空間名稱
     * sheeter build
-        * 命名空間名稱: sheeterJson / SheeterJson / sheeterProto / SheeterProto
+        * 命名空間名稱: sheeterJson / SheeterJson / sheeterProto / SheeterProto / sheeterEnum / SheeterEnum
     * sheeter build --namespace
         * 命名空間名稱: sheeter / Sheeter
+* --inputs: 輸入列表, 可用以下幾種格式組合, 每個項目以`,`分隔; 注意程式只會讀取副檔名為xlsx的檔案
+    * 路徑名稱
+        * path, path/, path/path...
+    * 檔案名稱
+        * example.xlsx, path/example.xlsx...
+    * 檔案名稱+表單名稱
+        * example.xlsx#sheet, path/example.xlsx#sheet...
+        * 這個格式中, 需用`#`把檔案名稱與表單名稱隔開
 
 ## tmpl命令
 用於產生執行時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
-```shell
+```sh
 sheeter tmpl [flags]
 ```
 
@@ -107,8 +114,11 @@ sheeter tmpl [flags]
 |:-------------|:-----|:-----------------|
 | --clean / -c |      | 重新產生模板檔案 |
 
-# 資料excel說明
+# 資料表單說明
 ![exceldata]
+
+## 表單名稱
+需以`@`開頭, [sheeter]會自動辨識以`@`開頭的表單為資料表單
 
 ## 名稱行
 欄位名稱, 只能是英文與數字與`_`的組合, 並且不能以數字開頭, 也不允許空白
@@ -173,12 +183,8 @@ sheeter tmpl [flags]
 轉換時, 只會轉換到第一個空行為止  
 
 ## 其他的限制
-* 表格名稱
-    * excel與表格的名稱合併後不能以下名稱的組合(不分大小寫)
-        * depot
-        * loader
-        * reader
-        * readers
+* 檔案名稱與表單名稱
+    * 不能是規定的[關鍵字](#關鍵字)
 * 表格設置
     * 表格必須有名稱行, 註解行, 欄位行, 階層行, 但是可以不需要有資料行
     * 名稱行, 註解行, 欄位行, 階層行必須在資料行之前
@@ -195,8 +201,11 @@ sheeter tmpl [flags]
         * 第一個表格設定了結構/陣列欄位: `data { field1, field2, field3 }`
         * 另一個表格同樣使用了`data`結構/陣列, 而欄位只設定 `data { field1, field2 }`, 忽略了`field3`
 
-# 列舉excel說明
+# 列舉表單說明
 ![excelenum]
+
+## 表單名稱
+需以`$`開頭, [sheeter]會自動辨識以`$`開頭的表單為列舉表單
 
 ## 名稱行
 實際上不寫也沒關係, 僅提供給使用者辨識用
@@ -206,7 +215,7 @@ sheeter tmpl [flags]
 * 第一欄: 列舉名稱
     * 只能是英文與數字與`_`的組合, 並且不能以數字開頭, 也不允許空白
     * 列舉名稱不允許重複
-    * 不能是規定的關鍵字(參考[其他的限制](#其他的限制))
+    * 不能是規定的[關鍵字](#關鍵字)
 * 第二欄: 列舉編號
     * 只能是數字
     * 索引編號不允許重複
@@ -230,18 +239,20 @@ global:
     - tag1
     - tag2
 
-elements:               # 資料列表
-  - excel: excel1.xlsx  # excel檔案名稱
-    sheet: Data         # excel表單名稱
-  - excel: excel2.xlsx
-    sheet: Data
-
-enums:                  # 列舉列表
-  - excel: excel1.xlsx  # excel檔案名稱
-    sheet: Enum         # excel表單名稱
-  - excel: excel2.xlsx
-    sheet: Enum
+inputs:                   # 輸入列表
+  - path1                 # 轉換path1目錄底下符合規格的excel檔案
+  - path2                 # 轉換path2目錄底下符合規格的excel檔案
+  - path/excel.xlsx       # 轉換指定的excel檔案內符合規格的表單
+  - path/excel.xlsx#@Data # 轉換指定的excel檔案內的@Data表單
+  - path/excel.xlsx#$Enum # 轉換指定的excel檔案內的$Enum表單
 ```
+
+# 關鍵字
+檔案名稱與表單名稱合併之後的名稱不能是以下名稱的組合(不分大小寫)  
+* depot
+* loader
+* reader
+* readers
 
 # 產生目錄
 
@@ -469,12 +480,12 @@ enums:                  # 列舉列表
 * 安裝
     * 安裝[dotnet], 如果有安裝.net sdk, 或有安裝unity可能可以省略此步驟
     * 安裝[csharpier], 在終端執行以下命令
-      ```shell
+      ```sh
       dotnet tool install csharpier -g
       ```
 * 使用
     * 在終端執行以下命令
-      ```shell
+      ```sh
       dotnet csharpier .
       ```
 
@@ -484,7 +495,7 @@ enums:                  # 列舉列表
     * 安裝[go]時會順便安裝
 * 使用
     * 在終端執行以下命令
-      ```shell
+      ```sh
       gofmt -w .
       ```
 
@@ -492,12 +503,12 @@ enums:                  # 列舉列表
 用於proto的排版工具  
 * 安裝
     * 安裝[buf], 在終端執行以下命令
-      ```shell
+      ```sh
       go install github.com/bufbuild/buf/cmd/buf@v1.8.0
       ```
 * 使用
     * 在終端執行以下命令
-      ```shell
+      ```sh
       buf format -w .
       ```
 
@@ -519,7 +530,6 @@ enums:                  # 列舉列表
 | internal/pipelines      | 管線組件                         |
 | internal/tmpls          | 模板組件                         |
 | internal/utils          | 協助組件                         |
-| testdata                | 測試資料                         |
 | support                 | 支援專案                         |
 | support/benchmark_count | 檔案數量效率測試資料             |
 | support/benchmark_size  | 檔案大小效率測試資料             |

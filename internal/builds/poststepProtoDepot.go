@@ -23,7 +23,7 @@ type poststepProtoStruct struct {
 }
 
 // PoststepProtoDepotCs 後製proto倉庫cs
-func PoststepProtoDepotCs(material any) error {
+func PoststepProtoDepotCs(material any, _ chan any) error {
 	data, ok := material.(*poststepProtoDepot)
 
 	if ok == false {
@@ -40,7 +40,7 @@ func PoststepProtoDepotCs(material any) error {
 }
 
 // PoststepProtoDepotGo 後製proto倉庫go
-func PoststepProtoDepotGo(material any) error {
+func PoststepProtoDepotGo(material any, _ chan any) error {
 	data, ok := material.(*poststepProtoDepot)
 
 	if ok == false {

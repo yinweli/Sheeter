@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -29,20 +30,16 @@ func (this *SuiteInitializePick) TearDownSuite() {
 func (this *SuiteInitializePick) target() *Config {
 	target := &Config{
 		Global: Global{
-			ExportJson:  true,
-			ExportProto: true,
-			ExportEnum:  true,
-			LineOfName:  1,
-			LineOfNote:  2,
-			LineOfField: 3,
-			LineOfLayer: 4,
-			LineOfData:  5,
-		},
-		Elements: []Element{
-			{Excel: testdata.ExcelReal, Sheet: testdata.SheetData},
-		},
-		Enums: []Element{
-			{Excel: testdata.ExcelReal, Sheet: testdata.SheetEnum},
+			ExportJson:      true,
+			ExportProto:     true,
+			ExportEnum:      true,
+			SimpleNamespace: false,
+			LineOfName:      1,
+			LineOfNote:      2,
+			LineOfField:     3,
+			LineOfLayer:     4,
+			LineOfData:      5,
+			LineOfEnum:      2,
 		},
 	}
 	return target
@@ -50,13 +47,24 @@ func (this *SuiteInitializePick) target() *Config {
 
 func (this *SuiteInitializePick) TestInitializePick() {
 	target := this.target()
-	context := InitializeContext(target)
+	context := &Context{
+		Global: &target.Global,
+	}
+	sheet := []any{
+		&initializeSheetData{
+			Global: &target.Global,
+			Named:  &nameds.Named{ExcelName: testdata.ExcelReal, SheetName: testdata.SheetData},
+		},
+		&initializeSheetEnum{
+			Global: &target.Global,
+			Named:  &nameds.Named{ExcelName: testdata.ExcelReal, SheetName: testdata.SheetEnum},
+		},
+	}
 
-	for _, itor := range context.Element {
-		assert.Nil(this.T(), InitializeElement(itor))
-		assert.Nil(this.T(), InitializeEnum(itor))
+	for _, itor := range sheet {
+		assert.Nil(this.T(), InitializeSheetData(itor, nil))
+		assert.Nil(this.T(), InitializeSheetEnum(itor, nil))
 	} // for
 
-	assert.Nil(this.T(), InitializePick(context))
-	context.Close()
+	assert.Nil(this.T(), InitializePick(sheet, context))
 }

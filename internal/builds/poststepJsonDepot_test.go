@@ -134,10 +134,10 @@ namespace SheeterJson {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), PoststepJsonDepotCs(target))
+	assert.Nil(this.T(), PoststepJsonDepotCs(target, nil))
 	testdata.CompareFile(this.T(), target.JsonDepotCsPath(), data)
 
-	assert.Nil(this.T(), PoststepJsonDepotCs(nil))
+	assert.Nil(this.T(), PoststepJsonDepotCs(nil, nil))
 }
 
 func (this *SuitePoststepJsonDepot) TestPoststepJsonDepotGo() {
@@ -230,8 +230,8 @@ type Reader interface {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), PoststepJsonDepotGo(target))
+	assert.Nil(this.T(), PoststepJsonDepotGo(target, nil))
 	testdata.CompareFile(this.T(), target.JsonDepotGoPath(), data)
 
-	assert.Nil(this.T(), PoststepJsonDepotGo(nil))
+	assert.Nil(this.T(), PoststepJsonDepotGo(nil, nil))
 }

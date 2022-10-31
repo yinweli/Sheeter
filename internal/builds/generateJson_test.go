@@ -112,15 +112,15 @@ namespace SheeterJson {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), GenerateJsonStructCs(target))
+	assert.Nil(this.T(), GenerateJsonStructCs(target, nil))
 	testdata.CompareFile(this.T(), target.JsonStructCsPath(), data1)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), GenerateJsonStructCs(target))
+	assert.Nil(this.T(), GenerateJsonStructCs(target, nil))
 	testdata.CompareFile(this.T(), target.JsonStructCsPath(), data2)
 
-	assert.Nil(this.T(), GenerateJsonStructCs(nil))
+	assert.Nil(this.T(), GenerateJsonStructCs(nil, nil))
 }
 
 func (this *SuiteGenerateJson) TestGenerateJsonReaderCs() {
@@ -141,7 +141,7 @@ namespace SheeterJson {
         }
 
         public string DataExt() {
-            return "json";
+            return ".json";
         }
 
         public string DataFile() {
@@ -232,14 +232,14 @@ namespace SheeterJson {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), GenerateJsonReaderCs(target))
+	assert.Nil(this.T(), GenerateJsonReaderCs(target, nil))
 	testdata.CompareFile(this.T(), target.JsonReaderCsPath(), data)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), GenerateJsonReaderCs(target))
+	assert.Nil(this.T(), GenerateJsonReaderCs(target, nil))
 
-	assert.Nil(this.T(), GenerateJsonReaderCs(nil))
+	assert.Nil(this.T(), GenerateJsonReaderCs(nil, nil))
 }
 
 func (this *SuiteGenerateJson) TestGenerateJsonStructGo() {
@@ -285,15 +285,15 @@ type TestData struct {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), GenerateJsonStructGo(target))
+	assert.Nil(this.T(), GenerateJsonStructGo(target, nil))
 	testdata.CompareFile(this.T(), target.JsonStructGoPath(), data1)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), GenerateJsonStructGo(target))
+	assert.Nil(this.T(), GenerateJsonStructGo(target, nil))
 	testdata.CompareFile(this.T(), target.JsonStructGoPath(), data2)
 
-	assert.Nil(this.T(), GenerateJsonStructGo(nil))
+	assert.Nil(this.T(), GenerateJsonStructGo(nil, nil))
 }
 
 func (this *SuiteGenerateJson) TestGenerateJsonReaderGo() {
@@ -316,7 +316,7 @@ func (this *TestDataReader) DataName() string {
 }
 
 func (this *TestDataReader) DataExt() string {
-	return "json"
+	return ".json"
 }
 
 func (this *TestDataReader) DataFile() string {
@@ -392,12 +392,12 @@ func (this *TestDataReader) Count() int {
 `)
 
 	target := this.target()
-	assert.Nil(this.T(), GenerateJsonReaderGo(target))
+	assert.Nil(this.T(), GenerateJsonReaderGo(target, nil))
 	testdata.CompareFile(this.T(), target.JsonReaderGoPath(), data)
 
 	target = this.target()
 	target.Reader = false
-	assert.Nil(this.T(), GenerateJsonReaderGo(target))
+	assert.Nil(this.T(), GenerateJsonReaderGo(target, nil))
 
-	assert.Nil(this.T(), GenerateJsonReaderGo(nil))
+	assert.Nil(this.T(), GenerateJsonReaderGo(nil, nil))
 }

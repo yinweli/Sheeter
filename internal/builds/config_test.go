@@ -1,12 +1,16 @@
 package builds
 
 import (
+	"io/fs"
+	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -16,14 +20,36 @@ func TestConfig(t *testing.T) {
 
 type SuiteConfig struct {
 	suite.Suite
-	workDir string
+	workDir   string
+	excel     string
+	sheet     string
+	path      string
+	pathx     string
+	file      string
+	filex     string
+	fileExcel string
+	fileSheet string
+	empty     string
 }
 
 func (this *SuiteConfig) SetupSuite() {
 	this.workDir = testdata.ChangeWorkDir()
+	this.excel = "excel"
+	this.sheet = "sheet"
+	this.path = "path"
+	this.pathx = this.path + internal.SeparateSheet + "x"
+	this.file = filepath.Join(this.path, "file.x")
+	this.filex = filepath.Join(this.path, "file.x"+internal.SeparateSheet+"x")
+	this.fileExcel = filepath.Join(this.path, this.excel+internal.ExcelExt)
+	this.fileSheet = this.fileExcel + internal.SeparateSheet + this.sheet
+	this.empty = "empty" + internal.SeparateSheet + "x"
+	_ = os.MkdirAll(this.path, os.ModePerm)
+	_ = os.WriteFile(this.file, []byte{}, fs.ModePerm)
+	_ = os.WriteFile(this.fileExcel, []byte{}, fs.ModePerm)
 }
 
 func (this *SuiteConfig) TearDownSuite() {
+	_ = os.RemoveAll(this.path)
 	testdata.RestoreWorkDir(this.workDir)
 }
 
@@ -36,14 +62,6 @@ func (this *SuiteConfig) target() *Config {
 			LineOfLayer: 4,
 			LineOfData:  5,
 			LineOfEnum:  6,
-		},
-		Elements: []Element{
-			{Excel: "excel1", Sheet: "sheet1"},
-			{Excel: "excel2", Sheet: "sheet2"},
-		},
-		Enums: []Element{
-			{Excel: "excel1", Sheet: "sheet1"},
-			{Excel: "excel2", Sheet: "sheet2"},
 		},
 	}
 	return target
@@ -65,8 +83,7 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Equal(this.T(), 105, config.Global.LineOfData)
 	assert.Equal(this.T(), 106, config.Global.LineOfEnum)
 	assert.Equal(this.T(), []string{"tag1", "tag2"}, config.Global.Excludes)
-	assert.Equal(this.T(), []Element{{Excel: "excel1", Sheet: "sheet1"}, {Excel: "excel2", Sheet: "sheet2"}}, config.Elements)
-	assert.Equal(this.T(), []Element{{Excel: "excel1", Sheet: "sheet1"}, {Excel: "excel2", Sheet: "sheet2"}}, config.Enums)
+	assert.Equal(this.T(), []string{"path", "path/path", "path/path.xlsx", "path/path.xlsx#sheet"}, config.Inputs)
 
 	cmd = SetFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagExportJson, "true"))
@@ -80,8 +97,7 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfData, "205"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfEnum, "206"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagExcludes, "tag3,tag4"))
-	assert.Nil(this.T(), cmd.Flags().Set(flagElements, "excel3#sheet3,excel4#sheet4"))
-	assert.Nil(this.T(), cmd.Flags().Set(flagEnums, "excel3#sheet3,excel4#sheet4"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagInputs, "excel1#sheet1,excel2#sheet2"))
 	config = Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
 	assert.Equal(this.T(), true, config.Global.ExportJson)
@@ -95,8 +111,7 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Equal(this.T(), 205, config.Global.LineOfData)
 	assert.Equal(this.T(), 206, config.Global.LineOfEnum)
 	assert.Equal(this.T(), []string{"tag3", "tag4"}, config.Global.Excludes)
-	assert.Equal(this.T(), []Element{{Excel: "excel3", Sheet: "sheet3"}, {Excel: "excel4", Sheet: "sheet4"}}, config.Elements)
-	assert.Equal(this.T(), []Element{{Excel: "excel3", Sheet: "sheet3"}, {Excel: "excel4", Sheet: "sheet4"}}, config.Enums)
+	assert.Equal(this.T(), []string{"excel1#sheet1", "excel2#sheet2"}, config.Inputs)
 
 	cmd = SetFlags(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.ConfigFake))
@@ -107,6 +122,51 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.UnknownStr))
 	config = Config{}
 	assert.NotNil(this.T(), config.Initialize(cmd))
+}
+
+func (this *SuiteConfig) TestPath() {
+	config := Config{Inputs: []string{this.path}}
+	assert.Equal(this.T(), []string{this.path}, config.Path())
+
+	config = Config{Inputs: []string{this.file}}
+	assert.Empty(this.T(), config.Path())
+
+	config = Config{Inputs: []string{this.empty}}
+	assert.Empty(this.T(), config.Path())
+}
+
+func (this *SuiteConfig) TestExcel() {
+	config := Config{Inputs: []string{this.fileExcel}}
+	assert.Equal(this.T(), []string{this.fileExcel}, config.Excel())
+
+	config = Config{Inputs: []string{this.path}}
+	assert.Empty(this.T(), config.Excel())
+
+	config = Config{Inputs: []string{this.file}}
+	assert.Empty(this.T(), config.Excel())
+
+	config = Config{Inputs: []string{this.empty}}
+	assert.Empty(this.T(), config.Excel())
+}
+
+func (this *SuiteConfig) TestSheet() {
+	config := Config{Inputs: []string{this.fileSheet}}
+	assert.Equal(this.T(), []Sheet{{ExcelName: this.fileExcel, SheetName: this.sheet}}, config.Sheet())
+
+	config = Config{Inputs: []string{this.path}}
+	assert.Empty(this.T(), config.Sheet())
+
+	config = Config{Inputs: []string{this.pathx}}
+	assert.Empty(this.T(), config.Sheet())
+
+	config = Config{Inputs: []string{this.file}}
+	assert.Empty(this.T(), config.Sheet())
+
+	config = Config{Inputs: []string{this.filex}}
+	assert.Empty(this.T(), config.Sheet())
+
+	config = Config{Inputs: []string{this.empty}}
+	assert.Empty(this.T(), config.Sheet())
 }
 
 func (this *SuiteConfig) TestCheck() {

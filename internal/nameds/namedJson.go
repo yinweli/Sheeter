@@ -67,7 +67,7 @@ func (this *Json) JsonReaderCsPath() string {
 
 // JsonDepotCsPath 取得json倉庫cs程式碼路徑
 func (this *Json) JsonDepotCsPath() string {
-	return filepath.Join(internal.JsonPath, internal.CsPath, utils.FirstUpper(internal.Depot)+"."+internal.CsExt) // cs程式碼一律大寫開頭
+	return filepath.Join(internal.JsonPath, internal.CsPath, utils.FirstUpper(internal.Depot)+internal.CsExt) // cs程式碼一律大寫開頭
 }
 
 // JsonStructGoPath 取得json-go結構程式碼路徑
@@ -93,5 +93,5 @@ func (this *Json) JsonReaderGoPath() string {
 
 // JsonDepotGoPath 取得json-go倉庫程式碼路徑
 func (this *Json) JsonDepotGoPath() string {
-	return filepath.Join(internal.JsonPath, internal.GoPath, internal.Depot+"."+internal.GoExt)
+	return filepath.Join(internal.JsonPath, internal.GoPath, internal.Depot+internal.GoExt)
 }

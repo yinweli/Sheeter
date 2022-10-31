@@ -5,30 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Planning]
-- 嘗試看看用excel, sheet名稱以及資料夾搜尋(包括子資料夾)來建立表格資料; 取代寫一堆的設定檔案
-```
-build --config xxxx
-build --element xxxx\xxxx#xxxx
-build --enum xxxx\xxxx#xxxx
-
-build --config xxxx
-build --path xxxx\xxxx.xlsx
-build --path xxxx\
-
-如何分辨
-    非excel檔案
-    跳過檔案/表單
-    資料表單 @
-    列舉表單 $
-
-額外目標
-    多執行緒環境下重複利用excel物件!?
-
-技術資訊
-    遍歷目錄與檔案使用filepath.Walk
-    err := filepath.Walk(path, 處理函式)
-```
 - 產生flatbuffer
+
+## [1.10.0] - 2022-10-31
+### Changed
+- 設定檔中的element與enum區塊被inputs區塊代替
+- 產生出來的讀取器程式碼中的DataExt函式, 回傳的副檔名字串會在最前面添加"."符號
+### Added
+- build命令可從指定目錄中搜尋excel檔案, 並辨別帶有"@"符號或是"$"符號的表單來建置成資料檔案或是列舉檔案
 
 ## [1.9.4] - 2022-10-28
 ### Changed

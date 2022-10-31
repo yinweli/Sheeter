@@ -27,15 +27,23 @@ func (this *SuitePipeline) TearDownSuite() {
 	testdata.RestoreWorkDir(this.workDir)
 }
 
-func (this *SuitePipeline) TestExecute() {
+func (this *SuitePipeline) TestPipeline() {
 	material := []any{0, 1}
-	executor := []Executor{
-		func(data any) error {
-			return fmt.Errorf("err")
+	funcs := []PipelineFunc{
+		func(material any, result chan any) error {
+			result <- material
+			return nil
 		},
-		func(data any) error {
+		func(material any, result chan any) error {
 			return fmt.Errorf("err")
 		},
 	}
-	assert.Len(this.T(), Execute("name", material, executor), len(material)*len(executor))
+
+	result, errs := Pipeline("name", material, funcs)
+	assert.Len(this.T(), result, len(material))
+	assert.Len(this.T(), errs, len(material))
+
+	result, errs = Pipeline("name", []any{}, []PipelineFunc{})
+	assert.Empty(this.T(), result)
+	assert.Empty(this.T(), errs)
 }

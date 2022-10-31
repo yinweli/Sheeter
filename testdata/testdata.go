@@ -26,8 +26,8 @@ const ExcelInvalidEnum = "excel_invalid_enum.xlsx"
 const ExcelInvalidEnumDupl = "excel_invalid_enum_dupl.xlsx"
 const ExcelInvalidIndex = "excel_invalid_index.xlsx"
 const ExcelInvalidIndexDupl = "excel_invalid_index_dupl.xlsx"
-const SheetData = "Data"
-const SheetEnum = "Enum"
+const SheetData = internal.SignData + "Data"
+const SheetEnum = internal.SignEnum + "Enum"
 const ProtoTest = "test1.proto"
 
 // IsWindows 取得是否在windows下執行

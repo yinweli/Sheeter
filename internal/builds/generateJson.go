@@ -20,7 +20,7 @@ type generateJson struct {
 }
 
 // GenerateJsonStructCs 產生json結構cs
-func GenerateJsonStructCs(material any) error {
+func GenerateJsonStructCs(material any, _ chan any) error {
 	data, ok := material.(*generateJson)
 
 	if ok == false {
@@ -37,7 +37,7 @@ func GenerateJsonStructCs(material any) error {
 }
 
 // GenerateJsonReaderCs 產生json讀取器cs
-func GenerateJsonReaderCs(material any) error {
+func GenerateJsonReaderCs(material any, _ chan any) error {
 	data, ok := material.(*generateJson)
 
 	if ok == false {
@@ -58,7 +58,7 @@ func GenerateJsonReaderCs(material any) error {
 }
 
 // GenerateJsonStructGo 產生json結構go
-func GenerateJsonStructGo(material any) error {
+func GenerateJsonStructGo(material any, _ chan any) error {
 	data, ok := material.(*generateJson)
 
 	if ok == false {
@@ -75,7 +75,7 @@ func GenerateJsonStructGo(material any) error {
 }
 
 // GenerateJsonReaderGo 產生json讀取器go
-func GenerateJsonReaderGo(material any) error {
+func GenerateJsonReaderGo(material any, _ chan any) error {
 	data, ok := material.(*generateJson)
 
 	if ok == false {

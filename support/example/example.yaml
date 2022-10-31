@@ -12,10 +12,5 @@ global:
   excludes:
     - ignore
 
-elements:
-  - excel: example.xlsx
-    sheet: Data
-
-enums:
-  - excel: example.xlsx
-    sheet: Enum
+inputs:
+  - .

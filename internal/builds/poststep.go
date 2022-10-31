@@ -6,7 +6,7 @@ import (
 
 // Poststep 後製處理
 func Poststep(context *Context) []error {
-	return pipelines.Execute("poststep", context.Poststep, []pipelines.Executor{
+	_, errs := pipelines.Pipeline("poststep", context.Poststep, []pipelines.PipelineFunc{
 		PoststepJsonDepotCs,
 		PoststepJsonDepotGo,
 		PoststepProtoDepotCs,
@@ -14,4 +14,5 @@ func Poststep(context *Context) []error {
 		PoststepConvertCs,
 		PoststepConvertGo,
 	})
+	return errs
 }
