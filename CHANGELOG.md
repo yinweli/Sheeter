@@ -9,8 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.10.0] - 2022-10-31
 ### Changed
-- 產生出來的讀取器程式碼中的DataExt函式, 回傳的副檔名字串會在最前面添加"."符號
 - 設定檔中的element與enum區塊被inputs區塊代替
+- 產生出來的讀取器程式碼中的DataExt函式, 回傳的副檔名字串會在最前面添加"."符號
 ### Added
 - build命令可從指定目錄中搜尋excel檔案, 並辨別帶有"@"符號或是"$"符號的表單來建置成資料檔案或是列舉檔案
 
