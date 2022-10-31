@@ -23,6 +23,7 @@ type SuiteInitializeFile struct {
 	path    string
 	file1   string
 	file2   string
+	file3   string
 }
 
 func (this *SuiteInitializeFile) SetupSuite() {
@@ -30,9 +31,11 @@ func (this *SuiteInitializeFile) SetupSuite() {
 	this.path = "file"
 	this.file1 = filepath.Join(this.path, "file1"+internal.ExcelExt)
 	this.file2 = filepath.Join(this.path, "file2"+internal.ExcelExt)
+	this.file3 = filepath.Join(this.path, "file3.x")
 	_ = os.MkdirAll(this.path, os.ModePerm)
 	_ = os.WriteFile(this.file1, []byte{}, fs.ModePerm)
 	_ = os.WriteFile(this.file2, []byte{}, fs.ModePerm)
+	_ = os.WriteFile(this.file3, []byte{}, fs.ModePerm)
 }
 
 func (this *SuiteInitializeFile) TearDownSuite() {
@@ -46,4 +49,6 @@ func (this *SuiteInitializeFile) TestInitializeFile() {
 	assert.Len(this.T(), result, 2)
 	assert.Equal(this.T(), this.file1, <-result)
 	assert.Equal(this.T(), this.file2, <-result)
+
+	assert.Nil(this.T(), InitializeFile(0, result))
 }

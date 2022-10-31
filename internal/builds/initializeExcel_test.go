@@ -37,4 +37,6 @@ func (this *SuiteInitializeExcel) TestInitializeExcel() {
 	sheet2 := (<-result).(*initializeSheetEnum)
 	assert.Equal(this.T(), internal.SignEnum+"Enum", sheet2.SheetName)
 	assert.NotNil(this.T(), sheet2.excel)
+
+	assert.Nil(this.T(), InitializeExcel(0, result))
 }
