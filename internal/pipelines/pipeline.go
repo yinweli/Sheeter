@@ -26,7 +26,7 @@ func Pipeline(name string, material []any, funcs []PipelineFunc) (result []any, 
 	progressbar := progress.AddBar(
 		int64(count),
 		mpb.AppendDecorators(
-			decor.Name(fmt.Sprintf("%-10s ", name)),
+			decor.Name(fmt.Sprintf("%-20s ", name)),
 			decor.CountersNoUnit("(%6d/%6d) ", decor.WCSyncWidth),
 			decor.NewPercentage("%d "),
 			decor.OnComplete(decor.Spinner(nil), "complete"),
