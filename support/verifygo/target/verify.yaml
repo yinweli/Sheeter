@@ -12,12 +12,5 @@ global:
   excludes:
     - tag
 
-elements:
-  - excel: verify.xlsx
-    sheet: Data1
-  - excel: verify.xlsx
-    sheet: Data2
-
-enums:
-  - excel: verify.xlsx
-    sheet: Enum
+inputs:
+  - .
