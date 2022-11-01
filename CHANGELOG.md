@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Planning]
 - 產生flatbuffer
 
-## [1.10.1]
+## [1.10.1] - 2022-11-01
 ### Added
 - 新增多重輸入驗證專案
 ### Fixed
