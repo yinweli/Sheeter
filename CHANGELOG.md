@@ -6,6 +6,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Planning]
 - 產生flatbuffer
+- 分表合併功能
+  如果企劃覺得表太大了, 想要把表單一切為2時使用  
+  可能的做法是在設定檔案中填寫如下的資料  
+    合併名稱: ???  
+    合併模板: excel+sheet  
+    合併來源: excel+sheet, excel+sheet...  
+  然後在產生depot時, 利用合併模板的reader, 然後用mergefrom去讀取合併來源的資料檔(當然結構必須是一樣的)  
+  不過可能要考慮proto是否可以這樣讀取就是了  
 
 ## [1.10.1] - 2022-11-01
 ### Added
