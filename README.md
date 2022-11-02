@@ -83,26 +83,38 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --excludes    | 標籤,標籤,...                           | 輸出時排除的標籤列表     |
 | --inputs      | 路徑,檔案名稱,檔案名稱#表單名稱,...     | 輸入列表                 |
 
-* --json / --proto: 用於控制是否要產生[json]與[proto]檔案
-    * sheeter build
-        * 輸出[json]與[proto]檔案
-    * sheeter build --json
-        * 只輸出[json]檔案
-    * sheeter build --proto
-        * 只輸出[proto]檔案
-* --namespace: 用於控制產生的命名空間名稱
-    * sheeter build
-        * 命名空間名稱: sheeterJson / SheeterJson / sheeterProto / SheeterProto / sheeterEnum / SheeterEnum
-    * sheeter build --namespace
-        * 命名空間名稱: sheeter / Sheeter
-* --inputs: 輸入列表, 可用以下幾種格式組合, 每個項目以`,`分隔; 注意程式只會讀取副檔名為xlsx的檔案
-    * 路徑名稱
-        * path, path/, path/path...
-    * 檔案名稱
-        * example.xlsx, path/example.xlsx...
-    * 檔案名稱+表單名稱
-        * example.xlsx#sheet, path/example.xlsx#sheet...
-        * 這個格式中, 需用`#`把檔案名稱與表單名稱隔開
+### --config
+從設定檔讀取參數, 設定檔中的參數都可以被其他的旗標值替代  
+```sh
+sheeter build --config setting.yaml --lineOfName 5
+```
+像是這種情況, 設定檔中的`lineOfName`的值就會被`--lineOfName`的值替代  
+
+### --json / --proto
+用於控制是否要產生[json]與[proto]檔案  
+* sheeter build  
+  輸出[json]與[proto]檔案  
+* sheeter build --json  
+  只輸出[json]檔案  
+* sheeter build --proto  
+  只輸出[proto]檔案  
+  
+### --namespace
+用於控制產生的命名空間名稱  
+* sheeter build  
+  命名空間名稱: sheeterJson / SheeterJson / sheeterProto / SheeterProto / sheeterEnum / SheeterEnum  
+* sheeter build --namespace  
+  命名空間名稱: sheeter / Sheeter  
+  
+### --inputs
+輸入列表, 可用以下幾種格式組合, 每個項目以`,`分隔; 注意程式只會讀取副檔名為xlsx的檔案  
+* 路徑名稱  
+  path, path/, path/path...  
+* 檔案名稱  
+  example.xlsx, path/example.xlsx...  
+* 檔案名稱+表單名稱  
+  example.xlsx#sheet, path/example.xlsx#sheet...  
+  這個格式中, 需用`#`把檔案名稱與表單名稱隔開  
 
 ## tmpl命令
 用於產生執行時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
