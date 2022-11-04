@@ -2,9 +2,10 @@ package testdata
 
 import (
 	"os"
-	"os/exec"
 	"path/filepath"
 	"runtime"
+
+	cp "github.com/otiai10/copy"
 )
 
 func init() {
@@ -38,9 +39,7 @@ func (this *TestEnv) Change(dir string) {
 		panic(err)
 	} // if
 
-	copyCmd := exec.Command("cp", "-rT", envpath, workpath)
-
-	if err = copyCmd.Run(); err != nil {
+	if err = cp.Copy(envpath, workpath); err != nil {
 		panic(err)
 	} // if
 
