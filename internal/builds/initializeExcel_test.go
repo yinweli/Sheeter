@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -16,15 +17,16 @@ func TestInitializeExcel(t *testing.T) {
 
 type SuiteInitializeExcel struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteInitializeExcel) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-initializeExcel")
 }
 
 func (this *SuiteInitializeExcel) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	excels.CloseAll()
+	this.Restore()
 }
 
 func (this *SuiteInitializeExcel) TestInitializeExcel() {

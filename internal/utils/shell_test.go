@@ -15,15 +15,15 @@ func TestShell(t *testing.T) {
 
 type SuiteShell struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteShell) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-shell")
 }
 
 func (this *SuiteShell) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteShell) TestShellRun() {

@@ -5,7 +5,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Planning]
-- 建立build指令的單元測試, 內容針對正常產出, 只產生json, 只產生proto, 只產生enum等狀況做測試
 - 產生flatbuffer
 - 分表合併功能
   如果企劃覺得表太大了, 想要把表單一切為2時使用  
@@ -15,6 +14,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     合併來源: excel+sheet, excel+sheet...  
   然後在產生depot時, 利用合併模板的reader, 然後用mergefrom去讀取合併來源的資料檔(當然結構必須是一樣的)  
   不過可能要考慮proto是否可以這樣讀取就是了  
+
+## [1.10.2] - 2022-11-04
+### Changed
+- 改變單元測試的工作路徑與測試資料機制, 改用測試環境機制
+- 設置最大可以開啟的excel數量為999999個
+### Added
+- 新增測試環境機制
+- 新增build指令的單元測試
+- 新增tmpl指令的單元測試
+- 新增version指令的單元測試
 
 ## [1.10.1] - 2022-11-01
 ### Added

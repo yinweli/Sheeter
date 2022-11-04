@@ -18,19 +18,17 @@ func TestPoststepConvert(t *testing.T) {
 
 type SuitePoststepConvert struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuitePoststepConvert) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-poststepConvert")
 	_ = os.MkdirAll(internal.CsPath, os.ModePerm)
 	_ = os.MkdirAll(internal.GoPath, os.ModePerm)
 }
 
 func (this *SuitePoststepConvert) TearDownSuite() {
-	_ = os.RemoveAll(internal.CsPath)
-	_ = os.RemoveAll(internal.GoPath)
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuitePoststepConvert) target() *poststepConvert {

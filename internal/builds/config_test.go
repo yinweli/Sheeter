@@ -20,7 +20,7 @@ func TestConfig(t *testing.T) {
 
 type SuiteConfig struct {
 	suite.Suite
-	workDir   string
+	testdata.TestEnv
 	excel     string
 	sheet     string
 	path      string
@@ -33,7 +33,7 @@ type SuiteConfig struct {
 }
 
 func (this *SuiteConfig) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-config")
 	this.excel = "excel"
 	this.sheet = "sheet"
 	this.path = "path"
@@ -49,8 +49,7 @@ func (this *SuiteConfig) SetupSuite() {
 }
 
 func (this *SuiteConfig) TearDownSuite() {
-	_ = os.RemoveAll(this.path)
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteConfig) target() *Config {

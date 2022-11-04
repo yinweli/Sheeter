@@ -16,15 +16,15 @@ func TestInt(t *testing.T) {
 
 type SuiteInt struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteInt) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-field-int")
 }
 
 func (this *SuiteInt) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteInt) target() *Int {

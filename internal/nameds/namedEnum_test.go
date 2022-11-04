@@ -18,19 +18,19 @@ func TestEnum(t *testing.T) {
 
 type SuiteEnum struct {
 	suite.Suite
-	workDir   string
+	testdata.TestEnv
 	excelName string
 	sheetName string
 }
 
 func (this *SuiteEnum) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-named-enum")
 	this.excelName = "excelEnum"
 	this.sheetName = "sheetEnum"
 }
 
 func (this *SuiteEnum) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteEnum) target() *Enum {

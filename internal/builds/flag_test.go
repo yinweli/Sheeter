@@ -16,15 +16,15 @@ func TestFlag(t *testing.T) {
 
 type SuiteFlag struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteFlag) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-build-flag")
 }
 
 func (this *SuiteFlag) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteFlag) TestSetFlags() {

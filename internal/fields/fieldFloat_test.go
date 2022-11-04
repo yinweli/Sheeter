@@ -16,15 +16,15 @@ func TestFloat(t *testing.T) {
 
 type SuiteFloat struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteFloat) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-field-float")
 }
 
 func (this *SuiteFloat) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteFloat) target() *Float {

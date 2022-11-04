@@ -19,7 +19,7 @@ func TestField(t *testing.T) {
 
 type SuiteField struct {
 	suite.Suite
-	workDir         string
+	testdata.TestEnv
 	name            string
 	note            string
 	alter           string
@@ -31,7 +31,7 @@ type SuiteField struct {
 }
 
 func (this *SuiteField) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-named-field")
 	this.name = "name"
 	this.note = "note"
 	this.alter = "alter"
@@ -67,7 +67,7 @@ func (this *SuiteField) SetupSuite() {
 }
 
 func (this *SuiteField) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteField) target() *Field {

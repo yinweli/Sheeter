@@ -15,15 +15,15 @@ func TestStructor(t *testing.T) {
 
 type SuiteStructor struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteStructor) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-structor")
 }
 
 func (this *SuiteStructor) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteStructor) target() *structor {

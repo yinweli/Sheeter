@@ -16,15 +16,15 @@ func TestCombine(t *testing.T) {
 
 type SuiteCombine struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteCombine) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-combine")
 }
 
 func (this *SuiteCombine) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteCombine) TestCombine() {

@@ -1,13 +1,13 @@
 package builds
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/internal/utils"
 	"github.com/yinweli/Sheeter/testdata"
@@ -19,16 +19,16 @@ func TestEncodingJson(t *testing.T) {
 
 type SuiteEncodingJson struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteEncodingJson) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-encodingJson")
 }
 
 func (this *SuiteEncodingJson) TearDownSuite() {
-	_ = os.RemoveAll(internal.JsonPath)
-	testdata.RestoreWorkDir(this.workDir)
+	excels.CloseAll()
+	this.Restore()
 }
 
 func (this *SuiteEncodingJson) target(excel string) *encodingJson {
@@ -62,18 +62,54 @@ func (this *SuiteEncodingJson) target(excel string) *encodingJson {
 }
 
 func (this *SuiteEncodingJson) TestEncodingJson() {
-	empty, err := utils.JsonMarshal(testdata.GetExcelContentEmpty())
-	assert.Nil(this.T(), err)
-	data, err := utils.JsonMarshal(testdata.GetExcelContentReal())
-	assert.Nil(this.T(), err)
+	emptyBytes, _ := utils.JsonMarshal(map[string]interface{}{
+		"Datas": map[internal.PkeyType]interface{}{},
+	})
+	realBytes, _ := utils.JsonMarshal(map[string]interface{}{
+		"Datas": map[internal.PkeyType]interface{}{
+			1: map[string]interface{}{
+				"Name0": 1,
+				"S": map[string]interface{}{
+					"A": []map[string]interface{}{
+						{"Name2": 1, "Name3": "a"},
+						{"Name2": 1, "Name3": "a"},
+						{"Name2": 1, "Name3": "a"},
+					},
+					"Name1": true,
+				},
+			},
+			2: map[string]interface{}{
+				"Name0": 2,
+				"S": map[string]interface{}{
+					"A": []map[string]interface{}{
+						{"Name2": 2, "Name3": "b"},
+						{"Name2": 2, "Name3": "b"},
+						{"Name2": 2, "Name3": "b"},
+					},
+					"Name1": false,
+				},
+			},
+			3: map[string]interface{}{
+				"Name0": 3,
+				"S": map[string]interface{}{
+					"A": []map[string]interface{}{
+						{"Name2": 3, "Name3": "c"},
+						{"Name2": 3, "Name3": "c"},
+						{"Name2": 3, "Name3": "c"},
+					},
+					"Name1": true,
+				},
+			},
+		},
+	})
 
 	target := this.target(testdata.ExcelReal)
 	assert.Nil(this.T(), EncodingJson(target, nil))
-	testdata.CompareFile(this.T(), target.JsonDataPath(), data)
+	testdata.CompareFile(this.T(), target.JsonDataPath(), realBytes)
 
 	target = this.target(testdata.ExcelEmpty)
 	assert.Nil(this.T(), EncodingJson(target, nil))
-	testdata.CompareFile(this.T(), target.JsonDataPath(), empty)
+	testdata.CompareFile(this.T(), target.JsonDataPath(), emptyBytes)
 
 	target = this.target(testdata.ExcelInvalidData)
 	assert.NotNil(this.T(), EncodingJson(target, nil))

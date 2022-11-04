@@ -1,13 +1,11 @@
 package builds
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/fields"
 	"github.com/yinweli/Sheeter/internal/layouts"
 	"github.com/yinweli/Sheeter/internal/nameds"
@@ -20,16 +18,15 @@ func TestGenerateJson(t *testing.T) {
 
 type SuiteGenerateJson struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteGenerateJson) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-generateJson")
 }
 
 func (this *SuiteGenerateJson) TearDownSuite() {
-	_ = os.RemoveAll(internal.JsonPath)
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteGenerateJson) target() *generateJson {

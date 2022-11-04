@@ -19,15 +19,15 @@ func TestInitializeFile(t *testing.T) {
 
 type SuiteInitializeFile struct {
 	suite.Suite
-	workDir string
-	path    string
-	file1   string
-	file2   string
-	file3   string
+	testdata.TestEnv
+	path  string
+	file1 string
+	file2 string
+	file3 string
 }
 
 func (this *SuiteInitializeFile) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-initializeFile")
 	this.path = "file"
 	this.file1 = filepath.Join(this.path, "file1"+internal.ExcelExt)
 	this.file2 = filepath.Join(this.path, "file2"+internal.ExcelExt)
@@ -39,8 +39,7 @@ func (this *SuiteInitializeFile) SetupSuite() {
 }
 
 func (this *SuiteInitializeFile) TearDownSuite() {
-	_ = os.RemoveAll(this.path)
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteInitializeFile) TestInitializeFile() {

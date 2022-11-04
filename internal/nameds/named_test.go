@@ -17,19 +17,19 @@ func TestNamed(t *testing.T) {
 
 type SuiteNamed struct {
 	suite.Suite
-	workDir   string
+	testdata.TestEnv
 	excelName string
 	sheetName string
 }
 
 func (this *SuiteNamed) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-named")
 	this.excelName = "excel"
 	this.sheetName = "sheet"
 }
 
 func (this *SuiteNamed) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteNamed) target() *Named {

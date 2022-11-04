@@ -7,6 +7,8 @@ import (
 	"strings"
 
 	"github.com/thedatashed/xlsxreader"
+
+	"github.com/yinweli/Sheeter/internal"
 )
 
 // Excel excel資料
@@ -23,6 +25,7 @@ func (this *Excel) Open(name string) error {
 	} // if
 
 	this.excel = excel
+	openedExcel <- excel
 	return nil
 }
 
@@ -181,6 +184,20 @@ func (this *Sheet) Data() (result []string, err error) {
 
 	return result, nil
 }
+
+// CloseAll 關閉所有已開啟的excel
+func CloseAll() {
+	for {
+		select {
+		case itor := <-openedExcel:
+			_ = itor.Close()
+		default:
+			return
+		} // select
+	} // for
+}
+
+var openedExcel = make(chan *xlsxreader.XlsxFileCloser, internal.MaxExcel) // 已開啟的excel列表
 
 // columnToIndex 欄位字串轉為索引值
 func columnToIndex(letter string) int {

@@ -1,13 +1,11 @@
 package builds
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/testdata"
 )
@@ -18,16 +16,15 @@ func TestPoststepJsonDepot(t *testing.T) {
 
 type SuitePoststepJsonDepot struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuitePoststepJsonDepot) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-poststepJsonDepot")
 }
 
 func (this *SuitePoststepJsonDepot) TearDownSuite() {
-	_ = os.RemoveAll(internal.JsonPath)
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuitePoststepJsonDepot) target() *poststepJsonDepot {

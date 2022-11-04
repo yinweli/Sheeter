@@ -15,15 +15,15 @@ func TestStrings(t *testing.T) {
 
 type SuiteStrings struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteStrings) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-strings")
 }
 
 func (this *SuiteStrings) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteStrings) TestFirstUpper() {

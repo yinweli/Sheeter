@@ -16,15 +16,15 @@ func TestBool(t *testing.T) {
 
 type SuiteBool struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteBool) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-field-bool")
 }
 
 func (this *SuiteBool) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteBool) target() *Bool {

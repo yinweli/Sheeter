@@ -1,0 +1,16 @@
+global:
+  lineOfName: 101
+  lineOfNote: 102
+  lineOfField: 103
+  lineOfLayer: 104
+  lineOfData: 105
+  lineOfEnum: 106
+  excludes:
+    - tag1
+    - tag2
+
+inputs:
+  - path
+  - path/path
+  - path/path.xlsx
+  - path/path.xlsx#sheet

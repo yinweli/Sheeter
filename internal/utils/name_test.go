@@ -15,15 +15,15 @@ func TestName(t *testing.T) {
 
 type SuiteName struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteName) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-name")
 }
 
 func (this *SuiteName) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteName) TestNameCheck() {

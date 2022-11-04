@@ -15,15 +15,15 @@ func TestEmpty(t *testing.T) {
 
 type SuiteEmpty struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteEmpty) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-field-empty")
 }
 
 func (this *SuiteEmpty) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteEmpty) target() *Empty {
