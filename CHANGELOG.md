@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Planning]
+- 建立build指令的單元測試, 內容針對正常產出, 只產生json, 只產生proto, 只產生enum等狀況做測試
 - 產生flatbuffer
 - 分表合併功能
   如果企劃覺得表太大了, 想要把表單一切為2時使用  
