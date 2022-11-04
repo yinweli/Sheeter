@@ -7,6 +7,7 @@ require (
 	github.com/golang/protobuf v1.5.0
 	github.com/hako/durafmt v0.0.0-20210608085754-5c1018a4e16b
 	github.com/jhump/protoreflect v1.13.0
+	github.com/otiai10/copy v1.7.0
 	github.com/spf13/cobra v1.4.0
 	github.com/stretchr/testify v1.7.1
 	github.com/thedatashed/xlsxreader v1.2.2

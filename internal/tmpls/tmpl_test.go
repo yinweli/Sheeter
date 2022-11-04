@@ -1,7 +1,6 @@
 package tmpls
 
 import (
-	"os"
 	"path/filepath"
 	"strconv"
 	"testing"
@@ -21,22 +20,21 @@ func TestTmpl(t *testing.T) {
 
 type SuiteTmpl struct {
 	suite.Suite
-	workDir string
-	name    string
-	tmpl1   string
-	tmpl2   string
+	testdata.TestEnv
+	name  string
+	tmpl1 string
+	tmpl2 string
 }
 
 func (this *SuiteTmpl) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-tmpl")
 	this.name = "tmpl.txt"
 	this.tmpl1 = "tmpl1"
 	this.tmpl2 = "tmpl2"
 }
 
 func (this *SuiteTmpl) TearDownSuite() {
-	_ = os.RemoveAll(internal.TmplPath)
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteTmpl) target() *Tmpl {

@@ -16,15 +16,16 @@ func TestExcel(t *testing.T) {
 
 type SuiteExcel struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteExcel) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-excel")
 }
 
 func (this *SuiteExcel) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	CloseAll()
+	this.Restore()
 }
 
 func (this *SuiteExcel) target() *Excel {
@@ -40,6 +41,8 @@ func (this *SuiteExcel) TestOpen() {
 
 	target = this.target()
 	assert.NotNil(this.T(), target.Open(testdata.UnknownStr))
+
+	CloseAll()
 }
 
 func (this *SuiteExcel) TestGet() {
@@ -54,7 +57,7 @@ func (this *SuiteExcel) TestGet() {
 	_, err = target.Get(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 
-	target.Close()
+	CloseAll()
 }
 
 func (this *SuiteExcel) TestGetLine() {
@@ -94,13 +97,14 @@ func (this *SuiteExcel) TestGetLine() {
 	_, err = target.GetLine(testdata.UnknownStr, 1)
 	assert.NotNil(this.T(), err)
 
-	target.Close()
+	CloseAll()
 }
 
 func (this *SuiteExcel) TestSheets() {
 	target := this.target()
 	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
 	assert.Equal(this.T(), []string{internal.SignData + "Data", internal.SignEnum + "Enum"}, target.Sheets())
+	CloseAll()
 }
 
 func (this *SuiteExcel) TestExist() {
@@ -108,7 +112,7 @@ func (this *SuiteExcel) TestExist() {
 	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
 	assert.True(this.T(), target.Exist(testdata.SheetData))
 	assert.False(this.T(), target.Exist(testdata.UnknownStr))
-	target.Close()
+	CloseAll()
 }
 
 func (this *SuiteExcel) TestSheet() {
@@ -162,7 +166,7 @@ func (this *SuiteExcel) TestSheet() {
 	assert.NotNil(this.T(), err)
 	sheet.Close()
 
-	target.Close()
+	CloseAll()
 }
 
 func (this *SuiteExcel) TestColumnToIndex() {

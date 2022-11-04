@@ -17,15 +17,15 @@ func TestLayoutData(t *testing.T) {
 
 type SuiteLayoutData struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteLayoutData) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-layoutData")
 }
 
 func (this *SuiteLayoutData) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteLayoutData) target() *LayoutData {

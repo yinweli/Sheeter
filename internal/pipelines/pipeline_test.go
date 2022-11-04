@@ -16,15 +16,15 @@ func TestPipeline(t *testing.T) {
 
 type SuitePipeline struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuitePipeline) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-pipeline")
 }
 
 func (this *SuitePipeline) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuitePipeline) TestPipeline() {

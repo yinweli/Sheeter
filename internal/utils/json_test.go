@@ -17,15 +17,15 @@ func TestJson(t *testing.T) {
 
 type SuiteJson struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteJson) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-json")
 }
 
 func (this *SuiteJson) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteJson) TestJsonMarshal() {

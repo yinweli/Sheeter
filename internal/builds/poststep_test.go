@@ -1,7 +1,6 @@
 package builds
 
 import (
-	"os"
 	"path/filepath"
 	"testing"
 
@@ -9,6 +8,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -18,18 +18,16 @@ func TestPoststep(t *testing.T) {
 
 type SuitePoststep struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuitePoststep) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-poststep")
 }
 
 func (this *SuitePoststep) TearDownSuite() {
-	_ = os.RemoveAll(internal.EnumPath)
-	_ = os.RemoveAll(internal.JsonPath)
-	_ = os.RemoveAll(internal.ProtoPath)
-	testdata.RestoreWorkDir(this.workDir)
+	excels.CloseAll()
+	this.Restore()
 }
 
 func (this *SuitePoststep) target() *Config {

@@ -1,13 +1,11 @@
 package builds
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/testdata"
 )
@@ -18,16 +16,15 @@ func TestPoststepProtoDepot(t *testing.T) {
 
 type SuitePoststepProtoDepot struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuitePoststepProtoDepot) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-poststepProtoDepot")
 }
 
 func (this *SuitePoststepProtoDepot) TearDownSuite() {
-	_ = os.RemoveAll(internal.ProtoPath)
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuitePoststepProtoDepot) target() *poststepProtoDepot {

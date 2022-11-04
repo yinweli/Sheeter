@@ -3,8 +3,9 @@ package internal
 /* 應用程式相關 */
 
 const AppName = "sheeter" // 程式名稱
-const Version = "1.10.1"  // 版本字串, 遵循'大版本.小版本.修正版本'的規則
+const Version = "1.10.2"  // 版本字串, 遵循'大版本.小版本.修正版本'的規則
 const BarWidth = 40       // 進度條寬度
+const MaxExcel = 999999   // 最大開啟excel數量
 
 /* 類型相關 */
 

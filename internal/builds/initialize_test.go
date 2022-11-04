@@ -1,13 +1,13 @@
 package builds
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/testdata"
 )
@@ -18,17 +18,16 @@ func TestInitialize(t *testing.T) {
 
 type SuiteInitialize struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteInitialize) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-initialize")
 }
 
 func (this *SuiteInitialize) TearDownSuite() {
-	_ = os.RemoveAll(internal.JsonPath)
-	_ = os.RemoveAll(internal.ProtoPath)
-	testdata.RestoreWorkDir(this.workDir)
+	excels.CloseAll()
+	this.Restore()
 }
 
 func (this *SuiteInitialize) target() *Config {

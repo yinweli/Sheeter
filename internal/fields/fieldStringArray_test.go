@@ -16,15 +16,15 @@ func TestStringArray(t *testing.T) {
 
 type SuiteStringArray struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteStringArray) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-field-stringArray")
 }
 
 func (this *SuiteStringArray) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteStringArray) target() *StringArray {

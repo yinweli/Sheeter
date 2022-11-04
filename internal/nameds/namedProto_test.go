@@ -18,19 +18,19 @@ func TestProto(t *testing.T) {
 
 type SuiteProto struct {
 	suite.Suite
-	workDir   string
+	testdata.TestEnv
 	excelName string
 	sheetName string
 }
 
 func (this *SuiteProto) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-named-proto")
 	this.excelName = "excelProto"
 	this.sheetName = "sheetProto"
 }
 
 func (this *SuiteProto) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteProto) target() *Proto {

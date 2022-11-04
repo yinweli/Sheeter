@@ -1,13 +1,11 @@
 package builds
 
 import (
-	"os"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/internal"
 	"github.com/yinweli/Sheeter/internal/layouts"
 	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/testdata"
@@ -19,16 +17,15 @@ func TestGenerateEnum(t *testing.T) {
 
 type SuiteGenerateEnum struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteGenerateEnum) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-generateEnum")
 }
 
 func (this *SuiteGenerateEnum) TearDownSuite() {
-	_ = os.RemoveAll(internal.EnumPath)
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteGenerateEnum) target() *generateEnum {

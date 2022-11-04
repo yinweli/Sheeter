@@ -66,6 +66,7 @@ sheeter build --config setting.yaml
 sheeter build --config setting.yaml --json --namespace
 sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 ```
+請注意目前[sheeter]最多只能開啟999999個檔案
 
 | 旗標          | 參數                                    | 說明                     |
 |:--------------|:----------------------------------------|:-------------------------|

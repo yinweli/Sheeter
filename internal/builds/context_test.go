@@ -14,13 +14,13 @@ func TestContext(t *testing.T) {
 
 type SuiteContext struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteContext) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-context")
 }
 
 func (this *SuiteContext) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }

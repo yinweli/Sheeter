@@ -15,15 +15,15 @@ func TestDuplicate(t *testing.T) {
 
 type SuiteDuplicate struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteDuplicate) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-duplicate")
 }
 
 func (this *SuiteDuplicate) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteDuplicate) target() *Duplicate {

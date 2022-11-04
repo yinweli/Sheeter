@@ -1,0 +1,15 @@
+global:
+  exportJson: true
+  exportProto: false
+  exportEnum: false
+  simpleNamespace: false
+  lineOfName: 1
+  lineOfNote: 2
+  lineOfField: 3
+  lineOfLayer: 4
+  lineOfData: 5
+  lineOfEnum: 2
+
+inputs:
+  - real.xlsx#@Data
+  - real.xlsx#$Enum

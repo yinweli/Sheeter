@@ -15,15 +15,15 @@ func TestParser(t *testing.T) {
 
 type SuiteParser struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteParser) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-field-parser")
 }
 
 func (this *SuiteParser) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteParser) TestParser() {

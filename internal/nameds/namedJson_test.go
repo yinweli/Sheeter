@@ -18,19 +18,19 @@ func TestJson(t *testing.T) {
 
 type SuiteJson struct {
 	suite.Suite
-	workDir   string
+	testdata.TestEnv
 	excelName string
 	sheetName string
 }
 
 func (this *SuiteJson) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-named-json")
 	this.excelName = "excelJson"
 	this.sheetName = "sheetJson"
 }
 
 func (this *SuiteJson) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteJson) target() *Json {

@@ -1,7 +1,6 @@
 package builds
 
 import (
-	"os"
 	"path/filepath"
 	"testing"
 
@@ -9,6 +8,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/testdata"
 )
 
@@ -18,18 +18,16 @@ func TestEncoding(t *testing.T) {
 
 type SuiteEncoding struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteEncoding) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-encoding")
 }
 
 func (this *SuiteEncoding) TearDownSuite() {
-	_ = os.RemoveAll(internal.EnumPath)
-	_ = os.RemoveAll(internal.JsonPath)
-	_ = os.RemoveAll(internal.ProtoPath)
-	testdata.RestoreWorkDir(this.workDir)
+	excels.CloseAll()
+	this.Restore()
 }
 
 func (this *SuiteEncoding) target() *Config {

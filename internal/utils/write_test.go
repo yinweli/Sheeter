@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"os"
 	"path/filepath"
 	"testing"
 
@@ -17,20 +16,19 @@ func TestWrite(t *testing.T) {
 
 type SuiteWrite struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 	dirReal string
 	dirFake string
 }
 
 func (this *SuiteWrite) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-write")
 	this.dirReal = "write"
 	this.dirFake = "?write"
 }
 
 func (this *SuiteWrite) TearDownSuite() {
-	_ = os.RemoveAll(this.dirReal)
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteWrite) TestFileName() {

@@ -6,6 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/internal/excels"
 	"github.com/yinweli/Sheeter/internal/nameds"
 	"github.com/yinweli/Sheeter/testdata"
 )
@@ -16,15 +17,16 @@ func TestInitializeSheetEnum(t *testing.T) {
 
 type SuiteInitializeSheetEnum struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteInitializeSheetEnum) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-initializeSheetEnum")
 }
 
 func (this *SuiteInitializeSheetEnum) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	excels.CloseAll()
+	this.Restore()
 }
 
 func (this *SuiteInitializeSheetEnum) target() *initializeSheetEnum {

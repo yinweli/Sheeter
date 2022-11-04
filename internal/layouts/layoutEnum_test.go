@@ -15,15 +15,15 @@ func TestLayoutEnum(t *testing.T) {
 
 type SuiteLayoutEnum struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteLayoutEnum) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-layoutEnum")
 }
 
 func (this *SuiteLayoutEnum) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteLayoutEnum) target() *LayoutEnum {

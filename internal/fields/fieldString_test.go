@@ -16,15 +16,15 @@ func TestText(t *testing.T) {
 
 type SuiteText struct {
 	suite.Suite
-	workDir string
+	testdata.TestEnv
 }
 
 func (this *SuiteText) SetupSuite() {
-	this.workDir = testdata.ChangeWorkDir()
+	this.Change("test-field-text")
 }
 
 func (this *SuiteText) TearDownSuite() {
-	testdata.RestoreWorkDir(this.workDir)
+	this.Restore()
 }
 
 func (this *SuiteText) target() *String {
