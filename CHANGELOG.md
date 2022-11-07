@@ -5,15 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Planning]
+- 更改Reader介面, 把DataName, DataExt, DataFile合併成FileName函式, 並統一回傳FileName物件. FileName物件可以取得檔名, 副檔名, 完整檔名(檔名+副檔名)
+- 更改Depot.Loader介面, 改用FileName物件來做處理
+- 新增多表合一功能(combine), 可以在設定檔中設定那些表格為合併表格, 並且指定其中之一為標準表格. 除了標準表格之外都不產生讀取器, 並且讀取器會讀取所有合併表格資料
+- 多表合一時, 越後面的資料會覆蓋掉前面的資料(如果索引相同時)
+- 更改Reader介面, 新增FileNames函式, 專門對應多表合一模式
+- 更改Reader介面, 新增CombineFrom函式, 專門對應多表合一模式
+- 更改Depot類別, 新增CombineFrom函式, 專門對應多表合一模式
 - 產生flatbuffer
-- 分表合併功能
-  如果企劃覺得表太大了, 想要把表單一切為2時使用  
-  可能的做法是在設定檔案中填寫如下的資料  
-    合併名稱: ???  
-    合併模板: excel+sheet  
-    合併來源: excel+sheet, excel+sheet...  
-  然後在產生depot時, 利用合併模板的reader, 然後用mergefrom去讀取合併來源的資料檔(當然結構必須是一樣的)  
-  不過可能要考慮proto是否可以這樣讀取就是了  
 
 ## [1.10.2] - 2022-11-04
 ### Changed

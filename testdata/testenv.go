@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	cp "github.com/otiai10/copy"
+	copyfolder "github.com/otiai10/copy"
 )
 
 func init() {
@@ -39,7 +39,7 @@ func (this *TestEnv) Change(dir string) {
 		panic(err)
 	} // if
 
-	if err = cp.Copy(envpath, workpath); err != nil {
+	if err = copyfolder.Copy(envpath, workpath); err != nil {
 		panic(err)
 	} // if
 
