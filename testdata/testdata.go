@@ -1,8 +1,6 @@
 package testdata
 
-import (
-	"github.com/yinweli/Sheeter/internal"
-)
+import "github.com/yinweli/Sheeter/sheeter"
 
 const UnknownStr = "?????"
 const ConfigReal = "config_real.yaml"
@@ -28,6 +26,6 @@ const ExcelInvalidEnum = "excel_invalid_enum.xlsx"
 const ExcelInvalidEnumDupl = "excel_invalid_enum_dupl.xlsx"
 const ExcelInvalidIndex = "excel_invalid_index.xlsx"
 const ExcelInvalidIndexDupl = "excel_invalid_index_dupl.xlsx"
-const SheetData = internal.SignData + "Data"
-const SheetEnum = internal.SignEnum + "Enum"
+const SheetData = sheeter.SignData + "Data"
+const SheetEnum = sheeter.SignEnum + "Enum"
 const ProtoTest = "test1.proto"

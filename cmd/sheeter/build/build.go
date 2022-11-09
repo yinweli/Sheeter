@@ -7,8 +7,8 @@ import (
 	"github.com/hako/durafmt"
 	"github.com/spf13/cobra"
 
-	"github.com/yinweli/Sheeter/internal/builds"
-	"github.com/yinweli/Sheeter/internal/tmpls"
+	"github.com/yinweli/Sheeter/sheeter/builds"
+	"github.com/yinweli/Sheeter/sheeter/tmpls"
 )
 
 // NewCommand 建立命令物件

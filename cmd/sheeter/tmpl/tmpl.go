@@ -5,7 +5,7 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/yinweli/Sheeter/internal/tmpls"
+	"github.com/yinweli/Sheeter/sheeter/tmpls"
 )
 
 // NewCommand 建立命令物件

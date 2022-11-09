@@ -3,7 +3,7 @@ package version
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/sheeter"
 )
 
 // NewCommand 建立命令物件
@@ -19,5 +19,5 @@ func NewCommand() *cobra.Command {
 
 // execute 執行命令
 func execute(cmd *cobra.Command, _ []string) {
-	cmd.Printf("%s version %s\n", internal.AppName, internal.Version)
+	cmd.Printf("%s version %s\n", sheeter.AppName, sheeter.Version)
 }

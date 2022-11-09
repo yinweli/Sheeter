@@ -6,14 +6,14 @@ import (
 	"github.com/yinweli/Sheeter/cmd/sheeter/build"
 	"github.com/yinweli/Sheeter/cmd/sheeter/tmpl"
 	"github.com/yinweli/Sheeter/cmd/sheeter/version"
-	"github.com/yinweli/Sheeter/internal"
+	"github.com/yinweli/Sheeter/sheeter"
 )
 
 func main() {
 	rootCommand := cobra.Command{
-		Use:     internal.AppName,
+		Use:     sheeter.AppName,
 		Long:    "Sheeter used to generate struct, reader, json data from excel & sheet",
-		Version: internal.Version,
+		Version: sheeter.Version,
 	}
 	rootCommand.AddCommand(build.NewCommand())
 	rootCommand.AddCommand(tmpl.NewCommand())
