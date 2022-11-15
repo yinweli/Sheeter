@@ -5,10 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Planning]
-- 更改Reader介面, 把DataName, DataExt, DataFile合併成FileName函式, 並統一回傳FileName物件. FileName物件可以取得檔名, 副檔名, 完整檔名(檔名+副檔名)
+- 更改Reader介面, 把DataName, DataExt, DataFile合併成FileName函式, 並統一回傳FileName物件
+  FileName物件可以取得檔名, 副檔名, 完整檔名(檔名+副檔名)
 - 更改Depot.Loader介面, 改用FileName物件來做處理
-- 新增多表合一功能(combine), 可以在設定檔中設定那些表格為合併表格, 並且指定其中之一為標準表格. 除了標準表格之外都不產生讀取器, 並且讀取器會讀取所有合併表格資料
-- 多表合一時, 越後面的資料會覆蓋掉前面的資料(如果索引相同時)
+- 新增多表合一功能(combine), 可以在設定檔中設定那些表格為合併表格, 並且指定其中之一為標準表格
+  此標準表格會在Depot額外建立一個合併讀取器, 會讀取所有合併表格資料
+  多表合一時, 越後面的資料會覆蓋掉前面的資料(如果索引相同時)
 - 更改Reader介面, 新增FileNames函式, 專門對應多表合一模式
 - 更改Reader介面, 新增CombineFrom函式, 專門對應多表合一模式
 - 更改Depot類別, 新增CombineFrom函式, 專門對應多表合一模式
