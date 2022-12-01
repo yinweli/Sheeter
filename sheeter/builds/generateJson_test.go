@@ -77,7 +77,7 @@ namespace SheeterJson {
     }
 
     public partial class TestDataStorer {
-        public Dictionary<System.Int64, TestData> Datas = new Dictionary<System.Int64, TestData>(); 
+        public Dictionary<System.Int64, TestData> Datas = new Dictionary<System.Int64, TestData>();
     }
 }
 `)
@@ -133,16 +133,8 @@ namespace SheeterJson {
     using Storer_ = TestDataStorer;
 
     public partial class TestDataReader : Reader {
-        public string DataName() {
-            return "testData";
-        }
-
-        public string DataExt() {
-            return ".json";
-        }
-
-        public string DataFile() {
-            return "testData.json";
+        public FileName FileName() {
+            return new FileName("testData", ".json");
         }
 
         public string FromData(string data) {
@@ -308,16 +300,8 @@ type TestDataReader struct {
 	*TestDataStorer
 }
 
-func (this *TestDataReader) DataName() string {
-	return "testData"
-}
-
-func (this *TestDataReader) DataExt() string {
-	return ".json"
-}
-
-func (this *TestDataReader) DataFile() string {
-	return "testData.json"
+func (this *TestDataReader) FileName() FileName {
+	return NewFileName("testData", ".json")
 }
 
 func (this *TestDataReader) FromData(data []byte) error {

@@ -13,7 +13,7 @@ namespace SheeterProto {
 
     public partial class RewardReader : Reader {
         public FileName FileName() {
-            return new FileName("reward", "bytes");
+            return new FileName("reward", ".bytes");
         }
 
         public string FromData(byte[] data) {

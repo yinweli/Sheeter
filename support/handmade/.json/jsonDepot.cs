@@ -87,7 +87,7 @@ namespace SheeterJson {
 
         public string File {
             get {
-                return name + "." + ext;
+                return name + ext;
             }
         }
 

@@ -91,7 +91,7 @@ func (this FileName) Ext() string {
 }
 
 func (this FileName) File() string {
-	return this.name + "." + this.ext
+	return this.name + this.ext
 }
 
 type Loader interface {

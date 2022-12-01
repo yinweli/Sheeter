@@ -12,7 +12,7 @@ type RewardReader struct {
 }
 
 func (this *RewardReader) FileName() FileName {
-	return NewFileName("reward", "json")
+	return NewFileName("reward", ".json")
 }
 
 func (this *RewardReader) FromData(data []byte) error {

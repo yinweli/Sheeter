@@ -87,7 +87,7 @@ namespace SheeterProto {
 
         public string File {
             get {
-                return name + "." + ext;
+                return name + ext;
             }
         }
 

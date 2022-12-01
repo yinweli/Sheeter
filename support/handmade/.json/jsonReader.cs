@@ -11,7 +11,7 @@ namespace SheeterJson {
 
     public partial class RewardReader : Reader {
         public FileName FileName() {
-            return new FileName("reward", "json");
+            return new FileName("reward", ".json");
         }
 
         public string FromData(string data) {
