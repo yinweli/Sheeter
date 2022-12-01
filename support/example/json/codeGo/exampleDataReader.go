@@ -12,16 +12,8 @@ type ExampleDataReader struct {
 	*ExampleDataStorer
 }
 
-func (this *ExampleDataReader) DataName() string {
-	return "exampleData"
-}
-
-func (this *ExampleDataReader) DataExt() string {
-	return ".json"
-}
-
-func (this *ExampleDataReader) DataFile() string {
-	return "exampleData.json"
+func (this *ExampleDataReader) FileName() FileName {
+	return NewFileName("exampleData", ".json")
 }
 
 func (this *ExampleDataReader) FromData(data []byte) error {

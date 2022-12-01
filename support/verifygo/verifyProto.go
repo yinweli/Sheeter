@@ -117,12 +117,12 @@ func (this *protoFileLoader) Error(name string, err error) {
 	panic(fmt.Errorf("%s: proto file load failed: %w", name, err))
 }
 
-func (this *protoFileLoader) Load(name, ext, fullname string) []byte {
-	path := filepath.Join(this.path, fullname)
+func (this *protoFileLoader) Load(filename sheeterProto.FileName) []byte {
+	path := filepath.Join(this.path, filename.File())
 	data, err := os.ReadFile(path)
 
 	if err != nil {
-		panic(fmt.Errorf("%s: proto file load failed: %w", name, err))
+		panic(fmt.Errorf("%s: proto file load failed: %w", filename.Name(), err))
 	}
 
 	return data

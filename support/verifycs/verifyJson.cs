@@ -1,4 +1,4 @@
-﻿using SheeterJson;
+using SheeterJson;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -110,8 +110,8 @@ namespace verifycs {
             Console.WriteLine(name + ": json file load failed: " + message);
         }
 
-        public string Load(string name, string ext, string fullname) {
-            return File.ReadAllText(Path.Combine("json", "data", fullname));
+        public string Load(FileName filename) {
+            return File.ReadAllText(Path.Combine("json", "data", filename.File));
         }
     }
 }

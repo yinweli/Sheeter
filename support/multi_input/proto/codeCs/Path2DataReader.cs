@@ -11,19 +11,9 @@ namespace SheeterProto
 
     public partial class Path2DataReader : Reader
     {
-        public string DataName()
+        public FileName FileName()
         {
-            return "path2Data";
-        }
-
-        public string DataExt()
-        {
-            return ".bytes";
-        }
-
-        public string DataFile()
-        {
-            return "path2Data.bytes";
+            return new FileName("path2Data", ".bytes");
         }
 
         public string FromData(byte[] data)

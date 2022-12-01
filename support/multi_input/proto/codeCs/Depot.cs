@@ -33,7 +33,8 @@ namespace SheeterProto
 
             foreach (var itor in Readers)
             {
-                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
+                var filename = itor.FileName();
+                var data = Loader.Load(filename);
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -43,7 +44,7 @@ namespace SheeterProto
                 if (message.Length != 0)
                 {
                     result = false;
-                    Loader.Error(itor.DataName(), message);
+                    Loader.Error(filename.File, message);
                 }
             }
 
@@ -59,7 +60,8 @@ namespace SheeterProto
 
             foreach (var itor in Readers)
             {
-                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
+                var filename = itor.FileName();
+                var data = Loader.Load(filename);
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -69,7 +71,7 @@ namespace SheeterProto
                 if (message.Length != 0)
                 {
                     result = false;
-                    Loader.Error(itor.DataName(), message);
+                    Loader.Error(filename.File, message);
                 }
             }
 
@@ -85,17 +87,42 @@ namespace SheeterProto
         }
     }
 
+    public class FileName
+    {
+        public FileName(string name, string ext)
+        {
+            this.name = name;
+            this.ext = ext;
+        }
+
+        public string Name
+        {
+            get { return name; }
+        }
+
+        public string Ext
+        {
+            get { return ext; }
+        }
+
+        public string File
+        {
+            get { return name + ext; }
+        }
+
+        private readonly string name;
+        private readonly string ext;
+    }
+
     public interface Loader
     {
         public void Error(string name, string message);
-        public byte[] Load(string name, string ext, string fullname);
+        public byte[] Load(FileName filename);
     }
 
     public interface Reader
     {
-        public string DataName();
-        public string DataExt();
-        public string DataFile();
+        public FileName FileName();
         public string FromData(byte[] data);
         public string MergeData(byte[] data);
         public void Clear();

@@ -2,7 +2,6 @@
 // Sheeter: https://github.com/yinweli/Sheeter
 
 syntax = "proto3";
-
 package sheeterProto;
 
 import 'reward.proto';

@@ -15,7 +15,7 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
 {{- if $.Reader}}
 
     public partial class {{$.StorerName}} {
-        public Dictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> {{$.StorerDatas}} = new Dictionary<{{$.PkeyTypeCs}}, {{$.StructName}}>(); 
+        public Dictionary<{{$.PkeyTypeCs}}, {{$.StructName}}> {{$.StorerDatas}} = new Dictionary<{{$.PkeyTypeCs}}, {{$.StructName}}>();
     }
 {{- end}}
 }

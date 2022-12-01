@@ -123,12 +123,12 @@ func (this *jsonFileLoader) Error(name string, err error) {
 	panic(fmt.Errorf("%s: json file load failed: %w", name, err))
 }
 
-func (this *jsonFileLoader) Load(name, ext, fullname string) []byte {
-	path := filepath.Join(this.path, fullname)
+func (this *jsonFileLoader) Load(filename sheeterJson.FileName) []byte {
+	path := filepath.Join(this.path, filename.File())
 	data, err := os.ReadFile(path)
 
 	if err != nil {
-		panic(fmt.Errorf("%s: json file load failed: %w", name, err))
+		panic(fmt.Errorf("%s: json file load failed: %w", filename.Name(), err))
 	}
 
 	return data
