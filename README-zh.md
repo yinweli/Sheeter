@@ -94,13 +94,14 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --proto       |                                         | 是否產生proto檔案        |
 | --enum        |                                         | 是否產生enum檔案         |
 | --namespace   |                                         | 是否用簡單的命名空間名稱 |
+| --lineOfTag   | 行號(1為起始行)                         | 標籤行号                 |
 | --lineOfName  | 行號(1為起始行)                         | 名稱行號                 |
 | --lineOfNote  | 行號(1為起始行)                         | 註解行號                 |
 | --lineOfField | 行號(1為起始行)                         | 欄位行號                 |
 | --lineOfLayer | 行號(1為起始行)                         | 階層行號                 |
 | --lineOfData  | 行號(1為起始行)                         | 資料行號                 |
 | --lineOfEnum  | 行號(1為起始行)                         | 列舉行號                 |
-| --excludes    | 標籤,標籤,...                           | 輸出時排除的標籤列表     |
+| --tags        | 標籤字串                                | 指定那些標籤的欄位要輸出 |
 | --inputs      | 路徑,檔案名稱,檔案名稱#表單名稱,...     | 輸入列表                 |
 
 ### --config

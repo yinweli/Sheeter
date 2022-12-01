@@ -94,6 +94,7 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --proto       |                                         | 是否产生proto档案        |
 | --enum        |                                         | 是否产生enum档案         |
 | --namespace   |                                         | 是否用简单的命名空间名称 |
+| --lineOfTag   | 行号(1为起始行)                         | 標籤行号                 |
 | --lineOfName  | 行号(1为起始行)                         | 名称行号                 |
 | --lineOfNote  | 行号(1为起始行)                         | 注解行号                 |
 | --lineOfField | 行号(1为起始行)                         | 栏位行号                 |
@@ -162,8 +163,7 @@ sheeter tmpl [flags]
 单行注解, 若为空格就输出空注解  
 
 ## 栏位行
-栏位类型与标签设置, 格式为`类型`或是`类型#标签`, 空格之后的栏位不会输出  
-一个栏位只能设置一个标签  
+栏位类型设置, 空格之后的栏位不会输出  
 
 | 类型        | 说明                                 |
 |:------------|:-------------------------------------|
@@ -177,14 +177,6 @@ sheeter tmpl [flags]
 | floatArray  | 以逗号分隔的64位元整数阵列           |
 | string      | 字串                                 |
 | stringArray | 以逗号分隔的字串阵列                 |
-
-## 栏位行范例
-
-| 范例     | 栏位类型   | 标签 |
-|:---------|:-----------|:-----|
-| pkey     | pkey       |      |
-| string   | string     |      |
-| string#A | string     | A    |
 
 ## 标签与排除机制
 栏位行可用标签来控制栏位与其资料是否要输出到资料档案  
