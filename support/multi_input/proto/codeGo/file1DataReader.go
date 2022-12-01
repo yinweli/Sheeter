@@ -13,16 +13,8 @@ type File1DataReader struct {
 	*File1DataStorer
 }
 
-func (this *File1DataReader) DataName() string {
-	return "file1Data"
-}
-
-func (this *File1DataReader) DataExt() string {
-	return ".bytes"
-}
-
-func (this *File1DataReader) DataFile() string {
-	return "file1Data.bytes"
+func (this *File1DataReader) FileName() FileName {
+	return NewFileName("file1Data", ".bytes")
 }
 
 func (this *File1DataReader) FromData(data []byte) error {

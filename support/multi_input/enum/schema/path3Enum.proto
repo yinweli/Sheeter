@@ -2,7 +2,6 @@
 // Sheeter: https://github.com/yinweli/Sheeter
 
 syntax = "proto3";
-
 package sheeterEnum;
 
 option go_package = ".;sheeterEnum";

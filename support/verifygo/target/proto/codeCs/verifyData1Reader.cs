@@ -11,19 +11,9 @@ namespace SheeterProto
 
     public partial class VerifyData1Reader : Reader
     {
-        public string DataName()
+        public FileName FileName()
         {
-            return "verifyData1";
-        }
-
-        public string DataExt()
-        {
-            return ".bytes";
-        }
-
-        public string DataFile()
-        {
-            return "verifyData1.bytes";
+            return new FileName("verifyData1", ".bytes");
         }
 
         public string FromData(byte[] data)

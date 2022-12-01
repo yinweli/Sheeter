@@ -68,7 +68,8 @@ namespace SheeterJson {
             var result = true;
 
             foreach (var itor in Readers) {
-                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
+                var filename = itor.FileName();
+                var data = Loader.Load(filename);
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -77,7 +78,7 @@ namespace SheeterJson {
 
                 if (message.Length != 0) {
                     result = false;
-                    Loader.Error(itor.DataName(), message);
+                    Loader.Error(filename.File, message);
                 }
             }
 
@@ -91,7 +92,8 @@ namespace SheeterJson {
             var result = true;
 
             foreach (var itor in Readers) {
-                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
+                var filename = itor.FileName();
+                var data = Loader.Load(filename);
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -100,7 +102,7 @@ namespace SheeterJson {
 
                 if (message.Length != 0) {
                     result = false;
-                    Loader.Error(itor.DataName(), message);
+                    Loader.Error(filename.File, message);
                 }
             }
 
@@ -114,15 +116,41 @@ namespace SheeterJson {
         }
     }
 
+    public class FileName {
+        public FileName(string name, string ext) {
+            this.name = name;
+            this.ext = ext;
+        }
+
+        public string Name {
+            get {
+                return name;
+            }
+        }
+
+        public string Ext {
+            get {
+                return ext;
+            }
+        }
+
+        public string File {
+            get {
+                return name + ext;
+            }
+        }
+
+        private readonly string name;
+        private readonly string ext;
+    }
+
     public interface Loader {
         public void Error(string name, string message);
-        public string Load(string name, string ext, string fullname);
+        public string Load(FileName filename);
     }
 
     public interface Reader {
-        public string DataName();
-        public string DataExt();
-        public string DataFile();
+        public FileName FileName();
         public string FromData(string data);
         public string MergeData(string data);
         public void Clear();
@@ -167,7 +195,8 @@ func (this *Depot) FromData() bool {
 	result := true
 
 	for _, itor := range this.readers {
-		data := this.loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile())
+		filename := itor.FileName()
+		data := this.loader.Load(filename)
 
 		if data == nil || len(data) == 0 {
 			continue
@@ -175,7 +204,7 @@ func (this *Depot) FromData() bool {
 
 		if err := itor.FromData(data); err != nil {
 			result = false
-			this.loader.Error(itor.DataName(), err)
+			this.loader.Error(filename.File(), err)
 		}
 	}
 
@@ -190,7 +219,8 @@ func (this *Depot) MergeData() bool {
 	result := true
 
 	for _, itor := range this.readers {
-		data := this.loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile())
+		filename := itor.FileName()
+		data := this.loader.Load(filename)
 
 		if data == nil || len(data) == 0 {
 			continue
@@ -198,7 +228,7 @@ func (this *Depot) MergeData() bool {
 
 		if err := itor.MergeData(data); err != nil {
 			result = false
-			this.loader.Error(itor.DataName(), err)
+			this.loader.Error(filename.File(), err)
 		}
 	}
 
@@ -211,15 +241,37 @@ func (this *Depot) Clear() {
 	}
 }
 
+type FileName struct {
+	name string
+	ext  string
+}
+
+func NewFileName(name, ext string) FileName {
+	return FileName{
+		name: name,
+		ext:  ext,
+	}
+}
+
+func (this FileName) Name() string {
+	return this.name
+}
+
+func (this FileName) Ext() string {
+	return this.ext
+}
+
+func (this FileName) File() string {
+	return this.name + this.ext
+}
+
 type Loader interface {
 	Error(name string, err error)
-	Load(name, ext, fullname string) []byte
+	Load(filename FileName) []byte
 }
 
 type Reader interface {
-	DataName() string
-	DataExt() string
-	DataFile() string
+	FileName() FileName
 	FromData(data []byte) error
 	MergeData(data []byte) error
 	Clear()

@@ -117,16 +117,8 @@ namespace SheeterProto {
     using Storer_ = TestDataStorer;
 
     public partial class TestDataReader : Reader {
-        public string DataName() {
-            return "testData";
-        }
-
-        public string DataExt() {
-            return ".bytes";
-        }
-
-        public string DataFile() {
-            return "testData.bytes";
+        public FileName FileName() {
+            return new FileName("testData", ".bytes");
         }
 
         public string FromData(byte[] data) {
@@ -239,16 +231,8 @@ type TestDataReader struct {
 	*TestDataStorer
 }
 
-func (this *TestDataReader) DataName() string {
-	return "testData"
-}
-
-func (this *TestDataReader) DataExt() string {
-	return ".bytes"
-}
-
-func (this *TestDataReader) DataFile() string {
-	return "testData.bytes"
+func (this *TestDataReader) FileName() FileName {
+	return NewFileName("testData", ".bytes")
 }
 
 func (this *TestDataReader) FromData(data []byte) error {

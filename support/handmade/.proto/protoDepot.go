@@ -24,7 +24,8 @@ func (this *Depot) FromData() bool {
 	result := true
 
 	for _, itor := range this.readers {
-		data := this.loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile())
+		filename := itor.FileName()
+		data := this.loader.Load(filename)
 
 		if data == nil || len(data) == 0 {
 			continue
@@ -32,7 +33,7 @@ func (this *Depot) FromData() bool {
 
 		if err := itor.FromData(data); err != nil {
 			result = false
-			this.loader.Error(itor.DataName(), err)
+			this.loader.Error(filename.File(), err)
 		}
 	}
 
@@ -47,7 +48,8 @@ func (this *Depot) MergeData() bool {
 	result := true
 
 	for _, itor := range this.readers {
-		data := this.loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile())
+		filename := itor.FileName()
+		data := this.loader.Load(filename)
 
 		if data == nil || len(data) == 0 {
 			continue
@@ -55,7 +57,7 @@ func (this *Depot) MergeData() bool {
 
 		if err := itor.MergeData(data); err != nil {
 			result = false
-			this.loader.Error(itor.DataName(), err)
+			this.loader.Error(filename.File(), err)
 		}
 	}
 
@@ -68,15 +70,37 @@ func (this *Depot) Clear() {
 	}
 }
 
+type FileName struct {
+	name string
+	ext  string
+}
+
+func NewFileName(name, ext string) FileName {
+	return FileName{
+		name: name,
+		ext:  ext,
+	}
+}
+
+func (this FileName) Name() string {
+	return this.name
+}
+
+func (this FileName) Ext() string {
+	return this.ext
+}
+
+func (this FileName) File() string {
+	return this.name + this.ext
+}
+
 type Loader interface {
 	Error(name string, err error)
-	Load(name, ext, fullname string) []byte
+	Load(filename FileName) []byte
 }
 
 type Reader interface {
-	DataName() string
-	DataExt() string
-	DataFile() string
+	FileName() FileName
 	FromData(data []byte) error
 	MergeData(data []byte) error
 	Clear()

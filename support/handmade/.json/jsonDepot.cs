@@ -1,4 +1,4 @@
-﻿// 以下是模板驗證用程式碼
+// 以下是模板驗證用程式碼
 
 using System.Collections.Generic;
 
@@ -19,7 +19,8 @@ namespace SheeterJson {
             var result = true;
 
             foreach (var itor in Readers) {
-                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
+                var filename = itor.FileName();
+                var data = Loader.Load(filename);
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -28,7 +29,7 @@ namespace SheeterJson {
 
                 if (message.Length != 0) {
                     result = false;
-                    Loader.Error(itor.DataName(), message);
+                    Loader.Error(filename.File, message);
                 }
             }
 
@@ -42,7 +43,8 @@ namespace SheeterJson {
             var result = true;
 
             foreach (var itor in Readers) {
-                var data = Loader.Load(itor.DataName(), itor.DataExt(), itor.DataFile());
+                var filename = itor.FileName();
+                var data = Loader.Load(filename);
 
                 if (data == null || data.Length == 0)
                     continue;
@@ -51,7 +53,7 @@ namespace SheeterJson {
 
                 if (message.Length != 0) {
                     result = false;
-                    Loader.Error(itor.DataName(), message);
+                    Loader.Error(filename.File, message);
                 }
             }
 
@@ -65,15 +67,41 @@ namespace SheeterJson {
         }
     }
 
+    public class FileName {
+        public FileName(string name, string ext) {
+            this.name = name;
+            this.ext = ext;
+        }
+
+        public string Name {
+            get {
+                return name;
+            }
+        }
+
+        public string Ext {
+            get {
+                return ext;
+            }
+        }
+
+        public string File {
+            get {
+                return name + ext;
+            }
+        }
+
+        private readonly string name;
+        private readonly string ext;
+    }
+
     public interface Loader {
         public void Error(string name, string message);
-        public string Load(string name, string ext, string fullname);
+        public string Load(FileName filename);
     }
 
     public interface Reader {
-        public string DataName();
-        public string DataExt();
-        public string DataFile();
+        public FileName FileName();
         public string FromData(string data);
         public string MergeData(string data);
         public void Clear();

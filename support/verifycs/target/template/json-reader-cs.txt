@@ -10,16 +10,8 @@ namespace {{$.JsonNamespace $.SimpleNamespace | $.FirstUpper}} {
     using Storer_ = {{$.StorerName}};
 
     public partial class {{$.ReaderName}} : Reader {
-        public string DataName() {
-            return "{{$.JsonDataName}}";
-        }
-
-        public string DataExt() {
-            return "{{$.JsonDataExt}}";
-        }
-
-        public string DataFile() {
-            return "{{$.JsonDataFile}}";
+        public FileName FileName() {
+            return new FileName("{{$.JsonDataName}}", "{{$.JsonDataExt}}");
         }
 
         public string FromData(string data) {

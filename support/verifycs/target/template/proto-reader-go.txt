@@ -13,16 +13,8 @@ type {{$.ReaderName}} struct {
 	*{{$.StorerName}}
 }
 
-func (this *{{$.ReaderName}}) DataName() string {
-	return "{{$.ProtoDataName}}"
-}
-
-func (this *{{$.ReaderName}}) DataExt() string {
-	return "{{$.ProtoDataExt}}"
-}
-
-func (this *{{$.ReaderName}}) DataFile() string {
-	return "{{$.ProtoDataFile}}"
+func (this *{{$.ReaderName}}) FileName() FileName {
+	return NewFileName("{{$.ProtoDataName}}", "{{$.ProtoDataExt}}")
 }
 
 func (this *{{$.ReaderName}}) FromData(data []byte) error {

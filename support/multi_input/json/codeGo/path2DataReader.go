@@ -12,16 +12,8 @@ type Path2DataReader struct {
 	*Path2DataStorer
 }
 
-func (this *Path2DataReader) DataName() string {
-	return "path2Data"
-}
-
-func (this *Path2DataReader) DataExt() string {
-	return ".json"
-}
-
-func (this *Path2DataReader) DataFile() string {
-	return "path2Data.json"
+func (this *Path2DataReader) FileName() FileName {
+	return NewFileName("path2Data", ".json")
 }
 
 func (this *Path2DataReader) FromData(data []byte) error {

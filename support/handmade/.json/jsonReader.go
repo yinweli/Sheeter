@@ -11,16 +11,8 @@ type RewardReader struct {
 	*RewardStorer
 }
 
-func (this *RewardReader) DataName() string {
-	return "reward"
-}
-
-func (this *RewardReader) DataExt() string {
-	return "json"
-}
-
-func (this *RewardReader) DataFile() string {
-	return "reward.json"
+func (this *RewardReader) FileName() FileName {
+	return NewFileName("reward", ".json")
 }
 
 func (this *RewardReader) FromData(data []byte) error {

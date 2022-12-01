@@ -9,16 +9,8 @@ namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
     using Storer_ = {{$.StorerName}};
 
     public partial class {{$.ReaderName}} : Reader {
-        public string DataName() {
-            return "{{$.ProtoDataName}}";
-        }
-
-        public string DataExt() {
-            return "{{$.ProtoDataExt}}";
-        }
-
-        public string DataFile() {
-            return "{{$.ProtoDataFile}}";
+        public FileName FileName() {
+            return new FileName("{{$.ProtoDataName}}", "{{$.ProtoDataExt}}");
         }
 
         public string FromData(byte[] data) {

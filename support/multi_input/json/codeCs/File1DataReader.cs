@@ -12,19 +12,9 @@ namespace SheeterJson
 
     public partial class File1DataReader : Reader
     {
-        public string DataName()
+        public FileName FileName()
         {
-            return "file1Data";
-        }
-
-        public string DataExt()
-        {
-            return ".json";
-        }
-
-        public string DataFile()
-        {
-            return "file1Data.json";
+            return new FileName("file1Data", ".json");
         }
 
         public string FromData(string data)

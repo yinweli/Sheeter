@@ -1,4 +1,4 @@
-﻿using SheeterProto;
+using SheeterProto;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -111,8 +111,8 @@ namespace verifycs {
             Debug.Log(name + ": proto file load failed: " + message);
         }
 
-        public byte[] Load(string name, string ext, string fullname) {
-            return File.ReadAllBytes(Path.Combine("Assets", "target", "proto", "data", fullname));
+        public byte[] Load(FileName filename) {
+            return File.ReadAllBytes(Path.Combine("Assets", "target", "proto", "data", filename.File));
         }
     }
 }

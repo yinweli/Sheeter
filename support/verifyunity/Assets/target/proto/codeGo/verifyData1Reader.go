@@ -13,16 +13,8 @@ type VerifyData1Reader struct {
 	*VerifyData1Storer
 }
 
-func (this *VerifyData1Reader) DataName() string {
-	return "verifyData1"
-}
-
-func (this *VerifyData1Reader) DataExt() string {
-	return ".bytes"
-}
-
-func (this *VerifyData1Reader) DataFile() string {
-	return "verifyData1.bytes"
+func (this *VerifyData1Reader) FileName() FileName {
+	return NewFileName("verifyData1", ".bytes")
 }
 
 func (this *VerifyData1Reader) FromData(data []byte) error {

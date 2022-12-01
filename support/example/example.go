@@ -25,7 +25,7 @@ func exampleJson() {
 	// 要使用sheeter, 首先建立繼承自sheeterJson.Loader介面的讀取器
 	// 讀取器負責從磁碟(或是其他的資料來源)取得資料的流程, 這部分由使用者自行處理
 	// 範例中的讀取器只是簡單的從磁碟讀取檔案而已
-	loader := &fileLoader{
+	loader := &jsonFileLoader{
 		path: filepath.Join(rootPath(), "json", "data"), // 資料來源在json/data
 	}
 	// 接著建立sheeterJson.Depot物件, 這是存取表格資料最主要的物件
@@ -51,7 +51,7 @@ func exampleProto() {
 	// 要使用sheeter, 首先建立繼承自sheeterProto.Loader介面的讀取器
 	// 讀取器負責從磁碟(或是其他的資料來源)取得資料的流程, 這部分由使用者自行處理
 	// 範例中的讀取器只是簡單的從磁碟讀取檔案而已
-	loader := &fileLoader{
+	loader := &protoFileLoader{
 		path: filepath.Join(rootPath(), "proto", "data"), // 資料來源在proto/data
 	}
 	// 接著建立sheeterProto.Depot物件, 這是存取表格資料最主要的物件
@@ -81,24 +81,46 @@ func exampleEnum() {
 	fmt.Println("enum success")
 }
 
-// fileLoader 檔案讀取器
-type fileLoader struct {
+// jsonFileLoader json檔案讀取器
+type jsonFileLoader struct {
 	path string
 }
 
 // Error 用於處理讀取資料錯誤, 範例中只是單純印出錯誤訊息
-func (this *fileLoader) Error(name string, err error) {
+func (this *jsonFileLoader) Error(name string, err error) {
 	fmt.Println(fmt.Errorf("%s: file load failed: %w", name, err))
 }
 
-// Load 用於讀取資料檔案, Depot會提供給你檔案名稱(name), 副檔名(ext), 完整名稱(fullname)
-// 使用者需要依靠以上資訊來讀取資料檔案, 並回傳資料給Depot
-func (this *fileLoader) Load(name, ext, fullname string) []byte {
-	path := filepath.Join(this.path, fullname)
+// Load 用於讀取資料檔案, Depot會提供給你FileName物件, 使用者依靠FileName的功能取得檔名來讀取資料檔案, 並回傳資料給Depot
+func (this *jsonFileLoader) Load(filename sheeterJson.FileName) []byte {
+	path := filepath.Join(this.path, filename.File())
 	data, err := os.ReadFile(path)
 
 	if err != nil {
-		fmt.Println(fmt.Errorf("%s: file load failed: %w", name, err))
+		fmt.Println(fmt.Errorf("%s: file load failed: %w", filename.Name(), err))
+		return nil
+	}
+
+	return data
+}
+
+// protoFileLoader proto檔案讀取器
+type protoFileLoader struct {
+	path string
+}
+
+// Error 用於處理讀取資料錯誤, 範例中只是單純印出錯誤訊息
+func (this *protoFileLoader) Error(name string, err error) {
+	fmt.Println(fmt.Errorf("%s: file load failed: %w", name, err))
+}
+
+// Load 用於讀取資料檔案, Depot會提供給你FileName物件, 使用者依靠FileName的功能取得檔名來讀取資料檔案, 並回傳資料給Depot
+func (this *protoFileLoader) Load(filename sheeterProto.FileName) []byte {
+	path := filepath.Join(this.path, filename.File())
+	data, err := os.ReadFile(path)
+
+	if err != nil {
+		fmt.Println(fmt.Errorf("%s: file load failed: %w", filename.Name(), err))
 		return nil
 	}
 

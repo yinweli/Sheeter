@@ -12,16 +12,8 @@ type {{$.ReaderName}} struct {
 	*{{$.StorerName}}
 }
 
-func (this *{{$.ReaderName}}) DataName() string {
-	return "{{$.JsonDataName}}"
-}
-
-func (this *{{$.ReaderName}}) DataExt() string {
-	return "{{$.JsonDataExt}}"
-}
-
-func (this *{{$.ReaderName}}) DataFile() string {
-	return "{{$.JsonDataFile}}"
+func (this *{{$.ReaderName}}) FileName() FileName {
+	return NewFileName("{{$.JsonDataName}}", "{{$.JsonDataExt}}")
 }
 
 func (this *{{$.ReaderName}}) FromData(data []byte) error {
