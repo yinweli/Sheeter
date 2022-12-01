@@ -5,9 +5,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Planning]
-- 新增FileName物件, 可以取得檔名, 副檔名, 完整檔名(檔名+副檔名)
-- 更改Reader介面, 把DataName, DataExt, DataFile合併成FileName函式, 並統一回傳FileName物件
-- 更改Depot.Loader介面, 改用FileName物件來做處理
 - 把標籤從欄位行獨立出來, 標籤改成單字元, 並且改成正相關方式判斷是否要輸出
 - 移除empty類型(因為已經被標籤的功能代替掉了)
 - 新增輸出欄, 用來控制表格某行是否輸出
@@ -23,6 +20,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 - 修正測試環境機制在env資料夾未建立的狀況下會拋出錯誤
+- 模板中新增FileName類別, 用來取得檔名, 副檔名等
+- 更改Reader介面, 把DataName, DataExt, DataFile合併成FileName函式, 並統一回傳FileName物件
+- 更改Depot.Loader介面, 改用FileName物件來做處理
 
 ## [1.10.2] - 2022-11-04
 ### Changed
