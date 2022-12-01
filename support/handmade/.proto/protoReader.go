@@ -13,16 +13,8 @@ type RewardReader struct {
 	*RewardStorer
 }
 
-func (this *RewardReader) DataName() string {
-	return "reward"
-}
-
-func (this *RewardReader) DataExt() string {
-	return "bytes"
-}
-
-func (this *RewardReader) DataFile() string {
-	return "reward.bytes"
+func (this *RewardReader) FileName() FileName {
+	return NewFileName("reward", "bytes")
 }
 
 func (this *RewardReader) FromData(data []byte) error {

@@ -1,4 +1,4 @@
-﻿// 以下是模板驗證用程式碼
+// 以下是模板驗證用程式碼
 // using區段可能與實際給的不一致, 要注意
 
 using Google.Protobuf; // 這為了通過編譯的程式碼, 不可使用
@@ -12,16 +12,8 @@ namespace SheeterProto {
     using Storer_ = RewardStorer;
 
     public partial class RewardReader : Reader {
-        public string DataName() {
-            return "reward";
-        }
-
-        public string DataExt() {
-            return "bytes";
-        }
-
-        public string DataFile() {
-            return "reward.bytes";
+        public FileName FileName() {
+            return new FileName("reward", "bytes");
         }
 
         public string FromData(byte[] data) {

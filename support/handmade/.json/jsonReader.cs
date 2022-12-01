@@ -1,4 +1,4 @@
-﻿// 以下是模板驗證用程式碼
+// 以下是模板驗證用程式碼
 // using區段可能與實際給的不一致, 要注意
 
 using Newtonsoft.Json;
@@ -10,16 +10,8 @@ namespace SheeterJson {
     using Storer_ = RewardStorer;
 
     public partial class RewardReader : Reader {
-        public string DataName() {
-            return "reward";
-        }
-
-        public string DataExt() {
-            return "json";
-        }
-
-        public string DataFile() {
-            return "reward.json";
+        public FileName FileName() {
+            return new FileName("reward", "json");
         }
 
         public string FromData(string data) {
