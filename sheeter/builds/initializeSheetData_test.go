@@ -32,10 +32,11 @@ func (this *SuiteInitializeSheetData) TearDownSuite() {
 func (this *SuiteInitializeSheetData) target() *initializeSheetData {
 	target := &initializeSheetData{
 		Global: &Global{
-			LineOfName:  1,
-			LineOfNote:  2,
-			LineOfField: 3,
-			LineOfLayer: 4,
+			LineOfTag:   1,
+			LineOfName:  2,
+			LineOfNote:  3,
+			LineOfField: 4,
+			LineOfLayer: 5,
 		},
 		Named: &nameds.Named{ExcelName: testdata.ExcelReal, SheetName: testdata.SheetData},
 	}

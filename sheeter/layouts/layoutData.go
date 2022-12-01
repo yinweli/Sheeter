@@ -66,7 +66,7 @@ func (this *LayoutData) Add(name string, field fields.Field, tag string, layer [
 }
 
 // Pack 打包資料
-func (this *LayoutData) Pack(datas, excludes []string) (result map[string]interface{}, pkey int64, err error) {
+func (this *LayoutData) Pack(datas []string, tags string) (result map[string]interface{}, pkey int64, err error) {
 	structor := newStructor()
 
 	for i, itor := range this.layouts {
@@ -74,7 +74,7 @@ func (this *LayoutData) Pack(datas, excludes []string) (result map[string]interf
 			continue
 		} // if
 
-		if isExclude(itor.Tag, excludes) {
+		if utils.TagMatch(tags, itor.Tag) == false {
 			continue
 		} // if
 

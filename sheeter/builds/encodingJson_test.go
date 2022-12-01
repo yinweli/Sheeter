@@ -34,11 +34,13 @@ func (this *SuiteEncodingJson) TearDownSuite() {
 func (this *SuiteEncodingJson) target(excel string) *encodingJson {
 	sheet := &initializeSheetData{
 		Global: &Global{
-			LineOfName:  1,
-			LineOfNote:  2,
-			LineOfField: 3,
-			LineOfLayer: 4,
-			LineOfData:  5,
+			LineOfTag:   1,
+			LineOfName:  2,
+			LineOfNote:  3,
+			LineOfField: 4,
+			LineOfLayer: 5,
+			LineOfData:  6,
+			Tags:        "A",
 		},
 		Named: &nameds.Named{ExcelName: excel, SheetName: testdata.SheetData},
 	}

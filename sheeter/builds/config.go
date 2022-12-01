@@ -20,17 +20,18 @@ type Config struct {
 
 // Global 全域設定
 type Global struct {
-	ExportJson      bool     `yaml:"exportJson"`      // 是否產生json檔案
-	ExportProto     bool     `yaml:"exportProto"`     // 是否產生proto檔案
-	ExportEnum      bool     `yaml:"exportEnum"`      // 是否產生enum檔案
-	SimpleNamespace bool     `yaml:"simpleNamespace"` // 是否用簡單的命名空間名稱
-	LineOfName      int      `yaml:"lineOfName"`      // 名稱行號(1為起始行)
-	LineOfNote      int      `yaml:"lineOfNote"`      // 註解行號(1為起始行)
-	LineOfField     int      `yaml:"lineOfField"`     // 欄位行號(1為起始行)
-	LineOfLayer     int      `yaml:"lineOfLayer"`     // 階層行號(1為起始行)
-	LineOfData      int      `yaml:"lineOfData"`      // 資料行號(1為起始行)
-	LineOfEnum      int      `yaml:"lineOfEnum"`      // 列舉行號(1為起始行)
-	Excludes        []string `yaml:"excludes"`        // 排除標籤列表
+	ExportJson      bool   `yaml:"exportJson"`      // 是否產生json檔案
+	ExportProto     bool   `yaml:"exportProto"`     // 是否產生proto檔案
+	ExportEnum      bool   `yaml:"exportEnum"`      // 是否產生enum檔案
+	SimpleNamespace bool   `yaml:"simpleNamespace"` // 是否用簡單的命名空間名稱
+	LineOfTag       int    `yaml:"lineOfTag"`       // 標籤行號(1為起始行)
+	LineOfName      int    `yaml:"lineOfName"`      // 名稱行號(1為起始行)
+	LineOfNote      int    `yaml:"lineOfNote"`      // 註解行號(1為起始行)
+	LineOfField     int    `yaml:"lineOfField"`     // 欄位行號(1為起始行)
+	LineOfLayer     int    `yaml:"lineOfLayer"`     // 階層行號(1為起始行)
+	LineOfData      int    `yaml:"lineOfData"`      // 資料行號(1為起始行)
+	LineOfEnum      int    `yaml:"lineOfEnum"`      // 列舉行號(1為起始行)
+	Tags            string `yaml:"tags"`            // 標籤列表
 }
 
 // Sheet 表單資料
@@ -86,6 +87,12 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		} // if
 	} // if
 
+	if flags.Changed(flagLineOfTag) {
+		if value, err := flags.GetInt(flagLineOfTag); err == nil {
+			this.Global.LineOfTag = value
+		} // if
+	} // if
+
 	if flags.Changed(flagLineOfName) {
 		if value, err := flags.GetInt(flagLineOfName); err == nil {
 			this.Global.LineOfName = value
@@ -122,9 +129,9 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		} // if
 	} // if
 
-	if flags.Changed(flagExcludes) {
-		if value, err := flags.GetStringSlice(flagExcludes); err == nil {
-			this.Global.Excludes = append(this.Global.Excludes, value...)
+	if flags.Changed(flagTags) {
+		if value, err := flags.GetString(flagTags); err == nil {
+			this.Global.Tags = value
 		} // if
 	} // if
 
@@ -219,6 +226,10 @@ func (this *Config) Sheet() []Sheet {
 
 // Check 檢查設定
 func (this *Config) Check() error {
+	if this.Global.LineOfTag <= 0 {
+		return fmt.Errorf("config check failed: lineOfTag <= 0")
+	} // if
+
 	if this.Global.LineOfName <= 0 {
 		return fmt.Errorf("config check failed: lineOfName <= 0")
 	} // if
@@ -241,6 +252,10 @@ func (this *Config) Check() error {
 
 	if this.Global.LineOfEnum <= 0 {
 		return fmt.Errorf("config check failed: lineOfEnum <= 0")
+	} // if
+
+	if this.Global.LineOfTag >= this.Global.LineOfData {
+		return fmt.Errorf("config check failed: lineOfTag(%d) >= lineOfData(%d)", this.Global.LineOfTag, this.Global.LineOfData)
 	} // if
 
 	if this.Global.LineOfName >= this.Global.LineOfData {

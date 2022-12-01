@@ -51,6 +51,7 @@ func InitializeSheetData(material any, _ chan any) error {
 
 	line, err := data.excel.GetLine(
 		data.SheetName,
+		data.LineOfTag,
 		data.LineOfName,
 		data.LineOfNote,
 		data.LineOfField,
@@ -61,7 +62,8 @@ func InitializeSheetData(material any, _ chan any) error {
 		return fmt.Errorf("%s: initialize sheetData failed: %w", structName, err)
 	} // if
 
-	nameLine := line[data.LineOfName]
+	tagLine := line[data.LineOfTag]
+	nameLine := line[data.LineOfName] // 尋訪時, 以名稱行為主
 	noteLine := line[data.LineOfNote]
 	fieldLine := line[data.LineOfField]
 	layerLine := line[data.LineOfLayer]
@@ -82,6 +84,7 @@ func InitializeSheetData(material any, _ chan any) error {
 			break
 		} // if
 
+		tag := utils.GetItem(tagLine, col)
 		name := itor
 		note := utils.GetItem(noteLine, col)
 
@@ -89,7 +92,7 @@ func InitializeSheetData(material any, _ chan any) error {
 			return fmt.Errorf("%s: initialize sheetData failed: invalid name", structName)
 		} // if
 
-		field, tag, err := fields.Parser(utils.GetItem(fieldLine, col))
+		field, err := fields.Parser(utils.GetItem(fieldLine, col))
 
 		if err != nil {
 			return fmt.Errorf("%s: initialize sheetData failed: %w", structName, err)

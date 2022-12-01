@@ -64,7 +64,7 @@ func (this *SuiteExcel) TestGetLine() {
 	target := this.target()
 	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
 
-	line, err := target.GetLine(testdata.SheetData, 1, 2)
+	line, err := target.GetLine(testdata.SheetData, 2, 3)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), line)
 	assert.Len(this.T(), line, 2)
@@ -78,7 +78,7 @@ func (this *SuiteExcel) TestGetLine() {
 		"name3",
 		"name2",
 		"name3",
-	}, line[1])
+	}, line[2])
 	assert.Equal(this.T(), []string{
 		"note0",
 		"empty",
@@ -89,7 +89,7 @@ func (this *SuiteExcel) TestGetLine() {
 		"note5",
 		"note6",
 		"note7",
-	}, line[2])
+	}, line[3])
 
 	_, err = target.GetLine(testdata.SheetData, -1)
 	assert.NotNil(this.T(), err)
@@ -125,6 +125,18 @@ func (this *SuiteExcel) TestSheet() {
 
 	assert.True(this.T(), sheet.Next())
 	data, err := sheet.Data()
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(),
+		[]string{
+			"A",
+			"A",
+			"A",
+			"A",
+			"A",
+		}, data)
+
+	assert.True(this.T(), sheet.Next())
+	data, err = sheet.Data()
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(),
 		[]string{

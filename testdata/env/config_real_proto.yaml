@@ -3,12 +3,14 @@ global:
   exportProto: true
   exportEnum: false
   simpleNamespace: false
-  lineOfName: 1
-  lineOfNote: 2
-  lineOfField: 3
-  lineOfLayer: 4
-  lineOfData: 5
+  lineOfTag: 1
+  lineOfName: 2
+  lineOfNote: 3
+  lineOfField: 4
+  lineOfLayer: 5
+  lineOfData: 6
   lineOfEnum: 2
+  tags: A
 
 inputs:
   - real.xlsx#@Data
