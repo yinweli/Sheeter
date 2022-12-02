@@ -21,20 +21,20 @@ func TestJsonPack(t *testing.T) {
 type SuiteJsonPack struct {
 	suite.Suite
 	testdata.TestEnv
-	lineOfTag   int
 	lineOfName  int
 	lineOfField int
 	lineOfLayer int
+	lineOfTag   int
 	lineOfData  int
 	excel       excels.Excel
 }
 
 func (this *SuiteJsonPack) SetupSuite() {
 	this.Change("test-jsonPack")
-	this.lineOfTag = 1
-	this.lineOfName = 2
-	this.lineOfField = 4
-	this.lineOfLayer = 5
+	this.lineOfName = 1
+	this.lineOfField = 3
+	this.lineOfLayer = 4
+	this.lineOfTag = 5
 	this.lineOfData = 6
 	assert.Nil(this.T(), this.excel.Open(testdata.ExcelJsonPack))
 }
@@ -125,20 +125,20 @@ func (this *SuiteJsonPack) TestJsonPack() {
 
 	line, err := this.excel.GetLine(testdata.SheetData, this.lineOfTag, this.lineOfName, this.lineOfField, this.lineOfLayer)
 	assert.Nil(this.T(), err)
-	tagLine := line[this.lineOfTag]
 	nameLine := line[this.lineOfName]
 	fieldLine := line[this.lineOfField]
 	layerLine := line[this.lineOfLayer]
+	tagLine := line[this.lineOfTag]
 	layoutData := NewLayoutData()
 
 	for col, itor := range nameLine {
-		tag := utils.GetItem(tagLine, col)
 		name := itor
 		field, err := fields.Parser(utils.GetItem(fieldLine, col))
 		assert.Nil(this.T(), err)
 		layer, back, err := layers.Parser(utils.GetItem(layerLine, col))
 		assert.Nil(this.T(), err)
-		assert.Nil(this.T(), layoutData.Add(name, field, tag, layer, back))
+		tag := utils.GetItem(tagLine, col)
+		assert.Nil(this.T(), layoutData.Add(name, field, layer, back, tag))
 	} // for
 
 	sheet, err := this.excel.Get(testdata.SheetData)

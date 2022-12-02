@@ -1,9 +1,9 @@
 global:
-  lineOfTag: 101
-  lineOfName: 102
-  lineOfNote: 103
-  lineOfField: 104
-  lineOfLayer: 105
+  lineOfName: 101
+  lineOfNote: 102
+  lineOfField: 103
+  lineOfLayer: 104
+  lineOfTag: 105
   lineOfData: 106
   lineOfEnum: 107
   tags: tag

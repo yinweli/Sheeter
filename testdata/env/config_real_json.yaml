@@ -3,11 +3,11 @@ global:
   exportProto: false
   exportEnum: false
   simpleNamespace: false
-  lineOfTag: 1
-  lineOfName: 2
-  lineOfNote: 3
-  lineOfField: 4
-  lineOfLayer: 5
+  lineOfName: 1
+  lineOfNote: 2
+  lineOfField: 3
+  lineOfLayer: 4
+  lineOfTag: 5
   lineOfData: 6
   lineOfEnum: 2
   tags: A

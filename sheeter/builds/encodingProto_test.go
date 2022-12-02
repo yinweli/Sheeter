@@ -32,11 +32,11 @@ func (this *SuiteEncodingProto) TearDownSuite() {
 func (this *SuiteEncodingProto) target(excel string) *encodingProto {
 	sheet := &initializeSheetData{
 		Global: &Global{
-			LineOfTag:   1,
-			LineOfName:  2,
-			LineOfNote:  3,
-			LineOfField: 4,
-			LineOfLayer: 5,
+			LineOfName:  1,
+			LineOfNote:  2,
+			LineOfField: 3,
+			LineOfLayer: 4,
+			LineOfTag:   5,
 			LineOfData:  6,
 			Tags:        "A",
 		},

@@ -62,34 +62,15 @@ func (this *SuiteExcel) TestGet() {
 
 func (this *SuiteExcel) TestGetLine() {
 	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
+	assert.Nil(this.T(), target.Open(testdata.ExcelSheet))
 
-	line, err := target.GetLine(testdata.SheetData, 2, 3)
+	line, err := target.GetLine(testdata.SheetData, 1, 2, 3)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), line)
-	assert.Len(this.T(), line, 2)
-	assert.Equal(this.T(), []string{
-		"name0",
-		"empty",
-		"name1",
-		"name2",
-		"name3",
-		"name2",
-		"name3",
-		"name2",
-		"name3",
-	}, line[2])
-	assert.Equal(this.T(), []string{
-		"note0",
-		"empty",
-		"note1",
-		"note2",
-		"note3",
-		"note4",
-		"note5",
-		"note6",
-		"note7",
-	}, line[3])
+	assert.Len(this.T(), line, 3)
+	assert.Equal(this.T(), []string{"data1", "data2", "data3", "data4", "data5"}, line[1])
+	assert.Equal(this.T(), []string{"info1", "info2", "info3", "info4", "info5"}, line[2])
+	assert.Equal(this.T(), []string{"string1", "string2", "string3", "string4", "string5"}, line[3])
 
 	_, err = target.GetLine(testdata.SheetData, -1)
 	assert.NotNil(this.T(), err)
@@ -126,42 +107,17 @@ func (this *SuiteExcel) TestSheet() {
 	assert.True(this.T(), sheet.Next())
 	data, err := sheet.Data()
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(),
-		[]string{
-			"A",
-			"A",
-			"A",
-			"A",
-			"A",
-		}, data)
+	assert.Equal(this.T(), []string{"data1", "data2", "data3", "data4", "data5"}, data)
 
 	assert.True(this.T(), sheet.Next())
 	data, err = sheet.Data()
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(),
-		[]string{
-			"name0",
-			"name1",
-			"name2",
-			"name3",
-			"empty",
-		}, data)
+	assert.Equal(this.T(), []string{"info1", "info2", "info3", "info4", "info5"}, data)
 
 	assert.True(this.T(), sheet.Next())
 	data, err = sheet.Data()
 	assert.Nil(this.T(), err)
-	assert.Nil(this.T(), data)
-
-	assert.True(this.T(), sheet.Next())
-	data, err = sheet.Data()
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), []string{
-		"pkey",
-		"bool",
-		"int",
-		"string",
-		"empty",
-	}, data)
+	assert.Equal(this.T(), []string{"string1", "string2", "string3", "string4", "string5"}, data)
 	sheet.Close()
 
 	sheet, err = target.Get(testdata.SheetData)

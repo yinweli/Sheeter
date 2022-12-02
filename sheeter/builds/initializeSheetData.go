@@ -84,7 +84,6 @@ func InitializeSheetData(material any, _ chan any) error {
 			break
 		} // if
 
-		tag := utils.GetItem(tagLine, col)
 		name := itor
 		note := utils.GetItem(noteLine, col)
 
@@ -104,7 +103,9 @@ func InitializeSheetData(material any, _ chan any) error {
 			return fmt.Errorf("%s: initialize sheetData failed: %w", structName, err)
 		} // if
 
-		if err := layoutData.Add(name, field, tag, layer, back); err != nil {
+		tag := utils.GetItem(tagLine, col)
+
+		if err := layoutData.Add(name, field, layer, back, tag); err != nil {
 			return fmt.Errorf("%s: initialize sheetData failed: %w", structName, err)
 		} // if
 
