@@ -62,18 +62,6 @@
 # 命令說明
 以下描述了[sheeter]提供的命令與旗標
 
-## help命令
-用於顯示命令說明  
-```sh
-sheeter help [command]
-```
-
-## version命令
-用於顯示版本資訊  
-```sh
-sheeter version
-```
-
 ## build命令
 用於建置資料檔案與程式碼  
 ```sh
@@ -94,14 +82,14 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --proto       |                                         | 是否產生proto檔案        |
 | --enum        |                                         | 是否產生enum檔案         |
 | --namespace   |                                         | 是否用簡單的命名空間名稱 |
-| --lineOfTag   | 行號(1為起始行)                         | 標籤行号                 |
 | --lineOfName  | 行號(1為起始行)                         | 名稱行號                 |
 | --lineOfNote  | 行號(1為起始行)                         | 註解行號                 |
 | --lineOfField | 行號(1為起始行)                         | 欄位行號                 |
 | --lineOfLayer | 行號(1為起始行)                         | 階層行號                 |
+| --lineOfTag   | 行號(1為起始行)                         | 標籤行號                 |
 | --lineOfData  | 行號(1為起始行)                         | 資料行號                 |
 | --lineOfEnum  | 行號(1為起始行)                         | 列舉行號                 |
-| --tags        | 標籤字串                                | 指定那些標籤的欄位要輸出 |
+| --tags        | 標籤列表                                | 指定那些標籤的欄位要輸出 |
 | --inputs      | 路徑,檔案名稱,檔案名稱#表單名稱,...     | 輸入列表                 |
 
 ### --config
@@ -121,24 +109,27 @@ sheeter build --config setting.yaml --lineOfName 5
   只輸出[json]檔案  
 * `sheeter build --proto`  
   只輸出[proto]檔案  
-  
+
 ### --namespace
 用於控制產生的命名空間名稱  
 * `sheeter build`  
   命名空間名稱: sheeterJson / SheeterJson / sheeterProto / SheeterProto / sheeterEnum / SheeterEnum  
 * `sheeter build --namespace`  
   命名空間名稱: sheeter / Sheeter  
-  
+
+### --tags
+標籤字串, 用於控制那些欄位要輸出, 參考[標籤行](#標籤行)
+
 ### --inputs
-輸入列表, 可用以下幾種格式組合, 每個項目以`,`分隔; 注意程式只會讀取副檔名為xlsx的檔案  
-請注意路徑中需使用`/`而非`\`
+輸入列表, 可用以下幾種格式組合, 每個項目以`,`分隔  
+程式只會讀取副檔名為xlsx的檔案, 以及路徑中需使用`/`而非`\`  
 * 路徑名稱  
   path, path/, path/path...  
 * 檔案名稱  
   example.xlsx, path/example.xlsx...  
 * 檔案名稱+表單名稱  
-  example.xlsx#sheet, path/example.xlsx#sheet...  
   這個格式中, 需用`#`把檔案名稱與表單名稱隔開  
+  example.xlsx#sheet, path/example.xlsx#sheet...  
 
 ## tmpl命令
 用於產生執行時使用的模板檔案, 你可以通過修改模板來改變產生出來的程式碼  
@@ -149,6 +140,18 @@ sheeter tmpl [flags]
 | 旗標         | 參數 | 說明             |
 |:-------------|:-----|:-----------------|
 | --clean / -c |      | 重新產生模板檔案 |
+
+## help命令
+用於顯示命令說明  
+```sh
+sheeter help [command]
+```
+
+## version命令
+用於顯示版本資訊  
+```sh
+sheeter version
+```
 
 # 資料表單說明
 ![exceldata]
@@ -163,8 +166,7 @@ sheeter tmpl [flags]
 單行註解, 若為空格就輸出空註解  
 
 ## 欄位行
-欄位類型與標籤設置, 格式為`類型`或是`類型#標籤`, 空格之後的欄位不會輸出  
-一個欄位只能設置一個標籤  
+欄位類型設置, 空格表示表格結束  
 
 | 類型        | 說明                                 |
 |:------------|:-------------------------------------|
@@ -179,22 +181,6 @@ sheeter tmpl [flags]
 | string      | 字串                                 |
 | stringArray | 以逗號分隔的字串陣列                 |
 
-## 欄位行範例
-
-| 範例     | 欄位類型   | 標籤 |
-|:---------|:-----------|:-----|
-| pkey     | pkey       |      |
-| string   | string     |      |
-| string#A | string     | A    |
-
-## 標籤與排除機制
-欄位行可用標籤來控制欄位與其資料是否要輸出到資料檔案  
-當設定檔中的排除標籤與欄位的標籤符合時, 該欄位就不會輸出到資料檔案  
-欄位若是沒有設定標籤, 則永遠會輸出到資料檔案  
-當欄位的類型是`empty`, 則永遠不會輸出到資料檔案  
-標籤與排除設置不會影響產生的程式碼  
-一個欄位只能設置一個標籤  
-
 ## 階層行
 欄位結構布局, 格式有`{名稱`, `{[]名稱`, `/`, `}`, 之間以空格分隔  
 
@@ -205,26 +191,41 @@ sheeter tmpl [flags]
 | /           | 分隔陣列                            |
 | }           | 結構/陣列結束, 可以連續結束, 如`}}` |
 
-## 階層行範例
-
 | 範例          | 說明                                                 |
 |:--------------|:-----------------------------------------------------|
 | {Item         | 建立Item結構                                         |
 | {[]Item       | 建立以Item結構為元素的陣列                           |
 | {Reward {Item | 建立Reward結構, Item結構; Item結構是Reward結構的成員 |
 
+## 標籤行
+標籤行用來控制該欄位的資料是否要輸出到資料檔案(欄位結構仍然會輸出)  
+當設定檔中的標籤字串與欄位的標籤符合時, 該欄位會輸出到資料檔案  
+欄位若是沒有設定標籤, 則永遠不會輸出到資料檔案  
+唯一的例外是`empty`欄位類型, 它永遠不會輸出到資料檔案, 同時輸出的程式碼中也不會有該欄位  
+
+| 標籤字串 | 欄位標籤 | 是否輸出 | 原因   |
+|:---------|:---------|:---------|:-------|
+| CS       | C        | 是       | C符合  |
+| CS       | S        | 是       | S符合  |
+| CS       | X        | 否       | 無符合 |
+| A        | AB       | 是       | A符合  |
+| B        | AB       | 是       | B符合  |
+| X        | AB       | 否       | 無符合 |
+| ABC      | ADG      | 是       | A符合  |
+| BEH      | ADG      | 否       | 無符合 |
+
 ## 資料行
 依照類型填寫相應的內容即可, 其中`empty`, `string`, `stringArray`這三種類型允許空格, 其他類型的空格會造成錯誤  
 空表格(也就是沒有任何資料行)是允許的  
-轉換時, 只會轉換到第一個空行為止  
+遇到的第一個空行會被視為表格結束  
 
 ## 其他的限制
 * 檔案名稱與表單名稱
     * 不能是規定的[關鍵字](#關鍵字)
 * 表格設置
-    * 表格必須有名稱行, 註解行, 欄位行, 階層行, 但是可以不需要有資料行
-    * 名稱行, 註解行, 欄位行, 階層行必須在資料行之前
-    * 設定檔中必須設定好名稱行, 註解行, 欄位行, 階層行, 資料行的位置
+    * 表格必須有名稱行, 註解行, 欄位行, 階層行, 標籤行, 但是可以不需要有資料行
+    * 名稱行, 註解行, 欄位行, 階層行, 標籤行必須在資料行之前
+    * 設定檔中必須設定好名稱行, 註解行, 欄位行, 階層行, 標籤行, 資料行的位置
     * 設定檔中行數是從1開始的
 * 主索引
     * 表格必須有`pkey`欄位
@@ -269,11 +270,10 @@ global:
   lineOfNote:      2    # 註解行號(1為起始行)
   lineOfField:     3    # 欄位行號(1為起始行)
   lineOfLayer:     4    # 階層行號(1為起始行)
-  lineOfData:      5    # 資料行號(1為起始行)
+  lineOfTag:       5    # 標籤行號(1為起始行)
+  lineOfData:      6    # 資料行號(1為起始行)
   lineOfEnum:      2    # 列舉行號(1為起始行)
-  excludes:             # 排除標籤列表
-    - tag1
-    - tag2
+  tags:            cs   # 標籤字串
 
 inputs:                   # 輸入列表
   - path1                 # 轉換path1目錄底下符合規格的excel檔案
@@ -403,9 +403,10 @@ inputs:                   # 輸入列表
 | .LineOfNote        |             | 註解行號(1為起始行)                                       |
 | .LineOfField       |             | 欄位行號(1為起始行)                                       |
 | .LineOfLayer       |             | 階層行號(1為起始行)                                       |
+| .LineOfTag         |             | 標籤行號(1為起始行)                                       |
 | .LineOfData        |             | 資料行號(1為起始行)                                       |
 | .LineOfEnum        |             | 列舉行號(1為起始行)                                       |
-| .Excludes          |             | 排除標籤列表                                              |
+| .Tags              |             | 標籤列表                                                  |
 
 ## 命名工具參數
 
@@ -591,5 +592,5 @@ inputs:                   # 輸入列表
 [template]: https://pkg.go.dev/text/template
 
 [example]: doc/example/example.7z
-[exceldata]: doc/image/exceldata.jpg
-[excelenum]: doc/image/excelenum.jpg
+[exceldata]: doc/image/exceldata.png
+[excelenum]: doc/image/excelenum.png
