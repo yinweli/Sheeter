@@ -24,6 +24,7 @@ type SuiteJsonPack struct {
 	lineOfName  int
 	lineOfField int
 	lineOfLayer int
+	lineOfTag   int
 	lineOfData  int
 	excel       excels.Excel
 }
@@ -33,7 +34,8 @@ func (this *SuiteJsonPack) SetupSuite() {
 	this.lineOfName = 1
 	this.lineOfField = 3
 	this.lineOfLayer = 4
-	this.lineOfData = 5
+	this.lineOfTag = 5
+	this.lineOfData = 6
 	assert.Nil(this.T(), this.excel.Open(testdata.ExcelJsonPack))
 }
 
@@ -48,34 +50,34 @@ func (this *SuiteJsonPack) TestJsonPack() {
 			1: map[string]interface{}{
 				"Name0": 1,
 				"S": map[string]interface{}{
+					"Name1": true,
 					"A": []map[string]interface{}{
 						{"Name2": 1, "Name3": "a"},
 						{"Name2": 1, "Name3": "a"},
 						{"Name2": 1, "Name3": "a"},
 					},
-					"Name1": true,
 				},
 			},
 			2: map[string]interface{}{
 				"Name0": 2,
 				"S": map[string]interface{}{
+					"Name1": false,
 					"A": []map[string]interface{}{
 						{"Name2": 2, "Name3": "b"},
 						{"Name2": 2, "Name3": "b"},
 						{"Name2": 2, "Name3": "b"},
 					},
-					"Name1": false,
 				},
 			},
 			3: map[string]interface{}{
 				"Name0": 3,
 				"S": map[string]interface{}{
+					"Name1": true,
 					"A": []map[string]interface{}{
 						{"Name2": 3, "Name3": "c"},
 						{"Name2": 3, "Name3": "c"},
 						{"Name2": 3, "Name3": "c"},
 					},
-					"Name1": true,
 				},
 			},
 		},
@@ -85,62 +87,64 @@ func (this *SuiteJsonPack) TestJsonPack() {
 			1: map[string]interface{}{
 				"Name0": 1,
 				"S": map[string]interface{}{
+					"Name1": true,
 					"A": []map[string]interface{}{
 						{"Name2": 1, "Name3": "a"},
 						{"Name2": 1, "Name3": "a"},
 						{"Name2": 1, "Name3": "a"},
 					},
-					"Name1": true,
 				},
 				"Name4": 1,
 			},
 			2: map[string]interface{}{
 				"Name0": 2,
 				"S": map[string]interface{}{
+					"Name1": false,
 					"A": []map[string]interface{}{
 						{"Name2": 2, "Name3": "b"},
 						{"Name2": 2, "Name3": "b"},
 						{"Name2": 2, "Name3": "b"},
 					},
-					"Name1": false,
 				},
 				"Name4": 2,
 			},
 			3: map[string]interface{}{
 				"Name0": 3,
 				"S": map[string]interface{}{
+					"Name1": true,
 					"A": []map[string]interface{}{
 						{"Name2": 3, "Name3": "c"},
 						{"Name2": 3, "Name3": "c"},
 						{"Name2": 3, "Name3": "c"},
 					},
-					"Name1": true,
 				},
 				"Name4": 3,
 			},
 		},
 	})
 
-	line, err := this.excel.GetLine(testdata.SheetData, this.lineOfName, this.lineOfField, this.lineOfLayer)
+	line, err := this.excel.GetLine(testdata.SheetData, this.lineOfTag, this.lineOfName, this.lineOfField, this.lineOfLayer)
 	assert.Nil(this.T(), err)
 	nameLine := line[this.lineOfName]
 	fieldLine := line[this.lineOfField]
 	layerLine := line[this.lineOfLayer]
+	tagLine := line[this.lineOfTag]
 	layoutData := NewLayoutData()
 
 	for col, itor := range nameLine {
 		name := itor
-		field, tag, err := fields.Parser(utils.GetItem(fieldLine, col))
+		field, err := fields.Parser(utils.GetItem(fieldLine, col))
 		assert.Nil(this.T(), err)
 		layer, back, err := layers.Parser(utils.GetItem(layerLine, col))
 		assert.Nil(this.T(), err)
-		assert.Nil(this.T(), layoutData.Add(name, field, tag, layer, back))
+		tag := utils.GetItem(tagLine, col)
+		assert.Nil(this.T(), layoutData.Add(name, field, layer, back, tag))
 	} // for
 
 	sheet, err := this.excel.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)
 	assert.True(this.T(), sheet.Nextn(this.lineOfData))
-	json, err := JsonPack(sheet, layoutData, []string{"tag"})
+	json, err := JsonPack(sheet, layoutData, "A")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), string(completeBytes), string(json))
 	sheet.Close()
@@ -148,7 +152,7 @@ func (this *SuiteJsonPack) TestJsonPack() {
 	sheet, err = this.excel.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)
 	assert.True(this.T(), sheet.Nextn(this.lineOfData))
-	json, err = JsonPack(sheet, layoutData, []string{})
+	json, err = JsonPack(sheet, layoutData, "B")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), string(excludeBytes), string(json))
 	sheet.Close()

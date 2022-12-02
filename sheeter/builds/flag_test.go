@@ -39,8 +39,9 @@ func (this *SuiteFlag) TestSetFlags() {
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfNote))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfField))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfLayer))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfTag))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfData))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfEnum))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagExcludes))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagTags))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagInputs))
 }

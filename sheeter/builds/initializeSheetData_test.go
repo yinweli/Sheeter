@@ -36,6 +36,7 @@ func (this *SuiteInitializeSheetData) target() *initializeSheetData {
 			LineOfNote:  2,
 			LineOfField: 3,
 			LineOfLayer: 4,
+			LineOfTag:   5,
 		},
 		Named: &nameds.Named{ExcelName: testdata.ExcelReal, SheetName: testdata.SheetData},
 	}

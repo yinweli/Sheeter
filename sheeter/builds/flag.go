@@ -13,9 +13,10 @@ const flagLineOfName = "lineOfName"     // 旗標名稱: 名稱行號
 const flagLineOfNote = "lineOfNote"     // 旗標名稱: 註解行號
 const flagLineOfField = "lineOfField"   // 旗標名稱: 欄位行號
 const flagLineOfLayer = "lineOfLayer"   // 旗標名稱: 階層行號
+const flagLineOfTag = "lineOfTag"       // 旗標名稱: 標籤行號
 const flagLineOfData = "lineOfData"     // 旗標名稱: 資料行號
 const flagLineOfEnum = "lineOfEnum"     // 旗標名稱: 列舉行號
-const flagExcludes = "excludes"         // 旗標名稱: 排除列表
+const flagTags = "tags"                 // 旗標名稱: 標籤列表
 const flagInputs = "inputs"             // 旗標名稱: 輸入列表
 
 // SetFlags 設定命令旗標
@@ -30,9 +31,10 @@ func SetFlags(cmd *cobra.Command) *cobra.Command {
 	flags.Int(flagLineOfNote, 0, "line of note")
 	flags.Int(flagLineOfField, 0, "line of field")
 	flags.Int(flagLineOfLayer, 0, "line of layer")
+	flags.Int(flagLineOfTag, 0, "line of tag")
 	flags.Int(flagLineOfData, 0, "line of data")
 	flags.Int(flagLineOfEnum, 0, "line of enum")
-	flags.StringSlice(flagExcludes, []string{}, "exclude tags(tag,tag,tag...)")
+	flags.String(flagTags, "", "tags")
 	flags.StringSlice(flagInputs, []string{}, "input list(path / file.xlsx / file.xlsx#sheet,...)")
 	return cmd
 }

@@ -81,7 +81,6 @@ const EnumNamespace = AppName + "Enum"   // 命名空間名稱: enum
 const SignData = "@"      // 資料表單開頭字元
 const SignEnum = "$"      // 列舉表單開頭字元
 const SeparateSheet = "#" // 表單字串以'#'符號分割為檔案名稱與表單名稱
-const SeparateField = "#" // 欄位字串以'#'符號分割為名稱與欄位
 const SeparateArray = "," // 陣列字串以','符號分割
 const JsonPrefix = ""     // json前綴字串
 const JsonIdent = "    "  // json縮排字串

@@ -2,9 +2,6 @@ package fields
 
 import (
 	"fmt"
-	"strings"
-
-	"github.com/yinweli/Sheeter/sheeter"
 )
 
 // 實作新的欄位結構需要: 製作欄位結構, 實作欄位介面函式, 把結構加入到fields全域變數中
@@ -51,15 +48,13 @@ var fields = []Field{
 	&StringArray{},
 }
 
-// Parser 欄位解析, 格式為 field#tag
-func Parser(input string) (field Field, tag string, err error) {
-	type_, tag, _ := strings.Cut(input, sheeter.SeparateField)
-
+// Parser 欄位解析
+func Parser(input string) (field Field, err error) {
 	for _, itor := range fields {
-		if itor.Type() == type_ {
-			return itor, tag, nil
+		if itor.Type() == input {
+			return itor, nil
 		} // if
 	} // for
 
-	return nil, "", fmt.Errorf("%s: parser field failed: field not found", input)
+	return nil, fmt.Errorf("%s: parser field failed: field not found", input)
 }

@@ -3,11 +3,10 @@ global:
   lineOfNote: 102
   lineOfField: 103
   lineOfLayer: 104
-  lineOfData: 105
-  lineOfEnum: 106
-  excludes:
-    - tag1
-    - tag2
+  lineOfTag: 105
+  lineOfData: 106
+  lineOfEnum: 107
+  tags: tag
 
 inputs:
   - path

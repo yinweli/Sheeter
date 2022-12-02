@@ -43,15 +43,15 @@ func (this *SuiteLayoutData) TestNewLayoutData() {
 
 func (this *SuiteLayoutData) TestAdd() {
 	target := this.target()
-	assert.Nil(this.T(), target.Add("name1", &fields.Pkey{}, "", this.layer("{type1"), 0))
-	assert.Nil(this.T(), target.Add("name2", &fields.Int{}, "", this.layer("{[]type2"), 0))
-	assert.Nil(this.T(), target.Add("name3", &fields.Int{}, "", this.layer(""), 0))
-	assert.Nil(this.T(), target.Add("name4", &fields.Int{}, "", this.layer("/"), 0))
-	assert.Nil(this.T(), target.Add("name5", &fields.Int{}, "", this.layer(""), 2))
-	assert.NotNil(this.T(), target.Add("", nil, "", nil, 0))
-	assert.NotNil(this.T(), target.Add("name6", nil, "", nil, 0))
-	assert.NotNil(this.T(), target.Add("name7", &fields.Int{}, "", this.layer("{[]type1"), 0))
-	assert.NotNil(this.T(), target.Add("name7", &fields.Int{}, "", this.layer(""), -1))
+	assert.Nil(this.T(), target.Add("name1", &fields.Pkey{}, this.layer("{type1"), 0, ""))
+	assert.Nil(this.T(), target.Add("name2", &fields.Int{}, this.layer("{[]type2"), 0, ""))
+	assert.Nil(this.T(), target.Add("name3", &fields.Int{}, this.layer(""), 0, ""))
+	assert.Nil(this.T(), target.Add("name4", &fields.Int{}, this.layer("/"), 0, ""))
+	assert.Nil(this.T(), target.Add("name5", &fields.Int{}, this.layer(""), 2, ""))
+	assert.NotNil(this.T(), target.Add("", nil, nil, 0, ""))
+	assert.NotNil(this.T(), target.Add("name6", nil, nil, 0, ""))
+	assert.NotNil(this.T(), target.Add("name7", &fields.Int{}, this.layer("{[]type1"), 0, ""))
+	assert.NotNil(this.T(), target.Add("name7", &fields.Int{}, this.layer(""), -1, ""))
 }
 
 func (this *SuiteLayoutData) TestPack() {
@@ -74,45 +74,41 @@ func (this *SuiteLayoutData) TestPack() {
 			},
 		},
 	}
+	actual3 := map[string]interface{}{}
 	dataValid := []string{"0", "1", "2", "3", "4", "5", "6"}
-	dataInvalid := []string{"0", "1", "a", "3", "4", "5", "6"}
+	dataInvalid := []string{"0", "a", "2", "3", "4", "5", "6"}
 
 	target := this.target()
-	assert.Nil(this.T(), target.Add("name0", &fields.Empty{}, "", this.layer(""), 0))
-	assert.Nil(this.T(), target.Add("name1", &fields.Pkey{}, "", this.layer("{data"), 0))
-	assert.Nil(this.T(), target.Add("name2", &fields.Int{}, "tag", this.layer(""), 0))
-	assert.Nil(this.T(), target.Add("array1", &fields.Int{}, "", this.layer("{[]array"), 0))
-	assert.Nil(this.T(), target.Add("array2", &fields.Int{}, "", this.layer(""), 0))
-	assert.Nil(this.T(), target.Add("array1", &fields.Int{}, "", this.layer("/"), 0))
-	assert.Nil(this.T(), target.Add("array2", &fields.Int{}, "", this.layer(""), 2))
+	assert.Nil(this.T(), target.Add("name0", &fields.Empty{}, this.layer(""), 0, "AB"))
+	assert.Nil(this.T(), target.Add("name1", &fields.Pkey{}, this.layer("{data"), 0, "AB"))
+	assert.Nil(this.T(), target.Add("name2", &fields.Int{}, this.layer(""), 0, "A"))
+	assert.Nil(this.T(), target.Add("array1", &fields.Int{}, this.layer("{[]array"), 0, "AB"))
+	assert.Nil(this.T(), target.Add("array2", &fields.Int{}, this.layer(""), 0, "AB"))
+	assert.Nil(this.T(), target.Add("array1", &fields.Int{}, this.layer("/"), 0, "AB"))
+	assert.Nil(this.T(), target.Add("array2", &fields.Int{}, this.layer(""), 2, "AB"))
 
-	packs, pkey, err := target.Pack(dataValid, []string{})
+	packs, pkey, err := target.Pack(dataValid, "A")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), int64(1), pkey)
 	assert.Equal(this.T(), actual1, packs)
 
-	packs, pkey, err = target.Pack(dataValid, []string{""})
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), int64(1), pkey)
-	assert.Equal(this.T(), actual1, packs)
-
-	packs, pkey, err = target.Pack(dataValid, []string{"tag"})
+	packs, pkey, err = target.Pack(dataValid, "B")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), int64(1), pkey)
 	assert.Equal(this.T(), actual2, packs)
 
-	_, _, err = target.Pack(dataInvalid, []string{})
+	packs, pkey, err = target.Pack(dataValid, "")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), int64(0), pkey)
+	assert.Equal(this.T(), actual3, packs)
+
+	_, _, err = target.Pack(dataInvalid, "A")
 	assert.NotNil(this.T(), err)
 }
 
 func (this *SuiteLayoutData) TestPkeyCount() {
 	target := this.target()
 	assert.Equal(this.T(), 0, target.PkeyCount())
-	assert.Nil(this.T(), target.Add("name", &fields.Pkey{}, "", this.layer(""), 0))
+	assert.Nil(this.T(), target.Add("name", &fields.Pkey{}, this.layer(""), 0, ""))
 	assert.Equal(this.T(), 1, target.PkeyCount())
-}
-
-func (this *SuiteLayoutData) TestIsExclude() {
-	assert.True(this.T(), isExclude("tag1", []string{"tag1"}))
-	assert.False(this.T(), isExclude("tag2", []string{}))
 }

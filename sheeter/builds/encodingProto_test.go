@@ -36,7 +36,9 @@ func (this *SuiteEncodingProto) target(excel string) *encodingProto {
 			LineOfNote:  2,
 			LineOfField: 3,
 			LineOfLayer: 4,
-			LineOfData:  5,
+			LineOfTag:   5,
+			LineOfData:  6,
+			Tags:        "A",
 		},
 		Named: &nameds.Named{ExcelName: excel, SheetName: testdata.SheetData},
 	}

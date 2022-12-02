@@ -9,7 +9,7 @@ import (
 )
 
 // JsonPack 打包json資料; 將會把excel中的資料, 依據資料布局與排除標籤, 轉換為json格式的位元陣列
-func JsonPack(sheet *excels.Sheet, layoutData *LayoutData, excludes []string) (json []byte, err error) {
+func JsonPack(sheet *excels.Sheet, layoutData *LayoutData, tags string) (json []byte, err error) {
 	defer sheet.Close()
 	datas := map[sheeter.PkeyType]interface{}{}
 
@@ -20,7 +20,7 @@ func JsonPack(sheet *excels.Sheet, layoutData *LayoutData, excludes []string) (j
 			break
 		} // if
 
-		packs, pkey, err := layoutData.Pack(data, excludes)
+		packs, pkey, err := layoutData.Pack(data, tags)
 
 		if err != nil {
 			return nil, fmt.Errorf("json pack failed: %w", err)

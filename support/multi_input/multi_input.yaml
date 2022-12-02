@@ -7,10 +7,10 @@ global:
   lineOfNote: 2
   lineOfField: 3
   lineOfLayer: 4
-  lineOfData: 5
+  lineOfTag: 5
+  lineOfData: 6
   lineOfEnum: 2
-  excludes:
-    - ignore
+  tags: A
 
 inputs:
   - path1

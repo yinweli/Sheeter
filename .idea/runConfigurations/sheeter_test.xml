@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="sheeter test" type="GoTestRunConfiguration" factoryName="Go Test" singleton="true">
+  <configuration default="false" name="sheeter test" type="GoTestRunConfiguration" factoryName="Go Test" singleton="false">
     <module name="Sheeter" />
     <working_directory value="$PROJECT_DIR$" />
     <go_parameters value="-i" />

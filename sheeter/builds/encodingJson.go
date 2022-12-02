@@ -34,7 +34,7 @@ func EncodingJson(material any, _ chan any) error {
 	} // if
 
 	sheet.Nextn(data.LineOfData)
-	json, err := layouts.JsonPack(sheet, data.layoutData, data.Excludes)
+	json, err := layouts.JsonPack(sheet, data.layoutData, data.Tags)
 
 	if err != nil {
 		return fmt.Errorf("%s: encoding json failed: %w", structName, err)

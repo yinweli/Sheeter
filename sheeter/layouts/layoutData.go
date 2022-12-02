@@ -26,13 +26,13 @@ type LayoutData struct {
 type Data struct {
 	Name   string         // 欄位名稱
 	Field  fields.Field   // 欄位類型
-	Tag    string         // 欄位標籤
 	Layers []layers.Layer // 階層列表
 	Back   int            // 倒退數量
+	Tag    string         // 標籤字串
 }
 
 // Add 新增布局
-func (this *LayoutData) Add(name string, field fields.Field, tag string, layer []layers.Layer, back int) error {
+func (this *LayoutData) Add(name string, field fields.Field, layer []layers.Layer, back int, tag string) error {
 	if name == "" {
 		return fmt.Errorf("layoutData add failed: name empty")
 	} // if
@@ -58,15 +58,15 @@ func (this *LayoutData) Add(name string, field fields.Field, tag string, layer [
 	this.layouts = append(this.layouts, Data{
 		Name:   name,
 		Field:  field,
-		Tag:    tag,
 		Layers: layer,
 		Back:   back,
+		Tag:    tag,
 	})
 	return nil
 }
 
 // Pack 打包資料
-func (this *LayoutData) Pack(datas, excludes []string) (result map[string]interface{}, pkey int64, err error) {
+func (this *LayoutData) Pack(datas []string, tags string) (result map[string]interface{}, pkey int64, err error) {
 	structor := newStructor()
 
 	for i, itor := range this.layouts {
@@ -74,7 +74,7 @@ func (this *LayoutData) Pack(datas, excludes []string) (result map[string]interf
 			continue
 		} // if
 
-		if isExclude(itor.Tag, excludes) {
+		if utils.TagMatch(tags, itor.Tag) == false {
 			continue
 		} // if
 
@@ -150,15 +150,4 @@ func (this *LayoutData) PkeyCount() int {
 	} // for
 
 	return count
-}
-
-// isExclude 是否排除標籤
-func isExclude(tag string, excludes []string) bool {
-	for _, itor := range excludes {
-		if itor != "" && itor == tag { // 空標籤是不能被排除的
-			return true
-		} // if
-	} // for
-
-	return false
 }

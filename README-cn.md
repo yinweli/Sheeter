@@ -62,18 +62,6 @@
 # 命令说明
 以下描述了[sheeter]提供的命令与旗标
 
-## help命令
-用于显示命令说明  
-```sh
-sheeter help [command]
-```
-
-## version命令
-用于显示版本资讯  
-```sh
-sheeter version
-```
-
 ## build命令
 用于建置资料档案与程式码  
 ```sh
@@ -98,9 +86,10 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfLayer 2
 | --lineOfNote  | 行号(1为起始行)                         | 注解行号                 |
 | --lineOfField | 行号(1为起始行)                         | 栏位行号                 |
 | --lineOfLayer | 行号(1为起始行)                         | 阶层行号                 |
+| --lineOfTag   | 行号(1为起始行)                         | 标签行号                 |
 | --lineOfData  | 行号(1为起始行)                         | 资料行号                 |
 | --lineOfEnum  | 行号(1为起始行)                         | 列举行号                 |
-| --excludes    | 标签,标签,...                           | 输出时排除的标签列表     |
+| --tags        | 标签列表                                | 指定那些标签的栏位要输出 |
 | --inputs      | 路径,档案名称,档案名称#表单名称,...     | 输入列表                 |
 
 ### --config
@@ -120,24 +109,27 @@ sheeter build --config setting.yaml --lineOfName 5
   只输出[json]档案  
 * `sheeter build --proto`  
   只输出[proto]档案  
-  
+
 ### --namespace
 用于控制产生的命名空间名称  
 * `sheeter build`  
   命名空间名称: sheeterJson / SheeterJson / sheeterProto / SheeterProto / sheeterEnum / SheeterEnum  
 * `sheeter build --namespace`  
   命名空间名称: sheeter / Sheeter  
-  
+
+### --tags
+标签字串, 用于控制那些栏位要输出, 参考[标签行](#标签行)
+
 ### --inputs
-输入列表, 可用以下几种格式组合, 每个项目以`,`分隔; 注意程式只会读取副档名为xlsx的档案  
-请注意路径中需使用`/`而非`\`
+输入列表, 可用以下几种格式组合, 每个项目以`,`分隔  
+程式只会读取副档名为xlsx的档案, 以及路径中需使用`/`而非`\`  
 * 路径名称  
   path, path/, path/path...  
 * 档案名称  
   example.xlsx, path/example.xlsx...  
 * 档案名称+表单名称  
-  example.xlsx#sheet, path/example.xlsx#sheet...  
   这个格式中, 需用`#`把档案名称与表单名称隔开  
+  example.xlsx#sheet, path/example.xlsx#sheet...
 
 ## tmpl命令
 用于产生执行时使用的模板档案, 你可以通过修改模板来改变产生出来的程式码  
@@ -148,6 +140,18 @@ sheeter tmpl [flags]
 | 旗标         | 参数 | 说明             |
 |:-------------|:-----|:-----------------|
 | --clean / -c |      | 重新产生模板档案 |
+
+## help命令
+用于显示命令说明  
+```sh
+sheeter help [command]
+```
+
+## version命令
+用于显示版本资讯  
+```sh
+sheeter version
+```
 
 # 资料表单说明
 ![exceldata]
@@ -162,8 +166,7 @@ sheeter tmpl [flags]
 单行注解, 若为空格就输出空注解  
 
 ## 栏位行
-栏位类型与标签设置, 格式为`类型`或是`类型#标签`, 空格之后的栏位不会输出  
-一个栏位只能设置一个标签  
+栏位类型设置, 空格表示表格结束  
 
 | 类型        | 说明                                 |
 |:------------|:-------------------------------------|
@@ -178,22 +181,6 @@ sheeter tmpl [flags]
 | string      | 字串                                 |
 | stringArray | 以逗号分隔的字串阵列                 |
 
-## 栏位行范例
-
-| 范例     | 栏位类型   | 标签 |
-|:---------|:-----------|:-----|
-| pkey     | pkey       |      |
-| string   | string     |      |
-| string#A | string     | A    |
-
-## 标签与排除机制
-栏位行可用标签来控制栏位与其资料是否要输出到资料档案  
-当设定档中的排除标签与栏位的标签符合时, 该栏位就不会输出到资料档案  
-栏位若是没有设定标签, 则永远会输出到资料档案  
-当栏位的类型是`empty`, 则永远不会输出到资料档案  
-标签与排除设置不会影响产生的程式码  
-一个栏位只能设置一个标签
-
 ## 阶层行
 栏位结构布局, 格式有`{名称`, `{[]名称`, `/`, `}`, 之间以空格分隔  
 
@@ -204,26 +191,41 @@ sheeter tmpl [flags]
 | /           | 分隔阵列                            |
 | }           | 结构/阵列结束, 可以连续结束, 如`}}` |
 
-## 阶层行范例
-
 | 范例          | 说明                                                 |
 |:--------------|:-----------------------------------------------------|
 | {Item         | 建立Item结构                                         |
 | {[]Item       | 建立以Item结构为元素的阵列                           |
 | {Reward {Item | 建立Reward结构, Item结构; Item结构是Reward结构的成员 |
 
+## 标签行
+标签行用来控制该栏位的资料是否要输出到资料档案(栏位结构仍然会输出)  
+当设定档中的标签字串与栏位的标签符合时, 该栏位会输出到资料档案  
+栏位若是没有设定标签, 则永远不会输出到资料档案  
+唯一的例外是`empty`栏位类型, 它永远不会输出到资料档案, 同时输出的程式码中也不会有该栏位  
+
+| 标签字串 | 栏位标签 | 是否输出 | 原因   |
+|:---------|:---------|:---------|:-------|
+| CS       | C        | 是       | C符合  |
+| CS       | S        | 是       | S符合  |
+| CS       | X        | 否       | 无符合 |
+| A        | AB       | 是       | A符合  |
+| B        | AB       | 是       | B符合  |
+| X        | AB       | 否       | 无符合 |
+| ABC      | ADG      | 是       | A符合  |
+| BEH      | ADG      | 否       | 无符合 |
+
 ## 资料行
 依照类型填写相应的内容即可, 其中`empty`, `string`, `stringArray`这三种类型允许空格, 其他类型的空格会造成错误  
 空表格(也就是没有任何资料行)是允许的  
-转换时, 只会转换到第一个空行为止  
+遇到的第一个空行会被视为表格结束
 
 ## 其他的限制
 * 档案名称与表单名称
     * 不能是规定的[关键字](#关键字)
 * 表格设置
-    * 表格必须有名称行, 注解行, 栏位行, 阶层行, 但是可以不需要有资料行
-    * 名称行, 注解行, 栏位行, 阶层行必须在资料行之前
-    * 设定档中必须设定好名称行, 注解行, 栏位行, 阶层行, 资料行的位置
+    * 表格必须有名称行, 注解行, 栏位行, 阶层行, 标签行, 但是可以不需要有资料行
+    * 名称行, 注解行, 栏位行, 阶层行, 标签行必须在资料行之前
+    * 设定档中必须设定好名称行, 注解行, 栏位行, 阶层行, 标签行, 资料行的位置
     * 设定档中行数是从1开始的
 * 主索引
     * 表格必须有`pkey`栏位
@@ -268,11 +270,10 @@ global:
   lineOfNote:      2    # 注解行号(1为起始行)
   lineOfField:     3    # 栏位行号(1为起始行)
   lineOfLayer:     4    # 阶层行号(1为起始行)
-  lineOfData:      5    # 资料行号(1为起始行)
+  lineOfTag:       5    # 标签行号(1为起始行)
+  lineOfData:      6    # 资料行号(1为起始行)
   lineOfEnum:      2    # 列举行号(1为起始行)
-  excludes:             # 排除标签列表
-    - tag1
-    - tag2
+  tags:            cs   # 标签字串
 
 inputs:                   # 输入列表
   - path1                 # 转换path1目录底下符合规格的excel档案
@@ -402,9 +403,10 @@ inputs:                   # 输入列表
 | .LineOfNote        |             | 注解行号(1为起始行)                                       |
 | .LineOfField       |             | 栏位行号(1为起始行)                                       |
 | .LineOfLayer       |             | 阶层行号(1为起始行)                                       |
+| .LineOfTag         |             | 标签行号(1为起始行)                                       |
 | .LineOfData        |             | 资料行号(1为起始行)                                       |
 | .LineOfEnum        |             | 列举行号(1为起始行)                                       |
-| .Excludes          |             | 排除标签列表                                              |
+| .Tags              |             | 标签列表                                                  |
 
 ## 命名工具参数
 
@@ -590,5 +592,5 @@ inputs:                   # 输入列表
 [template]: https://pkg.go.dev/text/template
 
 [example]: doc/example/example.7z
-[exceldata]: doc/image/exceldata.jpg
-[excelenum]: doc/image/excelenum.jpg
+[exceldata]: doc/image/exceldata.png
+[excelenum]: doc/image/excelenum.png

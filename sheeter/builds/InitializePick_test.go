@@ -40,8 +40,10 @@ func (this *SuiteInitializePick) target() *Config {
 			LineOfNote:      2,
 			LineOfField:     3,
 			LineOfLayer:     4,
-			LineOfData:      5,
+			LineOfTag:       5,
+			LineOfData:      6,
 			LineOfEnum:      2,
+			Tags:            "A",
 		},
 	}
 	return target
