@@ -2,17 +2,17 @@ name: lint
 
 on:
   push:
-    branches: [main]
+    branches: [ main ]
   pull_request:
-    branches: [main]
+    branches: [ main ]
 
 jobs:
   golint:
     runs-on: ubuntu-latest
     steps:
-    - name: checkout
-      uses: actions/checkout@v3
-    - name: lint
-      uses: golangci/golangci-lint-action@v2
-      with:
-        version: latest
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: lint
+        uses: golangci/golangci-lint-action@v2
+        with:
+          version: latest

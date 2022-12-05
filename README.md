@@ -12,6 +12,11 @@ The predecessor was [sheet]
 [繁體中文]  
 [简体中文]  
 
+# JetBrains OS licenses
+`Sheeter` had been being developed with GoLand under the free JetBrains Open Source development license(s), hence I would like to express my thanks here  
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." style="width:200px;">
+<img src="https://resources.jetbrains.com/storage/products/company/brand/logos/GoLand_icon.png" alt="GoLand logo." style="width:200px;">
+
 [go]: https://go.dev/dl/
 [sheet]: https://github.com/yinweli/Sheet
 

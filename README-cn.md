@@ -579,6 +579,8 @@ inputs:                   # 输入列表
 | support/verifyunity     | unity程式码验证                  |
 | testdata                | 测试资料                         |
 
+另外可以参考[设计文件][design]
+
 [buf]: https://github.com/bufbuild/buf
 [csharpier]: https://github.com/belav/csharpier
 [dotnet]: https://learn.microsoft.com/zh-tw/dotnet/core/sdk
@@ -594,3 +596,4 @@ inputs:                   # 输入列表
 [example]: doc/example/example.7z
 [exceldata]: doc/image/exceldata.png
 [excelenum]: doc/image/excelenum.png
+[design]: doc/DESIGN.md
