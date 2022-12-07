@@ -4,11 +4,10 @@
 syntax = "proto3";
 package sheeterProto;
 
-import 'item.proto';
-
 option go_package = ".;sheeterProto";
 
-message Reward {
-  repeated Item Item = 1; //
-  optional string Desc = 2; // 獎勵描述
+message Wallet {
+  optional int64 Crystal = 1; // 魔晶
+  optional int64 Diamond = 2; // 鑽石
+  optional int64 Gold = 3; // 金幣
 }

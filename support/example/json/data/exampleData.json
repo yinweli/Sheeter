@@ -1,119 +1,81 @@
 {
     "Datas": {
         "1": {
-            "Enable": true,
             "Key": 1,
             "Name": "名稱1",
             "Reward": {
-                "Atium": 2,
-                "Crystal": 120,
-                "Diamond": 10,
-                "FelIron": 6,
-                "Gold": 500,
+                "Desc": "描述1",
                 "Item": [
                     {
-                        "Count": 10,
-                        "ItemID": 10001,
-                        "Type": 1
+                        "Count": 3,
+                        "ItemID": 10001
                     },
                     {
                         "Count": 0,
-                        "ItemID": 0,
-                        "Type": 0
+                        "ItemID": 0
                     },
                     {
                         "Count": 0,
-                        "ItemID": 0,
-                        "Type": 0
+                        "ItemID": 0
                     }
                 ]
+            },
+            "Wallet": {
+                "Crystal": 1,
+                "Diamond": 10,
+                "Gold": 100
             }
         },
         "2": {
-            "Enable": true,
             "Key": 2,
             "Name": "名稱2",
             "Reward": {
-                "Atium": 2,
-                "Crystal": 135,
-                "Diamond": 12,
-                "FelIron": 8,
-                "Gold": 550,
+                "Desc": "描述2",
                 "Item": [
                     {
-                        "Count": 10,
-                        "ItemID": 10001,
-                        "Type": 1
-                    },
-                    {
-                        "Count": 5,
-                        "ItemID": 10002,
-                        "Type": 1
-                    },
-                    {
-                        "Count": 0,
-                        "ItemID": 0,
-                        "Type": 0
-                    }
-                ]
-            }
-        },
-        "3": {
-            "Enable": false,
-            "Key": 3,
-            "Name": "名稱3",
-            "Reward": {
-                "Atium": 3,
-                "Crystal": 150,
-                "Diamond": 14,
-                "FelIron": 10,
-                "Gold": 600,
-                "Item": [
-                    {
-                        "Count": 10,
-                        "ItemID": 10001,
-                        "Type": 1
-                    },
-                    {
-                        "Count": 5,
-                        "ItemID": 10002,
-                        "Type": 1
+                        "Count": 3,
+                        "ItemID": 10001
                     },
                     {
                         "Count": 2,
-                        "ItemID": 10003,
-                        "Type": 1
+                        "ItemID": 10002
+                    },
+                    {
+                        "Count": 0,
+                        "ItemID": 0
                     }
                 ]
+            },
+            "Wallet": {
+                "Crystal": 2,
+                "Diamond": 20,
+                "Gold": 200
             }
         },
-        "4": {
-            "Enable": false,
-            "Key": 4,
-            "Name": "名稱4",
+        "3": {
+            "Key": 3,
+            "Name": "名稱3",
             "Reward": {
-                "Atium": 3,
-                "Crystal": 165,
-                "Diamond": 16,
-                "FelIron": 12,
-                "Gold": 650,
+                "Desc": "描述3",
                 "Item": [
                     {
-                        "Count": 10,
-                        "ItemID": 10001,
-                        "Type": 1
-                    },
-                    {
-                        "Count": 5,
-                        "ItemID": 10002,
-                        "Type": 1
-                    },
-                    {
                         "Count": 3,
-                        "ItemID": 10003,
-                        "Type": 1
+                        "ItemID": 10001
+                    },
+                    {
+                        "Count": 2,
+                        "ItemID": 10002
+                    },
+                    {
+                        "Count": 1,
+                        "ItemID": 10003
                     }
                 ]
+            },
+            "Wallet": {
+                "Crystal": 3,
+                "Diamond": 30,
+                "Gold": 300
             }
         }
     }

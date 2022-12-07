@@ -9,5 +9,4 @@ option go_package = ".;sheeterProto";
 message Item {
   optional int64 Count = 1; // 物品數量
   optional int64 ItemID = 2; // 物品編號
-  optional int64 Type = 3; // 物品類型
 }

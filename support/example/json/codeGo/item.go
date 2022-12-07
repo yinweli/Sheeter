@@ -8,6 +8,4 @@ type Item struct {
 	Count int64 `json:"Count"`
 	// 物品編號
 	ItemID int64 `json:"ItemID"`
-	// 物品類型
-	Type int64 `json:"Type"`
 }

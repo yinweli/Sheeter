@@ -6,8 +6,8 @@ package sheeterJson
 type ExampleData struct {
 	//
 	Reward Reward `json:"Reward"`
-	// 是否啟用
-	Enable bool `json:"Enable"`
+	//
+	Wallet Wallet `json:"Wallet"`
 	// 忽略
 	Ignore int64 `json:"Ignore"`
 	// 索引

@@ -15,9 +15,5 @@ namespace SheeterJson
         // 物品編號
         [JsonProperty("ItemID")]
         public long ItemID { get; set; }
-
-        // 物品類型
-        [JsonProperty("Type")]
-        public long Type { get; set; }
     }
 }

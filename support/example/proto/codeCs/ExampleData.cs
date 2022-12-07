@@ -25,19 +25,20 @@ namespace SheeterProto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "ChFleGFtcGxlRGF0YS5wcm90bxIMc2hlZXRlclByb3RvGgxyZXdhcmQucHJv",
-            "dG8iuQEKC0V4YW1wbGVEYXRhEikKBlJld2FyZBgBIAEoCzIULnNoZWV0ZXJQ",
-            "cm90by5SZXdhcmRIAIgBARITCgZFbmFibGUYAiABKAhIAYgBARITCgZJZ25v",
-            "cmUYAyABKANIAogBARIQCgNLZXkYBCABKANIA4gBARIRCgROYW1lGAUgASgJ",
-            "SASIAQFCCQoHX1Jld2FyZEIJCgdfRW5hYmxlQgkKB19JZ25vcmVCBgoEX0tl",
-            "eUIHCgVfTmFtZSKXAQoRRXhhbXBsZURhdGFTdG9yZXISOQoFRGF0YXMYASAD",
-            "KAsyKi5zaGVldGVyUHJvdG8uRXhhbXBsZURhdGFTdG9yZXIuRGF0YXNFbnRy",
-            "eRpHCgpEYXRhc0VudHJ5EgsKA2tleRgBIAEoAxIoCgV2YWx1ZRgCIAEoCzIZ",
-            "LnNoZWV0ZXJQcm90by5FeGFtcGxlRGF0YToCOAFCEFoOLjtzaGVldGVyUHJv",
-            "dG9iBnByb3RvMw=="));
+            "dG8aDHdhbGxldC5wcm90byLPAQoLRXhhbXBsZURhdGESKQoGUmV3YXJkGAEg",
+            "ASgLMhQuc2hlZXRlclByb3RvLlJld2FyZEgAiAEBEikKBldhbGxldBgCIAEo",
+            "CzIULnNoZWV0ZXJQcm90by5XYWxsZXRIAYgBARITCgZJZ25vcmUYAyABKANI",
+            "AogBARIQCgNLZXkYBCABKANIA4gBARIRCgROYW1lGAUgASgJSASIAQFCCQoH",
+            "X1Jld2FyZEIJCgdfV2FsbGV0QgkKB19JZ25vcmVCBgoEX0tleUIHCgVfTmFt",
+            "ZSKXAQoRRXhhbXBsZURhdGFTdG9yZXISOQoFRGF0YXMYASADKAsyKi5zaGVl",
+            "dGVyUHJvdG8uRXhhbXBsZURhdGFTdG9yZXIuRGF0YXNFbnRyeRpHCgpEYXRh",
+            "c0VudHJ5EgsKA2tleRgBIAEoAxIoCgV2YWx1ZRgCIAEoCzIZLnNoZWV0ZXJQ",
+            "cm90by5FeGFtcGxlRGF0YToCOAFCEFoOLjtzaGVldGVyUHJvdG9iBnByb3Rv",
+            "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
-          new pbr::FileDescriptor[] { global::SheeterProto.RewardReflection.Descriptor, },
+          new pbr::FileDescriptor[] { global::SheeterProto.RewardReflection.Descriptor, global::SheeterProto.WalletReflection.Descriptor, },
           new pbr::GeneratedClrTypeInfo(null, null, new pbr::GeneratedClrTypeInfo[] {
-            new pbr::GeneratedClrTypeInfo(typeof(global::SheeterProto.ExampleData), global::SheeterProto.ExampleData.Parser, new[]{ "Reward", "Enable", "Ignore", "Key", "Name" }, new[]{ "Reward", "Enable", "Ignore", "Key", "Name" }, null, null, null),
+            new pbr::GeneratedClrTypeInfo(typeof(global::SheeterProto.ExampleData), global::SheeterProto.ExampleData.Parser, new[]{ "Reward", "Wallet", "Ignore", "Key", "Name" }, new[]{ "Reward", "Wallet", "Ignore", "Key", "Name" }, null, null, null),
             new pbr::GeneratedClrTypeInfo(typeof(global::SheeterProto.ExampleDataStorer), global::SheeterProto.ExampleDataStorer.Parser, new[]{ "Datas" }, null, null, null, new pbr::GeneratedClrTypeInfo[] { null, })
           }));
     }
@@ -82,7 +83,7 @@ namespace SheeterProto {
     public ExampleData(ExampleData other) : this() {
       _hasBits0 = other._hasBits0;
       reward_ = other.reward_ != null ? other.reward_.Clone() : null;
-      enable_ = other.enable_;
+      wallet_ = other.wallet_ != null ? other.wallet_.Clone() : null;
       ignore_ = other.ignore_;
       key_ = other.key_;
       name_ = other.name_;
@@ -110,32 +111,19 @@ namespace SheeterProto {
       }
     }
 
-    /// <summary>Field number for the "Enable" field.</summary>
-    public const int EnableFieldNumber = 2;
-    private bool enable_;
+    /// <summary>Field number for the "Wallet" field.</summary>
+    public const int WalletFieldNumber = 2;
+    private global::SheeterProto.Wallet wallet_;
     /// <summary>
-    /// 是否啟用
+    /// 
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool Enable {
-      get { if ((_hasBits0 & 1) != 0) { return enable_; } else { return false; } }
+    public global::SheeterProto.Wallet Wallet {
+      get { return wallet_; }
       set {
-        _hasBits0 |= 1;
-        enable_ = value;
+        wallet_ = value;
       }
-    }
-    /// <summary>Gets whether the "Enable" field is set</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public bool HasEnable {
-      get { return (_hasBits0 & 1) != 0; }
-    }
-    /// <summary>Clears the value of the "Enable" field</summary>
-    [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
-    [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public void ClearEnable() {
-      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "Ignore" field.</summary>
@@ -147,9 +135,9 @@ namespace SheeterProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long Ignore {
-      get { if ((_hasBits0 & 2) != 0) { return ignore_; } else { return 0L; } }
+      get { if ((_hasBits0 & 1) != 0) { return ignore_; } else { return 0L; } }
       set {
-        _hasBits0 |= 2;
+        _hasBits0 |= 1;
         ignore_ = value;
       }
     }
@@ -157,13 +145,13 @@ namespace SheeterProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool HasIgnore {
-      get { return (_hasBits0 & 2) != 0; }
+      get { return (_hasBits0 & 1) != 0; }
     }
     /// <summary>Clears the value of the "Ignore" field</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void ClearIgnore() {
-      _hasBits0 &= ~2;
+      _hasBits0 &= ~1;
     }
 
     /// <summary>Field number for the "Key" field.</summary>
@@ -175,9 +163,9 @@ namespace SheeterProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public long Key {
-      get { if ((_hasBits0 & 4) != 0) { return key_; } else { return 0L; } }
+      get { if ((_hasBits0 & 2) != 0) { return key_; } else { return 0L; } }
       set {
-        _hasBits0 |= 4;
+        _hasBits0 |= 2;
         key_ = value;
       }
     }
@@ -185,13 +173,13 @@ namespace SheeterProto {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool HasKey {
-      get { return (_hasBits0 & 4) != 0; }
+      get { return (_hasBits0 & 2) != 0; }
     }
     /// <summary>Clears the value of the "Key" field</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void ClearKey() {
-      _hasBits0 &= ~4;
+      _hasBits0 &= ~2;
     }
 
     /// <summary>Field number for the "Name" field.</summary>
@@ -237,7 +225,7 @@ namespace SheeterProto {
         return true;
       }
       if (!object.Equals(Reward, other.Reward)) return false;
-      if (Enable != other.Enable) return false;
+      if (!object.Equals(Wallet, other.Wallet)) return false;
       if (Ignore != other.Ignore) return false;
       if (Key != other.Key) return false;
       if (Name != other.Name) return false;
@@ -249,7 +237,7 @@ namespace SheeterProto {
     public override int GetHashCode() {
       int hash = 1;
       if (reward_ != null) hash ^= Reward.GetHashCode();
-      if (HasEnable) hash ^= Enable.GetHashCode();
+      if (wallet_ != null) hash ^= Wallet.GetHashCode();
       if (HasIgnore) hash ^= Ignore.GetHashCode();
       if (HasKey) hash ^= Key.GetHashCode();
       if (HasName) hash ^= Name.GetHashCode();
@@ -275,9 +263,9 @@ namespace SheeterProto {
         output.WriteRawTag(10);
         output.WriteMessage(Reward);
       }
-      if (HasEnable) {
-        output.WriteRawTag(16);
-        output.WriteBool(Enable);
+      if (wallet_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Wallet);
       }
       if (HasIgnore) {
         output.WriteRawTag(24);
@@ -305,9 +293,9 @@ namespace SheeterProto {
         output.WriteRawTag(10);
         output.WriteMessage(Reward);
       }
-      if (HasEnable) {
-        output.WriteRawTag(16);
-        output.WriteBool(Enable);
+      if (wallet_ != null) {
+        output.WriteRawTag(18);
+        output.WriteMessage(Wallet);
       }
       if (HasIgnore) {
         output.WriteRawTag(24);
@@ -334,8 +322,8 @@ namespace SheeterProto {
       if (reward_ != null) {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Reward);
       }
-      if (HasEnable) {
-        size += 1 + 1;
+      if (wallet_ != null) {
+        size += 1 + pb::CodedOutputStream.ComputeMessageSize(Wallet);
       }
       if (HasIgnore) {
         size += 1 + pb::CodedOutputStream.ComputeInt64Size(Ignore);
@@ -364,8 +352,11 @@ namespace SheeterProto {
         }
         Reward.MergeFrom(other.Reward);
       }
-      if (other.HasEnable) {
-        Enable = other.Enable;
+      if (other.wallet_ != null) {
+        if (wallet_ == null) {
+          Wallet = new global::SheeterProto.Wallet();
+        }
+        Wallet.MergeFrom(other.Wallet);
       }
       if (other.HasIgnore) {
         Ignore = other.Ignore;
@@ -398,8 +389,11 @@ namespace SheeterProto {
             input.ReadMessage(Reward);
             break;
           }
-          case 16: {
-            Enable = input.ReadBool();
+          case 18: {
+            if (wallet_ == null) {
+              Wallet = new global::SheeterProto.Wallet();
+            }
+            input.ReadMessage(Wallet);
             break;
           }
           case 24: {
@@ -436,8 +430,11 @@ namespace SheeterProto {
             input.ReadMessage(Reward);
             break;
           }
-          case 16: {
-            Enable = input.ReadBool();
+          case 18: {
+            if (wallet_ == null) {
+              Wallet = new global::SheeterProto.Wallet();
+            }
+            input.ReadMessage(Wallet);
             break;
           }
           case 24: {

@@ -12,9 +12,9 @@ namespace SheeterJson
         [JsonProperty("Reward")]
         public Reward Reward { get; set; }
 
-        // 是否啟用
-        [JsonProperty("Enable")]
-        public bool Enable { get; set; }
+        //
+        [JsonProperty("Wallet")]
+        public Wallet Wallet { get; set; }
 
         // 忽略
         [JsonProperty("Ignore")]
