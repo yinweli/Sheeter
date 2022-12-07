@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Planning]
 - 新增輸出欄, 用來控制表格某行是否輸出
 - 新增起點欄, 指定資料表格從第幾欄開始
+- 考慮把表格標頭轉為設定檔
+- 如何讓陣列結構的空元素從資料中移除
 - 針對單元測試新增goleak來測試是否有gorourtine洩漏
 - 新增多表合一功能(combine), 可以在設定檔中設定那些表格為合併表格, 並且指定其中之一為標準表格
   此標準表格會在Depot額外建立一個合併讀取器, 會讀取所有合併表格資料
