@@ -4,11 +4,21 @@ tasks:
   # 進行程式碼檢查
   lint:
     cmds:
-      - gofmt -s -w -l . # 程式碼格式化
-      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest # 安裝/更新golangci-lint
-      - golangci-lint -v run # 程式碼檢查
-  
+      - task: fmt-sheeter
+      - task: lint-sheeter
+
   # 進行程式碼測試
   test:
     cmds:
-      - go test -cover ./...
+      - go test ./... -cover
+
+  # sheeter程式碼格式化
+  fmt-sheeter:
+    cmds:
+      - gofmt -s -w -l .
+
+  # sheeter程式碼檢查
+  lint-sheeter:
+    cmds:
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
+      - golangci-lint -v run
