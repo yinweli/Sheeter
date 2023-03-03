@@ -9,27 +9,35 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestParser(t *testing.T) {
-	suite.Run(t, new(SuiteParser))
+func TestField(t *testing.T) {
+	suite.Run(t, new(SuiteField))
 }
 
-type SuiteParser struct {
+type SuiteField struct {
 	suite.Suite
 	testdata.TestEnv
 }
 
-func (this *SuiteParser) SetupSuite() {
+func (this *SuiteField) SetupSuite() {
 	this.Change("test-field-parser")
 }
 
-func (this *SuiteParser) TearDownSuite() {
+func (this *SuiteField) TearDownSuite() {
 	this.Restore()
 }
 
-func (this *SuiteParser) TestParser() {
-	field, err := Parser("bool")
+func (this *SuiteField) TestParser() {
+	field, err := Parser("boolArray")
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), (&Bool{}).Type(), field.Type())
+	assert.Equal(this.T(), (&BoolArray{}).Field(), field.Field())
+
+	field, err = Parser("[]bool")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), (&BoolArray{}).Field(), field.Field())
+
+	field, err = Parser("bool[]")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), (&BoolArray{}).Field(), field.Field())
 
 	_, err = Parser(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)

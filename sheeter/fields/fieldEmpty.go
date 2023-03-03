@@ -4,9 +4,9 @@ package fields
 type Empty struct {
 }
 
-// Type 取得excel欄位類型
-func (this *Empty) Type() string {
-	return "empty"
+// Field 取得excel欄位類型列表
+func (this *Empty) Field() []string {
+	return []string{"empty", "ignore"}
 }
 
 // IsShow 是否顯示

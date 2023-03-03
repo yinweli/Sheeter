@@ -11,9 +11,9 @@ import (
 type FloatArray struct {
 }
 
-// Type 取得excel欄位類型
-func (this *FloatArray) Type() string {
-	return "floatArray"
+// Field 取得excel欄位類型列表
+func (this *FloatArray) Field() []string {
+	return []string{"floatArray", "[]float", "float[]"}
 }
 
 // IsShow 是否顯示

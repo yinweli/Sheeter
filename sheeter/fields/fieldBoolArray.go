@@ -11,9 +11,9 @@ import (
 type BoolArray struct {
 }
 
-// Type 取得excel欄位類型
-func (this *BoolArray) Type() string {
-	return "boolArray"
+// Field 取得excel欄位類型列表
+func (this *BoolArray) Field() []string {
+	return []string{"boolArray", "[]bool", "bool[]"}
 }
 
 // IsShow 是否顯示

@@ -5,9 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Planning]
-- 新增輸出欄, 用來控制表格某行是否輸出
-- 新增起點欄, 指定資料表格從第幾欄開始
-- 考慮把表格標頭轉為設定檔
+- 更改表單開頭字元規則, [Ii]gnore開頭為忽略表單, @開頭為資料表單, $開頭為列舉表單, 其餘也都是資料表單
+- 新增輸出欄, 用來控制表格某行是否輸出, 若是輸出欄資料為[Ii]gnore, 表示為忽略行
+- 更改pkey規則, 表單第一欄為輸出欄, 表單第二欄為pkey欄; 這樣就可能不需要pkey類型
+- pkey為不可重複欄位, 但是欄位類型可以是任意類型(如int/string)
 - 如何讓陣列結構的空元素從資料中移除
 - 針對單元測試新增goleak來測試是否有gorourtine洩漏
 - 新增多表合一功能(combine), 可以在設定檔中設定那些表格為合併表格, 並且指定其中之一為標準表格
@@ -16,9 +17,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 更改Reader介面, 新增FileNames函式, 專門對應多表合一模式
 - 更改Reader介面, 新增CombineFrom函式, 專門對應多表合一模式
 - 更改Depot類別, 新增CombineFrom函式, 專門對應多表合一模式
-- 產生flatbuffer
 
 ## [Unrelease]
+### Changed
+- 更改欄位類型, 讓欄位類型有多個別名可選擇
 
 ## [1.11.0] - 2022-12-02
 ### Changed

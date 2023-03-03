@@ -44,6 +44,7 @@ func combine(params *params) string {
 	return name
 }
 
+// removeSheetPrefix 移除表單開頭字元
 func removeSheetPrefix(sheet string) string {
 	if strings.HasPrefix(sheet, sheeter.SignData) {
 		return strings.TrimPrefix(sheet, sheeter.SignData)
