@@ -36,7 +36,7 @@ using System.Collections.Generic;
 
 namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
     using Data_ = {{$.StructName}};
-    using PKey_ = {{$.PkeyTypeCs}};
+    using Pkey_ = {{$.PkeyTypeCs}};
     using Storer_ = {{$.StorerName}};
 
     public partial class {{$.ReaderName}} : Reader {
@@ -86,25 +86,25 @@ namespace {{$.ProtoNamespace $.SimpleNamespace | $.FirstUpper}} {
             storer.{{$.StorerDatas}}.Clear();
         }
 
-        public bool TryGetValue(PKey_ key, out Data_ value) {
+        public bool TryGetValue(Pkey_ key, out Data_ value) {
             return storer.{{$.StorerDatas}}.TryGetValue(key, out value);
         }
 
-        public bool ContainsKey(PKey_ key) {
+        public bool ContainsKey(Pkey_ key) {
             return storer.{{$.StorerDatas}}.ContainsKey(key);
         }
 
-        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator() {
+        public IEnumerator<KeyValuePair<Pkey_, Data_>> GetEnumerator() {
             return storer.{{$.StorerDatas}}.GetEnumerator();
         }
 
-        public Data_ this[PKey_ key] {
+        public Data_ this[Pkey_ key] {
             get {
                 return storer.{{$.StorerDatas}}[key];
             }
         }
 
-        public ICollection<PKey_> Keys {
+        public ICollection<Pkey_> Keys {
             get {
                 return storer.{{$.StorerDatas}}.Keys;
             }

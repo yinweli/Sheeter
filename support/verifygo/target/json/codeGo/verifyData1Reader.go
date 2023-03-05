@@ -18,7 +18,7 @@ func (this *VerifyData1Reader) FileName() FileName {
 
 func (this *VerifyData1Reader) FromData(data []byte) error {
 	this.VerifyData1Storer = &VerifyData1Storer{
-		Datas: map[int64]*VerifyData1{},
+		Datas: map[int32]*VerifyData1{},
 	}
 
 	if err := json.Unmarshal(data, this.VerifyData1Storer); err != nil {
@@ -30,7 +30,7 @@ func (this *VerifyData1Reader) FromData(data []byte) error {
 
 func (this *VerifyData1Reader) MergeData(data []byte) error {
 	tmpl := &VerifyData1Storer{
-		Datas: map[int64]*VerifyData1{},
+		Datas: map[int32]*VerifyData1{},
 	}
 
 	if err := json.Unmarshal(data, tmpl); err != nil {
@@ -39,7 +39,7 @@ func (this *VerifyData1Reader) MergeData(data []byte) error {
 
 	if this.VerifyData1Storer == nil {
 		this.VerifyData1Storer = &VerifyData1Storer{
-			Datas: map[int64]*VerifyData1{},
+			Datas: map[int32]*VerifyData1{},
 		}
 	}
 
@@ -58,12 +58,12 @@ func (this *VerifyData1Reader) Clear() {
 	this.VerifyData1Storer = nil
 }
 
-func (this *VerifyData1Reader) Get(key int64) (result *VerifyData1, ok bool) {
+func (this *VerifyData1Reader) Get(key int32) (result *VerifyData1, ok bool) {
 	result, ok = this.Datas[key]
 	return result, ok
 }
 
-func (this *VerifyData1Reader) Keys() (result []int64) {
+func (this *VerifyData1Reader) Keys() (result []int32) {
 	for itor := range this.Datas {
 		result = append(result, itor)
 	}

@@ -57,20 +57,20 @@ func (this *SuiteLayoutData) TestAdd() {
 func (this *SuiteLayoutData) TestPack() {
 	actual1 := map[string]interface{}{
 		"data": map[string]interface{}{
-			"name1": int64(1),
-			"name2": int64(2),
+			"name1": int32(1),
+			"name2": int32(2),
 			"array": &[]map[string]interface{}{
-				{"array1": int64(3), "array2": int64(4)},
-				{"array1": int64(5), "array2": int64(6)},
+				{"array1": int32(3), "array2": int32(4)},
+				{"array1": int32(5), "array2": int32(6)},
 			},
 		},
 	}
 	actual2 := map[string]interface{}{
 		"data": map[string]interface{}{
-			"name1": int64(1),
+			"name1": int32(1),
 			"array": &[]map[string]interface{}{
-				{"array1": int64(3), "array2": int64(4)},
-				{"array1": int64(5), "array2": int64(6)},
+				{"array1": int32(3), "array2": int32(4)},
+				{"array1": int32(5), "array2": int32(6)},
 			},
 		},
 	}
@@ -89,17 +89,17 @@ func (this *SuiteLayoutData) TestPack() {
 
 	packs, pkey, err := target.Pack(dataValid, "A")
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), int64(1), pkey)
+	assert.Equal(this.T(), int32(1), pkey)
 	assert.Equal(this.T(), actual1, packs)
 
 	packs, pkey, err = target.Pack(dataValid, "B")
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), int64(1), pkey)
+	assert.Equal(this.T(), int32(1), pkey)
 	assert.Equal(this.T(), actual2, packs)
 
 	packs, pkey, err = target.Pack(dataValid, "")
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), int64(0), pkey)
+	assert.Equal(this.T(), int32(0), pkey)
 	assert.Equal(this.T(), actual3, packs)
 
 	_, _, err = target.Pack(dataInvalid, "A")

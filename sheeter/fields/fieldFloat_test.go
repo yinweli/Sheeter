@@ -46,7 +46,7 @@ func (this *SuiteFloat) TestToJsonValue() {
 
 	result, err := target.ToJsonValue("0.123456")
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), 0.123456, result)
+	assert.Equal(this.T(), float32(0.123456), result)
 
 	_, err = target.ToJsonValue("")
 	assert.NotNil(this.T(), err)

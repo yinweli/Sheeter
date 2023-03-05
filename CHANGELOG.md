@@ -18,8 +18,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 更改Depot類別, 新增CombineFrom函式, 專門對應多表合一模式
 
 ## [Unrelease]
+### Added
+- 新增欄位類型 double, long, skey
+
 ### Changed
 - 更改欄位類型, 讓欄位類型有多個別名可選擇
+- 更改欄位類型的輸出類型, pkey改為32為元整數, int改為32為元整數, float改為32位元浮點數
 - 更改表單開頭規則, [Ii]gnore開頭為忽略表單, @開頭為資料表單, $開頭為列舉表單, 其餘也都是資料表單
 
 ## [1.11.0] - 2022-12-02

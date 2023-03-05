@@ -9,13 +9,13 @@ type Path2Data struct {
 	// 是否啟用
 	Enable bool `json:"Enable"`
 	// 忽略
-	Ignore int64 `json:"Ignore"`
+	Ignore int32 `json:"Ignore"`
 	// 索引
-	Key int64 `json:"Key"`
+	Key int32 `json:"Key"`
 	// 名稱
 	Name string `json:"Name"`
 }
 
 type Path2DataStorer struct {
-	Datas map[int64]*Path2Data
+	Datas map[int32]*Path2Data
 }

@@ -9,13 +9,13 @@ type ExampleData struct {
 	//
 	Wallet Wallet `json:"Wallet"`
 	// 忽略
-	Ignore int64 `json:"Ignore"`
+	Ignore int32 `json:"Ignore"`
 	// 索引
-	Key int64 `json:"Key"`
+	Key int32 `json:"Key"`
 	// 名稱
 	Name string `json:"Name"`
 }
 
 type ExampleDataStorer struct {
-	Datas map[int64]*ExampleData
+	Datas map[int32]*ExampleData
 }

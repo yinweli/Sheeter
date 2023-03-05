@@ -26,9 +26,9 @@ namespace SheeterProto {
           string.Concat(
             "CgxyZXdhcmQucHJvdG8SDHNoZWV0ZXJQcm90bxoKaXRlbS5wcm90byLKAQoG",
             "UmV3YXJkEiAKBEl0ZW0YASADKAsyEi5zaGVldGVyUHJvdG8uSXRlbRISCgVB",
-            "dGl1bRgCIAEoA0gAiAEBEhQKB0NyeXN0YWwYAyABKANIAYgBARIUCgdEaWFt",
-            "b25kGAQgASgDSAKIAQESFAoHRmVsSXJvbhgFIAEoA0gDiAEBEhEKBEdvbGQY",
-            "BiABKANIBIgBAUIICgZfQXRpdW1CCgoIX0NyeXN0YWxCCgoIX0RpYW1vbmRC",
+            "dGl1bRgCIAEoBUgAiAEBEhQKB0NyeXN0YWwYAyABKAVIAYgBARIUCgdEaWFt",
+            "b25kGAQgASgFSAKIAQESFAoHRmVsSXJvbhgFIAEoBUgDiAEBEhEKBEdvbGQY",
+            "BiABKAVIBIgBAUIICgZfQXRpdW1CCgoIX0NyeXN0YWxCCgoIX0RpYW1vbmRC",
             "CgoIX0ZlbElyb25CBwoFX0dvbGRCEFoOLjtzaGVldGVyUHJvdG9iBnByb3Rv",
             "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
@@ -108,14 +108,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Atium" field.</summary>
     public const int AtiumFieldNumber = 2;
-    private long atium_;
+    private int atium_;
     /// <summary>
     /// 天金
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long Atium {
-      get { if ((_hasBits0 & 1) != 0) { return atium_; } else { return 0L; } }
+    public int Atium {
+      get { if ((_hasBits0 & 1) != 0) { return atium_; } else { return 0; } }
       set {
         _hasBits0 |= 1;
         atium_ = value;
@@ -136,14 +136,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Crystal" field.</summary>
     public const int CrystalFieldNumber = 3;
-    private long crystal_;
+    private int crystal_;
     /// <summary>
     /// 魔晶
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long Crystal {
-      get { if ((_hasBits0 & 2) != 0) { return crystal_; } else { return 0L; } }
+    public int Crystal {
+      get { if ((_hasBits0 & 2) != 0) { return crystal_; } else { return 0; } }
       set {
         _hasBits0 |= 2;
         crystal_ = value;
@@ -164,14 +164,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Diamond" field.</summary>
     public const int DiamondFieldNumber = 4;
-    private long diamond_;
+    private int diamond_;
     /// <summary>
     /// 鑽石
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long Diamond {
-      get { if ((_hasBits0 & 4) != 0) { return diamond_; } else { return 0L; } }
+    public int Diamond {
+      get { if ((_hasBits0 & 4) != 0) { return diamond_; } else { return 0; } }
       set {
         _hasBits0 |= 4;
         diamond_ = value;
@@ -192,14 +192,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "FelIron" field.</summary>
     public const int FelIronFieldNumber = 5;
-    private long felIron_;
+    private int felIron_;
     /// <summary>
     /// 精鐵
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long FelIron {
-      get { if ((_hasBits0 & 8) != 0) { return felIron_; } else { return 0L; } }
+    public int FelIron {
+      get { if ((_hasBits0 & 8) != 0) { return felIron_; } else { return 0; } }
       set {
         _hasBits0 |= 8;
         felIron_ = value;
@@ -220,14 +220,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Gold" field.</summary>
     public const int GoldFieldNumber = 6;
-    private long gold_;
+    private int gold_;
     /// <summary>
     /// 金幣
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long Gold {
-      get { if ((_hasBits0 & 16) != 0) { return gold_; } else { return 0L; } }
+    public int Gold {
+      get { if ((_hasBits0 & 16) != 0) { return gold_; } else { return 0; } }
       set {
         _hasBits0 |= 16;
         gold_ = value;
@@ -301,23 +301,23 @@ namespace SheeterProto {
       item_.WriteTo(output, _repeated_item_codec);
       if (HasAtium) {
         output.WriteRawTag(16);
-        output.WriteInt64(Atium);
+        output.WriteInt32(Atium);
       }
       if (HasCrystal) {
         output.WriteRawTag(24);
-        output.WriteInt64(Crystal);
+        output.WriteInt32(Crystal);
       }
       if (HasDiamond) {
         output.WriteRawTag(32);
-        output.WriteInt64(Diamond);
+        output.WriteInt32(Diamond);
       }
       if (HasFelIron) {
         output.WriteRawTag(40);
-        output.WriteInt64(FelIron);
+        output.WriteInt32(FelIron);
       }
       if (HasGold) {
         output.WriteRawTag(48);
-        output.WriteInt64(Gold);
+        output.WriteInt32(Gold);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -332,23 +332,23 @@ namespace SheeterProto {
       item_.WriteTo(ref output, _repeated_item_codec);
       if (HasAtium) {
         output.WriteRawTag(16);
-        output.WriteInt64(Atium);
+        output.WriteInt32(Atium);
       }
       if (HasCrystal) {
         output.WriteRawTag(24);
-        output.WriteInt64(Crystal);
+        output.WriteInt32(Crystal);
       }
       if (HasDiamond) {
         output.WriteRawTag(32);
-        output.WriteInt64(Diamond);
+        output.WriteInt32(Diamond);
       }
       if (HasFelIron) {
         output.WriteRawTag(40);
-        output.WriteInt64(FelIron);
+        output.WriteInt32(FelIron);
       }
       if (HasGold) {
         output.WriteRawTag(48);
-        output.WriteInt64(Gold);
+        output.WriteInt32(Gold);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -362,19 +362,19 @@ namespace SheeterProto {
       int size = 0;
       size += item_.CalculateSize(_repeated_item_codec);
       if (HasAtium) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Atium);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Atium);
       }
       if (HasCrystal) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Crystal);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Crystal);
       }
       if (HasDiamond) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Diamond);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Diamond);
       }
       if (HasFelIron) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(FelIron);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(FelIron);
       }
       if (HasGold) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Gold);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Gold);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -424,23 +424,23 @@ namespace SheeterProto {
             break;
           }
           case 16: {
-            Atium = input.ReadInt64();
+            Atium = input.ReadInt32();
             break;
           }
           case 24: {
-            Crystal = input.ReadInt64();
+            Crystal = input.ReadInt32();
             break;
           }
           case 32: {
-            Diamond = input.ReadInt64();
+            Diamond = input.ReadInt32();
             break;
           }
           case 40: {
-            FelIron = input.ReadInt64();
+            FelIron = input.ReadInt32();
             break;
           }
           case 48: {
-            Gold = input.ReadInt64();
+            Gold = input.ReadInt32();
             break;
           }
         }
@@ -463,23 +463,23 @@ namespace SheeterProto {
             break;
           }
           case 16: {
-            Atium = input.ReadInt64();
+            Atium = input.ReadInt32();
             break;
           }
           case 24: {
-            Crystal = input.ReadInt64();
+            Crystal = input.ReadInt32();
             break;
           }
           case 32: {
-            Diamond = input.ReadInt64();
+            Diamond = input.ReadInt32();
             break;
           }
           case 40: {
-            FelIron = input.ReadInt64();
+            FelIron = input.ReadInt32();
             break;
           }
           case 48: {
-            Gold = input.ReadInt64();
+            Gold = input.ReadInt32();
             break;
           }
         }

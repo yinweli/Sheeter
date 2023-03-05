@@ -25,7 +25,7 @@ namespace SheeterProto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "CgppdGVtLnByb3RvEgxzaGVldGVyUHJvdG8iRAoESXRlbRISCgVDb3VudBgB",
-            "IAEoA0gAiAEBEhMKBkl0ZW1JRBgCIAEoA0gBiAEBQggKBl9Db3VudEIJCgdf",
+            "IAEoBUgAiAEBEhMKBkl0ZW1JRBgCIAEoBUgBiAEBQggKBl9Db3VudEIJCgdf",
             "SXRlbUlEQhBaDi47c2hlZXRlclByb3RvYgZwcm90bzM="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
@@ -86,14 +86,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Count" field.</summary>
     public const int CountFieldNumber = 1;
-    private long count_;
+    private int count_;
     /// <summary>
     /// 物品數量
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long Count {
-      get { if ((_hasBits0 & 1) != 0) { return count_; } else { return 0L; } }
+    public int Count {
+      get { if ((_hasBits0 & 1) != 0) { return count_; } else { return 0; } }
       set {
         _hasBits0 |= 1;
         count_ = value;
@@ -114,14 +114,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "ItemID" field.</summary>
     public const int ItemIDFieldNumber = 2;
-    private long itemID_;
+    private int itemID_;
     /// <summary>
     /// 物品編號
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long ItemID {
-      get { if ((_hasBits0 & 2) != 0) { return itemID_; } else { return 0L; } }
+    public int ItemID {
+      get { if ((_hasBits0 & 2) != 0) { return itemID_; } else { return 0; } }
       set {
         _hasBits0 |= 2;
         itemID_ = value;
@@ -186,11 +186,11 @@ namespace SheeterProto {
     #else
       if (HasCount) {
         output.WriteRawTag(8);
-        output.WriteInt64(Count);
+        output.WriteInt32(Count);
       }
       if (HasItemID) {
         output.WriteRawTag(16);
-        output.WriteInt64(ItemID);
+        output.WriteInt32(ItemID);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -204,11 +204,11 @@ namespace SheeterProto {
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (HasCount) {
         output.WriteRawTag(8);
-        output.WriteInt64(Count);
+        output.WriteInt32(Count);
       }
       if (HasItemID) {
         output.WriteRawTag(16);
-        output.WriteInt64(ItemID);
+        output.WriteInt32(ItemID);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -221,10 +221,10 @@ namespace SheeterProto {
     public int CalculateSize() {
       int size = 0;
       if (HasCount) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Count);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Count);
       }
       if (HasItemID) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(ItemID);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(ItemID);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -260,11 +260,11 @@ namespace SheeterProto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Count = input.ReadInt64();
+            Count = input.ReadInt32();
             break;
           }
           case 16: {
-            ItemID = input.ReadInt64();
+            ItemID = input.ReadInt32();
             break;
           }
         }
@@ -283,11 +283,11 @@ namespace SheeterProto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            Count = input.ReadInt64();
+            Count = input.ReadInt32();
             break;
           }
           case 16: {
-            ItemID = input.ReadInt64();
+            ItemID = input.ReadInt32();
             break;
           }
         }

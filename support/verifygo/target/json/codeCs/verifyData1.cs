@@ -22,7 +22,7 @@ namespace SheeterJson
 
         // 索引
         [JsonProperty("Key")]
-        public System.Int64 Key { get; set; }
+        public System.Int32 Key { get; set; }
 
         // 名稱
         [JsonProperty("Name")]
@@ -31,7 +31,7 @@ namespace SheeterJson
 
     public partial class VerifyData1Storer
     {
-        public Dictionary<System.Int64, VerifyData1> Datas =
-            new Dictionary<System.Int64, VerifyData1>();
+        public Dictionary<System.Int32, VerifyData1> Datas =
+            new Dictionary<System.Int32, VerifyData1>();
     }
 }

@@ -46,7 +46,7 @@ func (this *SuitePkey) TestToJsonValue() {
 
 	result, err := target.ToJsonValue("123456789")
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), int64(123456789), result)
+	assert.Equal(this.T(), int32(123456789), result)
 
 	_, err = target.ToJsonValue("")
 	assert.NotNil(this.T(), err)

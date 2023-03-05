@@ -14,11 +14,11 @@ namespace SheeterJson
 
         // 天金
         [JsonProperty("Atium")]
-        public long Atium { get; set; }
+        public int Atium { get; set; }
 
         // 魔晶
         [JsonProperty("Crystal")]
-        public long Crystal { get; set; }
+        public int Crystal { get; set; }
 
         // 獎勵說明
         [JsonProperty("Desc")]
@@ -26,14 +26,14 @@ namespace SheeterJson
 
         // 鑽石
         [JsonProperty("Diamond")]
-        public long Diamond { get; set; }
+        public int Diamond { get; set; }
 
         // 精鐵
         [JsonProperty("FelIron")]
-        public long FelIron { get; set; }
+        public int FelIron { get; set; }
 
         // 金幣
         [JsonProperty("Gold")]
-        public long Gold { get; set; }
+        public int Gold { get; set; }
     }
 }

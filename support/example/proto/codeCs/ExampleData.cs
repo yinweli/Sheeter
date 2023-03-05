@@ -27,12 +27,12 @@ namespace SheeterProto {
             "ChFleGFtcGxlRGF0YS5wcm90bxIMc2hlZXRlclByb3RvGgxyZXdhcmQucHJv",
             "dG8aDHdhbGxldC5wcm90byLPAQoLRXhhbXBsZURhdGESKQoGUmV3YXJkGAEg",
             "ASgLMhQuc2hlZXRlclByb3RvLlJld2FyZEgAiAEBEikKBldhbGxldBgCIAEo",
-            "CzIULnNoZWV0ZXJQcm90by5XYWxsZXRIAYgBARITCgZJZ25vcmUYAyABKANI",
-            "AogBARIQCgNLZXkYBCABKANIA4gBARIRCgROYW1lGAUgASgJSASIAQFCCQoH",
+            "CzIULnNoZWV0ZXJQcm90by5XYWxsZXRIAYgBARITCgZJZ25vcmUYAyABKAVI",
+            "AogBARIQCgNLZXkYBCABKAVIA4gBARIRCgROYW1lGAUgASgJSASIAQFCCQoH",
             "X1Jld2FyZEIJCgdfV2FsbGV0QgkKB19JZ25vcmVCBgoEX0tleUIHCgVfTmFt",
             "ZSKXAQoRRXhhbXBsZURhdGFTdG9yZXISOQoFRGF0YXMYASADKAsyKi5zaGVl",
             "dGVyUHJvdG8uRXhhbXBsZURhdGFTdG9yZXIuRGF0YXNFbnRyeRpHCgpEYXRh",
-            "c0VudHJ5EgsKA2tleRgBIAEoAxIoCgV2YWx1ZRgCIAEoCzIZLnNoZWV0ZXJQ",
+            "c0VudHJ5EgsKA2tleRgBIAEoBRIoCgV2YWx1ZRgCIAEoCzIZLnNoZWV0ZXJQ",
             "cm90by5FeGFtcGxlRGF0YToCOAFCEFoOLjtzaGVldGVyUHJvdG9iBnByb3Rv",
             "Mw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
@@ -128,14 +128,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Ignore" field.</summary>
     public const int IgnoreFieldNumber = 3;
-    private long ignore_;
+    private int ignore_;
     /// <summary>
     /// 忽略
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long Ignore {
-      get { if ((_hasBits0 & 1) != 0) { return ignore_; } else { return 0L; } }
+    public int Ignore {
+      get { if ((_hasBits0 & 1) != 0) { return ignore_; } else { return 0; } }
       set {
         _hasBits0 |= 1;
         ignore_ = value;
@@ -156,14 +156,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Key" field.</summary>
     public const int KeyFieldNumber = 4;
-    private long key_;
+    private int key_;
     /// <summary>
     /// 索引
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long Key {
-      get { if ((_hasBits0 & 2) != 0) { return key_; } else { return 0L; } }
+    public int Key {
+      get { if ((_hasBits0 & 2) != 0) { return key_; } else { return 0; } }
       set {
         _hasBits0 |= 2;
         key_ = value;
@@ -269,11 +269,11 @@ namespace SheeterProto {
       }
       if (HasIgnore) {
         output.WriteRawTag(24);
-        output.WriteInt64(Ignore);
+        output.WriteInt32(Ignore);
       }
       if (HasKey) {
         output.WriteRawTag(32);
-        output.WriteInt64(Key);
+        output.WriteInt32(Key);
       }
       if (HasName) {
         output.WriteRawTag(42);
@@ -299,11 +299,11 @@ namespace SheeterProto {
       }
       if (HasIgnore) {
         output.WriteRawTag(24);
-        output.WriteInt64(Ignore);
+        output.WriteInt32(Ignore);
       }
       if (HasKey) {
         output.WriteRawTag(32);
-        output.WriteInt64(Key);
+        output.WriteInt32(Key);
       }
       if (HasName) {
         output.WriteRawTag(42);
@@ -326,10 +326,10 @@ namespace SheeterProto {
         size += 1 + pb::CodedOutputStream.ComputeMessageSize(Wallet);
       }
       if (HasIgnore) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Ignore);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Ignore);
       }
       if (HasKey) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Key);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Key);
       }
       if (HasName) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -397,11 +397,11 @@ namespace SheeterProto {
             break;
           }
           case 24: {
-            Ignore = input.ReadInt64();
+            Ignore = input.ReadInt32();
             break;
           }
           case 32: {
-            Key = input.ReadInt64();
+            Key = input.ReadInt32();
             break;
           }
           case 42: {
@@ -438,11 +438,11 @@ namespace SheeterProto {
             break;
           }
           case 24: {
-            Ignore = input.ReadInt64();
+            Ignore = input.ReadInt32();
             break;
           }
           case 32: {
-            Key = input.ReadInt64();
+            Key = input.ReadInt32();
             break;
           }
           case 42: {
@@ -502,12 +502,12 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Datas" field.</summary>
     public const int DatasFieldNumber = 1;
-    private static readonly pbc::MapField<long, global::SheeterProto.ExampleData>.Codec _map_datas_codec
-        = new pbc::MapField<long, global::SheeterProto.ExampleData>.Codec(pb::FieldCodec.ForInt64(8, 0L), pb::FieldCodec.ForMessage(18, global::SheeterProto.ExampleData.Parser), 10);
-    private readonly pbc::MapField<long, global::SheeterProto.ExampleData> datas_ = new pbc::MapField<long, global::SheeterProto.ExampleData>();
+    private static readonly pbc::MapField<int, global::SheeterProto.ExampleData>.Codec _map_datas_codec
+        = new pbc::MapField<int, global::SheeterProto.ExampleData>.Codec(pb::FieldCodec.ForInt32(8, 0), pb::FieldCodec.ForMessage(18, global::SheeterProto.ExampleData.Parser), 10);
+    private readonly pbc::MapField<int, global::SheeterProto.ExampleData> datas_ = new pbc::MapField<int, global::SheeterProto.ExampleData>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::MapField<long, global::SheeterProto.ExampleData> Datas {
+    public pbc::MapField<int, global::SheeterProto.ExampleData> Datas {
       get { return datas_; }
     }
 

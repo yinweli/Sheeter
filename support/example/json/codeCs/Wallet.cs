@@ -10,14 +10,14 @@ namespace SheeterJson
     {
         // 魔晶
         [JsonProperty("Crystal")]
-        public long Crystal { get; set; }
+        public int Crystal { get; set; }
 
         // 鑽石
         [JsonProperty("Diamond")]
-        public long Diamond { get; set; }
+        public int Diamond { get; set; }
 
         // 金幣
         [JsonProperty("Gold")]
-        public long Gold { get; set; }
+        public int Gold { get; set; }
     }
 }

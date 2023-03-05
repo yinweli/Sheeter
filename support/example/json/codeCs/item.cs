@@ -10,10 +10,10 @@ namespace SheeterJson
     {
         // 物品數量
         [JsonProperty("Count")]
-        public long Count { get; set; }
+        public int Count { get; set; }
 
         // 物品編號
         [JsonProperty("ItemID")]
-        public long ItemID { get; set; }
+        public int ItemID { get; set; }
     }
 }

@@ -5,9 +5,9 @@ package sheeterJson
 
 type Wallet struct {
 	// 魔晶
-	Crystal int64 `json:"Crystal"`
+	Crystal int32 `json:"Crystal"`
 	// 鑽石
-	Diamond int64 `json:"Diamond"`
+	Diamond int32 `json:"Diamond"`
 	// 金幣
-	Gold int64 `json:"Gold"`
+	Gold int32 `json:"Gold"`
 }

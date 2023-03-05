@@ -19,7 +19,7 @@ func (this *File2DataReader) FileName() FileName {
 
 func (this *File2DataReader) FromData(data []byte) error {
 	this.File2DataStorer = &File2DataStorer{
-		Datas: map[int64]*File2Data{},
+		Datas: map[int32]*File2Data{},
 	}
 
 	if err := proto.Unmarshal(data, this.File2DataStorer); err != nil {
@@ -31,7 +31,7 @@ func (this *File2DataReader) FromData(data []byte) error {
 
 func (this *File2DataReader) MergeData(data []byte) error {
 	tmpl := &File2DataStorer{
-		Datas: map[int64]*File2Data{},
+		Datas: map[int32]*File2Data{},
 	}
 
 	if err := proto.Unmarshal(data, tmpl); err != nil {
@@ -40,7 +40,7 @@ func (this *File2DataReader) MergeData(data []byte) error {
 
 	if this.File2DataStorer == nil {
 		this.File2DataStorer = &File2DataStorer{
-			Datas: map[int64]*File2Data{},
+			Datas: map[int32]*File2Data{},
 		}
 	}
 
@@ -59,12 +59,12 @@ func (this *File2DataReader) Clear() {
 	this.File2DataStorer = nil
 }
 
-func (this *File2DataReader) Get(key int64) (result *File2Data, ok bool) {
+func (this *File2DataReader) Get(key int32) (result *File2Data, ok bool) {
 	result, ok = this.Datas[key]
 	return result, ok
 }
 
-func (this *File2DataReader) Keys() (result []int64) {
+func (this *File2DataReader) Keys() (result []int32) {
 	for itor := range this.Datas {
 		result = append(result, itor)
 	}

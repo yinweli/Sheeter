@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace SheeterJson
 {
     using Data_ = VerifyData2;
-    using PKey_ = System.Int64;
+    using Pkey_ = System.Int32;
     using Storer_ = VerifyData2Storer;
 
     public partial class VerifyData2Reader : Reader
@@ -69,27 +69,27 @@ namespace SheeterJson
             storer.Datas.Clear();
         }
 
-        public bool TryGetValue(PKey_ key, out Data_ value)
+        public bool TryGetValue(Pkey_ key, out Data_ value)
         {
             return storer.Datas.TryGetValue(key, out value);
         }
 
-        public bool ContainsKey(PKey_ key)
+        public bool ContainsKey(Pkey_ key)
         {
             return storer.Datas.ContainsKey(key);
         }
 
-        public IEnumerator<KeyValuePair<PKey_, Data_>> GetEnumerator()
+        public IEnumerator<KeyValuePair<Pkey_, Data_>> GetEnumerator()
         {
             return storer.Datas.GetEnumerator();
         }
 
-        public Data_ this[PKey_ key]
+        public Data_ this[Pkey_ key]
         {
             get { return storer.Datas[key]; }
         }
 
-        public ICollection<PKey_> Keys
+        public ICollection<Pkey_> Keys
         {
             get { return storer.Datas.Keys; }
         }

@@ -7,7 +7,7 @@ import (
 	"github.com/yinweli/Sheeter/sheeter/utils"
 )
 
-// Pkey 主要索引
+// Pkey 主要整數索引
 type Pkey struct {
 }
 
@@ -43,7 +43,7 @@ func (this *Pkey) ToTypeProto() string {
 
 // ToJsonValue 轉換為json值
 func (this *Pkey) ToJsonValue(input string) (result interface{}, err error) {
-	result, err = utils.StrToInt(input)
+	result, err = utils.StrToInt32(input)
 
 	if err != nil {
 		return nil, fmt.Errorf("to json value failed: %w", err)

@@ -36,7 +36,7 @@ func verifyJson(depot *sheeterJson.Depot, threads int) {
 
 	for t := 0; t < threads; t++ {
 		go func() {
-			for i := int64(1); i <= 100; i++ {
+			for i := int32(1); i <= 100; i++ {
 				actual1, ok := depot.VerifyData1.Get(i)
 				assertJson(ok)
 				assertJson(actual1.Key == i)
