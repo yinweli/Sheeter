@@ -9,26 +9,35 @@ const MaxExcel = 999999   // 最大開啟excel數量
 
 /* 類型相關 */
 
-type PkeyType = int64 // pkey類型, 修改時要記得跟著修改TokenPkey...系列的類型字串
+type PkeyType = int32 // pkey類型, 修改時要記得跟著修改TokenPkey...系列的類型字串
 
-const TokenPkeyCs = "System.Int64" // 類型字串: pkey(cs)
-const TokenPkeyGo = "int64"        // 類型字串: pkey(go)
-const TokenPkeyProto = "int64"     // 類型字串: pkey(proto)
-const TokenBoolCs = "bool"         // 類型字串: 布林值(cs)
-const TokenBoolGo = "bool"         // 類型字串: 布林值(go)
-const TokenBoolProto = "bool"      // 類型字串: 布林值(proto)
-const TokenIntCs = "long"          // 類型字串: 整數(cs)
-const TokenIntGo = "int64"         // 類型字串: 整數(go)
-const TokenIntProto = "int64"      // 類型字串: 整數(proto)
-const TokenFloatCs = "double"      // 類型字串: 浮點數(cs)
-const TokenFloatGo = "float64"     // 類型字串: 浮點數(go)
-const TokenFloatProto = "double"   // 類型字串: 浮點數(proto)
-const TokenStringCs = "string"     // 類型字串: 字串(cs)
-const TokenStringGo = "string"     // 類型字串: 字串(go)
-const TokenStringProto = "string"  // 類型字串: 字串(proto)
-const TokenArray = "[]"            // 類型字串: 陣列
-const TokenOptional = "optional"   // 類型字串: optional(proto)
-const TokenRepeated = "repeated"   // 類型字串: repeated(proto)
+const TokenPkeyCs = "System.Int32"  // 類型字串: pkey(cs)
+const TokenPkeyGo = "int32"         // 類型字串: pkey(go)
+const TokenPkeyProto = "int32"      // 類型字串: pkey(proto)
+const TokenSkeyCs = "System.String" // 類型字串: skey(cs)
+const TokenSkeyGo = "string"        // 類型字串: skey(go)
+const TokenSkeyProto = "string"     // 類型字串: skey(proto)
+const TokenBoolCs = "bool"          // 類型字串: 布林值(cs)
+const TokenBoolGo = "bool"          // 類型字串: 布林值(go)
+const TokenBoolProto = "bool"       // 類型字串: 布林值(proto)
+const TokenIntCs = "int"            // 類型字串: 32位元整數(cs)
+const TokenIntGo = "int32"          // 類型字串: 32位元整數(go)
+const TokenIntProto = "int32"       // 類型字串: 32位元整數(proto)
+const TokenLongCs = "long"          // 類型字串: 64位元整數(cs)
+const TokenLongGo = "int64"         // 類型字串: 64位元整數(go)
+const TokenLongProto = "int64"      // 類型字串: 64位元整數(proto)
+const TokenFloatCs = "float"        // 類型字串: 32位元浮點數(cs)
+const TokenFloatGo = "float32"      // 類型字串: 32位元浮點數(go)
+const TokenFloatProto = "float"     // 類型字串: 32位元浮點數(proto)
+const TokenDoubleCs = "double"      // 類型字串: 64位元浮點數(cs)
+const TokenDoubleGo = "float64"     // 類型字串: 64位元浮點數(go)
+const TokenDoubleProto = "double"   // 類型字串: 64位元浮點數(proto)
+const TokenStringCs = "string"      // 類型字串: 字串(cs)
+const TokenStringGo = "string"      // 類型字串: 字串(go)
+const TokenStringProto = "string"   // 類型字串: 字串(proto)
+const TokenArray = "[]"             // 類型字串: 陣列
+const TokenOptional = "optional"    // 類型字串: optional(proto)
+const TokenRepeated = "repeated"    // 類型字串: repeated(proto)
 
 /* 模板相關 */
 
@@ -78,13 +87,12 @@ const EnumNamespace = AppName + "Enum"   // 命名空間名稱: enum
 
 /* 其他名稱 */
 
-const SignData = "@"        // 資料表單開頭
-const SignEnum = "$"        // 列舉表單開頭
-const SignIgnore = "ignore" // 忽略表單開頭
-const SeparateSheet = "#"   // 表單字串以'#'符號分割為檔案名稱與表單名稱
-const SeparateArray = ","   // 陣列字串以','符號分割
-const JsonPrefix = ""       // json前綴字串
-const JsonIdent = "    "    // json縮排字串
+const SignData = "@"      // 資料表單開頭
+const SignEnum = "$"      // 列舉表單開頭
+const SeparateSheet = "#" // 表單字串以'#'符號分割為檔案名稱與表單名稱
+const SeparateArray = "," // 陣列字串以','符號分割
+const JsonPrefix = ""     // json前綴字串
+const JsonIdent = "    "  // json縮排字串
 
 // Keywords 關鍵字列表
 var Keywords = []string{

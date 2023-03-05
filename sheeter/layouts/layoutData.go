@@ -66,7 +66,7 @@ func (this *LayoutData) Add(name string, field fields.Field, layer []layers.Laye
 }
 
 // Pack 打包資料
-func (this *LayoutData) Pack(datas []string, tags string) (result map[string]interface{}, pkey int64, err error) {
+func (this *LayoutData) Pack(datas []string, tags string) (result map[string]interface{}, pkey int32, err error) {
 	structor := newStructor()
 
 	for i, itor := range this.layouts {
@@ -86,7 +86,7 @@ func (this *LayoutData) Pack(datas []string, tags string) (result map[string]int
 		} // if
 
 		if itor.Field.IsPkey() {
-			pkey = value.(int64)
+			pkey = value.(int32)
 		} // if
 
 		for _, layer := range itor.Layers {

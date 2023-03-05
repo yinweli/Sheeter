@@ -7,15 +7,15 @@ type Reward struct {
 	//
 	Item []Item `json:"Item"`
 	// 天金
-	Atium int64 `json:"Atium"`
+	Atium int32 `json:"Atium"`
 	// 魔晶
-	Crystal int64 `json:"Crystal"`
+	Crystal int32 `json:"Crystal"`
 	// 獎勵說明
 	Desc string `json:"Desc"`
 	// 鑽石
-	Diamond int64 `json:"Diamond"`
+	Diamond int32 `json:"Diamond"`
 	// 精鐵
-	FelIron int64 `json:"FelIron"`
+	FelIron int32 `json:"FelIron"`
 	// 金幣
-	Gold int64 `json:"Gold"`
+	Gold int32 `json:"Gold"`
 }

@@ -19,7 +19,7 @@ func (this *Path1DataReader) FileName() FileName {
 
 func (this *Path1DataReader) FromData(data []byte) error {
 	this.Path1DataStorer = &Path1DataStorer{
-		Datas: map[int64]*Path1Data{},
+		Datas: map[int32]*Path1Data{},
 	}
 
 	if err := proto.Unmarshal(data, this.Path1DataStorer); err != nil {
@@ -31,7 +31,7 @@ func (this *Path1DataReader) FromData(data []byte) error {
 
 func (this *Path1DataReader) MergeData(data []byte) error {
 	tmpl := &Path1DataStorer{
-		Datas: map[int64]*Path1Data{},
+		Datas: map[int32]*Path1Data{},
 	}
 
 	if err := proto.Unmarshal(data, tmpl); err != nil {
@@ -40,7 +40,7 @@ func (this *Path1DataReader) MergeData(data []byte) error {
 
 	if this.Path1DataStorer == nil {
 		this.Path1DataStorer = &Path1DataStorer{
-			Datas: map[int64]*Path1Data{},
+			Datas: map[int32]*Path1Data{},
 		}
 	}
 
@@ -59,12 +59,12 @@ func (this *Path1DataReader) Clear() {
 	this.Path1DataStorer = nil
 }
 
-func (this *Path1DataReader) Get(key int64) (result *Path1Data, ok bool) {
+func (this *Path1DataReader) Get(key int32) (result *Path1Data, ok bool) {
 	result, ok = this.Datas[key]
 	return result, ok
 }
 
-func (this *Path1DataReader) Keys() (result []int64) {
+func (this *Path1DataReader) Keys() (result []int32) {
 	for itor := range this.Datas {
 		result = append(result, itor)
 	}

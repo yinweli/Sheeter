@@ -43,7 +43,7 @@ func (this *IntArray) ToTypeProto() string {
 
 // ToJsonValue 轉換為json值
 func (this *IntArray) ToJsonValue(input string) (result interface{}, err error) {
-	result, err = utils.StrToIntArray(input)
+	result, err = utils.StrToInt32Array(input)
 
 	if err != nil {
 		return nil, fmt.Errorf("to json value failed: %w", err)

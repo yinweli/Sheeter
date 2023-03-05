@@ -5,9 +5,9 @@ package sheeterJson
 
 type Item struct {
 	// 物品數量
-	Count int64 `json:"Count"`
+	Count int32 `json:"Count"`
 	// 物品編號
-	ItemID int64 `json:"ItemID"`
+	ItemID int32 `json:"ItemID"`
 	// 物品類型
-	Type int64 `json:"Type"`
+	Type int32 `json:"Type"`
 }

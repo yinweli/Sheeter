@@ -72,39 +72,75 @@ func (this *SuiteConvert) TestStrToBoolArray() {
 	assert.NotNil(this.T(), err)
 }
 
-func (this *SuiteConvert) TestStrToInt() {
-	value, err := StrToInt("123456789")
+func (this *SuiteConvert) TestStrToInt32() {
+	value, err := StrToInt32("123456789")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), int32(123456789), value)
+
+	_, err = StrToInt32(testdata.UnknownStr)
+	assert.NotNil(this.T(), err)
+}
+
+func (this *SuiteConvert) TestStrToInt32Array() {
+	value, err := StrToInt32Array("123,456,789")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []int32{123, 456, 789}, value)
+
+	_, err = StrToInt32Array(testdata.UnknownStr)
+	assert.NotNil(this.T(), err)
+}
+
+func (this *SuiteConvert) TestStrToInt64() {
+	value, err := StrToInt64("123456789")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), int64(123456789), value)
 
-	_, err = StrToInt(testdata.UnknownStr)
+	_, err = StrToInt32(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
 
-func (this *SuiteConvert) TestStrToIntArray() {
-	value, err := StrToIntArray("123,456,789")
+func (this *SuiteConvert) TestStrToInt64Array() {
+	value, err := StrToInt64Array("123,456,789")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []int64{123, 456, 789}, value)
 
-	_, err = StrToIntArray(testdata.UnknownStr)
+	_, err = StrToInt64Array(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
 
-func (this *SuiteConvert) TestStrToFloat() {
-	value, err := StrToFloat("0.123456789")
+func (this *SuiteConvert) TestStrToFloat32() {
+	value, err := StrToFloat32("0.12345")
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), 0.123456789, value)
+	assert.Equal(this.T(), float32(0.12345), value)
 
-	_, err = StrToFloat(testdata.UnknownStr)
+	_, err = StrToFloat64(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
 
-func (this *SuiteConvert) TestStrToFloatArray() {
-	value, err := StrToFloatArray("0.123,0.456,0.789")
+func (this *SuiteConvert) TestStrToFloat32Array() {
+	value, err := StrToFloat32Array("0.123,0.456,0.789")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []float32{0.123, 0.456, 0.789}, value)
+
+	_, err = StrToFloat32Array(testdata.UnknownStr)
+	assert.NotNil(this.T(), err)
+}
+
+func (this *SuiteConvert) TestStrToFloat64() {
+	value, err := StrToFloat64("0.12345")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), 0.12345, value)
+
+	_, err = StrToFloat64(testdata.UnknownStr)
+	assert.NotNil(this.T(), err)
+}
+
+func (this *SuiteConvert) TestStrToFloat64Array() {
+	value, err := StrToFloat64Array("0.123,0.456,0.789")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []float64{0.123, 0.456, 0.789}, value)
 
-	_, err = StrToFloatArray(testdata.UnknownStr)
+	_, err = StrToFloat64Array(testdata.UnknownStr)
 	assert.NotNil(this.T(), err)
 }
 

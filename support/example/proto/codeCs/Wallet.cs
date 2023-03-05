@@ -25,8 +25,8 @@ namespace SheeterProto {
       byte[] descriptorData = global::System.Convert.FromBase64String(
           string.Concat(
             "Cgx3YWxsZXQucHJvdG8SDHNoZWV0ZXJQcm90byJoCgZXYWxsZXQSFAoHQ3J5",
-            "c3RhbBgBIAEoA0gAiAEBEhQKB0RpYW1vbmQYAiABKANIAYgBARIRCgRHb2xk",
-            "GAMgASgDSAKIAQFCCgoIX0NyeXN0YWxCCgoIX0RpYW1vbmRCBwoFX0dvbGRC",
+            "c3RhbBgBIAEoBUgAiAEBEhQKB0RpYW1vbmQYAiABKAVIAYgBARIRCgRHb2xk",
+            "GAMgASgFSAKIAQFCCgoIX0NyeXN0YWxCCgoIX0RpYW1vbmRCBwoFX0dvbGRC",
             "EFoOLjtzaGVldGVyUHJvdG9iBnByb3RvMw=="));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
           new pbr::FileDescriptor[] { },
@@ -88,14 +88,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Crystal" field.</summary>
     public const int CrystalFieldNumber = 1;
-    private long crystal_;
+    private int crystal_;
     /// <summary>
     /// 魔晶
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long Crystal {
-      get { if ((_hasBits0 & 1) != 0) { return crystal_; } else { return 0L; } }
+    public int Crystal {
+      get { if ((_hasBits0 & 1) != 0) { return crystal_; } else { return 0; } }
       set {
         _hasBits0 |= 1;
         crystal_ = value;
@@ -116,14 +116,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Diamond" field.</summary>
     public const int DiamondFieldNumber = 2;
-    private long diamond_;
+    private int diamond_;
     /// <summary>
     /// 鑽石
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long Diamond {
-      get { if ((_hasBits0 & 2) != 0) { return diamond_; } else { return 0L; } }
+    public int Diamond {
+      get { if ((_hasBits0 & 2) != 0) { return diamond_; } else { return 0; } }
       set {
         _hasBits0 |= 2;
         diamond_ = value;
@@ -144,14 +144,14 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Gold" field.</summary>
     public const int GoldFieldNumber = 3;
-    private long gold_;
+    private int gold_;
     /// <summary>
     /// 金幣
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public long Gold {
-      get { if ((_hasBits0 & 4) != 0) { return gold_; } else { return 0L; } }
+    public int Gold {
+      get { if ((_hasBits0 & 4) != 0) { return gold_; } else { return 0; } }
       set {
         _hasBits0 |= 4;
         gold_ = value;
@@ -218,15 +218,15 @@ namespace SheeterProto {
     #else
       if (HasCrystal) {
         output.WriteRawTag(8);
-        output.WriteInt64(Crystal);
+        output.WriteInt32(Crystal);
       }
       if (HasDiamond) {
         output.WriteRawTag(16);
-        output.WriteInt64(Diamond);
+        output.WriteInt32(Diamond);
       }
       if (HasGold) {
         output.WriteRawTag(24);
-        output.WriteInt64(Gold);
+        output.WriteInt32(Gold);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(output);
@@ -240,15 +240,15 @@ namespace SheeterProto {
     void pb::IBufferMessage.InternalWriteTo(ref pb::WriteContext output) {
       if (HasCrystal) {
         output.WriteRawTag(8);
-        output.WriteInt64(Crystal);
+        output.WriteInt32(Crystal);
       }
       if (HasDiamond) {
         output.WriteRawTag(16);
-        output.WriteInt64(Diamond);
+        output.WriteInt32(Diamond);
       }
       if (HasGold) {
         output.WriteRawTag(24);
-        output.WriteInt64(Gold);
+        output.WriteInt32(Gold);
       }
       if (_unknownFields != null) {
         _unknownFields.WriteTo(ref output);
@@ -261,13 +261,13 @@ namespace SheeterProto {
     public int CalculateSize() {
       int size = 0;
       if (HasCrystal) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Crystal);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Crystal);
       }
       if (HasDiamond) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Diamond);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Diamond);
       }
       if (HasGold) {
-        size += 1 + pb::CodedOutputStream.ComputeInt64Size(Gold);
+        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Gold);
       }
       if (_unknownFields != null) {
         size += _unknownFields.CalculateSize();
@@ -306,15 +306,15 @@ namespace SheeterProto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, input);
             break;
           case 8: {
-            Crystal = input.ReadInt64();
+            Crystal = input.ReadInt32();
             break;
           }
           case 16: {
-            Diamond = input.ReadInt64();
+            Diamond = input.ReadInt32();
             break;
           }
           case 24: {
-            Gold = input.ReadInt64();
+            Gold = input.ReadInt32();
             break;
           }
         }
@@ -333,15 +333,15 @@ namespace SheeterProto {
             _unknownFields = pb::UnknownFieldSet.MergeFieldFrom(_unknownFields, ref input);
             break;
           case 8: {
-            Crystal = input.ReadInt64();
+            Crystal = input.ReadInt32();
             break;
           }
           case 16: {
-            Diamond = input.ReadInt64();
+            Diamond = input.ReadInt32();
             break;
           }
           case 24: {
-            Gold = input.ReadInt64();
+            Gold = input.ReadInt32();
             break;
           }
         }

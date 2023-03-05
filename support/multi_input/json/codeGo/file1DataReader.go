@@ -18,7 +18,7 @@ func (this *File1DataReader) FileName() FileName {
 
 func (this *File1DataReader) FromData(data []byte) error {
 	this.File1DataStorer = &File1DataStorer{
-		Datas: map[int64]*File1Data{},
+		Datas: map[int32]*File1Data{},
 	}
 
 	if err := json.Unmarshal(data, this.File1DataStorer); err != nil {
@@ -30,7 +30,7 @@ func (this *File1DataReader) FromData(data []byte) error {
 
 func (this *File1DataReader) MergeData(data []byte) error {
 	tmpl := &File1DataStorer{
-		Datas: map[int64]*File1Data{},
+		Datas: map[int32]*File1Data{},
 	}
 
 	if err := json.Unmarshal(data, tmpl); err != nil {
@@ -39,7 +39,7 @@ func (this *File1DataReader) MergeData(data []byte) error {
 
 	if this.File1DataStorer == nil {
 		this.File1DataStorer = &File1DataStorer{
-			Datas: map[int64]*File1Data{},
+			Datas: map[int32]*File1Data{},
 		}
 	}
 
@@ -58,12 +58,12 @@ func (this *File1DataReader) Clear() {
 	this.File1DataStorer = nil
 }
 
-func (this *File1DataReader) Get(key int64) (result *File1Data, ok bool) {
+func (this *File1DataReader) Get(key int32) (result *File1Data, ok bool) {
 	result, ok = this.Datas[key]
 	return result, ok
 }
 
-func (this *File1DataReader) Keys() (result []int64) {
+func (this *File1DataReader) Keys() (result []int32) {
 	for itor := range this.Datas {
 		result = append(result, itor)
 	}

@@ -1,3 +1,4 @@
+copy ..\..\bin\sheeter.exe .\
 rmdir /s /q src
 rmdir /s /q json
 rmdir /s /q proto

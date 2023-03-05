@@ -38,12 +38,17 @@ type Field interface {
 var fields = []Field{
 	&Empty{},
 	&Pkey{},
+	&Skey{},
 	&Bool{},
 	&BoolArray{},
 	&Int{},
 	&IntArray{},
+	&Long{},
+	&LongArray{},
 	&Float{},
 	&FloatArray{},
+	&Double{},
+	&DoubleArray{},
 	&String{},
 	&StringArray{},
 }

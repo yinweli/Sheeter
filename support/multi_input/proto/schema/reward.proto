@@ -10,9 +10,9 @@ option go_package = ".;sheeterProto";
 
 message Reward {
   repeated Item Item = 1; //
-  optional int64 Atium = 2; // 天金
-  optional int64 Crystal = 3; // 魔晶
-  optional int64 Diamond = 4; // 鑽石
-  optional int64 FelIron = 5; // 精鐵
-  optional int64 Gold = 6; // 金幣
+  optional int32 Atium = 2; // 天金
+  optional int32 Crystal = 3; // 魔晶
+  optional int32 Diamond = 4; // 鑽石
+  optional int32 FelIron = 5; // 精鐵
+  optional int32 Gold = 6; // 金幣
 }

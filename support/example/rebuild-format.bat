@@ -1,3 +1,4 @@
+copy ..\..\bin\sheeter.exe .\
 rmdir /s /q enum
 rmdir /s /q json
 rmdir /s /q proto

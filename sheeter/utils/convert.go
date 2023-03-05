@@ -34,21 +34,21 @@ func StrToBoolArray(input string) (result []bool, err error) {
 	return result, nil
 }
 
-// StrToInt 字串轉整數
-func StrToInt(input string) (result int64, err error) {
-	result, err = strconv.ParseInt(input, 10, 64)
+// StrToInt32 字串轉32位元整數
+func StrToInt32(input string) (result int32, err error) {
+	result64, err := strconv.ParseInt(input, 10, 32)
 
 	if err != nil {
 		return 0, fmt.Errorf("str to int failed: %w", err)
 	} // if
 
-	return result, nil
+	return int32(result64), nil
 }
 
-// StrToIntArray 字串轉整數陣列
-func StrToIntArray(input string) (result []int64, err error) {
+// StrToInt32Array 字串轉32位元整數陣列
+func StrToInt32Array(input string) (result []int32, err error) {
 	for _, itor := range strings.Split(input, sheeter.SeparateArray) {
-		value, err := StrToInt(itor)
+		value, err := StrToInt32(itor)
 
 		if err != nil {
 			return nil, err
@@ -60,21 +60,73 @@ func StrToIntArray(input string) (result []int64, err error) {
 	return result, nil
 }
 
-// StrToFloat 字串轉浮點數
-func StrToFloat(input string) (result float64, err error) {
-	result, err = strconv.ParseFloat(input, 64)
+// StrToInt64 字串轉64位元整數
+func StrToInt64(input string) (result int64, err error) {
+	result, err = strconv.ParseInt(input, 10, 64)
 
 	if err != nil {
-		return 0, fmt.Errorf("str to float failed: %w", err)
+		return 0, fmt.Errorf("str to int failed: %w", err)
 	} // if
 
 	return result, nil
 }
 
-// StrToFloatArray 字串轉浮點數陣列
-func StrToFloatArray(input string) (result []float64, err error) {
+// StrToInt64Array 字串轉64位元整數陣列
+func StrToInt64Array(input string) (result []int64, err error) {
 	for _, itor := range strings.Split(input, sheeter.SeparateArray) {
-		value, err := StrToFloat(itor)
+		value, err := StrToInt64(itor)
+
+		if err != nil {
+			return nil, err
+		} // if
+
+		result = append(result, value)
+	} // for
+
+	return result, nil
+}
+
+// StrToFloat32 字串轉32位元浮點數
+func StrToFloat32(input string) (result float32, err error) {
+	result64, err := strconv.ParseFloat(input, 32)
+
+	if err != nil {
+		return 0, fmt.Errorf("str to float failed: %w", err)
+	} // if
+
+	return float32(result64), nil
+}
+
+// StrToFloat32Array 字串轉32位元浮點數陣列
+func StrToFloat32Array(input string) (result []float32, err error) {
+	for _, itor := range strings.Split(input, sheeter.SeparateArray) {
+		value, err := StrToFloat32(itor)
+
+		if err != nil {
+			return nil, err
+		} // if
+
+		result = append(result, value)
+	} // for
+
+	return result, nil
+}
+
+// StrToFloat64 字串轉64位元浮點數
+func StrToFloat64(input string) (result float64, err error) {
+	result64, err := strconv.ParseFloat(input, 64)
+
+	if err != nil {
+		return 0, fmt.Errorf("str to float failed: %w", err)
+	} // if
+
+	return result64, nil
+}
+
+// StrToFloat64Array 字串轉64位元浮點數陣列
+func StrToFloat64Array(input string) (result []float64, err error) {
+	for _, itor := range strings.Split(input, sheeter.SeparateArray) {
+		value, err := StrToFloat64(itor)
 
 		if err != nil {
 			return nil, err

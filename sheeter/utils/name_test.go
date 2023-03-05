@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -57,24 +56,15 @@ func (this *SuiteName) TestNameKeywords() {
 
 func (this *SuiteName) TestIsDataSheetName() {
 	input := "sheetData"
-	assert.True(this.T(), IsDataSheetName(input))
 	assert.True(this.T(), IsDataSheetName(sheeter.SignData+input))
 	assert.False(this.T(), IsDataSheetName(sheeter.SignEnum+input))
-	assert.False(this.T(), IsDataSheetName(sheeter.SignIgnore+input))
+	assert.False(this.T(), IsDataSheetName(input))
 }
 
 func (this *SuiteName) TestIsEnumSheetName() {
 	input := "sheetEnum"
 	assert.True(this.T(), IsEnumSheetName(sheeter.SignEnum+input))
-	assert.False(this.T(), IsIgnoreSheetName(input))
-}
-
-func (this *SuiteName) TestIsIgnoreSheetName() {
-	input := "sheetIgnore"
-	assert.True(this.T(), IsIgnoreSheetName(sheeter.SignIgnore+input))
-	assert.True(this.T(), IsIgnoreSheetName(strings.ToUpper(sheeter.SignIgnore+input)))
-	assert.True(this.T(), IsIgnoreSheetName(strings.ToLower(sheeter.SignIgnore+input)))
-	assert.False(this.T(), IsIgnoreSheetName(input))
+	assert.False(this.T(), IsEnumSheetName(input))
 }
 
 func (this *SuiteName) TestRemoveSheetPrefix() {

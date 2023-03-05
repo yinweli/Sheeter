@@ -43,7 +43,7 @@ func (this *Float) ToTypeProto() string {
 
 // ToJsonValue 轉換為json值
 func (this *Float) ToJsonValue(input string) (result interface{}, err error) {
-	result, err = utils.StrToFloat(input)
+	result, err = utils.StrToFloat32(input)
 
 	if err != nil {
 		return nil, fmt.Errorf("to json value failed: %w", err)

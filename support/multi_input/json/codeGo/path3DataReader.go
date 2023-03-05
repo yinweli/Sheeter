@@ -18,7 +18,7 @@ func (this *Path3DataReader) FileName() FileName {
 
 func (this *Path3DataReader) FromData(data []byte) error {
 	this.Path3DataStorer = &Path3DataStorer{
-		Datas: map[int64]*Path3Data{},
+		Datas: map[int32]*Path3Data{},
 	}
 
 	if err := json.Unmarshal(data, this.Path3DataStorer); err != nil {
@@ -30,7 +30,7 @@ func (this *Path3DataReader) FromData(data []byte) error {
 
 func (this *Path3DataReader) MergeData(data []byte) error {
 	tmpl := &Path3DataStorer{
-		Datas: map[int64]*Path3Data{},
+		Datas: map[int32]*Path3Data{},
 	}
 
 	if err := json.Unmarshal(data, tmpl); err != nil {
@@ -39,7 +39,7 @@ func (this *Path3DataReader) MergeData(data []byte) error {
 
 	if this.Path3DataStorer == nil {
 		this.Path3DataStorer = &Path3DataStorer{
-			Datas: map[int64]*Path3Data{},
+			Datas: map[int32]*Path3Data{},
 		}
 	}
 
@@ -58,12 +58,12 @@ func (this *Path3DataReader) Clear() {
 	this.Path3DataStorer = nil
 }
 
-func (this *Path3DataReader) Get(key int64) (result *Path3Data, ok bool) {
+func (this *Path3DataReader) Get(key int32) (result *Path3Data, ok bool) {
 	result, ok = this.Datas[key]
 	return result, ok
 }
 
-func (this *Path3DataReader) Keys() (result []int64) {
+func (this *Path3DataReader) Keys() (result []int32) {
 	for itor := range this.Datas {
 		result = append(result, itor)
 	}

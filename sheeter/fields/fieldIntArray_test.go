@@ -46,7 +46,7 @@ func (this *SuiteIntArray) TestToJsonValue() {
 
 	result, err := target.ToJsonValue("123,456,789")
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), []int64{123, 456, 789}, result)
+	assert.Equal(this.T(), []int32{123, 456, 789}, result)
 
 	_, err = target.ToJsonValue("")
 	assert.NotNil(this.T(), err)

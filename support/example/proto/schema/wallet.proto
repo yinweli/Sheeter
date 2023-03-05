@@ -7,7 +7,7 @@ package sheeterProto;
 option go_package = ".;sheeterProto";
 
 message Wallet {
-  optional int64 Crystal = 1; // 魔晶
-  optional int64 Diamond = 2; // 鑽石
-  optional int64 Gold = 3; // 金幣
+  optional int32 Crystal = 1; // 魔晶
+  optional int32 Diamond = 2; // 鑽石
+  optional int32 Gold = 3; // 金幣
 }

@@ -12,11 +12,11 @@ option go_package = ".;sheeterProto";
 message ExampleData {
   optional Reward Reward = 1; //
   optional Wallet Wallet = 2; //
-  optional int64 Ignore = 3; // 忽略
-  optional int64 Key = 4; // 索引
+  optional int32 Ignore = 3; // 忽略
+  optional int32 Key = 4; // 索引
   optional string Name = 5; // 名稱
 }
 
 message ExampleDataStorer {
-  map<int64, ExampleData> Datas = 1;
+  map<int32, ExampleData> Datas = 1;
 }

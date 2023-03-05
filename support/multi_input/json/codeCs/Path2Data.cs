@@ -18,11 +18,11 @@ namespace SheeterJson
 
         // 忽略
         [JsonProperty("Ignore")]
-        public long Ignore { get; set; }
+        public int Ignore { get; set; }
 
         // 索引
         [JsonProperty("Key")]
-        public System.Int64 Key { get; set; }
+        public System.Int32 Key { get; set; }
 
         // 名稱
         [JsonProperty("Name")]
@@ -31,7 +31,7 @@ namespace SheeterJson
 
     public partial class Path2DataStorer
     {
-        public Dictionary<System.Int64, Path2Data> Datas =
-            new Dictionary<System.Int64, Path2Data>();
+        public Dictionary<System.Int32, Path2Data> Datas =
+            new Dictionary<System.Int32, Path2Data>();
     }
 }
