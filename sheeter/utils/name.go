@@ -38,17 +38,12 @@ func NameKeywords(input string) bool {
 
 // IsDataSheetName 資料表單名稱檢查
 func IsDataSheetName(input string) bool {
-	return IsEnumSheetName(input) == false && IsIgnoreSheetName(input) == false
+	return strings.HasPrefix(input, sheeter.SignData)
 }
 
 // IsEnumSheetName 列舉表單名稱檢查
 func IsEnumSheetName(input string) bool {
 	return strings.HasPrefix(input, sheeter.SignEnum)
-}
-
-// IsIgnoreSheetName 忽略表單名稱檢查
-func IsIgnoreSheetName(input string) bool {
-	return strings.HasPrefix(strings.ToLower(input), sheeter.SignIgnore)
 }
 
 // RemoveSheetPrefix 移除表單開頭, 不會移除忽略表單開頭, 因為忽略表單應該在處理前期就被忽略掉了

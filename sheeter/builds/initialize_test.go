@@ -96,7 +96,7 @@ func (this *SuiteInitialize) TestPrepareSheet() {
 		{ExcelName: "test1", SheetName: sheeter.SignData + "sheet"},
 		{ExcelName: "test2", SheetName: sheeter.SignEnum + "sheet"},
 		{ExcelName: "test1", SheetName: sheeter.SignData + "sheet"},
-		{ExcelName: "testx", SheetName: sheeter.SignIgnore + "sheet"},
+		{ExcelName: "testx", SheetName: "x"},
 	}
 	native := []any{
 		&initializeSheetData{

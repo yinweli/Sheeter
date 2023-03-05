@@ -87,13 +87,12 @@ const EnumNamespace = AppName + "Enum"   // 命名空間名稱: enum
 
 /* 其他名稱 */
 
-const SignData = "@"        // 資料表單開頭
-const SignEnum = "$"        // 列舉表單開頭
-const SignIgnore = "ignore" // 忽略表單開頭
-const SeparateSheet = "#"   // 表單字串以'#'符號分割為檔案名稱與表單名稱
-const SeparateArray = ","   // 陣列字串以','符號分割
-const JsonPrefix = ""       // json前綴字串
-const JsonIdent = "    "    // json縮排字串
+const SignData = "@"      // 資料表單開頭
+const SignEnum = "$"      // 列舉表單開頭
+const SeparateSheet = "#" // 表單字串以'#'符號分割為檔案名稱與表單名稱
+const SeparateArray = "," // 陣列字串以','符號分割
+const JsonPrefix = ""     // json前綴字串
+const JsonIdent = "    "  // json縮排字串
 
 // Keywords 關鍵字列表
 var Keywords = []string{
