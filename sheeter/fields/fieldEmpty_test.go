@@ -32,7 +32,7 @@ func (this *SuiteEmpty) target() *Empty {
 
 func (this *SuiteEmpty) TestField() {
 	target := this.target()
-	assert.Equal(this.T(), "empty", target.Type())
+	assert.Equal(this.T(), []string{"empty", "ignore"}, target.Field())
 	assert.Equal(this.T(), false, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
 	assert.Equal(this.T(), "", target.ToTypeCs())

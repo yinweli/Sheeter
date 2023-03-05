@@ -11,9 +11,9 @@ import (
 type Pkey struct {
 }
 
-// Type 取得excel欄位類型
-func (this *Pkey) Type() string {
-	return "pkey"
+// Field 取得excel欄位類型列表
+func (this *Pkey) Field() []string {
+	return []string{"pkey"}
 }
 
 // IsShow 是否顯示

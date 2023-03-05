@@ -173,18 +173,18 @@ sheeter version
 ## 欄位行
 欄位類型設置, 空格表示表格結束  
 
-| 類型        | 說明                                 |
-|:------------|:-------------------------------------|
-| empty       | 不會輸出的欄位                       |
-| pkey        | 表格主要索引, 編號可跳號但是不可重複 |
-| bool        | 布林值                               |
-| boolArray   | 以逗號分隔的布林值陣列               |
-| int         | 64位元整數                           |
-| intArray    | 以逗號分隔的64位元整數陣列           |
-| float       | 64位元浮點數                         |
-| floatArray  | 以逗號分隔的64位元整數陣列           |
-| string      | 字串                                 |
-| stringArray | 以逗號分隔的字串陣列                 |
+| 類型                            | 說明                                 |
+|:--------------------------------|:-------------------------------------|
+| empty, ignore                   | 不會輸出的欄位                       |
+| pkey                            | 表格主要索引, 編號可跳號但是不可重複 |
+| bool                            | 布林值                               |
+| boolArray, []bool, bool[]       | 以逗號分隔的布林值陣列               |
+| int                             | 64位元整數                           |
+| intArray, []int, int[]          | 以逗號分隔的64位元整數陣列           |
+| float                           | 64位元浮點數                         |
+| floatArray, []float, float[]    | 以逗號分隔的64位元整數陣列           |
+| string                          | 字串                                 |
+| stringArray, []string, string[] | 以逗號分隔的字串陣列                 |
 
 ## 階層行
 欄位結構布局, 格式有`{名稱`, `{[]名稱`, `/`, `}`, 之間以空格分隔  
@@ -222,12 +222,12 @@ sheeter version
 ## 資料行
 依照類型填寫相應的內容即可, 空表格(也就是沒有任何資料行)是允許的, 遇到的第一個空行會被視為表格結束  
 另外就是以下類型允許空資料(也就是excel中資料格可以填空), 除此之外的類型不允許空資料  
-- `empty`
-- `boolArray`
-- `intArray`
-- `floatArray`
-- `string`
-- `stringArray`
+- empty, ignore
+- boolArray, []bool, bool[]
+- intArray, []int, int[]
+- floatArray, []float, float[]
+- string
+- stringArray, []string, string[]
 
 ## 其他的限制
 * 檔案名稱與表單名稱

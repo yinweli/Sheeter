@@ -33,7 +33,7 @@ func (this *SuiteFloatArray) target() *FloatArray {
 
 func (this *SuiteFloatArray) TestField() {
 	target := this.target()
-	assert.Equal(this.T(), "floatArray", target.Type())
+	assert.Equal(this.T(), []string{"floatArray", "[]float", "float[]"}, target.Field())
 	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
 	assert.Equal(this.T(), sheeter.TokenFloatCs+sheeter.TokenArray, target.ToTypeCs())

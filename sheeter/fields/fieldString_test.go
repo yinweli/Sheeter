@@ -10,30 +10,30 @@ import (
 	"github.com/yinweli/Sheeter/testdata"
 )
 
-func TestText(t *testing.T) {
-	suite.Run(t, new(SuiteText))
+func TestString(t *testing.T) {
+	suite.Run(t, new(SuiteString))
 }
 
-type SuiteText struct {
+type SuiteString struct {
 	suite.Suite
 	testdata.TestEnv
 }
 
-func (this *SuiteText) SetupSuite() {
-	this.Change("test-field-text")
+func (this *SuiteString) SetupSuite() {
+	this.Change("test-field-string")
 }
 
-func (this *SuiteText) TearDownSuite() {
+func (this *SuiteString) TearDownSuite() {
 	this.Restore()
 }
 
-func (this *SuiteText) target() *String {
+func (this *SuiteString) target() *String {
 	return &String{}
 }
 
-func (this *SuiteText) TestField() {
+func (this *SuiteString) TestField() {
 	target := this.target()
-	assert.Equal(this.T(), "string", target.Type())
+	assert.Equal(this.T(), []string{"string"}, target.Field())
 	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
 	assert.Equal(this.T(), sheeter.TokenStringCs, target.ToTypeCs())
@@ -41,7 +41,7 @@ func (this *SuiteText) TestField() {
 	assert.Equal(this.T(), sheeter.TokenStringProto, target.ToTypeProto())
 }
 
-func (this *SuiteText) TestToJsonValue() {
+func (this *SuiteString) TestToJsonValue() {
 	target := this.target()
 
 	result, err := target.ToJsonValue("ball,book,pack")

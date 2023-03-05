@@ -9,8 +9,8 @@ import (
 
 // Field 欄位介面
 type Field interface {
-	// Type 取得excel欄位類型
-	Type() string
+	// Field 取得excel欄位類型列表
+	Field() []string
 
 	// IsShow 是否顯示
 	IsShow() bool
@@ -51,9 +51,11 @@ var fields = []Field{
 // Parser 欄位解析
 func Parser(input string) (field Field, err error) {
 	for _, itor := range fields {
-		if itor.Type() == input {
-			return itor, nil
-		} // if
+		for _, name := range itor.Field() {
+			if name == input {
+				return itor, nil
+			} // if
+		} // for
 	} // for
 
 	return nil, fmt.Errorf("%s: parser field failed: field not found", input)

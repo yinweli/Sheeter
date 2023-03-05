@@ -33,7 +33,7 @@ func (this *SuiteBool) target() *Bool {
 
 func (this *SuiteBool) TestField() {
 	target := this.target()
-	assert.Equal(this.T(), "bool", target.Type())
+	assert.Equal(this.T(), []string{"bool"}, target.Field())
 	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
 	assert.Equal(this.T(), sheeter.TokenBoolCs, target.ToTypeCs())

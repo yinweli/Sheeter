@@ -33,7 +33,7 @@ func (this *SuitePkey) target() *Pkey {
 
 func (this *SuitePkey) TestField() {
 	target := this.target()
-	assert.Equal(this.T(), "pkey", target.Type())
+	assert.Equal(this.T(), []string{"pkey"}, target.Field())
 	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), true, target.IsPkey())
 	assert.Equal(this.T(), sheeter.TokenPkeyCs, target.ToTypeCs())

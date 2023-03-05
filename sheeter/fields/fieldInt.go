@@ -11,9 +11,9 @@ import (
 type Int struct {
 }
 
-// Type 取得excel欄位類型
-func (this *Int) Type() string {
-	return "int"
+// Field 取得excel欄位類型列表
+func (this *Int) Field() []string {
+	return []string{"int"}
 }
 
 // IsShow 是否顯示

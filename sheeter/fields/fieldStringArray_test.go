@@ -33,7 +33,7 @@ func (this *SuiteStringArray) target() *StringArray {
 
 func (this *SuiteStringArray) TestField() {
 	target := this.target()
-	assert.Equal(this.T(), "stringArray", target.Type())
+	assert.Equal(this.T(), []string{"stringArray", "[]string", "string[]"}, target.Field())
 	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
 	assert.Equal(this.T(), sheeter.TokenStringCs+sheeter.TokenArray, target.ToTypeCs())

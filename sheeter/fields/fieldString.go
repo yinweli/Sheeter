@@ -6,9 +6,9 @@ import "github.com/yinweli/Sheeter/sheeter"
 type String struct {
 }
 
-// Type 取得excel欄位類型
-func (this *String) Type() string {
-	return "string"
+// Field 取得excel欄位類型列表
+func (this *String) Field() []string {
+	return []string{"string"}
 }
 
 // IsShow 是否顯示

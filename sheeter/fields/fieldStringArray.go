@@ -9,9 +9,9 @@ import (
 type StringArray struct {
 }
 
-// Type 取得excel欄位類型
-func (this *StringArray) Type() string {
-	return "stringArray"
+// Field 取得excel欄位類型列表
+func (this *StringArray) Field() []string {
+	return []string{"stringArray", "[]string", "string[]"}
 }
 
 // IsShow 是否顯示

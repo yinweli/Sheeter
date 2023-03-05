@@ -33,7 +33,7 @@ func (this *SuiteInt) target() *Int {
 
 func (this *SuiteInt) TestField() {
 	target := this.target()
-	assert.Equal(this.T(), "int", target.Type())
+	assert.Equal(this.T(), []string{"int"}, target.Field())
 	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
 	assert.Equal(this.T(), sheeter.TokenIntCs, target.ToTypeCs())

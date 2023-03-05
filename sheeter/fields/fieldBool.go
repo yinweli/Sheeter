@@ -11,9 +11,9 @@ import (
 type Bool struct {
 }
 
-// Type 取得excel欄位類型
-func (this *Bool) Type() string {
-	return "bool"
+// Field 取得excel欄位類型列表
+func (this *Bool) Field() []string {
+	return []string{"bool"}
 }
 
 // IsShow 是否顯示
