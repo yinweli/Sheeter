@@ -73,10 +73,3 @@ func (this *SuiteCombine) TestCombine() {
 		ext:       ".x",
 	}))
 }
-
-func (this *SuiteCombine) TestRemoveSheetPrefix() {
-	sheet := "test"
-	assert.Equal(this.T(), sheet, removeSheetPrefix(sheeter.SignData+sheet))
-	assert.Equal(this.T(), sheet, removeSheetPrefix(sheeter.SignEnum+sheet))
-	assert.Equal(this.T(), sheet, removeSheetPrefix(sheet))
-}

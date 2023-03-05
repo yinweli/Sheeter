@@ -1,9 +1,6 @@
 package nameds
 
 import (
-	"strings"
-
-	"github.com/yinweli/Sheeter/sheeter"
 	"github.com/yinweli/Sheeter/sheeter/utils"
 )
 
@@ -27,7 +24,7 @@ func combine(params *params) string {
 		excel = utils.FirstLower(excel)
 	} // if
 
-	sheet := removeSheetPrefix(params.sheetName)
+	sheet := utils.RemoveSheetPrefix(params.sheetName)
 
 	if params.sheetUpper {
 		sheet = utils.FirstUpper(sheet)
@@ -42,17 +39,4 @@ func combine(params *params) string {
 	} // if
 
 	return name
-}
-
-// removeSheetPrefix 移除表單開頭字元
-func removeSheetPrefix(sheet string) string {
-	if strings.HasPrefix(sheet, sheeter.SignData) {
-		return strings.TrimPrefix(sheet, sheeter.SignData)
-	} // if
-
-	if strings.HasPrefix(sheet, sheeter.SignEnum) {
-		return strings.TrimPrefix(sheet, sheeter.SignEnum)
-	} // if
-
-	return sheet
 }

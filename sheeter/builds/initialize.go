@@ -1,9 +1,6 @@
 package builds
 
 import (
-	"strings"
-
-	"github.com/yinweli/Sheeter/sheeter"
 	"github.com/yinweli/Sheeter/sheeter/nameds"
 	"github.com/yinweli/Sheeter/sheeter/pipelines"
 	"github.com/yinweli/Sheeter/sheeter/utils"
@@ -93,13 +90,13 @@ func prepareSheet(config []Sheet, native []any, global *Global) []any {
 
 	for _, itor := range config {
 		if duplicate.Check(itor.ExcelName, itor.SheetName) {
-			if strings.HasPrefix(itor.SheetName, sheeter.SignData) {
+			if utils.IsDataSheetName(itor.SheetName) {
 				result = append(result, &initializeSheetData{
 					Named: &nameds.Named{ExcelName: itor.ExcelName, SheetName: itor.SheetName},
 				})
 			} // if
 
-			if strings.HasPrefix(itor.SheetName, sheeter.SignEnum) {
+			if utils.IsEnumSheetName(itor.SheetName) {
 				result = append(result, &initializeSheetEnum{
 					Named: &nameds.Named{ExcelName: itor.ExcelName, SheetName: itor.SheetName},
 				})
