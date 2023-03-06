@@ -99,7 +99,7 @@ func (this *SuiteLayoutData) TestPack() {
 
 	packs, pkey, err = target.Pack(dataValid, "")
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), int32(0), pkey)
+	assert.Equal(this.T(), nil, pkey)
 	assert.Equal(this.T(), actual3, packs)
 
 	_, _, err = target.Pack(dataInvalid, "A")

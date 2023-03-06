@@ -20,6 +20,7 @@ func NewLayoutData() *LayoutData {
 type LayoutData struct {
 	layouts []Data         // 布局列表
 	types   map[string]int // 類型列表
+	pkey    fields.Field   // 主要索引欄位類型
 }
 
 // Data 布局資料
@@ -55,6 +56,14 @@ func (this *LayoutData) Add(name string, field fields.Field, layer []layers.Laye
 		return fmt.Errorf("layoutData add failed: back < 0")
 	} // if
 
+	if field.IsPkey() {
+		if this.pkey != nil {
+
+		} // if
+
+		this.pkey = field
+	} // if
+
 	this.layouts = append(this.layouts, Data{
 		Name:   name,
 		Field:  field,
@@ -66,7 +75,7 @@ func (this *LayoutData) Add(name string, field fields.Field, layer []layers.Laye
 }
 
 // Pack 打包資料
-func (this *LayoutData) Pack(datas []string, tags string) (result map[string]interface{}, pkey int32, err error) {
+func (this *LayoutData) Pack(datas []string, tags string) (result map[string]interface{}, pkey any, err error) {
 	structor := newStructor()
 
 	for i, itor := range this.layouts {
@@ -86,7 +95,7 @@ func (this *LayoutData) Pack(datas []string, tags string) (result map[string]int
 		} // if
 
 		if itor.Field.IsPkey() {
-			pkey = value.(int32)
+			pkey = value
 		} // if
 
 		for _, layer := range itor.Layers {

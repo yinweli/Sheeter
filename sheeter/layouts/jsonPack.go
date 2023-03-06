@@ -11,7 +11,7 @@ import (
 // JsonPack 打包json資料; 將會把excel中的資料, 依據資料布局與排除標籤, 轉換為json格式的位元陣列
 func JsonPack(sheet *excels.Sheet, layoutData *LayoutData, tags string) (json []byte, err error) {
 	defer sheet.Close()
-	datas := map[sheeter.PkeyType]interface{}{}
+	datas := map[any]interface{}{}
 
 	for ok := true; ok; ok = sheet.Next() {
 		data, _ := sheet.Data()
@@ -26,11 +26,51 @@ func JsonPack(sheet *excels.Sheet, layoutData *LayoutData, tags string) (json []
 			return nil, fmt.Errorf("json pack failed: %w", err)
 		} // if
 
+		if pkey == nil {
+			return nil, fmt.Errorf("pkey not found")
+		} // if
+
 		datas[pkey] = jsonFirstUpper(packs) // 因為轉為proto資料時需要欄位為大寫駝峰, 所以在此轉換
 	} // for
 
-	obj := map[string]interface{}{} // 因為轉為proto資料時需要多包一層, 所以json資料也跟著多包一層
-	obj[sheeter.StorerDatas] = datas
+	obj := map[string]interface{}{ // 因為轉為proto資料時需要多包一層, 所以json資料也跟著多包一層
+		sheeter.StorerDatas: datas,
+	}
+
+	if json, err = utils.JsonMarshal(obj); err != nil {
+		return nil, fmt.Errorf("json pack failed: %w", err)
+	} // if
+
+	return json, nil
+}
+
+// jsonPack 打包json資料; 將會把excel中的資料, 依據資料布局與排除標籤, 轉換為json格式的位元陣列
+func jsonPack[T comparable](sheet *excels.Sheet, layoutData *LayoutData, tags string) (json []byte, err error) {
+	datas := map[T]interface{}{}
+
+	for ok := true; ok; ok = sheet.Next() {
+		data, _ := sheet.Data()
+
+		if data == nil { // 碰到空行就結束了
+			break
+		} // if
+
+		packs, pkey, err := layoutData.Pack(data, tags)
+
+		if err != nil {
+			return nil, fmt.Errorf("json pack failed: %w", err)
+		} // if
+
+		if pkey == nil {
+			return nil, fmt.Errorf("pkey not found")
+		} // if
+
+		datas[pkey] = jsonFirstUpper(packs) // 因為轉為proto資料時需要欄位為大寫駝峰, 所以在此轉換
+	} // for
+
+	obj := map[string]interface{}{ // 因為轉為proto資料時需要多包一層, 所以json資料也跟著多包一層
+		sheeter.StorerDatas: datas,
+	}
 
 	if json, err = utils.JsonMarshal(obj); err != nil {
 		return nil, fmt.Errorf("json pack failed: %w", err)

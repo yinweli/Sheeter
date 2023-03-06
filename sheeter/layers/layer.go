@@ -19,14 +19,24 @@ const (
 	LayerDivider        // 陣列隔線
 )
 
-const tokenArray = "{[]" // 以'{[]'符號開始, 表示為陣列的開始
-const tokenStruct = "{"  // 以'{'符號開始, 表示為結構的開始
-const tokenDivider = "/" // 以'/'符號開始, 表示為陣列的分隔, 必須在階層字串的最開始, 並且只能出現一次
-const tokenEnd = "}"     // 以'}'符號開始, 表示為結構/陣列的結束
+const tokenIgnore = "ignore" // 表示為停用階層
+const tokenArray = "{[]"     // 以'{[]'符號開始, 表示為陣列的開始
+const tokenStruct = "{"      // 以'{'符號開始, 表示為結構的開始
+const tokenDivider = "/"     // 以'/'符號開始, 表示為陣列的分隔, 必須在階層字串的最開始, 並且只能出現一次
+const tokenEnd = "}"         // 以'}'符號開始, 表示為結構/陣列的結束
 
 // Parser 階層解析, 格式為'{[]name', '{name', '/', '}', 以空格分隔
 func Parser(input string) (layers []Layer, back int, err error) {
 	tokens := strings.Fields(input)
+
+	if len(tokens) == 0 { // 停用階層
+		return layers, back, nil
+	} // if
+
+	if strings.ToLower(tokens[0]) == tokenIgnore { // 停用階層
+		return layers, back, nil
+	} // if
+
 	locate := false  // 位置旗標, false表示前置位置, true表示後置位置
 	divider := false // 陣列隔線旗標, false表示沒有出現, true表示已經出現
 

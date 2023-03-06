@@ -18,6 +18,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unrelease]
 ### Added
 - 新增欄位類型 double, long, skey
+- 新增停用階層功能
 
 ### Changed
 - 更改欄位類型, 讓欄位類型有多個別名可選擇

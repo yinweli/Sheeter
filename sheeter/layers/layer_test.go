@@ -27,7 +27,27 @@ func (this *SuiteLayer) TearDownSuite() {
 }
 
 func (this *SuiteLayer) TestParseLayer() {
-	layer, back, err := Parser("{[]name1")
+	layer, back, err := Parser("")
+	assert.Nil(this.T(), err)
+	assert.Len(this.T(), layer, 0)
+	assert.Equal(this.T(), 0, back)
+
+	layer, back, err = Parser("ignore")
+	assert.Nil(this.T(), err)
+	assert.Len(this.T(), layer, 0)
+	assert.Equal(this.T(), 0, back)
+
+	layer, back, err = Parser("Ignore")
+	assert.Nil(this.T(), err)
+	assert.Len(this.T(), layer, 0)
+	assert.Equal(this.T(), 0, back)
+
+	layer, back, err = Parser("igNore")
+	assert.Nil(this.T(), err)
+	assert.Len(this.T(), layer, 0)
+	assert.Equal(this.T(), 0, back)
+
+	layer, back, err = Parser("{[]name1")
 	assert.Nil(this.T(), err)
 	assert.Len(this.T(), layer, 1)
 	assert.Equal(this.T(), LayerArray, layer[0].Type)

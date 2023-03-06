@@ -26,7 +26,7 @@ type SuiteJsonPack struct {
 	lineOfLayer int
 	lineOfTag   int
 	lineOfData  int
-	excel       excels.Excel
+	excelPkey   excels.Excel
 }
 
 func (this *SuiteJsonPack) SetupSuite() {
@@ -36,7 +36,7 @@ func (this *SuiteJsonPack) SetupSuite() {
 	this.lineOfLayer = 4
 	this.lineOfTag = 5
 	this.lineOfData = 6
-	assert.Nil(this.T(), this.excel.Open(testdata.ExcelJsonPack))
+	assert.Nil(this.T(), this.excelPkey.Open(testdata.ExcelJsonPackPkey))
 }
 
 func (this *SuiteJsonPack) TearDownSuite() {
@@ -44,7 +44,7 @@ func (this *SuiteJsonPack) TearDownSuite() {
 	this.Restore()
 }
 
-func (this *SuiteJsonPack) TestJsonPack() {
+func (this *SuiteJsonPack) TestJsonPackPkey() {
 	completeBytes, _ := utils.JsonMarshal(map[string]interface{}{
 		"Datas": map[sheeter.PkeyType]interface{}{
 			1: map[string]interface{}{
@@ -123,7 +123,7 @@ func (this *SuiteJsonPack) TestJsonPack() {
 		},
 	})
 
-	line, err := this.excel.GetLine(testdata.SheetData, this.lineOfTag, this.lineOfName, this.lineOfField, this.lineOfLayer)
+	line, err := this.excelPkey.GetLine(testdata.SheetData, this.lineOfTag, this.lineOfName, this.lineOfField, this.lineOfLayer)
 	assert.Nil(this.T(), err)
 	nameLine := line[this.lineOfName]
 	fieldLine := line[this.lineOfField]
@@ -141,7 +141,7 @@ func (this *SuiteJsonPack) TestJsonPack() {
 		assert.Nil(this.T(), layoutData.Add(name, field, layer, back, tag))
 	} // for
 
-	sheet, err := this.excel.Get(testdata.SheetData)
+	sheet, err := this.excelPkey.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)
 	assert.True(this.T(), sheet.Nextn(this.lineOfData))
 	json, err := JsonPack(sheet, layoutData, "A")
@@ -149,7 +149,7 @@ func (this *SuiteJsonPack) TestJsonPack() {
 	assert.Equal(this.T(), string(completeBytes), string(json))
 	sheet.Close()
 
-	sheet, err = this.excel.Get(testdata.SheetData)
+	sheet, err = this.excelPkey.Get(testdata.SheetData)
 	assert.Nil(this.T(), err)
 	assert.True(this.T(), sheet.Nextn(this.lineOfData))
 	json, err = JsonPack(sheet, layoutData, "B")
