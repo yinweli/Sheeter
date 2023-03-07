@@ -33,7 +33,7 @@ func Parser(input string) (layers []Layer, back int, err error) {
 		return layers, back, nil
 	} // if
 
-	if strings.ToLower(tokens[0]) == tokenIgnore { // 停用階層
+	if strings.EqualFold(tokens[0], tokenIgnore) { // 停用階層
 		return layers, back, nil
 	} // if
 

@@ -19,7 +19,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - 新增欄位類型 double, long, skey
 - 新增停用階層功能
-
 ### Changed
 - 更改欄位類型, 讓欄位類型有多個別名可選擇
 - 更改欄位類型的輸出類型, pkey改為32為元整數, int改為32為元整數, float改為32位元浮點數

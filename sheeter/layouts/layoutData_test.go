@@ -106,9 +106,9 @@ func (this *SuiteLayoutData) TestPack() {
 	assert.NotNil(this.T(), err)
 }
 
-func (this *SuiteLayoutData) TestPkeyCount() {
+func (this *SuiteLayoutData) TestPkey() {
 	target := this.target()
-	assert.Equal(this.T(), 0, target.PkeyCount())
+	assert.Nil(this.T(), target.Pkey())
 	assert.Nil(this.T(), target.Add("name", &fields.Pkey{}, this.layer(""), 0, ""))
-	assert.Equal(this.T(), 1, target.PkeyCount())
+	assert.NotNil(this.T(), target.Pkey())
 }

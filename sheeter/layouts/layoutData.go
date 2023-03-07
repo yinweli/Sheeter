@@ -20,7 +20,7 @@ func NewLayoutData() *LayoutData {
 type LayoutData struct {
 	layouts []Data         // 布局列表
 	types   map[string]int // 類型列表
-	pkey    fields.Field   // 主要索引欄位類型
+	pkey    fields.Field   // 主要索引欄位
 }
 
 // Data 布局資料
@@ -56,11 +56,11 @@ func (this *LayoutData) Add(name string, field fields.Field, layer []layers.Laye
 		return fmt.Errorf("layoutData add failed: back < 0")
 	} // if
 
+	if field.IsPkey() && this.pkey != nil {
+		return fmt.Errorf("layoutData add failed: too many pkey")
+	} // if
+
 	if field.IsPkey() {
-		if this.pkey != nil {
-
-		} // if
-
 		this.pkey = field
 	} // if
 
@@ -148,15 +148,7 @@ func (this *LayoutData) Pack(datas []string, tags string) (result map[string]int
 	return result, pkey, nil
 }
 
-// PkeyCount 主要索引數量
-func (this *LayoutData) PkeyCount() int {
-	count := 0
-
-	for _, itor := range this.layouts {
-		if itor.Field.IsPkey() {
-			count++
-		} // if
-	} // for
-
-	return count
+// Pkey 取得主要索引欄位
+func (this *LayoutData) Pkey() fields.Field {
+	return this.pkey
 }

@@ -4,9 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 
-namespace verifycs {
-    public static class VerifyProto {
-        public static void verifyProtoFrom(int threads) {
+namespace verifycs
+{
+    public static class VerifyProto
+    {
+        public static void verifyProtoFrom(int threads)
+        {
             var loader = new ProtoFileLoader();
             var depot = new Depot() { Loader = loader };
 
@@ -16,7 +19,8 @@ namespace verifycs {
             Console.WriteLine("verify proto from: success");
         }
 
-        public static void verifyProtoMerge(int threads) {
+        public static void verifyProtoMerge(int threads)
+        {
             var loader = new ProtoFileLoader();
             var depot = new Depot() { Loader = loader };
 
@@ -26,16 +30,20 @@ namespace verifycs {
             Console.WriteLine("verify proto merge: success");
         }
 
-        private static void verify(Depot depot, int threads) {
+        private static void verify(Depot depot, int threads)
+        {
             var threadList = new List<Thread>();
 
-            for (var t = 0; t < threads; t++) {
+            for (var t = 0; t < threads; t++)
+            {
                 threadList.Add(
-                    new Thread(() => {
+                    new Thread(() =>
+                    {
                         VerifyData1 actual1;
                         VerifyData2 actual2;
 
-                        for (var i = 1; i <= 100; i++) {
+                        for (var i = 1; i <= 100; i++)
+                        {
                             assert(depot.VerifyData1.TryGetValue(i, out actual1));
                             assert(actual1 != null);
                             assert(actual1.Key == i);
@@ -59,9 +67,9 @@ namespace verifycs {
                             assert(actual1.Reward.Item[2].Type == 2);
                             assert(actual1.Reward.Item[2].Count == i);
 
-                            assert(depot.VerifyData2.TryGetValue(i, out actual2));
+                            assert(depot.VerifyData2.TryGetValue(i.ToString(), out actual2));
                             assert(actual2 != null);
-                            assert(actual2.Key == i);
+                            assert(actual2.Key == i.ToString());
                             assert(actual2.Hide == false);
                             assert(actual2.Enable == (i % 2 == 1));
                             assert(actual2.Name == "名稱" + i);
@@ -86,7 +94,7 @@ namespace verifycs {
                         assert(depot.VerifyData1.TryGetValue(101, out actual1) == false);
                         assert(actual1 == null);
 
-                        assert(depot.VerifyData2.TryGetValue(101, out actual2) == false);
+                        assert(depot.VerifyData2.TryGetValue(101.ToString(), out actual2) == false);
                         assert(actual2 == null);
                     })
                 );
@@ -99,18 +107,22 @@ namespace verifycs {
                 itor.Join();
         }
 
-        private static void assert(bool condition) {
+        private static void assert(bool condition)
+        {
             if (condition == false)
                 throw new Exception("verify proto: verify failed");
         }
     }
 
-    class ProtoFileLoader : Loader {
-        public void Error(string name, string message) {
+    class ProtoFileLoader : Loader
+    {
+        public void Error(string name, string message)
+        {
             Console.WriteLine(name + ": proto file load failed: " + message);
         }
 
-        public byte[] Load(FileName filename) {
+        public byte[] Load(FileName filename)
+        {
             return File.ReadAllBytes(Path.Combine("proto", "data", filename.File));
         }
     }

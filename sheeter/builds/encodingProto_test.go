@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/suite"
 
 	"github.com/yinweli/Sheeter/sheeter/excels"
+	"github.com/yinweli/Sheeter/sheeter/fields"
 	"github.com/yinweli/Sheeter/sheeter/nameds"
 	"github.com/yinweli/Sheeter/testdata"
 )
@@ -58,7 +59,7 @@ func (this *SuiteEncodingProto) target(excel string) *encodingProto {
 		generate = append(generate, &generateProto{
 			Global: sheet.Global,
 			Named:  &nameds.Named{ExcelName: type_.Excel, SheetName: type_.Sheet},
-			Field:  &nameds.Field{},
+			Field:  &nameds.Field{Pkey: &fields.Pkey{}},
 			Proto:  &nameds.Proto{ExcelName: type_.Excel, SheetName: type_.Sheet},
 			Reader: type_.Reader,
 			Fields: sheet.layoutType.Fields(itor),

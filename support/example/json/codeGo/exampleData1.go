@@ -3,7 +3,7 @@
 
 package sheeterJson
 
-type ExampleData struct {
+type ExampleData1 struct {
 	//
 	Reward Reward `json:"Reward"`
 	//
@@ -16,6 +16,6 @@ type ExampleData struct {
 	Name string `json:"Name"`
 }
 
-type ExampleDataStorer struct {
-	Datas map[int32]*ExampleData
+type ExampleData1Storer struct {
+	Datas map[int32]*ExampleData1
 }

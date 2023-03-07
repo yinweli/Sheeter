@@ -36,7 +36,7 @@ func (this *SuiteGenerateJson) target() *generateJson {
 	target := &generateJson{
 		Global: &Global{},
 		Named:  &nameds.Named{ExcelName: excelName, SheetName: sheetName},
-		Field:  &nameds.Field{},
+		Field:  &nameds.Field{Pkey: &fields.Pkey{}},
 		Json:   &nameds.Json{ExcelName: excelName, SheetName: sheetName},
 		Reader: true,
 		Fields: []*layouts.Field{

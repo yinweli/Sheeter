@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.IO;
 
@@ -37,14 +37,24 @@ namespace Example
             }
 
             // 之後就可以用Depot底下的各個表格物件來取用資料內容
-            if (depot.ExampleData.TryGetValue(1, out var data))
+            if (depot.ExampleData1.TryGetValue(1, out var data1))
             {
-                Console.WriteLine(JsonConvert.SerializeObject(data));
-                Console.WriteLine("json success");
+                Console.WriteLine(JsonConvert.SerializeObject(data1));
+                Console.WriteLine("json success: pkey");
             }
             else
             {
-                Console.WriteLine("json failed: get data failed");
+                Console.WriteLine("json failed: pkey");
+            }
+
+            if (depot.ExampleData2.TryGetValue("1", out var data2))
+            {
+                Console.WriteLine(JsonConvert.SerializeObject(data2));
+                Console.WriteLine("json success: skey");
+            }
+            else
+            {
+                Console.WriteLine("json failed: skey");
             }
         }
 
@@ -69,14 +79,24 @@ namespace Example
             }
 
             // 之後就可以用Depot底下的各個表格物件來取用資料內容
-            if (depot.ExampleData.TryGetValue(1, out var data))
+            if (depot.ExampleData1.TryGetValue(1, out var data1))
             {
-                Console.WriteLine(data);
-                Console.WriteLine("proto success");
+                Console.WriteLine(data1);
+                Console.WriteLine("proto success: pkey");
             }
             else
             {
-                Console.WriteLine("proto failed: get data failed");
+                Console.WriteLine("proto failed: pkey");
+            }
+
+            if (depot.ExampleData2.TryGetValue("1", out var data2))
+            {
+                Console.WriteLine(data2);
+                Console.WriteLine("proto success: skey");
+            }
+            else
+            {
+                Console.WriteLine("proto failed: skey");
             }
         }
 

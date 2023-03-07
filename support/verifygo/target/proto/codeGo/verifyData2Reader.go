@@ -19,7 +19,7 @@ func (this *VerifyData2Reader) FileName() FileName {
 
 func (this *VerifyData2Reader) FromData(data []byte) error {
 	this.VerifyData2Storer = &VerifyData2Storer{
-		Datas: map[int32]*VerifyData2{},
+		Datas: map[string]*VerifyData2{},
 	}
 
 	if err := proto.Unmarshal(data, this.VerifyData2Storer); err != nil {
@@ -31,7 +31,7 @@ func (this *VerifyData2Reader) FromData(data []byte) error {
 
 func (this *VerifyData2Reader) MergeData(data []byte) error {
 	tmpl := &VerifyData2Storer{
-		Datas: map[int32]*VerifyData2{},
+		Datas: map[string]*VerifyData2{},
 	}
 
 	if err := proto.Unmarshal(data, tmpl); err != nil {
@@ -40,7 +40,7 @@ func (this *VerifyData2Reader) MergeData(data []byte) error {
 
 	if this.VerifyData2Storer == nil {
 		this.VerifyData2Storer = &VerifyData2Storer{
-			Datas: map[int32]*VerifyData2{},
+			Datas: map[string]*VerifyData2{},
 		}
 	}
 
@@ -59,12 +59,12 @@ func (this *VerifyData2Reader) Clear() {
 	this.VerifyData2Storer = nil
 }
 
-func (this *VerifyData2Reader) Get(key int32) (result *VerifyData2, ok bool) {
+func (this *VerifyData2Reader) Get(key string) (result *VerifyData2, ok bool) {
 	result, ok = this.Datas[key]
 	return result, ok
 }
 
-func (this *VerifyData2Reader) Keys() (result []int32) {
+func (this *VerifyData2Reader) Keys() (result []string) {
 	for itor := range this.Datas {
 		result = append(result, itor)
 	}

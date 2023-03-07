@@ -8,15 +8,17 @@ func NewDepot(loader Loader) *Depot {
 	depot.loader = loader
 	depot.readers = append(
 		depot.readers,
-		&depot.ExampleData,
+		&depot.ExampleData1,
+		&depot.ExampleData2,
 	)
 	return depot
 }
 
 type Depot struct {
-	ExampleData ExampleDataReader
-	loader      Loader
-	readers     []Reader
+	ExampleData1 ExampleData1Reader
+	ExampleData2 ExampleData2Reader
+	loader       Loader
+	readers      []Reader
 }
 
 func (this *Depot) FromData() bool {

@@ -38,11 +38,18 @@ func exampleJson() {
 	}
 
 	// 之後就可以用Depot底下的各個表格物件來取用資料內容
-	if data, ok := depot.ExampleData.Get(1); ok {
+	if data, ok := depot.ExampleData1.Get(1); ok {
 		fmt.Printf("%v\n", data)
-		fmt.Println("json success")
+		fmt.Println("json success: pkey")
 	} else {
-		fmt.Println("json failed: get data failed")
+		fmt.Println("json failed: pkey")
+	}
+
+	if data, ok := depot.ExampleData2.Get("1"); ok {
+		fmt.Printf("%v\n", data)
+		fmt.Println("json success: skey")
+	} else {
+		fmt.Println("json failed: skey")
 	}
 }
 
@@ -64,11 +71,18 @@ func exampleProto() {
 	}
 
 	// 之後就可以用Depot底下的各個表格物件來取用資料內容
-	if data, ok := depot.ExampleData.Get(1); ok {
+	if data, ok := depot.ExampleData1.Get(1); ok {
 		fmt.Printf("%v\n", data)
-		fmt.Println("proto success")
+		fmt.Println("proto success: pkey")
 	} else {
-		fmt.Println("proto failed: get data failed")
+		fmt.Println("proto failed: pkey")
+	}
+
+	if data, ok := depot.ExampleData2.Get("1"); ok {
+		fmt.Printf("%v\n", data)
+		fmt.Println("proto success: skey")
+	} else {
+		fmt.Println("proto failed: skey")
 	}
 }
 

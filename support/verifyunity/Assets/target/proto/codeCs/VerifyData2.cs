@@ -27,11 +27,11 @@ namespace SheeterProto {
             "ChF2ZXJpZnlEYXRhMi5wcm90bxIMc2hlZXRlclByb3RvGgxyZXdhcmQucHJv",
             "dG8itQEKC1ZlcmlmeURhdGEyEikKBlJld2FyZBgBIAEoCzIULnNoZWV0ZXJQ",
             "cm90by5SZXdhcmRIAIgBARITCgZFbmFibGUYAiABKAhIAYgBARIRCgRIaWRl",
-            "GAMgASgISAKIAQESEAoDS2V5GAQgASgFSAOIAQESEQoETmFtZRgFIAEoCUgE",
+            "GAMgASgISAKIAQESEAoDS2V5GAQgASgJSAOIAQESEQoETmFtZRgFIAEoCUgE",
             "iAEBQgkKB19SZXdhcmRCCQoHX0VuYWJsZUIHCgVfSGlkZUIGCgRfS2V5QgcK",
             "BV9OYW1lIpcBChFWZXJpZnlEYXRhMlN0b3JlchI5CgVEYXRhcxgBIAMoCzIq",
             "LnNoZWV0ZXJQcm90by5WZXJpZnlEYXRhMlN0b3Jlci5EYXRhc0VudHJ5GkcK",
-            "CkRhdGFzRW50cnkSCwoDa2V5GAEgASgFEigKBXZhbHVlGAIgASgLMhkuc2hl",
+            "CkRhdGFzRW50cnkSCwoDa2V5GAEgASgJEigKBXZhbHVlGAIgASgLMhkuc2hl",
             "ZXRlclByb3RvLlZlcmlmeURhdGEyOgI4AUIQWg4uO3NoZWV0ZXJQcm90b2IG",
             "cHJvdG8z"));
       descriptor = pbr::FileDescriptor.FromGeneratedCode(descriptorData,
@@ -168,30 +168,29 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Key" field.</summary>
     public const int KeyFieldNumber = 4;
-    private int key_;
+    private string key_;
     /// <summary>
     /// 索引
     /// </summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public int Key {
-      get { if ((_hasBits0 & 4) != 0) { return key_; } else { return 0; } }
+    public string Key {
+      get { return key_ ?? ""; }
       set {
-        _hasBits0 |= 4;
-        key_ = value;
+        key_ = pb::ProtoPreconditions.CheckNotNull(value, "value");
       }
     }
     /// <summary>Gets whether the "Key" field is set</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public bool HasKey {
-      get { return (_hasBits0 & 4) != 0; }
+      get { return key_ != null; }
     }
     /// <summary>Clears the value of the "Key" field</summary>
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
     public void ClearKey() {
-      _hasBits0 &= ~4;
+      key_ = null;
     }
 
     /// <summary>Field number for the "Name" field.</summary>
@@ -284,8 +283,8 @@ namespace SheeterProto {
         output.WriteBool(Hide);
       }
       if (HasKey) {
-        output.WriteRawTag(32);
-        output.WriteInt32(Key);
+        output.WriteRawTag(34);
+        output.WriteString(Key);
       }
       if (HasName) {
         output.WriteRawTag(42);
@@ -314,8 +313,8 @@ namespace SheeterProto {
         output.WriteBool(Hide);
       }
       if (HasKey) {
-        output.WriteRawTag(32);
-        output.WriteInt32(Key);
+        output.WriteRawTag(34);
+        output.WriteString(Key);
       }
       if (HasName) {
         output.WriteRawTag(42);
@@ -341,7 +340,7 @@ namespace SheeterProto {
         size += 1 + 1;
       }
       if (HasKey) {
-        size += 1 + pb::CodedOutputStream.ComputeInt32Size(Key);
+        size += 1 + pb::CodedOutputStream.ComputeStringSize(Key);
       }
       if (HasName) {
         size += 1 + pb::CodedOutputStream.ComputeStringSize(Name);
@@ -406,8 +405,8 @@ namespace SheeterProto {
             Hide = input.ReadBool();
             break;
           }
-          case 32: {
-            Key = input.ReadInt32();
+          case 34: {
+            Key = input.ReadString();
             break;
           }
           case 42: {
@@ -444,8 +443,8 @@ namespace SheeterProto {
             Hide = input.ReadBool();
             break;
           }
-          case 32: {
-            Key = input.ReadInt32();
+          case 34: {
+            Key = input.ReadString();
             break;
           }
           case 42: {
@@ -505,12 +504,12 @@ namespace SheeterProto {
 
     /// <summary>Field number for the "Datas" field.</summary>
     public const int DatasFieldNumber = 1;
-    private static readonly pbc::MapField<int, global::SheeterProto.VerifyData2>.Codec _map_datas_codec
-        = new pbc::MapField<int, global::SheeterProto.VerifyData2>.Codec(pb::FieldCodec.ForInt32(8, 0), pb::FieldCodec.ForMessage(18, global::SheeterProto.VerifyData2.Parser), 10);
-    private readonly pbc::MapField<int, global::SheeterProto.VerifyData2> datas_ = new pbc::MapField<int, global::SheeterProto.VerifyData2>();
+    private static readonly pbc::MapField<string, global::SheeterProto.VerifyData2>.Codec _map_datas_codec
+        = new pbc::MapField<string, global::SheeterProto.VerifyData2>.Codec(pb::FieldCodec.ForString(10, ""), pb::FieldCodec.ForMessage(18, global::SheeterProto.VerifyData2.Parser), 10);
+    private readonly pbc::MapField<string, global::SheeterProto.VerifyData2> datas_ = new pbc::MapField<string, global::SheeterProto.VerifyData2>();
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute]
     [global::System.CodeDom.Compiler.GeneratedCode("protoc", null)]
-    public pbc::MapField<int, global::SheeterProto.VerifyData2> Datas {
+    public pbc::MapField<string, global::SheeterProto.VerifyData2> Datas {
       get { return datas_; }
     }
 

@@ -81,7 +81,7 @@ func InitializePick(material []any, context *Context) error {
 	for _, itor := range layoutType.TypeNames() {
 		type_ := layoutType.Type(itor)
 		named := &nameds.Named{ExcelName: type_.Excel, SheetName: type_.Sheet}
-		field := &nameds.Field{}
+		field := &nameds.Field{Pkey: type_.Pkey}
 		json := &nameds.Json{ExcelName: type_.Excel, SheetName: type_.Sheet}
 		proto := &nameds.Proto{ExcelName: type_.Excel, SheetName: type_.Sheet}
 		reader := type_.Reader

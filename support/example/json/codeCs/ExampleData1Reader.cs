@@ -6,15 +6,15 @@ using System.Collections.Generic;
 
 namespace SheeterJson
 {
-    using Data_ = ExampleData;
+    using Data_ = ExampleData1;
     using Pkey_ = System.Int32;
-    using Storer_ = ExampleDataStorer;
+    using Storer_ = ExampleData1Storer;
 
-    public partial class ExampleDataReader : Reader
+    public partial class ExampleData1Reader : Reader
     {
         public FileName FileName()
         {
-            return new FileName("exampleData", ".json");
+            return new FileName("exampleData1", ".json");
         }
 
         public string FromData(string data)

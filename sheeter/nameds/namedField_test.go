@@ -71,7 +71,7 @@ func (this *SuiteField) TearDownSuite() {
 }
 
 func (this *SuiteField) target() *Field {
-	return &Field{}
+	return &Field{Pkey: &fields.Pkey{}}
 }
 
 func (this *SuiteField) TestField() {

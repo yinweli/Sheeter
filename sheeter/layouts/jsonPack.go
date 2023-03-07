@@ -5,47 +5,28 @@ import (
 
 	"github.com/yinweli/Sheeter/sheeter"
 	"github.com/yinweli/Sheeter/sheeter/excels"
+	"github.com/yinweli/Sheeter/sheeter/fields"
 	"github.com/yinweli/Sheeter/sheeter/utils"
 )
 
 // JsonPack 打包json資料; 將會把excel中的資料, 依據資料布局與排除標籤, 轉換為json格式的位元陣列
 func JsonPack(sheet *excels.Sheet, layoutData *LayoutData, tags string) (json []byte, err error) {
-	defer sheet.Close()
-	datas := map[any]interface{}{}
+	if pkey := layoutData.Pkey(); pkey != nil {
+		switch pkey.(type) {
+		case *fields.Pkey:
+			return jsonPack[sheeter.PkeyType](sheet, layoutData, tags)
 
-	for ok := true; ok; ok = sheet.Next() {
-		data, _ := sheet.Data()
-
-		if data == nil { // 碰到空行就結束了
-			break
-		} // if
-
-		packs, pkey, err := layoutData.Pack(data, tags)
-
-		if err != nil {
-			return nil, fmt.Errorf("json pack failed: %w", err)
-		} // if
-
-		if pkey == nil {
-			return nil, fmt.Errorf("pkey not found")
-		} // if
-
-		datas[pkey] = jsonFirstUpper(packs) // 因為轉為proto資料時需要欄位為大寫駝峰, 所以在此轉換
-	} // for
-
-	obj := map[string]interface{}{ // 因為轉為proto資料時需要多包一層, 所以json資料也跟著多包一層
-		sheeter.StorerDatas: datas,
-	}
-
-	if json, err = utils.JsonMarshal(obj); err != nil {
-		return nil, fmt.Errorf("json pack failed: %w", err)
+		case *fields.Skey:
+			return jsonPack[sheeter.SkeyType](sheet, layoutData, tags)
+		} // switch
 	} // if
 
-	return json, nil
+	return nil, fmt.Errorf("json pack failed: pkey not found/pkey mismatch")
 }
 
 // jsonPack 打包json資料; 將會把excel中的資料, 依據資料布局與排除標籤, 轉換為json格式的位元陣列
 func jsonPack[T comparable](sheet *excels.Sheet, layoutData *LayoutData, tags string) (json []byte, err error) {
+	defer sheet.Close()
 	datas := map[T]interface{}{}
 
 	for ok := true; ok; ok = sheet.Next() {
@@ -62,10 +43,16 @@ func jsonPack[T comparable](sheet *excels.Sheet, layoutData *LayoutData, tags st
 		} // if
 
 		if pkey == nil {
-			return nil, fmt.Errorf("pkey not found")
+			return nil, fmt.Errorf("pkey nil")
 		} // if
 
-		datas[pkey] = jsonFirstUpper(packs) // 因為轉為proto資料時需要欄位為大寫駝峰, 所以在此轉換
+		key, ok := pkey.(T)
+
+		if ok == false {
+			return nil, fmt.Errorf("pkey mismatch")
+		} // if
+
+		datas[key] = jsonFirstUpper(packs) // 因為轉為proto資料時需要欄位為大寫駝峰, 所以在此轉換
 	} // for
 
 	obj := map[string]interface{}{ // 因為轉為proto資料時需要多包一層, 所以json資料也跟著多包一層

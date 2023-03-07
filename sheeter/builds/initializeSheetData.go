@@ -126,13 +126,7 @@ func InitializeSheetData(material any, _ chan any) error {
 		return fmt.Errorf("%s: initialize sheetData failed: %w", structName, err)
 	} // if
 
-	pkeyCount := layoutData.PkeyCount()
-
-	if pkeyCount > 1 {
-		return fmt.Errorf("%s: initialize sheetData failed: pkey duplicate", structName)
-	} // if
-
-	if pkeyCount <= 0 {
+	if layoutData.Pkey() == nil {
 		return fmt.Errorf("%s: initialize sheetData failed: pkey not found", structName)
 	} // if
 

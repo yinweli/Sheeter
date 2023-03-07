@@ -8,12 +8,14 @@ namespace SheeterJson
     public partial class Depot
     {
         public Loader Loader { get; set; }
-        public readonly ExampleDataReader ExampleData = new ExampleDataReader();
+        public readonly ExampleData1Reader ExampleData1 = new ExampleData1Reader();
+        public readonly ExampleData2Reader ExampleData2 = new ExampleData2Reader();
         private readonly List<Reader> Readers = new List<Reader>();
 
         public Depot()
         {
-            Readers.Add(ExampleData);
+            Readers.Add(ExampleData1);
+            Readers.Add(ExampleData2);
         }
 
         public bool FromData()

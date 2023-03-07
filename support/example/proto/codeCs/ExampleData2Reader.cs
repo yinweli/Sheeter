@@ -5,15 +5,15 @@ using System.Collections.Generic;
 
 namespace SheeterProto
 {
-    using Data_ = ExampleData;
-    using Pkey_ = System.Int32;
-    using Storer_ = ExampleDataStorer;
+    using Data_ = ExampleData2;
+    using Pkey_ = System.String;
+    using Storer_ = ExampleData2Storer;
 
-    public partial class ExampleDataReader : Reader
+    public partial class ExampleData2Reader : Reader
     {
         public FileName FileName()
         {
-            return new FileName("exampleData", ".bytes");
+            return new FileName("exampleData2", ".bytes");
         }
 
         public string FromData(byte[] data)
