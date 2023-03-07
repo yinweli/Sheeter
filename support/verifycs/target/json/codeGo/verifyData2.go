@@ -11,11 +11,11 @@ type VerifyData2 struct {
 	// 隱藏
 	Hide bool `json:"Hide"`
 	// 索引
-	Key int32 `json:"Key"`
+	Key string `json:"Key"`
 	// 名稱
 	Name string `json:"Name"`
 }
 
 type VerifyData2Storer struct {
-	Datas map[int32]*VerifyData2
+	Datas map[string]*VerifyData2
 }

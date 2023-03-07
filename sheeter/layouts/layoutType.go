@@ -30,6 +30,7 @@ type Type struct {
 	Sheet  string            // excel表格名稱
 	Reader bool              // 是否要產生讀取器
 	Fields map[string]*Field // 欄位列表
+	Pkey   fields.Field      // 主要索引欄位
 }
 
 // Field 欄位資料
@@ -105,6 +106,7 @@ func (this *LayoutType) Merge(merge *LayoutType) error {
 				Sheet:  source.Sheet,
 				Reader: source.Reader,
 				Fields: map[string]*Field{},
+				Pkey:   source.Pkey,
 			}
 		} // if
 
@@ -227,6 +229,11 @@ func (this *LayoutType) pushField(name, note string, field fields.Field, alter s
 		Alter: alter,
 		Array: array,
 	}
+
+	if field != nil && field.IsPkey() {
+		type_.Pkey = field
+	} // if
+
 	return true
 }
 

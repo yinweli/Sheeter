@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace SheeterJson
 {
     using Data_ = VerifyData2;
-    using Pkey_ = System.Int32;
+    using Pkey_ = System.String;
     using Storer_ = VerifyData2Storer;
 
     public partial class VerifyData2Reader : Reader

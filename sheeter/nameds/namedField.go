@@ -11,6 +11,7 @@ import (
 
 // Field 欄位命名工具
 type Field struct {
+	Pkey fields.Field // 主要索引欄位
 }
 
 // FieldName 取得欄位名稱
@@ -88,18 +89,15 @@ func (this *Field) FieldTypeProto(field *layouts.Field) string {
 
 // PkeyTypeCs 取得pkey的cs類型
 func (this *Field) PkeyTypeCs() string {
-	pkey := fields.Pkey{}
-	return pkey.ToTypeCs()
+	return this.Pkey.ToTypeCs()
 }
 
 // PkeyTypeGo 取得pkey的go類型
 func (this *Field) PkeyTypeGo() string {
-	pkey := fields.Pkey{}
-	return pkey.ToTypeGo()
+	return this.Pkey.ToTypeGo()
 }
 
 // PkeyTypeProto 取得pkey的proto類型
 func (this *Field) PkeyTypeProto() string {
-	pkey := fields.Pkey{}
-	return pkey.ToTypeProto()
+	return this.Pkey.ToTypeProto()
 }

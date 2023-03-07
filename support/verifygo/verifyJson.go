@@ -60,9 +60,9 @@ func verifyJson(depot *sheeterJson.Depot, threads int) {
 				assertJson(actual1.Reward.Item[2].Type == 2)
 				assertJson(actual1.Reward.Item[2].Count == i)
 
-				actual2, ok := depot.VerifyData2.Get(i)
+				actual2, ok := depot.VerifyData2.Get(fmt.Sprint(i))
 				assertJson(ok)
-				assertJson(actual2.Key == i)
+				assertJson(actual2.Key == fmt.Sprint(i))
 				assertJson(actual2.Hide == false)
 				assertJson(actual2.Enable == (i%2 == 1))
 				assertJson(actual2.Name == fmt.Sprintf("名稱%d", i))
@@ -87,7 +87,7 @@ func verifyJson(depot *sheeterJson.Depot, threads int) {
 			_, ok := depot.VerifyData1.Get(101)
 			assertJson(ok == false)
 
-			_, ok = depot.VerifyData2.Get(101)
+			_, ok = depot.VerifyData2.Get(fmt.Sprint(101))
 			assertJson(ok == false)
 
 			waitGroup.Done()

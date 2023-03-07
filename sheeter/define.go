@@ -9,7 +9,8 @@ const MaxExcel = 999999   // 最大開啟excel數量
 
 /* 類型相關 */
 
-type PkeyType = int32 // pkey類型, 修改時要記得跟著修改TokenPkey...系列的類型字串
+type PkeyType = int32  // pkey的索引類型
+type SkeyType = string // skey的索引類型
 
 const TokenPkeyCs = "System.Int32"  // 類型字串: pkey(cs)
 const TokenPkeyGo = "int32"         // 類型字串: pkey(go)

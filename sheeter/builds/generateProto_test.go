@@ -36,7 +36,7 @@ func (this *SuiteGenerateProto) target() *generateProto {
 	target := &generateProto{
 		Global: &Global{},
 		Named:  &nameds.Named{ExcelName: excelName, SheetName: sheetName},
-		Field:  &nameds.Field{},
+		Field:  &nameds.Field{Pkey: &fields.Pkey{}},
 		Proto:  &nameds.Proto{ExcelName: excelName, SheetName: sheetName},
 		Reader: true,
 		Fields: []*layouts.Field{
