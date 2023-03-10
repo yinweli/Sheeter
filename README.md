@@ -39,6 +39,12 @@
     * cs範例在 example/example.cs
     * go範例在 example/example.go
 
+# Task命令說明
+Task是一個運行/構建task的工具, 可以到[task]查看更多資訊; 可在命令列執行以下命令  
+* `task lint`: 進行程式碼檢查
+* `task test`: 進行程式碼測試
+* `task bench`: 進行效能測試
+
 # 範例檔案
 [example]
 
@@ -614,6 +620,7 @@ inputs:                   # 輸入列表
 [protoc]: https://github.com/protocolbuffers/protobuf
 [sheet]: https://github.com/yinweli/Sheet
 [sheeter]: https://github.com/yinweli/sheeter
+[task]: https://taskfile.dev/
 [template]: https://pkg.go.dev/text/template
 
 [example]: doc/example/example.7z
