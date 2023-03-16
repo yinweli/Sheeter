@@ -15,6 +15,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
+## [2.0.1] - 2023-03-16
+### Changed
+- 新增輸出路徑功能
+- 整理輸出檔名規則
+
 ## [2.0.0] - 2023-03-16
 ### Changed
 - 變更sheeter支援的excel格式, 因此v2之後的sheeter不再能讀取v1的excel檔案

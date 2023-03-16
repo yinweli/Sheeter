@@ -10,6 +10,7 @@ import (
 
 // Named 命名工具
 type Named struct {
+	Output    string // 輸出路徑
 	ExcelName string // excel名稱
 	SheetName string // sheet名稱
 }
@@ -27,10 +28,9 @@ func (this *Named) Namespace() string {
 // StructName 取得結構名稱
 func (this *Named) StructName() string {
 	return combine(&params{
-		excelName:  this.ExcelName,
 		excelUpper: true,
+		excelName:  this.ExcelName,
 		sheetName:  this.SheetName,
-		sheetUpper: true,
 	})
 }
 
@@ -42,10 +42,9 @@ func (this *Named) StructNote() string {
 // ReaderName 取得讀取器名稱
 func (this *Named) ReaderName() string {
 	return combine(&params{
-		excelName:  this.ExcelName,
 		excelUpper: true,
+		excelName:  this.ExcelName,
 		sheetName:  this.SheetName,
-		sheetUpper: true,
 		last:       sheeter.Reader,
 	})
 }
@@ -53,9 +52,8 @@ func (this *Named) ReaderName() string {
 // JsonName 取得json名稱
 func (this *Named) JsonName() string {
 	return combine(&params{
-		excelName:  this.ExcelName,
-		sheetName:  this.SheetName,
-		sheetUpper: true,
+		excelName: this.ExcelName,
+		sheetName: this.SheetName,
 	})
 }
 
@@ -67,25 +65,23 @@ func (this *Named) JsonExt() string {
 // DataFile 取得資料檔名
 func (this *Named) DataFile() string {
 	return combine(&params{
-		excelName:  this.ExcelName,
-		sheetName:  this.SheetName,
-		sheetUpper: true,
-		ext:        sheeter.JsonExt,
+		excelName: this.ExcelName,
+		sheetName: this.SheetName,
+		ext:       sheeter.JsonExt,
 	})
 }
 
 // DataPath 取得資料路徑
 func (this *Named) DataPath() string {
-	return filepath.Join(sheeter.JsonPath, this.DataFile())
+	return filepath.Join(this.Output, sheeter.JsonPath, this.DataFile())
 }
 
 // ReaderPathCs 取得cs讀取器程式碼路徑
 func (this *Named) ReaderPathCs() string {
-	return filepath.Join(sheeter.CsPath, combine(&params{
-		excelName:  this.ExcelName,
+	return filepath.Join(this.Output, sheeter.CsPath, combine(&params{
 		excelUpper: true, // cs程式碼一律大寫開頭
+		excelName:  this.ExcelName,
 		sheetName:  this.SheetName,
-		sheetUpper: true,
 		last:       sheeter.Reader,
 		ext:        sheeter.CsExt,
 	}))
@@ -93,23 +89,22 @@ func (this *Named) ReaderPathCs() string {
 
 // SheeterPathCs 取得cs表格器程式碼路徑
 func (this *Named) SheeterPathCs() string {
-	return filepath.Join(sheeter.CsPath, utils.FirstUpper(sheeter.Sheeter)+sheeter.CsExt) // cs程式碼一律大寫開頭
+	return filepath.Join(this.Output, sheeter.CsPath, utils.FirstUpper(sheeter.Sheeter)+sheeter.CsExt) // cs程式碼一律大寫開頭
 }
 
 // ReaderPathGo 取得go讀取器程式碼路徑
 func (this *Named) ReaderPathGo() string {
-	return filepath.Join(sheeter.GoPath, combine(&params{
-		excelName:  this.ExcelName,
-		sheetName:  this.SheetName,
-		sheetUpper: true,
-		last:       sheeter.Reader,
-		ext:        sheeter.GoExt,
+	return filepath.Join(this.Output, sheeter.GoPath, combine(&params{
+		excelName: this.ExcelName,
+		sheetName: this.SheetName,
+		last:      sheeter.Reader,
+		ext:       sheeter.GoExt,
 	}))
 }
 
 // SheeterPathGo 取得go表格器程式碼路徑
 func (this *Named) SheeterPathGo() string {
-	return filepath.Join(sheeter.GoPath, sheeter.Sheeter+sheeter.GoExt)
+	return filepath.Join(this.Output, sheeter.GoPath, sheeter.Sheeter+sheeter.GoExt)
 }
 
 // FirstUpper 字串首字母大寫

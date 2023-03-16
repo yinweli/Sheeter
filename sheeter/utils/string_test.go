@@ -36,6 +36,16 @@ func (this *SuiteString) TestFirstLower() {
 	assert.Equal(this.T(), "testString", FirstLower("TestString"))
 }
 
+func (this *SuiteString) TestSnakeToCamel() {
+	assert.Equal(this.T(), "", SnakeToCamel(""))
+	assert.Equal(this.T(), "", SnakeToCamel("_"))
+	assert.Equal(this.T(), "Abc", SnakeToCamel("abc"))
+	assert.Equal(this.T(), "Abc", SnakeToCamel("abc_"))
+	assert.Equal(this.T(), "AbcX", SnakeToCamel("abc_x"))
+	assert.Equal(this.T(), "AbcXY", SnakeToCamel("abc_x_y"))
+	assert.Equal(this.T(), "AbcXaYa", SnakeToCamel("abc_xa_ya"))
+}
+
 func (this *SuiteString) TestAllSame() {
 	assert.Equal(this.T(), true, AllSame(""))
 	assert.Equal(this.T(), true, AllSame("aaaaa"))

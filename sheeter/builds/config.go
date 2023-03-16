@@ -16,6 +16,7 @@ import (
 type Config struct {
 	Global Global   `yaml:"global"` // 全域設定
 	Source []string `yaml:"source"` // 來源列表
+	Output string   `yaml:"output"` // 輸出路徑
 }
 
 // Global 全域設定
@@ -50,6 +51,12 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 	if flag.Changed(flagSource) {
 		if value, err := flag.GetStringSlice(flagSource); err == nil {
 			this.Source = append(this.Source, value...)
+		} // if
+	} // if
+
+	if flag.Changed(flagOutput) {
+		if value, err := flag.GetString(flagOutput); err == nil {
+			this.Output = value
 		} // if
 	} // if
 

@@ -20,7 +20,9 @@ type PoststepData struct {
 func Poststep(config *Config, input []*InitializeData) (file []any, err []error) {
 	result := &PoststepData{
 		Global: &config.Global,
-		Named:  &nameds.Named{}, // 由於只需要AppName與Namespace, 所以不必填寫excel與sheet名稱
+		Named: &nameds.Named{ // 由於只需要AppName與Namespace, 所以不必填寫excel與sheet名稱
+			Output: config.Output, // 但是需要表格器路徑, 所以要填寫輸出路徑
+		},
 	}
 
 	for _, itor := range input {

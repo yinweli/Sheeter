@@ -27,37 +27,30 @@ func (this *SuiteCombine) TearDownSuite() {
 }
 
 func (this *SuiteCombine) TestCombine() {
-	assert.Equal(this.T(), "ab", combine(&params{
+	assert.Equal(this.T(), "aB", combine(&params{
 		excelName: "a",
 		sheetName: "b",
 	}))
-	assert.Equal(this.T(), "Ab", combine(&params{
-		excelName:  "a",
-		excelUpper: true,
-		sheetName:  "b",
-	}))
-	assert.Equal(this.T(), "aB", combine(&params{
-		excelName:  "a",
-		sheetName:  "b",
-		sheetUpper: true,
+	assert.Equal(this.T(), "a", combine(&params{
+		excelName: "a",
+		sheetName: "a",
 	}))
 	assert.Equal(this.T(), "AB", combine(&params{
-		excelName:  "a",
 		excelUpper: true,
+		excelName:  "a",
 		sheetName:  "b",
-		sheetUpper: true,
 	}))
-	assert.Equal(this.T(), "abc", combine(&params{
+	assert.Equal(this.T(), "aBc", combine(&params{
 		excelName: "a",
 		sheetName: "b",
 		last:      "c",
 	}))
-	assert.Equal(this.T(), "ab.x", combine(&params{
+	assert.Equal(this.T(), "aB.x", combine(&params{
 		excelName: "a",
 		sheetName: "b",
 		ext:       ".x",
 	}))
-	assert.Equal(this.T(), "abc.x", combine(&params{
+	assert.Equal(this.T(), "aBc.x", combine(&params{
 		excelName: "a",
 		sheetName: "b",
 		last:      "c",

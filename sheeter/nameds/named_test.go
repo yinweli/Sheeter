@@ -30,6 +30,7 @@ func (this *SuiteNamed) TearDownSuite() {
 
 func (this *SuiteNamed) TestName() {
 	target := &Named{
+		Output:    "output",
 		ExcelName: "excel",
 		SheetName: "sheet",
 	}
@@ -41,11 +42,11 @@ func (this *SuiteNamed) TestName() {
 	assert.Equal(this.T(), "excelSheet", target.JsonName())
 	assert.Equal(this.T(), sheeter.JsonExt, target.JsonExt())
 	assert.Equal(this.T(), "excelSheet.json", target.DataFile())
-	assert.Equal(this.T(), filepath.Join(sheeter.JsonPath, "excelSheet.json"), target.DataPath())
-	assert.Equal(this.T(), filepath.Join(sheeter.CsPath, "ExcelSheetReader.cs"), target.ReaderPathCs())
-	assert.Equal(this.T(), filepath.Join(sheeter.CsPath, "Sheeter.cs"), target.SheeterPathCs())
-	assert.Equal(this.T(), filepath.Join(sheeter.GoPath, "excelSheetReader.go"), target.ReaderPathGo())
-	assert.Equal(this.T(), filepath.Join(sheeter.GoPath, "sheeter.go"), target.SheeterPathGo())
+	assert.Equal(this.T(), filepath.Join("output", sheeter.JsonPath, "excelSheet.json"), target.DataPath())
+	assert.Equal(this.T(), filepath.Join("output", sheeter.CsPath, "ExcelSheetReader.cs"), target.ReaderPathCs())
+	assert.Equal(this.T(), filepath.Join("output", sheeter.CsPath, "Sheeter.cs"), target.SheeterPathCs())
+	assert.Equal(this.T(), filepath.Join("output", sheeter.GoPath, "excelSheetReader.go"), target.ReaderPathGo())
+	assert.Equal(this.T(), filepath.Join("output", sheeter.GoPath, "sheeter.go"), target.SheeterPathGo())
 	assert.Equal(this.T(), "TestString", target.FirstUpper("testString"))
 	assert.Equal(this.T(), "testString", target.FirstLower("TestString"))
 }

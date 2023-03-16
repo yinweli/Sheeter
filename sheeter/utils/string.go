@@ -22,6 +22,19 @@ func FirstLower(input string) string {
 	return strings.ToLower(input[:1]) + input[1:]
 }
 
+// SnakeToCamel 把蛇形命令法改為大寫駝峰命令法
+func SnakeToCamel(input string) string {
+	result := ""
+
+	for _, itor := range strings.Split(input, "_") {
+		if itor != "" {
+			result += strings.ToUpper(itor[:1]) + itor[1:]
+		} // if
+	} // for
+
+	return result
+}
+
 // AllSame 檢查字串是否由相同字元組成
 func AllSame(input string) bool {
 	for _, itor := range input {

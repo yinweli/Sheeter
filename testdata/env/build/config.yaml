@@ -9,3 +9,5 @@ global:
 
 source:
   - build
+
+output:

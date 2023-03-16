@@ -21,6 +21,7 @@
   ```sh
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
   ```
+* 請注意! v2與v1的excel格式不相容, 彼此間無法讀取對方的excel檔案
 
 # 如何使用
 * 建立[資料表單](#資料表單說明)
@@ -78,6 +79,8 @@ source:             # 輸入列表
   - path1           # 轉換path1目錄底下符合規格的excel檔案
   - path2           # 轉換path2目錄底下符合規格的excel檔案
   - path/excel.xlsx # 轉換指定的excel檔案內符合規格的表單
+
+output: path/output # 輸出路徑
 ```
 
 ### 命令旗標
@@ -86,6 +89,7 @@ source:             # 輸入列表
 |:--------------|:------------------------------------|:-------------------------|
 | --config      | 路徑與檔名; 例如: path/seeting.yaml | 設定檔案路徑             |
 | --source      | 路徑, 檔案名稱, 路徑/檔案名稱...    | 輸入列表                 |
+| --output      | 路徑                                | 輸出路徑                 |
 | --tag         | 標籤列表                            | 指定那些標籤的欄位要輸出 |
 | --autoKey     | true/false                          | 是否啟用自動選取索引     |
 | --lineOfTag   | 行號(1為起始行)                     | 標籤行號                 |
@@ -108,6 +112,9 @@ sheeter build --config setting.yaml --lineOfName 5
   path, path/, path/path...  
 * 檔案名稱  
   example.xlsx, path/example.xlsx...  
+
+### --output
+輸出路徑, 決定產生的檔案要輸出到哪邊去  
 
 ### --tag
 標籤字串, 用於控制那些欄位要輸出, 參考[標籤行](#標籤行)  
@@ -146,6 +153,11 @@ sheeter help [command]
 * 名稱中若是包含`ignore`(不分大小寫)的表單會被忽略
 * 不是空字串
 * 只能使用以下符號: 英文字母, 數字, `_`
+
+## 產生的檔案名稱規則
+* excel名稱: 首字大寫(cs) 或是 首字小寫(go), 移除底線, 底線後首字必為大寫
+* sheet名稱: 首字必為大寫, 移除底線, 底線後首字必為大寫
+* 若excel名稱與sheet名稱相同, 則只留下excel名稱
 
 ## 標籤行
 標籤行用來控制該欄位的資料是否要輸出到資料檔案與程式碼中  

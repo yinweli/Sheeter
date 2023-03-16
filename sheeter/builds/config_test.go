@@ -44,6 +44,8 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, this.configSuccess))
 	config := Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
+	assert.Equal(this.T(), []string{"path", "path/path", "path/path.xlsx"}, config.Source)
+	assert.Equal(this.T(), "output", config.Output)
 	assert.Equal(this.T(), "tag", config.Global.Tag)
 	assert.Equal(this.T(), false, config.Global.AutoKey)
 	assert.Equal(this.T(), 101, config.Global.LineOfTag)
@@ -51,10 +53,10 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.Equal(this.T(), 103, config.Global.LineOfNote)
 	assert.Equal(this.T(), 104, config.Global.LineOfField)
 	assert.Equal(this.T(), 105, config.Global.LineOfData)
-	assert.Equal(this.T(), []string{"path", "path/path", "path/path.xlsx"}, config.Source)
 
 	cmd = SetFlag(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagSource, "path/excel1.xlsx,path/excel2.xlsx"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagOutput, "path/output"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagTag, "TAG"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagAutoKey, "true"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfTag, "201"))
@@ -65,6 +67,7 @@ func (this *SuiteConfig) TestInitialize() {
 	config = Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
 	assert.Equal(this.T(), []string{"path/excel1.xlsx", "path/excel2.xlsx"}, config.Source)
+	assert.Equal(this.T(), "path/output", config.Output)
 	assert.Equal(this.T(), "TAG", config.Global.Tag)
 	assert.Equal(this.T(), true, config.Global.AutoKey)
 	assert.Equal(this.T(), 201, config.Global.LineOfTag)

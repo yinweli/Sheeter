@@ -32,6 +32,7 @@ func Operation(config *Config, input []*InitializeData) (file []any, err []error
 			Excel:  itor.Excel,
 			Sheet:  itor.Sheet,
 			Named: &nameds.Named{
+				Output:    config.Output,
 				ExcelName: itor.ExcelName,
 				SheetName: itor.SheetName,
 			},
