@@ -15,6 +15,10 @@
 * 安裝[go]
 * 安裝[sheeter], 在終端執行以下命令
   ```sh
+  go install github.com/yinweli/Sheeter/v2/cmd/sheeter@latest
+  ```
+* 如果想要安裝舊版的[sheeter], 則可以在終端執行以下命令
+  ```sh
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
   ```
 
