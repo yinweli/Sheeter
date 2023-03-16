@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestLongArray(t *testing.T) {
@@ -16,41 +16,37 @@ func TestLongArray(t *testing.T) {
 
 type SuiteLongArray struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteLongArray) SetupSuite() {
-	this.Change("test-field-longArray")
+	this.TBegin("test-fields-longArray", "")
 }
 
 func (this *SuiteLongArray) TearDownSuite() {
-	this.Restore()
-}
-
-func (this *SuiteLongArray) target() *LongArray {
-	return &LongArray{}
+	this.TFinal()
 }
 
 func (this *SuiteLongArray) TestField() {
-	target := this.target()
+	target := &LongArray{}
 	assert.Equal(this.T(), []string{"longArray", "[]long", "long[]"}, target.Field())
-	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Equal(this.T(), sheeter.TokenLongCs+sheeter.TokenArray, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TokenArray+sheeter.TokenLongGo, target.ToTypeGo())
-	assert.Equal(this.T(), sheeter.TokenRepeated+" "+sheeter.TokenLongProto, target.ToTypeProto())
+	assert.Nil(this.T(), target.ToPkey())
+	assert.Equal(this.T(), sheeter.TypeLongCs+sheeter.TypeArray, target.ToTypeCs())
+	assert.Equal(this.T(), sheeter.TypeArray+sheeter.TypeLongGo, target.ToTypeGo())
 }
 
 func (this *SuiteLongArray) TestToJsonValue() {
-	target := this.target()
+	target := &LongArray{}
 
 	result, err := target.ToJsonValue("123,456,789")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []int64{123, 456, 789}, result)
 
-	_, err = target.ToJsonValue("")
-	assert.NotNil(this.T(), err)
+	result, err = target.ToJsonValue("")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []int64{}, result)
 
-	_, err = target.ToJsonValue(testdata.UnknownStr)
+	_, err = target.ToJsonValue(this.Unknown)
 	assert.NotNil(this.T(), err)
 }

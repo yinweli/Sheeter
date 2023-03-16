@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestFloat(t *testing.T) {
@@ -16,41 +16,37 @@ func TestFloat(t *testing.T) {
 
 type SuiteFloat struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteFloat) SetupSuite() {
-	this.Change("test-field-float")
+	this.TBegin("test-fields-float", "")
 }
 
 func (this *SuiteFloat) TearDownSuite() {
-	this.Restore()
-}
-
-func (this *SuiteFloat) target() *Float {
-	return &Float{}
+	this.TFinal()
 }
 
 func (this *SuiteFloat) TestField() {
-	target := this.target()
+	target := &Float{}
 	assert.Equal(this.T(), []string{"float"}, target.Field())
-	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Equal(this.T(), sheeter.TokenFloatCs, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TokenFloatGo, target.ToTypeGo())
-	assert.Equal(this.T(), sheeter.TokenFloatProto, target.ToTypeProto())
+	assert.Nil(this.T(), target.ToPkey())
+	assert.Equal(this.T(), sheeter.TypeFloatCs, target.ToTypeCs())
+	assert.Equal(this.T(), sheeter.TypeFloatGo, target.ToTypeGo())
 }
 
 func (this *SuiteFloat) TestToJsonValue() {
-	target := this.target()
+	target := &Float{}
 
 	result, err := target.ToJsonValue("0.123456")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), float32(0.123456), result)
 
-	_, err = target.ToJsonValue("")
-	assert.NotNil(this.T(), err)
+	result, err = target.ToJsonValue("")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), float32(0), result)
 
-	_, err = target.ToJsonValue(testdata.UnknownStr)
+	_, err = target.ToJsonValue(this.Unknown)
 	assert.NotNil(this.T(), err)
 }

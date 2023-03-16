@@ -3,102 +3,57 @@ package sheeter
 /* 應用程式相關 */
 
 const AppName = "sheeter" // 程式名稱
-const Version = "1.11.0"  // 版本字串, 遵循'大版本.小版本.修正版本'的規則
+const Version = "2.0.0"   // 版本字串, 遵循'大版本.小版本.修正版本'的規則
 const BarWidth = 40       // 進度條寬度
 const MaxExcel = 999999   // 最大開啟excel數量
-
-/* 類型相關 */
-
-type PkeyType = int32  // pkey的索引類型
-type SkeyType = string // skey的索引類型
-
-const TokenPkeyCs = "System.Int32"  // 類型字串: pkey(cs)
-const TokenPkeyGo = "int32"         // 類型字串: pkey(go)
-const TokenPkeyProto = "int32"      // 類型字串: pkey(proto)
-const TokenSkeyCs = "System.String" // 類型字串: skey(cs)
-const TokenSkeyGo = "string"        // 類型字串: skey(go)
-const TokenSkeyProto = "string"     // 類型字串: skey(proto)
-const TokenBoolCs = "bool"          // 類型字串: 布林值(cs)
-const TokenBoolGo = "bool"          // 類型字串: 布林值(go)
-const TokenBoolProto = "bool"       // 類型字串: 布林值(proto)
-const TokenIntCs = "int"            // 類型字串: 32位元整數(cs)
-const TokenIntGo = "int32"          // 類型字串: 32位元整數(go)
-const TokenIntProto = "int32"       // 類型字串: 32位元整數(proto)
-const TokenLongCs = "long"          // 類型字串: 64位元整數(cs)
-const TokenLongGo = "int64"         // 類型字串: 64位元整數(go)
-const TokenLongProto = "int64"      // 類型字串: 64位元整數(proto)
-const TokenFloatCs = "float"        // 類型字串: 32位元浮點數(cs)
-const TokenFloatGo = "float32"      // 類型字串: 32位元浮點數(go)
-const TokenFloatProto = "float"     // 類型字串: 32位元浮點數(proto)
-const TokenDoubleCs = "double"      // 類型字串: 64位元浮點數(cs)
-const TokenDoubleGo = "float64"     // 類型字串: 64位元浮點數(go)
-const TokenDoubleProto = "double"   // 類型字串: 64位元浮點數(proto)
-const TokenStringCs = "string"      // 類型字串: 字串(cs)
-const TokenStringGo = "string"      // 類型字串: 字串(go)
-const TokenStringProto = "string"   // 類型字串: 字串(proto)
-const TokenArray = "[]"             // 類型字串: 陣列
-const TokenOptional = "optional"    // 類型字串: optional(proto)
-const TokenRepeated = "repeated"    // 類型字串: repeated(proto)
-
-/* 模板相關 */
-
-const TmplPath = "template"                         // 輸出路徑: 模板檔案
-const TmplJsonStructCsFile = "json-struct-cs.txt"   // 輸出檔名: json結構cs模板
-const TmplJsonReaderCsFile = "json-reader-cs.txt"   // 輸出檔名: json讀取器cs模板
-const TmplJsonDepotCsFile = "json-depot-cs.txt"     // 輸出檔名: json倉庫cs模板
-const TmplJsonStructGoFile = "json-struct-go.txt"   // 輸出檔名: json結構go模板
-const TmplJsonReaderGoFile = "json-reader-go.txt"   // 輸出檔名: json讀取器go模板
-const TmplJsonDepotGoFile = "json-depot-go.txt"     // 輸出檔名: json倉庫go模板
-const TmplProtoSchemaFile = "proto-schema.txt"      // 輸出檔名: proto架構模板
-const TmplProtoReaderCsFile = "proto-reader-cs.txt" // 輸出檔名: proto讀取器cs模板
-const TmplProtoDepotCsFile = "proto-depot-cs.txt"   // 輸出檔名: proto倉庫cs模板
-const TmplProtoReaderGoFile = "proto-reader-go.txt" // 輸出檔名: proto讀取器go模板
-const TmplProtoDepotGoFile = "proto-depot-go.txt"   // 輸出檔名: proto倉庫go模板
-const TmplEnumSchemaFile = "enum-schema.txt"        // 輸出檔名: enum架構模板
+const MaxSheet = 999999   // 最大開啟sheet數量
+const IndexOutput = 0     // 輸出欄位置編號
+const IndexAutoKey = 1    // 自動索引位置編號
 
 /* 路徑名 */
 
-const SchemaPath = "schema" // 輸出路徑: 架構
-const DataPath = "data"     // 輸出路徑: 資料
-const CsPath = "codeCs"     // 輸出路徑: cs
-const GoPath = "codeGo"     // 輸出路徑: go
-const JsonPath = "json"     // 輸出路徑: json
-const ProtoPath = "proto"   // 輸出路徑: proto
-const EnumPath = "enum"     // 輸出路徑: enum
+const CsPath = "codeCs" // 輸出路徑: cs
+const GoPath = "codeGo" // 輸出路徑: go
+const JsonPath = "json" // 輸出路徑: json
 
 /* 副檔名 */
 
-const ExcelExt = ".xlsx"        // 副檔名: excel
-const CsExt = ".cs"             // 副檔名: cs
-const GoExt = ".go"             // 副檔名: go
-const JsonDataExt = ".json"     // 副檔名: json資料
-const ProtoSchemaExt = ".proto" // 副檔名: proto架構
-const ProtoDataExt = ".bytes"   // 副檔名: proto資料
-const EnumSchemaExt = ".proto"  // 副檔名: enum架構
+const ExcelExt = ".xlsx" // 副檔名: excel
+const CsExt = ".cs"      // 副檔名: cs
+const GoExt = ".go"      // 副檔名: go
+const JsonExt = ".json"  // 副檔名: json
 
 /* 程式名稱 */
 
-const Reader = "Reader"                  // 讀取器名稱
-const Storer = "Storer"                  // 儲存器名稱
-const StorerDatas = "Datas"              // 儲存器資料名稱
-const Depot = "depot"                    // 倉庫名稱
-const JsonNamespace = AppName + "Json"   // 命名空間名稱: json
-const ProtoNamespace = AppName + "Proto" // 命名空間名稱: proto
-const EnumNamespace = AppName + "Enum"   // 命名空間名稱: enum
+const Reader = "Reader"   // 讀取器名稱
+const Sheeter = AppName   // 表格器名稱
+const Namespace = AppName // 命名空間名稱
 
 /* 其他名稱 */
 
-const SignData = "@"      // 資料表單開頭
-const SignEnum = "$"      // 列舉表單開頭
-const SeparateSheet = "#" // 表單字串以'#'符號分割為檔案名稱與表單名稱
-const SeparateArray = "," // 陣列字串以','符號分割
-const JsonPrefix = ""     // json前綴字串
-const JsonIdent = "    "  // json縮排字串
+const TokenIgnore = "ignore" // 忽略符號, 當輸出或是標籤為此名稱時不輸出
+const TokenArray = ","       // 陣列分割符號, 陣列以','符號分割元素
+const JsonPrefix = ""        // json前綴字串
+const JsonIdent = "    "     // json縮排字串
 
-// Keywords 關鍵字列表
-var Keywords = []string{
-	Depot,
-	"loader",
-	"reader",
-	"readers",
-}
+/* 類型名稱 */
+
+const TypePkeyCs = "System.Int32"  // 類型字串: pkey(cs)
+const TypePkeyGo = "int32"         // 類型字串: pkey(go)
+const TypeLkeyCs = "System.Int64"  // 類型字串: lkey(cs)
+const TypeLkeyGo = "int64"         // 類型字串: lkey(go)
+const TypeSkeyCs = "System.String" // 類型字串: skey(cs)
+const TypeSkeyGo = "string"        // 類型字串: skey(go)
+const TypeBoolCs = "bool"          // 類型字串: 布林值(cs)
+const TypeBoolGo = "bool"          // 類型字串: 布林值(go)
+const TypeIntCs = "int"            // 類型字串: 32位元整數(cs)
+const TypeIntGo = "int32"          // 類型字串: 32位元整數(go)
+const TypeLongCs = "long"          // 類型字串: 64位元整數(cs)
+const TypeLongGo = "int64"         // 類型字串: 64位元整數(go)
+const TypeFloatCs = "float"        // 類型字串: 32位元浮點數(cs)
+const TypeFloatGo = "float32"      // 類型字串: 32位元浮點數(go)
+const TypeDoubleCs = "double"      // 類型字串: 64位元浮點數(cs)
+const TypeDoubleGo = "float64"     // 類型字串: 64位元浮點數(go)
+const TypeStringCs = "string"      // 類型字串: 字串(cs)
+const TypeStringGo = "string"      // 類型字串: 字串(go)
+const TypeArray = "[]"             // 類型字串: 陣列

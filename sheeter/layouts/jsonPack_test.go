@@ -6,12 +6,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/sheeter/excels"
-	"github.com/yinweli/Sheeter/sheeter/fields"
-	"github.com/yinweli/Sheeter/sheeter/layers"
-	"github.com/yinweli/Sheeter/sheeter/utils"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter/excels"
+	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestJsonPack(t *testing.T) {
@@ -20,343 +17,138 @@ func TestJsonPack(t *testing.T) {
 
 type SuiteJsonPack struct {
 	suite.Suite
-	testdata.TestEnv
-	lineOfName  int
-	lineOfField int
-	lineOfLayer int
-	lineOfTag   int
-	lineOfData  int
-	excelPkey   excels.Excel
-	excelSkey   excels.Excel
+	testdata.TestData
+	excel        string
+	sheetSuccess string
+	sheetFailed  string
+	sheetEmpty   string
+	lineOfTag    int
+	lineOfName   int
+	lineOfNote   int
+	lineOfField  int
+	lintOfData   int
 }
 
 func (this *SuiteJsonPack) SetupSuite() {
-	this.Change("test-jsonPack")
-	this.lineOfName = 1
-	this.lineOfField = 3
-	this.lineOfLayer = 4
-	this.lineOfTag = 5
-	this.lineOfData = 6
-	assert.Nil(this.T(), this.excelPkey.Open(testdata.ExcelJsonPackPkey))
-	assert.Nil(this.T(), this.excelSkey.Open(testdata.ExcelJsonPackSkey))
+	this.TBegin("test-layouts-jsonPack", "jsonPack")
+	this.excel = "excel.xlsx"
+	this.sheetSuccess = "Success"
+	this.sheetFailed = "Failed"
+	this.sheetEmpty = "Empty"
+	this.lineOfTag = 1
+	this.lineOfName = 2
+	this.lineOfNote = 3
+	this.lineOfField = 4
+	this.lintOfData = 5
 }
 
 func (this *SuiteJsonPack) TearDownSuite() {
 	excels.CloseAll()
-	this.Restore()
-}
-
-func (this *SuiteJsonPack) prepare(excel excels.Excel) (sheet *excels.Sheet, layoutData *LayoutData) {
-	sheet, err := excel.Get(testdata.SheetData)
-	assert.Nil(this.T(), err)
-	assert.True(this.T(), sheet.Nextn(this.lineOfData))
-
-	line, err := excel.GetLine(testdata.SheetData, this.lineOfTag, this.lineOfName, this.lineOfField, this.lineOfLayer)
-	assert.Nil(this.T(), err)
-	nameLine := line[this.lineOfName]
-	fieldLine := line[this.lineOfField]
-	layerLine := line[this.lineOfLayer]
-	tagLine := line[this.lineOfTag]
-	layoutData = NewLayoutData()
-
-	for col, itor := range nameLine {
-		name := itor
-		field, err := fields.Parser(utils.GetItem(fieldLine, col))
-		assert.Nil(this.T(), err)
-		layer, back, err := layers.Parser(utils.GetItem(layerLine, col))
-		assert.Nil(this.T(), err)
-		tag := utils.GetItem(tagLine, col)
-		assert.Nil(this.T(), layoutData.Add(name, field, layer, back, tag))
-	} // for
-
-	return sheet, layoutData
+	this.TFinal()
 }
 
 func (this *SuiteJsonPack) TestJsonPack() {
-	sheet, layoutData := this.prepare(this.excelPkey)
-	json, err := JsonPack(sheet, layoutData, "A")
-	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), json)
+	expected1, _ := utils.JsonMarshal(map[string]interface{}{
+		"1": map[string]interface{}{
+			"pkey":  int32(1),
+			"name1": int32(1),
+			"name2": []int32{10, 11, 12},
+			"name3": "a",
+			"name4": []string{"a", "b", "c", "d"},
+		},
+		"2": map[string]interface{}{
+			"pkey":  int32(2),
+			"name1": int32(2),
+			"name2": []int32{20, 21, 22},
+			"name3": "b",
+			"name4": []string{"b", "c", "d", "a"},
+		},
+		"3": map[string]interface{}{
+			"pkey":  int32(3),
+			"name1": int32(3),
+			"name2": []int32{30, 31, 32},
+			"name3": "c",
+			"name4": []string{"c", "d", "a", "b"},
+		},
+	})
+	expected2, _ := utils.JsonMarshal(map[string]interface{}{
+		"1": map[string]interface{}{
+			"pkey":  int32(1),
+			"name1": int32(1),
+			"name2": []int32{10, 11, 12},
+		},
+		"2": map[string]interface{}{
+			"pkey":  int32(2),
+			"name1": int32(2),
+			"name2": []int32{20, 21, 22},
+		},
+		"3": map[string]interface{}{
+			"pkey":  int32(3),
+			"name1": int32(3),
+			"name2": []int32{30, 31, 32},
+		},
+	})
+	expected3, _ := utils.JsonMarshal(map[string]interface{}{
+		"1": map[string]interface{}{
+			"pkey":  int32(1),
+			"name3": "a",
+			"name4": []string{"a", "b", "c", "d"},
+		},
+		"2": map[string]interface{}{
+			"pkey":  int32(2),
+			"name3": "b",
+			"name4": []string{"b", "c", "d", "a"},
+		},
+		"3": map[string]interface{}{
+			"pkey":  int32(3),
+			"name3": "c",
+			"name4": []string{"c", "d", "a", "b"},
+		},
+	})
 
-	sheet, layoutData = this.prepare(this.excelSkey)
-	json, err = JsonPack(sheet, layoutData, "A")
+	sheet, layout := this.prepare(this.excel, this.sheetSuccess)
+	result, err := JsonPack("1", this.lintOfData, sheet, layout)
 	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), json)
+	assert.Equal(this.T(), string(expected1), string(result))
+
+	sheet, layout = this.prepare(this.excel, this.sheetSuccess)
+	result, err = JsonPack("2", this.lintOfData, sheet, layout)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), string(expected2), string(result))
+
+	sheet, layout = this.prepare(this.excel, this.sheetSuccess)
+	result, err = JsonPack("3", this.lintOfData, sheet, layout)
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), string(expected3), string(result))
+
+	sheet, layout = this.prepare(this.excel, this.sheetFailed)
+	_, err = JsonPack("1", this.lintOfData, sheet, layout)
+	assert.NotNil(this.T(), err)
+
+	sheet, layout = this.prepare(this.excel, this.sheetEmpty)
+	_, err = JsonPack("1", this.lintOfData, sheet, layout)
+	assert.NotNil(this.T(), err)
 }
 
-func (this *SuiteJsonPack) TestJsonPackPkey() {
-	completeBytes, _ := utils.JsonMarshal(map[string]interface{}{
-		"Datas": map[sheeter.PkeyType]interface{}{
-			1: map[string]interface{}{
-				"Name0": 1,
-				"S": map[string]interface{}{
-					"Name1": true,
-					"A": []map[string]interface{}{
-						{"Name2": 1, "Name3": "a"},
-						{"Name2": 1, "Name3": "a"},
-						{"Name2": 1, "Name3": "a"},
-					},
-				},
-			},
-			2: map[string]interface{}{
-				"Name0": 2,
-				"S": map[string]interface{}{
-					"Name1": false,
-					"A": []map[string]interface{}{
-						{"Name2": 2, "Name3": "b"},
-						{"Name2": 2, "Name3": "b"},
-						{"Name2": 2, "Name3": "b"},
-					},
-				},
-			},
-			3: map[string]interface{}{
-				"Name0": 3,
-				"S": map[string]interface{}{
-					"Name1": true,
-					"A": []map[string]interface{}{
-						{"Name2": 3, "Name3": "c"},
-						{"Name2": 3, "Name3": "c"},
-						{"Name2": 3, "Name3": "c"},
-					},
-				},
-			},
-		},
-	})
-	excludeBytes, _ := utils.JsonMarshal(map[string]interface{}{
-		"Datas": map[sheeter.PkeyType]interface{}{
-			1: map[string]interface{}{
-				"Name0": 1,
-				"S": map[string]interface{}{
-					"Name1": true,
-					"A": []map[string]interface{}{
-						{"Name2": 1, "Name3": "a"},
-						{"Name2": 1, "Name3": "a"},
-						{"Name2": 1, "Name3": "a"},
-					},
-				},
-				"Name4": 1,
-			},
-			2: map[string]interface{}{
-				"Name0": 2,
-				"S": map[string]interface{}{
-					"Name1": false,
-					"A": []map[string]interface{}{
-						{"Name2": 2, "Name3": "b"},
-						{"Name2": 2, "Name3": "b"},
-						{"Name2": 2, "Name3": "b"},
-					},
-				},
-				"Name4": 2,
-			},
-			3: map[string]interface{}{
-				"Name0": 3,
-				"S": map[string]interface{}{
-					"Name1": true,
-					"A": []map[string]interface{}{
-						{"Name2": 3, "Name3": "c"},
-						{"Name2": 3, "Name3": "c"},
-						{"Name2": 3, "Name3": "c"},
-					},
-				},
-				"Name4": 3,
-			},
-		},
-	})
-
-	sheet, layoutData := this.prepare(this.excelPkey)
-	json, err := jsonPack[sheeter.PkeyType](sheet, layoutData, "A")
+func (this *SuiteJsonPack) prepare(excelName, sheetName string) (sheet *excels.Sheet, layout *Layout) {
+	excel := &excels.Excel{}
+	assert.Nil(this.T(), excel.Open(excelName))
+	sheet, err := excel.Get(sheetName)
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), string(completeBytes), string(json))
-	sheet.Close()
-
-	sheet, layoutData = this.prepare(this.excelPkey)
-	json, err = jsonPack[sheeter.PkeyType](sheet, layoutData, "B")
+	line, err := excel.GetLine(
+		sheetName,
+		this.lineOfTag,
+		this.lineOfName,
+		this.lineOfNote,
+		this.lineOfField,
+	)
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), string(excludeBytes), string(json))
-	sheet.Close()
-}
 
-func (this *SuiteJsonPack) TestJsonPackSkey() {
-	completeBytes, _ := utils.JsonMarshal(map[string]interface{}{
-		"Datas": map[sheeter.SkeyType]interface{}{
-			"1": map[string]interface{}{
-				"Name0": "1",
-				"S": map[string]interface{}{
-					"Name1": true,
-					"A": []map[string]interface{}{
-						{"Name2": 1, "Name3": "a"},
-						{"Name2": 1, "Name3": "a"},
-						{"Name2": 1, "Name3": "a"},
-					},
-				},
-			},
-			"2": map[string]interface{}{
-				"Name0": "2",
-				"S": map[string]interface{}{
-					"Name1": false,
-					"A": []map[string]interface{}{
-						{"Name2": 2, "Name3": "b"},
-						{"Name2": 2, "Name3": "b"},
-						{"Name2": 2, "Name3": "b"},
-					},
-				},
-			},
-			"3": map[string]interface{}{
-				"Name0": "3",
-				"S": map[string]interface{}{
-					"Name1": true,
-					"A": []map[string]interface{}{
-						{"Name2": 3, "Name3": "c"},
-						{"Name2": 3, "Name3": "c"},
-						{"Name2": 3, "Name3": "c"},
-					},
-				},
-			},
-		},
-	})
-	excludeBytes, _ := utils.JsonMarshal(map[string]interface{}{
-		"Datas": map[sheeter.SkeyType]interface{}{
-			"1": map[string]interface{}{
-				"Name0": "1",
-				"S": map[string]interface{}{
-					"Name1": true,
-					"A": []map[string]interface{}{
-						{"Name2": 1, "Name3": "a"},
-						{"Name2": 1, "Name3": "a"},
-						{"Name2": 1, "Name3": "a"},
-					},
-				},
-				"Name4": 1,
-			},
-			"2": map[string]interface{}{
-				"Name0": "2",
-				"S": map[string]interface{}{
-					"Name1": false,
-					"A": []map[string]interface{}{
-						{"Name2": 2, "Name3": "b"},
-						{"Name2": 2, "Name3": "b"},
-						{"Name2": 2, "Name3": "b"},
-					},
-				},
-				"Name4": 2,
-			},
-			"3": map[string]interface{}{
-				"Name0": "3",
-				"S": map[string]interface{}{
-					"Name1": true,
-					"A": []map[string]interface{}{
-						{"Name2": 3, "Name3": "c"},
-						{"Name2": 3, "Name3": "c"},
-						{"Name2": 3, "Name3": "c"},
-					},
-				},
-				"Name4": 3,
-			},
-		},
-	})
-
-	sheet, layoutData := this.prepare(this.excelSkey)
-	json, err := jsonPack[sheeter.SkeyType](sheet, layoutData, "A")
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), string(completeBytes), string(json))
-	sheet.Close()
-
-	sheet, layoutData = this.prepare(this.excelSkey)
-	json, err = jsonPack[sheeter.SkeyType](sheet, layoutData, "B")
-	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), string(excludeBytes), string(json))
-	sheet.Close()
-}
-
-func (this *SuiteJsonPack) TestJsonFirstUpper() {
-	input := map[string]interface{}{
-		"name1": 1,
-		"name2": []int{1, 2, 3},
-		"name3": map[string]interface{}{
-			"name1": 1,
-			"name2": []int{1, 2, 3},
-			"name3": map[string]interface{}{
-				"name1": "a",
-				"name2": "b",
-			},
-		},
-		"name4": &[]map[string]interface{}{
-			{
-				"name1": 1,
-				"name2": []int{1, 2, 3},
-				"name3": map[string]interface{}{
-					"name1": "a",
-					"name2": "b",
-				},
-			},
-			{
-				"name1": 1,
-				"name2": []int{1, 2, 3},
-				"name3": map[string]interface{}{
-					"name1": "a",
-					"name2": "b",
-				},
-			},
-		},
-		"name5": &[]map[string]interface{}{
-			{
-				"name1": &[]map[string]interface{}{
-					{
-						"name1": 1,
-						"name2": []int{1, 2, 3},
-					},
-					{
-						"name1": 1,
-						"name2": []int{1, 2, 3},
-					},
-				},
-			},
-		},
-	}
-	expected := map[string]interface{}{
-		"Name1": 1,
-		"Name2": []int{1, 2, 3},
-		"Name3": map[string]interface{}{
-			"Name1": 1,
-			"Name2": []int{1, 2, 3},
-			"Name3": map[string]interface{}{
-				"Name1": "a",
-				"Name2": "b",
-			},
-		},
-		"Name4": &[]map[string]interface{}{
-			{
-				"Name1": 1,
-				"Name2": []int{1, 2, 3},
-				"Name3": map[string]interface{}{
-					"Name1": "a",
-					"Name2": "b",
-				},
-			},
-			{
-				"Name1": 1,
-				"Name2": []int{1, 2, 3},
-				"Name3": map[string]interface{}{
-					"Name1": "a",
-					"Name2": "b",
-				},
-			},
-		},
-		"Name5": &[]map[string]interface{}{
-			{
-				"Name1": &[]map[string]interface{}{
-					{
-						"Name1": 1,
-						"Name2": []int{1, 2, 3},
-					},
-					{
-						"Name1": 1,
-						"Name2": []int{1, 2, 3},
-					},
-				},
-			},
-		},
-	}
-
-	assert.Equal(this.T(), expected, jsonFirstUpper(input))
+	layout = NewLayout(false)
+	lineTag := line[this.lineOfTag]
+	lineName := line[this.lineOfName]
+	lineNote := line[this.lineOfNote]
+	lineField := line[this.lineOfField]
+	assert.Nil(this.T(), layout.Set(lineTag, lineName, lineNote, lineField))
+	return sheet, layout
 }

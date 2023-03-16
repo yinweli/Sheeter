@@ -3,11 +3,11 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/sheeter/utils"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/sheeter/utils"
 )
 
-// Pkey 主要整數索引
+// Pkey 主要32位元整數索引
 type Pkey struct {
 }
 
@@ -16,29 +16,24 @@ func (this *Pkey) Field() []string {
 	return []string{"pkey"}
 }
 
-// IsShow 是否顯示
-func (this *Pkey) IsShow() bool {
-	return true
-}
-
 // IsPkey 是否是主要索引
 func (this *Pkey) IsPkey() bool {
 	return true
 }
 
+// ToPkey 取得主要索引類型
+func (this *Pkey) ToPkey() Field {
+	return this
+}
+
 // ToTypeCs 取得cs類型字串
 func (this *Pkey) ToTypeCs() string {
-	return sheeter.TokenPkeyCs
+	return sheeter.TypePkeyCs
 }
 
 // ToTypeGo 取得go類型字串
 func (this *Pkey) ToTypeGo() string {
-	return sheeter.TokenPkeyGo
-}
-
-// ToTypeProto 取得proto類型字串
-func (this *Pkey) ToTypeProto() string {
-	return sheeter.TokenPkeyProto
+	return sheeter.TypePkeyGo
 }
 
 // ToJsonValue 轉換為json值
@@ -46,7 +41,7 @@ func (this *Pkey) ToJsonValue(input string) (result interface{}, err error) {
 	result, err = utils.StrToInt32(input)
 
 	if err != nil {
-		return nil, fmt.Errorf("to json value failed: %w", err)
+		return nil, fmt.Errorf("pkey to json value: %w", err)
 	} // if
 
 	return result, nil

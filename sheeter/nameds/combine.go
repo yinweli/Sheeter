@@ -1,7 +1,7 @@
 package nameds
 
 import (
-	"github.com/yinweli/Sheeter/sheeter/utils"
+	"github.com/yinweli/Sheeter/v2/sheeter/utils"
 )
 
 // params 組合名稱參數
@@ -24,7 +24,7 @@ func combine(params *params) string {
 		excel = utils.FirstLower(excel)
 	} // if
 
-	sheet := utils.RemoveSheetPrefix(params.sheetName)
+	sheet := params.sheetName
 
 	if params.sheetUpper {
 		sheet = utils.FirstUpper(sheet)

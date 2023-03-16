@@ -7,8 +7,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestJson(t *testing.T) {
@@ -17,15 +17,15 @@ func TestJson(t *testing.T) {
 
 type SuiteJson struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteJson) SetupSuite() {
-	this.Change("test-json")
+	this.TBegin("test-utils-json", "")
 }
 
 func (this *SuiteJson) TearDownSuite() {
-	this.Restore()
+	this.TFinal()
 }
 
 func (this *SuiteJson) TestJsonMarshal() {

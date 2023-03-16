@@ -3,8 +3,9 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/sheeter/utils"
+	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+
+	"github.com/yinweli/Sheeter/v2/sheeter"
 )
 
 // LongArray 64位元整數陣列
@@ -16,29 +17,24 @@ func (this *LongArray) Field() []string {
 	return []string{"longArray", "[]long", "long[]"}
 }
 
-// IsShow 是否顯示
-func (this *LongArray) IsShow() bool {
-	return true
-}
-
 // IsPkey 是否是主要索引
 func (this *LongArray) IsPkey() bool {
 	return false
 }
 
+// ToPkey 取得主要索引類型
+func (this *LongArray) ToPkey() Field {
+	return nil
+}
+
 // ToTypeCs 取得cs類型字串
 func (this *LongArray) ToTypeCs() string {
-	return sheeter.TokenLongCs + sheeter.TokenArray
+	return sheeter.TypeLongCs + sheeter.TypeArray
 }
 
 // ToTypeGo 取得go類型字串
 func (this *LongArray) ToTypeGo() string {
-	return sheeter.TokenArray + sheeter.TokenLongGo
-}
-
-// ToTypeProto 取得proto類型字串
-func (this *LongArray) ToTypeProto() string {
-	return sheeter.TokenRepeated + " " + sheeter.TokenLongProto
+	return sheeter.TypeArray + sheeter.TypeLongGo
 }
 
 // ToJsonValue 轉換為json值
@@ -46,7 +42,7 @@ func (this *LongArray) ToJsonValue(input string) (result interface{}, err error)
 	result, err = utils.StrToInt64Array(input)
 
 	if err != nil {
-		return nil, fmt.Errorf("to json value failed: %w", err)
+		return nil, fmt.Errorf("long array to json value: %w", err)
 	} // if
 
 	return result, nil

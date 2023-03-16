@@ -1,15 +1,15 @@
 package builds
 
 import (
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/sheeter/excels"
-	"github.com/yinweli/Sheeter/sheeter/nameds"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/sheeter/excels"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestInitialize(t *testing.T) {
@@ -18,99 +18,80 @@ func TestInitialize(t *testing.T) {
 
 type SuiteInitialize struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
+	folderSuccess     string
+	folderFailed      string
+	folderSearchExcel string
+	folderSearchSheet string
+	excelSuccess1     string
+	excelSuccess2     string
+	excelSuccess3     string
+	excelFailed       string
+	sheet1            string
+	sheet2            string
 }
 
 func (this *SuiteInitialize) SetupSuite() {
-	this.Change("test-initialize")
+	this.TBegin("test-builds-initialize", "initialize")
+	this.folderSuccess = "success"
+	this.folderFailed = "failed"
+	this.folderSearchExcel = "searchExcel"
+	this.folderSearchSheet = "searchSheet"
+	this.excelSuccess1 = "success1.xlsx"
+	this.excelSuccess2 = "success2.xlsx"
+	this.excelSuccess3 = "success3.xlsx"
+	this.excelFailed = "failed.xlsx"
+	this.sheet1 = "Test1"
+	this.sheet2 = "Test2"
 }
 
 func (this *SuiteInitialize) TearDownSuite() {
 	excels.CloseAll()
-	this.Restore()
-}
-
-func (this *SuiteInitialize) target() *Config {
-	target := &Config{
-		Global: Global{
-			ExportJson:      true,
-			ExportProto:     true,
-			ExportEnum:      true,
-			SimpleNamespace: false,
-			LineOfName:      1,
-			LineOfNote:      2,
-			LineOfField:     3,
-			LineOfLayer:     4,
-			LineOfTag:       5,
-			LineOfData:      6,
-			LineOfEnum:      2,
-			Tags:            "A",
-		},
-		Inputs: []string{
-			testdata.ExcelReal + sheeter.SeparateSheet + testdata.SheetData,
-			testdata.ExcelReal + sheeter.SeparateSheet + testdata.SheetEnum,
-		},
-	}
-	return target
+	this.TFinal()
 }
 
 func (this *SuiteInitialize) TestInitialize() {
-	context, errs := Initialize(this.target())
-	assert.Empty(this.T(), errs)
-	assert.NotNil(this.T(), context)
-	assert.NotNil(this.T(), context.Global)
-	assert.NotEmpty(this.T(), context.Generate)
-	assert.NotEmpty(this.T(), context.Encoding)
-	assert.NotEmpty(this.T(), context.Poststep)
+	config := &Config{
+		Source: []string{this.folderSuccess},
+	}
+	context, err := Initialize(config)
+	assert.Len(this.T(), err, 0)
+	assert.Len(this.T(), context, 6)
+
+	for _, itor := range context {
+		assert.NotNil(this.T(), itor.Excel)
+		assert.NotNil(this.T(), itor.Sheet)
+		assert.NotEmpty(this.T(), itor.ExcelName)
+		assert.NotEmpty(this.T(), itor.SheetName)
+	} // for
+
+	_, err = Initialize(&Config{
+		Source: []string{this.folderFailed},
+	})
+	assert.Len(this.T(), err, 3)
 }
 
-func (this *SuiteInitialize) TestPreparePath() {
-	result := []any{"test1", "test2"}
-	config := []string{"test1", "test2", "test2"}
-	assert.Equal(this.T(), result, preparePath(config))
+func (this *SuiteInitialize) TestSearchExcel() {
+	result := make(chan any, sheeter.MaxExcel)
+	assert.Nil(this.T(), searchExcel(this.folderSearchExcel, result))
+	assert.Equal(this.T(), filepath.Join(this.folderSearchExcel, this.excelSuccess1), <-result)
+	assert.Equal(this.T(), filepath.Join(this.folderSearchExcel, this.excelSuccess2), <-result)
+	assert.Equal(this.T(), filepath.Join(this.folderSearchExcel, this.excelSuccess3), <-result)
 }
 
-func (this *SuiteInitialize) TestPrepareExcel() {
-	result := []any{"test1", "test2", "test3"}
-	config := []string{"test1", "test2"}
-	native := []any{"test2", "test3"}
-	assert.Equal(this.T(), result, prepareExcel(config, native))
-}
+func (this *SuiteInitialize) TestSearchSheet() {
+	result := make(chan any, sheeter.MaxExcel)
+	assert.Nil(this.T(), searchSheet(filepath.Join(this.folderSearchSheet, this.excelSuccess1), result))
+	prepare := (<-result).(*InitializeData)
+	assert.NotNil(this.T(), prepare.Excel)
+	assert.NotNil(this.T(), prepare.Sheet)
+	assert.Equal(this.T(), this.excelSuccess1, prepare.ExcelName)
+	assert.Equal(this.T(), this.sheet1, prepare.SheetName)
+	prepare = (<-result).(*InitializeData)
+	assert.NotNil(this.T(), prepare.Excel)
+	assert.NotNil(this.T(), prepare.Sheet)
+	assert.Equal(this.T(), this.excelSuccess1, prepare.ExcelName)
+	assert.Equal(this.T(), this.sheet2, prepare.SheetName)
 
-func (this *SuiteInitialize) TestPrepareSheet() {
-	result := []any{
-		&initializeSheetData{
-			Named: &nameds.Named{ExcelName: "test1", SheetName: sheeter.SignData + "sheet"},
-		},
-		&initializeSheetEnum{
-			Named: &nameds.Named{ExcelName: "test2", SheetName: sheeter.SignEnum + "sheet"},
-		},
-		&initializeSheetData{
-			Named: &nameds.Named{ExcelName: "test3", SheetName: sheeter.SignData + "sheet"},
-		},
-		&initializeSheetEnum{
-			Named: &nameds.Named{ExcelName: "test4", SheetName: sheeter.SignEnum + "sheet"},
-		},
-	}
-	config := []Sheet{
-		{ExcelName: "test1", SheetName: sheeter.SignData + "sheet"},
-		{ExcelName: "test2", SheetName: sheeter.SignEnum + "sheet"},
-		{ExcelName: "test1", SheetName: sheeter.SignData + "sheet"},
-		{ExcelName: "testx", SheetName: "x"},
-	}
-	native := []any{
-		&initializeSheetData{
-			Named: &nameds.Named{ExcelName: "test3", SheetName: sheeter.SignData + "sheet"},
-		},
-		&initializeSheetData{
-			Named: &nameds.Named{ExcelName: "test3", SheetName: sheeter.SignData + "sheet"},
-		},
-		&initializeSheetEnum{
-			Named: &nameds.Named{ExcelName: "test4", SheetName: sheeter.SignEnum + "sheet"},
-		},
-		&initializeSheetEnum{
-			Named: &nameds.Named{ExcelName: "test4", SheetName: sheeter.SignEnum + "sheet"},
-		},
-	}
-	assert.Equal(this.T(), result, prepareSheet(config, native, nil))
+	assert.NotNil(this.T(), searchSheet(filepath.Join(this.folderSearchSheet, this.excelFailed), result))
 }

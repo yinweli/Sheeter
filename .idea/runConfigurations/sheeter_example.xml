@@ -1,7 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="sheeter example" type="GoApplicationRunConfiguration" factoryName="Go Application">
     <module name="Sheeter" />
-    <working_directory value="$PROJECT_DIR$" />
+    <working_directory value="$PROJECT_DIR$/support/example" />
     <kind value="DIRECTORY" />
     <directory value="$PROJECT_DIR$/support/example" />
     <filePath value="$PROJECT_DIR$" />

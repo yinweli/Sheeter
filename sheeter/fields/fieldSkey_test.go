@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestSkey(t *testing.T) {
@@ -16,33 +16,28 @@ func TestSkey(t *testing.T) {
 
 type SuiteSkey struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteSkey) SetupSuite() {
-	this.Change("test-field-skey")
+	this.TBegin("test-fields-skey", "")
 }
 
 func (this *SuiteSkey) TearDownSuite() {
-	this.Restore()
-}
-
-func (this *SuiteSkey) target() *Skey {
-	return &Skey{}
+	this.TFinal()
 }
 
 func (this *SuiteSkey) TestField() {
-	target := this.target()
+	target := &Skey{}
 	assert.Equal(this.T(), []string{"skey"}, target.Field())
-	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), true, target.IsPkey())
-	assert.Equal(this.T(), sheeter.TokenSkeyCs, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TokenSkeyGo, target.ToTypeGo())
-	assert.Equal(this.T(), sheeter.TokenSkeyProto, target.ToTypeProto())
+	assert.IsType(this.T(), &Skey{}, target.ToPkey())
+	assert.Equal(this.T(), sheeter.TypeSkeyCs, target.ToTypeCs())
+	assert.Equal(this.T(), sheeter.TypeSkeyGo, target.ToTypeGo())
 }
 
 func (this *SuiteSkey) TestToJsonValue() {
-	target := this.target()
+	target := &Skey{}
 
 	result, err := target.ToJsonValue("ball,book,pack")
 	assert.Nil(this.T(), err)

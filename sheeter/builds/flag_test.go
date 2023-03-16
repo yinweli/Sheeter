@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestFlag(t *testing.T) {
@@ -16,32 +16,27 @@ func TestFlag(t *testing.T) {
 
 type SuiteFlag struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteFlag) SetupSuite() {
-	this.Change("test-build-flag")
+	this.TBegin("test-builds-flag", "")
 }
 
 func (this *SuiteFlag) TearDownSuite() {
-	this.Restore()
+	this.TFinal()
 }
 
-func (this *SuiteFlag) TestSetFlags() {
-	cmd := SetFlags(&cobra.Command{})
+func (this *SuiteFlag) TestSetFlag() {
+	cmd := SetFlag(&cobra.Command{})
 	assert.NotNil(this.T(), cmd)
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagConfig))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagExportJson))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagExportProto))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagExportEnum))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagSimpleNamespace))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagSource))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagTag))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagAutoKey))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfTag))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfName))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfNote))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfField))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfLayer))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfTag))
 	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfData))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfEnum))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagTags))
-	assert.NotNil(this.T(), cmd.Flags().Lookup(flagInputs))
 }

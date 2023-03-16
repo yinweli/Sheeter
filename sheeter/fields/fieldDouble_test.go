@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestDouble(t *testing.T) {
@@ -16,41 +16,37 @@ func TestDouble(t *testing.T) {
 
 type SuiteDouble struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteDouble) SetupSuite() {
-	this.Change("test-field-double")
+	this.TBegin("test-fields-double", "")
 }
 
 func (this *SuiteDouble) TearDownSuite() {
-	this.Restore()
-}
-
-func (this *SuiteDouble) target() *Double {
-	return &Double{}
+	this.TFinal()
 }
 
 func (this *SuiteDouble) TestField() {
-	target := this.target()
+	target := &Double{}
 	assert.Equal(this.T(), []string{"double"}, target.Field())
-	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Equal(this.T(), sheeter.TokenDoubleCs, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TokenDoubleGo, target.ToTypeGo())
-	assert.Equal(this.T(), sheeter.TokenDoubleProto, target.ToTypeProto())
+	assert.Nil(this.T(), target.ToPkey())
+	assert.Equal(this.T(), sheeter.TypeDoubleCs, target.ToTypeCs())
+	assert.Equal(this.T(), sheeter.TypeDoubleGo, target.ToTypeGo())
 }
 
 func (this *SuiteDouble) TestToJsonValue() {
-	target := this.target()
+	target := &Double{}
 
 	result, err := target.ToJsonValue("0.123456")
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), 0.123456, result)
+	assert.Equal(this.T(), float64(0.123456), result)
 
-	_, err = target.ToJsonValue("")
-	assert.NotNil(this.T(), err)
+	result, err = target.ToJsonValue("")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), float64(0), result)
 
-	_, err = target.ToJsonValue(testdata.UnknownStr)
+	_, err = target.ToJsonValue(this.Unknown)
 	assert.NotNil(this.T(), err)
 }

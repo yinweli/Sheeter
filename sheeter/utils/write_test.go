@@ -7,7 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestWrite(t *testing.T) {
@@ -16,65 +16,44 @@ func TestWrite(t *testing.T) {
 
 type SuiteWrite struct {
 	suite.Suite
-	testdata.TestEnv
-	dirReal string
-	dirFake string
+	testdata.TestData
+	fileExist string
 }
 
 func (this *SuiteWrite) SetupSuite() {
-	this.Change("test-write")
-	this.dirReal = "write"
-	this.dirFake = "?write"
+	this.TBegin("test-utils-write", "write")
+	this.fileExist = "exist.txt"
 }
 
 func (this *SuiteWrite) TearDownSuite() {
-	this.Restore()
+	this.TFinal()
 }
 
 func (this *SuiteWrite) TestFileName() {
-	name := "test"
-	path := filepath.Join("dir1", "dir2", "dir3", name+".txt")
-
-	assert.Equal(this.T(), name, FileName(path))
+	assert.Equal(this.T(), "test", FileName(filepath.Join("dir1", "dir2", "dir3", "test.txt")))
 }
 
 func (this *SuiteWrite) TestFileExist() {
-	assert.True(this.T(), FileExist(testdata.ConfigReal))
-	assert.False(this.T(), FileExist(testdata.UnknownStr))
+	assert.True(this.T(), FileExist(this.fileExist))
+	assert.False(this.T(), FileExist(this.Unknown))
 }
 
 func (this *SuiteWrite) TestWriteFile() {
-	name := "test.file"
-	pathReal := filepath.Join(this.dirReal, name)
-	pathFake := filepath.Join(this.dirFake, name)
-	bytes := []byte("this is a string")
+	path := filepath.Join("path", "test.file")
+	data := []byte("this is a string")
 
-	assert.Nil(this.T(), WriteFile(pathReal, bytes))
-	testdata.CompareFile(this.T(), pathReal, bytes)
-
-	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
-	if testdata.IsWindows() {
-		assert.NotNil(this.T(), WriteFile(pathFake, bytes))
-	} // if
+	assert.Nil(this.T(), WriteFile(path, data))
+	this.AssertCompareFile(this.T(), path, data)
 }
 
 func (this *SuiteWrite) TestWriteTmpl() {
-	name := "test.tmpl"
-	pathReal := filepath.Join(this.dirReal, name)
-	pathFake := filepath.Join(this.dirFake, name)
+	path := filepath.Join("write", "write.tmpl")
 	contentReal := "{{$.Value}}"
 	contentFake := "{{{$.Value}}"
-	datas := map[string]string{"Value": "Value"}
-	bytes := []byte("Value")
 
-	assert.Nil(this.T(), WriteTmpl(pathReal, contentReal, datas))
-	testdata.CompareFile(this.T(), pathReal, bytes)
+	assert.Nil(this.T(), WriteTmpl(path, contentReal, map[string]string{"Value": "Value"}))
+	this.AssertCompareFile(this.T(), path, []byte("Value"))
 
-	assert.NotNil(this.T(), WriteTmpl(pathReal, contentFake, nil))
-	assert.NotNil(this.T(), WriteTmpl(pathReal, contentReal, "nothing!"))
-
-	// 由於linux下檔案名稱幾乎沒有非法字元, 所以這項檢查只針對windows
-	if testdata.IsWindows() {
-		assert.NotNil(this.T(), WriteTmpl(pathFake, contentReal, datas))
-	} // if
+	assert.NotNil(this.T(), WriteTmpl(path, contentFake, nil))
+	assert.NotNil(this.T(), WriteTmpl(path, contentReal, "nothing!"))
 }

@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestInt(t *testing.T) {
@@ -16,41 +16,37 @@ func TestInt(t *testing.T) {
 
 type SuiteInt struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteInt) SetupSuite() {
-	this.Change("test-field-int")
+	this.TBegin("test-fields-int", "")
 }
 
 func (this *SuiteInt) TearDownSuite() {
-	this.Restore()
-}
-
-func (this *SuiteInt) target() *Int {
-	return &Int{}
+	this.TFinal()
 }
 
 func (this *SuiteInt) TestField() {
-	target := this.target()
+	target := &Int{}
 	assert.Equal(this.T(), []string{"int"}, target.Field())
-	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Equal(this.T(), sheeter.TokenIntCs, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TokenIntGo, target.ToTypeGo())
-	assert.Equal(this.T(), sheeter.TokenIntProto, target.ToTypeProto())
+	assert.IsType(this.T(), &Pkey{}, target.ToPkey())
+	assert.Equal(this.T(), sheeter.TypeIntCs, target.ToTypeCs())
+	assert.Equal(this.T(), sheeter.TypeIntGo, target.ToTypeGo())
 }
 
 func (this *SuiteInt) TestToJsonValue() {
-	target := this.target()
+	target := &Int{}
 
 	result, err := target.ToJsonValue("123456789")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), int32(123456789), result)
 
-	_, err = target.ToJsonValue("")
-	assert.NotNil(this.T(), err)
+	result, err = target.ToJsonValue("")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), int32(0), result)
 
-	_, err = target.ToJsonValue(testdata.UnknownStr)
+	_, err = target.ToJsonValue(this.Unknown)
 	assert.NotNil(this.T(), err)
 }

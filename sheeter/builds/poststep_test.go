@@ -1,15 +1,15 @@
 package builds
 
 import (
-	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/sheeter/excels"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/sheeter/excels"
+	"github.com/yinweli/Sheeter/v2/sheeter/nameds"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestPoststep(t *testing.T) {
@@ -18,50 +18,87 @@ func TestPoststep(t *testing.T) {
 
 type SuitePoststep struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
+	folder      string
+	excel       string
+	sheet       string
+	lineOfTag   int
+	lineOfName  int
+	lineOfNote  int
+	lineOfField int
+	lintOfData  int
+	tag         string
 }
 
 func (this *SuitePoststep) SetupSuite() {
-	this.Change("test-poststep")
+	this.TBegin("test-builds-poststep", "poststep")
+	this.folder = "poststep"
+	this.excel = "poststep.xlsx"
+	this.sheet = "Sheet"
+	this.lineOfTag = 1
+	this.lineOfName = 2
+	this.lineOfNote = 3
+	this.lineOfField = 4
+	this.lintOfData = 5
+	this.tag = "1"
 }
 
 func (this *SuitePoststep) TearDownSuite() {
 	excels.CloseAll()
-	this.Restore()
-}
-
-func (this *SuitePoststep) target() *Config {
-	target := &Config{
-		Global: Global{
-			ExportJson:      true,
-			ExportProto:     true,
-			ExportEnum:      true,
-			SimpleNamespace: false,
-			LineOfName:      1,
-			LineOfNote:      2,
-			LineOfField:     3,
-			LineOfLayer:     4,
-			LineOfTag:       5,
-			LineOfData:      6,
-			LineOfEnum:      2,
-			Tags:            "A",
-		},
-		Inputs: []string{
-			testdata.ExcelReal + sheeter.SeparateSheet + testdata.SheetData,
-			testdata.ExcelReal + sheeter.SeparateSheet + testdata.SheetEnum,
-		},
-	}
-	return target
+	this.TFinal()
 }
 
 func (this *SuitePoststep) TestPoststep() {
-	context, errs := Initialize(this.target())
-	assert.Empty(this.T(), errs)
-	assert.Empty(this.T(), Generate(context))
-	assert.Empty(this.T(), Encoding(context))
-	assert.Empty(this.T(), Poststep(context))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.CsPath, "Depot.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.GoPath, "depot.go"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.CsPath, "Depot.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.GoPath, "depot.go"))
+	config := this.prepareConfig([]string{this.folder})
+	context, err := Initialize(config)
+	assert.Len(this.T(), err, 0)
+	assert.Len(this.T(), context, 1)
+	file, err := Operation(config, context)
+	assert.Len(this.T(), err, 0)
+	assert.Len(this.T(), file, 3)
+	file, err = Poststep(config, context)
+	assert.Len(this.T(), err, 0)
+	assert.Len(this.T(), file, 2)
+
+	for _, itor := range file {
+		assert.FileExists(this.T(), itor.(string))
+	} // for
+}
+
+func (this *SuitePoststep) TestGenerateSheeterCs() {
+	result := make(chan any, sheeter.MaxExcel)
+	poststepData := this.prepareData(this.excel, this.sheet)
+	assert.Nil(this.T(), generateSheeterCs(poststepData, result))
+	assert.FileExists(this.T(), poststepData.SheeterPathCs())
+}
+
+func (this *SuitePoststep) TestGenerateSheeterGo() {
+	result := make(chan any, sheeter.MaxExcel)
+	poststepData := this.prepareData(this.excel, this.sheet)
+	assert.Nil(this.T(), generateSheeterGo(poststepData, result))
+	assert.FileExists(this.T(), poststepData.SheeterPathGo())
+}
+
+func (this *SuitePoststep) prepareConfig(source []string) *Config {
+	return &Config{
+		Global: Global{
+			Tag:         this.tag,
+			LineOfTag:   this.lineOfTag,
+			LineOfName:  this.lineOfName,
+			LineOfNote:  this.lineOfNote,
+			LineOfField: this.lineOfField,
+			LineOfData:  this.lintOfData,
+		},
+		Source: source,
+	}
+}
+
+func (this *SuitePoststep) prepareData(excelName, sheetName string) *PoststepData {
+	return &PoststepData{
+		Global: &this.prepareConfig(nil).Global,
+		Named:  &nameds.Named{},
+		Struct: []*nameds.Named{
+			{ExcelName: excelName, SheetName: sheetName},
+		},
+	}
 }

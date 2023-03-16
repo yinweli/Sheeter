@@ -3,8 +3,8 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/sheeter/utils"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/sheeter/utils"
 )
 
 // Int 32位元整數
@@ -16,29 +16,24 @@ func (this *Int) Field() []string {
 	return []string{"int"}
 }
 
-// IsShow 是否顯示
-func (this *Int) IsShow() bool {
-	return true
-}
-
 // IsPkey 是否是主要索引
 func (this *Int) IsPkey() bool {
 	return false
 }
 
+// ToPkey 取得主要索引類型
+func (this *Int) ToPkey() Field {
+	return &Pkey{}
+}
+
 // ToTypeCs 取得cs類型字串
 func (this *Int) ToTypeCs() string {
-	return sheeter.TokenIntCs
+	return sheeter.TypeIntCs
 }
 
 // ToTypeGo 取得go類型字串
 func (this *Int) ToTypeGo() string {
-	return sheeter.TokenIntGo
-}
-
-// ToTypeProto 取得proto類型字串
-func (this *Int) ToTypeProto() string {
-	return sheeter.TokenIntProto
+	return sheeter.TypeIntGo
 }
 
 // ToJsonValue 轉換為json值
@@ -46,7 +41,7 @@ func (this *Int) ToJsonValue(input string) (result interface{}, err error) {
 	result, err = utils.StrToInt32(input)
 
 	if err != nil {
-		return nil, fmt.Errorf("to json value failed: %w", err)
+		return nil, fmt.Errorf("int to json value: %w", err)
 	} // if
 
 	return result, nil

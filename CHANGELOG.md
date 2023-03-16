@@ -5,8 +5,6 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Planning]
-- 新增讀取時的hook或是過濾委派機制, 讓使用者可以決定每筆資料是否真的要進到讀取器中
-- 如何讓陣列結構的空元素從資料中移除
 - 針對單元測試新增goleak來測試是否有gorourtine洩漏
 - 新增多表合一功能(combine), 可以在設定檔中設定那些表格為合併表格, 並且指定其中之一為標準表格
   此標準表格會在Depot額外建立一個合併讀取器, 會讀取所有合併表格資料
@@ -16,12 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 更改Depot類別, 新增CombineFrom函式, 專門對應多表合一模式
 
 ## [Unrelease]
-### Added
-- 新增欄位類型 double, long, skey
-- 新增停用階層功能
+
+## [2.0.0] - 2023-03-16
 ### Changed
-- 更改欄位類型, 讓欄位類型有多個別名可選擇
-- 更改欄位類型的輸出類型, pkey改為32為元整數, int改為32為元整數, float改為32位元浮點數
+- 變更sheeter支援的excel格式, 因此v2之後的sheeter不再能讀取v1的excel檔案
+### Removed
+- 移除proto支援
+- 移除enum功能
+- 移除階層功能
 
 ## [1.11.0] - 2022-12-02
 ### Changed

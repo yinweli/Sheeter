@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestFloatArray(t *testing.T) {
@@ -16,41 +16,37 @@ func TestFloatArray(t *testing.T) {
 
 type SuiteFloatArray struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteFloatArray) SetupSuite() {
-	this.Change("test-field-floatArray")
+	this.TBegin("test-fields-floatArray", "")
 }
 
 func (this *SuiteFloatArray) TearDownSuite() {
-	this.Restore()
-}
-
-func (this *SuiteFloatArray) target() *FloatArray {
-	return &FloatArray{}
+	this.TFinal()
 }
 
 func (this *SuiteFloatArray) TestField() {
-	target := this.target()
+	target := &FloatArray{}
 	assert.Equal(this.T(), []string{"floatArray", "[]float", "float[]"}, target.Field())
-	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Equal(this.T(), sheeter.TokenFloatCs+sheeter.TokenArray, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TokenArray+sheeter.TokenFloatGo, target.ToTypeGo())
-	assert.Equal(this.T(), sheeter.TokenRepeated+" "+sheeter.TokenFloatProto, target.ToTypeProto())
+	assert.Nil(this.T(), target.ToPkey())
+	assert.Equal(this.T(), sheeter.TypeFloatCs+sheeter.TypeArray, target.ToTypeCs())
+	assert.Equal(this.T(), sheeter.TypeArray+sheeter.TypeFloatGo, target.ToTypeGo())
 }
 
 func (this *SuiteFloatArray) TestToJsonValue() {
-	target := this.target()
+	target := &FloatArray{}
 
 	result, err := target.ToJsonValue("0.123,0.456,0.789")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []float32{0.123, 0.456, 0.789}, result)
 
-	_, err = target.ToJsonValue("")
-	assert.NotNil(this.T(), err)
+	result, err = target.ToJsonValue("")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []float32{}, result)
 
-	_, err = target.ToJsonValue(testdata.UnknownStr)
+	_, err = target.ToJsonValue(this.Unknown)
 	assert.NotNil(this.T(), err)
 }

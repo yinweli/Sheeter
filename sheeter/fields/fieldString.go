@@ -1,6 +1,8 @@
 package fields
 
-import "github.com/yinweli/Sheeter/sheeter"
+import (
+	"github.com/yinweli/Sheeter/v2/sheeter"
+)
 
 // String 字串
 type String struct {
@@ -11,29 +13,24 @@ func (this *String) Field() []string {
 	return []string{"string"}
 }
 
-// IsShow 是否顯示
-func (this *String) IsShow() bool {
-	return true
-}
-
 // IsPkey 是否是主要索引
 func (this *String) IsPkey() bool {
 	return false
 }
 
+// ToPkey 取得主要索引類型
+func (this *String) ToPkey() Field {
+	return &Skey{}
+}
+
 // ToTypeCs 取得cs類型字串
 func (this *String) ToTypeCs() string {
-	return sheeter.TokenStringCs
+	return sheeter.TypeStringCs
 }
 
 // ToTypeGo 取得go類型字串
 func (this *String) ToTypeGo() string {
-	return sheeter.TokenStringGo
-}
-
-// ToTypeProto 取得proto類型字串
-func (this *String) ToTypeProto() string {
-	return sheeter.TokenStringProto
+	return sheeter.TypeStringGo
 }
 
 // ToJsonValue 轉換為json值

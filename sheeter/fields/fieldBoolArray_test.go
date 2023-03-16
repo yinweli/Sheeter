@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestBoolArray(t *testing.T) {
@@ -16,41 +16,37 @@ func TestBoolArray(t *testing.T) {
 
 type SuiteBoolArray struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteBoolArray) SetupSuite() {
-	this.Change("test-field-boolArray")
+	this.TBegin("test-fields-boolArray", "")
 }
 
 func (this *SuiteBoolArray) TearDownSuite() {
-	this.Restore()
-}
-
-func (this *SuiteBoolArray) target() *BoolArray {
-	return &BoolArray{}
+	this.TFinal()
 }
 
 func (this *SuiteBoolArray) TestField() {
-	target := this.target()
+	target := &BoolArray{}
 	assert.Equal(this.T(), []string{"boolArray", "[]bool", "bool[]"}, target.Field())
-	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Equal(this.T(), sheeter.TokenBoolCs+sheeter.TokenArray, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TokenArray+sheeter.TokenBoolGo, target.ToTypeGo())
-	assert.Equal(this.T(), sheeter.TokenRepeated+" "+sheeter.TokenBoolProto, target.ToTypeProto())
+	assert.Nil(this.T(), target.ToPkey())
+	assert.Equal(this.T(), sheeter.TypeBoolCs+sheeter.TypeArray, target.ToTypeCs())
+	assert.Equal(this.T(), sheeter.TypeArray+sheeter.TypeBoolGo, target.ToTypeGo())
 }
 
 func (this *SuiteBoolArray) TestToJsonValue() {
-	target := this.target()
+	target := &BoolArray{}
 
 	result, err := target.ToJsonValue("true,false,true,false,true")
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []bool{true, false, true, false, true}, result)
 
-	_, err = target.ToJsonValue("")
-	assert.NotNil(this.T(), err)
+	result, err = target.ToJsonValue("")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), []bool{}, result)
 
-	_, err = target.ToJsonValue(testdata.UnknownStr)
+	_, err = target.ToJsonValue(this.Unknown)
 	assert.NotNil(this.T(), err)
 }

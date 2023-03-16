@@ -6,7 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestField(t *testing.T) {
@@ -15,15 +15,15 @@ func TestField(t *testing.T) {
 
 type SuiteField struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteField) SetupSuite() {
-	this.Change("test-field-parser")
+	this.TBegin("test-fields-parser", "")
 }
 
 func (this *SuiteField) TearDownSuite() {
-	this.Restore()
+	this.TFinal()
 }
 
 func (this *SuiteField) TestParser() {
@@ -39,6 +39,6 @@ func (this *SuiteField) TestParser() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), (&BoolArray{}).Field(), field.Field())
 
-	_, err = Parser(testdata.UnknownStr)
+	_, err = Parser(this.Unknown)
 	assert.NotNil(this.T(), err)
 }

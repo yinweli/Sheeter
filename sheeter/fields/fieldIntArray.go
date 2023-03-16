@@ -3,8 +3,8 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/sheeter/utils"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/sheeter/utils"
 )
 
 // IntArray 32位元整數陣列
@@ -16,29 +16,24 @@ func (this *IntArray) Field() []string {
 	return []string{"intArray", "[]int", "int[]"}
 }
 
-// IsShow 是否顯示
-func (this *IntArray) IsShow() bool {
-	return true
-}
-
 // IsPkey 是否是主要索引
 func (this *IntArray) IsPkey() bool {
 	return false
 }
 
+// ToPkey 取得主要索引類型
+func (this *IntArray) ToPkey() Field {
+	return nil
+}
+
 // ToTypeCs 取得cs類型字串
 func (this *IntArray) ToTypeCs() string {
-	return sheeter.TokenIntCs + sheeter.TokenArray
+	return sheeter.TypeIntCs + sheeter.TypeArray
 }
 
 // ToTypeGo 取得go類型字串
 func (this *IntArray) ToTypeGo() string {
-	return sheeter.TokenArray + sheeter.TokenIntGo
-}
-
-// ToTypeProto 取得proto類型字串
-func (this *IntArray) ToTypeProto() string {
-	return sheeter.TokenRepeated + " " + sheeter.TokenIntProto
+	return sheeter.TypeArray + sheeter.TypeIntGo
 }
 
 // ToJsonValue 轉換為json值
@@ -46,7 +41,7 @@ func (this *IntArray) ToJsonValue(input string) (result interface{}, err error) 
 	result, err = utils.StrToInt32Array(input)
 
 	if err != nil {
-		return nil, fmt.Errorf("to json value failed: %w", err)
+		return nil, fmt.Errorf("int array to json value: %w", err)
 	} // if
 
 	return result, nil

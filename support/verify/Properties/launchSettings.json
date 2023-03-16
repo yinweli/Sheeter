@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "verify": {
+      "commandName": "Project",
+      "workingDirectory": ".\\"
+    }
+  }
+}

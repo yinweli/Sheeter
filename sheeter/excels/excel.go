@@ -8,7 +8,7 @@ import (
 
 	"github.com/thedatashed/xlsxreader"
 
-	"github.com/yinweli/Sheeter/sheeter"
+	"github.com/yinweli/Sheeter/v2/sheeter"
 )
 
 // Excel excel資料
@@ -21,11 +21,11 @@ func (this *Excel) Open(name string) error {
 	excel, err := xlsxreader.OpenFile(name)
 
 	if err != nil {
-		return fmt.Errorf("open failed: %w", err)
+		return fmt.Errorf("excel open: %w", err)
 	} // if
 
 	this.excel = excel
-	openedExcel <- excel
+	openedExcel <- this
 	return nil
 }
 
@@ -37,24 +37,25 @@ func (this *Excel) Close() {
 	} // if
 }
 
-// Get 取得表單
+// Get 取得sheet
 func (this *Excel) Get(name string) (sheet *Sheet, err error) {
 	if this.Exist(name) == false {
-		return nil, fmt.Errorf("get failed: sheet not exist")
+		return nil, fmt.Errorf("excel get: sheet not exist")
 	} // if
 
 	sheet = &Sheet{
 		rows: this.excel.ReadRows(name),
 	}
+	openedSheet <- sheet
 	return sheet, nil
 }
 
-// GetLine 取得表單行資料
+// GetLine 取得sheet行資料
 func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, err error) {
 	sheet, err := this.Get(name)
 
 	if err != nil {
-		return nil, fmt.Errorf("get line failed: %w", err)
+		return nil, fmt.Errorf("excel get line: %w", err)
 	} // if
 
 	defer sheet.Close()
@@ -64,7 +65,7 @@ func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, e
 
 	for _, itor := range line {
 		if itor <= 0 { // 最少要一次才能定位到第1行, 所以若起始位置設為0line <= 0, 就表示錯誤
-			return nil, fmt.Errorf("get line failed: line <= 0")
+			return nil, fmt.Errorf("excel get line: line <= 0")
 		} // if
 
 		data := []string{}
@@ -73,7 +74,7 @@ func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, e
 			current = itor
 
 			if data, err = sheet.Data(); err != nil {
-				return nil, fmt.Errorf("get line failed: %w", err)
+				return nil, fmt.Errorf("excel get line: %w", err)
 			} // if
 
 			if data == nil { // 如果取得空行, 就回傳個空切片吧
@@ -87,7 +88,7 @@ func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, e
 	return result, nil
 }
 
-// Sheets 取得表單列表
+// Sheets 取得sheet列表
 func (this *Excel) Sheets() []string {
 	if this.excel != nil {
 		return this.excel.Sheets
@@ -96,7 +97,7 @@ func (this *Excel) Sheets() []string {
 	return []string{}
 }
 
-// Exist 表單是否存在
+// Exist sheet是否存在
 func (this *Excel) Exist(name string) bool {
 	if this.excel != nil {
 		for _, itor := range this.excel.Sheets {
@@ -114,14 +115,14 @@ func (this *Excel) IsOpen() bool {
 	return this.excel != nil
 }
 
-// Sheet 表單資料
+// Sheet sheet資料
 type Sheet struct {
 	rows chan xlsxreader.Row // 表單資料
 	row  *xlsxreader.Row     // 行資料
 	line int                 // 目前行數
 }
 
-// Close 關閉表單資料
+// Close 關閉sheet資料
 func (this *Sheet) Close() {
 	if this.rows != nil {
 		// 由於xlsxreader的要求, 必須在關閉前把表單尋訪完畢
@@ -165,7 +166,7 @@ func (this *Sheet) Nextn(n int) bool {
 // Data 取得行資料
 func (this *Sheet) Data() (result []string, err error) {
 	if this.row == nil {
-		return nil, fmt.Errorf("data failed: row nil")
+		return nil, fmt.Errorf("sheet data: row nil")
 	} // if
 
 	if this.row.Index != this.line {
@@ -187,23 +188,36 @@ func (this *Sheet) Data() (result []string, err error) {
 
 // CloseAll 關閉所有已開啟的excel
 func CloseAll() {
+closeSheet:
+	for {
+		select {
+		case itor := <-openedSheet:
+			itor.Close()
+
+		default:
+			break closeSheet
+		} // select
+	} // for
+
+closeExcel:
 	for {
 		select {
 		case itor := <-openedExcel:
-			_ = itor.Close()
+			itor.Close()
 
 		default:
-			return
+			break closeExcel
 		} // select
 	} // for
 }
 
-var openedExcel = make(chan *xlsxreader.XlsxFileCloser, sheeter.MaxExcel) // 已開啟的excel列表
+var openedExcel = make(chan *Excel, sheeter.MaxExcel) // 已開啟的excel列表
+var openedSheet = make(chan *Sheet, sheeter.MaxSheet) // 已開啟的sheet列表
 
 // columnToIndex 欄位字串轉為索引值
 func columnToIndex(letter string) int {
 	if columnChecker(letter) == false {
-		panic("invalid column") // 正常狀況下應該不會跑出異常
+		panic("columnToIndex: column invalid") // 正常狀況下應該不會跑出異常
 	} // if
 
 	result := 0

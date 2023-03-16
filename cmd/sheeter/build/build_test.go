@@ -1,16 +1,15 @@
 package build
 
 import (
-	"os"
 	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/sheeter/excels"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/sheeter/excels"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestBuild(t *testing.T) {
@@ -19,77 +18,31 @@ func TestBuild(t *testing.T) {
 
 type SuiteBuild struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
+	config string
 }
 
 func (this *SuiteBuild) SetupSuite() {
-	this.Change("test-cmd-build")
+	this.TBegin("test-cmd-build", "build")
+	this.config = "config.yaml"
 }
 
 func (this *SuiteBuild) TearDownSuite() {
 	excels.CloseAll()
-	this.Restore()
+	this.TFinal()
+}
+
+func (this *SuiteBuild) TestNewCommand() {
+	assert.NotNil(this.T(), NewCommand())
 }
 
 func (this *SuiteBuild) TestExecute() {
-	config := "config"
 	cmd := NewCommand()
-	assert.Nil(this.T(), cmd.Flags().Set(config, testdata.ConfigRealAll))
+	assert.Nil(this.T(), cmd.Flags().Set("config", this.config))
 	assert.Nil(this.T(), cmd.Execute())
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.CsPath, "RealData.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.CsPath, "RealDataReader.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.CsPath, "Depot.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.GoPath, "realData.go"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.GoPath, "realDataReader.go"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.GoPath, "depot.go"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.DataPath, "realData.json"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.SchemaPath, "realData.proto"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.CsPath, "RealDataReader.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.CsPath, "Depot.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.GoPath, "realDataReader.go"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.GoPath, "depot.go"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.DataPath, "realData.bytes"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.EnumPath, sheeter.SchemaPath, "realEnum.proto"))
-	_ = os.RemoveAll(sheeter.TmplPath)
-	_ = os.RemoveAll(sheeter.JsonPath)
-	_ = os.RemoveAll(sheeter.ProtoPath)
-	_ = os.RemoveAll(sheeter.EnumPath)
-
-	cmd = NewCommand()
-	assert.Nil(this.T(), cmd.Flags().Set(config, testdata.ConfigRealJson))
-	assert.Nil(this.T(), cmd.Execute())
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.CsPath, "RealData.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.CsPath, "RealDataReader.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.CsPath, "Depot.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.GoPath, "realData.go"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.GoPath, "realDataReader.go"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.GoPath, "depot.go"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, sheeter.DataPath, "realData.json"))
-	_ = os.RemoveAll(sheeter.TmplPath)
-	_ = os.RemoveAll(sheeter.JsonPath)
-	_ = os.RemoveAll(sheeter.ProtoPath)
-	_ = os.RemoveAll(sheeter.EnumPath)
-
-	cmd = NewCommand()
-	assert.Nil(this.T(), cmd.Flags().Set(config, testdata.ConfigRealProto))
-	assert.Nil(this.T(), cmd.Execute())
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.SchemaPath, "realData.proto"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.CsPath, "RealDataReader.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.CsPath, "Depot.cs"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.GoPath, "realDataReader.go"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.GoPath, "depot.go"))
-	assert.FileExists(this.T(), filepath.Join(sheeter.ProtoPath, sheeter.DataPath, "realData.bytes"))
-	_ = os.RemoveAll(sheeter.TmplPath)
-	_ = os.RemoveAll(sheeter.JsonPath)
-	_ = os.RemoveAll(sheeter.ProtoPath)
-	_ = os.RemoveAll(sheeter.EnumPath)
-
-	cmd = NewCommand()
-	assert.Nil(this.T(), cmd.Flags().Set(config, testdata.ConfigRealEnum))
-	assert.Nil(this.T(), cmd.Execute())
-	assert.FileExists(this.T(), filepath.Join(sheeter.EnumPath, sheeter.SchemaPath, "realEnum.proto"))
-	_ = os.RemoveAll(sheeter.TmplPath)
-	_ = os.RemoveAll(sheeter.JsonPath)
-	_ = os.RemoveAll(sheeter.ProtoPath)
-	_ = os.RemoveAll(sheeter.EnumPath)
+	assert.FileExists(this.T(), filepath.Join(sheeter.CsPath, "ExcelTestReader.cs"))
+	assert.FileExists(this.T(), filepath.Join(sheeter.CsPath, "Sheeter.cs"))
+	assert.FileExists(this.T(), filepath.Join(sheeter.GoPath, "excelTestReader.go"))
+	assert.FileExists(this.T(), filepath.Join(sheeter.GoPath, "sheeter.go"))
+	assert.FileExists(this.T(), filepath.Join(sheeter.JsonPath, "excelTest.json"))
 }

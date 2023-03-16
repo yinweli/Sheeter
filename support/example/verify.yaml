@@ -1,0 +1,11 @@
+global:
+  tag: 1
+  autoKey: true
+  lineOfTag: 1
+  lineOfName: 2
+  lineOfNote: 3
+  lineOfField: 4
+  lineOfData: 5
+
+source:
+  - verify.xlsx

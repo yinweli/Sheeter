@@ -1,132 +1,117 @@
 package builds
 
 import (
-	"github.com/yinweli/Sheeter/sheeter/nameds"
-	"github.com/yinweli/Sheeter/sheeter/pipelines"
-	"github.com/yinweli/Sheeter/sheeter/utils"
+	"fmt"
+	"io/fs"
+	"path/filepath"
+
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/sheeter/excels"
+	"github.com/yinweli/Sheeter/v2/sheeter/pipelines"
+	"github.com/yinweli/Sheeter/v2/sheeter/utils"
 )
 
+// InitializeData 初始化資料
+type InitializeData struct {
+	*excels.Excel        // excel物件
+	*excels.Sheet        // sheet物件
+	ExcelName     string // excel名稱
+	SheetName     string // sheet名稱
+}
+
 // Initialize 初始化處理
-func Initialize(config *Config) (context *Context, errs []error) {
-	path := preparePath(config.Path())
-	excel, errs := pipelines.Pipeline("initialize file", path, []pipelines.PipelineFunc{
-		InitializeFile,
+func Initialize(config *Config) (result []*InitializeData, err []error) {
+	resultExcel, err := pipelines.Pipeline[string]("search excel", config.Path(), []pipelines.PipelineFunc[string]{
+		searchExcel,
 	})
 
-	if len(errs) > 0 {
-		return nil, errs
+	if len(err) > 0 {
+		return nil, err
 	} // if
 
-	excel = prepareExcel(config.Excel(), excel)
-	sheet, errs := pipelines.Pipeline("initialize excel", excel, []pipelines.PipelineFunc{
-		InitializeExcel,
+	resultSheet, err := pipelines.Pipeline[string]("search sheet", utils.Combine(config.File(), resultExcel), []pipelines.PipelineFunc[string]{
+		searchSheet,
 	})
 
-	if len(errs) > 0 {
-		return nil, errs
+	if len(err) > 0 {
+		return nil, err
 	} // if
 
-	sheet = prepareSheet(config.Sheet(), sheet, &config.Global) // 由於InitializePick會用到sheet列表, 所以必須在外面準備好列表
-	_, errs = pipelines.Pipeline("initialize sheet", sheet, []pipelines.PipelineFunc{
-		InitializeSheetData,
-		InitializeSheetEnum,
-	})
+	for _, itor := range resultSheet {
+		if data, ok := itor.(*InitializeData); ok {
+			if utils.CheckExcel(utils.FileName(data.ExcelName)) == false {
+				err = append(err, fmt.Errorf("initialize: excel name invalid: %v#%v", data.ExcelName, data.SheetName))
+			} // if
 
-	if len(errs) > 0 {
-		return nil, errs
+			if utils.CheckSheet(data.SheetName) == false {
+				err = append(err, fmt.Errorf("initialize: sheet name invalid: %v#%v", data.ExcelName, data.SheetName))
+			} // if
+
+			result = append(result, data)
+		} // if
+	} // for
+
+	if len(err) > 0 {
+		return nil, err
 	} // if
 
-	context = &Context{
-		Global: &config.Global,
-	}
+	return result, nil
+}
 
-	if err := InitializePick(sheet, context); err != nil {
-		return nil, []error{err}
+// searchExcel 搜尋excel
+func searchExcel(input string, result chan any) error {
+	if err := filepath.Walk(input, func(path string, info fs.FileInfo, err error) error {
+		if err != nil {
+			return nil
+		} // if
+
+		if info.IsDir() {
+			return nil
+		} // if
+
+		if filepath.Ext(path) != sheeter.ExcelExt {
+			return nil
+		} // if
+
+		if utils.CheckIgnore(filepath.Base(path)) {
+			return nil
+		} // if
+
+		result <- path
+		return nil
+	}); err != nil {
+		return fmt.Errorf("search excel: %w", err)
 	} // if
 
-	return context, errs
+	return nil
 }
 
-// preparePath 準備路徑列表
-func preparePath(config []string) []any {
-	result := []any{}
-	duplicate := utils.NewDuplicate()
+// searchSheet 搜尋sheet
+func searchSheet(input string, result chan any) error {
+	excel := &excels.Excel{}
 
-	for _, itor := range config {
-		if duplicate.Check(itor) {
-			result = append(result, itor)
+	if err := excel.Open(input); err != nil {
+		return fmt.Errorf("search sheet: %w", err)
+	} // if
+
+	for _, itor := range excel.Sheets() {
+		if utils.CheckIgnore(itor) {
+			continue
 		} // if
+
+		sheet, err := excel.Get(itor)
+
+		if err != nil {
+			return fmt.Errorf("search sheet: %w", err)
+		} // if
+
+		result <- &InitializeData{
+			Excel:     excel,
+			Sheet:     sheet,
+			ExcelName: filepath.Base(input),
+			SheetName: itor,
+		}
 	} // for
 
-	return result
-}
-
-// prepareExcel 準備excel列表
-func prepareExcel(config []string, native []any) []any {
-	result := []any{}
-	duplicate := utils.NewDuplicate()
-
-	for _, itor := range config {
-		if duplicate.Check(itor) {
-			result = append(result, itor)
-		} // if
-	} // for
-
-	for _, itor := range native {
-		if value, ok := itor.(string); ok {
-			if duplicate.Check(value) {
-				result = append(result, value)
-			} // if
-		} // if
-	} // for
-
-	return result
-}
-
-// prepareSheet 準備sheet列表
-func prepareSheet(config []Sheet, native []any, global *Global) []any {
-	result := []any{}
-	duplicate := utils.NewDuplicate()
-
-	for _, itor := range config {
-		if duplicate.Check(itor.ExcelName, itor.SheetName) {
-			if utils.IsDataSheetName(itor.SheetName) {
-				result = append(result, &initializeSheetData{
-					Named: &nameds.Named{ExcelName: itor.ExcelName, SheetName: itor.SheetName},
-				})
-			} // if
-
-			if utils.IsEnumSheetName(itor.SheetName) {
-				result = append(result, &initializeSheetEnum{
-					Named: &nameds.Named{ExcelName: itor.ExcelName, SheetName: itor.SheetName},
-				})
-			} // if
-		} // if
-	} // for
-
-	for _, itor := range native {
-		if value, ok := itor.(*initializeSheetData); ok {
-			if duplicate.Check(value.ExcelName, value.SheetName) {
-				result = append(result, itor)
-			} // if
-		} // if
-
-		if value, ok := itor.(*initializeSheetEnum); ok {
-			if duplicate.Check(value.ExcelName, value.SheetName) {
-				result = append(result, itor)
-			} // if
-		} // if
-	} // for
-
-	for _, itor := range result {
-		if value, ok := itor.(*initializeSheetData); ok {
-			value.Global = global
-		} // if
-
-		if value, ok := itor.(*initializeSheetEnum); ok {
-			value.Global = global
-		} // if
-	} // for
-
-	return result
+	return nil
 }

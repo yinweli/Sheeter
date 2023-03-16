@@ -1,14 +1,14 @@
 package nameds
 
 import (
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/sheeter/utils"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestNamed(t *testing.T) {
@@ -17,56 +17,35 @@ func TestNamed(t *testing.T) {
 
 type SuiteNamed struct {
 	suite.Suite
-	testdata.TestEnv
-	excelName string
-	sheetName string
+	testdata.TestData
 }
 
 func (this *SuiteNamed) SetupSuite() {
-	this.Change("test-named")
-	this.excelName = "excel"
-	this.sheetName = "sheet"
+	this.TBegin("test-nameds-named", "")
 }
 
 func (this *SuiteNamed) TearDownSuite() {
-	this.Restore()
-}
-
-func (this *SuiteNamed) target() *Named {
-	target := &Named{
-		ExcelName: this.excelName,
-		SheetName: this.sheetName,
-	}
-	return target
+	this.TFinal()
 }
 
 func (this *SuiteNamed) TestName() {
-	structName := utils.FirstUpper(this.excelName) + utils.FirstUpper(this.sheetName)
-	readerName := structName + sheeter.Reader
-	storerName := structName + sheeter.Storer
-
-	target := this.target()
+	target := &Named{
+		ExcelName: "excel",
+		SheetName: "sheet",
+	}
 	assert.Equal(this.T(), sheeter.AppName, target.AppName())
-	assert.Equal(this.T(), sheeter.AppName, target.JsonNamespace(true))
-	assert.Equal(this.T(), sheeter.JsonNamespace, target.JsonNamespace(false))
-	assert.Equal(this.T(), sheeter.AppName, target.ProtoNamespace(true))
-	assert.Equal(this.T(), sheeter.ProtoNamespace, target.ProtoNamespace(false))
-	assert.Equal(this.T(), sheeter.AppName, target.EnumNamespace(true))
-	assert.Equal(this.T(), sheeter.EnumNamespace, target.EnumNamespace(false))
-	assert.Equal(this.T(), structName, target.StructName())
-	assert.Equal(this.T(), readerName, target.ReaderName())
-	assert.Equal(this.T(), storerName, target.StorerName())
-	assert.Equal(this.T(), sheeter.StorerDatas, target.StorerDatas())
-	assert.Equal(this.T(), sheeter.AppName+"."+storerName, target.StorerMessage(true))
-	assert.Equal(this.T(), sheeter.ProtoNamespace+"."+storerName, target.StorerMessage(false))
+	assert.Equal(this.T(), sheeter.Namespace, target.Namespace())
+	assert.Equal(this.T(), "ExcelSheet", target.StructName())
+	assert.Equal(this.T(), "ExcelSheet excel#sheet", target.StructNote())
+	assert.Equal(this.T(), "ExcelSheetReader", target.ReaderName())
+	assert.Equal(this.T(), "excelSheet", target.JsonName())
+	assert.Equal(this.T(), sheeter.JsonExt, target.JsonExt())
+	assert.Equal(this.T(), "excelSheet.json", target.DataFile())
+	assert.Equal(this.T(), filepath.Join(sheeter.JsonPath, "excelSheet.json"), target.DataPath())
+	assert.Equal(this.T(), filepath.Join(sheeter.CsPath, "ExcelSheetReader.cs"), target.ReaderPathCs())
+	assert.Equal(this.T(), filepath.Join(sheeter.CsPath, "Sheeter.cs"), target.SheeterPathCs())
+	assert.Equal(this.T(), filepath.Join(sheeter.GoPath, "excelSheetReader.go"), target.ReaderPathGo())
+	assert.Equal(this.T(), filepath.Join(sheeter.GoPath, "sheeter.go"), target.SheeterPathGo())
 	assert.Equal(this.T(), "TestString", target.FirstUpper("testString"))
 	assert.Equal(this.T(), "testString", target.FirstLower("TestString"))
-	assert.Equal(this.T(), "8", target.Add(6, 2))
-	assert.Equal(this.T(), "8", target.Add(2, 6))
-	assert.Equal(this.T(), "4", target.Sub(6, 2))
-	assert.Equal(this.T(), "-4", target.Sub(2, 6))
-	assert.Equal(this.T(), "12", target.Mul(6, 2))
-	assert.Equal(this.T(), "12", target.Mul(2, 6))
-	assert.Equal(this.T(), "3", target.Div(6, 2))
-	assert.Equal(this.T(), "0", target.Div(2, 6))
 }

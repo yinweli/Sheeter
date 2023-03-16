@@ -7,8 +7,8 @@ import (
 	"github.com/hako/durafmt"
 	"github.com/spf13/cobra"
 
-	"github.com/yinweli/Sheeter/sheeter/builds"
-	"github.com/yinweli/Sheeter/sheeter/tmpls"
+	"github.com/yinweli/Sheeter/v2/sheeter/builds"
+	"github.com/yinweli/Sheeter/v2/sheeter/excels"
 )
 
 // NewCommand 建立命令物件
@@ -16,67 +16,58 @@ func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "build",
 		Short: "build sheet",
-		Long:  "generate struct, reader, json data from excel & sheet",
+		Long:  "generate reader, sheeter, data from excel & sheet",
 		Run:   execute,
 	}
-	builds.SetFlags(cmd)
+	builds.SetFlag(cmd)
 	return cmd
 }
 
 // execute 執行命令
 func execute(cmd *cobra.Command, _ []string) {
 	startTime := time.Now()
-
-	if err := tmpls.Initialize(cmd); err != nil {
-		cmd.Println(fmt.Errorf("build failed: %w", err))
-		return
-	} // if
-
 	config := &builds.Config{}
 
 	if err := config.Initialize(cmd); err != nil {
-		cmd.Println(fmt.Errorf("build failed: %w", err))
+		cmd.Println(fmt.Errorf("build: %w", err))
 		return
 	} // if
 
 	if err := config.Check(); err != nil {
-		cmd.Println(fmt.Errorf("build failed: %w", err))
+		cmd.Println(fmt.Errorf("build: %w", err))
 		return
 	} // if
 
-	context, errs := builds.Initialize(config)
+	initializeData, err := builds.Initialize(config)
 
-	if len(errs) > 0 {
-		for _, itor := range errs {
-			cmd.Println(fmt.Errorf("build failed: %w", itor))
+	if len(err) > 0 {
+		for _, itor := range err {
+			cmd.Println(fmt.Errorf("build: %w", itor))
 		} // for
 
 		return
 	} // if
 
-	if errs = builds.Generate(context); len(errs) > 0 {
-		for _, itor := range errs {
-			cmd.Println(fmt.Errorf("build failed: %w", itor))
+	_, err = builds.Operation(config, initializeData)
+
+	if len(err) > 0 {
+		for _, itor := range err {
+			cmd.Println(fmt.Errorf("build: %w", itor))
 		} // for
 
 		return
 	} // if
 
-	if errs = builds.Encoding(context); len(errs) > 0 {
-		for _, itor := range errs {
-			cmd.Println(fmt.Errorf("build failed: %w", itor))
+	_, err = builds.Poststep(config, initializeData)
+
+	if len(err) > 0 {
+		for _, itor := range err {
+			cmd.Println(fmt.Errorf("build: %w", itor))
 		} // for
 
 		return
 	} // if
 
-	if errs = builds.Poststep(context); len(errs) > 0 {
-		for _, itor := range errs {
-			cmd.Println(fmt.Errorf("build failed: %w", itor))
-		} // for
-
-		return
-	} // if
-
-	cmd.Printf("usage time=%s\n", durafmt.Parse(time.Since(startTime)))
+	excels.CloseAll() // 最後關閉所有開啟的excel, sheet
+	cmd.Printf("usage time=%v\n", durafmt.Parse(time.Since(startTime)))
 }

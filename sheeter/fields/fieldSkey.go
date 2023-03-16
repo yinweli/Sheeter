@@ -1,7 +1,7 @@
 package fields
 
 import (
-	"github.com/yinweli/Sheeter/sheeter"
+	"github.com/yinweli/Sheeter/v2/sheeter"
 )
 
 // Skey 主要整數索引
@@ -13,29 +13,24 @@ func (this *Skey) Field() []string {
 	return []string{"skey"}
 }
 
-// IsShow 是否顯示
-func (this *Skey) IsShow() bool {
-	return true
-}
-
 // IsPkey 是否是主要索引
 func (this *Skey) IsPkey() bool {
 	return true
 }
 
+// ToPkey 取得主要索引類型
+func (this *Skey) ToPkey() Field {
+	return this
+}
+
 // ToTypeCs 取得cs類型字串
 func (this *Skey) ToTypeCs() string {
-	return sheeter.TokenSkeyCs
+	return sheeter.TypeSkeyCs
 }
 
 // ToTypeGo 取得go類型字串
 func (this *Skey) ToTypeGo() string {
-	return sheeter.TokenSkeyGo
-}
-
-// ToTypeProto 取得proto類型字串
-func (this *Skey) ToTypeProto() string {
-	return sheeter.TokenSkeyProto
+	return sheeter.TypeSkeyGo
 }
 
 // ToJsonValue 轉換為json值

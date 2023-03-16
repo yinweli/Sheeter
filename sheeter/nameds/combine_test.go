@@ -6,8 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestCombine(t *testing.T) {
@@ -16,26 +15,18 @@ func TestCombine(t *testing.T) {
 
 type SuiteCombine struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteCombine) SetupSuite() {
-	this.Change("test-combine")
+	this.TBegin("test-nameds-combine", "")
 }
 
 func (this *SuiteCombine) TearDownSuite() {
-	this.Restore()
+	this.TFinal()
 }
 
 func (this *SuiteCombine) TestCombine() {
-	assert.Equal(this.T(), "ab", combine(&params{
-		excelName: "a",
-		sheetName: sheeter.SignData + "b",
-	}))
-	assert.Equal(this.T(), "ab", combine(&params{
-		excelName: "a",
-		sheetName: sheeter.SignEnum + "b",
-	}))
 	assert.Equal(this.T(), "ab", combine(&params{
 		excelName: "a",
 		sheetName: "b",

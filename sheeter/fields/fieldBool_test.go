@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestBool(t *testing.T) {
@@ -16,33 +16,28 @@ func TestBool(t *testing.T) {
 
 type SuiteBool struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
 }
 
 func (this *SuiteBool) SetupSuite() {
-	this.Change("test-field-bool")
+	this.TBegin("test-fields-bool", "")
 }
 
 func (this *SuiteBool) TearDownSuite() {
-	this.Restore()
-}
-
-func (this *SuiteBool) target() *Bool {
-	return &Bool{}
+	this.TFinal()
 }
 
 func (this *SuiteBool) TestField() {
-	target := this.target()
+	target := &Bool{}
 	assert.Equal(this.T(), []string{"bool"}, target.Field())
-	assert.Equal(this.T(), true, target.IsShow())
 	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Equal(this.T(), sheeter.TokenBoolCs, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TokenBoolGo, target.ToTypeGo())
-	assert.Equal(this.T(), sheeter.TokenBoolProto, target.ToTypeProto())
+	assert.IsType(this.T(), &Pkey{}, target.ToPkey())
+	assert.Equal(this.T(), sheeter.TypeBoolCs, target.ToTypeCs())
+	assert.Equal(this.T(), sheeter.TypeBoolGo, target.ToTypeGo())
 }
 
 func (this *SuiteBool) TestToJsonValue() {
-	target := this.target()
+	target := &Bool{}
 
 	result, err := target.ToJsonValue("true")
 	assert.Nil(this.T(), err)
@@ -52,9 +47,10 @@ func (this *SuiteBool) TestToJsonValue() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), false, result)
 
-	_, err = target.ToJsonValue("")
-	assert.NotNil(this.T(), err)
+	result, err = target.ToJsonValue("")
+	assert.Nil(this.T(), err)
+	assert.Equal(this.T(), false, result)
 
-	_, err = target.ToJsonValue(testdata.UnknownStr)
+	_, err = target.ToJsonValue(this.Unknown)
 	assert.NotNil(this.T(), err)
 }

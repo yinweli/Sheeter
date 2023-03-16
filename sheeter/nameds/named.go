@@ -1,10 +1,11 @@
 package nameds
 
 import (
-	"strconv"
+	"fmt"
+	"path/filepath"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/sheeter/utils"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/sheeter/utils"
 )
 
 // Named 命名工具
@@ -18,31 +19,9 @@ func (this *Named) AppName() string {
 	return sheeter.AppName
 }
 
-// JsonNamespace 取得json命名空間名稱
-func (this *Named) JsonNamespace(simpleNamespace bool) string {
-	if simpleNamespace {
-		return sheeter.AppName
-	} else {
-		return sheeter.JsonNamespace
-	} // if
-}
-
-// ProtoNamespace 取得proto命名空間名稱
-func (this *Named) ProtoNamespace(simpleNamespace bool) string {
-	if simpleNamespace {
-		return sheeter.AppName
-	} else {
-		return sheeter.ProtoNamespace
-	} // if
-}
-
-// EnumNamespace 取得enum命名空間名稱
-func (this *Named) EnumNamespace(simpleNamespace bool) string {
-	if simpleNamespace {
-		return sheeter.AppName
-	} else {
-		return sheeter.EnumNamespace
-	} // if
+// Namespace 取得命名空間名稱
+func (this *Named) Namespace() string {
+	return sheeter.Namespace
 }
 
 // StructName 取得結構名稱
@@ -53,6 +32,11 @@ func (this *Named) StructName() string {
 		sheetName:  this.SheetName,
 		sheetUpper: true,
 	})
+}
+
+// StructNote 取得結構說明
+func (this *Named) StructNote() string {
+	return fmt.Sprintf("%v %v#%v", this.StructName(), this.ExcelName, this.SheetName)
 }
 
 // ReaderName 取得讀取器名稱
@@ -66,25 +50,66 @@ func (this *Named) ReaderName() string {
 	})
 }
 
-// StorerName 取得儲存器名稱
-func (this *Named) StorerName() string {
+// JsonName 取得json名稱
+func (this *Named) JsonName() string {
 	return combine(&params{
 		excelName:  this.ExcelName,
-		excelUpper: true,
 		sheetName:  this.SheetName,
 		sheetUpper: true,
-		last:       sheeter.Storer,
 	})
 }
 
-// StorerDatas 取得儲存器資料名稱
-func (this *Named) StorerDatas() string {
-	return sheeter.StorerDatas
+// JsonExt 取得json副檔名
+func (this *Named) JsonExt() string {
+	return sheeter.JsonExt
 }
 
-// StorerMessage 取得儲存器proto message名稱
-func (this *Named) StorerMessage(simpleNamespace bool) string {
-	return this.ProtoNamespace(simpleNamespace) + "." + this.StorerName()
+// DataFile 取得資料檔名
+func (this *Named) DataFile() string {
+	return combine(&params{
+		excelName:  this.ExcelName,
+		sheetName:  this.SheetName,
+		sheetUpper: true,
+		ext:        sheeter.JsonExt,
+	})
+}
+
+// DataPath 取得資料路徑
+func (this *Named) DataPath() string {
+	return filepath.Join(sheeter.JsonPath, this.DataFile())
+}
+
+// ReaderPathCs 取得cs讀取器程式碼路徑
+func (this *Named) ReaderPathCs() string {
+	return filepath.Join(sheeter.CsPath, combine(&params{
+		excelName:  this.ExcelName,
+		excelUpper: true, // cs程式碼一律大寫開頭
+		sheetName:  this.SheetName,
+		sheetUpper: true,
+		last:       sheeter.Reader,
+		ext:        sheeter.CsExt,
+	}))
+}
+
+// SheeterPathCs 取得cs表格器程式碼路徑
+func (this *Named) SheeterPathCs() string {
+	return filepath.Join(sheeter.CsPath, utils.FirstUpper(sheeter.Sheeter)+sheeter.CsExt) // cs程式碼一律大寫開頭
+}
+
+// ReaderPathGo 取得go讀取器程式碼路徑
+func (this *Named) ReaderPathGo() string {
+	return filepath.Join(sheeter.GoPath, combine(&params{
+		excelName:  this.ExcelName,
+		sheetName:  this.SheetName,
+		sheetUpper: true,
+		last:       sheeter.Reader,
+		ext:        sheeter.GoExt,
+	}))
+}
+
+// SheeterPathGo 取得go表格器程式碼路徑
+func (this *Named) SheeterPathGo() string {
+	return filepath.Join(sheeter.GoPath, sheeter.Sheeter+sheeter.GoExt)
 }
 
 // FirstUpper 字串首字母大寫
@@ -95,24 +120,4 @@ func (this *Named) FirstUpper(input string) string {
 // FirstLower 字串首字母小寫
 func (this *Named) FirstLower(input string) string {
 	return utils.FirstLower(input)
-}
-
-// Add 加法
-func (this *Named) Add(l, r int) string {
-	return strconv.Itoa(l + r)
-}
-
-// Sub 減法
-func (this *Named) Sub(l, r int) string {
-	return strconv.Itoa(l - r)
-}
-
-// Mul 乘法
-func (this *Named) Mul(l, r int) string {
-	return strconv.Itoa(l * r)
-}
-
-// Div 除法
-func (this *Named) Div(l, r int) string {
-	return strconv.Itoa(l / r)
 }

@@ -3,8 +3,8 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/sheeter/utils"
+	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v2/sheeter/utils"
 )
 
 // DoubleArray 64位元浮點數陣列
@@ -16,29 +16,24 @@ func (this *DoubleArray) Field() []string {
 	return []string{"doubleArray", "[]double", "double[]"}
 }
 
-// IsShow 是否顯示
-func (this *DoubleArray) IsShow() bool {
-	return true
-}
-
 // IsPkey 是否是主要索引
 func (this *DoubleArray) IsPkey() bool {
 	return false
 }
 
+// ToPkey 取得主要索引類型
+func (this *DoubleArray) ToPkey() Field {
+	return nil
+}
+
 // ToTypeCs 取得cs類型字串
 func (this *DoubleArray) ToTypeCs() string {
-	return sheeter.TokenDoubleCs + sheeter.TokenArray
+	return sheeter.TypeDoubleCs + sheeter.TypeArray
 }
 
 // ToTypeGo 取得go類型字串
 func (this *DoubleArray) ToTypeGo() string {
-	return sheeter.TokenArray + sheeter.TokenDoubleGo
-}
-
-// ToTypeProto 取得proto類型字串
-func (this *DoubleArray) ToTypeProto() string {
-	return sheeter.TokenRepeated + " " + sheeter.TokenDoubleProto
+	return sheeter.TypeArray + sheeter.TypeDoubleGo
 }
 
 // ToJsonValue 轉換為json值
@@ -46,7 +41,7 @@ func (this *DoubleArray) ToJsonValue(input string) (result interface{}, err erro
 	result, err = utils.StrToFloat64Array(input)
 
 	if err != nil {
-		return nil, fmt.Errorf("to json value failed: %w", err)
+		return nil, fmt.Errorf("double array to json value: %w", err)
 	} // if
 
 	return result, nil

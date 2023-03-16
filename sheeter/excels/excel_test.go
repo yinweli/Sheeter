@@ -6,8 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/sheeter"
-	"github.com/yinweli/Sheeter/testdata"
+	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
 func TestExcel(t *testing.T) {
@@ -16,120 +15,137 @@ func TestExcel(t *testing.T) {
 
 type SuiteExcel struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.TestData
+	excelSuccess string
+	sheet1       string
+	sheet2       string
 }
 
 func (this *SuiteExcel) SetupSuite() {
-	this.Change("test-excel")
+	this.TBegin("test-excels-excel", "excel")
+	this.excelSuccess = "success.xlsx"
+	this.sheet1 = "Test1"
+	this.sheet2 = "Test2"
 }
 
 func (this *SuiteExcel) TearDownSuite() {
 	CloseAll()
-	this.Restore()
-}
-
-func (this *SuiteExcel) target() *Excel {
-	return &Excel{}
+	this.TFinal()
 }
 
 func (this *SuiteExcel) TestOpen() {
-	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
+	target := &Excel{}
+	assert.Nil(this.T(), target.Open(this.excelSuccess))
 	assert.True(this.T(), target.IsOpen())
 	target.Close()
 	assert.False(this.T(), target.IsOpen())
 
-	target = this.target()
-	assert.NotNil(this.T(), target.Open(testdata.UnknownStr))
+	target = &Excel{}
+	assert.NotNil(this.T(), target.Open(this.Unknown))
 
 	CloseAll()
 }
 
 func (this *SuiteExcel) TestGet() {
-	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
+	target := &Excel{}
+	assert.Nil(this.T(), target.Open(this.excelSuccess))
 
-	sheet, err := target.Get(testdata.SheetData)
+	sheet, err := target.Get(this.sheet1)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), sheet)
 	sheet.Close()
 
-	_, err = target.Get(testdata.UnknownStr)
+	sheet, err = target.Get(this.sheet2)
+	assert.Nil(this.T(), err)
+	assert.NotNil(this.T(), sheet)
+	sheet.Close()
+
+	_, err = target.Get(this.Unknown)
 	assert.NotNil(this.T(), err)
 
 	CloseAll()
 }
 
 func (this *SuiteExcel) TestGetLine() {
-	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelSheet))
+	target := &Excel{}
+	assert.Nil(this.T(), target.Open(this.excelSuccess))
 
-	line, err := target.GetLine(testdata.SheetData, 1, 2, 3)
+	line, err := target.GetLine(this.sheet1, 1, 2, 3)
 	assert.Nil(this.T(), err)
 	assert.NotNil(this.T(), line)
 	assert.Len(this.T(), line, 3)
-	assert.Equal(this.T(), []string{"data1", "data2", "data3", "data4", "data5"}, line[1])
-	assert.Equal(this.T(), []string{"info1", "info2", "info3", "info4", "info5"}, line[2])
-	assert.Equal(this.T(), []string{"string1", "string2", "string3", "string4", "string5"}, line[3])
+	assert.Equal(this.T(), []string{"value1", "value2"}, line[1])
+	assert.Equal(this.T(), []string{"value3", "value4"}, line[2])
+	assert.Equal(this.T(), []string{}, line[3])
 
-	_, err = target.GetLine(testdata.SheetData, -1)
+	line, err = target.GetLine(this.sheet2, 1, 2, 3)
+	assert.Nil(this.T(), err)
+	assert.NotNil(this.T(), line)
+	assert.Len(this.T(), line, 3)
+	assert.Equal(this.T(), []string{"value5", "value6"}, line[1])
+	assert.Equal(this.T(), []string{"value7", "value8"}, line[2])
+	assert.Equal(this.T(), []string{}, line[3])
+
+	_, err = target.GetLine(this.sheet1, -1)
 	assert.NotNil(this.T(), err)
 
-	_, err = target.GetLine(testdata.UnknownStr, 1)
+	_, err = target.GetLine(this.Unknown, 1)
 	assert.NotNil(this.T(), err)
 
 	CloseAll()
 }
 
 func (this *SuiteExcel) TestSheets() {
-	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
-	assert.Equal(this.T(), []string{sheeter.SignData + "Data", sheeter.SignEnum + "Enum"}, target.Sheets())
+	target := &Excel{}
+	assert.Equal(this.T(), []string{}, target.Sheets())
+	assert.Nil(this.T(), target.Open(this.excelSuccess))
+	assert.Equal(this.T(), []string{this.sheet1, this.sheet2}, target.Sheets())
 	CloseAll()
 }
 
 func (this *SuiteExcel) TestExist() {
-	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelReal))
-	assert.True(this.T(), target.Exist(testdata.SheetData))
-	assert.False(this.T(), target.Exist(testdata.UnknownStr))
+	target := &Excel{}
+	assert.Nil(this.T(), target.Open(this.excelSuccess))
+	assert.True(this.T(), target.Exist(this.sheet1))
+	assert.True(this.T(), target.Exist(this.sheet2))
+	assert.False(this.T(), target.Exist(this.Unknown))
 	CloseAll()
 }
 
 func (this *SuiteExcel) TestSheet() {
-	target := this.target()
-	assert.Nil(this.T(), target.Open(testdata.ExcelSheet))
+	target := &Excel{}
+	assert.Nil(this.T(), target.Open(this.excelSuccess))
 
-	sheet, err := target.Get(testdata.SheetData)
+	sheet, err := target.Get(this.sheet1)
 	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), sheet)
-
 	assert.True(this.T(), sheet.Next())
 	data, err := sheet.Data()
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), []string{"data1", "data2", "data3", "data4", "data5"}, data)
-
+	assert.Equal(this.T(), []string{"value1", "value2"}, data)
 	assert.True(this.T(), sheet.Next())
 	data, err = sheet.Data()
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), []string{"info1", "info2", "info3", "info4", "info5"}, data)
+	assert.Equal(this.T(), []string{"value3", "value4"}, data)
 
+	sheet, err = target.Get(this.sheet2)
+	assert.Nil(this.T(), err)
 	assert.True(this.T(), sheet.Next())
 	data, err = sheet.Data()
 	assert.Nil(this.T(), err)
-	assert.Equal(this.T(), []string{"string1", "string2", "string3", "string4", "string5"}, data)
-	sheet.Close()
-
-	sheet, err = target.Get(testdata.SheetData)
+	assert.Equal(this.T(), []string{"value5", "value6"}, data)
+	assert.True(this.T(), sheet.Next())
+	data, err = sheet.Data()
 	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), sheet)
+	assert.Equal(this.T(), []string{"value7", "value8"}, data)
+
+	sheet, err = target.Get(this.sheet1)
+	assert.Nil(this.T(), err)
 	assert.True(this.T(), sheet.Nextn(2))
 	assert.False(this.T(), sheet.Nextn(-1))
 	sheet.Close()
 
-	sheet, err = target.Get(testdata.SheetData)
+	sheet, err = target.Get(this.sheet1)
 	assert.Nil(this.T(), err)
-	assert.NotNil(this.T(), sheet)
 	_, err = sheet.Data()
 	assert.NotNil(this.T(), err)
 	sheet.Close()
