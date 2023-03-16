@@ -1,15 +1,15 @@
-global:
-  tag: tag
-  autoKey: false
-  lineOfTag: 101
-  lineOfName: 102
-  lineOfNote: 103
-  lineOfField: 104
-  lineOfData: 105
-
 source:
   - path
   - path/path
   - path/path.xlsx
-
 output: output
+exclude:
+  - excel1#sheet
+  - excel2#sheet
+tag: tag
+autoKey: false
+lineOfTag: 101
+lineOfName: 102
+lineOfNote: 103
+lineOfField: 104
+lineOfData: 105

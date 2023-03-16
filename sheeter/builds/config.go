@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
@@ -14,20 +15,16 @@ import (
 
 // Config 設定資料
 type Config struct {
-	Global Global   `yaml:"global"` // 全域設定
-	Source []string `yaml:"source"` // 來源列表
-	Output string   `yaml:"output"` // 輸出路徑
-}
-
-// Global 全域設定
-type Global struct {
-	Tag         string `yaml:"tag"`         // 標籤列表
-	AutoKey     bool   `yaml:"autoKey"`     // 自動選取索引
-	LineOfTag   int    `yaml:"lineOfTag"`   // 標籤行號(1為起始行)
-	LineOfName  int    `yaml:"lineOfName"`  // 名稱行號(1為起始行)
-	LineOfNote  int    `yaml:"lineOfNote"`  // 註解行號(1為起始行)
-	LineOfField int    `yaml:"lineOfField"` // 欄位行號(1為起始行)
-	LineOfData  int    `yaml:"lineOfData"`  // 資料行號(1為起始行)
+	Source      []string `yaml:"source"`      // 來源列表
+	Output      string   `yaml:"output"`      // 輸出路徑
+	Exclude     []string `yaml:"exclude"`     // 排除列表
+	Tag         string   `yaml:"tag"`         // 標籤列表
+	AutoKey     bool     `yaml:"autoKey"`     // 自動選取索引
+	LineOfTag   int      `yaml:"lineOfTag"`   // 標籤行號(1為起始行)
+	LineOfName  int      `yaml:"lineOfName"`  // 名稱行號(1為起始行)
+	LineOfNote  int      `yaml:"lineOfNote"`  // 註解行號(1為起始行)
+	LineOfField int      `yaml:"lineOfField"` // 欄位行號(1為起始行)
+	LineOfData  int      `yaml:"lineOfData"`  // 資料行號(1為起始行)
 }
 
 // Initialize 初始化設定
@@ -60,45 +57,51 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		} // if
 	} // if
 
+	if flag.Changed(flagExclude) {
+		if value, err := flag.GetStringSlice(flagExclude); err == nil {
+			this.Exclude = value
+		} // if
+	} // if
+
 	if flag.Changed(flagTag) {
 		if value, err := flag.GetString(flagTag); err == nil {
-			this.Global.Tag = value
+			this.Tag = value
 		} // if
 	} // if
 
 	if flag.Changed(flagAutoKey) {
 		if value, err := flag.GetBool(flagAutoKey); err == nil {
-			this.Global.AutoKey = value
+			this.AutoKey = value
 		} // if
 	} // if
 
 	if flag.Changed(flagLineOfTag) {
 		if value, err := flag.GetInt(flagLineOfTag); err == nil {
-			this.Global.LineOfTag = value
+			this.LineOfTag = value
 		} // if
 	} // if
 
 	if flag.Changed(flagLineOfName) {
 		if value, err := flag.GetInt(flagLineOfName); err == nil {
-			this.Global.LineOfName = value
+			this.LineOfName = value
 		} // if
 	} // if
 
 	if flag.Changed(flagLineOfNote) {
 		if value, err := flag.GetInt(flagLineOfNote); err == nil {
-			this.Global.LineOfNote = value
+			this.LineOfNote = value
 		} // if
 	} // if
 
 	if flag.Changed(flagLineOfField) {
 		if value, err := flag.GetInt(flagLineOfField); err == nil {
-			this.Global.LineOfField = value
+			this.LineOfField = value
 		} // if
 	} // if
 
 	if flag.Changed(flagLineOfData) {
 		if value, err := flag.GetInt(flagLineOfData); err == nil {
-			this.Global.LineOfData = value
+			this.LineOfData = value
 		} // if
 	} // if
 
@@ -151,42 +154,55 @@ func (this *Config) Path() []string {
 	return utils.GetUnique(result)
 }
 
+// Examine 檢查是否排除
+func (this *Config) Examine(excel, sheet string) bool {
+	for _, itor := range this.Exclude {
+		if excelName, sheetName, ok := strings.Cut(itor, sheeter.TokenExclude); ok {
+			if strings.EqualFold(excelName, excel) && strings.EqualFold(sheetName, sheet) {
+				return true
+			} // if
+		} // if
+	} // for
+
+	return false
+}
+
 // Check 檢查設定
 func (this *Config) Check() error {
-	if this.Global.LineOfTag <= 0 {
+	if this.LineOfTag <= 0 {
 		return fmt.Errorf("config check: lineOfTag <= 0")
 	} // if
 
-	if this.Global.LineOfName <= 0 {
+	if this.LineOfName <= 0 {
 		return fmt.Errorf("config check: lineOfName <= 0")
 	} // if
 
-	if this.Global.LineOfNote <= 0 {
+	if this.LineOfNote <= 0 {
 		return fmt.Errorf("config check: lineOfNote <= 0")
 	} // if
 
-	if this.Global.LineOfField <= 0 {
+	if this.LineOfField <= 0 {
 		return fmt.Errorf("config check: lineOfField <= 0")
 	} // if
 
-	if this.Global.LineOfData <= 0 {
+	if this.LineOfData <= 0 {
 		return fmt.Errorf("config check: lineOfData <= 0")
 	} // if
 
-	if this.Global.LineOfTag >= this.Global.LineOfData {
-		return fmt.Errorf("config check: lineOfTag(%d) >= lineOfData(%d)", this.Global.LineOfTag, this.Global.LineOfData)
+	if this.LineOfTag >= this.LineOfData {
+		return fmt.Errorf("config check: lineOfTag(%d) >= lineOfData(%d)", this.LineOfTag, this.LineOfData)
 	} // if
 
-	if this.Global.LineOfName >= this.Global.LineOfData {
-		return fmt.Errorf("config check: lineOfName(%d) >= lineOfData(%d)", this.Global.LineOfName, this.Global.LineOfData)
+	if this.LineOfName >= this.LineOfData {
+		return fmt.Errorf("config check: lineOfName(%d) >= lineOfData(%d)", this.LineOfName, this.LineOfData)
 	} // if
 
-	if this.Global.LineOfNote >= this.Global.LineOfData {
-		return fmt.Errorf("config check: lineOfNote(%d) >= lineOfData(%d)", this.Global.LineOfNote, this.Global.LineOfData)
+	if this.LineOfNote >= this.LineOfData {
+		return fmt.Errorf("config check: lineOfNote(%d) >= lineOfData(%d)", this.LineOfNote, this.LineOfData)
 	} // if
 
-	if this.Global.LineOfField >= this.Global.LineOfData {
-		return fmt.Errorf("config check: lineOfField(%d) >= lineOfData(%d)", this.Global.LineOfField, this.Global.LineOfData)
+	if this.LineOfField >= this.LineOfData {
+		return fmt.Errorf("config check: lineOfField(%d) >= lineOfData(%d)", this.LineOfField, this.LineOfData)
 	} // if
 
 	return nil

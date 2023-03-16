@@ -11,7 +11,7 @@ import (
 
 // PoststepData 後製資料
 type PoststepData struct {
-	*Global                       // 全域設定
+	*Config                       // 設定資料
 	*nameds.Named                 // 命名工具
 	Struct        []*nameds.Named // 結構列表
 }
@@ -19,7 +19,7 @@ type PoststepData struct {
 // Poststep 後製處理
 func Poststep(config *Config, input []*InitializeData) (file []any, err []error) {
 	result := &PoststepData{
-		Global: &config.Global,
+		Config: config,
 		Named: &nameds.Named{ // 由於只需要AppName與Namespace, 所以不必填寫excel與sheet名稱
 			Output: config.Output, // 但是需要表格器路徑, 所以要填寫輸出路徑
 		},

@@ -13,7 +13,7 @@ import (
 
 // OperationData 作業資料
 type OperationData struct {
-	*Global                         // 全域設定
+	*Config                         // 設定資料
 	*excels.Excel                   // excel物件
 	*excels.Sheet                   // sheet物件
 	*nameds.Named                   // 命名工具
@@ -28,7 +28,7 @@ func Operation(config *Config, input []*InitializeData) (file []any, err []error
 
 	for _, itor := range input {
 		result = append(result, &OperationData{
-			Global: &config.Global,
+			Config: config,
 			Excel:  itor.Excel,
 			Sheet:  itor.Sheet,
 			Named: &nameds.Named{

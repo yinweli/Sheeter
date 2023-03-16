@@ -81,21 +81,19 @@ func (this *SuitePoststep) TestGenerateSheeterGo() {
 
 func (this *SuitePoststep) prepareConfig(source []string) *Config {
 	return &Config{
-		Global: Global{
-			Tag:         this.tag,
-			LineOfTag:   this.lineOfTag,
-			LineOfName:  this.lineOfName,
-			LineOfNote:  this.lineOfNote,
-			LineOfField: this.lineOfField,
-			LineOfData:  this.lintOfData,
-		},
-		Source: source,
+		Source:      source,
+		Tag:         this.tag,
+		LineOfTag:   this.lineOfTag,
+		LineOfName:  this.lineOfName,
+		LineOfNote:  this.lineOfNote,
+		LineOfField: this.lineOfField,
+		LineOfData:  this.lintOfData,
 	}
 }
 
 func (this *SuitePoststep) prepareData(excelName, sheetName string) *PoststepData {
 	return &PoststepData{
-		Global: &this.prepareConfig(nil).Global,
+		Config: this.prepareConfig(nil),
 		Named:  &nameds.Named{},
 		Struct: []*nameds.Named{
 			{ExcelName: excelName, SheetName: sheetName},

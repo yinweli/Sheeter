@@ -66,37 +66,37 @@ sheeter build --config setting.yaml --lineOfField 1 --lineOfData 2
 
 ### 設定檔
 ```yaml
-global:
-  tag:         cs   # 標籤字串
-  autoKey:     true # 自動選取索引
-  lineOfTag:   5    # 標籤行號(1為起始行)
-  lineOfName:  1    # 名稱行號(1為起始行)
-  lineOfNote:  2    # 註解行號(1為起始行)
-  lineOfField: 3    # 欄位行號(1為起始行)
-  lineOfData:  6    # 資料行號(1為起始行)
-
-source:             # 輸入列表
-  - path1           # 轉換path1目錄底下符合規格的excel檔案
-  - path2           # 轉換path2目錄底下符合規格的excel檔案
-  - path/excel.xlsx # 轉換指定的excel檔案內符合規格的表單
-
-output: path/output # 輸出路徑
+source:               # 輸入列表
+  - path1             # 轉換path1目錄底下符合規格的excel檔案
+  - path2             # 轉換path2目錄底下符合規格的excel檔案
+  - path/excel.xlsx   # 轉換指定的excel檔案內符合規格的表單
+output: path/output   # 輸出路徑
+exclude:              # 排除列表
+  - excel2.xlsx#sheet # 排除列表填寫excel的檔名以及sheet名稱
+tag:         cs       # 標籤字串
+autoKey:     true     # 自動選取索引
+lineOfTag:   5        # 標籤行號(1為起始行)
+lineOfName:  1        # 名稱行號(1為起始行)
+lineOfNote:  2        # 註解行號(1為起始行)
+lineOfField: 3        # 欄位行號(1為起始行)
+lineOfData:  6        # 資料行號(1為起始行)
 ```
 
 ### 命令旗標
 
-| 旗標          | 參數                                | 說明                     |
-|:--------------|:------------------------------------|:-------------------------|
-| --config      | 路徑與檔名; 例如: path/seeting.yaml | 設定檔案路徑             |
-| --source      | 路徑, 檔案名稱, 路徑/檔案名稱...    | 輸入列表                 |
-| --output      | 路徑                                | 輸出路徑                 |
-| --tag         | 標籤列表                            | 指定那些標籤的欄位要輸出 |
-| --autoKey     | true/false                          | 是否啟用自動選取索引     |
-| --lineOfTag   | 行號(1為起始行)                     | 標籤行號                 |
-| --lineOfName  | 行號(1為起始行)                     | 名稱行號                 |
-| --lineOfNote  | 行號(1為起始行)                     | 註解行號                 |
-| --lineOfField | 行號(1為起始行)                     | 欄位行號                 |
-| --lineOfData  | 行號(1為起始行)                     | 資料行號                 |
+| 旗標          | 參數                                  | 說明                     |
+|:--------------|:--------------------------------------|:-------------------------|
+| --config      | 路徑與檔名; 例如: path/seeting.yaml   | 設定檔案路徑             |
+| --source      | 路徑, 檔案名稱, 路徑/檔案名稱...      | 輸入列表                 |
+| --output      | 路徑                                  | 輸出路徑                 |
+| --exclude     | excel.xlsx#sheet, excel.xlsx#sheet... | 排除列表                 |
+| --tag         | 標籤列表                              | 指定那些標籤的欄位要輸出 |
+| --autoKey     | true/false                            | 是否啟用自動選取索引     |
+| --lineOfTag   | 行號(1為起始行)                       | 標籤行號                 |
+| --lineOfName  | 行號(1為起始行)                       | 名稱行號                 |
+| --lineOfNote  | 行號(1為起始行)                       | 註解行號                 |
+| --lineOfField | 行號(1為起始行)                       | 欄位行號                 |
+| --lineOfData  | 行號(1為起始行)                       | 資料行號                 |
 
 ### --config
 從設定檔讀取參數, 設定檔中的參數都可以被其他的旗標值替代  
@@ -115,6 +115,11 @@ sheeter build --config setting.yaml --lineOfName 5
 
 ### --output
 輸出路徑, 決定產生的檔案要輸出到哪邊去  
+
+### --exclude
+排除列表, 在此列表中的表單不會被輸出, 每個項目以`,`分隔  
+排除名稱以excel檔名(不能有路徑以及副檔名), 跟sheet名稱用`#`組合  
+例如: excel#sheet, item#data, magic#cost
 
 ### --tag
 標籤字串, 用於控制那些欄位要輸出, 參考[標籤行](#標籤行)  
