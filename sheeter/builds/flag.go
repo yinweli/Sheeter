@@ -7,6 +7,7 @@ import (
 const flagConfig = "config"           // 旗標名稱: 設定檔案路徑
 const flagSource = "source"           // 旗標名稱: 來源列表
 const flagOutput = "output"           // 旗標名稱: 輸出路徑
+const flagExclude = "exclude"         // 旗標名稱: 排除列表
 const flagTag = "tag"                 // 旗標名稱: 標籤列表
 const flagAutoKey = "autokey"         // 旗標名稱: 自動選取索引
 const flagLineOfTag = "lineOfTag"     // 旗標名稱: 標籤行號
@@ -19,9 +20,10 @@ const flagLineOfData = "lineOfData"   // 旗標名稱: 資料行號
 func SetFlag(cmd *cobra.Command) *cobra.Command {
 	flag := cmd.Flags()
 	flag.String(flagConfig, "", "config file path")
-	flag.StringSlice(flagSource, []string{}, "source file/folder")
+	flag.StringSlice(flagSource, []string{}, "source file/folder list")
 	flag.String(flagOutput, "", "output path")
-	flag.String(flagTag, "", "tag list that determines the columns to be output")
+	flag.StringSlice(flagExclude, []string{}, "exclude excel#sheet list")
+	flag.String(flagTag, "", "tag that determines the columns to be output")
 	flag.Bool(flagAutoKey, false, "automatically select the second column as an key")
 	flag.Int(flagLineOfTag, 0, "line of tag")
 	flag.Int(flagLineOfName, 0, "line of name")

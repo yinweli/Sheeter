@@ -149,15 +149,13 @@ func (this *SuiteOperation) TestGenerateReaderGo() {
 
 func (this *SuiteOperation) prepareConfig(source []string) *Config {
 	return &Config{
-		Global: Global{
-			Tag:         this.tag,
-			LineOfTag:   this.lineOfTag,
-			LineOfName:  this.lineOfName,
-			LineOfNote:  this.lineOfNote,
-			LineOfField: this.lineOfField,
-			LineOfData:  this.lintOfData,
-		},
-		Source: source,
+		Source:      source,
+		Tag:         this.tag,
+		LineOfTag:   this.lineOfTag,
+		LineOfName:  this.lineOfName,
+		LineOfNote:  this.lineOfNote,
+		LineOfField: this.lineOfField,
+		LineOfData:  this.lintOfData,
 	}
 }
 
@@ -167,7 +165,7 @@ func (this *SuiteOperation) prepareData(excelName, sheetName string) *OperationD
 	sheet, err := excel.Get(sheetName)
 	assert.Nil(this.T(), err)
 	return &OperationData{
-		Global: &this.prepareConfig(nil).Global,
+		Config: this.prepareConfig(nil),
 		Excel:  excel,
 		Sheet:  sheet,
 		Named: &nameds.Named{

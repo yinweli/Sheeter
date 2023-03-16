@@ -3,7 +3,7 @@ package sheeter
 /* 應用程式相關 */
 
 const AppName = "sheeter" // 程式名稱
-const Version = "2.0.1"   // 版本字串, 遵循'大版本.小版本.修正版本'的規則
+const Version = "2.1.0"   // 版本字串, 遵循'大版本.小版本.修正版本'的規則
 const BarWidth = 40       // 進度條寬度
 const MaxExcel = 999999   // 最大開啟excel數量
 const MaxSheet = 999999   // 最大開啟sheet數量
@@ -33,6 +33,7 @@ const Namespace = AppName // 命名空間名稱
 
 const TokenIgnore = "ignore" // 忽略符號, 當輸出或是標籤為此名稱時不輸出
 const TokenArray = ","       // 陣列分割符號, 陣列以','符號分割元素
+const TokenExclude = "#"     // 排除分割符號, 以'#'來分隔為excel與sheet名稱
 const JsonPrefix = ""        // json前綴字串
 const JsonIdent = "    "     // json縮排字串
 

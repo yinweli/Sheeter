@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
+## [2.1.0] - 2023-03-16
+### Added
+- 新增排除列表
+
 ## [2.0.1] - 2023-03-16
 ### Changed
 - 新增輸出路徑功能

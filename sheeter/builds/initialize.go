@@ -38,17 +38,28 @@ func Initialize(config *Config) (result []*InitializeData, err []error) {
 	} // if
 
 	for _, itor := range resultSheet {
-		if data, ok := itor.(*InitializeData); ok {
-			if utils.CheckExcel(utils.FileName(data.ExcelName)) == false {
-				err = append(err, fmt.Errorf("initialize: excel name invalid: %v#%v", data.ExcelName, data.SheetName))
-			} // if
+		data, ok := itor.(*InitializeData)
 
-			if utils.CheckSheet(data.SheetName) == false {
-				err = append(err, fmt.Errorf("initialize: sheet name invalid: %v#%v", data.ExcelName, data.SheetName))
-			} // if
-
-			result = append(result, data)
+		if ok == false {
+			continue
 		} // if
+
+		excel := utils.FileName(data.ExcelName)
+		sheet := data.SheetName
+
+		if config.Examine(excel, sheet) {
+			continue
+		} // if
+
+		if utils.CheckExcel(excel) == false {
+			err = append(err, fmt.Errorf("initialize: excel name invalid: %v#%v", excel, sheet))
+		} // if
+
+		if utils.CheckSheet(sheet) == false {
+			err = append(err, fmt.Errorf("initialize: sheet name invalid: %v#%v", excel, sheet))
+		} // if
+
+		result = append(result, data)
 	} // for
 
 	if len(err) > 0 {

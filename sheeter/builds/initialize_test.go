@@ -52,11 +52,12 @@ func (this *SuiteInitialize) TearDownSuite() {
 
 func (this *SuiteInitialize) TestInitialize() {
 	config := &Config{
-		Source: []string{this.folderSuccess},
+		Source:  []string{this.folderSuccess},
+		Exclude: []string{"exclude#exclude"},
 	}
 	context, err := Initialize(config)
 	assert.Len(this.T(), err, 0)
-	assert.Len(this.T(), context, 6)
+	assert.Len(this.T(), context, 7)
 
 	for _, itor := range context {
 		assert.NotNil(this.T(), itor.Excel)
