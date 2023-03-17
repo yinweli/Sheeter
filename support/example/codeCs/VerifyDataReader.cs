@@ -15,12 +15,6 @@ namespace Sheeter
     public partial class VerifyData
     {
         /// <summary>
-        /// pkey
-        /// </summary>
-        [JsonProperty("Pkey")]
-        public System.Int32 Pkey { get; set; }
-
-        /// <summary>
         /// note1
         /// </summary>
         [JsonProperty("Name1")]
@@ -43,6 +37,12 @@ namespace Sheeter
         /// </summary>
         [JsonProperty("Name4")]
         public int Name4 { get; set; }
+
+        /// <summary>
+        /// pkey
+        /// </summary>
+        [JsonProperty("Pkey")]
+        public System.Int32 Pkey { get; set; }
     }
 
     /// <summary>

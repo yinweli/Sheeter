@@ -2,6 +2,7 @@ package builds
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/yinweli/Sheeter/v2/sheeter/nameds"
 	"github.com/yinweli/Sheeter/v2/sheeter/pipelines"
@@ -31,6 +32,17 @@ func Poststep(config *Config, input []*InitializeData) (file []any, err []error)
 			SheetName: itor.SheetName,
 		})
 	} // for
+
+	sort.Slice(result.Struct, func(l, r int) bool { // 經過排序後讓產生程式碼時能夠更加一致
+		lhs := result.Struct[l]
+		rhs := result.Struct[r]
+
+		if lhs.ExcelName == rhs.ExcelName {
+			return lhs.SheetName < rhs.SheetName
+		} // if
+
+		return lhs.ExcelName < rhs.ExcelName
+	})
 
 	file, err = pipelines.Pipeline[*PoststepData]("poststep", []*PoststepData{result}, []pipelines.PipelineFunc[*PoststepData]{
 		generateSheeterCs,

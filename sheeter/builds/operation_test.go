@@ -58,9 +58,7 @@ func (this *SuiteOperation) TearDownSuite() {
 
 func (this *SuiteOperation) TestOperation() {
 	config := this.prepareConfig([]string{this.folder})
-	context, err := Initialize(config)
-	assert.Len(this.T(), err, 0)
-	assert.Len(this.T(), context, 1)
+	context, _ := Initialize(config)
 	file, err := Operation(config, context)
 	assert.Len(this.T(), err, 0)
 	assert.Len(this.T(), file, 3)

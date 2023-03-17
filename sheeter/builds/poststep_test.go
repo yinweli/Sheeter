@@ -50,13 +50,8 @@ func (this *SuitePoststep) TearDownSuite() {
 
 func (this *SuitePoststep) TestPoststep() {
 	config := this.prepareConfig([]string{this.folder})
-	context, err := Initialize(config)
-	assert.Len(this.T(), err, 0)
-	assert.Len(this.T(), context, 1)
-	file, err := Operation(config, context)
-	assert.Len(this.T(), err, 0)
-	assert.Len(this.T(), file, 3)
-	file, err = Poststep(config, context)
+	context, _ := Initialize(config)
+	file, err := Poststep(config, context)
 	assert.Len(this.T(), err, 0)
 	assert.Len(this.T(), file, 2)
 

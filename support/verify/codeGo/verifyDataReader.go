@@ -10,11 +10,11 @@ import (
 
 // VerifyData VerifyData verify.xlsx#Data
 type VerifyData struct {
+	Name1 int32 `json:"Name1"` // note1
+	Name2 int32 `json:"Name2"` // note2
 	Name3 int32 `json:"Name3"` // note3
 	Name4 int32 `json:"Name4"` // note4
 	Pkey  int32 `json:"Pkey"`  // pkey
-	Name1 int32 `json:"Name1"` // note1
-	Name2 int32 `json:"Name2"` // note2
 }
 
 // VerifyDataReader VerifyData verify.xlsx#Data

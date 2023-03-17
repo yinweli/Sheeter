@@ -2,6 +2,7 @@ package builds
 
 import (
 	"fmt"
+	"sort"
 
 	"github.com/yinweli/Sheeter/v2/sheeter/excels"
 	"github.com/yinweli/Sheeter/v2/sheeter/layouts"
@@ -92,6 +93,12 @@ func parseLayout(input *OperationData, _ chan any) error {
 			Data: itor,
 		})
 	} // for
+
+	sort.Slice(input.Field, func(l, r int) bool { // 經過排序後讓產生程式碼時能夠更加一致
+		lhs := input.Field[l]
+		rhs := input.Field[r]
+		return lhs.FieldName() < rhs.FieldName()
+	})
 
 	input.Layout = layout
 	return nil
