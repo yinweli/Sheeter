@@ -5,8 +5,7 @@ tasks:
   lint:
     ignore_error: true
     cmds:
-      - dotnet tool install csharpier -g # 安裝cs格式化工具
-      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest # 安裝lint
+      - task: install
       - task: fmt-sheeter
       - task: fmt-cs
       - task: lint-sheeter
@@ -35,3 +34,10 @@ tasks:
   bench:
     cmds:
       - go test ./... -bench=. -benchmem
+
+  # 安裝工具
+  install:
+    ignore_error: true
+    cmds:
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest # 安裝lint
+      - dotnet tool install csharpier -g # 安裝cs格式化工具
