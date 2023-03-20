@@ -17,7 +17,7 @@ func TestNamed(t *testing.T) {
 
 type SuiteNamed struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteNamed) SetupSuite() {

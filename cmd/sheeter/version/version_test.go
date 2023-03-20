@@ -15,7 +15,7 @@ func TestVersion(t *testing.T) {
 
 type SuiteVersion struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteVersion) SetupSuite() {

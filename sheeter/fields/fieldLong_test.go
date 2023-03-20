@@ -16,7 +16,7 @@ func TestLong(t *testing.T) {
 
 type SuiteLong struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteLong) SetupSuite() {

@@ -16,7 +16,7 @@ func TestPipeline(t *testing.T) {
 
 type SuitePipeline struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuitePipeline) SetupSuite() {

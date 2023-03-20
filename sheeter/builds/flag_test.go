@@ -16,7 +16,7 @@ func TestFlag(t *testing.T) {
 
 type SuiteFlag struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteFlag) SetupSuite() {

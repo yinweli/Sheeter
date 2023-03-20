@@ -16,7 +16,7 @@ func TestBool(t *testing.T) {
 
 type SuiteBool struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteBool) SetupSuite() {

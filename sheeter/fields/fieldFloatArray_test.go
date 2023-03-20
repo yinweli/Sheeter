@@ -16,7 +16,7 @@ func TestFloatArray(t *testing.T) {
 
 type SuiteFloatArray struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteFloatArray) SetupSuite() {

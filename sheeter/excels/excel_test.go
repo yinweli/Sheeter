@@ -15,7 +15,7 @@ func TestExcel(t *testing.T) {
 
 type SuiteExcel struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 	excelSuccess string
 	sheet1       string
 	sheet2       string

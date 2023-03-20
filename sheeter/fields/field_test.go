@@ -15,7 +15,7 @@ func TestField(t *testing.T) {
 
 type SuiteField struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteField) SetupSuite() {

@@ -16,7 +16,7 @@ func TestBoolArray(t *testing.T) {
 
 type SuiteBoolArray struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteBoolArray) SetupSuite() {

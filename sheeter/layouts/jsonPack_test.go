@@ -17,7 +17,7 @@ func TestJsonPack(t *testing.T) {
 
 type SuiteJsonPack struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 	excel        string
 	sheetSuccess string
 	sheetFailed  string

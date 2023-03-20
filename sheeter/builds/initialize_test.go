@@ -3,6 +3,7 @@ package builds
 import (
 	"path/filepath"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
@@ -18,7 +19,7 @@ func TestInitialize(t *testing.T) {
 
 type SuiteInitialize struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 	folderSuccess     string
 	folderFailed      string
 	folderSearchExcel string
@@ -56,6 +57,7 @@ func (this *SuiteInitialize) TestInitialize() {
 		Exclude: []string{"exclude#exclude"},
 	}
 	context, err := Initialize(config)
+	time.Sleep(testdata.Timeout)
 	assert.Len(this.T(), err, 0)
 	assert.Len(this.T(), context, 7)
 
@@ -69,6 +71,7 @@ func (this *SuiteInitialize) TestInitialize() {
 	_, err = Initialize(&Config{
 		Source: []string{this.folderFailed},
 	})
+	time.Sleep(testdata.Timeout)
 	assert.Len(this.T(), err, 3)
 }
 

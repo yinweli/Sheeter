@@ -16,7 +16,7 @@ func TestSkey(t *testing.T) {
 
 type SuiteSkey struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteSkey) SetupSuite() {

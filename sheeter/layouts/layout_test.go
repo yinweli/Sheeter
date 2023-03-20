@@ -16,7 +16,7 @@ func TestLayout(t *testing.T) {
 
 type SuiteLayout struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteLayout) SetupSuite() {

@@ -2,6 +2,7 @@ package builds
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
@@ -18,7 +19,7 @@ func TestPoststep(t *testing.T) {
 
 type SuitePoststep struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 	folder      string
 	excel       string
 	sheet       string
@@ -51,7 +52,9 @@ func (this *SuitePoststep) TearDownSuite() {
 func (this *SuitePoststep) TestPoststep() {
 	config := this.prepareConfig([]string{this.folder})
 	context, _ := Initialize(config)
+	time.Sleep(testdata.Timeout)
 	file, err := Poststep(config, context)
+	time.Sleep(testdata.Timeout)
 	assert.Len(this.T(), err, 0)
 	assert.Len(this.T(), file, 2)
 

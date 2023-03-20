@@ -16,7 +16,7 @@ func TestLkey(t *testing.T) {
 
 type SuiteLkey struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteLkey) SetupSuite() {

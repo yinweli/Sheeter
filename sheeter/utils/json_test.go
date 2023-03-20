@@ -17,7 +17,7 @@ func TestJson(t *testing.T) {
 
 type SuiteJson struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteJson) SetupSuite() {

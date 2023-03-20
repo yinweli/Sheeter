@@ -15,7 +15,7 @@ func TestCombine(t *testing.T) {
 
 type SuiteCombine struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteCombine) SetupSuite() {

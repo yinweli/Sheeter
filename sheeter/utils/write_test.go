@@ -16,7 +16,7 @@ func TestWrite(t *testing.T) {
 
 type SuiteWrite struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 	fileExist string
 }
 
@@ -43,7 +43,7 @@ func (this *SuiteWrite) TestWriteFile() {
 	data := []byte("this is a string")
 
 	assert.Nil(this.T(), WriteFile(path, data))
-	this.AssertCompareFile(this.T(), path, data)
+	assert.True(this.T(), this.TCompareFile(path, data))
 }
 
 func (this *SuiteWrite) TestWriteTmpl() {
@@ -52,7 +52,7 @@ func (this *SuiteWrite) TestWriteTmpl() {
 	contentFake := "{{{$.Value}}"
 
 	assert.Nil(this.T(), WriteTmpl(path, contentReal, map[string]string{"Value": "Value"}))
-	this.AssertCompareFile(this.T(), path, []byte("Value"))
+	assert.True(this.T(), this.TCompareFile(path, []byte("Value")))
 
 	assert.NotNil(this.T(), WriteTmpl(path, contentFake, nil))
 	assert.NotNil(this.T(), WriteTmpl(path, contentReal, "nothing!"))

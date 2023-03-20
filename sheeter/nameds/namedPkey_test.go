@@ -17,7 +17,7 @@ func TestPkey(t *testing.T) {
 
 type SuitePkey struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuitePkey) SetupSuite() {

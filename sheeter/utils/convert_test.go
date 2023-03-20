@@ -15,7 +15,7 @@ func TestConvert(t *testing.T) {
 
 type SuiteConvert struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteConvert) SetupSuite() {

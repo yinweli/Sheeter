@@ -16,7 +16,7 @@ func TestCheck(t *testing.T) {
 
 type SuiteCheck struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteCheck) SetupSuite() {

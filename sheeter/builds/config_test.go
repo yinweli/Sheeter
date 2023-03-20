@@ -16,7 +16,7 @@ func TestConfig(t *testing.T) {
 
 type SuiteConfig struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 	configSuccess string
 	configFailed  string
 }

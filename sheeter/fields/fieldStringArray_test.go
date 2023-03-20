@@ -16,7 +16,7 @@ func TestStringArray(t *testing.T) {
 
 type SuiteStringArray struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteStringArray) SetupSuite() {

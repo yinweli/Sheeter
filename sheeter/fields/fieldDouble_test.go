@@ -16,7 +16,7 @@ func TestDouble(t *testing.T) {
 
 type SuiteDouble struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteDouble) SetupSuite() {

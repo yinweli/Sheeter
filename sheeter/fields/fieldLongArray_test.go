@@ -16,7 +16,7 @@ func TestLongArray(t *testing.T) {
 
 type SuiteLongArray struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 }
 
 func (this *SuiteLongArray) SetupSuite() {

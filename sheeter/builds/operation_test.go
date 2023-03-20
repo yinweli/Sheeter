@@ -2,6 +2,7 @@ package builds
 
 import (
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
@@ -20,7 +21,7 @@ func TestOperation(t *testing.T) {
 
 type SuiteOperation struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 	folder             string
 	excel              string
 	sheetSuccess       string
@@ -59,7 +60,9 @@ func (this *SuiteOperation) TearDownSuite() {
 func (this *SuiteOperation) TestOperation() {
 	config := this.prepareConfig([]string{this.folder})
 	context, _ := Initialize(config)
+	time.Sleep(testdata.Timeout)
 	file, err := Operation(config, context)
+	time.Sleep(testdata.Timeout)
 	assert.Len(this.T(), err, 0)
 	assert.Len(this.T(), file, 3)
 
@@ -126,7 +129,7 @@ func (this *SuiteOperation) TestGenerateData() {
 	operationData := this.prepareData(this.excel, this.sheetSuccess)
 	assert.Nil(this.T(), parseLayout(operationData, result))
 	assert.Nil(this.T(), generateData(operationData, result))
-	this.AssertCompareFile(this.T(), operationData.DataPath(), expected)
+	assert.True(this.T(), this.TCompareFile(operationData.DataPath(), expected))
 }
 
 func (this *SuiteOperation) TestGenerateReaderCs() {

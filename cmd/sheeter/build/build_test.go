@@ -18,7 +18,7 @@ func TestBuild(t *testing.T) {
 
 type SuiteBuild struct {
 	suite.Suite
-	testdata.TestData
+	testdata.TestEnv
 	config string
 }
 

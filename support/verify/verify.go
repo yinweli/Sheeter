@@ -101,10 +101,6 @@ type fileLoader struct {
 	path string
 }
 
-func (this *fileLoader) Error(name string, err error) {
-	panic(fmt.Errorf("file loader: %w", err))
-}
-
 func (this *fileLoader) Load(filename sheeter.FileName) []byte {
 	path := filepath.Join(this.path, filename.File())
 	data, err := os.ReadFile(path)
@@ -114,4 +110,8 @@ func (this *fileLoader) Load(filename sheeter.FileName) []byte {
 	}
 
 	return data
+}
+
+func (this *fileLoader) Error(name string, err error) {
+	panic(fmt.Errorf("file loader: %w", err))
 }
