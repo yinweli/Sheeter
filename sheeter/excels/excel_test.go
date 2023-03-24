@@ -15,14 +15,14 @@ func TestExcel(t *testing.T) {
 
 type SuiteExcel struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 	excelSuccess string
 	sheet1       string
 	sheet2       string
 }
 
 func (this *SuiteExcel) SetupSuite() {
-	this.TBegin("test-excels-excel", "excel")
+	testdata.EnvSetup(&this.Env, "test-excels-excel", "excel")
 	this.excelSuccess = "success.xlsx"
 	this.sheet1 = "Test1"
 	this.sheet2 = "Test2"
@@ -30,7 +30,7 @@ func (this *SuiteExcel) SetupSuite() {
 
 func (this *SuiteExcel) TearDownSuite() {
 	CloseAll()
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteExcel) TestOpen() {
@@ -41,7 +41,7 @@ func (this *SuiteExcel) TestOpen() {
 	assert.False(this.T(), target.IsOpen())
 
 	target = &Excel{}
-	assert.NotNil(this.T(), target.Open(this.Unknown))
+	assert.NotNil(this.T(), target.Open(testdata.Unknown))
 
 	CloseAll()
 }
@@ -60,7 +60,7 @@ func (this *SuiteExcel) TestGet() {
 	assert.NotNil(this.T(), sheet)
 	sheet.Close()
 
-	_, err = target.Get(this.Unknown)
+	_, err = target.Get(testdata.Unknown)
 	assert.NotNil(this.T(), err)
 
 	CloseAll()
@@ -89,7 +89,7 @@ func (this *SuiteExcel) TestGetLine() {
 	_, err = target.GetLine(this.sheet1, -1)
 	assert.NotNil(this.T(), err)
 
-	_, err = target.GetLine(this.Unknown, 1)
+	_, err = target.GetLine(testdata.Unknown, 1)
 	assert.NotNil(this.T(), err)
 
 	CloseAll()
@@ -108,7 +108,7 @@ func (this *SuiteExcel) TestExist() {
 	assert.Nil(this.T(), target.Open(this.excelSuccess))
 	assert.True(this.T(), target.Exist(this.sheet1))
 	assert.True(this.T(), target.Exist(this.sheet2))
-	assert.False(this.T(), target.Exist(this.Unknown))
+	assert.False(this.T(), target.Exist(testdata.Unknown))
 	CloseAll()
 }
 

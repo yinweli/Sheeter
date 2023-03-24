@@ -15,15 +15,15 @@ func TestField(t *testing.T) {
 
 type SuiteField struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 }
 
 func (this *SuiteField) SetupSuite() {
-	this.TBegin("test-fields-parser", "")
+	testdata.EnvSetup(&this.Env, "test-fields-parser")
 }
 
 func (this *SuiteField) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteField) TestParser() {
@@ -39,6 +39,6 @@ func (this *SuiteField) TestParser() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), (&BoolArray{}).Field(), field.Field())
 
-	_, err = Parser(this.Unknown)
+	_, err = Parser(testdata.Unknown)
 	assert.NotNil(this.T(), err)
 }

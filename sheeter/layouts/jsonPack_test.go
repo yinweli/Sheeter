@@ -17,7 +17,7 @@ func TestJsonPack(t *testing.T) {
 
 type SuiteJsonPack struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 	excel        string
 	sheetSuccess string
 	sheetFailed  string
@@ -30,7 +30,7 @@ type SuiteJsonPack struct {
 }
 
 func (this *SuiteJsonPack) SetupSuite() {
-	this.TBegin("test-layouts-jsonPack", "jsonPack")
+	testdata.EnvSetup(&this.Env, "test-layouts-jsonPack", "jsonPack")
 	this.excel = "excel.xlsx"
 	this.sheetSuccess = "Success"
 	this.sheetFailed = "Failed"
@@ -44,7 +44,7 @@ func (this *SuiteJsonPack) SetupSuite() {
 
 func (this *SuiteJsonPack) TearDownSuite() {
 	excels.CloseAll()
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteJsonPack) TestJsonPack() {

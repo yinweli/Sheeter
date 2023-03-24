@@ -16,15 +16,15 @@ func TestIntArray(t *testing.T) {
 
 type SuiteIntArray struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 }
 
 func (this *SuiteIntArray) SetupSuite() {
-	this.TBegin("test-fields-intArray", "")
+	testdata.EnvSetup(&this.Env, "test-fields-intArray")
 }
 
 func (this *SuiteIntArray) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteIntArray) TestField() {
@@ -47,6 +47,6 @@ func (this *SuiteIntArray) TestToJsonValue() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []int32{}, result)
 
-	_, err = target.ToJsonValue(this.Unknown)
+	_, err = target.ToJsonValue(testdata.Unknown)
 	assert.NotNil(this.T(), err)
 }

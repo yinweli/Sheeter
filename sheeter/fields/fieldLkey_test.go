@@ -16,15 +16,15 @@ func TestLkey(t *testing.T) {
 
 type SuiteLkey struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 }
 
 func (this *SuiteLkey) SetupSuite() {
-	this.TBegin("test-fields-lkey", "")
+	testdata.EnvSetup(&this.Env, "test-fields-lkey")
 }
 
 func (this *SuiteLkey) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteLkey) TestField() {

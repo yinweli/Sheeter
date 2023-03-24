@@ -16,19 +16,19 @@ func TestConfig(t *testing.T) {
 
 type SuiteConfig struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 	configSuccess string
 	configFailed  string
 }
 
 func (this *SuiteConfig) SetupSuite() {
-	this.TBegin("test-builds-config", "config")
+	testdata.EnvSetup(&this.Env, "test-builds-config", "config")
 	this.configSuccess = "success.yaml"
 	this.configFailed = "failed.yaml"
 }
 
 func (this *SuiteConfig) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteConfig) TestInitialize() {
@@ -77,7 +77,7 @@ func (this *SuiteConfig) TestInitialize() {
 	assert.NotNil(this.T(), config.Initialize(cmd))
 
 	cmd = SetFlag(&cobra.Command{})
-	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, this.Unknown))
+	assert.Nil(this.T(), cmd.Flags().Set(flagConfig, testdata.Unknown))
 	config = Config{}
 	assert.NotNil(this.T(), config.Initialize(cmd))
 }

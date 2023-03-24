@@ -17,15 +17,15 @@ func TestJson(t *testing.T) {
 
 type SuiteJson struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 }
 
 func (this *SuiteJson) SetupSuite() {
-	this.TBegin("test-utils-json", "")
+	testdata.EnvSetup(&this.Env, "test-utils-json")
 }
 
 func (this *SuiteJson) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteJson) TestJsonMarshal() {

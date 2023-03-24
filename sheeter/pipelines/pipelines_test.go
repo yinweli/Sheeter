@@ -16,15 +16,15 @@ func TestPipeline(t *testing.T) {
 
 type SuitePipeline struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 }
 
 func (this *SuitePipeline) SetupSuite() {
-	this.TBegin("test-pipelines-pipeline", "")
+	testdata.EnvSetup(&this.Env, "test-pipelines-pipeline")
 }
 
 func (this *SuitePipeline) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuitePipeline) TestPipeline() {

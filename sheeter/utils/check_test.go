@@ -16,22 +16,22 @@ func TestCheck(t *testing.T) {
 
 type SuiteCheck struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 }
 
 func (this *SuiteCheck) SetupSuite() {
-	this.TBegin("test-utils-check", "")
+	testdata.EnvSetup(&this.Env, "test-utils-check")
 }
 
 func (this *SuiteCheck) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteCheck) TestCheckIgnore() {
 	assert.True(this.T(), CheckIgnore(sheeter.TokenIgnore+"data"))
 	assert.True(this.T(), CheckIgnore("data"+sheeter.TokenIgnore))
 	assert.True(this.T(), CheckIgnore("da"+sheeter.TokenIgnore+"ta"))
-	assert.False(this.T(), CheckIgnore(this.Unknown))
+	assert.False(this.T(), CheckIgnore(testdata.Unknown))
 }
 
 func (this *SuiteCheck) TestCheckExcel() {
