@@ -17,15 +17,15 @@ func TestPkey(t *testing.T) {
 
 type SuitePkey struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 }
 
 func (this *SuitePkey) SetupSuite() {
-	this.TBegin("test-nameds-pkey", "")
+	testdata.EnvSetup(&this.Env, "test-nameds-pkey")
 }
 
 func (this *SuitePkey) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuitePkey) TestPkey() {

@@ -16,15 +16,15 @@ func TestSkey(t *testing.T) {
 
 type SuiteSkey struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 }
 
 func (this *SuiteSkey) SetupSuite() {
-	this.TBegin("test-fields-skey", "")
+	testdata.EnvSetup(&this.Env, "test-fields-skey")
 }
 
 func (this *SuiteSkey) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteSkey) TestField() {

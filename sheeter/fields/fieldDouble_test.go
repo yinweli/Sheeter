@@ -16,15 +16,15 @@ func TestDouble(t *testing.T) {
 
 type SuiteDouble struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 }
 
 func (this *SuiteDouble) SetupSuite() {
-	this.TBegin("test-fields-double", "")
+	testdata.EnvSetup(&this.Env, "test-fields-double")
 }
 
 func (this *SuiteDouble) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteDouble) TestField() {
@@ -47,6 +47,6 @@ func (this *SuiteDouble) TestToJsonValue() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), float64(0), result)
 
-	_, err = target.ToJsonValue(this.Unknown)
+	_, err = target.ToJsonValue(testdata.Unknown)
 	assert.NotNil(this.T(), err)
 }

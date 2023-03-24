@@ -16,15 +16,15 @@ func TestBool(t *testing.T) {
 
 type SuiteBool struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 }
 
 func (this *SuiteBool) SetupSuite() {
-	this.TBegin("test-fields-bool", "")
+	testdata.EnvSetup(&this.Env, "test-fields-bool")
 }
 
 func (this *SuiteBool) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteBool) TestField() {
@@ -51,6 +51,6 @@ func (this *SuiteBool) TestToJsonValue() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), false, result)
 
-	_, err = target.ToJsonValue(this.Unknown)
+	_, err = target.ToJsonValue(testdata.Unknown)
 	assert.NotNil(this.T(), err)
 }

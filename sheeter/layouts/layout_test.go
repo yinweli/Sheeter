@@ -16,15 +16,15 @@ func TestLayout(t *testing.T) {
 
 type SuiteLayout struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 }
 
 func (this *SuiteLayout) SetupSuite() {
-	this.TBegin("test-layouts-layout", "")
+	testdata.EnvSetup(&this.Env, "test-layouts-layout")
 }
 
 func (this *SuiteLayout) TearDownSuite() {
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteLayout) TestNewLayout() {

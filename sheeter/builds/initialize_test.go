@@ -19,7 +19,7 @@ func TestInitialize(t *testing.T) {
 
 type SuiteInitialize struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 	folderSuccess     string
 	folderFailed      string
 	folderSearchExcel string
@@ -33,7 +33,7 @@ type SuiteInitialize struct {
 }
 
 func (this *SuiteInitialize) SetupSuite() {
-	this.TBegin("test-builds-initialize", "initialize")
+	testdata.EnvSetup(&this.Env, "test-builds-initialize", "initialize")
 	this.folderSuccess = "success"
 	this.folderFailed = "failed"
 	this.folderSearchExcel = "searchExcel"
@@ -48,7 +48,7 @@ func (this *SuiteInitialize) SetupSuite() {
 
 func (this *SuiteInitialize) TearDownSuite() {
 	excels.CloseAll()
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteInitialize) TestInitialize() {

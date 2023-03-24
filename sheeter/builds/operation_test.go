@@ -21,7 +21,7 @@ func TestOperation(t *testing.T) {
 
 type SuiteOperation struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 	folder             string
 	excel              string
 	sheetSuccess       string
@@ -37,7 +37,7 @@ type SuiteOperation struct {
 }
 
 func (this *SuiteOperation) SetupSuite() {
-	this.TBegin("test-builds-operation", "operation")
+	testdata.EnvSetup(&this.Env, "test-builds-operation", "operation")
 	this.folder = "operation"
 	this.excel = "operation.xlsx"
 	this.sheetSuccess = "Success"
@@ -54,7 +54,7 @@ func (this *SuiteOperation) SetupSuite() {
 
 func (this *SuiteOperation) TearDownSuite() {
 	excels.CloseAll()
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteOperation) TestOperation() {
@@ -80,7 +80,7 @@ func (this *SuiteOperation) TestParseLayout() {
 	assert.Len(this.T(), operationData.Field, 5)
 	assert.NotNil(this.T(), operationData.Layout)
 
-	operationData.SheetName = this.Unknown
+	operationData.SheetName = testdata.Unknown
 	assert.NotNil(this.T(), parseLayout(operationData, nil))
 
 	operationData.SheetName = this.sheetFieldNotExist
@@ -129,7 +129,7 @@ func (this *SuiteOperation) TestGenerateData() {
 	operationData := this.prepareData(this.excel, this.sheetSuccess)
 	assert.Nil(this.T(), parseLayout(operationData, result))
 	assert.Nil(this.T(), generateData(operationData, result))
-	assert.True(this.T(), this.TCompareFile(operationData.DataPath(), expected))
+	assert.True(this.T(), testdata.CompareFile(operationData.DataPath(), expected))
 }
 
 func (this *SuiteOperation) TestGenerateReaderCs() {

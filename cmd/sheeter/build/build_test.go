@@ -18,18 +18,18 @@ func TestBuild(t *testing.T) {
 
 type SuiteBuild struct {
 	suite.Suite
-	testdata.TestEnv
+	testdata.Env
 	config string
 }
 
 func (this *SuiteBuild) SetupSuite() {
-	this.TBegin("test-cmd-build", "build")
+	testdata.EnvSetup(&this.Env, "test-cmd-build", "build")
 	this.config = "config.yaml"
 }
 
 func (this *SuiteBuild) TearDownSuite() {
 	excels.CloseAll()
-	this.TFinal()
+	testdata.EnvRestore(&this.Env)
 }
 
 func (this *SuiteBuild) TestNewCommand() {

@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
+## [2.1.2] - 2023-03-24
+### Changed
+- 整理測試機制
+
 ## [2.1.1] - 2023-03-17
 ### Changed
 - 排序輸出程式碼中的表格列表與欄位列表
