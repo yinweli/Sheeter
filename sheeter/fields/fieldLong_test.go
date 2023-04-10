@@ -20,11 +20,11 @@ type SuiteLong struct {
 }
 
 func (this *SuiteLong) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-fields-long")
+	this.Env = testdata.EnvSetup("test-fields-long")
 }
 
 func (this *SuiteLong) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteLong) TestField() {

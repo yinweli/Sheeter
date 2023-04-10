@@ -21,12 +21,12 @@ type SuiteWrite struct {
 }
 
 func (this *SuiteWrite) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-utils-write", "write")
+	this.Env = testdata.EnvSetup("test-utils-write", "write")
 	this.fileExist = "exist.txt"
 }
 
 func (this *SuiteWrite) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteWrite) TestFileName() {

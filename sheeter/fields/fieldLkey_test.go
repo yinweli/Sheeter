@@ -20,11 +20,11 @@ type SuiteLkey struct {
 }
 
 func (this *SuiteLkey) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-fields-lkey")
+	this.Env = testdata.EnvSetup("test-fields-lkey")
 }
 
 func (this *SuiteLkey) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteLkey) TestField() {

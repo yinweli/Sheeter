@@ -20,11 +20,11 @@ type SuiteInt struct {
 }
 
 func (this *SuiteInt) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-fields-int")
+	this.Env = testdata.EnvSetup("test-fields-int")
 }
 
 func (this *SuiteInt) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteInt) TestField() {

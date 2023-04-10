@@ -20,11 +20,11 @@ type SuiteStringArray struct {
 }
 
 func (this *SuiteStringArray) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-fields-stringArray")
+	this.Env = testdata.EnvSetup("test-fields-stringArray")
 }
 
 func (this *SuiteStringArray) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteStringArray) TestField() {

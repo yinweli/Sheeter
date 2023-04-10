@@ -22,13 +22,13 @@ type SuiteConfig struct {
 }
 
 func (this *SuiteConfig) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-builds-config", "config")
+	this.Env = testdata.EnvSetup("test-builds-config", "config")
 	this.configSuccess = "success.yaml"
 	this.configFailed = "failed.yaml"
 }
 
 func (this *SuiteConfig) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteConfig) TestInitialize() {

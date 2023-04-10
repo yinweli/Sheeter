@@ -23,13 +23,13 @@ type SuiteBuild struct {
 }
 
 func (this *SuiteBuild) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-cmd-build", "build")
+	this.Env = testdata.EnvSetup("test-cmd-build", "build")
 	this.config = "config.yaml"
 }
 
 func (this *SuiteBuild) TearDownSuite() {
 	excels.CloseAll()
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteBuild) TestNewCommand() {

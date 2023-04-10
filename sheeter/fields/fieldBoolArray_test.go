@@ -20,11 +20,11 @@ type SuiteBoolArray struct {
 }
 
 func (this *SuiteBoolArray) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-fields-boolArray")
+	this.Env = testdata.EnvSetup("test-fields-boolArray")
 }
 
 func (this *SuiteBoolArray) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteBoolArray) TestField() {

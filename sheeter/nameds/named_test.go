@@ -21,11 +21,11 @@ type SuiteNamed struct {
 }
 
 func (this *SuiteNamed) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-nameds-named")
+	this.Env = testdata.EnvSetup("test-nameds-named")
 }
 
 func (this *SuiteNamed) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteNamed) TestName() {

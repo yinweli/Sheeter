@@ -20,11 +20,11 @@ type SuitePkey struct {
 }
 
 func (this *SuitePkey) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-fields-pkey")
+	this.Env = testdata.EnvSetup("test-fields-pkey")
 }
 
 func (this *SuitePkey) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuitePkey) TestField() {

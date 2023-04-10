@@ -20,11 +20,11 @@ type SuiteBool struct {
 }
 
 func (this *SuiteBool) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-fields-bool")
+	this.Env = testdata.EnvSetup("test-fields-bool")
 }
 
 func (this *SuiteBool) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteBool) TestField() {

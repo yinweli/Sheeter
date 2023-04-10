@@ -20,11 +20,11 @@ type SuitePipeline struct {
 }
 
 func (this *SuitePipeline) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-pipelines-pipeline")
+	this.Env = testdata.EnvSetup("test-pipelines-pipeline")
 }
 
 func (this *SuitePipeline) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuitePipeline) TestPipeline() {

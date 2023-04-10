@@ -19,11 +19,11 @@ type SuiteConvert struct {
 }
 
 func (this *SuiteConvert) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-utils-convert")
+	this.Env = testdata.EnvSetup("test-utils-convert")
 }
 
 func (this *SuiteConvert) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteConvert) TestStrToBool() {

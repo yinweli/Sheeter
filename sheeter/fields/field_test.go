@@ -19,11 +19,11 @@ type SuiteField struct {
 }
 
 func (this *SuiteField) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-fields-parser")
+	this.Env = testdata.EnvSetup("test-fields-parser")
 }
 
 func (this *SuiteField) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteField) TestParser() {

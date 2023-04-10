@@ -20,11 +20,11 @@ type SuiteSkey struct {
 }
 
 func (this *SuiteSkey) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-fields-skey")
+	this.Env = testdata.EnvSetup("test-fields-skey")
 }
 
 func (this *SuiteSkey) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteSkey) TestField() {

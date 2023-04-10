@@ -20,11 +20,11 @@ type SuiteLayout struct {
 }
 
 func (this *SuiteLayout) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-layouts-layout")
+	this.Env = testdata.EnvSetup("test-layouts-layout")
 }
 
 func (this *SuiteLayout) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteLayout) TestNewLayout() {

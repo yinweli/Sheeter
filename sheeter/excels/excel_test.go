@@ -22,7 +22,7 @@ type SuiteExcel struct {
 }
 
 func (this *SuiteExcel) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-excels-excel", "excel")
+	this.Env = testdata.EnvSetup("test-excels-excel", "excel")
 	this.excelSuccess = "success.xlsx"
 	this.sheet1 = "Test1"
 	this.sheet2 = "Test2"
@@ -30,7 +30,7 @@ func (this *SuiteExcel) SetupSuite() {
 
 func (this *SuiteExcel) TearDownSuite() {
 	CloseAll()
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteExcel) TestOpen() {
