@@ -20,11 +20,11 @@ type SuiteFlag struct {
 }
 
 func (this *SuiteFlag) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-builds-flag")
+	this.Env = testdata.EnvSetup("test-builds-flag")
 }
 
 func (this *SuiteFlag) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteFlag) TestSetFlag() {

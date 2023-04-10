@@ -19,11 +19,11 @@ type SuiteCombine struct {
 }
 
 func (this *SuiteCombine) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-nameds-combine")
+	this.Env = testdata.EnvSetup("test-nameds-combine")
 }
 
 func (this *SuiteCombine) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteCombine) TestCombine() {

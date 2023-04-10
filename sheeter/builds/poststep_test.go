@@ -32,7 +32,7 @@ type SuitePoststep struct {
 }
 
 func (this *SuitePoststep) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-builds-poststep", "poststep")
+	this.Env = testdata.EnvSetup("test-builds-poststep", "poststep")
 	this.folder = "poststep"
 	this.excel = "poststep.xlsx"
 	this.sheet = "Sheet"
@@ -46,7 +46,7 @@ func (this *SuitePoststep) SetupSuite() {
 
 func (this *SuitePoststep) TearDownSuite() {
 	excels.CloseAll()
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuitePoststep) TestPoststep() {

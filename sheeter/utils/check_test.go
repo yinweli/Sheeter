@@ -20,11 +20,11 @@ type SuiteCheck struct {
 }
 
 func (this *SuiteCheck) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-utils-check")
+	this.Env = testdata.EnvSetup("test-utils-check")
 }
 
 func (this *SuiteCheck) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteCheck) TestCheckIgnore() {

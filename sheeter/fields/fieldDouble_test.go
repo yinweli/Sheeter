@@ -20,11 +20,11 @@ type SuiteDouble struct {
 }
 
 func (this *SuiteDouble) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-fields-double")
+	this.Env = testdata.EnvSetup("test-fields-double")
 }
 
 func (this *SuiteDouble) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteDouble) TestField() {

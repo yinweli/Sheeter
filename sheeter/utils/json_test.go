@@ -21,11 +21,11 @@ type SuiteJson struct {
 }
 
 func (this *SuiteJson) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-utils-json")
+	this.Env = testdata.EnvSetup("test-utils-json")
 }
 
 func (this *SuiteJson) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteJson) TestJsonMarshal() {

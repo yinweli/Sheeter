@@ -22,11 +22,11 @@ type SuiteField struct {
 }
 
 func (this *SuiteField) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-nameds-field")
+	this.Env = testdata.EnvSetup("test-nameds-field")
 }
 
 func (this *SuiteField) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteField) TestName() {

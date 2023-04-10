@@ -37,7 +37,7 @@ type SuiteOperation struct {
 }
 
 func (this *SuiteOperation) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-builds-operation", "operation")
+	this.Env = testdata.EnvSetup("test-builds-operation", "operation")
 	this.folder = "operation"
 	this.excel = "operation.xlsx"
 	this.sheetSuccess = "Success"
@@ -54,7 +54,7 @@ func (this *SuiteOperation) SetupSuite() {
 
 func (this *SuiteOperation) TearDownSuite() {
 	excels.CloseAll()
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteOperation) TestOperation() {

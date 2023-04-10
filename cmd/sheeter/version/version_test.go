@@ -19,11 +19,11 @@ type SuiteVersion struct {
 }
 
 func (this *SuiteVersion) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-cmd-version")
+	this.Env = testdata.EnvSetup("test-cmd-version")
 }
 
 func (this *SuiteVersion) TearDownSuite() {
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteVersion) TestNewCommand() {

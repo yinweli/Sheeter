@@ -33,7 +33,7 @@ type SuiteInitialize struct {
 }
 
 func (this *SuiteInitialize) SetupSuite() {
-	testdata.EnvSetup(&this.Env, "test-builds-initialize", "initialize")
+	this.Env = testdata.EnvSetup("test-builds-initialize", "initialize")
 	this.folderSuccess = "success"
 	this.folderFailed = "failed"
 	this.folderSearchExcel = "searchExcel"
@@ -48,7 +48,7 @@ func (this *SuiteInitialize) SetupSuite() {
 
 func (this *SuiteInitialize) TearDownSuite() {
 	excels.CloseAll()
-	testdata.EnvRestore(&this.Env)
+	testdata.EnvRestore(this.Env)
 }
 
 func (this *SuiteInitialize) TestInitialize() {
