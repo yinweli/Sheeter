@@ -25,7 +25,7 @@ func JsonPack(tag string, lineOfData int, sheet *excels.Sheet, layout *Layout) (
 		pack, pkey, err := layout.Pack(tag, line)
 
 		if err != nil {
-			return nil, fmt.Errorf("json pack: %w", err)
+			return nil, fmt.Errorf("json pack: line(%v): %w", sheet.Line(), err)
 		} // if
 
 		if pack == nil {
@@ -33,7 +33,7 @@ func JsonPack(tag string, lineOfData int, sheet *excels.Sheet, layout *Layout) (
 		} // if
 
 		if pkey == nil {
-			return nil, fmt.Errorf("json pack: pkey nil")
+			return nil, fmt.Errorf("json pack: line(%v): pkey nil", sheet.Line())
 		} // if
 
 		data[fmt.Sprintf("%v", pkey)] = pack
