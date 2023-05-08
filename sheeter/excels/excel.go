@@ -64,7 +64,7 @@ func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, e
 	sort.Ints(line)
 
 	for _, itor := range line {
-		if itor <= 0 { // 最少要一次才能定位到第1行, 所以若起始位置設為0line <= 0, 就表示錯誤
+		if itor <= 0 { // 最少要一次才能定位到第1行, 所以若起始位置設為line <= 0, 就表示錯誤
 			return nil, fmt.Errorf("excel get line: line <= 0")
 		} // if
 
@@ -184,6 +184,11 @@ func (this *Sheet) Data() (result []string, err error) {
 	} // for
 
 	return result, nil
+}
+
+// Line 取得目前行數
+func (this *Sheet) Line() int {
+	return this.line
 }
 
 // CloseAll 關閉所有已開啟的excel

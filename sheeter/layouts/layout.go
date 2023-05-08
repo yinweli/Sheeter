@@ -81,7 +81,7 @@ func (this *Layout) Pack(tag string, data []string) (result map[string]interface
 		value, err := itor.Field.ToJsonValue(utils.GetItem(data, col))
 
 		if err != nil {
-			return nil, nil, fmt.Errorf("layout pack: %w", err)
+			return nil, nil, fmt.Errorf("layout pack: field(%v): %w", itor.Name, err)
 		} // if
 
 		if itor.Field.IsPkey() {

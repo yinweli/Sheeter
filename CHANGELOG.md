@@ -15,6 +15,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
+## [2.1.3] - 2023-05-08
+### Changed
+- 添加錯誤訊息
+
 ## [2.1.2] - 2023-03-24
 ### Changed
 - 整理測試機制

@@ -126,6 +126,7 @@ func (this *SuiteExcel) TestSheet() {
 	data, err = sheet.Data()
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), []string{"value3", "value4"}, data)
+	assert.Equal(this.T(), 2, sheet.Line())
 
 	sheet, err = target.Get(this.sheet2)
 	assert.Nil(this.T(), err)
