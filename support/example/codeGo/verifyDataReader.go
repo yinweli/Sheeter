@@ -8,7 +8,7 @@ import (
 	"fmt"
 )
 
-// VerifyData VerifyData verify.xlsx#Data
+// VerifyData verify.xlsx # Data
 type VerifyData struct {
 	Name1 int32 `json:"Name1"` // note1
 	Name2 int32 `json:"Name2"` // note2
@@ -17,7 +17,7 @@ type VerifyData struct {
 	Pkey  int32 `json:"Pkey"`  // pkey
 }
 
-// VerifyDataReader VerifyData verify.xlsx#Data
+// VerifyDataReader verify.xlsx # Data
 type VerifyDataReader struct {
 	Data map[int32]*VerifyData // 資料列表
 }
@@ -86,6 +86,15 @@ func (this *VerifyDataReader) Keys() (result []int32) {
 
 // Values 取得資料列表
 func (this *VerifyDataReader) Values() (result []*VerifyData) {
+	for _, itor := range this.Data {
+		result = append(result, itor)
+	} // for
+
+	return result
+}
+
+// ValuesAny 取得資料列表
+func (this *VerifyDataReader) ValuesAny() (result []any) {
 	for _, itor := range this.Data {
 		result = append(result, itor)
 	} // for

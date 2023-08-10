@@ -10,7 +10,7 @@ namespace Sheeter
     using Store_ = Dictionary<System.Int32, VerifyData>;
 
     /// <summary>
-    /// VerifyData verify.xlsx#Data
+    /// verify.xlsx # Data
     /// </summary>
     public partial class VerifyData
     {
@@ -46,7 +46,7 @@ namespace Sheeter
     }
 
     /// <summary>
-    /// VerifyData verify.xlsx#Data
+    /// verify.xlsx # Data
     /// </summary>
     public partial class VerifyDataReader : Reader
     {

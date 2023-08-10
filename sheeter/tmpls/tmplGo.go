@@ -92,6 +92,15 @@ func (this *{{$.ReaderName}}) Values() (result []*{{$.StructName}}) {
 	return result
 }
 
+// ValuesAny 取得資料列表
+func (this *{{$.ReaderName}}) ValuesAny() (result []any) {
+	for _, itor := range this.Data {
+		result = append(result, itor)
+	} // for
+
+	return result
+}
+
 // Count 取得資料數量
 func (this *{{$.ReaderName}}) Count() int {
 	return len(this.Data)

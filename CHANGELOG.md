@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
+## [2.2.0] - 2023-08-10
+### Added
+- go版本的讀取程式碼新增取得全部內容的any版本
+### Changed
+- 變更結構說明字串
+
 ## [2.1.5] - 2023-05-09
 ### Fixed
 - 修正版本編號錯誤
@@ -41,12 +47,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 整理輸出檔名規則
 
 ## [2.0.0] - 2023-03-16
-### Changed
-- 變更sheeter支援的excel格式, 因此v2之後的sheeter不再能讀取v1的excel檔案
 ### Removed
 - 移除proto支援
 - 移除enum功能
 - 移除階層功能
+### Changed
+- 變更sheeter支援的excel格式, 因此v2之後的sheeter不再能讀取v1的excel檔案
 
 ## [1.11.0] - 2022-12-02
 ### Changed
@@ -58,14 +64,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 修正測試環境機制在env資料夾未建立的狀況下會拋出錯誤
 
 ## [1.10.2] - 2022-11-04
-### Changed
-- 改變單元測試的工作路徑與測試資料機制, 改用測試環境機制
-- 設置最大可以開啟的excel數量為999999個
 ### Added
 - 新增測試環境機制
 - 新增build指令的單元測試
 - 新增tmpl指令的單元測試
 - 新增version指令的單元測試
+### Changed
+- 改變單元測試的工作路徑與測試資料機制, 改用測試環境機制
+- 設置最大可以開啟的excel數量為999999個
 
 ## [1.10.1] - 2022-11-01
 ### Added
@@ -74,11 +80,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 修正重複的路徑/excel/sheet會被重複執行的問題
 
 ## [1.10.0] - 2022-10-31
+### Added
+- build命令可從指定目錄中搜尋excel檔案, 並辨別帶有"@"符號或是"$"符號的表單來建置成資料檔案或是列舉檔案
 ### Changed
 - 設定檔中的element與enum區塊被inputs區塊代替
 - 產生出來的讀取器程式碼中的DataExt函式, 回傳的副檔名字串會在最前面添加"."符號
-### Added
-- build命令可從指定目錄中搜尋excel檔案, 並辨別帶有"@"符號或是"$"符號的表單來建置成資料檔案或是列舉檔案
 
 ## [1.9.4] - 2022-10-28
 ### Changed
@@ -103,16 +109,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 變更進度條顯示文字
 
 ## [1.9.0] - 2022-10-20
+### Added
+- 新增從excel產生列舉
+### Removed
+- 不再產生proto**.bat/.sh
 ### Changed
 - 內部流程改用管線機制重構
 - 變更模板檔案名稱
 - 後製時會執行protoc產生程式碼
 - 變更範例專案
 - 產生的cs程式碼一律為大寫開頭
-### Added
-- 新增從excel產生列舉
-### Removed
-- 不再產生proto**.bat/.sh
 
 ## [1.8.1] - 2022-10-14
 ### Changed
@@ -230,7 +236,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 重新安排輸出路徑與命名空間, 避免相同結構名稱問題
 
 ## [0.3.0] - 2022-08-26
-### Changed
-- 改造成結構化表格轉換
 ### Removed
 - 移除lua支援
+### Changed
+- 改造成結構化表格轉換

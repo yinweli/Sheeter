@@ -36,7 +36,7 @@ func (this *Named) StructName() string {
 
 // StructNote 取得結構說明
 func (this *Named) StructNote() string {
-	return fmt.Sprintf("%v %v#%v", this.StructName(), this.ExcelName, this.SheetName)
+	return fmt.Sprintf("%v # %v", this.ExcelName, this.SheetName)
 }
 
 // ReaderName 取得讀取器名稱

@@ -37,7 +37,7 @@ func (this *SuiteNamed) TestName() {
 	assert.Equal(this.T(), sheeter.AppName, target.AppName())
 	assert.Equal(this.T(), sheeter.Namespace, target.Namespace())
 	assert.Equal(this.T(), "ExcelSheet", target.StructName())
-	assert.Equal(this.T(), "ExcelSheet excel#sheet", target.StructNote())
+	assert.Equal(this.T(), "excel # sheet", target.StructNote())
 	assert.Equal(this.T(), "ExcelSheetReader", target.ReaderName())
 	assert.Equal(this.T(), "excelSheet", target.JsonName())
 	assert.Equal(this.T(), sheeter.JsonExt, target.JsonExt())
