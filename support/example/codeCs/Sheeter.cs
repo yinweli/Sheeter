@@ -94,7 +94,7 @@ namespace Sheeter
         private readonly List<Reader> reader;
 
         /// <summary>
-        /// VerifyData verify.xlsx#Data
+        /// verify.xlsx # Data
         /// </summary>
         public readonly VerifyDataReader VerifyData = new VerifyDataReader();
     }

@@ -15,6 +15,7 @@ linters-settings:
   goconst:
     min-len: 2
     min-occurrences: 2
+    ignore-tests: true
   gocritic:
     enabled-tags:
       - diagnostic
@@ -96,8 +97,6 @@ linters:
   disable-all: true
   enable:
     - bodyclose
-    - deadcode
-    - depguard
     - dogsled
     - dupl
     - errcheck
@@ -123,13 +122,11 @@ linters:
     - nolintlint
     - rowserrcheck
     - staticcheck
-    - structcheck
     - stylecheck
     - typecheck
     - unconvert
     - unparam
     - unused
-    - varcheck
     - whitespace
     - wrapcheck
 

@@ -10,17 +10,14 @@ tasks:
       - task: fmt-cs
       - task: lint-sheeter
 
-  # sheeter程式碼格式化
   fmt-sheeter:
     cmds:
       - gofmt -s -w -l .
-      
-  # client-unity格式化
+
   fmt-cs:
     cmds:
       - dotnet csharpier .
 
-  # sheeter程式碼檢查
   lint-sheeter:
     cmds:
       - golangci-lint -v run

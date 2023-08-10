@@ -17,7 +17,7 @@ func NewSheeter(loader Loader) *Sheeter {
 type Sheeter struct {
 	loader     Loader           // 裝載器物件
 	reader     []Reader         // 讀取器列表
-	VerifyData VerifyDataReader // VerifyData verify.xlsx#Data
+	VerifyData VerifyDataReader // verify.xlsx # Data
 }
 
 // FromData 讀取資料處理
