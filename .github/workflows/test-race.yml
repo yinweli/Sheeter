@@ -13,7 +13,7 @@ jobs:
         os: [ubuntu-latest]
         go: [1.18.x]
         proto: [3.x]
-    name: ${{ matrix.os }} @ go ${{ matrix.go }} @ proto ${{ matrix.proto }}
+    name: ${{ matrix.os }} | go ${{ matrix.go }} | proto ${{ matrix.proto }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
