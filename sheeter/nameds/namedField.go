@@ -19,7 +19,7 @@ func (this *Field) FieldName() string {
 
 // FieldNote 取得欄位註解
 func (this *Field) FieldNote() string {
-	return strings.ReplaceAll(this.Data.Note, "\n", "") // 避免換行造成產生的程式碼錯誤
+	return strings.ReplaceAll(this.Data.Note, "\n", ". ") // 避免換行造成產生的程式碼錯誤
 }
 
 // FieldTypeCs 取得cs欄位類型

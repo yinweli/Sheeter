@@ -28,6 +28,19 @@ type Field interface {
 	ToJsonValue(input string) (result interface{}, err error)
 }
 
+// Parser 欄位解析
+func Parser(input string) (result Field, err error) {
+	for _, itor := range field {
+		for _, name := range itor.Field() {
+			if name == input {
+				return itor, nil
+			} // if
+		} // for
+	} // for
+
+	return nil, fmt.Errorf("parser: field not found: %v", input)
+}
+
 // 欄位列表選擇用slice而非map, 是因為map要加入項目需要指定索引, 而Field的索引應該是Type函式
 // 這會造成初始化的時候的麻煩, 加上欄位解析次數應該很少, 所以用slice對於效率的衝擊應該還好
 
@@ -48,17 +61,4 @@ var field = []Field{
 	&DoubleArray{},
 	&String{},
 	&StringArray{},
-}
-
-// Parser 欄位解析
-func Parser(input string) (result Field, err error) {
-	for _, itor := range field {
-		for _, name := range itor.Field() {
-			if name == input {
-				return itor, nil
-			} // if
-		} // for
-	} // for
-
-	return nil, fmt.Errorf("parser: field not found: %v", input)
 }

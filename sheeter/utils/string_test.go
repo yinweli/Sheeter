@@ -28,11 +28,13 @@ func (this *SuiteString) TearDownSuite() {
 
 func (this *SuiteString) TestFirstUpper() {
 	assert.Equal(this.T(), "", FirstUpper(""))
+	assert.Equal(this.T(), "T", FirstUpper("t"))
 	assert.Equal(this.T(), "TestString", FirstUpper("testString"))
 }
 
 func (this *SuiteString) TestFirstLower() {
 	assert.Equal(this.T(), "", FirstLower(""))
+	assert.Equal(this.T(), "t", FirstLower("T"))
 	assert.Equal(this.T(), "testString", FirstLower("TestString"))
 }
 
@@ -44,6 +46,10 @@ func (this *SuiteString) TestSnakeToCamel() {
 	assert.Equal(this.T(), "AbcX", SnakeToCamel("abc_x"))
 	assert.Equal(this.T(), "AbcXY", SnakeToCamel("abc_x_y"))
 	assert.Equal(this.T(), "AbcXaYa", SnakeToCamel("abc_xa_ya"))
+	assert.Equal(this.T(), "Abc", SnakeToCamel("abc "))
+	assert.Equal(this.T(), "AbcX", SnakeToCamel("abc x"))
+	assert.Equal(this.T(), "AbcXY", SnakeToCamel("abc x y"))
+	assert.Equal(this.T(), "AbcXaYa", SnakeToCamel("abc xa ya"))
 }
 
 func (this *SuiteString) TestAllSame() {

@@ -10,6 +10,10 @@ func FirstUpper(input string) string {
 		return ""
 	} // if
 
+	if len(input) == 1 {
+		return strings.ToUpper(input)
+	} // if
+
 	return strings.ToUpper(input[:1]) + input[1:]
 }
 
@@ -19,11 +23,17 @@ func FirstLower(input string) string {
 		return ""
 	} // if
 
+	if len(input) == 1 {
+		return strings.ToLower(input)
+	} // if
+
 	return strings.ToLower(input[:1]) + input[1:]
 }
 
-// SnakeToCamel 把蛇形命令法改為大寫駝峰命令法
+// SnakeToCamel 將蛇形命名法(snake_case)轉換為大寫駝峰命名法(CamelCase)
+// 這個函數也處理含有空格的字串，將空格視為單詞分隔符，類似於底線
 func SnakeToCamel(input string) string {
+	input = strings.ReplaceAll(input, " ", "_") // 把空格改為底線, 讓含有空格的字串也可以獲得相同效果
 	result := ""
 
 	for _, itor := range strings.Split(input, "_") {

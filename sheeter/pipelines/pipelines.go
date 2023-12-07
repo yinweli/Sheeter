@@ -68,6 +68,7 @@ func Pipeline[T any](name string, material []T, pipeline []PipelineFunc[T]) (res
 
 			default:
 				if progressbar.Completed() {
+					close(output)
 					return
 				} // if
 			} // switch

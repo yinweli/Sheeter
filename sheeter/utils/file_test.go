@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -18,11 +19,13 @@ type SuiteWrite struct {
 	suite.Suite
 	testdata.Env
 	fileExist string
+	pathExist string
 }
 
 func (this *SuiteWrite) SetupSuite() {
 	this.Env = testdata.EnvSetup("test-utils-write", "write")
 	this.fileExist = "exist.txt"
+	this.pathExist, _ = os.Getwd()
 }
 
 func (this *SuiteWrite) TearDownSuite() {
@@ -35,6 +38,7 @@ func (this *SuiteWrite) TestFileName() {
 
 func (this *SuiteWrite) TestFileExist() {
 	assert.True(this.T(), FileExist(this.fileExist))
+	assert.False(this.T(), FileExist(this.pathExist))
 	assert.False(this.T(), FileExist(testdata.Unknown))
 }
 

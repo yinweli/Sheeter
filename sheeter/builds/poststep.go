@@ -58,24 +58,24 @@ func Poststep(config *Config, input []*InitializeData) (file []any, err []error)
 
 // generateSheeterCs 產生cs表格器程式碼
 func generateSheeterCs(input *PoststepData, result chan any) error {
-	file := input.SheeterPathCs()
+	path := input.SheeterPathCs()
 
-	if err := utils.WriteTmpl(file, tmpls.SheeterCs, input); err != nil {
+	if err := utils.WriteTmpl(path, tmpls.SheeterCs, input); err != nil {
 		return fmt.Errorf("generate sheeter cs: %v#%v: %w", input.ExcelName, input.SheetName, err)
 	} // if
 
-	result <- file
+	result <- path
 	return nil
 }
 
 // generateSheeterGo 產生go表格器程式碼
 func generateSheeterGo(input *PoststepData, result chan any) error {
-	file := input.SheeterPathGo()
+	path := input.SheeterPathGo()
 
-	if err := utils.WriteTmpl(file, tmpls.SheeterGo, input); err != nil {
+	if err := utils.WriteTmpl(path, tmpls.SheeterGo, input); err != nil {
 		return fmt.Errorf("generate sheeter go: %v#%v: %w", input.ExcelName, input.SheetName, err)
 	} // if
 
-	result <- file
+	result <- path
 	return nil
 }
