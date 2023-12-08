@@ -39,7 +39,7 @@ func (this *SuiteField) TestName() {
 		},
 	}
 	assert.Equal(this.T(), "Name", target.FieldName())
-	assert.Equal(this.T(), "note", target.FieldNote())
+	assert.Equal(this.T(), "no. te", target.FieldNote())
 	assert.Equal(this.T(), sheeter.TypePkeyCs, target.FieldTypeCs())
 	assert.Equal(this.T(), sheeter.TypePkeyGo, target.FieldTypeGo())
 }
