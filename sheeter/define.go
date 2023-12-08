@@ -33,7 +33,9 @@ const Namespace = AppName // 命名空間名稱
 
 const TokenIgnore = "ignore" // 忽略符號, 當輸出或是標籤為此名稱時不輸出
 const TokenArray = ","       // 陣列分割符號, 陣列以','符號分割元素
-const TokenExclude = "#"     // 排除分割符號, 以'#'來分隔為excel與sheet名稱
+const TokenName = "$"        // 名稱分割符號, 以'$'來分隔名稱與後續項目
+const TokenTerm = "&"        // 項目分割符號, 以'&'來分隔項目
+const TokenExcel = "#"       // 表格分割符號, 以'#'來分隔項目中的excel與sheet名稱
 const JsonPrefix = ""        // json前綴字串
 const JsonIdent = "    "     // json縮排字串
 

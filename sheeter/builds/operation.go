@@ -25,10 +25,10 @@ type OperationData struct {
 
 // Operation 作業處理
 func Operation(config *Config, input []*InitializeData) (file []any, err []error) {
-	result := []*OperationData{}
+	material := []*OperationData{}
 
 	for _, itor := range input {
-		result = append(result, &OperationData{
+		material = append(material, &OperationData{
 			Config: config,
 			Excel:  itor.Excel,
 			Sheet:  itor.Sheet,
@@ -40,7 +40,7 @@ func Operation(config *Config, input []*InitializeData) (file []any, err []error
 		})
 	} // for
 
-	file, err = pipelines.Pipeline[*OperationData]("operation", result, []pipelines.PipelineFunc[*OperationData]{
+	file, err = pipelines.Pipeline[*OperationData]("operation", material, []pipelines.PipelineFunc[*OperationData]{
 		parseLayout,
 		generateData,
 		generateReaderCs,
