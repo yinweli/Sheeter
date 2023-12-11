@@ -115,27 +115,7 @@ namespace Sheeter
         /// <summary>
         /// 讀取資料
         /// </summary>
-        public string FromData(string data)
-        {
-            try
-            {
-                Data = JsonConvert.DeserializeObject<Store_>(data);
-            } // try
-            catch
-            {
-                return "from data failed: deserialize failed";
-            } // catch
-
-            if (Data == null)
-                return "from data failed: deserialize failed";
-
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// 合併資料
-        /// </summary>
-        public string MergeData(string data)
+        public string FromData(string data, bool clear)
         {
             Store_ tmpl;
 
@@ -145,16 +125,19 @@ namespace Sheeter
             } // try
             catch
             {
-                return "merge data failed: deserialize failed";
+                return "from data: deserialize failed";
             } // catch
 
             if (tmpl == null)
-                return "merge data failed: deserialize failed";
+                return "from data: deserialize failed";
+
+            if (clear)
+                Data = new Store_();
 
             foreach (var itor in tmpl)
             {
                 if (Data.ContainsKey(itor.Key))
-                    return "merge data failed: key duplicate";
+                    return "from data: key duplicate";
 
                 Data[itor.Key] = itor.Value;
             } // for

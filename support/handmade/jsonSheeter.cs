@@ -32,37 +32,7 @@ namespace Sheeter
                 if (data == null || data.Length == 0)
                     continue;
 
-                var error = itor.FromData(data);
-
-                if (error.Length != 0)
-                {
-                    result = false;
-                    loader.Error(filename.File, error);
-                } // if
-            } // for
-
-            return result;
-        }
-
-        /// <summary>
-        /// 合併資料處理
-        /// </summary>
-        public bool MergeData()
-        {
-            if (loader == null)
-                return false;
-
-            var result = true;
-
-            foreach (var itor in reader)
-            {
-                var filename = itor.FileName();
-                var data = loader.Load(filename);
-
-                if (data == null || data.Length == 0)
-                    continue;
-
-                var error = itor.MergeData(data);
+                var error = itor.FromData(data, true);
 
                 if (error.Length != 0)
                 {
@@ -128,12 +98,7 @@ namespace Sheeter
         /// <summary>
         /// 讀取資料
         /// </summary>
-        public string FromData(string data);
-
-        /// <summary>
-        /// 合併資料
-        /// </summary>
-        public string MergeData(string data);
+        public string FromData(string data, bool clear);
 
         /// <summary>
         /// 清除資料

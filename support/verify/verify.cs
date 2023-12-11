@@ -6,30 +6,11 @@ namespace verify
     {
         public static void Main()
         {
-            const int threads = 1000;
-
-            From(threads);
-            Merge(threads);
-        }
-
-        private static void From(int threads)
-        {
             var sheet = new Sheeter.Sheeter(new FileLoader());
 
             Assert(sheet.FromData());
-            Check(sheet, threads);
-
-            Console.WriteLine("verify from: success");
-        }
-
-        private static void Merge(int threads)
-        {
-            var sheet = new Sheeter.Sheeter(new FileLoader());
-
-            Assert(sheet.MergeData());
-            Check(sheet, threads);
-
-            Console.WriteLine("verify merge: success");
+            Check(sheet, 1000);
+            Console.WriteLine("verify success");
         }
 
         private static void Check(Sheeter.Sheeter sheet, int threads)

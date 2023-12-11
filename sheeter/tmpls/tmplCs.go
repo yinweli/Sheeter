@@ -40,27 +40,7 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// <summary>
         /// 讀取資料
         /// </summary>
-        public string FromData(string data)
-        {
-            try
-            {
-                Data = JsonConvert.DeserializeObject<Store_>(data);
-            } // try
-            catch
-            {
-                return "from data: deserialize failed";
-            } // catch
-
-            if (Data == null)
-                return "from data: deserialize failed";
-
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// 合併資料
-        /// </summary>
-        public string MergeData(string data)
+        public string FromData(string data, bool clear)
         {
             Store_ tmpl;
 
@@ -70,16 +50,19 @@ namespace {{$.Namespace | $.FirstUpper}}
             } // try
             catch
             {
-                return "merge data: deserialize failed";
+                return "from data: deserialize failed";
             } // catch
 
             if (tmpl == null)
-                return "merge data: deserialize failed";
+                return "from data: deserialize failed";
+
+            if (clear)
+                Data = new Store_();
 
             foreach (var itor in tmpl)
             {
                 if (Data.ContainsKey(itor.Key))
-                    return "merge data: key duplicate";
+                    return "from data: key duplicate";
 
                 Data[itor.Key] = itor.Value;
             } // for
@@ -193,37 +176,7 @@ namespace {{$.Namespace | $.FirstUpper}}
                 if (data == null || data.Length == 0)
                     continue;
 
-                var error = itor.FromData(data);
-
-                if (error.Length != 0)
-                {
-                    result = false;
-                    loader.Error(filename.File, error);
-                } // if
-            } // for
-
-            return result;
-        }
-
-        /// <summary>
-        /// 合併資料處理
-        /// </summary>
-        public bool MergeData()
-        {
-            if (loader == null)
-                return false;
-
-            var result = true;
-
-            foreach (var itor in reader)
-            {
-                var filename = itor.FileName();
-                var data = loader.Load(filename);
-
-                if (data == null || data.Length == 0)
-                    continue;
-
-                var error = itor.MergeData(data);
+                var error = itor.FromData(data, true);
 
                 if (error.Length != 0)
                 {
@@ -291,12 +244,7 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// <summary>
         /// 讀取資料
         /// </summary>
-        public string FromData(string data);
-
-        /// <summary>
-        /// 合併資料
-        /// </summary>
-        public string MergeData(string data);
+        public string FromData(string data, bool clear);
 
         /// <summary>
         /// 清除資料

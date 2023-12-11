@@ -36,31 +36,20 @@ func (this *HandmadeReader) FileName() FileName {
 }
 
 // FromData 讀取資料
-func (this *HandmadeReader) FromData(data []byte) error {
-	this.Data = map[string]*Handmade{}
-
-	if err := json.Unmarshal(data, &this.Data); err != nil {
-		return fmt.Errorf("from data: %w", err)
-	} // if
-
-	return nil
-}
-
-// MergeData 合併資料
-func (this *HandmadeReader) MergeData(data []byte) error {
+func (this *HandmadeReader) FromData(data []byte, clear bool) error {
 	tmpl := map[string]*Handmade{}
 
 	if err := json.Unmarshal(data, &tmpl); err != nil {
-		return fmt.Errorf("merge data: %w", err)
+		return fmt.Errorf("from data: %w", err)
 	} // if
 
-	if this.Data == nil {
+	if clear || this.Data == nil {
 		this.Data = map[string]*Handmade{}
 	} // if
 
 	for k, v := range tmpl {
 		if _, ok := this.Data[k]; ok {
-			return fmt.Errorf("merge data: key duplicate")
+			return fmt.Errorf("from data: key duplicate")
 		} // if
 
 		this.Data[k] = v

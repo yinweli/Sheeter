@@ -14,7 +14,7 @@ type VerifyData struct {
 	Name2 int32 `json:"Name2"` // note2
 	Name3 int32 `json:"Name3"` // note3
 	Name4 int32 `json:"Name4"` // note4
-	Pkey  int32 `json:"Pkey"`  // pkey
+	Pkey int32 `json:"Pkey"` // pkey
 }
 
 // VerifyDataReader verify.xlsx # Data
@@ -28,31 +28,20 @@ func (this *VerifyDataReader) FileName() FileName {
 }
 
 // FromData 讀取資料
-func (this *VerifyDataReader) FromData(data []byte) error {
-	this.Data = map[int32]*VerifyData{}
-
-	if err := json.Unmarshal(data, &this.Data); err != nil {
-		return fmt.Errorf("from data: %w", err)
-	} // if
-
-	return nil
-}
-
-// MergeData 合併資料
-func (this *VerifyDataReader) MergeData(data []byte) error {
+func (this *VerifyDataReader) FromData(data []byte, clear bool) error {
 	tmpl := map[int32]*VerifyData{}
 
 	if err := json.Unmarshal(data, &tmpl); err != nil {
-		return fmt.Errorf("merge data: %w", err)
+		return fmt.Errorf("from data: %w", err)
 	} // if
 
-	if this.Data == nil {
+	if clear || this.Data == nil {
 		this.Data = map[int32]*VerifyData{}
 	} // if
 
 	for k, v := range tmpl {
 		if _, ok := this.Data[k]; ok {
-			return fmt.Errorf("merge data: key duplicate")
+			return fmt.Errorf("from data: key duplicate")
 		} // if
 
 		this.Data[k] = v

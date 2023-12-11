@@ -11,24 +11,10 @@ import (
 )
 
 func main() {
-	const threads = 1000
-
-	from(threads)
-	merge(threads)
-}
-
-func from(threads int) {
 	sheet := sheeter.NewSheeter(newFileLoader())
 	assert(sheet.FromData())
-	check(sheet, threads)
-	fmt.Println("verify from: success")
-}
-
-func merge(threads int) {
-	sheet := sheeter.NewSheeter(newFileLoader())
-	assert(sheet.MergeData())
-	check(sheet, threads)
-	fmt.Println("verify merge: success")
+	check(sheet, 1000)
+	fmt.Println("verify success")
 }
 
 func check(sheet *sheeter.Sheeter, threads int) {

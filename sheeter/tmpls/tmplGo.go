@@ -27,31 +27,20 @@ func (this *{{$.ReaderName}}) FileName() FileName {
 }
 
 // FromData 讀取資料
-func (this *{{$.ReaderName}}) FromData(data []byte) error {
-	this.Data = map[{{$.PkeyGo}}]*{{$.StructName}}{}
-
-	if err := json.Unmarshal(data, &this.Data); err != nil {
-		return fmt.Errorf("from data: %w", err)
-	} // if
-
-	return nil
-}
-
-// MergeData 合併資料
-func (this *{{$.ReaderName}}) MergeData(data []byte) error {
+func (this *{{$.ReaderName}}) FromData(data []byte, clear bool) error {
 	tmpl := map[{{$.PkeyGo}}]*{{$.StructName}}{}
 
 	if err := json.Unmarshal(data, &tmpl); err != nil {
-		return fmt.Errorf("merge data: %w", err)
+		return fmt.Errorf("from data: %w", err)
 	} // if
 
-	if this.Data == nil {
+	if clear || this.Data == nil {
 		this.Data = map[{{$.PkeyGo}}]*{{$.StructName}}{}
 	} // if
 
 	for k, v := range tmpl {
 		if _, ok := this.Data[k]; ok {
-			return fmt.Errorf("merge data: key duplicate")
+			return fmt.Errorf("from data: key duplicate")
 		} // if
 
 		this.Data[k] = v
@@ -149,32 +138,7 @@ func (this *Sheeter) FromData() bool {
 			continue
 		} // if
 
-		if err := itor.FromData(data); err != nil {
-			result = false
-			this.loader.Error(filename.File(), err)
-		} // if
-	} // for
-
-	return result
-}
-
-// MergeData 合併資料處理
-func (this *Sheeter) MergeData() bool {
-	if this.loader == nil {
-		return false
-	} // if
-
-	result := true
-
-	for _, itor := range this.reader {
-		filename := itor.FileName()
-		data := this.loader.Load(filename)
-
-		if data == nil || len(data) == 0 {
-			continue
-		} // if
-
-		if err := itor.MergeData(data); err != nil {
+		if err := itor.FromData(data, true); err != nil {
 			result = false
 			this.loader.Error(filename.File(), err)
 		} // if
@@ -205,10 +169,7 @@ type Reader interface {
 	FileName() FileName
 
 	// FromData 讀取資料
-	FromData(data []byte) error
-
-	// MergeData 合併資料
-	MergeData(data []byte) error
+	FromData(data []byte, clear bool) error
 
 	// Clear 清除資料
 	Clear()
