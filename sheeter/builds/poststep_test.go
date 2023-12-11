@@ -50,7 +50,7 @@ func (this *SuitePoststep) TearDownSuite() {
 }
 
 func (this *SuitePoststep) TestPoststep() {
-	config := this.prepareConfig([]string{this.folder})
+	config := this.prepareConfig(false)
 	context, _ := Initialize(config)
 	time.Sleep(testdata.Timeout)
 	file, err := Poststep(config, context)
@@ -77,9 +77,8 @@ func (this *SuitePoststep) TestGenerateSheeterGo() {
 	assert.FileExists(this.T(), poststepData.SheeterPathGo())
 }
 
-func (this *SuitePoststep) prepareConfig(source []string) *Config {
-	return &Config{
-		Source:      source,
+func (this *SuitePoststep) prepareConfig(empty bool) *Config {
+	config := &Config{
 		Tag:         this.tag,
 		LineOfTag:   this.lineOfTag,
 		LineOfName:  this.lineOfName,
@@ -87,14 +86,24 @@ func (this *SuitePoststep) prepareConfig(source []string) *Config {
 		LineOfField: this.lineOfField,
 		LineOfData:  this.lintOfData,
 	}
+
+	if empty == false {
+		config.Source = []string{this.folder}
+		config.Merge = []string{"merge$poststep#Sheet"}
+	} // if
+
+	return config
 }
 
 func (this *SuitePoststep) prepareData(excelName, sheetName string) *PoststepData {
 	return &PoststepData{
-		Config: this.prepareConfig(nil),
+		Config: this.prepareConfig(true),
 		Named:  &nameds.Named{},
-		Struct: []*nameds.Named{
+		Alone: []*nameds.Named{
 			{ExcelName: excelName, SheetName: sheetName},
+		},
+		Merge: []*nameds.Merge{
+			{Name: "merge0", Member: []*nameds.Named{{ExcelName: excelName, SheetName: sheetName}}},
 		},
 	}
 }

@@ -8,16 +8,16 @@ import (
 	"fmt"
 )
 
-// VerifyData verify.xlsx # Data
+// VerifyData verify.xlsx#Data
 type VerifyData struct {
 	Name1 int32 `json:"Name1"` // note1
 	Name2 int32 `json:"Name2"` // note2
 	Name3 int32 `json:"Name3"` // note3
 	Name4 int32 `json:"Name4"` // note4
-	Pkey int32 `json:"Pkey"` // pkey
+	Pkey  int32 `json:"Pkey"`  // pkey
 }
 
-// VerifyDataReader verify.xlsx # Data
+// VerifyDataReader verify.xlsx#Data
 type VerifyDataReader struct {
 	Data map[int32]*VerifyData // 資料列表
 }

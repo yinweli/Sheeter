@@ -34,6 +34,15 @@ func (this MergeTerm) Member() []SheetTerm {
 // SheetTerm 表格名稱
 type SheetTerm string
 
+// Name 取得表格名稱
+func (this SheetTerm) Name() (excel, sheet string) {
+	if e, s, ok := strings.Cut(string(this), sheeter.TokenExcel); ok {
+		return e, s
+	} // if
+
+	return "", ""
+}
+
 // Match 名稱是否匹配
 func (this SheetTerm) Match(excel, sheet string) bool {
 	if e, s, ok := strings.Cut(string(this), sheeter.TokenExcel); ok {

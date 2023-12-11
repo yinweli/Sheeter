@@ -22,9 +22,11 @@ namespace Sheeter
                 return false;
 
             var result = true;
+            var index = 0;
 
             foreach (var itor in new Reader[] {
-                this.Handmade,
+                this.Alone0,
+                this.Alone1,
             })
             {
                 var filename = itor.FileName();
@@ -42,6 +44,56 @@ namespace Sheeter
                 } // if
             } // for
 
+            index = 0;
+
+            foreach (var itor in new Reader[]
+            {
+                this.Alone0,
+                this.Alone1,
+            })
+            {
+                var filename = itor.FileName();
+                var data = loader.Load(filename);
+
+                if (data == null || data.Length == 0)
+                    continue;
+
+                var error = Merge0.FromData(data, index == 0);
+
+                if (error.Length != 0)
+                {
+                    result = false;
+                    loader.Error(filename.File, error);
+                } // if
+
+                index++;
+            } // for
+
+            index = 0;
+
+            foreach (var itor in new Reader[]
+            {
+                this.Alone0,
+                this.Alone1,
+            })
+            {
+                var filename = itor.FileName();
+                var data = loader.Load(filename);
+
+                if (data == null || data.Length == 0)
+                    continue;
+
+                var error = Merge1.FromData(data, index == 0);
+
+                if (error.Length != 0)
+                {
+                    result = false;
+                    loader.Error(filename.File, error);
+                } // if
+
+                index++;
+            } // for
+
             return result;
         }
 
@@ -50,7 +102,10 @@ namespace Sheeter
         /// </summary>
         public void Clear()
         {
-            Handmade.Clear();
+            Alone0.Clear();
+            Alone1.Clear();
+            Merge0.Clear();
+            Merge1.Clear();
         }
 
         /// <summary>
@@ -59,9 +114,24 @@ namespace Sheeter
         private readonly Loader loader;
 
         /// <summary>
-        /// $表格說明
+        /// 獨立表格說明
         /// </summary>
-        public readonly HandmadeReader Handmade = new HandmadeReader();
+        public readonly HandmadeReader Alone0 = new HandmadeReader();
+
+        /// <summary>
+        /// 獨立表格說明
+        /// </summary>
+        public readonly HandmadeReader Alone1 = new HandmadeReader();
+
+        /// <summary>
+        /// 合併表格說明
+        /// </summary>
+        public readonly HandmadeReader Merge0 = new HandmadeReader();
+
+        /// <summary>
+        /// 合併表格說明
+        /// </summary>
+        public readonly HandmadeReader Merge1 = new HandmadeReader();
     }
 
     /// <summary>

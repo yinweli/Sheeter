@@ -14,7 +14,8 @@ import (
 type PoststepData struct {
 	*Config                       // 設定資料
 	*nameds.Named                 // 命名工具
-	Struct        []*nameds.Named // 結構列表
+	Alone         []*nameds.Named // 獨立結構列表
+	Merge         []*nameds.Merge // 合併結構列表
 }
 
 // Poststep 後製處理
@@ -27,21 +28,44 @@ func Poststep(config *Config, input []*InitializeData) (file []any, err []error)
 	}
 
 	for _, itor := range input {
-		material.Struct = append(material.Struct, &nameds.Named{
+		material.Alone = append(material.Alone, &nameds.Named{
 			ExcelName: itor.ExcelName,
 			SheetName: itor.SheetName,
 		})
 	} // for
 
-	sort.Slice(material.Struct, func(l, r int) bool { // 經過排序後讓產生程式碼時能夠更加一致
-		lhs := material.Struct[l]
-		rhs := material.Struct[r]
+	sort.Slice(material.Alone, func(l, r int) bool { // 經過排序後讓產生程式碼時能夠更加一致
+		lhs := material.Alone[l]
+		rhs := material.Alone[r]
 
 		if lhs.ExcelName == rhs.ExcelName {
 			return lhs.SheetName < rhs.SheetName
 		} // if
 
 		return lhs.ExcelName < rhs.ExcelName
+	})
+
+	for _, itor := range config.Merged() {
+		member := []*nameds.Named{}
+
+		for _, term := range itor.Member() {
+			excelName, sheetName := term.Name()
+			member = append(member, &nameds.Named{
+				ExcelName: excelName,
+				SheetName: sheetName,
+			})
+		} // for
+
+		material.Merge = append(material.Merge, &nameds.Merge{
+			Name:   itor.Name(),
+			Member: member,
+		})
+	} // for
+
+	sort.Slice(material.Merge, func(l, r int) bool { // 經過排序後讓產生程式碼時能夠更加一致
+		lhs := material.Merge[l]
+		rhs := material.Merge[r]
+		return lhs.Name < rhs.Name
 	})
 
 	file, err = pipelines.Pipeline[*PoststepData]("poststep", []*PoststepData{material}, []pipelines.PipelineFunc[*PoststepData]{

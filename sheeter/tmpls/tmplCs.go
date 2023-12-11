@@ -162,9 +162,10 @@ namespace {{$.Namespace | $.FirstUpper}}
                 return false;
 
             var result = true;
+            var index = 0;
 
             foreach (var itor in new Reader[] {
-{{- range $.Struct}}
+{{- range $.Alone}}
                 this.{{.StructName}},
 {{- end}}
             })
@@ -184,6 +185,32 @@ namespace {{$.Namespace | $.FirstUpper}}
                 } // if
             } // for
 
+{{- range $.Merge}}
+
+            index = 0;
+
+            foreach (var itor in new Reader[]
+            {
+{{- range $name := .MemberName}}
+		        this.{{$name}},
+{{- end}}
+	        }) {
+                var filename = itor.FileName();
+                var data = loader.Load(filename);
+
+                if (data == null || data.Length == 0)
+                    continue;
+
+                var error = {{.StructName}}.FromData(data, index == 0);
+
+                if (error.Length != 0)
+                {
+                    result = false;
+                    loader.Error("{{.StructName}}", error);
+                } // if
+	        } // for
+{{- end}}
+
             return result;
         }
 
@@ -192,7 +219,10 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// </summary>
         public void Clear()
         {
-{{- range $.Struct}}
+{{- range $.Alone}}
+            this.{{.StructName}}.Clear();
+{{- end}}
+{{- range $.Merge}}
             this.{{.StructName}}.Clear();
 {{- end}}
         }
@@ -202,7 +232,13 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// </summary>
         private readonly Loader loader;
 
-{{- range $.Struct}}
+{{- range $.Alone}}
+        /// <summary>
+        /// {{.StructNote}}
+        /// </summary>
+        public readonly {{.ReaderName}} {{.StructName}} = new {{.ReaderName}}();
+{{- end}}
+{{- range $.Merge}}
         /// <summary>
         /// {{.StructNote}}
         /// </summary>

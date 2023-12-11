@@ -22,6 +22,7 @@ namespace Sheeter
                 return false;
 
             var result = true;
+            var index = 0;
 
             foreach (var itor in new Reader[] { this.VerifyData, })
             {
@@ -40,6 +41,25 @@ namespace Sheeter
                 } // if
             } // for
 
+            index = 0;
+
+            foreach (var itor in new Reader[] { this.VerifyData, })
+            {
+                var filename = itor.FileName();
+                var data = loader.Load(filename);
+
+                if (data == null || data.Length == 0)
+                    continue;
+
+                var error = MergeData.FromData(data, index == 0);
+
+                if (error.Length != 0)
+                {
+                    result = false;
+                    loader.Error("MergeData", error);
+                } // if
+            } // for
+
             return result;
         }
 
@@ -49,6 +69,7 @@ namespace Sheeter
         public void Clear()
         {
             this.VerifyData.Clear();
+            this.MergeData.Clear();
         }
 
         /// <summary>
@@ -57,9 +78,14 @@ namespace Sheeter
         private readonly Loader loader;
 
         /// <summary>
-        /// verify.xlsx # Data
+        /// verify.xlsx#Data
         /// </summary>
         public readonly VerifyDataReader VerifyData = new VerifyDataReader();
+
+        /// <summary>
+        /// merge by verify.xlsx#Data
+        /// </summary>
+        public readonly VerifyDataReader MergeData = new VerifyDataReader();
     }
 
     /// <summary>

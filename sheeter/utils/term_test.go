@@ -37,6 +37,14 @@ func (this *SuiteTerm) TestMergeTerm() {
 
 func (this *SuiteTerm) TestSheetTerm() {
 	target := SheetTerm("excel#sheet")
+	excel, sheet := target.Name()
+	assert.Equal(this.T(), "excel", excel)
+	assert.Equal(this.T(), "sheet", sheet)
+	target = testdata.Unknown
+	excel, sheet = target.Name()
+	assert.Equal(this.T(), "", excel)
+	assert.Equal(this.T(), "", sheet)
+	target = "excel#sheet"
 	assert.True(this.T(), target.Match("excel", "sheet"))
 	assert.False(this.T(), target.Match(testdata.Unknown, "sheet"))
 	assert.False(this.T(), target.Match("excel", testdata.Unknown))

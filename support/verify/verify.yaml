@@ -1,5 +1,7 @@
 source:
   - verify.xlsx
+merge:
+  - mergeData$verify.xlsx#Data
 tag: 1
 autoKey: true
 lineOfTag: 1

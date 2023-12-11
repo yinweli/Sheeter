@@ -12,8 +12,9 @@ func NewSheeter(loader Loader) *Sheeter {
 
 // Sheeter 表格資料
 type Sheeter struct {
-	loader Loader   // 裝載器物件
-	VerifyData VerifyDataReader // verify.xlsx # Data
+	loader     Loader           // 裝載器物件
+	VerifyData VerifyDataReader // verify.xlsx#Data
+	MergeData  VerifyDataReader // merge by verify.xlsx#Data
 }
 
 // FromData 讀取資料處理
@@ -39,6 +40,21 @@ func (this *Sheeter) FromData() bool {
 			this.loader.Error(filename.File(), err)
 		} // if
 	} // for
+	for i, itor := range []Reader{
+		&this.VerifyData,
+	} {
+		filename := itor.FileName()
+		data := this.loader.Load(filename)
+
+		if data == nil || len(data) == 0 {
+			continue
+		} // if
+
+		if err := this.MergeData.FromData(data, i == 0); err != nil {
+			result = false
+			this.loader.Error("MergeData", err)
+		} // if
+	} // for
 
 	return result
 }
@@ -46,6 +62,7 @@ func (this *Sheeter) FromData() bool {
 // Clear 清除資料
 func (this *Sheeter) Clear() {
 	this.VerifyData.Clear()
+	this.MergeData.Clear()
 }
 
 // Loader 裝載器介面

@@ -11,8 +11,11 @@ func NewSheeter(loader Loader) *Sheeter {
 
 // Sheeter 表格資料
 type Sheeter struct {
-	loader   Loader         // 裝載器物件
-	Handmade HandmadeReader // 表格說明
+	loader Loader         // 裝載器物件
+	Alone0 HandmadeReader // 獨立表格說明
+	Alone1 HandmadeReader // 獨立表格說明
+	Merge0 HandmadeReader // 合併表格說明
+	Merge1 HandmadeReader // 合併表格說明
 }
 
 // FromData 讀取資料處理
@@ -24,7 +27,8 @@ func (this *Sheeter) FromData() bool {
 	result := true
 
 	for _, itor := range []Reader{
-		&this.Handmade,
+		&this.Alone0,
+		&this.Alone1,
 	} {
 		filename := itor.FileName()
 		data := this.loader.Load(filename)
@@ -39,12 +43,49 @@ func (this *Sheeter) FromData() bool {
 		} // if
 	} // for
 
+	for i, itor := range []Reader{
+		&this.Alone0,
+		&this.Alone1,
+	} {
+		filename := itor.FileName()
+		data := this.loader.Load(filename)
+
+		if data == nil || len(data) == 0 {
+			continue
+		} // if
+
+		if err := this.Merge0.FromData(data, i == 0); err != nil {
+			result = false
+			this.loader.Error("Merge0", err)
+		} // if
+	} // for
+
+	for i, itor := range []Reader{
+		&this.Alone0,
+		&this.Alone1,
+	} {
+		filename := itor.FileName()
+		data := this.loader.Load(filename)
+
+		if data == nil || len(data) == 0 {
+			continue
+		} // if
+
+		if err := this.Merge1.FromData(data, i == 0); err != nil {
+			result = false
+			this.loader.Error("Merge1", err)
+		} // if
+	} // for
+
 	return result
 }
 
 // Clear 清除資料
 func (this *Sheeter) Clear() {
-	this.Handmade.Clear()
+	this.Alone0.Clear()
+	this.Alone1.Clear()
+	this.Merge0.Clear()
+	this.Merge1.Clear()
 }
 
 // Loader 裝載器介面

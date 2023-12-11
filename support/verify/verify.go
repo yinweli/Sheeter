@@ -58,6 +58,41 @@ func check(sheet *sheeter.Sheeter, threads int) {
 			assert(actual.Name3 == 52)
 			assert(actual.Name4 == 53)
 
+			actual = sheet.MergeData.Get(1)
+			assert(actual != nil)
+			assert(actual.Pkey == 1)
+			assert(actual.Name1 == 10)
+			assert(actual.Name2 == 11)
+			assert(actual.Name3 == 12)
+			assert(actual.Name4 == 13)
+
+			actual = sheet.MergeData.Get(2)
+			assert(actual != nil)
+			assert(actual.Pkey == 2)
+			assert(actual.Name1 == 20)
+			assert(actual.Name2 == 21)
+			assert(actual.Name3 == 22)
+			assert(actual.Name4 == 23)
+
+			actual = sheet.MergeData.Get(3)
+			assert(actual == nil)
+
+			actual = sheet.MergeData.Get(4)
+			assert(actual != nil)
+			assert(actual.Pkey == 4)
+			assert(actual.Name1 == 40)
+			assert(actual.Name2 == 41)
+			assert(actual.Name3 == 42)
+			assert(actual.Name4 == 43)
+
+			actual = sheet.MergeData.Get(5)
+			assert(actual != nil)
+			assert(actual.Pkey == 5)
+			assert(actual.Name1 == 50)
+			assert(actual.Name2 == 51)
+			assert(actual.Name3 == 52)
+			assert(actual.Name4 == 53)
+
 			waitGroup.Done()
 		}()
 	} // for

@@ -110,7 +110,10 @@ func NewSheeter(loader Loader) *Sheeter {
 // Sheeter 表格資料
 type Sheeter struct {
 	loader Loader // 裝載器物件
-{{- range $.Struct}}
+{{- range $.Alone}}
+	{{.StructName}} {{.ReaderName}} // {{.StructNote}}
+{{- end}}
+{{- range $.Merge}}
 	{{.StructName}} {{.ReaderName}} // {{.StructNote}}
 {{- end}}
 }
@@ -124,7 +127,7 @@ func (this *Sheeter) FromData() bool {
 	result := true
 
 	for _, itor := range []Reader{
-{{- range $.Struct}}
+{{- range $.Alone}}
 		&this.{{.StructName}},
 {{- end}}
 	} {
@@ -141,12 +144,35 @@ func (this *Sheeter) FromData() bool {
 		} // if
 	} // for
 
+{{- range $.Merge}}
+	for i, itor := range []Reader{
+{{- range $name := .MemberName}}
+		&this.{{$name}},
+{{- end}}
+	} {
+		filename := itor.FileName()
+		data := this.loader.Load(filename)
+
+		if data == nil || len(data) == 0 {
+			continue
+		} // if
+
+		if err := this.{{.StructName}}.FromData(data, i == 0); err != nil {
+			result = false
+			this.loader.Error("{{.StructName}}", err)
+		} // if
+	} // for
+{{- end}}
+
 	return result
 }
 
 // Clear 清除資料
 func (this *Sheeter) Clear() {
-{{- range $.Struct}}
+{{- range $.Alone}}
+	this.{{.StructName}}.Clear()
+{{- end}}
+{{- range $.Merge}}
 	this.{{.StructName}}.Clear()
 {{- end}}
 }
