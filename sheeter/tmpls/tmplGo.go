@@ -104,19 +104,12 @@ package {{$.Namespace}}
 func NewSheeter(loader Loader) *Sheeter {
 	sheeter := &Sheeter{}
 	sheeter.loader = loader
-	sheeter.reader = []Reader{
-{{- range $.Struct}}
-		&sheeter.{{.StructName}},
-{{- end}}
-	}
 	return sheeter
 }
 
 // Sheeter 表格資料
 type Sheeter struct {
-	loader Loader   // 裝載器物件
-	reader []Reader // 讀取器列表
-
+	loader Loader // 裝載器物件
 {{- range $.Struct}}
 	{{.StructName}} {{.ReaderName}} // {{.StructNote}}
 {{- end}}
@@ -130,7 +123,11 @@ func (this *Sheeter) FromData() bool {
 
 	result := true
 
-	for _, itor := range this.reader {
+	for _, itor := range []Reader{
+{{- range $.Struct}}
+		&this.{{.StructName}},
+{{- end}}
+	} {
 		filename := itor.FileName()
 		data := this.loader.Load(filename)
 
@@ -149,9 +146,9 @@ func (this *Sheeter) FromData() bool {
 
 // Clear 清除資料
 func (this *Sheeter) Clear() {
-	for _, itor := range this.reader {
-		itor.Clear()
-	} // for
+{{- range $.Struct}}
+	this.{{.StructName}}.Clear()
+{{- end}}
 }
 
 // Loader 裝載器介面

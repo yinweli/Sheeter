@@ -151,11 +151,6 @@ namespace {{$.Namespace | $.FirstUpper}}
         public Sheeter(Loader loader)
         {
             this.loader = loader;
-            this.reader = new List<Reader>() {
-{{- range $.Struct}}
-                this.{{.StructName}},
-{{- end}}
-            };
         }
 
         /// <summary>
@@ -168,7 +163,11 @@ namespace {{$.Namespace | $.FirstUpper}}
 
             var result = true;
 
-            foreach (var itor in reader)
+            foreach (var itor in new Reader[] {
+{{- range $.Struct}}
+                this.{{.StructName}},
+{{- end}}
+            })
             {
                 var filename = itor.FileName();
                 var data = loader.Load(filename);
@@ -193,19 +192,15 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// </summary>
         public void Clear()
         {
-            foreach (var itor in reader)
-                itor.Clear();
+{{- range $.Struct}}
+            this.{{.StructName}}.Clear();
+{{- end}}
         }
 
         /// <summary>
         /// 裝載器物件
         /// </summary>
         private readonly Loader loader;
-
-        /// <summary>
-        /// 讀取器列表
-        /// </summary>
-        private readonly List<Reader> reader;
 
 {{- range $.Struct}}
         /// <summary>

@@ -6,18 +6,13 @@ package sheeter
 func NewSheeter(loader Loader) *Sheeter {
 	sheeter := &Sheeter{}
 	sheeter.loader = loader
-	sheeter.reader = []Reader{
-		&sheeter.Handmade,
-	}
 	return sheeter
 }
 
 // Sheeter 表格資料
 type Sheeter struct {
-	loader Loader   // 裝載器物件
-	reader []Reader // 讀取器列表
-
-	Handmade HandmadeReader // $表格說明
+	loader   Loader         // 裝載器物件
+	Handmade HandmadeReader // 表格說明
 }
 
 // FromData 讀取資料處理
@@ -28,7 +23,9 @@ func (this *Sheeter) FromData() bool {
 
 	result := true
 
-	for _, itor := range this.reader {
+	for _, itor := range []Reader{
+		&this.Handmade,
+	} {
 		filename := itor.FileName()
 		data := this.loader.Load(filename)
 
@@ -47,9 +44,7 @@ func (this *Sheeter) FromData() bool {
 
 // Clear 清除資料
 func (this *Sheeter) Clear() {
-	for _, itor := range this.reader {
-		itor.Clear()
-	} // for
+	this.Handmade.Clear()
 }
 
 // Loader 裝載器介面

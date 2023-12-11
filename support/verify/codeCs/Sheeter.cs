@@ -11,7 +11,6 @@ namespace Sheeter
         public Sheeter(Loader loader)
         {
             this.loader = loader;
-            this.reader = new List<Reader>() { this.VerifyData, };
         }
 
         /// <summary>
@@ -24,7 +23,7 @@ namespace Sheeter
 
             var result = true;
 
-            foreach (var itor in reader)
+            foreach (var itor in new Reader[] { this.VerifyData, })
             {
                 var filename = itor.FileName();
                 var data = loader.Load(filename);
@@ -49,19 +48,13 @@ namespace Sheeter
         /// </summary>
         public void Clear()
         {
-            foreach (var itor in reader)
-                itor.Clear();
+            this.VerifyData.Clear();
         }
 
         /// <summary>
         /// 裝載器物件
         /// </summary>
         private readonly Loader loader;
-
-        /// <summary>
-        /// 讀取器列表
-        /// </summary>
-        private readonly List<Reader> reader;
 
         /// <summary>
         /// verify.xlsx # Data
