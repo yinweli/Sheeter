@@ -27,31 +27,20 @@ func (this *{{$.ReaderName}}) FileName() FileName {
 }
 
 // FromData 讀取資料
-func (this *{{$.ReaderName}}) FromData(data []byte) error {
-	this.Data = map[{{$.PkeyGo}}]*{{$.StructName}}{}
-
-	if err := json.Unmarshal(data, &this.Data); err != nil {
-		return fmt.Errorf("from data: %w", err)
-	} // if
-
-	return nil
-}
-
-// MergeData 合併資料
-func (this *{{$.ReaderName}}) MergeData(data []byte) error {
+func (this *{{$.ReaderName}}) FromData(data []byte, clear bool) error {
 	tmpl := map[{{$.PkeyGo}}]*{{$.StructName}}{}
 
 	if err := json.Unmarshal(data, &tmpl); err != nil {
-		return fmt.Errorf("merge data: %w", err)
+		return fmt.Errorf("from data: %w", err)
 	} // if
 
-	if this.Data == nil {
+	if clear || this.Data == nil {
 		this.Data = map[{{$.PkeyGo}}]*{{$.StructName}}{}
 	} // if
 
 	for k, v := range tmpl {
 		if _, ok := this.Data[k]; ok {
-			return fmt.Errorf("merge data: key duplicate")
+			return fmt.Errorf("from data: key duplicate")
 		} // if
 
 		this.Data[k] = v
@@ -115,20 +104,16 @@ package {{$.Namespace}}
 func NewSheeter(loader Loader) *Sheeter {
 	sheeter := &Sheeter{}
 	sheeter.loader = loader
-	sheeter.reader = []Reader{
-{{- range $.Struct}}
-		&sheeter.{{.StructName}},
-{{- end}}
-	}
 	return sheeter
 }
 
 // Sheeter 表格資料
 type Sheeter struct {
-	loader Loader   // 裝載器物件
-	reader []Reader // 讀取器列表
-
-{{- range $.Struct}}
+	loader Loader // 裝載器物件
+{{- range $.Alone}}
+	{{.StructName}} {{.ReaderName}} // {{.StructNote}}
+{{- end}}
+{{- range $.Merge}}
 	{{.StructName}} {{.ReaderName}} // {{.StructNote}}
 {{- end}}
 }
@@ -141,7 +126,11 @@ func (this *Sheeter) FromData() bool {
 
 	result := true
 
-	for _, itor := range this.reader {
+	for _, itor := range []Reader{
+{{- range $.Alone}}
+		&this.{{.StructName}},
+{{- end}}
+	} {
 		filename := itor.FileName()
 		data := this.loader.Load(filename)
 
@@ -149,24 +138,18 @@ func (this *Sheeter) FromData() bool {
 			continue
 		} // if
 
-		if err := itor.FromData(data); err != nil {
+		if err := itor.FromData(data, true); err != nil {
 			result = false
 			this.loader.Error(filename.File(), err)
 		} // if
 	} // for
 
-	return result
-}
-
-// MergeData 合併資料處理
-func (this *Sheeter) MergeData() bool {
-	if this.loader == nil {
-		return false
-	} // if
-
-	result := true
-
-	for _, itor := range this.reader {
+{{- range $.Merge}}
+	for i, itor := range []Reader{
+{{- range $name := .MemberName}}
+		&this.{{$name}},
+{{- end}}
+	} {
 		filename := itor.FileName()
 		data := this.loader.Load(filename)
 
@@ -174,20 +157,24 @@ func (this *Sheeter) MergeData() bool {
 			continue
 		} // if
 
-		if err := itor.MergeData(data); err != nil {
+		if err := this.{{.StructName}}.FromData(data, i == 0); err != nil {
 			result = false
-			this.loader.Error(filename.File(), err)
+			this.loader.Error("{{.StructName}}", err)
 		} // if
 	} // for
+{{- end}}
 
 	return result
 }
 
 // Clear 清除資料
 func (this *Sheeter) Clear() {
-	for _, itor := range this.reader {
-		itor.Clear()
-	} // for
+{{- range $.Alone}}
+	this.{{.StructName}}.Clear()
+{{- end}}
+{{- range $.Merge}}
+	this.{{.StructName}}.Clear()
+{{- end}}
 }
 
 // Loader 裝載器介面
@@ -205,10 +192,7 @@ type Reader interface {
 	FileName() FileName
 
 	// FromData 讀取資料
-	FromData(data []byte) error
-
-	// MergeData 合併資料
-	MergeData(data []byte) error
+	FromData(data []byte, clear bool) error
 
 	// Clear 清除資料
 	Clear()

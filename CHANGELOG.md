@@ -6,14 +6,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Planning]
 - 針對單元測試新增goleak來測試是否有gorourtine洩漏
-- 新增多表合一功能(combine), 可以在設定檔中設定那些表格為合併表格, 並且指定其中之一為標準表格
-  此標準表格會在Depot額外建立一個合併讀取器, 會讀取所有合併表格資料
-  多表合一時, 越後面的資料會覆蓋掉前面的資料(如果索引相同時)
-- 更改Reader介面, 新增FileNames函式, 專門對應多表合一模式
-- 更改Reader介面, 新增CombineFrom函式, 專門對應多表合一模式
-- 更改Depot類別, 新增CombineFrom函式, 專門對應多表合一模式
 
 ## [Unrelease]
+
+## [2.3.0] - 2023-12-11
+### Added
+- 新增多表合一功能
 
 ## [2.2.0] - 2023-08-10
 ### Added

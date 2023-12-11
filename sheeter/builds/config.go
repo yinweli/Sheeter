@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"strings"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
@@ -13,11 +12,27 @@ import (
 	"github.com/yinweli/Sheeter/v2/sheeter/utils"
 )
 
+const (
+	flagConfig      = "config"      // 旗標名稱: 設定檔案路徑
+	flagSource      = "source"      // 旗標名稱: 來源列表
+	flagMerge       = "merge"       // 旗標名稱: 合併列表
+	flagExclude     = "exclude"     // 旗標名稱: 排除列表
+	flagOutput      = "output"      // 旗標名稱: 輸出路徑
+	flagTag         = "tag"         // 旗標名稱: 標籤列表
+	flagAutoKey     = "autokey"     // 旗標名稱: 自動選取索
+	flagLineOfTag   = "lineOfTag"   // 旗標名稱: 標籤行號
+	flagLineOfName  = "lineOfName"  // 旗標名稱: 名稱行號
+	flagLineOfNote  = "lineOfNote"  // 旗標名稱: 註解行號
+	flagLineOfField = "lineOfField" // 旗標名稱: 欄位行號
+	flagLineOfData  = "lineOfData"  // 旗標名稱: 資料行號
+)
+
 // Config 設定資料
 type Config struct {
 	Source      []string `yaml:"source"`      // 來源列表
-	Output      string   `yaml:"output"`      // 輸出路徑
+	Merge       []string `yaml:"merge"`       // 合併列表
 	Exclude     []string `yaml:"exclude"`     // 排除列表
+	Output      string   `yaml:"output"`      // 輸出路徑
 	Tag         string   `yaml:"tag"`         // 標籤列表
 	AutoKey     bool     `yaml:"autoKey"`     // 自動選取索引
 	LineOfTag   int      `yaml:"lineOfTag"`   // 標籤行號(1為起始行)
@@ -51,15 +66,21 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		} // if
 	} // if
 
-	if flag.Changed(flagOutput) {
-		if value, err := flag.GetString(flagOutput); err == nil {
-			this.Output = value
+	if flag.Changed(flagMerge) {
+		if value, err := flag.GetStringSlice(flagMerge); err == nil {
+			this.Merge = append(this.Merge, value...)
 		} // if
 	} // if
 
 	if flag.Changed(flagExclude) {
 		if value, err := flag.GetStringSlice(flagExclude); err == nil {
-			this.Exclude = value
+			this.Exclude = append(this.Exclude, value...)
+		} // if
+	} // if
+
+	if flag.Changed(flagOutput) {
+		if value, err := flag.GetString(flagOutput); err == nil {
+			this.Output = value
 		} // if
 	} // if
 
@@ -154,13 +175,22 @@ func (this *Config) Path() []string {
 	return utils.GetUnique(result)
 }
 
-// Examine 檢查是否排除
-func (this *Config) Examine(excel, sheet string) bool {
+// Merged 從合併列表取得合併資料
+func (this *Config) Merged() []utils.MergeTerm {
+	result := []utils.MergeTerm{}
+
+	for _, itor := range this.Merge {
+		result = append(result, utils.MergeTerm(itor))
+	} // for
+
+	return result
+}
+
+// Excluded 檢查是否排除
+func (this *Config) Excluded(excel, sheet string) bool {
 	for _, itor := range this.Exclude {
-		if excelName, sheetName, ok := strings.Cut(itor, sheeter.TokenExclude); ok {
-			if strings.EqualFold(excelName, excel) && strings.EqualFold(sheetName, sheet) {
-				return true
-			} // if
+		if utils.SheetTerm(itor).Match(excel, sheet) {
+			return true
 		} // if
 	} // for
 
@@ -206,4 +236,22 @@ func (this *Config) Check() error {
 	} // if
 
 	return nil
+}
+
+// SetFlag 設定命令旗標
+func SetFlag(cmd *cobra.Command) *cobra.Command {
+	flag := cmd.Flags()
+	flag.String(flagConfig, "", "config file path")
+	flag.StringSlice(flagSource, []string{}, "source file/folder list")
+	flag.StringSlice(flagMerge, []string{}, "merge list, example: name$excel#sheet&...,...")
+	flag.StringSlice(flagExclude, []string{}, "exclude list, example: excel#sheet,...")
+	flag.String(flagOutput, "", "output path")
+	flag.String(flagTag, "", "tag that determines the columns to be output")
+	flag.Bool(flagAutoKey, false, "automatically select the second column as an key")
+	flag.Int(flagLineOfTag, 0, "line of tag")
+	flag.Int(flagLineOfName, 0, "line of name")
+	flag.Int(flagLineOfNote, 0, "line of note")
+	flag.Int(flagLineOfField, 0, "line of field")
+	flag.Int(flagLineOfData, 0, "line of data")
+	return cmd
 }

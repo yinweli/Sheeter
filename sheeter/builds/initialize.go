@@ -47,7 +47,7 @@ func Initialize(config *Config) (result []*InitializeData, err []error) {
 		excel := utils.FileName(data.ExcelName)
 		sheet := data.SheetName
 
-		if config.Examine(excel, sheet) {
+		if config.Excluded(excel, sheet) {
 			continue
 		} // if
 

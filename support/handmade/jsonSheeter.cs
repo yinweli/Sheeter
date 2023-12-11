@@ -11,7 +11,6 @@ namespace Sheeter
         public Sheeter(Loader loader)
         {
             this.loader = loader;
-            this.reader = new List<Reader>() { this.Handmade, };
         }
 
         /// <summary>
@@ -23,8 +22,12 @@ namespace Sheeter
                 return false;
 
             var result = true;
+            var index = 0;
 
-            foreach (var itor in reader)
+            foreach (var itor in new Reader[] {
+                this.Alone0,
+                this.Alone1,
+            })
             {
                 var filename = itor.FileName();
                 var data = loader.Load(filename);
@@ -32,7 +35,7 @@ namespace Sheeter
                 if (data == null || data.Length == 0)
                     continue;
 
-                var error = itor.FromData(data);
+                var error = itor.FromData(data, true);
 
                 if (error.Length != 0)
                 {
@@ -41,20 +44,13 @@ namespace Sheeter
                 } // if
             } // for
 
-            return result;
-        }
+            index = 0;
 
-        /// <summary>
-        /// 合併資料處理
-        /// </summary>
-        public bool MergeData()
-        {
-            if (loader == null)
-                return false;
-
-            var result = true;
-
-            foreach (var itor in reader)
+            foreach (var itor in new Reader[]
+            {
+                this.Alone0,
+                this.Alone1,
+            })
             {
                 var filename = itor.FileName();
                 var data = loader.Load(filename);
@@ -62,13 +58,40 @@ namespace Sheeter
                 if (data == null || data.Length == 0)
                     continue;
 
-                var error = itor.MergeData(data);
+                var error = Merge0.FromData(data, index == 0);
 
                 if (error.Length != 0)
                 {
                     result = false;
                     loader.Error(filename.File, error);
                 } // if
+
+                index++;
+            } // for
+
+            index = 0;
+
+            foreach (var itor in new Reader[]
+            {
+                this.Alone0,
+                this.Alone1,
+            })
+            {
+                var filename = itor.FileName();
+                var data = loader.Load(filename);
+
+                if (data == null || data.Length == 0)
+                    continue;
+
+                var error = Merge1.FromData(data, index == 0);
+
+                if (error.Length != 0)
+                {
+                    result = false;
+                    loader.Error(filename.File, error);
+                } // if
+
+                index++;
             } // for
 
             return result;
@@ -79,8 +102,10 @@ namespace Sheeter
         /// </summary>
         public void Clear()
         {
-            foreach (var itor in reader)
-                itor.Clear();
+            Alone0.Clear();
+            Alone1.Clear();
+            Merge0.Clear();
+            Merge1.Clear();
         }
 
         /// <summary>
@@ -89,14 +114,24 @@ namespace Sheeter
         private readonly Loader loader;
 
         /// <summary>
-        /// 讀取器列表
+        /// 獨立表格說明
         /// </summary>
-        private readonly List<Reader> reader;
+        public readonly HandmadeReader Alone0 = new HandmadeReader();
 
         /// <summary>
-        /// $表格說明
+        /// 獨立表格說明
         /// </summary>
-        public readonly HandmadeReader Handmade = new HandmadeReader();
+        public readonly HandmadeReader Alone1 = new HandmadeReader();
+
+        /// <summary>
+        /// 合併表格說明
+        /// </summary>
+        public readonly HandmadeReader Merge0 = new HandmadeReader();
+
+        /// <summary>
+        /// 合併表格說明
+        /// </summary>
+        public readonly HandmadeReader Merge1 = new HandmadeReader();
     }
 
     /// <summary>
@@ -128,12 +163,7 @@ namespace Sheeter
         /// <summary>
         /// 讀取資料
         /// </summary>
-        public string FromData(string data);
-
-        /// <summary>
-        /// 合併資料
-        /// </summary>
-        public string MergeData(string data);
+        public string FromData(string data, bool clear);
 
         /// <summary>
         /// 清除資料

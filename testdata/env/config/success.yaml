@@ -2,10 +2,13 @@ source:
   - path
   - path/path
   - path/path.xlsx
-output: output
+merge:
+  - merge1$excel1#sheet&excel2#sheet
+  - merge2$excel3#sheet&excel4#sheet
 exclude:
   - excel1#sheet
   - excel2#sheet
+output: output
 tag: tag
 autoKey: false
 lineOfTag: 101

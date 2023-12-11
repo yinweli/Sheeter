@@ -7,6 +7,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
+	"github.com/yinweli/Sheeter/v2/sheeter/utils"
 	"github.com/yinweli/Sheeter/v2/testdata"
 )
 
@@ -37,8 +38,9 @@ func (this *SuiteConfig) TestInitialize() {
 	config := Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
 	assert.Equal(this.T(), []string{"path", "path/path", "path/path.xlsx"}, config.Source)
-	assert.Equal(this.T(), "output", config.Output)
+	assert.Equal(this.T(), []string{"merge1$excel1#sheet&excel2#sheet", "merge2$excel3#sheet&excel4#sheet"}, config.Merge)
 	assert.Equal(this.T(), []string{"excel1#sheet", "excel2#sheet"}, config.Exclude)
+	assert.Equal(this.T(), "output", config.Output)
 	assert.Equal(this.T(), "tag", config.Tag)
 	assert.Equal(this.T(), false, config.AutoKey)
 	assert.Equal(this.T(), 101, config.LineOfTag)
@@ -49,8 +51,9 @@ func (this *SuiteConfig) TestInitialize() {
 
 	cmd = SetFlag(&cobra.Command{})
 	assert.Nil(this.T(), cmd.Flags().Set(flagSource, "path/excel1.xlsx,path/excel2.xlsx"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagMerge, "merge1$excel1#sheet&excel2#sheet,merge2$excel3#sheet&excel4#sheet"))
+	assert.Nil(this.T(), cmd.Flags().Set(flagExclude, "excel1#sheet,excel2#sheet"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagOutput, "path/output"))
-	assert.Nil(this.T(), cmd.Flags().Set(flagExclude, "excel3#sheet,excel4#sheet"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagTag, "TAG"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagAutoKey, "true"))
 	assert.Nil(this.T(), cmd.Flags().Set(flagLineOfTag, "201"))
@@ -61,8 +64,9 @@ func (this *SuiteConfig) TestInitialize() {
 	config = Config{}
 	assert.Nil(this.T(), config.Initialize(cmd))
 	assert.Equal(this.T(), []string{"path/excel1.xlsx", "path/excel2.xlsx"}, config.Source)
+	assert.Equal(this.T(), []string{"merge1$excel1#sheet&excel2#sheet", "merge2$excel3#sheet&excel4#sheet"}, config.Merge)
+	assert.Equal(this.T(), []string{"excel1#sheet", "excel2#sheet"}, config.Exclude)
 	assert.Equal(this.T(), "path/output", config.Output)
-	assert.Equal(this.T(), []string{"excel3#sheet", "excel4#sheet"}, config.Exclude)
 	assert.Equal(this.T(), "TAG", config.Tag)
 	assert.Equal(this.T(), true, config.AutoKey)
 	assert.Equal(this.T(), 201, config.LineOfTag)
@@ -92,11 +96,16 @@ func (this *SuiteConfig) TestPath() {
 	assert.Equal(this.T(), []string{"path"}, config.Path())
 }
 
-func (this *SuiteConfig) TestExamine() {
+func (this *SuiteConfig) TestMerged() {
+	config := Config{Merge: []string{"merge1", "merge2"}}
+	assert.Equal(this.T(), []utils.MergeTerm{"merge1", "merge2"}, config.Merged())
+}
+
+func (this *SuiteConfig) TestExcluded() {
 	config := Config{Exclude: []string{"excel1#sheet1", "excel2#sheet2"}}
-	assert.True(this.T(), config.Examine("excel1", "sheet1"))
-	assert.True(this.T(), config.Examine("excel2", "sheet2"))
-	assert.False(this.T(), config.Examine("excel3", "sheet3"))
+	assert.True(this.T(), config.Excluded("excel1", "sheet1"))
+	assert.True(this.T(), config.Excluded("excel2", "sheet2"))
+	assert.False(this.T(), config.Excluded("excel3", "sheet3"))
 }
 
 func (this *SuiteConfig) TestCheck() {
@@ -146,4 +155,21 @@ func (this *SuiteConfig) TestCheck() {
 	target = original
 	target.LineOfField = 999
 	assert.NotNil(this.T(), target.Check())
+}
+
+func (this *SuiteConfig) TestSetFlag() {
+	cmd := SetFlag(&cobra.Command{})
+	assert.NotNil(this.T(), cmd)
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagConfig))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagSource))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagMerge))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagExclude))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagOutput))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagTag))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagAutoKey))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfTag))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfName))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfNote))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfField))
+	assert.NotNil(this.T(), cmd.Flags().Lookup(flagLineOfData))
 }

@@ -6,30 +6,11 @@ namespace verify
     {
         public static void Main()
         {
-            const int threads = 1000;
-
-            From(threads);
-            Merge(threads);
-        }
-
-        private static void From(int threads)
-        {
             var sheet = new Sheeter.Sheeter(new FileLoader());
 
             Assert(sheet.FromData());
-            Check(sheet, threads);
-
-            Console.WriteLine("verify from: success");
-        }
-
-        private static void Merge(int threads)
-        {
-            var sheet = new Sheeter.Sheeter(new FileLoader());
-
-            Assert(sheet.MergeData());
-            Check(sheet, threads);
-
-            Console.WriteLine("verify merge: success");
+            Check(sheet, 1000);
+            Console.WriteLine("verify success");
         }
 
         private static void Check(Sheeter.Sheeter sheet, int threads)
@@ -65,6 +46,36 @@ namespace verify
                         Assert(actual.Name4 == 43);
 
                         Assert(sheet.VerifyData.TryGetValue(5, out actual));
+                        Assert(actual.Pkey == 5);
+                        Assert(actual.Name1 == 50);
+                        Assert(actual.Name2 == 51);
+                        Assert(actual.Name3 == 52);
+                        Assert(actual.Name4 == 53);
+
+                        Assert(sheet.MergeData.TryGetValue(1, out actual));
+                        Assert(actual.Pkey == 1);
+                        Assert(actual.Name1 == 10);
+                        Assert(actual.Name2 == 11);
+                        Assert(actual.Name3 == 12);
+                        Assert(actual.Name4 == 13);
+
+                        Assert(sheet.MergeData.TryGetValue(2, out actual));
+                        Assert(actual.Pkey == 2);
+                        Assert(actual.Name1 == 20);
+                        Assert(actual.Name2 == 21);
+                        Assert(actual.Name3 == 22);
+                        Assert(actual.Name4 == 23);
+
+                        Assert(sheet.MergeData.TryGetValue(3, out actual) == false);
+
+                        Assert(sheet.MergeData.TryGetValue(4, out actual));
+                        Assert(actual.Pkey == 4);
+                        Assert(actual.Name1 == 40);
+                        Assert(actual.Name2 == 41);
+                        Assert(actual.Name3 == 42);
+                        Assert(actual.Name4 == 43);
+
+                        Assert(sheet.MergeData.TryGetValue(5, out actual));
                         Assert(actual.Pkey == 5);
                         Assert(actual.Name1 == 50);
                         Assert(actual.Name2 == 51);

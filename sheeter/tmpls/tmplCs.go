@@ -40,27 +40,7 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// <summary>
         /// 讀取資料
         /// </summary>
-        public string FromData(string data)
-        {
-            try
-            {
-                Data = JsonConvert.DeserializeObject<Store_>(data);
-            } // try
-            catch
-            {
-                return "from data: deserialize failed";
-            } // catch
-
-            if (Data == null)
-                return "from data: deserialize failed";
-
-            return string.Empty;
-        }
-
-        /// <summary>
-        /// 合併資料
-        /// </summary>
-        public string MergeData(string data)
+        public string FromData(string data, bool clear)
         {
             Store_ tmpl;
 
@@ -70,16 +50,19 @@ namespace {{$.Namespace | $.FirstUpper}}
             } // try
             catch
             {
-                return "merge data: deserialize failed";
+                return "from data: deserialize failed";
             } // catch
 
             if (tmpl == null)
-                return "merge data: deserialize failed";
+                return "from data: deserialize failed";
+
+            if (clear)
+                Data = new Store_();
 
             foreach (var itor in tmpl)
             {
                 if (Data.ContainsKey(itor.Key))
-                    return "merge data: key duplicate";
+                    return "from data: key duplicate";
 
                 Data[itor.Key] = itor.Value;
             } // for
@@ -168,11 +151,6 @@ namespace {{$.Namespace | $.FirstUpper}}
         public Sheeter(Loader loader)
         {
             this.loader = loader;
-            this.reader = new List<Reader>() {
-{{- range $.Struct}}
-                this.{{.StructName}},
-{{- end}}
-            };
         }
 
         /// <summary>
@@ -184,8 +162,13 @@ namespace {{$.Namespace | $.FirstUpper}}
                 return false;
 
             var result = true;
+            var index = 0;
 
-            foreach (var itor in reader)
+            foreach (var itor in new Reader[] {
+{{- range $.Alone}}
+                this.{{.StructName}},
+{{- end}}
+            })
             {
                 var filename = itor.FileName();
                 var data = loader.Load(filename);
@@ -193,7 +176,7 @@ namespace {{$.Namespace | $.FirstUpper}}
                 if (data == null || data.Length == 0)
                     continue;
 
-                var error = itor.FromData(data);
+                var error = itor.FromData(data, true);
 
                 if (error.Length != 0)
                 {
@@ -202,35 +185,31 @@ namespace {{$.Namespace | $.FirstUpper}}
                 } // if
             } // for
 
-            return result;
-        }
+{{- range $.Merge}}
 
-        /// <summary>
-        /// 合併資料處理
-        /// </summary>
-        public bool MergeData()
-        {
-            if (loader == null)
-                return false;
+            index = 0;
 
-            var result = true;
-
-            foreach (var itor in reader)
+            foreach (var itor in new Reader[]
             {
+{{- range $name := .MemberName}}
+		        this.{{$name}},
+{{- end}}
+	        }) {
                 var filename = itor.FileName();
                 var data = loader.Load(filename);
 
                 if (data == null || data.Length == 0)
                     continue;
 
-                var error = itor.MergeData(data);
+                var error = {{.StructName}}.FromData(data, index == 0);
 
                 if (error.Length != 0)
                 {
                     result = false;
-                    loader.Error(filename.File, error);
+                    loader.Error("{{.StructName}}", error);
                 } // if
-            } // for
+	        } // for
+{{- end}}
 
             return result;
         }
@@ -240,8 +219,12 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// </summary>
         public void Clear()
         {
-            foreach (var itor in reader)
-                itor.Clear();
+{{- range $.Alone}}
+            this.{{.StructName}}.Clear();
+{{- end}}
+{{- range $.Merge}}
+            this.{{.StructName}}.Clear();
+{{- end}}
         }
 
         /// <summary>
@@ -249,12 +232,13 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// </summary>
         private readonly Loader loader;
 
+{{- range $.Alone}}
         /// <summary>
-        /// 讀取器列表
+        /// {{.StructNote}}
         /// </summary>
-        private readonly List<Reader> reader;
-
-{{- range $.Struct}}
+        public readonly {{.ReaderName}} {{.StructName}} = new {{.ReaderName}}();
+{{- end}}
+{{- range $.Merge}}
         /// <summary>
         /// {{.StructNote}}
         /// </summary>
@@ -291,12 +275,7 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// <summary>
         /// 讀取資料
         /// </summary>
-        public string FromData(string data);
-
-        /// <summary>
-        /// 合併資料
-        /// </summary>
-        public string MergeData(string data);
+        public string FromData(string data, bool clear);
 
         /// <summary>
         /// 清除資料

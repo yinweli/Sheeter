@@ -8,7 +8,7 @@ import (
 	"fmt"
 )
 
-// VerifyData verify.xlsx # Data
+// VerifyData verify.xlsx#Data
 type VerifyData struct {
 	Name1 int32 `json:"Name1"` // note1
 	Name2 int32 `json:"Name2"` // note2
@@ -17,7 +17,7 @@ type VerifyData struct {
 	Pkey  int32 `json:"Pkey"`  // pkey
 }
 
-// VerifyDataReader verify.xlsx # Data
+// VerifyDataReader verify.xlsx#Data
 type VerifyDataReader struct {
 	Data map[int32]*VerifyData // 資料列表
 }
@@ -28,31 +28,20 @@ func (this *VerifyDataReader) FileName() FileName {
 }
 
 // FromData 讀取資料
-func (this *VerifyDataReader) FromData(data []byte) error {
-	this.Data = map[int32]*VerifyData{}
-
-	if err := json.Unmarshal(data, &this.Data); err != nil {
-		return fmt.Errorf("from data: %w", err)
-	} // if
-
-	return nil
-}
-
-// MergeData 合併資料
-func (this *VerifyDataReader) MergeData(data []byte) error {
+func (this *VerifyDataReader) FromData(data []byte, clear bool) error {
 	tmpl := map[int32]*VerifyData{}
 
 	if err := json.Unmarshal(data, &tmpl); err != nil {
-		return fmt.Errorf("merge data: %w", err)
+		return fmt.Errorf("from data: %w", err)
 	} // if
 
-	if this.Data == nil {
+	if clear || this.Data == nil {
 		this.Data = map[int32]*VerifyData{}
 	} // if
 
 	for k, v := range tmpl {
 		if _, ok := this.Data[k]; ok {
-			return fmt.Errorf("merge data: key duplicate")
+			return fmt.Errorf("from data: key duplicate")
 		} // if
 
 		this.Data[k] = v
