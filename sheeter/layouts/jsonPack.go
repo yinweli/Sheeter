@@ -2,6 +2,7 @@ package layouts
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/yinweli/Sheeter/v2/sheeter/excels"
 	"github.com/yinweli/Sheeter/v2/sheeter/utils"
@@ -14,6 +15,7 @@ func JsonPack(tag string, lineOfData int, sheet *excels.Sheet, layout *Layout) (
 	} // if
 
 	data := map[string]interface{}{}
+	fail := strings.Builder{}
 
 	for ok := true; ok; ok = sheet.Next() {
 		line, _ := sheet.Data()
@@ -25,7 +27,8 @@ func JsonPack(tag string, lineOfData int, sheet *excels.Sheet, layout *Layout) (
 		pack, pkey, err := layout.Pack(tag, line)
 
 		if err != nil {
-			return nil, fmt.Errorf("json pack: line(%v): %w", sheet.Line(), err)
+			fail.WriteString(fmt.Sprintf("    line(%v): %v\n", sheet.Line(), err))
+			continue
 		} // if
 
 		if pack == nil {
@@ -33,11 +36,23 @@ func JsonPack(tag string, lineOfData int, sheet *excels.Sheet, layout *Layout) (
 		} // if
 
 		if pkey == nil {
-			return nil, fmt.Errorf("json pack: line(%v): pkey nil", sheet.Line())
+			fail.WriteString(fmt.Sprintf("    line(%v): pkey nil\n", sheet.Line()))
+			continue
 		} // if
 
-		data[fmt.Sprintf("%v", pkey)] = pack
+		key := fmt.Sprintf("%v", pkey)
+
+		if _, duplicate := data[key]; duplicate {
+			fail.WriteString(fmt.Sprintf("    line(%v): pkey duplicate: %v\n", sheet.Line(), key))
+			continue
+		} // if
+
+		data[key] = pack
 	} // for
+
+	if fail.Len() > 0 {
+		return nil, fmt.Errorf("json pack:\n%v", fail.String())
+	} // if
 
 	if result, err = utils.JsonMarshal(data); err != nil {
 		return nil, fmt.Errorf("json pack: %w", err)

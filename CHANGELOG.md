@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
+## [2.3.1] - 2024-01-10
+### Added
+- 新增重複索引檢查
+
 ## [2.3.0] - 2023-12-11
 ### Added
 - 新增多表合一功能

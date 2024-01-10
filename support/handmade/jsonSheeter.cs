@@ -24,10 +24,7 @@ namespace Sheeter
             var result = true;
             var index = 0;
 
-            foreach (var itor in new Reader[] {
-                this.Alone0,
-                this.Alone1,
-            })
+            foreach (var itor in new Reader[] { this.Alone0, this.Alone1, })
             {
                 var filename = itor.FileName();
                 var data = loader.Load(filename);
@@ -46,11 +43,7 @@ namespace Sheeter
 
             index = 0;
 
-            foreach (var itor in new Reader[]
-            {
-                this.Alone0,
-                this.Alone1,
-            })
+            foreach (var itor in new Reader[] { this.Alone0, this.Alone1, })
             {
                 var filename = itor.FileName();
                 var data = loader.Load(filename);
@@ -71,11 +64,7 @@ namespace Sheeter
 
             index = 0;
 
-            foreach (var itor in new Reader[]
-            {
-                this.Alone0,
-                this.Alone1,
-            })
+            foreach (var itor in new Reader[] { this.Alone0, this.Alone1, })
             {
                 var filename = itor.FileName();
                 var data = loader.Load(filename);
