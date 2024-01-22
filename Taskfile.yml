@@ -32,6 +32,13 @@ tasks:
     cmds:
       - go test ./... -bench=. -benchmem
 
+  # 編譯操作手冊
+  manual:
+    cmds:
+      - npm install -g markdown-pdf
+      - markdown-pdf README.md -s doc/css/hackmd.css -o .runtime/README.pdf
+      - markdown-pdf README-DESIGNER.md -s doc/css/hackmd.css -o .runtime/README-DESIGNER.pdf
+
   # 安裝工具
   install:
     ignore_error: true
