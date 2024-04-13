@@ -50,15 +50,15 @@
 在專案的`support/example`目錄中, 您可以找到範例文件及其相應的目錄  
 以下表格詳細說明了每個目錄/檔案的用途
 
-| 目錄/檔案          | 說明                              |
-|:-------------------|:----------------------------------|
-| config.yaml        | 提供範例的設定檔案                |
-| excel/example.xlsx | 包含範例數據的excel檔案           |
-| sheet/codeCs       | 包含由sheeter產生的c#版本程式碼   |
-| sheet/codeGo       | 包含由sheeter產生的go版本程式碼   |
-| sheet/json         | 包含由excel轉換產生的JSON資料檔案 |
-| code/example.cs    | 可用於示範的c#版本程式碼          |
-| code/example.go    | 可用於示範的go版本程式碼          |
+| 目錄/檔案            | 說明                              |
+|:---------------------|:----------------------------------|
+| config.yaml          | 提供範例的設定檔案                |
+| excel/example.xlsx   | 包含範例數據的excel檔案           |
+| sheet/codeCs         | 包含由sheeter產生的c#版本程式碼   |
+| sheet/codeGo         | 包含由sheeter產生的go版本程式碼   |
+| sheet/json           | 包含由excel轉換產生的JSON資料檔案 |
+| code/example.cs.code | 用於示範的c#版本程式碼            |
+| code/example.go.code | 用於示範的go版本程式碼            |
 
 # 命令說明
 [sheeter]工具提供了多個命令和旗標, 這些功能使您能夠更靈活地控制文件的轉換過程  
