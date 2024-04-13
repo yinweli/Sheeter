@@ -1,0 +1,48 @@
+name: build
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        go: [1.20.x]
+        include:
+          - os: ubuntu-latest
+            artifacts-name: 'linux-amd64'
+            goos: 'linux'
+            goarch: 'amd64'
+          - os: macos-latest
+            artifacts-name: 'darwin-amd64'
+            goos: 'darwin'
+            goarch: 'amd64'
+          - os: windows-latest
+            artifacts-name: 'windows-amd64'
+            goos: 'windows'
+            goarch: 'amd64'
+    name: build
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v4
+    - name: setup go ${{ matrix.go }}
+      uses: actions/setup-go@v4
+      with:
+        go-version: ${{ matrix.go }}
+    - name: build
+      shell: bash
+      run: |
+        env GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
+        cp README.md ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/
+        cp support/example/config.yaml ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/
+        mkdir -p ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/excel
+        cp support/example/excel/example.xlsx ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/excel/
+    - name: archive production artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ matrix.artifacts-name }}
+        path: ${{ github.workspace }}/release/${{ matrix.artifacts-name }}
