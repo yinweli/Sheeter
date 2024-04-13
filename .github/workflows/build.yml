@@ -36,13 +36,24 @@ jobs:
     - name: build
       shell: bash
       run: |
-        env GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
-        cp README.md ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/
-        cp support/example/config.yaml ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/
+        mkdir -p ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
+        env GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter -ldflags="-s -w" cmd/sheeter/*.go
         mkdir -p ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/excel
-        cp support/example/excel/example.xlsx ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/excel/
-    - name: archive production artifacts
-      uses: actions/upload-artifact@v4
+        cp README.md ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
+        cp support/example/config.yaml ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
+        cp support/example/excel/example.xlsx ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/excel
+        # Compress the output directory
+        if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+          7z a -tzip ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter-${{ matrix.artifacts-name }}.zip ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/*
+        else
+          tar -czf ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter-${{ matrix.artifacts-name }}.tar.gz -C ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter .
+        fi
+    - name: release
+      uses: softprops/action-gh-release@v2
       with:
-        name: ${{ matrix.artifacts-name }}
-        path: ${{ github.workspace }}/release/${{ matrix.artifacts-name }}
+        files: | 
+          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
+            ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter-${{ matrix.artifacts-name }}.zip
+          else
+            ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter-${{ matrix.artifacts-name }}.tar.gz
+          fi
