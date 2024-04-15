@@ -36,15 +36,16 @@ jobs:
     - name: build
       shell: bash
       run: |
-        mkdir -p ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
-        env GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter -ldflags="-s -w" cmd/sheeter/*.go
         mkdir -p ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/excel
+        env GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter -ldflags="-s -w" cmd/sheeter/*.go
         cp README.md ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
         cp support/example/config.yaml ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
+        cp support/example/sheeter.bat ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
+        cp support/example/sheeter.sh ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
         cp support/example/excel/example.xlsx ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/excel
         # Compress the output directory
         if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-          7z a -tzip ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter-${{ matrix.artifacts-name }}.zip ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/*
+          7z a -tzip ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter-${{ matrix.artifacts-name }}.zip ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/*
         else
           tar -czf ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter-${{ matrix.artifacts-name }}.tar.gz -C ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter .
         fi
