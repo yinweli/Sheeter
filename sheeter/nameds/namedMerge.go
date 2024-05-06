@@ -20,14 +20,14 @@ func (this *Merge) StructName() string {
 
 // StructNote 取得結構說明
 func (this *Merge) StructNote() string {
-	max := len(this.Member) - 1
+	maximum := len(this.Member) - 1
 	builder := strings.Builder{}
 	builder.WriteString("merge by ")
 
 	for i, itor := range this.Member {
 		builder.WriteString(fmt.Sprintf("%v#%v", itor.ExcelName, itor.SheetName))
 
-		if i < max {
+		if i < maximum {
 			builder.WriteString(", ")
 		} // if
 	} // for
