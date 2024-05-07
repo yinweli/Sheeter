@@ -35,9 +35,9 @@ tasks:
   # 編譯操作手冊
   manual:
     cmds:
-      - npm install -g markdown-pdf
-      - markdown-pdf README.md -s doc/css/hackmd.css -o .runtime/README.pdf
-      - markdown-pdf README-DESIGNER.md -s doc/css/hackmd.css -o .runtime/README-DESIGNER.pdf
+      - npm install mdpdf -g
+      - rm -f README.pdf
+      - mdpdf README.md README.pdf
 
   # 安裝工具
   install:

@@ -1,6 +1,7 @@
 // 以下是驗證程式碼, 不可使用
 // using區段可能與實際使用的不一致, 要注意
 
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Sheeter
