@@ -11,7 +11,6 @@ namespace Sheeter
         public Sheeter(Loader loader)
         {
             this.loader = loader;
-            this.reader = new List<Reader>() { this.VerifyData, };
         }
 
         /// <summary>
@@ -24,7 +23,9 @@ namespace Sheeter
 
             var result = true;
 
-            foreach (var itor in reader)
+            foreach (var itor in new Reader[] {
+                this.ExampleData,
+            })
             {
                 var filename = itor.FileName();
                 var data = loader.Load(filename);
@@ -32,37 +33,7 @@ namespace Sheeter
                 if (data == null || data.Length == 0)
                     continue;
 
-                var error = itor.FromData(data);
-
-                if (error.Length != 0)
-                {
-                    result = false;
-                    loader.Error(filename.File, error);
-                } // if
-            } // for
-
-            return result;
-        }
-
-        /// <summary>
-        /// 合併資料處理
-        /// </summary>
-        public bool MergeData()
-        {
-            if (loader == null)
-                return false;
-
-            var result = true;
-
-            foreach (var itor in reader)
-            {
-                var filename = itor.FileName();
-                var data = loader.Load(filename);
-
-                if (data == null || data.Length == 0)
-                    continue;
-
-                var error = itor.MergeData(data);
+                var error = itor.FromData(data, true);
 
                 if (error.Length != 0)
                 {
@@ -79,24 +50,17 @@ namespace Sheeter
         /// </summary>
         public void Clear()
         {
-            foreach (var itor in reader)
-                itor.Clear();
+            this.ExampleData.Clear();
         }
 
         /// <summary>
         /// 裝載器物件
         /// </summary>
         private readonly Loader loader;
-
         /// <summary>
-        /// 讀取器列表
+        /// example.xlsx#Data
         /// </summary>
-        private readonly List<Reader> reader;
-
-        /// <summary>
-        /// verify.xlsx # Data
-        /// </summary>
-        public readonly VerifyDataReader VerifyData = new VerifyDataReader();
+        public readonly ExampleDataReader ExampleData = new ExampleDataReader();
     }
 
     /// <summary>
@@ -128,12 +92,7 @@ namespace Sheeter
         /// <summary>
         /// 讀取資料
         /// </summary>
-        public string FromData(string data);
-
-        /// <summary>
-        /// 合併資料
-        /// </summary>
-        public string MergeData(string data);
+        public string FromData(string data, bool clear);
 
         /// <summary>
         /// 清除資料

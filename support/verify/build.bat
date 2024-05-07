@@ -1,3 +1,4 @@
+@echo off
 copy ..\..\bin\sheeter.exe .\
 rmdir /s /q codeCs
 rmdir /s /q codeGo

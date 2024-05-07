@@ -163,7 +163,9 @@ namespace {{$.Namespace | $.FirstUpper}}
                 return false;
 
             var result = true;
+{{- if .Merge}}
             var index = 0;
+{{- end}}
 
             foreach (var itor in new Reader[] {
 {{- range $.Alone}}
@@ -209,6 +211,8 @@ namespace {{$.Namespace | $.FirstUpper}}
                     result = false;
                     loader.Error("{{.StructName}}", error);
                 } // if
+
+                index++;
 	        } // for
 {{- end}}
 

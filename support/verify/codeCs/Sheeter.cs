@@ -58,6 +58,8 @@ namespace Sheeter
                     result = false;
                     loader.Error("MergeData", error);
                 } // if
+
+                index++;
             } // for
 
             return result;

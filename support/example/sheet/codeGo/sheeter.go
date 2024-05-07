@@ -7,17 +7,13 @@ package sheeter
 func NewSheeter(loader Loader) *Sheeter {
 	sheeter := &Sheeter{}
 	sheeter.loader = loader
-	sheeter.reader = []Reader{
-		&sheeter.VerifyData,
-	}
 	return sheeter
 }
 
 // Sheeter 表格資料
 type Sheeter struct {
-	loader     Loader           // 裝載器物件
-	reader     []Reader         // 讀取器列表
-	VerifyData VerifyDataReader // verify.xlsx # Data
+	loader Loader // 裝載器物件
+	ExampleData ExampleDataReader // example.xlsx#Data
 }
 
 // FromData 讀取資料處理
@@ -28,7 +24,9 @@ func (this *Sheeter) FromData() bool {
 
 	result := true
 
-	for _, itor := range this.reader {
+	for _, itor := range []Reader{
+		&this.ExampleData,
+	} {
 		filename := itor.FileName()
 		data := this.loader.Load(filename)
 
@@ -36,32 +34,7 @@ func (this *Sheeter) FromData() bool {
 			continue
 		} // if
 
-		if err := itor.FromData(data); err != nil {
-			result = false
-			this.loader.Error(filename.File(), err)
-		} // if
-	} // for
-
-	return result
-}
-
-// MergeData 合併資料處理
-func (this *Sheeter) MergeData() bool {
-	if this.loader == nil {
-		return false
-	} // if
-
-	result := true
-
-	for _, itor := range this.reader {
-		filename := itor.FileName()
-		data := this.loader.Load(filename)
-
-		if data == nil || len(data) == 0 {
-			continue
-		} // if
-
-		if err := itor.MergeData(data); err != nil {
+		if err := itor.FromData(data, true); err != nil {
 			result = false
 			this.loader.Error(filename.File(), err)
 		} // if
@@ -72,9 +45,7 @@ func (this *Sheeter) MergeData() bool {
 
 // Clear 清除資料
 func (this *Sheeter) Clear() {
-	for _, itor := range this.reader {
-		itor.Clear()
-	} // for
+	this.ExampleData.Clear()
 }
 
 // Loader 裝載器介面
@@ -92,10 +63,7 @@ type Reader interface {
 	FileName() FileName
 
 	// FromData 讀取資料
-	FromData(data []byte) error
-
-	// MergeData 合併資料
-	MergeData(data []byte) error
+	FromData(data []byte, clear bool) error
 
 	// Clear 清除資料
 	Clear()
