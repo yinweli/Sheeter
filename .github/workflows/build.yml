@@ -40,8 +40,7 @@ jobs:
         env GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter -ldflags="-s -w" cmd/sheeter/*.go
         cp README.md ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
         cp support/example/config.yaml ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
-        cp support/example/sheeter.bat ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
-        cp support/example/sheeter.sh ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
+        cp support/example/build.bat ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
         cp support/example/excel/example.xlsx ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/excel
         # Compress the output directory
         if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
