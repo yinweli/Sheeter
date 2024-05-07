@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
+## [2.3.3] - 2024-05-07
+### Fixed
+- 修正cs檔案語法錯誤
+
 ## [2.3.2] - 2024-04-15
 ### Added
 - 現在會自動產生安裝包

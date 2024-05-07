@@ -2,6 +2,7 @@ package tmpls
 
 // ReaderCs json讀取器cs語言模板
 var ReaderCs = Header + `
+using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace {{$.Namespace | $.FirstUpper}}
