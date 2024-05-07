@@ -1,5 +1,5 @@
 source:
-  - example.xlsx
+  - excel\example.xlsx
 output: sheet
 tag: B
 autoKey: true
