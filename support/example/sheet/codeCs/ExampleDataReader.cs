@@ -20,21 +20,25 @@ namespace Sheeter
         /// </summary>
         [JsonProperty("Name1")]
         public int Name1 { get; set; }
+
         /// <summary>
         /// note2
         /// </summary>
         [JsonProperty("Name2")]
         public int Name2 { get; set; }
+
         /// <summary>
         /// note3
         /// </summary>
         [JsonProperty("Name3")]
         public int Name3 { get; set; }
+
         /// <summary>
         /// note4
         /// </summary>
         [JsonProperty("Name4")]
         public int Name4 { get; set; }
+
         /// <summary>
         /// pkey
         /// </summary>

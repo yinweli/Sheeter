@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
+## [2.3.5] - 2024-05-24
+### Fixed
+- 優化多表合一語法
+
 ## [2.3.4] - 2024-05-07
 ### Fixed
 - 修正多表合一語法錯誤

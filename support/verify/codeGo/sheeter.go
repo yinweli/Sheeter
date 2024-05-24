@@ -40,6 +40,7 @@ func (this *Sheeter) FromData() bool {
 			this.loader.Error(filename.File(), err)
 		} // if
 	} // for
+
 	for i, itor := range []Reader{
 		&this.VerifyData,
 	} {

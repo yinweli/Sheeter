@@ -12,7 +12,7 @@ func NewSheeter(loader Loader) *Sheeter {
 
 // Sheeter 表格資料
 type Sheeter struct {
-	loader Loader // 裝載器物件
+	loader      Loader            // 裝載器物件
 	ExampleData ExampleDataReader // example.xlsx#Data
 }
 
