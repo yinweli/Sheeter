@@ -14,7 +14,7 @@ type ExampleData struct {
 	Name2 int32 `json:"Name2"` // note2
 	Name3 int32 `json:"Name3"` // note3
 	Name4 int32 `json:"Name4"` // note4
-	Pkey int32 `json:"Pkey"` // pkey
+	Pkey  int32 `json:"Pkey"`  // pkey
 }
 
 // ExampleDataReader example.xlsx#Data

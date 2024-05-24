@@ -140,7 +140,7 @@ namespace {{$.Namespace | $.FirstUpper}}
 }
 `
 
-// SheeterCs json表格器go語言模板
+// SheeterCs json表格器cs語言模板
 var SheeterCs = Header + `
 namespace {{$.Namespace | $.FirstUpper}}
 {

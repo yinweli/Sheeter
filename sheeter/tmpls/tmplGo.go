@@ -143,7 +143,7 @@ func (this *Sheeter) FromData() bool {
 			this.loader.Error(filename.File(), err)
 		} // if
 	} // for
-
+{{""}}
 {{- range $.Merge}}
 	for i, itor := range []Reader{
 {{- range $name := .MemberName}}
