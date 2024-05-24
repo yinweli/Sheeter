@@ -16,24 +16,24 @@ jobs:
     name: ${{ matrix.os }} | go ${{ matrix.go }} | proto ${{ matrix.proto }}
     runs-on: ${{ matrix.os }}
     steps:
-    - name: checkout
-      uses: actions/checkout@v4
-    - name: setup go ${{ matrix.go }}
-      uses: actions/setup-go@v4
-      with:
-        go-version: ${{ matrix.go }}
-    - name: setup protoc
-      uses: arduino/setup-protoc@v1
-      with:
-        version: ${{ matrix.proto }}
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-    - name: setup protoc-go
-      run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-    - name: test
-      run: go test -coverprofile=coverage.txt -covermode=atomic ./...
-    - name: upload coverage to Codecov
-      uses: codecov/codecov-action@v4
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-      with:
-        fail_ci_if_error: true
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: setup go ${{ matrix.go }}
+        uses: actions/setup-go@v4
+        with:
+          go-version: ${{ matrix.go }}
+      - name: setup protoc
+        uses: arduino/setup-protoc@v1
+        with:
+          version: ${{ matrix.proto }}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: setup protoc-go
+        run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+      - name: test
+        run: go test -coverprofile=coverage.txt -covermode=atomic ./...
+      - name: upload coverage to Codecov
+        uses: codecov/codecov-action@v4
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          fail_ci_if_error: true

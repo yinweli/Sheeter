@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 
 tasks:
   # 進行程式碼檢查
@@ -8,6 +8,7 @@ tasks:
       - task: install
       - task: fmt-sheeter
       - task: fmt-cs
+      - task: fmt-yaml
       - task: lint-sheeter
 
   fmt-sheeter:
@@ -17,6 +18,10 @@ tasks:
   fmt-cs:
     cmds:
       - dotnet csharpier .
+
+  fmt-yaml:
+    cmds:
+      - npx prettier --write "*.yaml" "*.yml" "**/*.yaml" "**/*.yml"
 
   lint-sheeter:
     cmds:
@@ -43,5 +48,6 @@ tasks:
   install:
     ignore_error: true
     cmds:
-      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest # 安裝lint
       - dotnet tool install csharpier -g # 安裝cs格式化工具
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest # 安裝lint
+      - npm install -g prettier # 安裝yaml格式化工具
