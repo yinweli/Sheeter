@@ -29,12 +29,12 @@ func execute(cmd *cobra.Command, _ []string) {
 	config := &builds.Config{}
 
 	if err := config.Initialize(cmd); err != nil {
-		cmd.Println(fmt.Errorf("build: %w", err))
+		cmd.PrintErrln(fmt.Errorf("build: %w", err))
 		return
 	} // if
 
 	if err := config.Check(); err != nil {
-		cmd.Println(fmt.Errorf("build: %w", err))
+		cmd.PrintErrln(fmt.Errorf("build: %w", err))
 		return
 	} // if
 
@@ -42,7 +42,7 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if len(err) > 0 {
 		for _, itor := range err {
-			cmd.Println(fmt.Errorf("build: %w", itor))
+			cmd.PrintErrln(fmt.Errorf("build: %w", itor))
 		} // for
 
 		return
@@ -52,7 +52,7 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if len(err) > 0 {
 		for _, itor := range err {
-			cmd.Println(fmt.Errorf("build: %w", itor))
+			cmd.PrintErrln(fmt.Errorf("build: %w", itor))
 		} // for
 
 		return
@@ -62,7 +62,7 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if len(err) > 0 {
 		for _, itor := range err {
-			cmd.Println(fmt.Errorf("build: %w", itor))
+			cmd.PrintErrln(fmt.Errorf("build: %w", itor))
 		} // for
 
 		return
