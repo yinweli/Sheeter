@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 針對單元測試新增goleak來測試是否有gorourtine洩漏
 
 ## [Unrelease]
+
 ## [2.3.11] - 2024-08-14
 ### Fixed
 - 修正錯誤輸出
