@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 針對單元測試新增goleak來測試是否有gorourtine洩漏
 
 ## [Unrelease]
+## [2.3.9] - 2024-08-14
+### Changed
+- 讓建置Action等待其他測試Action完成後才啟動
+
 ## [2.3.8] - 2024-08-14
 ### Changed
 - 標準輸出物件增加顏色功能
