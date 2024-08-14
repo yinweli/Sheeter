@@ -1,7 +1,6 @@
 package build
 
 import (
-	"fmt"
 	"time"
 
 	"github.com/hako/durafmt"
@@ -9,6 +8,7 @@ import (
 
 	"github.com/yinweli/Sheeter/v2/sheeter/builds"
 	"github.com/yinweli/Sheeter/v2/sheeter/excels"
+	"github.com/yinweli/Sheeter/v2/sheeter/utils"
 )
 
 // NewCommand 建立命令物件
@@ -25,16 +25,17 @@ func NewCommand() *cobra.Command {
 
 // execute 執行命令
 func execute(cmd *cobra.Command, _ []string) {
+	stdColor := utils.NewStdColor(cmd.OutOrStdout(), cmd.ErrOrStderr())
 	startTime := time.Now()
 	config := &builds.Config{}
 
 	if err := config.Initialize(cmd); err != nil {
-		cmd.PrintErrln(fmt.Errorf("build: %w", err))
+		stdColor.Err("build: %v", err)
 		return
 	} // if
 
 	if err := config.Check(); err != nil {
-		cmd.PrintErrln(fmt.Errorf("build: %w", err))
+		stdColor.Err("build: %v", err)
 		return
 	} // if
 
@@ -42,7 +43,7 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if len(err) > 0 {
 		for _, itor := range err {
-			cmd.PrintErrln(fmt.Errorf("build: %w", itor))
+			stdColor.Err("build: %v", itor)
 		} // for
 
 		return
@@ -52,7 +53,7 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if len(err) > 0 {
 		for _, itor := range err {
-			cmd.PrintErrln(fmt.Errorf("build: %w", itor))
+			stdColor.Err("build: %v", itor)
 		} // for
 
 		return
@@ -62,12 +63,12 @@ func execute(cmd *cobra.Command, _ []string) {
 
 	if len(err) > 0 {
 		for _, itor := range err {
-			cmd.PrintErrln(fmt.Errorf("build: %w", itor))
+			stdColor.Err("build: %v", itor)
 		} // for
 
 		return
 	} // if
 
 	excels.CloseAll() // 最後關閉所有開啟的excel, sheet
-	cmd.Printf("usage time=%v\n", durafmt.Parse(time.Since(startTime)))
+	stdColor.Out("Done! usage time=%v", durafmt.Parse(time.Since(startTime)))
 }
