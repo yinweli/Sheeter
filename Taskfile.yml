@@ -1,38 +1,40 @@
 version: "3"
 
 tasks:
-  # 進行程式碼檢查
+  # 程式碼格式化
   lint:
-    ignore_error: true
     cmds:
-      - task: install
       - task: fmt-sheeter
       - task: fmt-cs
       - task: fmt-yaml
       - task: lint-sheeter
 
   fmt-sheeter:
+    ignore_error: true
     cmds:
       - gofmt -s -w -l .
 
   fmt-cs:
+    ignore_error: true
     cmds:
       - dotnet csharpier .
 
   fmt-yaml:
+    ignore_error: true
     cmds:
       - npx prettier --write "*.yaml" "*.yml" "**/*.yaml" "**/*.yml"
 
   lint-sheeter:
+    ignore_error: true
     cmds:
       - golangci-lint -v run
 
-  # 進行程式碼測試
+  # 單元測試
   test:
     cmds:
       - go test ./... -cover
 
-  # 進行效能測試
+  # 效能測試
   bench:
     cmds:
       - go test ./... -bench=. -benchmem
