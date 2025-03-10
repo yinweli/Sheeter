@@ -23,7 +23,7 @@ namespace Sheeter
 
             var result = true;
 
-            foreach (var itor in new Reader[] { this.ExampleData, })
+            foreach (var itor in new Reader[] { this.ExampleData })
             {
                 var filename = itor.FileName();
                 var data = loader.Load(filename);

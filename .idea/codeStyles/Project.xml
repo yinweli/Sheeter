@@ -12,6 +12,7 @@
           </prefixes>
         </value>
       </option>
+      <option name="RUN_GO_FMT_ON_REFORMAT" value="false" />
       <option name="MOVE_ALL_IMPORTS_IN_ONE_DECLARATION" value="true" />
       <option name="MOVE_ALL_STDLIB_IMPORTS_IN_ONE_GROUP" value="true" />
       <option name="GROUP_STDLIB_IMPORTS" value="true" />
