@@ -1,6 +1,7 @@
 ![license](https://img.shields.io/github/license/yinweli/Sheeter)
 ![lint](https://github.com/yinweli/Sheeter/actions/workflows/lint.yml/badge.svg)
 ![test](https://github.com/yinweli/Sheeter/actions/workflows/test.yml/badge.svg)
+![test](https://github.com/yinweli/Sheeter/actions/workflows/build.yml/badge.svg)
 ![codecov](https://codecov.io/gh/yinweli/Sheeter/branch/main/graph/badge.svg?token=LK5HL58LSN)
 
 # Sheeter
