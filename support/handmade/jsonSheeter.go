@@ -33,7 +33,7 @@ func (this *Sheeter) FromData() bool {
 		filename := itor.FileName()
 		data := this.loader.Load(filename)
 
-		if data == nil || len(data) == 0 {
+		if len(data) == 0 {
 			continue
 		} // if
 
@@ -50,7 +50,7 @@ func (this *Sheeter) FromData() bool {
 		filename := itor.FileName()
 		data := this.loader.Load(filename)
 
-		if data == nil || len(data) == 0 {
+		if len(data) == 0 {
 			continue
 		} // if
 
@@ -67,7 +67,7 @@ func (this *Sheeter) FromData() bool {
 		filename := itor.FileName()
 		data := this.loader.Load(filename)
 
-		if data == nil || len(data) == 0 {
+		if len(data) == 0 {
 			continue
 		} // if
 
