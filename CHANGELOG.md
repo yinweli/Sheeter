@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
+## [2.3.12] - 2025-03-10
+### Changed
+- 改善 sheeter.cs / sheeter.go 程式碼中的表單物件排序方式為字典順序
+
 ## [2.3.11] - 2024-08-14
 ### Fixed
 - 修正錯誤輸出

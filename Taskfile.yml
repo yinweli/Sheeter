@@ -27,7 +27,7 @@ tasks:
   lint-sheeter:
     ignore_error: true
     cmds:
-      - golangci-lint -v run
+      - golangci-lint run --color always
 
   # 單元測試
   test:

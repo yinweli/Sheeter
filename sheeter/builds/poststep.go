@@ -37,12 +37,7 @@ func Poststep(config *Config, input []*InitializeData) (file []any, err []error)
 	sort.Slice(material.Alone, func(l, r int) bool { // 經過排序後讓產生程式碼時能夠更加一致
 		lhs := material.Alone[l]
 		rhs := material.Alone[r]
-
-		if lhs.ExcelName == rhs.ExcelName {
-			return lhs.SheetName < rhs.SheetName
-		} // if
-
-		return lhs.ExcelName < rhs.ExcelName
+		return lhs.ReaderName() < rhs.ReaderName()
 	})
 
 	for _, itor := range config.Merged() {
