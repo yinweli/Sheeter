@@ -141,7 +141,7 @@ func (this *SuiteConvert) TestStrToFloat32() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), float32(0), value)
 
-	_, err = StrToFloat64(testdata.Unknown)
+	_, err = StrToFloat32(testdata.Unknown)
 	assert.NotNil(this.T(), err)
 }
 
