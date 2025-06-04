@@ -115,7 +115,7 @@ func (this *SuiteConvert) TestStrToInt64() {
 	assert.Nil(this.T(), err)
 	assert.Equal(this.T(), int64(0), value)
 
-	_, err = StrToInt32(testdata.Unknown)
+	_, err = StrToInt64(testdata.Unknown)
 	assert.NotNil(this.T(), err)
 }
 
