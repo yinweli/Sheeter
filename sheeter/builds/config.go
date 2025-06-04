@@ -247,7 +247,7 @@ func SetFlag(cmd *cobra.Command) *cobra.Command {
 	flag.StringSlice(flagExclude, []string{}, "exclude list, example: excel#sheet,...")
 	flag.String(flagOutput, "", "output path")
 	flag.String(flagTag, "", "tag that determines the columns to be output")
-	flag.Bool(flagAutoKey, false, "automatically select the second column as an key")
+	flag.Bool(flagAutoKey, false, "automatically select the second column as a key")
 	flag.Int(flagLineOfTag, 0, "line of tag")
 	flag.Int(flagLineOfName, 0, "line of name")
 	flag.Int(flagLineOfNote, 0, "line of note")
