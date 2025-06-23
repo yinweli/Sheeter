@@ -17,7 +17,7 @@ tasks:
   fmt-cs:
     ignore_error: true
     cmds:
-      - dotnet csharpier .
+      - csharpier format .
 
   fmt-yaml:
     ignore_error: true
