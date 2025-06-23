@@ -47,8 +47,15 @@ func SnakeToCamel(input string) string {
 
 // AllSame 檢查字串是否由相同字元組成
 func AllSame(input string) bool {
-	for _, itor := range input {
-		if itor != int32(input[0]) {
+	first := rune(0)
+
+	for i, itor := range input {
+		if i == 0 {
+			first = itor
+			continue
+		} // if
+
+		if itor != first {
 			return false
 		} // if
 	} // for

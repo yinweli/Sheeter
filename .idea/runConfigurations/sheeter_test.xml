@@ -1,13 +1,19 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="sheeter test" type="GoTestRunConfiguration" factoryName="Go Test" singleton="false">
-    <module name="Sheeter" />
-    <working_directory value="$PROJECT_DIR$" />
-    <go_parameters value="-i" />
-    <kind value="DIRECTORY" />
-    <package value="github.com/yinweli/Sheeter/v2" />
-    <directory value="$PROJECT_DIR$" />
-    <filePath value="$PROJECT_DIR$" />
-    <framework value="gotest" />
-    <method v="2" />
-  </configuration>
+    <configuration
+        default="false"
+        name="sheeter test"
+        type="GoTestRunConfiguration"
+        factoryName="Go Test"
+        singleton="false"
+    >
+        <module name="Sheeter" />
+        <working_directory value="$PROJECT_DIR$" />
+        <go_parameters value="-i" />
+        <kind value="DIRECTORY" />
+        <package value="github.com/yinweli/Sheeter/v2" />
+        <directory value="$PROJECT_DIR$" />
+        <filePath value="$PROJECT_DIR$" />
+        <framework value="gotest" />
+        <method v="2" />
+    </configuration>
 </component>

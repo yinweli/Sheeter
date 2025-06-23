@@ -56,6 +56,8 @@ func (this *SuiteString) TestAllSame() {
 	assert.Equal(this.T(), true, AllSame(""))
 	assert.Equal(this.T(), true, AllSame("aaaaa"))
 	assert.Equal(this.T(), false, AllSame("aa1aa"))
+	assert.Equal(this.T(), true, AllSame("好好好"))
+	assert.Equal(this.T(), false, AllSame("好不好"))
 }
 
 func (this *SuiteString) TestCombine() {
