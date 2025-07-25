@@ -40,7 +40,7 @@ func (this *{{$.ReaderName}}) FromData(data []byte, clear bool) error {
 
 	for k, v := range tmpl {
 		if _, ok := this.Data[k]; ok {
-			return fmt.Errorf("from data: key duplicate")
+			return fmt.Errorf("from data: key duplicate [{{$.JsonName}} : %v]", k)
 		} // if
 
 		this.Data[k] = v

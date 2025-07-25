@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unrelease]
 
+## [2.3.14] - 2025-07-25
+### Changed
+- 改善讀取器的錯誤訊息
+
 ## [2.3.13] - 2025-03-10
 ### Fixed
 - 修正排序

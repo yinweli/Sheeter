@@ -39,13 +39,6 @@ tasks:
     cmds:
       - go test ./... -bench=. -benchmem
 
-  # 編譯操作手冊
-  manual:
-    cmds:
-      - npm install mdpdf -g
-      - rm -f README.pdf
-      - mdpdf README.md README.pdf
-
   # 安裝工具
   install:
     ignore_error: true

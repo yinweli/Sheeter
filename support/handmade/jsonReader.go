@@ -49,7 +49,7 @@ func (this *HandmadeReader) FromData(data []byte, clear bool) error {
 
 	for k, v := range tmpl {
 		if _, ok := this.Data[k]; ok {
-			return fmt.Errorf("from data: key duplicate")
+			return fmt.Errorf("from data: key duplicate [handmade : %v]", k)
 		} // if
 
 		this.Data[k] = v
