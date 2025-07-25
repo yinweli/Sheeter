@@ -84,7 +84,7 @@ namespace Sheeter
             foreach (var itor in tmpl)
             {
                 if (Data.ContainsKey(itor.Key))
-                    return "from data: key duplicate";
+                    return "from data: key duplicate [verifyData : " + itor.Key + "]";
 
                 Data[itor.Key] = itor.Value;
             } // for
