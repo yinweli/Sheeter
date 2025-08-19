@@ -34,7 +34,7 @@ func combine(p *param) string {
 		excel = utils.FirstLower(excel)
 	} // if
 
-	name := strings.Builder{}
+	name := &strings.Builder{}
 	name.WriteString(excel)
 	name.WriteString(sheet)
 	name.WriteString(p.last)
