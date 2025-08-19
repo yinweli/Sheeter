@@ -28,19 +28,22 @@ func (this *SuitePipeline) TearDownSuite() {
 }
 
 func (this *SuitePipeline) TestPipeline() {
-	result, err := Pipeline[int]("name", []int{0, 1}, []PipelineFunc[int]{
-		func(material int, result chan any) error {
-			result <- material
-			return nil
+	result, err := Pipeline[int]("name1", []int{0, 1}, []Execute[int]{
+		func(material int) Output {
+			return Output{
+				Result: []any{material},
+			}
 		},
-		func(material int, result chan any) error {
-			return fmt.Errorf("err")
+		func(material int) Output {
+			return Output{
+				Error: fmt.Errorf("error"),
+			}
 		},
 	})
 	assert.Len(this.T(), result, 2)
 	assert.Len(this.T(), err, 2)
 
-	result, err = Pipeline[int]("name", []int{}, []PipelineFunc[int]{})
+	result, err = Pipeline[int]("name2", nil, nil)
 	assert.Empty(this.T(), result)
 	assert.Empty(this.T(), err)
 }

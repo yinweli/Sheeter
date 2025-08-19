@@ -3,7 +3,6 @@ package pipelines
 import (
 	"fmt"
 	"sync"
-	"time"
 
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
@@ -11,16 +10,14 @@ import (
 	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
-// PipelineFunc 管線執行函式類型
-type PipelineFunc[T any] func(material T, result chan any) error
-
 // Pipeline 管線執行
-func Pipeline[T any](name string, material []T, pipeline []PipelineFunc[T]) (result []any, err []error) {
-	if len(material) == 0 || len(pipeline) == 0 {
-		return []any{}, []error{}
+func Pipeline[T any](name string, material []T, execute []Execute[T]) (result []any, err []error) {
+	count := len(material) * len(execute)
+
+	if count <= 0 {
+		return nil, nil
 	} // if
 
-	count := len(material) * len(pipeline)
 	waitGroup := &sync.WaitGroup{}
 	waitGroup.Add(count)
 	progress := mpb.New(mpb.WithWidth(sheeter.BarWidth), mpb.WithWaitGroup(waitGroup))
@@ -33,23 +30,21 @@ func Pipeline[T any](name string, material []T, pipeline []PipelineFunc[T]) (res
 			decor.OnComplete(decor.Spinner(nil), "complete"),
 		),
 	)
-	output := make(chan any, count)
+	output := make(chan Output, count)
 
 	for _, itor := range material {
 		temp := itor // 多執行緒需要使用中間變數
 
 		go func() {
-			wrong := false
+			succ := true
 
-			for _, f := range pipeline {
-				if wrong == false { // 如果管線中有執行失敗, 則就不能再執行下去
-					if err := f(temp, output); err != nil {
-						output <- err
-						wrong = true
-					} // if
+			for _, exec := range execute {
+				if succ { // 如果管線中有執行失敗, 則就不能再執行下去
+					o := exec(temp)
+					succ = o.Error == nil
+					output <- o
 				} // if
 
-				time.Sleep(time.Millisecond) // 用來預防資料來不及添加到結果/錯誤列表中
 				waitGroup.Done()
 				progressbar.Increment()
 			} // for
@@ -57,24 +52,27 @@ func Pipeline[T any](name string, material []T, pipeline []PipelineFunc[T]) (res
 	} // for
 
 	go func() {
-		for {
-			select {
-			case value := <-output:
-				if e, ok := value.(error); ok {
-					err = append(err, e)
-				} else {
-					result = append(result, value)
-				} // if
-
-			default:
-				if progressbar.Completed() {
-					close(output)
-					return
-				} // if
-			} // switch
-		} // for
+		waitGroup.Wait()
+		close(output)
 	}()
+
+	for itor := range output {
+		if itor.Error == nil {
+			result = append(result, itor.Result...)
+		} else {
+			err = append(err, itor.Error)
+		} // if
+	} // for
 
 	progress.Wait()
 	return result, err
+}
+
+// Execute 管線執行函式類型
+type Execute[T any] func(material T) Output
+
+// Output 管線結果資料
+type Output struct {
+	Result []any // 結果列表
+	Error  error // 錯誤物件
 }
