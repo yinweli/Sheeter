@@ -11,17 +11,9 @@ import (
 	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
-// InitializeData 初始化資料
-type InitializeData struct {
-	*excels.Excel        // excel物件
-	*excels.Sheet        // sheet物件
-	ExcelName     string // excel名稱
-	SheetName     string // sheet名稱
-}
-
 // Initialize 初始化處理
 func Initialize(config *Config) (result []*InitializeData, err []error) {
-	resultExcel, err := pipelines.Pipeline[string]("search excel", config.Path(), []pipelines.PipelineFunc[string]{
+	resultExcel, err := pipelines.Pipeline[string]("search excel", config.Path(), []pipelines.Execute[string]{
 		searchExcel,
 	})
 
@@ -29,7 +21,7 @@ func Initialize(config *Config) (result []*InitializeData, err []error) {
 		return nil, err
 	} // if
 
-	resultSheet, err := pipelines.Pipeline[string]("search sheet", utils.Combine(config.File(), resultExcel), []pipelines.PipelineFunc[string]{
+	resultSheet, err := pipelines.Pipeline[string]("search sheet", utils.Combine(config.File(), resultExcel), []pipelines.Execute[string]{
 		searchSheet,
 	})
 
@@ -69,9 +61,17 @@ func Initialize(config *Config) (result []*InitializeData, err []error) {
 	return result, nil
 }
 
+// InitializeData 初始化資料
+type InitializeData struct {
+	*excels.Excel        // excel物件
+	*excels.Sheet        // sheet物件
+	ExcelName     string // excel名稱
+	SheetName     string // sheet名稱
+}
+
 // searchExcel 搜尋excel
-func searchExcel(input string, result chan any) error {
-	if err := filepath.Walk(input, func(path string, info fs.FileInfo, err error) error {
+func searchExcel(material string) (result pipelines.Output) {
+	if err := filepath.Walk(material, func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			return nil
 		} // if
@@ -80,7 +80,7 @@ func searchExcel(input string, result chan any) error {
 			return nil
 		} // if
 
-		if filepath.Ext(path) != sheeter.ExcelExt {
+		if filepath.Ext(path) != sheeter.ExtExcel {
 			return nil
 		} // if
 
@@ -88,24 +88,25 @@ func searchExcel(input string, result chan any) error {
 			return nil
 		} // if
 
-		result <- path
+		result.Result = append(result.Result, path)
 		return nil
 	}); err != nil {
-		return fmt.Errorf("search excel: %w", err)
+		result.Error = fmt.Errorf("search excel: %w", err)
 	} // if
 
-	return nil
+	return result
 }
 
 // searchSheet 搜尋sheet
-func searchSheet(input string, result chan any) error {
+func searchSheet(material string) (result pipelines.Output) {
 	excel := &excels.Excel{}
 
-	if err := excel.Open(input); err != nil {
-		return fmt.Errorf("search sheet: %w", err)
+	if err := excel.Open(material); err != nil {
+		result.Error = fmt.Errorf("search sheet: %w", err)
+		return result
 	} // if
 
-	for _, itor := range excel.Sheets() {
+	for _, itor := range excel.Sheet() {
 		if utils.CheckIgnore(itor) {
 			continue
 		} // if
@@ -113,16 +114,17 @@ func searchSheet(input string, result chan any) error {
 		sheet, err := excel.Get(itor)
 
 		if err != nil {
-			return fmt.Errorf("search sheet: %w", err)
+			result.Error = fmt.Errorf("search sheet: %w", err)
+			return result
 		} // if
 
-		result <- &InitializeData{
+		result.Result = append(result.Result, &InitializeData{
 			Excel:     excel,
 			Sheet:     sheet,
-			ExcelName: filepath.Base(input),
+			ExcelName: filepath.Base(material),
 			SheetName: itor,
-		}
+		})
 	} // for
 
-	return nil
+	return result
 }

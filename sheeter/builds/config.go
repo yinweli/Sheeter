@@ -19,7 +19,6 @@ const (
 	flagExclude     = "exclude"     // 旗標名稱: 排除列表
 	flagOutput      = "output"      // 旗標名稱: 輸出路徑
 	flagTag         = "tag"         // 旗標名稱: 標籤列表
-	flagAutoKey     = "autokey"     // 旗標名稱: 自動選取索
 	flagLineOfTag   = "lineOfTag"   // 旗標名稱: 標籤行號
 	flagLineOfName  = "lineOfName"  // 旗標名稱: 名稱行號
 	flagLineOfNote  = "lineOfNote"  // 旗標名稱: 註解行號
@@ -34,7 +33,6 @@ type Config struct {
 	Exclude     []string `yaml:"exclude"`     // 排除列表
 	Output      string   `yaml:"output"`      // 輸出路徑
 	Tag         string   `yaml:"tag"`         // 標籤列表
-	AutoKey     bool     `yaml:"autoKey"`     // 自動選取索引
 	LineOfTag   int      `yaml:"lineOfTag"`   // 標籤行號(1為起始行)
 	LineOfName  int      `yaml:"lineOfName"`  // 名稱行號(1為起始行)
 	LineOfNote  int      `yaml:"lineOfNote"`  // 註解行號(1為起始行)
@@ -90,12 +88,6 @@ func (this *Config) Initialize(cmd *cobra.Command) error {
 		} // if
 	} // if
 
-	if flag.Changed(flagAutoKey) {
-		if value, err := flag.GetBool(flagAutoKey); err == nil {
-			this.AutoKey = value
-		} // if
-	} // if
-
 	if flag.Changed(flagLineOfTag) {
 		if value, err := flag.GetInt(flagLineOfTag); err == nil {
 			this.LineOfTag = value
@@ -144,14 +136,14 @@ func (this *Config) File() []string {
 			continue
 		} // if
 
-		if filepath.Ext(itor) != sheeter.ExcelExt {
+		if filepath.Ext(itor) != sheeter.ExtExcel {
 			continue
 		} // if
 
 		result = append(result, itor)
 	} // for
 
-	return utils.GetUnique(result)
+	return utils.Unique(result)
 }
 
 // Path 從來源列表取得路徑列表
@@ -172,7 +164,7 @@ func (this *Config) Path() []string {
 		result = append(result, itor)
 	} // for
 
-	return utils.GetUnique(result)
+	return utils.Unique(result)
 }
 
 // Merged 從合併列表取得合併資料
@@ -247,7 +239,6 @@ func SetFlag(cmd *cobra.Command) *cobra.Command {
 	flag.StringSlice(flagExclude, []string{}, "exclude list, example: excel#sheet,...")
 	flag.String(flagOutput, "", "output path")
 	flag.String(flagTag, "", "tag that determines the columns to be output")
-	flag.Bool(flagAutoKey, false, "automatically select the second column as a key")
 	flag.Int(flagLineOfTag, 0, "line of tag")
 	flag.Int(flagLineOfName, 0, "line of name")
 	flag.Int(flagLineOfNote, 0, "line of note")
