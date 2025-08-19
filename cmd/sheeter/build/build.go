@@ -15,8 +15,8 @@ import (
 func NewCommand() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "build",
-		Short: "build sheet",
-		Long:  "generate reader, sheeter, data from excel & sheet",
+		Short: "Build sheet",
+		Long:  "Generate reader and data from Excel",
 		Run:   execute,
 	}
 	builds.SetFlag(cmd)
