@@ -1,10 +1,12 @@
 package excels
 
 import (
+	"strings"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"github.com/thedatashed/xlsxreader"
 
 	"github.com/yinweli/Sheeter/v3/testdata"
 )
@@ -36,13 +38,10 @@ func (this *SuiteExcel) TearDownSuite() {
 func (this *SuiteExcel) TestOpen() {
 	target := &Excel{}
 	assert.Nil(this.T(), target.Open(this.excelSuccess))
-	assert.True(this.T(), target.IsOpen())
 	target.Close()
-	assert.False(this.T(), target.IsOpen())
 
 	target = &Excel{}
 	assert.NotNil(this.T(), target.Open(testdata.Unknown))
-
 	CloseAll()
 }
 
@@ -62,7 +61,6 @@ func (this *SuiteExcel) TestGet() {
 
 	_, err = target.Get(testdata.Unknown)
 	assert.NotNil(this.T(), err)
-
 	CloseAll()
 }
 
@@ -91,15 +89,14 @@ func (this *SuiteExcel) TestGetLine() {
 
 	_, err = target.GetLine(testdata.Unknown, 1)
 	assert.NotNil(this.T(), err)
-
 	CloseAll()
 }
 
 func (this *SuiteExcel) TestSheets() {
 	target := &Excel{}
-	assert.Equal(this.T(), []string{}, target.Sheets())
+	assert.Empty(this.T(), target.Sheet())
 	assert.Nil(this.T(), target.Open(this.excelSuccess))
-	assert.Equal(this.T(), []string{this.sheet1, this.sheet2}, target.Sheets())
+	assert.Equal(this.T(), []string{this.sheet1, this.sheet2}, target.Sheet())
 	CloseAll()
 }
 
@@ -150,7 +147,6 @@ func (this *SuiteExcel) TestSheet() {
 	_, err = sheet.Data()
 	assert.NotNil(this.T(), err)
 	sheet.Close()
-
 	CloseAll()
 }
 
@@ -166,4 +162,31 @@ func (this *SuiteExcel) TestColumnToIndex() {
 	assert.Panics(this.T(), func() { columnToIndex("") })
 	assert.Panics(this.T(), func() { columnToIndex("0") })
 	assert.Panics(this.T(), func() { columnToIndex("?") })
+}
+
+func (this *SuiteExcel) TestFormatNumerical() {
+	assert.Equal(this.T(), testdata.Unknown, formatNumerical(xlsxreader.Cell{
+		Value: testdata.Unknown,
+		Type:  xlsxreader.TypeString,
+	}))
+	assert.Equal(this.T(), "0."+strings.Repeat("0", 19)+"1", formatNumerical(xlsxreader.Cell{
+		Value: "1e-20",
+		Type:  xlsxreader.TypeNumerical,
+	}))
+	assert.Equal(this.T(), "1"+strings.Repeat("0", 20), formatNumerical(xlsxreader.Cell{
+		Value: "1e+20",
+		Type:  xlsxreader.TypeNumerical,
+	}))
+	assert.Equal(this.T(), testdata.Unknown, formatNumerical(xlsxreader.Cell{
+		Value: testdata.Unknown,
+		Type:  xlsxreader.TypeNumerical,
+	}))
+	assert.Equal(this.T(), "1e?20", formatNumerical(xlsxreader.Cell{
+		Value: "1e?20",
+		Type:  xlsxreader.TypeNumerical,
+	}))
+	assert.Equal(this.T(), "1e+400", formatNumerical(xlsxreader.Cell{
+		Value: "1e+400",
+		Type:  xlsxreader.TypeNumerical,
+	}))
 }
