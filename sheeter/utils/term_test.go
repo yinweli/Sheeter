@@ -32,7 +32,7 @@ func (this *SuiteTerm) TestMergeTerm() {
 	assert.Equal(this.T(), []SheetTerm{"excel1#sheet", "excel2#sheet"}, target.Member())
 	target = "excel1#sheet&excel2#sheet"
 	assert.Equal(this.T(), "", target.Name())
-	assert.Equal(this.T(), []SheetTerm{}, target.Member())
+	assert.Empty(this.T(), target.Member())
 }
 
 func (this *SuiteTerm) TestSheetTerm() {

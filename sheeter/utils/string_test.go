@@ -64,15 +64,15 @@ func (this *SuiteString) TestCombine() {
 	assert.ElementsMatch(this.T(), []string{"a", "b", "c", "1", "2", "3"}, Combine([]string{"a", "b", "c"}, []any{"1", "2", "3"}))
 }
 
-func (this *SuiteString) TestGetItem() {
+func (this *SuiteString) TestAt() {
 	item := []string{"a", "b", "c"}
-	assert.Equal(this.T(), "a", GetItem(item, 0))
-	assert.Equal(this.T(), "b", GetItem(item, 1))
-	assert.Equal(this.T(), "c", GetItem(item, 2))
-	assert.Equal(this.T(), "", GetItem(item, 3))
+	assert.Equal(this.T(), "a", At(item, 0))
+	assert.Equal(this.T(), "b", At(item, 1))
+	assert.Equal(this.T(), "c", At(item, 2))
+	assert.Equal(this.T(), "", At(item, 3))
 }
 
-func (this *SuiteString) TestGetUnique() {
+func (this *SuiteString) TestUnique() {
 	item := []string{"a", "b", "c", "a", "b", "c"}
-	assert.ElementsMatch(this.T(), []string{"a", "b", "c"}, GetUnique(item))
+	assert.ElementsMatch(this.T(), []string{"a", "b", "c"}, Unique(item))
 }
