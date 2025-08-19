@@ -3,9 +3,9 @@ package main
 import (
 	"github.com/spf13/cobra"
 
-	"github.com/yinweli/Sheeter/v2/cmd/sheeter/build"
-	"github.com/yinweli/Sheeter/v2/cmd/sheeter/version"
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/cmd/sheeter/build"
+	"github.com/yinweli/Sheeter/v3/cmd/sheeter/version"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
 func main() {

@@ -8,7 +8,7 @@ import (
 
 	"github.com/thedatashed/xlsxreader"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
 // Excel excel資料

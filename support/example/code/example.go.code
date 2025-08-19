@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"github.com/yinweli/Sheeter/v2/support/example/codeGo"
+	"github.com/yinweli/Sheeter/v3/support/example/codeGo"
 )
 
 func main() {

@@ -3,8 +3,8 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
 // BoolArray 布林值陣列

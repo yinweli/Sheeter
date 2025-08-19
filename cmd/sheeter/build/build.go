@@ -6,9 +6,9 @@ import (
 	"github.com/hako/durafmt"
 	"github.com/spf13/cobra"
 
-	"github.com/yinweli/Sheeter/v2/sheeter/builds"
-	"github.com/yinweli/Sheeter/v2/sheeter/excels"
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/sheeter/builds"
+	"github.com/yinweli/Sheeter/v3/sheeter/excels"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
 // NewCommand 建立命令物件

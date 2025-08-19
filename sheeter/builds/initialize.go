@@ -5,10 +5,10 @@ import (
 	"io/fs"
 	"path/filepath"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/sheeter/excels"
-	"github.com/yinweli/Sheeter/v2/sheeter/pipelines"
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter/excels"
+	"github.com/yinweli/Sheeter/v3/sheeter/pipelines"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
 // InitializeData 初始化資料

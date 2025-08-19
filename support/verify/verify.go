@@ -7,7 +7,7 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/yinweli/Sheeter/v2/support/verify/codeGo"
+	"github.com/yinweli/Sheeter/v3/support/verify/codeGo"
 )
 
 func main() {

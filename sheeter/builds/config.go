@@ -8,8 +8,8 @@ import (
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
 const (

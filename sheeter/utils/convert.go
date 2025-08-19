@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
 // StrToBool 字串轉布林值

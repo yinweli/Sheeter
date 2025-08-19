@@ -6,9 +6,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/v2/sheeter/excels"
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
-	"github.com/yinweli/Sheeter/v2/testdata"
+	"github.com/yinweli/Sheeter/v3/sheeter/excels"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/testdata"
 )
 
 func TestJsonPack(t *testing.T) {

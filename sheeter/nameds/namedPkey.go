@@ -1,7 +1,7 @@
 package nameds
 
 import (
-	"github.com/yinweli/Sheeter/v2/sheeter/fields"
+	"github.com/yinweli/Sheeter/v3/sheeter/fields"
 )
 
 // Pkey 主索引命名工具

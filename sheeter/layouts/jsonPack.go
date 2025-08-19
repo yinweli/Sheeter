@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/yinweli/Sheeter/v2/sheeter/excels"
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/sheeter/excels"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
 // JsonPack 打包json資料, 將會把sheet中的資料, 依據資料布局與排除標籤, 轉換為json格式的位元陣列

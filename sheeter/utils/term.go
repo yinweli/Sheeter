@@ -3,7 +3,7 @@ package utils
 import (
 	"strings"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
 // MergeTerm 合併名稱

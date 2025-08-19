@@ -6,10 +6,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/sheeter/fields"
-	"github.com/yinweli/Sheeter/v2/sheeter/layouts"
-	"github.com/yinweli/Sheeter/v2/testdata"
+	"github.com/yinweli/Sheeter/v3/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter/fields"
+	"github.com/yinweli/Sheeter/v3/sheeter/layouts"
+	"github.com/yinweli/Sheeter/v3/testdata"
 )
 
 func TestField(t *testing.T) {

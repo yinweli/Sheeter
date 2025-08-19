@@ -3,8 +3,8 @@ package nameds
 import (
 	"strings"
 
-	"github.com/yinweli/Sheeter/v2/sheeter/layouts"
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/sheeter/layouts"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
 // Field 欄位命名工具

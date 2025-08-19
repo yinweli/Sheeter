@@ -8,7 +8,7 @@ import (
 	"github.com/vbauerster/mpb/v7"
 	"github.com/vbauerster/mpb/v7/decor"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
 // PipelineFunc 管線執行函式類型

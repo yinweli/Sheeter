@@ -4,7 +4,7 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
 // CheckIgnore 忽略檢查

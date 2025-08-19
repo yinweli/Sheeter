@@ -1,7 +1,7 @@
 package fields
 
 import (
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
 // Skey 主要整數索引

@@ -1,7 +1,7 @@
 package fields
 
 import (
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
 // String 字串

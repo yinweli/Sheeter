@@ -3,7 +3,7 @@ package nameds
 import (
 	"strings"
 
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
 // param 組合名稱參數
