@@ -2,7 +2,6 @@ package layouts
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/yinweli/Sheeter/v3/sheeter"
 	"github.com/yinweli/Sheeter/v3/sheeter/fields"
@@ -10,94 +9,84 @@ import (
 )
 
 // NewLayout 建立資料布局器
-func NewLayout(autoKey bool) *Layout {
-	return &Layout{
-		autoKey: autoKey,
-		layout:  map[int]*Data{},
+func NewLayout(lineTag, lineName, lineNote, lineField []string) (result *Layout, failed []string) {
+	result = &Layout{
+		layout: map[int]*LayoutData{},
 	}
+	duplicate := map[string]bool{}
+
+	for i, itor := range lineTag { // 尋訪時, 以標籤行為主
+		if i == sheeter.IndexOutput { // 跳過輸出欄
+			continue
+		} // if
+
+		if i != sheeter.IndexPrimary && utils.CheckIgnore(itor) { // 跳過忽略欄
+			continue
+		} // if
+
+		if i != sheeter.IndexPrimary && itor == "" { // 一旦遇到空欄位, 就結束布局
+			break
+		} // if
+
+		fail := []string{}
+		name := utils.At(lineName, i)
+		note := utils.At(lineNote, i)
+		field, err := fields.Parser(utils.At(lineField, i))
+
+		if err != nil {
+			fail = append(fail, fmt.Sprintf("column %v name %v: %v", i, name, err))
+		} // if
+
+		if utils.CheckField(name) == false {
+			fail = append(fail, fmt.Sprintf("column %v name %v: name invalid", i, name))
+		} // if
+
+		if duplicate[name] {
+			fail = append(fail, fmt.Sprintf("column %v name %v: name duplicate", i, name))
+		} // if
+
+		if len(fail) == 0 {
+			result.layout[i] = &LayoutData{
+				Tag:   itor,
+				Name:  name,
+				Note:  note,
+				Field: field,
+			}
+			duplicate[name] = true
+		} else {
+			failed = append(failed, fail...)
+		} // if
+	} // for
+
+	if result.layout[sheeter.IndexPrimary] == nil {
+		failed = append(failed, "primary column missing")
+	} // if
+
+	return result, failed
 }
 
 // Layout 資料布局器
 type Layout struct {
-	autoKey bool          // 是否自動選取索引
-	layout  map[int]*Data // 布局列表
-	pkey    *Data         // 主要索引資料
+	layout map[int]*LayoutData // 布局列表
 }
 
-// Data 布局資料
-type Data struct {
+// LayoutData 布局資料
+type LayoutData struct {
 	Tag   string       // 標籤字串
 	Name  string       // 欄位名稱
 	Note  string       // 欄位註解
 	Field fields.Field // 欄位類型
 }
 
-// Set 設定布局
-func (this *Layout) Set(lineTag, lineName, lineNote, lineField []string) error {
-	result := []string{}
-
-	for col, itor := range lineTag { // 尋訪時, 以標籤行為主
-		if col == sheeter.IndexOutput { // 跳過輸出欄
-			continue
-		} // if
-
-		if utils.CheckIgnore(itor) { // 跳過忽略欄
-			continue
-		} // if
-
-		if itor == "" { // 一旦遇到空欄位, 就結束布局
-			break
-		} // if
-
-		name := utils.GetItem(lineName, col)
-		note := utils.GetItem(lineNote, col)
-		field := utils.GetItem(lineField, col)
-
-		if err := this.add(col, itor, name, note, field); err != nil {
-			result = append(result, fmt.Sprintf("[column %v: %v]", col, err.Error()))
-		} // if
-	} // for
-
-	if len(result) > 0 {
-		return fmt.Errorf("layout set: %v", strings.Join(result, ", "))
-	} // if
-
-	return nil
+// Primary 取得主索引布局資料
+func (this *Layout) Primary() *LayoutData {
+	return this.layout[sheeter.IndexPrimary]
 }
 
-// Pack 打包資料
-func (this *Layout) Pack(tag string, data []string) (result map[string]interface{}, pkey any, err error) {
-	if output := utils.GetItem(data, sheeter.IndexOutput); utils.CheckIgnore(output) { // 輸出欄檢查
-		return nil, nil, nil
-	} // if
-
-	result = map[string]interface{}{}
-
-	for col, itor := range this.layout {
-		if utils.CheckTag(tag, itor.Tag) == false {
-			continue
-		} // if
-
-		value, err := itor.Field.ToJsonValue(utils.GetItem(data, col))
-
-		if err != nil {
-			return nil, nil, fmt.Errorf("layout pack: field(%v): %w", itor.Name, err)
-		} // if
-
-		if itor.Field.IsPkey() {
-			pkey = value
-		} // if
-
-		result[itor.Name] = value
-	} // for
-
-	return result, pkey, nil
-}
-
-// Layout 取得布局資料
-func (this *Layout) Layout(tag string) (result []*Data) {
-	for _, itor := range this.layout {
-		if utils.CheckTag(tag, itor.Tag) {
+// Select 取得用標籤篩選過的布局資料
+func (this *Layout) Select(tag string) (result []*LayoutData) {
+	for i, itor := range this.layout {
+		if i == sheeter.IndexPrimary || utils.CheckTag(tag, itor.Tag) {
 			result = append(result, itor)
 		} // if
 	} // for
@@ -105,58 +94,27 @@ func (this *Layout) Layout(tag string) (result []*Data) {
 	return result
 }
 
-// Pkey 取得主要索引資料
-func (this *Layout) Pkey(tag string) *Data {
-	if this.pkey != nil && utils.CheckTag(tag, this.pkey.Tag) {
-		return this.pkey
-	} // if
+// Pack 打包資料
+func (this *Layout) Pack(tag string, data []string) (primary any, pack map[string]interface{}, err error) {
+	pack = map[string]interface{}{}
 
-	return nil
-}
-
-// add 新增布局
-func (this *Layout) add(col int, tag, name, note, field string) error {
-	if name == "" {
-		return fmt.Errorf("layout add: name empty")
-	} // if
-
-	if utils.CheckField(name) == false {
-		return fmt.Errorf("layout add: name invalid")
-	} // if
-
-	for _, itor := range this.layout {
-		if itor.Name == name {
-			return fmt.Errorf("layout add: name duplicate")
-		} // if
-	} // if
-
-	field_, err := fields.Parser(field)
-
-	if err != nil {
-		return fmt.Errorf("layout add: %w", err)
-	} // if
-
-	if this.autoKey && col == sheeter.IndexAutoKey {
-		if field_ = field_.ToPkey(); field_ == nil {
-			return fmt.Errorf("layout add: auto key failed")
-		} // if
-	} // if
-
-	data := &Data{
-		Tag:   tag,
-		Name:  name,
-		Note:  note,
-		Field: field_,
-	}
-
-	if field_.IsPkey() {
-		if this.pkey != nil {
-			return fmt.Errorf("layout add: too many pkey")
+	for i, itor := range this.layout {
+		if i != sheeter.IndexPrimary && utils.CheckTag(tag, itor.Tag) == false {
+			continue
 		} // if
 
-		this.pkey = data
-	} // if
+		value, err := itor.Field.ToJsonValue(utils.At(data, i))
 
-	this.layout[col] = data
-	return nil
+		if err != nil {
+			return nil, nil, fmt.Errorf("layout pack: column %v name %v: %w", i, itor.Name, err)
+		} // if
+
+		if i == sheeter.IndexPrimary {
+			primary = value
+		} // if
+
+		pack[itor.Name] = value
+	} // for
+
+	return primary, pack, nil
 }
