@@ -12,12 +12,6 @@ type Field interface {
 	// Field 取得excel欄位類型列表
 	Field() []string
 
-	// IsPkey 是否是主要索引
-	IsPkey() bool
-
-	// ToPkey 取得主要索引類型
-	ToPkey() Field
-
 	// ToTypeCs 取得cs類型字串
 	ToTypeCs() string
 
@@ -46,9 +40,6 @@ func Parser(input string) (result Field, err error) {
 
 // field 欄位列表
 var field = []Field{
-	&Pkey{},
-	&Lkey{},
-	&Skey{},
 	&Bool{},
 	&BoolArray{},
 	&Int{},

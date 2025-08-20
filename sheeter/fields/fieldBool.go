@@ -3,7 +3,6 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/v3/sheeter"
 	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
@@ -16,24 +15,14 @@ func (this *Bool) Field() []string {
 	return []string{"bool"}
 }
 
-// IsPkey 是否是主要索引
-func (this *Bool) IsPkey() bool {
-	return false
-}
-
-// ToPkey 取得主要索引類型
-func (this *Bool) ToPkey() Field {
-	return &Pkey{}
-}
-
 // ToTypeCs 取得cs類型字串
 func (this *Bool) ToTypeCs() string {
-	return sheeter.TypeBoolCs
+	return "bool"
 }
 
 // ToTypeGo 取得go類型字串
 func (this *Bool) ToTypeGo() string {
-	return sheeter.TypeBoolGo
+	return "bool"
 }
 
 // ToJsonValue 轉換為json值

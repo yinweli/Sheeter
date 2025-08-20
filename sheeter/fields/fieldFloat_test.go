@@ -6,7 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/v3/sheeter"
 	"github.com/yinweli/Sheeter/v3/testdata"
 )
 
@@ -30,10 +29,8 @@ func (this *SuiteFloat) TearDownSuite() {
 func (this *SuiteFloat) TestField() {
 	target := &Float{}
 	assert.Equal(this.T(), []string{"float"}, target.Field())
-	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Nil(this.T(), target.ToPkey())
-	assert.Equal(this.T(), sheeter.TypeFloatCs, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TypeFloatGo, target.ToTypeGo())
+	assert.Equal(this.T(), "float", target.ToTypeCs())
+	assert.Equal(this.T(), "float32", target.ToTypeGo())
 }
 
 func (this *SuiteFloat) TestToJsonValue() {

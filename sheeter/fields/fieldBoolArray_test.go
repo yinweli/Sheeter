@@ -6,7 +6,6 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/v3/sheeter"
 	"github.com/yinweli/Sheeter/v3/testdata"
 )
 
@@ -30,10 +29,8 @@ func (this *SuiteBoolArray) TearDownSuite() {
 func (this *SuiteBoolArray) TestField() {
 	target := &BoolArray{}
 	assert.Equal(this.T(), []string{"boolArray", "[]bool", "bool[]"}, target.Field())
-	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Nil(this.T(), target.ToPkey())
-	assert.Equal(this.T(), sheeter.TypeBoolCs+sheeter.TypeArray, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TypeArray+sheeter.TypeBoolGo, target.ToTypeGo())
+	assert.Equal(this.T(), "bool[]", target.ToTypeCs())
+	assert.Equal(this.T(), "[]bool", target.ToTypeGo())
 }
 
 func (this *SuiteBoolArray) TestToJsonValue() {

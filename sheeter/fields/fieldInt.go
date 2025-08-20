@@ -3,7 +3,6 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/v3/sheeter"
 	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
@@ -16,24 +15,14 @@ func (this *Int) Field() []string {
 	return []string{"int"}
 }
 
-// IsPkey 是否是主要索引
-func (this *Int) IsPkey() bool {
-	return false
-}
-
-// ToPkey 取得主要索引類型
-func (this *Int) ToPkey() Field {
-	return &Pkey{}
-}
-
 // ToTypeCs 取得cs類型字串
 func (this *Int) ToTypeCs() string {
-	return sheeter.TypeIntCs
+	return "int"
 }
 
 // ToTypeGo 取得go類型字串
 func (this *Int) ToTypeGo() string {
-	return sheeter.TypeIntGo
+	return "int32"
 }
 
 // ToJsonValue 轉換為json值
