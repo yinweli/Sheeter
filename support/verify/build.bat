@@ -4,6 +4,6 @@ rmdir /s /q codeCs
 rmdir /s /q codeGo
 rmdir /s /q json
 .\sheeter.exe build --config verify.yaml
-dotnet csharpier .
+csharpier format .
 gofmt -w .
 del /f sheeter.exe

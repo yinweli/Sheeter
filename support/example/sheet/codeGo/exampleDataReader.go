@@ -14,7 +14,7 @@ type ExampleData struct {
 	Name2 int32 `json:"Name2"` // note2
 	Name3 int32 `json:"Name3"` // note3
 	Name4 int32 `json:"Name4"` // note4
-	Pkey  int32 `json:"Pkey"`  // pkey
+	Name5 int32 `json:"Name5"` // note5
 }
 
 // ExampleDataReader example.xlsx#Data
@@ -28,7 +28,7 @@ func (this *ExampleDataReader) FileName() FileName {
 }
 
 // FromData 讀取資料
-func (this *ExampleDataReader) FromData(data []byte, clear bool) error {
+func (this *ExampleDataReader) FromData(data []byte, clear bool, progress *Progress) error {
 	tmpl := map[int32]*ExampleData{}
 
 	if err := json.Unmarshal(data, &tmpl); err != nil {
@@ -39,12 +39,18 @@ func (this *ExampleDataReader) FromData(data []byte, clear bool) error {
 		this.Data = map[int32]*ExampleData{}
 	} // if
 
+	task := progress.Reg()
+	curr := 0
+	total := len(tmpl)
+
 	for k, v := range tmpl {
 		if _, ok := this.Data[k]; ok {
 			return fmt.Errorf("from data: key duplicate [exampleData : %v]", k)
 		} // if
 
 		this.Data[k] = v
+		curr++
+		progress.Set(task, curr, total)
 	} // for
 
 	return nil
@@ -52,7 +58,7 @@ func (this *ExampleDataReader) FromData(data []byte, clear bool) error {
 
 // Clear 清除資料
 func (this *ExampleDataReader) Clear() {
-	this.Data = nil
+	this.Data = map[int32]*ExampleData{}
 }
 
 // Get 取得資料

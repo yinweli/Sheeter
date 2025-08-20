@@ -1,30 +1,62 @@
 {
     "1": {
-        "name1": 10,
-        "name2": 11,
-        "name3": 12,
-        "name4": 13,
-        "pkey": 1
+        "duration": "1d2h3m4s5ms",
+        "float": 0.01,
+        "name1": 1,
+        "name2": 10,
+        "name3": 11,
+        "name4": 12,
+        "name5": 13,
+        "ratio": "0.01",
+        "space": [
+            1,
+            2,
+            3
+        ]
     },
     "2": {
-        "name1": 20,
-        "name2": 21,
-        "name3": 22,
-        "name4": 23,
-        "pkey": 2
+        "duration": "5ms4s3m2h1d",
+        "float": 0.0001,
+        "name1": 2,
+        "name2": 20,
+        "name3": 21,
+        "name4": 22,
+        "name5": 23,
+        "ratio": "0.0001",
+        "space": [
+            2,
+            2,
+            3
+        ]
     },
     "4": {
-        "name1": 40,
-        "name2": 41,
-        "name3": 42,
-        "name4": 43,
-        "pkey": 4
+        "duration": "",
+        "float": 0,
+        "name1": 4,
+        "name2": 40,
+        "name3": 41,
+        "name4": 42,
+        "name5": 43,
+        "ratio": "",
+        "space": [
+            4,
+            2,
+            3
+        ]
     },
     "5": {
-        "name1": 50,
-        "name2": 51,
-        "name3": 52,
-        "name4": 53,
-        "pkey": 5
+        "duration": "",
+        "float": 0,
+        "name1": 5,
+        "name2": 50,
+        "name3": 51,
+        "name4": 52,
+        "name5": 53,
+        "ratio": "",
+        "space": [
+            5,
+            2,
+            3
+        ]
     }
 }

@@ -3,97 +3,72 @@
 
 package sheeter
 
+import (
+	"sync"
+	"sync/atomic"
+)
+
 // NewSheeter 建立表格資料
 func NewSheeter(loader Loader) *Sheeter {
 	sheeter := &Sheeter{}
 	sheeter.loader = loader
+	sheeter.progress = NewProgress()
 	return sheeter
 }
 
 // Sheeter 表格資料
 type Sheeter struct {
 	loader      Loader            // 裝載器物件
+	progress    *Progress         // 進度物件
 	ExampleData ExampleDataReader // example.xlsx#Data
 }
 
 // FromData 讀取資料處理
 func (this *Sheeter) FromData() bool {
+	this.progress.Reset()
+
 	if this.loader == nil {
 		return false
 	} // if
 
-	result := true
+	waitGroup := sync.WaitGroup{}
+	waitGroup.Add(1 + 0)
+	result := atomic.Bool{}
+	result.Store(true)
 
 	for _, itor := range []Reader{
 		&this.ExampleData,
 	} {
-		filename := itor.FileName()
-		data := this.loader.Load(filename)
+		tmpl := itor
 
-		if data == nil || len(data) == 0 {
-			continue
-		} // if
+		go func() {
+			defer waitGroup.Done()
+			filename := tmpl.FileName()
+			data := this.loader.Load(filename)
 
-		if err := itor.FromData(data, true); err != nil {
-			result = false
-			this.loader.Error(filename.File(), err)
-		} // if
+			if len(data) == 0 {
+				return
+			} // if
+
+			if err := tmpl.FromData(data, true, this.progress); err != nil {
+				this.loader.Error(filename.File(), err)
+				result.Store(false)
+			} // if
+		}()
 	} // for
 
-	return result
+	waitGroup.Wait()
+	this.progress.Complete()
+	return result.Load()
 }
 
 // Clear 清除資料
 func (this *Sheeter) Clear() {
+	this.progress.Reset()
 	this.ExampleData.Clear()
 }
 
-// Loader 裝載器介面
-type Loader interface {
-	// Load 讀取檔案
-	Load(filename FileName) []byte
-
-	// Error 錯誤處理
-	Error(name string, err error)
-}
-
-// Reader 讀取器介面
-type Reader interface {
-	// FileName 取得檔名物件
-	FileName() FileName
-
-	// FromData 讀取資料
-	FromData(data []byte, clear bool) error
-
-	// Clear 清除資料
-	Clear()
-}
-
-// NewFileName 建立檔名資料
-func NewFileName(name, ext string) FileName {
-	return FileName{
-		name: name,
-		ext:  ext,
-	}
-}
-
-// FileName 檔名資料
-type FileName struct {
-	name string // 名稱
-	ext  string // 副檔名
-}
-
-// Name 取得名稱
-func (this FileName) Name() string {
-	return this.name
-}
-
-// Ext 取得副檔名
-func (this FileName) Ext() string {
-	return this.ext
-}
-
-// File 取得完整檔名
-func (this FileName) File() string {
-	return this.name + this.ext
+// Progress 取得進度值
+func (this *Sheeter) Progress() float32 {
+	return this.progress.Get()
 }
