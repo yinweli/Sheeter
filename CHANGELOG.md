@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 新增字串解析組件
 - 新增時長類型
 - 新增比例類型
-- 讀取 JSON 檔案的時候使用多執行序
+- 讀取 JSON 檔案的時候使用多執行緒
 - 讀取 JSON 檔案的時候提供目前進度/最大進度
 ### Removed
 - 移除 AutoKey 選項
@@ -18,9 +18,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - 更新命令說明文字
 - 有欄位資訊的空表單會正確轉出空 JSON 資料
-- 欄位名稱, 欄位註解, 欄位類型去掉前後空白
+- 欄位名稱, 欄位註解, 欄位類型忽略前後空白
 - 索引欄固定在表格的第二欄
-- 陣列分割後去掉前後空白
+- 陣列分割後忽略前後空白
 ### Fixed
 - 修正欄位內容為通用或數字格式時, 浮點數的轉換錯誤
 
