@@ -7,7 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [3.0.0] - 2025-08-26
 ### Added
 - 新增字串解析組件
-- 新增字串類型
 - 新增時長類型
 - 新增比例類型
 - 讀取 JSON 檔案的時候使用多執行序
