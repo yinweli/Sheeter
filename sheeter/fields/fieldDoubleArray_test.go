@@ -6,8 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/testdata"
+	"github.com/yinweli/Sheeter/v3/testdata"
 )
 
 func TestDoubleArray(t *testing.T) {
@@ -30,10 +29,8 @@ func (this *SuiteDoubleArray) TearDownSuite() {
 func (this *SuiteDoubleArray) TestField() {
 	target := &DoubleArray{}
 	assert.Equal(this.T(), []string{"doubleArray", "[]double", "double[]"}, target.Field())
-	assert.Equal(this.T(), false, target.IsPkey())
-	assert.Nil(this.T(), target.ToPkey())
-	assert.Equal(this.T(), sheeter.TypeDoubleCs+sheeter.TypeArray, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TypeArray+sheeter.TypeDoubleGo, target.ToTypeGo())
+	assert.Equal(this.T(), "double[]", target.ToTypeCs())
+	assert.Equal(this.T(), "[]float64", target.ToTypeGo())
 }
 
 func (this *SuiteDoubleArray) TestToJsonValue() {

@@ -3,7 +3,6 @@ source:
 merge:
   - mergeData$verify.xlsx#Data
 tag: 1
-autoKey: true
 lineOfTag: 1
 lineOfName: 2
 lineOfNote: 3

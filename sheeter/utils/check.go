@@ -4,13 +4,8 @@ import (
 	"strings"
 	"unicode"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
-
-// CheckIgnore 忽略檢查
-func CheckIgnore(input string) bool {
-	return strings.Contains(strings.ToLower(input), sheeter.TokenIgnore)
-}
 
 // CheckExcel excel名稱檢查
 func CheckExcel(input string) bool {
@@ -64,4 +59,9 @@ func CheckTag(input, tag string) bool {
 	} // for
 
 	return false
+}
+
+// CheckIgnore 忽略檢查
+func CheckIgnore(input string) bool {
+	return strings.Contains(strings.ToLower(input), sheeter.TokenIgnore)
 }

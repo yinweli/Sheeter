@@ -1,5 +1,3 @@
-// 以下是驗證程式碼, 不可使用
-
 package sheeter
 
 import (
@@ -9,20 +7,20 @@ import (
 
 // Handmade $結構說明
 type Handmade struct {
-	Pkey   int32     `json:"pkey"`   // $欄位說明
-	Skey   string    `json:"skey"`   // $欄位說明
-	Data1  bool      `json:"data1"`  // $欄位說明
-	Data2  []bool    `json:"data2"`  // $欄位說明
-	Data3  int32     `json:"data3"`  // $欄位說明
-	Data4  []int32   `json:"data4"`  // $欄位說明
-	Data5  int64     `json:"data5"`  // $欄位說明
-	Data6  []int64   `json:"data6"`  // $欄位說明
-	Data7  float32   `json:"data7"`  // $欄位說明
-	Data8  []float32 `json:"data8"`  // $欄位說明
-	Data9  float64   `json:"data9"`  // $欄位說明
-	Data10 []float64 `json:"data10"` // $欄位說明
-	Data11 string    `json:"data11"` // $欄位說明
-	Data12 []string  `json:"data12"` // $欄位說明
+	Pkey   int32     `json:"Pkey"`   // $欄位說明
+	Skey   string    `json:"Skey"`   // $欄位說明
+	Data1  bool      `json:"Data1"`  // $欄位說明
+	Data2  []bool    `json:"Data2"`  // $欄位說明
+	Data3  int32     `json:"Data3"`  // $欄位說明
+	Data4  []int32   `json:"Data4"`  // $欄位說明
+	Data5  int64     `json:"Data5"`  // $欄位說明
+	Data6  []int64   `json:"Data6"`  // $欄位說明
+	Data7  float32   `json:"Data7"`  // $欄位說明
+	Data8  []float32 `json:"Data8"`  // $欄位說明
+	Data9  float64   `json:"Data9"`  // $欄位說明
+	Data10 []float64 `json:"Data10"` // $欄位說明
+	Data11 string    `json:"Data11"` // $欄位說明
+	Data12 []string  `json:"Data12"` // $欄位說明
 }
 
 // HandmadeReader $結構說明
@@ -36,7 +34,7 @@ func (this *HandmadeReader) FileName() FileName {
 }
 
 // FromData 讀取資料
-func (this *HandmadeReader) FromData(data []byte, clear bool) error {
+func (this *HandmadeReader) FromData(data []byte, clear bool, progress *Progress) error {
 	tmpl := map[string]*Handmade{}
 
 	if err := json.Unmarshal(data, &tmpl); err != nil {
@@ -47,12 +45,18 @@ func (this *HandmadeReader) FromData(data []byte, clear bool) error {
 		this.Data = map[string]*Handmade{}
 	} // if
 
+	task := progress.Reg()
+	curr := 0
+	total := len(tmpl)
+
 	for k, v := range tmpl {
 		if _, ok := this.Data[k]; ok {
 			return fmt.Errorf("from data: key duplicate [handmade : %v]", k)
 		} // if
 
 		this.Data[k] = v
+		curr++
+		progress.Set(task, curr, total)
 	} // for
 
 	return nil
@@ -60,7 +64,7 @@ func (this *HandmadeReader) FromData(data []byte, clear bool) error {
 
 // Clear 清除資料
 func (this *HandmadeReader) Clear() {
-	this.Data = nil
+	this.Data = map[string]*Handmade{}
 }
 
 // Get 取得資料
@@ -83,6 +87,15 @@ func (this *HandmadeReader) Keys() (result []string) {
 
 // Values 取得資料列表
 func (this *HandmadeReader) Values() (result []*Handmade) {
+	for _, itor := range this.Data {
+		result = append(result, itor)
+	} // for
+
+	return result
+}
+
+// ValuesAny 取得資料列表
+func (this *HandmadeReader) ValuesAny() (result []any) {
 	for _, itor := range this.Data {
 		result = append(result, itor)
 	} // for

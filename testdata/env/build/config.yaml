@@ -1,7 +1,6 @@
 source:
   - build
 tag: 1
-autoKey: true
 lineOfTag: 1
 lineOfName: 2
 lineOfNote: 3

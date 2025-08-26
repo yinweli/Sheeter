@@ -4,10 +4,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Planning]
-- 針對單元測試新增goleak來測試是否有gorourtine洩漏
-
-## [Unrelease]
+## [3.0.0] - 2025-08-26
+### Added
+- 新增字串解析組件
+- 新增字串類型
+- 新增時長類型
+- 新增比例類型
+- 讀取 JSON 檔案的時候使用多執行序
+- 讀取 JSON 檔案的時候提供目前進度/最大進度
+### Removed
+- 移除 AutoKey 選項
+- 移除 Pkey, SKey LKey 欄位類型
+- 移除查詢版本命令
+### Changed
+- 更新命令說明文字
+- 有欄位資訊的空表單會正確轉出空 JSON 資料
+- 欄位名稱, 欄位註解, 欄位類型去掉前後空白
+- 索引欄固定在表格的第二欄
+- 陣列分割後去掉前後空白
+### Fixed
+- 修正欄位內容為通用或數字格式時, 浮點數的轉換錯誤
 
 ## [2.3.14] - 2025-07-25
 ### Changed
@@ -28,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [2.3.10] - 2024-08-14
 ### Changed
 - build action改為等待lint, test action完成後才執行
-### Deleted
+### Removed
 - 移除test-race action
 
 ## [2.3.9] - 2024-08-14

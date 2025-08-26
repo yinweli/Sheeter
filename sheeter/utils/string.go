@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"slices"
 	"strings"
 )
 
@@ -32,9 +33,8 @@ func FirstLower(input string) string {
 
 // SnakeToCamel 將蛇形命名法(snake_case)轉換為大寫駝峰命名法(CamelCase)
 // 這個函數也處理含有空格的字串，將空格視為單詞分隔符，類似於底線
-func SnakeToCamel(input string) string {
+func SnakeToCamel(input string) (result string) {
 	input = strings.ReplaceAll(input, " ", "_") // 把空格改為底線, 讓含有空格的字串也可以獲得相同效果
-	result := ""
 
 	for _, itor := range strings.Split(input, "_") {
 		if itor != "" {
@@ -64,29 +64,30 @@ func AllSame(input string) bool {
 }
 
 // Combine 合併字串列表
-func Combine(target []string, input []any) []string {
+func Combine(target []string, input []any) (result []string) {
+	result = append(result, target...)
+
 	for _, itor := range input {
-		if path, ok := itor.(string); ok {
-			target = append(target, path)
+		if s, ok := itor.(string); ok {
+			result = append(result, s)
 		} // of
 	} // if
 
-	return target
+	return result
 }
 
-// GetItem 從列表中取得項目; 如果列表數量比索引值還小, 就傳回空字串
-func GetItem(input []string, index int) string {
+// At 從列表中取得項目; 如果列表數量比索引值還小, 就傳回空字串
+func At(input []string, index int) string {
 	if index >= 0 && index < len(input) {
-		return input[index]
+		return strings.TrimSpace(input[index])
 	} // if
 
 	return ""
 }
 
-// GetUnique 從列表中取得不重複項目
-func GetUnique(input []string) []string {
-	check := make(map[string]bool)
-	result := []string{}
+// Unique 從列表中取得不重複項目
+func Unique(input []string) (result []string) {
+	check := map[string]bool{}
 
 	for _, itor := range input {
 		if _, ok := check[itor]; ok == false {
@@ -95,5 +96,6 @@ func GetUnique(input []string) []string {
 		} // if
 	} // for
 
+	slices.Sort(result)
 	return result
 }

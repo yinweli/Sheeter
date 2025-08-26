@@ -12,17 +12,21 @@ import (
 
 // FileName 取得檔案名稱
 func FileName(path string) string {
+	path = filepath.Clean(path) // 避免奇怪的相對路徑
 	return strings.TrimSuffix(filepath.Base(path), filepath.Ext(path))
 }
 
 // FileExist 檔案是否存在
 func FileExist(path string) bool {
+	path = filepath.Clean(path) // 避免奇怪的相對路徑
 	stat, err := os.Stat(path)
 	return os.IsNotExist(err) == false && stat != nil && stat.IsDir() == false
 }
 
 // WriteFile 寫入檔案, 如果有需要會建立目錄
 func WriteFile(path string, data []byte) error {
+	path = filepath.Clean(path) // 避免奇怪的相對路徑
+
 	if err := os.MkdirAll(filepath.Dir(path), os.ModePerm); err != nil {
 		return fmt.Errorf("writeFile: %w", err)
 	} // if
@@ -36,6 +40,7 @@ func WriteFile(path string, data []byte) error {
 
 // WriteTmpl 寫入模板檔案, 如果有需要會建立目錄
 func WriteTmpl(path, content string, refer any) error {
+	path = filepath.Clean(path) // 避免奇怪的相對路徑
 	tmpl, err := template.New(path).Parse(content)
 
 	if err != nil {

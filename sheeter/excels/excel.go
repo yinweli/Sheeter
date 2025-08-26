@@ -3,12 +3,13 @@ package excels
 import (
 	"fmt"
 	"regexp"
-	"sort"
+	"slices"
+	"strconv"
 	"strings"
 
 	"github.com/thedatashed/xlsxreader"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
 // Excel excel資料
@@ -61,7 +62,7 @@ func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, e
 	defer sheet.Close()
 	result = map[int][]string{}
 	current := 0 // 最少要一次才能定位到第1行, 所以起始位置設為0
-	sort.Ints(line)
+	slices.Sort(line)
 
 	for _, itor := range line {
 		if itor <= 0 { // 最少要一次才能定位到第1行, 所以若起始位置設為line <= 0, 就表示錯誤
@@ -88,15 +89,6 @@ func (this *Excel) GetLine(name string, line ...int) (result map[int][]string, e
 	return result, nil
 }
 
-// Sheets 取得sheet列表
-func (this *Excel) Sheets() []string {
-	if this.excel != nil {
-		return this.excel.Sheets
-	} // if
-
-	return []string{}
-}
-
 // Exist sheet是否存在
 func (this *Excel) Exist(name string) bool {
 	if this.excel != nil {
@@ -110,9 +102,13 @@ func (this *Excel) Exist(name string) bool {
 	return false
 }
 
-// IsOpen 是否開啟excel
-func (this *Excel) IsOpen() bool {
-	return this.excel != nil
+// Sheet 取得sheet列表
+func (this *Excel) Sheet() []string {
+	if this.excel != nil {
+		return this.excel.Sheets
+	} // if
+
+	return nil
 }
 
 // Sheet sheet資料
@@ -180,7 +176,7 @@ func (this *Sheet) Data() (result []string, err error) {
 			result = append(result, "")
 		} // for
 
-		result[index-1] = itor.Value // 由於欄位從1開始, 而陣列從0開始, 所以要減1
+		result[index-1] = formatNumerical(itor) // 由於欄位從1開始, 而陣列從0開始, 所以要減1
 	} // for
 
 	return result, nil
@@ -221,7 +217,7 @@ var openedSheet = make(chan *Sheet, sheeter.MaxSheet) // 已開啟的sheet列表
 
 // columnToIndex 欄位字串轉為索引值
 func columnToIndex(letter string) int {
-	if columnChecker(letter) == false {
+	if columnCompile(letter) == false {
 		panic("columnToIndex: column invalid") // 正常狀況下應該不會跑出異常
 	} // if
 
@@ -235,4 +231,23 @@ func columnToIndex(letter string) int {
 	return result
 }
 
-var columnChecker = regexp.MustCompile("^[a-zA-Z]+$").MatchString // 檢查欄位字串
+var columnCompile = regexp.MustCompile("^[a-zA-Z]+$").MatchString // 欄位字串正則表達式
+
+// formatNumerical 格式化浮點數, 從科學記號轉回十進位
+func formatNumerical(cell xlsxreader.Cell) string {
+	if cell.Type != xlsxreader.TypeNumerical {
+		return cell.Value
+	} // if
+
+	if strings.ContainsAny(cell.Value, "eE") == false {
+		return cell.Value
+	} // if
+
+	value, err := strconv.ParseFloat(cell.Value, 64)
+
+	if err != nil {
+		return cell.Value
+	} // if
+
+	return strconv.FormatFloat(value, 'f', -1, 64) // 'f', -1 -> 不用科學記號, 保留必要位數(不補多餘0)
+}

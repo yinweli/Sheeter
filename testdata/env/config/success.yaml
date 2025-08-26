@@ -10,7 +10,6 @@ exclude:
   - excel2#sheet
 output: output
 tag: tag
-autoKey: false
 lineOfTag: 101
 lineOfName: 102
 lineOfNote: 103

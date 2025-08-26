@@ -5,11 +5,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
 // StrToBool 字串轉布林值
 func StrToBool(input string) (result bool, err error) {
+	input = strings.TrimSpace(input)
+
 	if input == "" {
 		return false, nil
 	} // if
@@ -33,7 +35,7 @@ func StrToBoolArray(input string) (result []bool, err error) {
 		value, err := StrToBool(itor)
 
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("str to boolArray: %w", err)
 		} // if
 
 		result = append(result, value)
@@ -44,6 +46,8 @@ func StrToBoolArray(input string) (result []bool, err error) {
 
 // StrToInt32 字串轉32位元整數
 func StrToInt32(input string) (result int32, err error) {
+	input = strings.TrimSpace(input)
+
 	if input == "" {
 		return 0, nil
 	} // if
@@ -67,7 +71,7 @@ func StrToInt32Array(input string) (result []int32, err error) {
 		value, err := StrToInt32(itor)
 
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("str to int32Array: %w", err)
 		} // if
 
 		result = append(result, value)
@@ -78,6 +82,8 @@ func StrToInt32Array(input string) (result []int32, err error) {
 
 // StrToInt64 字串轉64位元整數
 func StrToInt64(input string) (result int64, err error) {
+	input = strings.TrimSpace(input)
+
 	if input == "" {
 		return 0, nil
 	} // if
@@ -101,7 +107,7 @@ func StrToInt64Array(input string) (result []int64, err error) {
 		value, err := StrToInt64(itor)
 
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("str to int64Array: %w", err)
 		} // if
 
 		result = append(result, value)
@@ -112,6 +118,8 @@ func StrToInt64Array(input string) (result []int64, err error) {
 
 // StrToFloat32 字串轉32位元浮點數
 func StrToFloat32(input string) (result float32, err error) {
+	input = strings.TrimSpace(input)
+
 	if input == "" {
 		return 0, nil
 	} // if
@@ -135,7 +143,7 @@ func StrToFloat32Array(input string) (result []float32, err error) {
 		value, err := StrToFloat32(itor)
 
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("str to float32Array: %w", err)
 		} // if
 
 		result = append(result, value)
@@ -146,6 +154,8 @@ func StrToFloat32Array(input string) (result []float32, err error) {
 
 // StrToFloat64 字串轉64位元浮點數
 func StrToFloat64(input string) (result float64, err error) {
+	input = strings.TrimSpace(input)
+
 	if input == "" {
 		return 0, nil
 	} // if
@@ -169,7 +179,7 @@ func StrToFloat64Array(input string) (result []float64, err error) {
 		value, err := StrToFloat64(itor)
 
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("str to float64Array: %w", err)
 		} // if
 
 		result = append(result, value)
@@ -179,6 +189,10 @@ func StrToFloat64Array(input string) (result []float64, err error) {
 }
 
 // StrToStrArray 字串轉為字串陣列
-func StrToStrArray(input string) []string {
-	return strings.Split(input, sheeter.TokenArray)
+func StrToStrArray(input string) (result []string) {
+	for _, itor := range strings.Split(input, sheeter.TokenArray) {
+		result = append(result, strings.TrimSpace(itor))
+	} // for
+
+	return result
 }

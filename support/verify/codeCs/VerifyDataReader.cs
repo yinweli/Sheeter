@@ -6,15 +6,27 @@ using Newtonsoft.Json;
 
 namespace Sheeter
 {
+    using Key_ = int;
     using Data_ = VerifyData;
-    using Key_ = System.Int32;
-    using Store_ = Dictionary<System.Int32, VerifyData>;
+    using Store_ = Dictionary<int, VerifyData>;
 
     /// <summary>
     /// verify.xlsx#Data
     /// </summary>
     public partial class VerifyData
     {
+        /// <summary>
+        /// duration
+        /// </summary>
+        [JsonProperty("Duration")]
+        public string Duration { get; set; }
+
+        /// <summary>
+        /// float
+        /// </summary>
+        [JsonProperty("Float")]
+        public float Float { get; set; }
+
         /// <summary>
         /// note1
         /// </summary>
@@ -40,10 +52,22 @@ namespace Sheeter
         public int Name4 { get; set; }
 
         /// <summary>
-        /// pkey
+        /// note5
         /// </summary>
-        [JsonProperty("Pkey")]
-        public System.Int32 Pkey { get; set; }
+        [JsonProperty("Name5")]
+        public int Name5 { get; set; }
+
+        /// <summary>
+        /// ratio
+        /// </summary>
+        [JsonProperty("Ratio")]
+        public string Ratio { get; set; }
+
+        /// <summary>
+        /// space
+        /// </summary>
+        [JsonProperty("Space")]
+        public int[] Space { get; set; }
     }
 
     /// <summary>
@@ -62,7 +86,7 @@ namespace Sheeter
         /// <summary>
         /// 讀取資料
         /// </summary>
-        public string FromData(string data, bool clear)
+        public string FromData(string data, bool clear, Progress progress)
         {
             Store_ tmpl;
 
@@ -79,14 +103,20 @@ namespace Sheeter
                 return "from data: deserialize failed";
 
             if (clear)
-                Data = new Store_();
+                this.data = new();
+
+            var task = progress.Reg();
+            var curr = 0;
+            var total = tmpl.Count;
 
             foreach (var itor in tmpl)
             {
-                if (Data.ContainsKey(itor.Key))
+                if (this.data.ContainsKey(itor.Key))
                     return "from data: key duplicate [verifyData : " + itor.Key + "]";
 
-                Data[itor.Key] = itor.Value;
+                this.data[itor.Key] = itor.Value;
+                curr++;
+                progress.Set(task, curr, total);
             } // for
 
             return string.Empty;
@@ -97,7 +127,7 @@ namespace Sheeter
         /// </summary>
         public void Clear()
         {
-            Data.Clear();
+            data.Clear();
         }
 
         /// <summary>
@@ -105,7 +135,7 @@ namespace Sheeter
         /// </summary>
         public bool TryGetValue(Key_ key, out Data_ value)
         {
-            return Data.TryGetValue(key, out value);
+            return data.TryGetValue(key, out value);
         }
 
         /// <summary>
@@ -113,7 +143,7 @@ namespace Sheeter
         /// </summary>
         public bool ContainsKey(Key_ key)
         {
-            return Data.ContainsKey(key);
+            return data.ContainsKey(key);
         }
 
         /// <summary>
@@ -121,7 +151,7 @@ namespace Sheeter
         /// </summary>
         public IEnumerator<KeyValuePair<Key_, Data_>> GetEnumerator()
         {
-            return Data.GetEnumerator();
+            return data.GetEnumerator();
         }
 
         /// <summary>
@@ -129,7 +159,7 @@ namespace Sheeter
         /// </summary>
         public Data_ this[Key_ key]
         {
-            get { return Data[key]; }
+            get { return data[key]; }
         }
 
         /// <summary>
@@ -137,7 +167,7 @@ namespace Sheeter
         /// </summary>
         public ICollection<Key_> Keys
         {
-            get { return Data.Keys; }
+            get { return data.Keys; }
         }
 
         /// <summary>
@@ -145,7 +175,7 @@ namespace Sheeter
         /// </summary>
         public ICollection<Data_> Values
         {
-            get { return Data.Values; }
+            get { return data.Values; }
         }
 
         /// <summary>
@@ -153,9 +183,9 @@ namespace Sheeter
         /// </summary>
         public int Count
         {
-            get { return Data.Count; }
+            get { return data.Count; }
         }
 
-        private Store_ Data = new Store_();
+        private Store_ data = new Store_();
     }
 }

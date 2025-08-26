@@ -6,10 +6,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/sheeter/fields"
-	"github.com/yinweli/Sheeter/v2/sheeter/layouts"
-	"github.com/yinweli/Sheeter/v2/testdata"
+	"github.com/yinweli/Sheeter/v3/sheeter/fields"
+	"github.com/yinweli/Sheeter/v3/sheeter/layouts"
+	"github.com/yinweli/Sheeter/v3/testdata"
 )
 
 func TestField(t *testing.T) {
@@ -31,15 +30,15 @@ func (this *SuiteField) TearDownSuite() {
 
 func (this *SuiteField) TestName() {
 	target := &Field{
-		Data: &layouts.Data{
+		Layout: &layouts.LayoutData{
 			Tag:   "",
 			Name:  "name",
-			Note:  "no\nte",
-			Field: &fields.Pkey{},
+			Note:  "note",
+			Field: &fields.Int{},
 		},
 	}
 	assert.Equal(this.T(), "Name", target.FieldName())
-	assert.Equal(this.T(), "no. te", target.FieldNote())
-	assert.Equal(this.T(), sheeter.TypePkeyCs, target.FieldTypeCs())
-	assert.Equal(this.T(), sheeter.TypePkeyGo, target.FieldTypeGo())
+	assert.Equal(this.T(), "note", target.FieldNote())
+	assert.Equal(this.T(), "int", target.FieldTypeCs())
+	assert.Equal(this.T(), "int32", target.FieldTypeGo())
 }

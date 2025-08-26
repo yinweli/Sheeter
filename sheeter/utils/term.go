@@ -3,7 +3,7 @@ package utils
 import (
 	"strings"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
+	"github.com/yinweli/Sheeter/v3/sheeter"
 )
 
 // MergeTerm 合併名稱
@@ -19,9 +19,7 @@ func (this MergeTerm) Name() string {
 }
 
 // Member 取得合併成員
-func (this MergeTerm) Member() []SheetTerm {
-	result := []SheetTerm{}
-
+func (this MergeTerm) Member() (result []SheetTerm) {
 	if _, member, ok := strings.Cut(string(this), sheeter.TokenName); ok {
 		for _, itor := range strings.Split(member, sheeter.TokenTerm) {
 			result = append(result, SheetTerm(itor))

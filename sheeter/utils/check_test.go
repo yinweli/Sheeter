@@ -6,8 +6,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/testdata"
+	"github.com/yinweli/Sheeter/v3/sheeter"
+	"github.com/yinweli/Sheeter/v3/testdata"
 )
 
 func TestCheck(t *testing.T) {
@@ -25,13 +25,6 @@ func (this *SuiteCheck) SetupSuite() {
 
 func (this *SuiteCheck) TearDownSuite() {
 	testdata.EnvRestore(this.Env)
-}
-
-func (this *SuiteCheck) TestCheckIgnore() {
-	assert.True(this.T(), CheckIgnore(sheeter.TokenIgnore+"data"))
-	assert.True(this.T(), CheckIgnore("data"+sheeter.TokenIgnore))
-	assert.True(this.T(), CheckIgnore("da"+sheeter.TokenIgnore+"ta"))
-	assert.False(this.T(), CheckIgnore(testdata.Unknown))
 }
 
 func (this *SuiteCheck) TestCheckExcel() {
@@ -97,4 +90,11 @@ func (this *SuiteCheck) TestCheckTag() {
 	assert.True(this.T(), CheckTag("ac", "abc"))
 	assert.False(this.T(), CheckTag("x", "abc"))
 	assert.False(this.T(), CheckTag("i", sheeter.TokenIgnore))
+}
+
+func (this *SuiteCheck) TestCheckIgnore() {
+	assert.True(this.T(), CheckIgnore(sheeter.TokenIgnore+"data"))
+	assert.True(this.T(), CheckIgnore("data"+sheeter.TokenIgnore))
+	assert.True(this.T(), CheckIgnore("da"+sheeter.TokenIgnore+"ta"))
+	assert.False(this.T(), CheckIgnore(testdata.Unknown))
 }

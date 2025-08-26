@@ -3,8 +3,7 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
 // Long 64位元整數
@@ -16,24 +15,14 @@ func (this *Long) Field() []string {
 	return []string{"long"}
 }
 
-// IsPkey 是否是主要索引
-func (this *Long) IsPkey() bool {
-	return false
-}
-
-// ToPkey 取得主要索引類型
-func (this *Long) ToPkey() Field {
-	return &Lkey{}
-}
-
 // ToTypeCs 取得cs類型字串
 func (this *Long) ToTypeCs() string {
-	return sheeter.TypeLongCs
+	return "long"
 }
 
 // ToTypeGo 取得go類型字串
 func (this *Long) ToTypeGo() string {
-	return sheeter.TypeLongGo
+	return "int64"
 }
 
 // ToJsonValue 轉換為json值

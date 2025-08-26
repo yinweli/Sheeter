@@ -2,7 +2,6 @@ source:
   - excel\example.xlsx
 output: sheet
 tag: B
-autoKey: true
 lineOfTag: 1
 lineOfName: 2
 lineOfNote: 3

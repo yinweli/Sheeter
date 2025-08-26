@@ -2,15 +2,13 @@ package builds
 
 import (
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/sheeter/excels"
-	"github.com/yinweli/Sheeter/v2/sheeter/nameds"
-	"github.com/yinweli/Sheeter/v2/testdata"
+	"github.com/yinweli/Sheeter/v3/sheeter/excels"
+	"github.com/yinweli/Sheeter/v3/sheeter/nameds"
+	"github.com/yinweli/Sheeter/v3/testdata"
 )
 
 func TestPoststep(t *testing.T) {
@@ -51,30 +49,42 @@ func (this *SuitePoststep) TearDownSuite() {
 
 func (this *SuitePoststep) TestPoststep() {
 	config := this.prepareConfig(false)
-	context, _ := Initialize(config)
-	time.Sleep(testdata.Timeout)
-	file, err := Poststep(config, context)
-	time.Sleep(testdata.Timeout)
+	initializeData, _ := Initialize(config)
+	result, err := Poststep(config, initializeData)
 	assert.Len(this.T(), err, 0)
-	assert.Len(this.T(), file, 2)
+	assert.Len(this.T(), result, 4)
 
-	for _, itor := range file {
+	for _, itor := range result {
 		assert.FileExists(this.T(), itor.(string))
 	} // for
 }
 
 func (this *SuitePoststep) TestGenerateSheeterCs() {
-	result := make(chan any, sheeter.MaxExcel)
-	poststepData := this.prepareData(this.excel, this.sheet)
-	assert.Nil(this.T(), generateSheeterCs(poststepData, result))
-	assert.FileExists(this.T(), poststepData.SheeterPathCs())
+	material := this.prepareData(this.excel, this.sheet)
+	result := generateSheeterCs(material)
+	assert.Nil(this.T(), result.Error)
+	assert.FileExists(this.T(), material.SheeterPathCs())
+}
+
+func (this *SuitePoststep) TestGenerateHelperCs() {
+	material := this.prepareData(this.excel, this.sheet)
+	result := generateHelperCs(material)
+	assert.Nil(this.T(), result.Error)
+	assert.FileExists(this.T(), material.HelperPathCs())
 }
 
 func (this *SuitePoststep) TestGenerateSheeterGo() {
-	result := make(chan any, sheeter.MaxExcel)
-	poststepData := this.prepareData(this.excel, this.sheet)
-	assert.Nil(this.T(), generateSheeterGo(poststepData, result))
-	assert.FileExists(this.T(), poststepData.SheeterPathGo())
+	material := this.prepareData(this.excel, this.sheet)
+	result := generateSheeterGo(material)
+	assert.Nil(this.T(), result.Error)
+	assert.FileExists(this.T(), material.SheeterPathGo())
+}
+
+func (this *SuitePoststep) TestGenerateHelperGo() {
+	material := this.prepareData(this.excel, this.sheet)
+	result := generateHelperGo(material)
+	assert.Nil(this.T(), result.Error)
+	assert.FileExists(this.T(), material.HelperPathGo())
 }
 
 func (this *SuitePoststep) prepareConfig(empty bool) *Config {

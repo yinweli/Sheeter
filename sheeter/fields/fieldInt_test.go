@@ -6,8 +6,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/testdata"
+	"github.com/yinweli/Sheeter/v3/testdata"
 )
 
 func TestInt(t *testing.T) {
@@ -30,10 +29,8 @@ func (this *SuiteInt) TearDownSuite() {
 func (this *SuiteInt) TestField() {
 	target := &Int{}
 	assert.Equal(this.T(), []string{"int"}, target.Field())
-	assert.Equal(this.T(), false, target.IsPkey())
-	assert.IsType(this.T(), &Pkey{}, target.ToPkey())
-	assert.Equal(this.T(), sheeter.TypeIntCs, target.ToTypeCs())
-	assert.Equal(this.T(), sheeter.TypeIntGo, target.ToTypeGo())
+	assert.Equal(this.T(), "int", target.ToTypeCs())
+	assert.Equal(this.T(), "int32", target.ToTypeGo())
 }
 
 func (this *SuiteInt) TestToJsonValue() {

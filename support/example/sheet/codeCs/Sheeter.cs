@@ -16,31 +16,43 @@ namespace Sheeter
         /// <summary>
         /// 讀取資料處理
         /// </summary>
-        public bool FromData()
+        public async Task<bool> FromData()
         {
+            progress.Reset();
+
             if (loader == null)
                 return false;
 
-            var result = true;
+            var task = new List<Task<bool>>();
 
             foreach (var itor in new Reader[] { this.ExampleData })
             {
-                var filename = itor.FileName();
-                var data = loader.Load(filename);
+                var tmpl = itor;
 
-                if (data == null || data.Length == 0)
-                    continue;
+                task.Add(
+                    Task.Run(() =>
+                    {
+                        var filename = tmpl.FileName();
+                        var data = loader.Load(filename);
 
-                var error = itor.FromData(data, true);
+                        if (data == null || data.Length == 0)
+                            return true;
 
-                if (error.Length != 0)
-                {
-                    result = false;
-                    loader.Error(filename.File, error);
-                } // if
+                        var error = tmpl.FromData(data, true, progress);
+
+                        if (error.Length == 0)
+                            return true;
+
+                        loader.Error(filename.File, error);
+                        return false;
+                    })
+                );
             } // for
 
-            return result;
+            var result = await Task.WhenAll(task);
+
+            progress.Complete();
+            return result.All(itor => itor);
         }
 
         /// <summary>
@@ -48,7 +60,16 @@ namespace Sheeter
         /// </summary>
         public void Clear()
         {
+            progress.Reset();
             this.ExampleData.Clear();
+        }
+
+        /// <summary>
+        /// 取得進度值
+        /// </summary>
+        public float Progress()
+        {
+            return progress.Get();
         }
 
         /// <summary>
@@ -57,91 +78,13 @@ namespace Sheeter
         private readonly Loader loader;
 
         /// <summary>
+        /// 進度物件
+        /// </summary>
+        private readonly Progress progress = new();
+
+        /// <summary>
         /// example.xlsx#Data
         /// </summary>
-        public readonly ExampleDataReader ExampleData = new ExampleDataReader();
-    }
-
-    /// <summary>
-    /// 裝載器介面
-    /// </summary>
-    public interface Loader
-    {
-        /// <summary>
-        /// 讀取檔案
-        /// </summary>
-        public string Load(FileName filename);
-
-        /// <summary>
-        /// 錯誤處理
-        /// </summary>
-        public void Error(string name, string message);
-    }
-
-    /// <summary>
-    /// 讀取器介面
-    /// </summary>
-    public interface Reader
-    {
-        /// <summary>
-        /// 取得檔名物件
-        /// </summary>
-        public FileName FileName();
-
-        /// <summary>
-        /// 讀取資料
-        /// </summary>
-        public string FromData(string data, bool clear);
-
-        /// <summary>
-        /// 清除資料
-        /// </summary>
-        public void Clear();
-    }
-
-    /// <summary>
-    /// 檔名資料
-    /// </summary>
-    public class FileName
-    {
-        public FileName(string name, string ext)
-        {
-            this.name = name;
-            this.ext = ext;
-        }
-
-        /// <summary>
-        /// 取得名稱
-        /// </summary>
-        public string Name
-        {
-            get { return name; }
-        }
-
-        /// <summary>
-        /// 取得副檔名
-        /// </summary>
-        public string Ext
-        {
-            get { return ext; }
-        }
-
-        /// <summary>
-        /// 取得完整檔名
-        /// </summary>
-        public string File
-        {
-            get { return name + ext; }
-        }
-
-        /// <summary>
-        /// 名稱
-        /// </summary>
-        private readonly string name;
-
-        /// <summary>
-        /// 副檔名
-        /// </summary>
-        private readonly string ext;
+        public readonly ExampleDataReader ExampleData = new();
     }
 }

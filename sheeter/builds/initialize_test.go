@@ -3,14 +3,12 @@ package builds
 import (
 	"path/filepath"
 	"testing"
-	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/sheeter/excels"
-	"github.com/yinweli/Sheeter/v2/testdata"
+	"github.com/yinweli/Sheeter/v3/sheeter/excels"
+	"github.com/yinweli/Sheeter/v3/testdata"
 )
 
 func TestInitialize(t *testing.T) {
@@ -52,16 +50,14 @@ func (this *SuiteInitialize) TearDownSuite() {
 }
 
 func (this *SuiteInitialize) TestInitialize() {
-	config := &Config{
+	result, err := Initialize(&Config{
 		Source:  []string{this.folderSuccess},
 		Exclude: []string{"exclude#exclude"},
-	}
-	context, err := Initialize(config)
-	time.Sleep(testdata.Timeout)
+	})
 	assert.Len(this.T(), err, 0)
-	assert.Len(this.T(), context, 7)
+	assert.Len(this.T(), result, 7)
 
-	for _, itor := range context {
+	for _, itor := range result {
 		assert.NotNil(this.T(), itor.Excel)
 		assert.NotNil(this.T(), itor.Sheet)
 		assert.NotEmpty(this.T(), itor.ExcelName)
@@ -71,31 +67,31 @@ func (this *SuiteInitialize) TestInitialize() {
 	_, err = Initialize(&Config{
 		Source: []string{this.folderFailed},
 	})
-	time.Sleep(testdata.Timeout)
 	assert.Len(this.T(), err, 3)
 }
 
 func (this *SuiteInitialize) TestSearchExcel() {
-	result := make(chan any, sheeter.MaxExcel)
-	assert.Nil(this.T(), searchExcel(this.folderSearchExcel, result))
-	assert.Equal(this.T(), filepath.Join(this.folderSearchExcel, this.excelSuccess1), <-result)
-	assert.Equal(this.T(), filepath.Join(this.folderSearchExcel, this.excelSuccess2), <-result)
-	assert.Equal(this.T(), filepath.Join(this.folderSearchExcel, this.excelSuccess3), <-result)
+	result := searchExcel(this.folderSearchExcel)
+	assert.Nil(this.T(), result.Error)
+	assert.Equal(this.T(), filepath.Join(this.folderSearchExcel, this.excelSuccess1), result.Result[0])
+	assert.Equal(this.T(), filepath.Join(this.folderSearchExcel, this.excelSuccess2), result.Result[1])
+	assert.Equal(this.T(), filepath.Join(this.folderSearchExcel, this.excelSuccess3), result.Result[2])
 }
 
 func (this *SuiteInitialize) TestSearchSheet() {
-	result := make(chan any, sheeter.MaxExcel)
-	assert.Nil(this.T(), searchSheet(filepath.Join(this.folderSearchSheet, this.excelSuccess1), result))
-	prepare := (<-result).(*InitializeData)
+	result := searchSheet(filepath.Join(this.folderSearchSheet, this.excelSuccess1))
+	assert.Nil(this.T(), result.Error)
+	prepare := result.Result[0].(*InitializeData)
 	assert.NotNil(this.T(), prepare.Excel)
 	assert.NotNil(this.T(), prepare.Sheet)
 	assert.Equal(this.T(), this.excelSuccess1, prepare.ExcelName)
 	assert.Equal(this.T(), this.sheet1, prepare.SheetName)
-	prepare = (<-result).(*InitializeData)
+	prepare = result.Result[1].(*InitializeData)
 	assert.NotNil(this.T(), prepare.Excel)
 	assert.NotNil(this.T(), prepare.Sheet)
 	assert.Equal(this.T(), this.excelSuccess1, prepare.ExcelName)
 	assert.Equal(this.T(), this.sheet2, prepare.SheetName)
 
-	assert.NotNil(this.T(), searchSheet(filepath.Join(this.folderSearchSheet, this.excelFailed), result))
+	result = searchSheet(filepath.Join(this.folderSearchSheet, this.excelFailed))
+	assert.NotNil(this.T(), result.Error)
 }

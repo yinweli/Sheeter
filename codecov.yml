@@ -1,0 +1,12 @@
+ignore:
+  - "support/**"
+
+coverage:
+  status:
+    project:
+      default:
+        target: auto
+        threshold: 1% # 容忍小幅波動
+    patch:
+      default:
+        informational: true # PullRequest 的 patch 覆蓋率只顯示資訊，不當 fail

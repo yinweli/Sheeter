@@ -4,22 +4,14 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/yinweli/Sheeter/v2/sheeter/nameds"
-	"github.com/yinweli/Sheeter/v2/sheeter/pipelines"
-	"github.com/yinweli/Sheeter/v2/sheeter/tmpls"
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/sheeter/nameds"
+	"github.com/yinweli/Sheeter/v3/sheeter/pipelines"
+	"github.com/yinweli/Sheeter/v3/sheeter/tmpls"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
-// PoststepData 後製資料
-type PoststepData struct {
-	*Config                       // 設定資料
-	*nameds.Named                 // 命名工具
-	Alone         []*nameds.Named // 獨立結構列表
-	Merge         []*nameds.Merge // 合併結構列表
-}
-
 // Poststep 後製處理
-func Poststep(config *Config, input []*InitializeData) (file []any, err []error) {
+func Poststep(config *Config, initializeData []*InitializeData) (result []any, err []error) {
 	material := &PoststepData{
 		Config: config,
 		Named: &nameds.Named{ // 由於只需要AppName與Namespace, 所以不必填寫excel與sheet名稱
@@ -27,7 +19,7 @@ func Poststep(config *Config, input []*InitializeData) (file []any, err []error)
 		},
 	}
 
-	for _, itor := range input {
+	for _, itor := range initializeData {
 		material.Alone = append(material.Alone, &nameds.Named{
 			ExcelName: itor.ExcelName,
 			SheetName: itor.SheetName,
@@ -63,38 +55,76 @@ func Poststep(config *Config, input []*InitializeData) (file []any, err []error)
 		return lhs.Name < rhs.Name
 	})
 
-	file, err = pipelines.Pipeline[*PoststepData]("poststep", []*PoststepData{material}, []pipelines.PipelineFunc[*PoststepData]{
+	result, err = pipelines.Pipeline[*PoststepData]("poststep", []*PoststepData{material}, []pipelines.Execute[*PoststepData]{
 		generateSheeterCs,
+		generateHelperCs,
 		generateSheeterGo,
+		generateHelperGo,
 	})
 
 	if len(err) > 0 {
 		return nil, err
 	} // if
 
-	return file, nil
+	return result, nil
 }
 
-// generateSheeterCs 產生cs表格器程式碼
-func generateSheeterCs(input *PoststepData, result chan any) error {
-	path := input.SheeterPathCs()
-
-	if err := utils.WriteTmpl(path, tmpls.SheeterCs, input); err != nil {
-		return fmt.Errorf("generate sheeter cs: %v#%v: %w", input.ExcelName, input.SheetName, err)
-	} // if
-
-	result <- path
-	return nil
+// PoststepData 後製資料
+type PoststepData struct {
+	*Config                       // 設定資料
+	*nameds.Named                 // 命名工具
+	Alone         []*nameds.Named // 獨立結構列表
+	Merge         []*nameds.Merge // 合併結構列表
 }
 
-// generateSheeterGo 產生go表格器程式碼
-func generateSheeterGo(input *PoststepData, result chan any) error {
-	path := input.SheeterPathGo()
+// generateSheeterCs 產生cs語言表格程式碼
+func generateSheeterCs(material *PoststepData) (result pipelines.Output) {
+	path := material.SheeterPathCs()
 
-	if err := utils.WriteTmpl(path, tmpls.SheeterGo, input); err != nil {
-		return fmt.Errorf("generate sheeter go: %v#%v: %w", input.ExcelName, input.SheetName, err)
+	if err := utils.WriteTmpl(path, tmpls.SheeterCs, material); err != nil {
+		result.Error = fmt.Errorf("generate sheeter cs: %v#%v: %w", material.ExcelName, material.SheetName, err)
+		return result
 	} // if
 
-	result <- path
-	return nil
+	result.Result = append(result.Result, path)
+	return result
+}
+
+// generateHelperCs 產生cs語言工具程式碼
+func generateHelperCs(material *PoststepData) (result pipelines.Output) {
+	path := material.HelperPathCs()
+
+	if err := utils.WriteTmpl(path, tmpls.HelperCs, material); err != nil {
+		result.Error = fmt.Errorf("generate helper cs: %v#%v: %w", material.ExcelName, material.SheetName, err)
+		return result
+	} // if
+
+	result.Result = append(result.Result, path)
+	return result
+}
+
+// generateSheeterGo 產生go語言表格程式碼
+func generateSheeterGo(material *PoststepData) (result pipelines.Output) {
+	path := material.SheeterPathGo()
+
+	if err := utils.WriteTmpl(path, tmpls.SheeterGo, material); err != nil {
+		result.Error = fmt.Errorf("generate sheeter go: %v#%v: %w", material.ExcelName, material.SheetName, err)
+		return result
+	} // if
+
+	result.Result = append(result.Result, path)
+	return result
+}
+
+// generateHelperGo 產生go語言工具程式碼
+func generateHelperGo(material *PoststepData) (result pipelines.Output) {
+	path := material.HelperPathGo()
+
+	if err := utils.WriteTmpl(path, tmpls.HelperGo, material); err != nil {
+		result.Error = fmt.Errorf("generate helper go: %v#%v: %w", material.ExcelName, material.SheetName, err)
+		return result
+	} // if
+
+	result.Result = append(result.Result, path)
+	return result
 }

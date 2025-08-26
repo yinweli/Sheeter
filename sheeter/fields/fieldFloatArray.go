@@ -3,8 +3,7 @@ package fields
 import (
 	"fmt"
 
-	"github.com/yinweli/Sheeter/v2/sheeter"
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
 // FloatArray 32位元浮點數陣列
@@ -16,24 +15,14 @@ func (this *FloatArray) Field() []string {
 	return []string{"floatArray", "[]float", "float[]"}
 }
 
-// IsPkey 是否是主要索引
-func (this *FloatArray) IsPkey() bool {
-	return false
-}
-
-// ToPkey 取得主要索引類型
-func (this *FloatArray) ToPkey() Field {
-	return nil
-}
-
 // ToTypeCs 取得cs類型字串
 func (this *FloatArray) ToTypeCs() string {
-	return sheeter.TypeFloatCs + sheeter.TypeArray
+	return "float[]"
 }
 
 // ToTypeGo 取得go類型字串
 func (this *FloatArray) ToTypeGo() string {
-	return sheeter.TypeArray + sheeter.TypeFloatGo
+	return "[]float32"
 }
 
 // ToJsonValue 轉換為json值

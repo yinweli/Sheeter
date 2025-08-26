@@ -3,7 +3,7 @@ package nameds
 import (
 	"strings"
 
-	"github.com/yinweli/Sheeter/v2/sheeter/utils"
+	"github.com/yinweli/Sheeter/v3/sheeter/utils"
 )
 
 // param 組合名稱參數
@@ -34,7 +34,7 @@ func combine(p *param) string {
 		excel = utils.FirstLower(excel)
 	} // if
 
-	name := strings.Builder{}
+	name := &strings.Builder{}
 	name.WriteString(excel)
 	name.WriteString(sheet)
 	name.WriteString(p.last)
