@@ -334,7 +334,8 @@ gofmt 是 Go 語言的官方格式化工具, 隨 Go 語言環境一同安裝
 | bench          | 進行效能測試     |
 
 # JetBrains licenses
-[sheeter] 使用了 JetBrains 的 Goland 的免費開發許可, 在此表示感謝  
+[sheeter] 使用了 JetBrains 的 Goland 的免費開發許可, 在此表示感謝
+
 <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." style="width:200px;">
 <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/GoLand_icon.png" alt="GoLand logo." style="width:200px;">
 
