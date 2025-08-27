@@ -9,97 +9,97 @@ namespace Sheeter
     using Store_ = Dictionary<String, Handmade>;
 
     /// <summary>
-    /// $結構說明
+    /// 結構說明
     /// </summary>
     public partial class Handmade
     {
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Pkey")]
         public Int32 Pkey { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Skey")]
         public String Skey { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data1")]
         public Boolean Data1 { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data2")]
         public Boolean[] Data2 { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data3")]
         public Int32 Data3 { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data4")]
         public Int32[] Data4 { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data5")]
         public Int64 Data5 { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data6")]
         public Int64[] Data6 { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data7")]
         public Single Data7 { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data8")]
         public Single[] Data8 { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data9")]
         public Double Data9 { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data10")]
         public Double[] Data10 { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data11")]
         public String Data11 { get; set; }
 
         /// <summary>
-        /// $欄位說明
+        /// 欄位說明
         /// </summary>
         [JsonProperty("Data12")]
         public String[] Data12 { get; set; }
     }
 
     /// <summary>
-    /// $結構說明
+    /// 結構說明
     /// </summary>
     public partial class HandmadeReader : Reader
     {
@@ -188,6 +188,7 @@ namespace Sheeter
         public Data_ this[Key_ key]
         {
             get { return data[key]; }
+            set { data[key] = value; }
         }
 
         /// <summary>
