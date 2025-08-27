@@ -116,6 +116,7 @@ namespace {{$.Namespace | $.FirstUpper}}
         public Data_ this[Key_ key]
         {
             get { return data[key]; }
+            set { data[key] = value; }
         }
 
         /// <summary>
@@ -142,7 +143,7 @@ namespace {{$.Namespace | $.FirstUpper}}
             get { return data.Count; }
         }
 
-        private Store_ data = new Store_();
+        private Store_ data = new();
     }
 }
 `
