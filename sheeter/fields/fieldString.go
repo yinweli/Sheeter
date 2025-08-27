@@ -11,7 +11,7 @@ func (this *String) Field() []string {
 
 // ToTypeCs 取得cs類型字串
 func (this *String) ToTypeCs() string {
-	return "string"
+	return "String"
 }
 
 // ToTypeGo 取得go類型字串

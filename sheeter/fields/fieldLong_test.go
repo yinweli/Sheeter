@@ -29,7 +29,7 @@ func (this *SuiteLong) TearDownSuite() {
 func (this *SuiteLong) TestField() {
 	target := &Long{}
 	assert.Equal(this.T(), []string{"long"}, target.Field())
-	assert.Equal(this.T(), "long", target.ToTypeCs())
+	assert.Equal(this.T(), "Int64", target.ToTypeCs())
 	assert.Equal(this.T(), "int64", target.ToTypeGo())
 }
 

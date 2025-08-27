@@ -54,7 +54,7 @@ func (this *SuiteNamed) TestName() {
 	assert.Equal(this.T(), filepath.Join("output", sheeter.PathGo, "excelSheetReader.go"), target.ReaderPathGo())
 	assert.Equal(this.T(), filepath.Join("output", sheeter.PathGo, "sheeter.go"), target.SheeterPathGo())
 	assert.Equal(this.T(), filepath.Join("output", sheeter.PathGo, "helper.go"), target.HelperPathGo())
-	assert.Equal(this.T(), "int", target.PrimaryCs())
+	assert.Equal(this.T(), "Int32", target.PrimaryCs())
 	assert.Equal(this.T(), "int32", target.PrimaryGo())
 	assert.Equal(this.T(), "TestString", target.FirstUpper("testString"))
 	assert.Equal(this.T(), "testString", target.FirstLower("TestString"))

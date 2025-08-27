@@ -17,7 +17,7 @@ func (this *DoubleArray) Field() []string {
 
 // ToTypeCs 取得cs類型字串
 func (this *DoubleArray) ToTypeCs() string {
-	return "double[]"
+	return "Double[]"
 }
 
 // ToTypeGo 取得go類型字串

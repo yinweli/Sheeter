@@ -17,7 +17,7 @@ func (this *LongArray) Field() []string {
 
 // ToTypeCs 取得cs類型字串
 func (this *LongArray) ToTypeCs() string {
-	return "long[]"
+	return "Int64[]"
 }
 
 // ToTypeGo 取得go類型字串

@@ -17,7 +17,7 @@ func (this *Bool) Field() []string {
 
 // ToTypeCs 取得cs類型字串
 func (this *Bool) ToTypeCs() string {
-	return "bool"
+	return "Boolean"
 }
 
 // ToTypeGo 取得go類型字串

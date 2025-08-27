@@ -17,7 +17,7 @@ func (this *Float) Field() []string {
 
 // ToTypeCs 取得cs類型字串
 func (this *Float) ToTypeCs() string {
-	return "float"
+	return "Single"
 }
 
 // ToTypeGo 取得go類型字串

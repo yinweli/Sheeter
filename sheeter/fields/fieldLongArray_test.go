@@ -29,7 +29,7 @@ func (this *SuiteLongArray) TearDownSuite() {
 func (this *SuiteLongArray) TestField() {
 	target := &LongArray{}
 	assert.Equal(this.T(), []string{"longArray", "[]long", "long[]"}, target.Field())
-	assert.Equal(this.T(), "long[]", target.ToTypeCs())
+	assert.Equal(this.T(), "Int64[]", target.ToTypeCs())
 	assert.Equal(this.T(), "[]int64", target.ToTypeGo())
 }
 

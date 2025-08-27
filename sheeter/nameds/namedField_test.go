@@ -39,6 +39,6 @@ func (this *SuiteField) TestName() {
 	}
 	assert.Equal(this.T(), "Name", target.FieldName())
 	assert.Equal(this.T(), "note", target.FieldNote())
-	assert.Equal(this.T(), "int", target.FieldTypeCs())
+	assert.Equal(this.T(), "Int32", target.FieldTypeCs())
 	assert.Equal(this.T(), "int32", target.FieldTypeGo())
 }
