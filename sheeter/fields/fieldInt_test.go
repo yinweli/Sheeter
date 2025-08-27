@@ -29,7 +29,7 @@ func (this *SuiteInt) TearDownSuite() {
 func (this *SuiteInt) TestField() {
 	target := &Int{}
 	assert.Equal(this.T(), []string{"int"}, target.Field())
-	assert.Equal(this.T(), "int", target.ToTypeCs())
+	assert.Equal(this.T(), "Int32", target.ToTypeCs())
 	assert.Equal(this.T(), "int32", target.ToTypeGo())
 }
 

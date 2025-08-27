@@ -29,7 +29,7 @@ func (this *SuiteFloat) TearDownSuite() {
 func (this *SuiteFloat) TestField() {
 	target := &Float{}
 	assert.Equal(this.T(), []string{"float"}, target.Field())
-	assert.Equal(this.T(), "float", target.ToTypeCs())
+	assert.Equal(this.T(), "Single", target.ToTypeCs())
 	assert.Equal(this.T(), "float32", target.ToTypeGo())
 }
 

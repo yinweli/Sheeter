@@ -29,7 +29,7 @@ func (this *SuiteBoolArray) TearDownSuite() {
 func (this *SuiteBoolArray) TestField() {
 	target := &BoolArray{}
 	assert.Equal(this.T(), []string{"boolArray", "[]bool", "bool[]"}, target.Field())
-	assert.Equal(this.T(), "bool[]", target.ToTypeCs())
+	assert.Equal(this.T(), "Boolean[]", target.ToTypeCs())
 	assert.Equal(this.T(), "[]bool", target.ToTypeGo())
 }
 

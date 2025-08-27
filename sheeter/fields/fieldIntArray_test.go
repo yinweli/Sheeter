@@ -29,7 +29,7 @@ func (this *SuiteIntArray) TearDownSuite() {
 func (this *SuiteIntArray) TestField() {
 	target := &IntArray{}
 	assert.Equal(this.T(), []string{"intArray", "[]int", "int[]"}, target.Field())
-	assert.Equal(this.T(), "int[]", target.ToTypeCs())
+	assert.Equal(this.T(), "Int32[]", target.ToTypeCs())
 	assert.Equal(this.T(), "[]int32", target.ToTypeGo())
 }
 
