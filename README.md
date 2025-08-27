@@ -334,8 +334,6 @@ gofmt 是 Go 語言的官方格式化工具, 隨 Go 語言環境一同安裝
 [CSharpier]: https://github.com/belav/csharpier
 [Dotnet]: https://learn.microsoft.com/zh-tw/dotnet/core/sdk
 [Go]: https://go.dev/dl/
-[json]: https://www.json.org/json-en.html
 [Sheet]: https://github.com/yinweli/Sheet
 [Sheeter]: https://github.com/yinweli/sheeter
 [Task]: https://taskfile.dev/
-[template]: https://pkg.go.dev/text/template
