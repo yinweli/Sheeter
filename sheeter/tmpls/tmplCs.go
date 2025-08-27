@@ -149,6 +149,9 @@ namespace {{$.Namespace | $.FirstUpper}}
 
 // SheeterCs cs語言表格模板
 var SheeterCs = Header + `
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
 namespace {{$.Namespace | $.FirstUpper}}
 {
     /// <summary>
