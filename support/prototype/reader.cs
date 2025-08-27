@@ -1,11 +1,12 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace Sheeter
 {
     using Data_ = Handmade;
-    using Key_ = System.String;
-    using Store_ = Dictionary<string, Handmade>;
+    using Key_ = String;
+    using Store_ = Dictionary<String, Handmade>;
 
     /// <summary>
     /// $結構說明
@@ -16,85 +17,85 @@ namespace Sheeter
         /// $欄位說明
         /// </summary>
         [JsonProperty("Pkey")]
-        public int Pkey { get; set; }
+        public Int32 Pkey { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Skey")]
-        public string Skey { get; set; }
+        public String Skey { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data1")]
-        public bool Data1 { get; set; }
+        public Boolean Data1 { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data2")]
-        public bool[] Data2 { get; set; }
+        public Boolean[] Data2 { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data3")]
-        public int Data3 { get; set; }
+        public Int32 Data3 { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data4")]
-        public int[] Data4 { get; set; }
+        public Int32[] Data4 { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data5")]
-        public long Data5 { get; set; }
+        public Int64 Data5 { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data6")]
-        public long[] Data6 { get; set; }
+        public Int64[] Data6 { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data7")]
-        public float Data7 { get; set; }
+        public Single Data7 { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data8")]
-        public float[] Data8 { get; set; }
+        public Single[] Data8 { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data9")]
-        public double Data9 { get; set; }
+        public Double Data9 { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data10")]
-        public double[] Data10 { get; set; }
+        public Double[] Data10 { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data11")]
-        public string Data11 { get; set; }
+        public String Data11 { get; set; }
 
         /// <summary>
         /// $欄位說明
         /// </summary>
         [JsonProperty("Data12")]
-        public string[] Data12 { get; set; }
+        public String[] Data12 { get; set; }
     }
 
     /// <summary>
