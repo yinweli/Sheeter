@@ -1,48 +1,48 @@
-![license](https://img.shields.io/github/license/yinweli/Sheeter)
-![lint](https://github.com/yinweli/Sheeter/actions/workflows/lint.yml/badge.svg)
-![test](https://github.com/yinweli/Sheeter/actions/workflows/test.yml/badge.svg)
-![test](https://github.com/yinweli/Sheeter/actions/workflows/build.yml/badge.svg)
-![codecov](https://codecov.io/gh/yinweli/Sheeter/branch/main/graph/badge.svg?token=LK5HL58LSN)
+[![license](https://img.shields.io/github/license/yinweli/Sheeter)](https://github.com/yinweli/Sheeter/blob/main/LICENSE)
+[![lint](https://github.com/yinweli/Sheeter/actions/workflows/lint.yml/badge.svg)](https://github.com/yinweli/Sheeter/actions/workflows/lint.yml)
+[![test](https://github.com/yinweli/Sheeter/actions/workflows/test.yml/badge.svg)](https://github.com/yinweli/Sheeter/actions/workflows/test.yml)
+[![build](https://github.com/yinweli/Sheeter/actions/workflows/build.yml/badge.svg)](https://github.com/yinweli/Sheeter/actions/workflows/build.yml)
+[![codecov](https://codecov.io/gh/yinweli/Sheeter/branch/main/graph/badge.svg?token=LK5HL58LSN)](https://codecov.io/gh/yinweli/Sheeter)
 
 # Sheeter
-[sheeter] 是一款使用 [go] 語言開發的 Excel 轉換工具
+[Sheeter] 是一款使用 [Go] 語言開發的 Excel 轉換工具
 
 它能將特定格式的 Excel 文件轉換成 JSON 數據文件, 並生成用於讀取這些數據文件的 C# 或 Go 程式碼
 
-這款工具的前身為 [sheet]
+這款工具的前身為 [Sheet]
 
 # 系統需求
-- [go]1.23以上
+- [Go] 1.20+
 
 # 從安裝包安裝
 您可以在 GitHub 頁面的 `Releases` 部分找到適合不同平台的安裝壓縮包
 
-下載並解壓縮這些文件之後, 即可開始使用
+下載並解壓後, 請將可執行檔加入至系統的 `PATH` (或在命令列以相對 / 絕對路徑呼叫)即可使用
 
 # 從原始碼安裝
-- 確保在您的系統上安裝了 Go 語言
+- 確保在您的系統上安裝了 [Go] 語言
 - 在終端機中執行以下命令以安裝最新版本
-   ```sh
-   go install github.com/yinweli/Sheeter/v3/cmd/sheeter@latest
-   ```
-- 如果需要安裝 v2 的 [sheeter], 可以使用以下命令安裝 v2
+  ```sh
+  go install github.com/yinweli/Sheeter/v3/cmd/sheeter@latest
+  ```
+- 如果需要安裝 v2 的 [Sheeter], 可以使用以下命令安裝
   ```sh
   go install github.com/yinweli/Sheeter/v2/cmd/sheeter@latest
   ```
-- 如果需要安裝 v1 的 [sheeter], 可以使用以下命令安裝 v1
-   ```sh
-   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
-   ```
-   請注意, [sheeter] 的 v3 / v2 版本與 v1 版本的 Excel 格式不相容, 因此這兩個版本之間無法互相讀取 Excel 文件
+- 如果需要安裝 v1 的 [Sheeter], 可以使用以下命令安裝
+  ```sh
+  go install github.com/yinweli/Sheeter/cmd/sheeter@latest
+  ```
+  請注意, [Sheeter] 的 v3 / v2 版本與 v1 版本的 Excel 格式不相容, 因此這兩個版本之間無法互相讀取 Excel 文件
 
 # 如何使用
-以下是使用 [sheeter] 工具的步驟, 旨在指導您如何從 Excel 檔案生成程式碼和 JSON 資料
+以下是使用 [Sheeter] 工具的步驟, 旨在指導您如何從 Excel 檔案生成程式碼和 JSON 資料
 
 - 建立資料表單
   - 首先, 您需要建立一個 Excel 檔案, 詳細規範和格式請參考 [資料表單說明](#資料表單說明)
 - 建立設定檔案
   - 根據您的需求建立一個設定檔案, 具體設定詳情請見 [設定檔](#設定檔)
-  - 這個檔案將指導 [sheeter] 如何讀取和處理 Excel 檔案
+  - 這個檔案將指導 [Sheeter] 如何讀取和處理 Excel 檔案
 - 執行建置命令
   - 在終端機中執行以下命令來生成所需的程式碼檔案和 JSON 資料檔
     ```sh
@@ -50,7 +50,7 @@
     ```
   - 確保替換 `設定檔案` 為您的實際設定檔案路徑
 - 產生檔案
-  - 執行上述命令後, [sheeter] 將會產生以下檔案
+  - 執行上述命令後, [Sheeter] 將會產生以下檔案
     - 程式碼檔案: 分別為 `.cs` 或 `.go` 格式, 用於操作和處理 JSON 資料
     - JSON 文字檔案: 轉換後的資料將保存在 `.json` 格式的檔案中
 
@@ -61,18 +61,18 @@
 
 以下表格詳細說明了每個目錄/檔案的用途
 
-| 目錄/檔案            | 說明                                  |
-|:---------------------|:--------------------------------------|
-| config.yaml          | 提供範例的設定檔案                    |
-| excel/example.xlsx   | 包含範例數據的 Excel 檔案             |
-| sheet/codeCs         | 包含由 sheeter 產生的 C# 版本程式碼   |
-| sheet/codeGo         | 包含由 sheeter 產生的 Go 版本程式碼   |
-| sheet/json           | 包含由 Excel 轉換產生的 JSON 資料檔案 |
-| code/example.cs.code | 用於示範的 C# 版本程式碼              |
-| code/example.go.code | 用於示範的 Go 版本程式碼              |
+| 目錄/檔案            | 說明                             |
+|:---------------------|:---------------------------------|
+| config.yaml          | 提供範例的設定檔案               |
+| excel/example.xlsx   | 包含範例數據的 Excel 檔案        |
+| sheet/codeCs         | 包含由本工具產生的 C# 版本程式碼 |
+| sheet/codeGo         | 包含由本工具產生的 Go 版本程式碼 |
+| sheet/json           | 包含由本工具產生的 JSON 資料檔案 |
+| code/example.cs.code | 用於示範的 C# 版本程式碼         |
+| code/example.go.code | 用於示範的 Go 版本程式碼         |
 
 # 命令說明
-[sheeter] 工具提供了多個命令和旗標, 這些功能使您能夠更靈活地控制文件的轉換過程
+[Sheeter] 工具提供了多個命令和旗標, 這些功能使您能夠更靈活地控制文件的轉換過程
 
 以下是常用命令和旗標的詳細說明
 
@@ -110,69 +110,59 @@ lineOfData: 6                        # 資料行號(從第1行開始)
 ```
 
 ### 命令旗標
-| 旗標          | 參數                                      | 說明                 |
-|:--------------|:------------------------------------------|:---------------------|
-| --config      | 路徑與檔名, 例如: path/seeting.yaml       | 指定設定檔案路徑     |
-| --source      | 路徑, 檔案名稱                            | 輸入列表             |
-| --merge       | name$excel.xlsx#sheet&excel.xlsx#sheet... | 合併列表             |
-| --exclude     | excel.xlsx#sheet, excel.xlsx#sheet...     | 排除列表             |
-| --output      | 路徑                                      | 輸出路徑             |
-| --tag         | 標籤                                      | 輸出標籤             |
-| --lineOfTag   | 行號(從第1行開始)                         | 標籤行號             |
-| --lineOfName  | 行號(從第1行開始)                         | 名稱行號             |
-| --lineOfNote  | 行號(從第1行開始)                         | 註解行號             |
-| --lineOfField | 行號(從第1行開始)                         | 欄位行號             |
-| --lineOfData  | 行號(從第1行開始)                         | 資料行號             |
+| 旗標          | 參數                                      | 說明             |
+|:--------------|:------------------------------------------|:-----------------|
+| --config      | 路徑與檔名, 例如: path/setting.yaml       | 指定設定檔案路徑 |
+| --source      | 路徑, 檔案名稱                            | 輸入列表         |
+| --merge       | name$excel.xlsx#sheet&excel.xlsx#sheet... | 合併列表         |
+| --exclude     | excel.xlsx#sheet, excel.xlsx#sheet...     | 排除列表         |
+| --output      | 路徑                                      | 輸出路徑         |
+| --tag         | 標籤                                      | 輸出標籤         |
+| --lineOfTag   | 行號(從第1行開始)                         | 標籤行號         |
+| --lineOfName  | 行號(從第1行開始)                         | 名稱行號         |
+| --lineOfNote  | 行號(從第1行開始)                         | 註解行號         |
+| --lineOfField | 行號(從第1行開始)                         | 欄位行號         |
+| --lineOfData  | 行號(從第1行開始)                         | 資料行號         |
 
-這些命令旗標可以通過指定的設定檔案提供, 或者可以直接通過命令行參數來覆蓋, 例如:
-```sh
-sheeter build --config setting.yaml --lineOfName 5
-```
-這樣, `lineOfName` 的設定將由命令行參數中的值覆蓋
+> 提示: 命令列旗標會覆蓋設定檔中的同名設定
 
 ### --source
-此選項定義了輸入列表, 允許使用不同格式的組合, 每個項目需用逗號(`,`)分隔
+此選項定義了輸入列表, 允許使用不同格式的組合, 每個項目需用逗號 `,` 分隔
 
-程式僅處理副檔名為 `.xlsx` 的檔案, 並且在指定路徑時應使用斜線(`/`)而非反斜線(`\`)
+程式僅處理副檔名為 `.xlsx` 的檔案, 並且在指定路徑時應使用斜線 `/` 而非反斜線 `\`
 
 可接受的輸入格式包括
 - 路徑名稱: 可以是單一目錄或包含多級目錄的路徑, 例如: `path`, `path/`, `path/path`...
 - 檔案名稱: 指定單一檔案或含路徑的檔案名稱, 例如: `example.xlsx`, `path/example.xlsx`...
 
 ### --merge
-此選項允許將指定的工作表合併成一個新的表格讀取器
+此選項允許將指定的工作表合併成一個新的表格讀取器(合併結果)
 
-要合併的工作表必須已列在輸入列表中, 且它們的格式必須完全相同
+被合併的各工作表必須已列在輸入列表中, 且其欄位定義(標籤 / 名稱 / 欄位型別)需完全一致, 否則會報錯
 
-新建立的表格讀取器的名稱不能與現有的名稱重複, 否則可能導致錯誤
+新建立的表格讀取器名稱不得與現有名稱重複
 
-重要的是, 合併操作不會取代原有的表格讀取器, 而是會創建一個全新的表格讀取器來存储合併後的資料
+合併不會取代原有表格讀取器, 而是額外產生一個新的讀取器存放合併後的資料
 
-合併列表的語法
+語法:
 ```
 [新表格讀取器名稱]$[Excel 名稱#工作表名稱]&[Excel 名稱#工作表名稱]&...
 [新表格讀取器名稱]$[Excel 名稱.xlsx#工作表名稱]&[Excel 名稱.xlsx#工作表名稱]&...
 ```
 
-例如: `name1$excel1#sheet&excel2#sheet`
-
-這將建立一個名為 name1 的新表格讀取器, 其中包含來自 excel1#sheet 和 excel2#sheet 的合併資料
+例如: `name1$excel1#sheet&excel2#sheet` 會建立名為 `name1` 的讀取器, 內容為 `excel1#sheet` 與 `excel2#sheet` 的合併資料
 
 ### --exclude
-此選項設定一個排除列表, 用於指定不希望輸出的工作表, 在這個列表中指定的表單將不會被處理或輸出
+此選項設定要排除輸出的工作表
 
-列表中的每個項目應以逗號(`,`)分隔, 並使用特定格式來確定哪些工作表被排除: 使用 Excel 檔案名(不包括路徑和副檔名)和工作表名稱, 二者之間以井號(`#`)連接
+列表中的項目以逗號 `,` 分隔, 格式為 `Excel 檔名#工作表名` (不含路徑與副檔名)
 
-合併列表的語法
+語法:
 ```
 [Excel 名稱#工作表名稱], [Excel 名稱#工作表名稱], ...
 ```
 
-例如: `excel#sheet`
-
-指定將名為 sheet 的工作表從名為 excel 的 Excel 文件中排除
-
-這樣, 這些指定的工作表將不會在最終輸出中出現
+例如: `excel#sheet` 將名為 `excel.xlsx` 中的 `sheet` 工作表自輸出排除
 
 ### --output
 此選項指定輸出路徑, 確定生成的文件將存儲在哪個位置
@@ -180,13 +170,15 @@ sheeter build --config setting.yaml --lineOfName 5
 這允許用戶自定義文件輸出的目標目錄, 以便於管理和存取生成的數據文件
 
 ### --tag
-此選項使用標籤字符串來控制哪些欄位應該被輸出
+此選項使用標籤字串來控制哪些欄位應被輸出
 
-標籤行的使用提供了一種過濾和精確指定輸出數據的方法
+只有標籤行上包含指定標籤的欄位會輸出
 
-用戶可以根據特定的需求設定標籤, 從而只輸出包含這些標籤的數據欄位
+標籤包含 `ignore` (不分大小寫)的欄位不會輸出
 
-## help命令
+例如: `cs` 僅輸出標籤含有 `cs` 的欄位到程式碼與資料檔
+
+## help 命令
 用於顯示命令說明
 ```sh
 sheeter help [command]
@@ -233,20 +225,20 @@ sheeter help [command]
 ## 欄位行
 可用的欄位類型如下
 
-| 類型                                  | 說明                               |
-|:--------------------------------------|:-----------------------------------|
-| bool                                  | 布林值                             |
-| boolArray, []bool, bool[]             | 以逗號分隔的布林值陣列             |
-| int                                   | 32位元整數                         |
-| intArray, []int, int[]                | 以逗號分隔的32位元整數陣列         |
-| long                                  | 64位元整數                         |
-| longArray, []long, long[]             | 以逗號分隔的64位元整數陣列         |
-| float                                 | 32位元浮點數                       |
-| floatArray, []float, float[]          | 以逗號分隔的32位元浮點數陣列       |
-| double                                | 64位元浮點數                       |
-| doubleArray, []double, double[]       | 以逗號分隔的64位元浮點數陣列       |
-| string                                | 字串                               |
-| stringArray, []string, string[]       | 以逗號分隔的字串陣列               |
+| 類型                                  | 說明                         |
+|:--------------------------------------|:-----------------------------|
+| bool                                  | 布林值                       |
+| boolArray, []bool, bool[]             | 以逗號分隔的布林值陣列       |
+| int                                   | 32位元整數                   |
+| intArray, []int, int[]                | 以逗號分隔的32位元整數陣列   |
+| long                                  | 64位元整數                   |
+| longArray, []long, long[]             | 以逗號分隔的64位元整數陣列   |
+| float                                 | 32位元浮點數                 |
+| floatArray, []float, float[]          | 以逗號分隔的32位元浮點數陣列 |
+| double                                | 64位元浮點數                 |
+| doubleArray, []double, double[]       | 以逗號分隔的64位元浮點數陣列 |
+| string                                | 字串                         |
+| stringArray, []string, string[]       | 以逗號分隔的字串陣列         |
 
 ## 資料行
 - 根據欄位類型填寫相應的內容
@@ -254,10 +246,10 @@ sheeter help [command]
 
 ## 輸出欄
 - 表格中的第一欄用來決定該行是否要輸出
-- 若資料行的第一欄為 `ignore` (不分大小寫), 該行不會被輸出
+- 若資料行的第一欄為 `ignore` (不分大小寫), 該行不輸出; 其餘情況視為輸出
 
 ## 索引欄
-- 表格中的第二欄用來做索引欄, 標籤與 `ignore` (不分大小寫) 對其無效
+- 表格中的第二欄用來做索引欄, 標籤與 `ignore` 對其無效
 - 索引值不可重複
 
 ## 其他的限制
@@ -265,25 +257,25 @@ sheeter help [command]
 - 所有的行設定必須在資料行之前完成, 且在設定檔中行數從1開始
 
 # 產生目錄
-以下是產生目錄的描述, 用於存放不同類型的生成檔案
+以下是產生目錄的描述, 用於儲存不同類型的生成檔案
 
 | 名稱   | 說明                     |
 |:-------|:-------------------------|
-| codeCs | 存放產生的 C# 程式碼     |
-| codeGo | 存放產生的 Go 程式碼     |
-| json   | 存放 JSON 格式的資料檔案 |
+| codeCs | 儲存產生的 C# 程式碼     |
+| codeGo | 儲存產生的 Go 程式碼     |
+| json   | 儲存 JSON 格式的資料檔案 |
 
 # 格式化程式碼
-[sheeter] 不直接處理生成檔案的排版, 若需排版使用者需自行撰寫 `.bat` 或 `.sh` 腳本來執行相應的格式化工具
+[Sheeter] 不直接處理生成檔案的排版, 若需排版使用者需自行撰寫 `.bat` 或 `.sh` 腳本來執行相應的格式化工具
 
 以下是專為 C# 和 Go 程式碼提供的格式化工具, 包括安裝和使用指南
 
 ## csharpier
-[csharpier] 是專為 C# 程式碼設計的格式化工具
+[CSharpier] 是專為 C# 程式碼設計的格式化工具
 
 - 安裝
-  - 若未安裝 .NET SDK 或 Unity, 需要先安裝 [dotnet]
-  - 在終端機中執行以下命令來安裝 [csharpier]
+  - 若未安裝 .NET SDK 或 Unity, 需要先安裝 [Dotnet]
+  - 在終端機中執行以下命令來安裝 [CSharpier]
     ```sh
     dotnet tool install csharpier -g
     ```
@@ -325,7 +317,7 @@ gofmt 是 Go 語言的官方格式化工具, 隨 Go 語言環境一同安裝
 | testdata            | 測試資料                         |
 
 # Task命令說明
-輸入 `task 命令名稱` 來執行命令, 如果無法使用, 表示還沒有安裝 [task]
+輸入 `task 命令名稱` 來執行命令, 如果無法使用, 表示還沒有安裝 [Task] (安裝方式請見其官方文件)
 
 | 命令名稱       | 命令說明         |
 |:---------------|:-----------------|
@@ -333,17 +325,17 @@ gofmt 是 Go 語言的官方格式化工具, 隨 Go 語言環境一同安裝
 | test           | 進行程式碼測試   |
 | bench          | 進行效能測試     |
 
-# JetBrains licenses
-[sheeter] 使用了 JetBrains 的 Goland 的免費開發許可, 在此表示感謝
+# JetBrains 感謝與授權標示
+[Sheeter] 使用了 JetBrains 的 Goland 的免費開發許可, 在此表示感謝
 
 <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." style="width:200px;">
 <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/GoLand_icon.png" alt="GoLand logo." style="width:200px;">
 
-[csharpier]: https://github.com/belav/csharpier
-[dotnet]: https://learn.microsoft.com/zh-tw/dotnet/core/sdk
-[go]: https://go.dev/dl/
+[CSharpier]: https://github.com/belav/csharpier
+[Dotnet]: https://learn.microsoft.com/zh-tw/dotnet/core/sdk
+[Go]: https://go.dev/dl/
 [json]: https://www.json.org/json-en.html
-[sheet]: https://github.com/yinweli/Sheet
-[sheeter]: https://github.com/yinweli/sheeter
-[task]: https://taskfile.dev/
+[Sheet]: https://github.com/yinweli/Sheet
+[Sheeter]: https://github.com/yinweli/sheeter
+[Task]: https://taskfile.dev/
 [template]: https://pkg.go.dev/text/template
