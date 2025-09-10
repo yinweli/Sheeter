@@ -297,6 +297,8 @@ namespace {{$.Namespace | $.FirstUpper}}
 
 // HelperCs cs語言工具模板
 var HelperCs = Header + `
+#nullable enable
+
 using System;
 using System.Collections.Generic;
 using System.Globalization;
