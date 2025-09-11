@@ -10,15 +10,16 @@ import (
 
 // VerifyData verify.xlsx#Data
 type VerifyData struct {
-	Duration string  `json:"Duration"` // duration
-	Float    float32 `json:"Float"`    // float
-	Name1    int32   `json:"Name1"`    // note1
-	Name2    int32   `json:"Name2"`    // note2
-	Name3    int32   `json:"Name3"`    // note3
-	Name4    int32   `json:"Name4"`    // note4
-	Name5    int32   `json:"Name5"`    // note5
-	Ratio    string  `json:"Ratio"`    // ratio
-	Space    []int32 `json:"Space"`    // space
+	Duration string   `json:"Duration"` // duration
+	Float    float32  `json:"Float"`    // float
+	List     []string `json:"List"`     // list
+	Name1    int32    `json:"Name1"`    // note1
+	Name2    int32    `json:"Name2"`    // note2
+	Name3    int32    `json:"Name3"`    // note3
+	Name4    int32    `json:"Name4"`    // note4
+	Name5    int32    `json:"Name5"`    // note5
+	Ratio    string   `json:"Ratio"`    // ratio
+	Space    []int32  `json:"Space"`    // space
 }
 
 // VerifyDataReader verify.xlsx#Data

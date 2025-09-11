@@ -73,6 +73,35 @@ func RunParse[T any](value string) (result T, err error) {
 	return result, nil
 }
 
+// RunParseAll 執行解析
+func RunParseAll[T any](value ...string) (result []T, err error) {
+	parseLock.RLock()
+	parser := parse[reflect.TypeOf((*T)(nil)).Elem()]
+	parseLock.RUnlock()
+
+	if parser == nil {
+		return nil, fmt.Errorf("run parse: type not exist")
+	} // if
+
+	for _, itor := range value {
+		v, err := parser(itor)
+
+		if err != nil {
+			return nil, fmt.Errorf("run parse: %w", err)
+		} // if
+
+		r, ok := v.(T)
+
+		if ok == false {
+			return nil, fmt.Errorf("run parse: type invalid")
+		} // if
+
+		result = append(result, r)
+	} // for
+
+	return result, nil
+}
+
 var parse = map[reflect.Type]func(string) (any, error){} // 解析列表
 var parseLock = sync.RWMutex{}                           // 解析執行緒鎖
 
