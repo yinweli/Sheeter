@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.6] - 2025-09-11
+### Added
+- 新增陣列解析功能
+### Fixed
+- 修正預設解析失敗時的回傳值
+
 ## [3.0.5] - 2025-09-10
 ### Fixed
 - 修正 C# 版本的 nullable 警告問題

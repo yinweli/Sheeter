@@ -41,6 +41,11 @@ func check(sheet *sheeter.Sheeter, threads int) {
 			assert(err == nil)
 			assert(duration.Interval() == time.Hour*26+time.Minute*3+time.Second*4+time.Millisecond*5)
 
+			list, err := sheeter.RunParseAll[sheeter.Duration](actual.List...)
+			assert(err == nil)
+			assert(list[0].Interval() == time.Hour*26+time.Minute*3)
+			assert(list[1].Interval() == time.Hour*26+time.Minute*3)
+
 			actual = sheet.VerifyData.Get(2)
 			assert(actual != nil)
 			assert(actual.Name1 == 2)
@@ -57,6 +62,11 @@ func check(sheet *sheeter.Sheeter, threads int) {
 			duration, err = sheeter.RunParse[sheeter.Duration](actual.Duration)
 			assert(err == nil)
 			assert(duration.Interval() == time.Hour*26+time.Minute*3+time.Second*4+time.Millisecond*5)
+
+			list, err = sheeter.RunParseAll[sheeter.Duration](actual.List...)
+			assert(err == nil)
+			assert(list[0].Interval() == time.Hour*26+time.Minute*3)
+			assert(list[1].Interval() == time.Hour*26+time.Minute*3)
 
 			actual = sheet.VerifyData.Get(3)
 			assert(actual == nil)

@@ -2,6 +2,10 @@
     "1": {
         "duration": "1d2h3m4s5ms",
         "float": 0.01,
+        "list": [
+            "1d2h3m",
+            "1d2h3m"
+        ],
         "name1": 1,
         "name2": 10,
         "name3": 11,
@@ -17,6 +21,10 @@
     "2": {
         "duration": "5ms4s3m2h1d",
         "float": 0.0001,
+        "list": [
+            "3m2h1d",
+            "3m2h1d"
+        ],
         "name1": 2,
         "name2": 20,
         "name3": 21,
@@ -32,6 +40,9 @@
     "4": {
         "duration": "",
         "float": 0,
+        "list": [
+            ""
+        ],
         "name1": 4,
         "name2": 40,
         "name3": 41,
@@ -47,6 +58,9 @@
     "5": {
         "duration": "",
         "float": 0,
+        "list": [
+            ""
+        ],
         "name1": 5,
         "name2": 50,
         "name3": 51,

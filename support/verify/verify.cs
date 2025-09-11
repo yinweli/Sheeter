@@ -31,6 +31,8 @@ namespace verify
                         Assert(actual.Float == 0.01f);
                         Assert(actual.Ratio.ParseAs<Ratio>().Float32() == 0.01f);
                         Assert(actual.Duration.ParseAs<Duration>().Interval() == TimeSpan.Parse("1.02:03:04.005"));
+                        Assert(actual.List.ParseAs<Duration>()[0].Interval() == TimeSpan.Parse("1.02:03"));
+                        Assert(actual.List.ParseAs<Duration>()[1].Interval() == TimeSpan.Parse("1.02:03"));
 
                         Assert(sheet.VerifyData.TryGetValue(2, out actual));
                         Assert(actual.Name1 == 2);
@@ -41,6 +43,8 @@ namespace verify
                         Assert(actual.Float == 0.0001f);
                         Assert(actual.Ratio.ParseAs<Ratio>().Float32() == 0.0001f);
                         Assert(actual.Duration.ParseAs<Duration>().Interval() == TimeSpan.Parse("1.02:03:04.005"));
+                        Assert(actual.List.ParseAs<Duration>()[0].Interval() == TimeSpan.Parse("1.02:03"));
+                        Assert(actual.List.ParseAs<Duration>()[1].Interval() == TimeSpan.Parse("1.02:03"));
 
                         Assert(sheet.VerifyData.TryGetValue(3, out actual) == false);
 

@@ -440,7 +440,7 @@ namespace {{$.Namespace | $.FirstUpper}}
                 if (int.TryParse(value, out int result))
                     return (result, true);
 
-                return (null, false);
+                return (default, false);
             });
             AddParse<long>(value =>
             {
@@ -449,7 +449,7 @@ namespace {{$.Namespace | $.FirstUpper}}
                 if (long.TryParse(value, out long result))
                     return (result, true);
 
-                return (null, false);
+                return (default, false);
             });
             AddParse<float>(value =>
             {
@@ -458,7 +458,7 @@ namespace {{$.Namespace | $.FirstUpper}}
                 if (float.TryParse(value, out float result))
                     return (result, true);
 
-                return (null, false);
+                return (default, false);
             });
             AddParse<double>(value =>
             {
@@ -467,7 +467,7 @@ namespace {{$.Namespace | $.FirstUpper}}
                 if (double.TryParse(value, out double result))
                     return (result, true);
 
-                return (null, false);
+                return (default, false);
             });
             AddParse<string>(value =>
             {
@@ -481,7 +481,7 @@ namespace {{$.Namespace | $.FirstUpper}}
                     return (new Ratio("0"), true);
 
                 if (double.TryParse(value, out _) == false)
-                    return (null, false);
+                    return (default, false);
 
                 return (new Ratio(value), true);
             });
@@ -493,7 +493,7 @@ namespace {{$.Namespace | $.FirstUpper}}
                     return (new Duration("0s"), true);
 
                 if (Duration.parse(value, out _) == false)
-                    return (null, false);
+                    return (default, false);
 
                 return (new Duration(value), true);
             });
@@ -565,6 +565,42 @@ namespace {{$.Namespace | $.FirstUpper}}
         public static bool TryParse<T>(this string value, out T result)
         {
             return RunParse<T>(value).TryValue(out result);
+        }
+
+        /// <summary>
+        /// 字串列表擴充: 執行解析
+        /// </summary>
+        public static Result[] Parses<T>(this string[] value)
+        {
+            return value.Select(itor => RunParse<T>(itor)).ToArray();
+        }
+
+        /// <summary>
+        /// 字串列表擴充: 執行解析, 會丟出例外
+        /// </summary>
+        public static T[] ParseAs<T>(this string[] value)
+        {
+            return value.Select(itor => RunParse<T>(itor).ValueAs<T>()).ToArray();
+        }
+
+        /// <summary>
+        /// 字串列表擴充: 執行解析, 不會丟出例外
+        /// </summary>
+        public static bool TryParse<T>(this string[] value, out T[] result)
+        {
+            var ok = false;
+            var list = new List<T>();
+
+            foreach (var itor in value)
+            {
+                if (RunParse<T>(itor).TryValue(out T v))
+                    list.Add(v);
+                else
+                    ok = false;
+            } // for
+
+            result = list.ToArray();
+            return ok;
         }
 
         /// <summary>

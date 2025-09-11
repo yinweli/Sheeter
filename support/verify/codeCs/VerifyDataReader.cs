@@ -29,6 +29,12 @@ namespace Sheeter
         public Single Float { get; set; }
 
         /// <summary>
+        /// list
+        /// </summary>
+        [JsonProperty("List")]
+        public String[] List { get; set; }
+
+        /// <summary>
         /// note1
         /// </summary>
         [JsonProperty("Name1")]
