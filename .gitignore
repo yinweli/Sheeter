@@ -17,3 +17,6 @@ bin/
 
 # 自訂忽略列表
 .runtime
+support/handmade/.cr
+support/handmade/.vs
+support/handmade/obj

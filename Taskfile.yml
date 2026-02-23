@@ -3,46 +3,20 @@ version: "3"
 tasks:
   # 程式碼格式化
   lint:
-    cmds:
-      - task: fmt-sheeter
-      - task: fmt-cs
-      - task: fmt-yaml
-      - task: lint-sheeter
-
-  fmt-sheeter:
-    ignore_error: true
-    cmds:
-      - gofmt -s -w -l .
-
-  fmt-cs:
     ignore_error: true
     cmds:
       - csharpier format .
-
-  fmt-yaml:
-    ignore_error: true
-    cmds:
-      - npx prettier --write "*.yaml" "*.yml" "**/*.yaml" "**/*.yml"
-
-  lint-sheeter:
-    ignore_error: true
-    cmds:
+      - gofmt -s -w -l .
+      - goimports -w .
       - golangci-lint run --color always
-
-  # 單元測試
-  test:
-    cmds:
-      - go test ./... -cover
-
-  # 效能測試
-  bench:
-    cmds:
-      - go test ./... -bench=. -benchmem
+      - npx markdownlint-cli --fix "*.md"
+      - npx prettier --write "*.yaml" "*.yml" "**/*.yaml" "**/*.yml" --end-of-line lf
 
   # 安裝工具
   install:
     ignore_error: true
     cmds:
-      - dotnet tool install csharpier -g # 安裝cs格式化工具
-      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest # 安裝lint
-      - npm install -g prettier # 安裝yaml格式化工具
+      - dotnet tool install csharpier -g # 安裝 cs 格式化工具
+      - go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest # 安裝 lint
+      - go install golang.org/x/tools/cmd/goimports@latest # 安裝 go 引入排序工具
+      - npm install -g prettier # 安裝 yaml 格式化工具
