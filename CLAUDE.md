@@ -2,6 +2,77 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+
+## Language Conventions
+
+- **Documentation & Comments**: Traditional Chinese
+- **Code Naming (variables, functions)**: English
+- **Implementation Plans**: Chinese description + English technical terms
+
+## Code Style Requirements
+
+### Boolean Checks - **Strict Rule**
+
+**MUST** use explicit `false` checks, while `true` checks use standard form.
+
+```go
+if x == false { ... }  // Required: explicit false check
+if x { ... }           // Standard: check for true
+// Forbidden: if !x
+```
+
+### Block Ending Comments - **Strict Rule**
+
+Reserve ending comments for control flow only (`if`, `for`, `switch`). **NEVER** add ending comments for functions/methods.
+
+```go
+if condition {
+    // logic
+} // if
+
+for i := range items {
+    // logic
+} // for
+
+switch x {
+case 1:
+    // logic
+} // switch
+
+// NEVER add ending comments for functions/methods
+```
+
+### Iterator Naming
+
+```go
+for itor := range items {
+    // logic
+} // for
+
+for k, v := range someMap {
+    // logic
+} // for
+```
+
+- `itor`: Default iterator variable name
+- `k, v`: Use when iterating over Maps
+
+### Variable Naming - **Strict Rule**
+
+**MUST NOT** use plural forms for variable names. Use singular forms consistently.
+
+```go
+// Correct: singular form
+item := []Item{...}
+hero := []Hero{...}
+data := []Data{...}
+
+// Forbidden: plural forms
+items := []Item{...}
+heroes := []Hero{...}
+datas := []Data{...}
+```
+
 ## What This Project Does
 
 Sheeter is a CLI tool written in Go that reads Excel (`.xlsx`) files and generates:
@@ -98,61 +169,3 @@ Under the configured `output` path:
 ## Module Path
 
 `github.com/yinweli/Sheeter/v3` — use this prefix for all internal imports.
-
-## Code Style Requirements
-
-### Boolean Checks - **Strict Rule**
-
-**MUST** use explicit `false` checks, while `true` checks use standard form.
-
-```go
-if x == false { ... }  // Required: explicit false check
-if x { ... }           // Standard: check for true
-// Forbidden: if !x
-```
-
-### Block Ending Comments - **Strict Rule**
-
-Reserve ending comments for control flow only (`if`, `for`, `switch`). **NEVER** add ending comments for functions/methods.
-
-```go
-if condition {
-    // logic
-} // if
-
-for i := range items {
-    // logic
-} // for
-
-switch x {
-case 1:
-    // logic
-} // switch
-
-// NEVER add ending comments for functions/methods
-```
-
-### Iterator Naming
-
-```go
-for itor := range items {
-    // logic
-} // for
-
-for k, v := range someMap {
-    // logic
-} // for
-```
-
-- `itor`: Default iterator variable name
-- `k, v`: Use when iterating over Maps
-
-### Language Conventions
-
-- **Documentation & Comments**: Traditional Chinese
-- **Code Naming (variables, functions)**: English
-- **Implementation Plans**: Chinese description + English technical terms
-
-## Interaction Guidelines
-
-Communicate with users in Traditional Chinese
