@@ -8,7 +8,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/yinweli/Sheeter/v3/support/verify/codeGo"
+	sheeter "github.com/yinweli/Sheeter/v3/support/verify/codeGo"
 )
 
 func main() {
