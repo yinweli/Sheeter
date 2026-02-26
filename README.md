@@ -5,6 +5,7 @@
 [![codecov](https://codecov.io/gh/yinweli/Sheeter/branch/main/graph/badge.svg?token=LK5HL58LSN)](https://codecov.io/gh/yinweli/Sheeter)
 
 # Sheeter
+
 [Sheeter] 是一款使用 [Go] 語言開發的 Excel 轉換工具
 
 它能將特定格式的 Excel 文件轉換成 JSON 數據文件, 並生成用於讀取這些數據文件的 C# 或 Go 程式碼
@@ -12,30 +13,40 @@
 這款工具的前身為 [Sheet]
 
 # 系統需求
+
 - [Go] 1.20+
 
 # 從安裝包安裝
+
 您可以在 GitHub 頁面的 `Releases` 部分找到適合不同平台的安裝壓縮包
 
 下載並解壓後, 請將可執行檔加入至系統的 `PATH` (或在命令列以相對 / 絕對路徑呼叫)即可使用
 
 # 從原始碼安裝
+
 - 確保在您的系統上安裝了 [Go] 語言
 - 在終端機中執行以下命令以安裝最新版本
+
   ```sh
   go install github.com/yinweli/Sheeter/v3/cmd/sheeter@latest
   ```
+
 - 如果需要安裝 v2 的 [Sheeter], 可以使用以下命令安裝
+
   ```sh
   go install github.com/yinweli/Sheeter/v2/cmd/sheeter@latest
   ```
+
 - 如果需要安裝 v1 的 [Sheeter], 可以使用以下命令安裝
+
   ```sh
   go install github.com/yinweli/Sheeter/cmd/sheeter@latest
   ```
+
   請注意, [Sheeter] 的 v3 / v2 版本與 v1 版本的 Excel 格式不相容, 因此這兩個版本之間無法互相讀取 Excel 文件
 
 # 如何使用
+
 以下是使用 [Sheeter] 工具的步驟, 旨在指導您如何從 Excel 檔案生成程式碼和 JSON 資料
 
 - 建立資料表單
@@ -45,9 +56,11 @@
   - 這個檔案將指導 [Sheeter] 如何讀取和處理 Excel 檔案
 - 執行建置命令
   - 在終端機中執行以下命令來生成所需的程式碼檔案和 JSON 資料檔
+
     ```sh
     sheeter build --config 設定檔案
     ```
+
   - 確保替換 `設定檔案` 為您的實際設定檔案路徑
 - 產生檔案
   - 執行上述命令後, [Sheeter] 將會產生以下檔案
@@ -57,6 +70,7 @@
 透過這些步驟, 您可以有效地將 Excel 數據轉換成程式可讀的格式, 並根據需要進行處理和應用
 
 # 範例
+
 在專案的 `support/example` 目錄中, 您可以找到範例文件及其相應的目錄
 
 以下表格詳細說明了每個目錄/檔案的用途
@@ -72,24 +86,30 @@
 | code/example.go.code | 用於示範的 Go 版本程式碼         |
 
 # 命令說明
+
 [Sheeter] 工具提供了多個命令和旗標, 這些功能使您能夠更靈活地控制文件的轉換過程
 
 以下是常用命令和旗標的詳細說明
 
 ## build 命令說明
+
 這個命令用於建置資料檔案與程式碼
+
 ```sh
 sheeter build [flags]
 ```
 
 例如
+
 ```sh
 sheeter build --config setting.yaml
 sheeter build --config setting.yaml --lineOfField 1 --lineOfData 2
 ```
 
 ### 設定檔
+
 這個 YAML 設定檔定義了各種執行細節
+
 ```yaml
 source:                              # 輸入列表
   - path1                            # 處理 path1 目錄下符合規格的 Excel 檔案
@@ -110,6 +130,7 @@ lineOfData: 6                        # 資料行號(從第1行開始)
 ```
 
 ### 命令旗標
+
 | 旗標          | 參數                                      | 說明             |
 |:--------------|:------------------------------------------|:-----------------|
 | --config      | 路徑與檔名, 例如: path/setting.yaml       | 指定設定檔案路徑 |
@@ -127,15 +148,18 @@ lineOfData: 6                        # 資料行號(從第1行開始)
 > 提示: 命令列旗標會覆蓋設定檔中的同名設定
 
 ### --source
+
 此選項定義了輸入列表, 允許使用不同格式的組合, 每個項目需用逗號 `,` 分隔
 
 程式僅處理副檔名為 `.xlsx` 的檔案, 並且在指定路徑時應使用斜線 `/` 而非反斜線 `\`
 
 可接受的輸入格式包括
+
 - 路徑名稱: 可以是單一目錄或包含多級目錄的路徑, 例如: `path`, `path/`, `path/path`...
 - 檔案名稱: 指定單一檔案或含路徑的檔案名稱, 例如: `example.xlsx`, `path/example.xlsx`...
 
 ### --merge
+
 此選項允許將指定的工作表合併成一個新的表格讀取器(合併結果)
 
 被合併的各工作表必須已列在輸入列表中, 且其欄位定義(標籤 / 名稱 / 欄位型別)需完全一致, 否則會報錯
@@ -145,7 +169,8 @@ lineOfData: 6                        # 資料行號(從第1行開始)
 合併不會取代原有表格讀取器, 而是額外產生一個新的讀取器存放合併後的資料
 
 語法:
-```
+
+```text
 [新表格讀取器名稱]$[Excel 名稱#工作表名稱]&[Excel 名稱#工作表名稱]&...
 [新表格讀取器名稱]$[Excel 名稱.xlsx#工作表名稱]&[Excel 名稱.xlsx#工作表名稱]&...
 ```
@@ -153,23 +178,27 @@ lineOfData: 6                        # 資料行號(從第1行開始)
 例如: `name1$excel1#sheet&excel2#sheet` 會建立名為 `name1` 的讀取器, 內容為 `excel1#sheet` 與 `excel2#sheet` 的合併資料
 
 ### --exclude
+
 此選項設定要排除輸出的工作表
 
 列表中的項目以逗號 `,` 分隔, 格式為 `Excel 檔名#工作表名` (不含路徑與副檔名)
 
 語法:
-```
+
+```text
 [Excel 名稱#工作表名稱], [Excel 名稱#工作表名稱], ...
 ```
 
 例如: `excel#sheet` 將名為 `excel.xlsx` 中的 `sheet` 工作表自輸出排除
 
 ### --output
+
 此選項指定輸出路徑, 確定生成的文件將存儲在哪個位置
 
 這允許用戶自定義文件輸出的目標目錄, 以便於管理和存取生成的數據文件
 
 ### --tag
+
 此選項使用標籤字串來控制哪些欄位應被輸出
 
 只有標籤行上包含指定標籤的欄位會輸出
@@ -179,15 +208,19 @@ lineOfData: 6                        # 資料行號(從第1行開始)
 例如: `cs` 僅輸出標籤含有 `cs` 的欄位到程式碼與資料檔
 
 ## help 命令
+
 用於顯示命令說明
+
 ```sh
 sheeter help [command]
 ```
 
 # 資料表單說明
+
 ![exceldata](doc/image/exceldata.jpg)
 
 ## 檔案名稱規則
+
 檔案名稱需要符合以下規則以確保正確處理
 
 - 包含字串 `ignore` (不分大小寫)的檔案將被忽略
@@ -196,6 +229,7 @@ sheeter help [command]
 - 允許的字符包括英文字母, 數字, 空格和底線
 
 ## 表單名稱規則
+
 表單名稱同樣需遵守特定格式
 
 - 包含字串 `ignore` (不分大小寫)的表單將被忽略
@@ -203,6 +237,7 @@ sheeter help [command]
 - 允許的字符包括英文字母, 數字, 空格和底線
 
 ## 產生的檔案名稱規則
+
 產生的檔案名稱將根據以下規則進行格式化
 
 - Excel 名稱: 首字母大寫(C# 版本)或小寫(Go 版本), 移除所有底線或空格, 並將底線或空格後的首字母大寫
@@ -210,6 +245,7 @@ sheeter help [command]
 - 如果 Excel 名稱與 Sheet 名稱相同, 則僅保留 Excel 名稱
 
 ## 標籤行
+
 標籤行控制特定欄位是否應該輸出到資料檔案和程式碼中
 
 - 欄位上的標籤若符合設定檔中的標籤字串, 該欄位將被輸出
@@ -217,12 +253,15 @@ sheeter help [command]
 - 包含字串 `ignore` (不分大小寫)的標籤不會輸出
 
 ## 名稱行
+
 - 欄位名稱必須是英文, 數字和底線的組合, 且不能以數字開頭, 也不允許有空白
 
 ## 註解行
+
 - 若註解欄為空格則輸出為空註解, 換行符號將被移除
 
 ## 欄位行
+
 可用的欄位類型如下
 
 | 類型                                  | 說明                         |
@@ -241,22 +280,27 @@ sheeter help [command]
 | stringArray, []string, string[]       | 以逗號分隔的字串陣列         |
 
 ## 資料行
+
 - 根據欄位類型填寫相應的內容
 - 空表格(無資料行)是允許的, 第一個空行將視為表格結束
 
 ## 輸出欄
+
 - 表格中的第一欄用來決定該行是否要輸出
 - 若資料行的第一欄為 `ignore` (不分大小寫), 該行不輸出; 其餘情況視為輸出
 
 ## 索引欄
+
 - 表格中的第二欄用來做索引欄, 標籤與 `ignore` 對其無效
 - 索引值不可重複
 
 ## 其他的限制
+
 - 表格設置必須包括標籤行, 名稱行, 註解行和欄位行, 但可以不包含資料行
 - 所有的行設定必須在資料行之前完成, 且在設定檔中行數從1開始
 
 # 產生目錄
+
 以下是產生目錄的描述, 用於儲存不同類型的生成檔案
 
 | 名稱   | 說明                     |
@@ -266,37 +310,45 @@ sheeter help [command]
 | json   | 儲存 JSON 格式的資料檔案 |
 
 # 格式化程式碼
+
 [Sheeter] 不直接處理生成檔案的排版, 若需排版使用者需自行撰寫 `.bat` 或 `.sh` 腳本來執行相應的格式化工具
 
 以下是專為 C# 和 Go 程式碼提供的格式化工具, 包括安裝和使用指南
 
 ## csharpier
+
 [CSharpier] 是專為 C# 程式碼設計的格式化工具
 
 - 安裝
   - 若未安裝 .NET SDK 或 Unity, 需要先安裝 [Dotnet]
   - 在終端機中執行以下命令來安裝 [CSharpier]
+
     ```sh
     dotnet tool install csharpier -g
     ```
+
 - 使用
   - 在終端機中執行以下命令來格式化目錄中的所有 C# 檔案
+
     ```sh
     dotnet csharpier .
     ```
 
 ## gofmt
+
 gofmt 是 Go 語言的官方格式化工具, 隨 Go 語言環境一同安裝
 
 - 安裝
   - 安裝 Go 語言環境時, gofmt 會自動被安裝
 - 使用
   - 在終端機中執行以下命令來格式化目錄中的所有 Go 檔案
+
     ```sh
     gofmt -w .
     ```
 
 # 專案目錄說明
+
 | 目錄                | 說明                             |
 |:--------------------|:---------------------------------|
 | cmd/sheeter         | sheeter 命令程式                 |
@@ -317,6 +369,7 @@ gofmt 是 Go 語言的官方格式化工具, 隨 Go 語言環境一同安裝
 | testdata            | 測試資料                         |
 
 # Task命令說明
+
 輸入 `task 命令名稱` 來執行命令, 如果無法使用, 表示還沒有安裝 [Task] (安裝方式請見其官方文件)
 
 | 命令名稱       | 命令說明         |
@@ -326,6 +379,7 @@ gofmt 是 Go 語言的官方格式化工具, 隨 Go 語言環境一同安裝
 | bench          | 進行效能測試     |
 
 # JetBrains 感謝與授權標示
+
 [Sheeter] 使用了 JetBrains 的 Goland 的免費開發許可, 在此表示感謝
 
 <img src="https://resources.jetbrains.com/storage/products/company/brand/logos/jb_beam.png" alt="JetBrains Logo (Main) logo." style="width:200px;">

@@ -2,7 +2,6 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-
 ## Language Conventions
 
 - **Documentation & Comments**: Traditional Chinese
@@ -76,6 +75,7 @@ datas := []Data{...}
 ## What This Project Does
 
 Sheeter is a CLI tool written in Go that reads Excel (`.xlsx`) files and generates:
+
 - **JSON data files** from the sheet's data rows
 - **C# reader code** (`codeCs/`) for loading those JSON files at runtime
 - **Go reader code** (`codeGo/`) for the same purpose
@@ -83,17 +83,20 @@ Sheeter is a CLI tool written in Go that reads Excel (`.xlsx`) files and generat
 ## Commands
 
 ### Development Tools Setup
+
 ```bash
 task install   # installs golangci-lint, goimports, csharpier, prettier
 ```
 
 ### Build & Run
+
 ```bash
 go build -o sheeter cmd/sheeter/*.go
 sheeter build --config <config.yaml>
 ```
 
 ### Testing
+
 ```bash
 go test ./... -cover          # all packages
 go test ./... -bench=. -benchmem  # benchmarks
@@ -104,6 +107,7 @@ go test ./sheeter/fields/... -run TestFieldName
 ```
 
 ### Linting & Formatting
+
 ```bash
 task lint   # csharpier, gofmt, goimports, golangci-lint, markdownlint, prettier (all-in-one)
 ```
@@ -125,7 +129,7 @@ The `sheeter build` command runs three sequential phases, each implemented in `s
 ### Core Processing Packages
 
 | Package | Role |
-|---|---|
+| --- | --- |
 | `sheeter/builds/` | Orchestrates the three build phases; owns `Config` |
 | `sheeter/excels/` | Opens/caches XLSX files via `xlsxreader`; `CloseAll()` called at end |
 | `sheeter/fields/` | 12 field types (bool, int, long, float, double, string + array variants); each implements parsing and C#/Go type name methods |
@@ -155,6 +159,7 @@ exclude: []                                     # exclude sheets: "excel#sheet"
 ### Output Directory Layout
 
 Under the configured `output` path:
+
 - `json/` — one `.json` per sheet
 - `codeCs/` — C# reader classes
 - `codeGo/` — Go reader packages
