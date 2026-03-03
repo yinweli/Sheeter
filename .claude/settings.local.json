@@ -2,7 +2,13 @@
   "permissions": {
     "allow": [
       "Bash(ls:*)",
-      "Bash(git:*)"
+      "Bash(git:*)",
+      "WebSearch",
+      "WebFetch(domain:golangci-lint.run)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(curl:*)",
+      "Bash(task lint:*)"
     ]
   }
 }

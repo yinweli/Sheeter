@@ -3,7 +3,6 @@ package utils
 import (
 	"bytes"
 	"fmt"
-	"io/fs"
 	"os"
 	"path/filepath"
 	"strings"
@@ -25,13 +24,16 @@ func FileExist(path string) bool {
 
 // WriteFile 寫入檔案, 如果有需要會建立目錄
 func WriteFile(path string, data []byte) error {
+	const dirPerm = 0750  // 目錄權限
+	const filePerm = 0644 // 檔案權限
+
 	path = filepath.Clean(path) // 避免奇怪的相對路徑
 
-	if err := os.MkdirAll(filepath.Dir(path), os.ModePerm); err != nil {
+	if err := os.MkdirAll(filepath.Dir(path), dirPerm); err != nil {
 		return fmt.Errorf("writeFile: %w", err)
 	} // if
 
-	if err := os.WriteFile(path, data, fs.ModePerm); err != nil {
+	if err := os.WriteFile(path, data, filePerm); err != nil {
 		return fmt.Errorf("writeFile: %w", err)
 	} // if
 

@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.8] - 2026-03-03
+
+### Changed
+
+- 更新 Go 版本至 1.25.0
+- 更新依賴函式庫版本 (spf13/cobra, stretchr/testify, mattn/go-runewidth, spf13/pflag, golang.org/x/sync, golang.org/x/sys)
+- 重構 .golangci.yml 配置至 golangci-lint v2 格式
+- 更新 Taskfile.yml 使用 golangci-lint fmt 取代獨立的 gofmt/goimports 指令，新增 markdownlint-cli 安裝
+- 重構程式碼: 使用 fmt.Fprintf 取代 WriteString + Sprintf 組合
+- 修正 WriteFile 檔案權限: 使用明確的權限常數取代 os.ModePerm
+
 ## [3.0.7] - 2025-09-11
 
 ### Fixed

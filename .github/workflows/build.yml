@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        go: [1.22.x]
+        go: [1.25.x]
         include:
           - os: ubuntu-latest
             artifacts-name: "linux-amd64"
@@ -29,9 +29,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: setup go ${{ matrix.go }}
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.go }}
       - name: build
@@ -62,37 +62,37 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        go: [1.22.x]
+        go: [1.25.x]
     name: ${{ matrix.os }} | go ${{ matrix.go }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: setup go ${{ matrix.go }}
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.go }}
       - name: lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v9
         with:
-          version: latest
+          version: v2.10
   test:
     strategy:
       matrix:
         os: [ubuntu-latest]
-        go: [1.22.x]
+        go: [1.25.x]
         proto: [3.x]
     name: ${{ matrix.os }} | go ${{ matrix.go }} | proto ${{ matrix.proto }}
     runs-on: ${{ matrix.os }}
     steps:
       - name: checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: setup go ${{ matrix.go }}
-        uses: actions/setup-go@v4
+        uses: actions/setup-go@v6
         with:
           go-version: ${{ matrix.go }}
       - name: setup protoc
-        uses: arduino/setup-protoc@v1
+        uses: arduino/setup-protoc@v3
         with:
           version: ${{ matrix.proto }}
           repo-token: ${{ secrets.GITHUB_TOKEN }}
@@ -101,7 +101,7 @@ jobs:
       - name: test
         run: go test -coverprofile=coverage.txt -covermode=atomic ./...
       - name: upload coverage to Codecov
-        uses: codecov/codecov-action@v4
+        uses: codecov/codecov-action@v5
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
         with:
