@@ -29,12 +29,12 @@ func JsonPack(tag string, lineOfData int, sheet *excels.Sheet, layout *Layout) (
 		primary, pack, err := layout.Pack(tag, line)
 
 		if err != nil {
-			fail.WriteString(fmt.Sprintf("    line(%v): %v\n", sheet.Line(), err))
+			_, _ = fmt.Fprintf(&fail, "    line(%v): %v\n", sheet.Line(), err)
 			continue
 		} // if
 
 		if primary == nil {
-			fail.WriteString(fmt.Sprintf("    line(%v): primary nil\n", sheet.Line()))
+			_, _ = fmt.Fprintf(&fail, "    line(%v): primary nil\n", sheet.Line())
 			continue
 		} // if
 
@@ -45,7 +45,7 @@ func JsonPack(tag string, lineOfData int, sheet *excels.Sheet, layout *Layout) (
 		key := fmt.Sprintf("%v", primary)
 
 		if _, duplicate := data[key]; duplicate {
-			fail.WriteString(fmt.Sprintf("    line(%v): primary duplicate: %v\n", sheet.Line(), key))
+			_, _ = fmt.Fprintf(&fail, "    line(%v): primary duplicate: %v\n", sheet.Line(), key)
 			continue
 		} // if
 

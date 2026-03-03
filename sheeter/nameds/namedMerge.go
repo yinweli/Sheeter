@@ -25,7 +25,7 @@ func (this *Merge) StructNote() string {
 	builder.WriteString("merge by ")
 
 	for i, itor := range this.Member {
-		builder.WriteString(fmt.Sprintf("%v#%v", itor.ExcelName, itor.SheetName))
+		_, _ = fmt.Fprintf(&builder, "%v#%v", itor.ExcelName, itor.SheetName)
 
 		if i < maximum {
 			builder.WriteString(", ")
