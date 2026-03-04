@@ -2,175 +2,85 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-## Language Conventions
+## Common guildlines
+@CLAUDE-common guildlines.md
 
-- **Documentation & Comments**: Traditional Chinese
-- **Code Naming (variables, functions)**: English
-- **Implementation Plans**: Chinese description + English technical terms
+## Project Overview
 
-## Code Style Requirements
+Sheeter is a Go CLI tool that converts Excel (.xlsx) files into JSON data files and generates C#/Go reader code. Module: `github.com/yinweli/Sheeter/v3`, Go 1.25.0.
 
-### Boolean Checks - **Strict Rule**
-
-**MUST** use explicit `false` checks, while `true` checks use standard form.
-
-```go
-if x == false { ... }  // Required: explicit false check
-if x { ... }           // Standard: check for true
-// Forbidden: if !x
-```
-
-### Block Ending Comments - **Strict Rule**
-
-Reserve ending comments for control flow only (`if`, `for`, `switch`). **NEVER** add ending comments for functions/methods.
-
-```go
-if condition {
-    // logic
-} // if
-
-for i := range items {
-    // logic
-} // for
-
-switch x {
-case 1:
-    // logic
-} // switch
-
-// NEVER add ending comments for functions/methods
-```
-
-### Iterator Naming
-
-```go
-for itor := range items {
-    // logic
-} // for
-
-for k, v := range someMap {
-    // logic
-} // for
-```
-
-- `itor`: Default iterator variable name
-- `k, v`: Use when iterating over Maps
-
-### Variable Naming - **Strict Rule**
-
-**MUST NOT** use plural forms for variable names. Use singular forms consistently.
-
-```go
-// Correct: singular form
-item := []Item{...}
-hero := []Hero{...}
-data := []Data{...}
-
-// Forbidden: plural forms
-items := []Item{...}
-heroes := []Hero{...}
-datas := []Data{...}
-```
-
-## What This Project Does
-
-Sheeter is a CLI tool written in Go that reads Excel (`.xlsx`) files and generates:
-
-- **JSON data files** from the sheet's data rows
-- **C# reader code** (`codeCs/`) for loading those JSON files at runtime
-- **Go reader code** (`codeGo/`) for the same purpose
-
-## Commands
-
-### Development Tools Setup
+## Common Commands
 
 ```bash
-task install   # installs golangci-lint, goimports, csharpier, prettier
-```
+# Build & install
+go install ./cmd/sheeter
 
-### Build & Run
+# Run all tests with coverage
+go test -coverprofile=coverage.txt -covermode=atomic ./...
 
-```bash
-go build -o sheeter cmd/sheeter/*.go
-sheeter build --config <config.yaml>
-```
+# Run a single test
+go test -run TestFunctionName ./sheeter/...
 
-### Testing
+# Lint & format (requires: task install)
+task lint
 
-```bash
-go test ./... -cover          # all packages
-go test ./... -bench=. -benchmem  # benchmarks
-
-# Run a single package's tests:
-go test ./sheeter/builds/... -cover
-go test ./sheeter/fields/... -run TestFieldName
-```
-
-### Linting & Formatting
-
-```bash
-task lint   # csharpier, gofmt, goimports, golangci-lint, markdownlint, prettier (all-in-one)
+# Install dev tools (golangci-lint, csharpier, markdownlint, prettier, goimports)
+task install
 ```
 
 ## Architecture
 
-### Build Pipeline (3 phases)
-
-The `sheeter build` command runs three sequential phases, each implemented in `sheeter/builds/`:
-
-1. **`Initialize`** — discovers Excel files/sheets from `source` paths, validates names, produces `[]InitializeData`
-2. **`Operation`** — for each sheet: extracts fields, converts rows to JSON, generates C#/Go code
-3. **`Poststep`** — post-processing (e.g., copying shared helper files to output directories)
-
-### Concurrent Execution via `pipelines`
-
-`sheeter/pipelines/pipelines.go` provides a generic `Pipeline[T]` function that fans out work across goroutines with a progress bar. Each phase passes its slice of items and a list of `Execute[T]` step functions. If any step in a pipeline item fails, subsequent steps for that item are skipped.
-
-### Core Processing Packages
-
-| Package | Role |
-| --- | --- |
-| `sheeter/builds/` | Orchestrates the three build phases; owns `Config` |
-| `sheeter/excels/` | Opens/caches XLSX files via `xlsxreader`; `CloseAll()` called at end |
-| `sheeter/fields/` | 12 field types (bool, int, long, float, double, string + array variants); each implements parsing and C#/Go type name methods |
-| `sheeter/layouts/` | Serializes processed data rows to JSON (`jsonPack.go`) |
-| `sheeter/tmpls/` | `text/template`-based C# (`tmplCs.go`) and Go (`tmplGo.go`) code generation |
-| `sheeter/nameds/` | Name normalization (CamelCase), merge-term parsing |
-| `sheeter/utils/` | Shared utilities: unique slice, SheetTerm/MergeTerm parsing, colored stdout |
-| `sheeter/pipelines/` | Generic concurrent pipeline with progress bar |
-
-### Configuration (`Config` struct)
-
-Config is loaded from a YAML file (`--config`) and/or CLI flags. Key fields:
-
-```yaml
-source: [path/to/excel.xlsx, path/to/folder/]  # files or directories
-output: path/to/output/                         # output root
-tag: server                                     # column tag filter ("ignore" = skip column)
-lineOfTag: 1                                    # row number (1-based) for tags
-lineOfName: 2                                   # row number for field names
-lineOfNote: 3                                   # row number for comments
-lineOfField: 4                                  # row number for field types
-lineOfData: 5                                   # first data row
-merge: []                                       # merge sheets: "name$excel#sheet&..."
-exclude: []                                     # exclude sheets: "excel#sheet"
+```text
+cmd/sheeter/         CLI entry point (Cobra framework)
+sheeter/
+├── define.go        Constants, tokens, paths
+├── builds/          Build pipeline stages: config → initialize → operation → poststep
+├── excels/          Excel/sheet reading (xlsxreader)
+├── fields/          Field type system — interface + 12 types (bool/int/long/float/double/string, each with array variant)
+├── layouts/         JSON layout construction and packing
+├── nameds/          Named entity management, field naming, merge/combine logic
+├── pipelines/       Pipeline orchestration
+├── tmpls/           Code generation templates (C# and Go)
+└── utils/           Helpers: file I/O, JSON, string, terminal colors
 ```
 
-### Output Directory Layout
+**Key patterns:**
 
-Under the configured `output` path:
+- Pipeline architecture: modular build stages chained sequentially
+- Interface-based field type registry (`fields/field.go`) — global slice, not map
+- Explicit `Close()` for resource cleanup (Excel/Sheet)
+- Config struct with Cobra flag binding for CLI options
 
-- `json/` — one `.json` per sheet
-- `codeCs/` — C# reader classes
-- `codeGo/` — Go reader packages
+**Test data** lives in `testdata/env/` organized by feature (build, config, excel, etc.). Tests use `testify` for assertions.
 
-### Key Constants (`sheeter/define.go`)
+## Code Style Rules (Strict)
 
-- `TokenIgnore = "ignore"` — tag/output value that skips a column
-- `TokenArray = ","` — array element separator within a cell
-- `TokenName = "$"`, `TokenTerm = "&"`, `TokenExcel = "#"` — merge/exclude term syntax
-- `IndexOutput = 0`, `IndexPrimary = 1` — fixed column positions for output flag and primary key
+These are **mandatory** — see `CLAUDE-common guildlines.md` for full details.
 
-## Module Path
+1. **Boolean checks:** Use `if x == false`, never `if !x`. True checks use `if x`.
+2. **Block ending comments:** Add `// if`, `// for`, `// switch` after closing braces of control flow. **Never** on functions/methods.
+3. **Variable naming:** Always singular. `item := []Item{}` not `items := []Item{}`.
+4. **Iterator naming:** Use `itor` for default iterators, `k, v` for maps.
+5. **Language:** Documentation/comments in Traditional Chinese, code naming in English.
 
-`github.com/yinweli/Sheeter/v3` — use this prefix for all internal imports.
+## Commit Conventions
+
+Format: `<Type> | <Description in Traditional Chinese>`
+
+Types: `Feature`, `Fix`, `Sheet`, `Message`, `UI`
+
+Branch format: `<account>/<feature-name>`
+
+Feature PRs target `dev` branch.
+
+## CI/CD
+
+GitHub Actions runs on push/PR to main:
+
+- **test.yml** — Go tests + coverage (Codecov)
+- **lint.yml** — golangci-lint v2
+- **build.yml** — Cross-platform release on version tags (`v*`)
+
+## Workflow Preference
+
+Prefer Python scripts over repeated shell commands for batch operations (file renaming, data transformation, code generation, codebase scanning).
