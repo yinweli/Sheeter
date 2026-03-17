@@ -47,6 +47,7 @@ This file provides guidance for AI CLIs (such as Claude Code or ChatGPT Codex) w
   - Use `k, v` for map iteration
 
 ## Project Overview
+
 Sheeter is a Go CLI tool that converts Excel (.xlsx) files into JSON data files and generates reader code for C# / Go. Module: `github.com/yinweli/Sheeter/v3`.
 
 ## Development / Build / Common Commands
