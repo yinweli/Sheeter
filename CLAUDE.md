@@ -51,6 +51,7 @@ This file provides guidance for AI CLIs (such as Claude Code or ChatGPT Codex) w
 Sheeter is a Go CLI tool that converts Excel (.xlsx) files into JSON data files and generates reader code for C# / Go. Module: `github.com/yinweli/Sheeter/v3`.
 
 ## Development / Build / Common Commands
+
 All commands use [Task](https://taskfile.dev/) (install per official docs).
 ```bash
 task lint                # Format and lint (golangci-lint fmt + run, markdownlint, prettier)
@@ -58,6 +59,7 @@ task install             # Install all dev tools (golangci-lint, buf, csharpier,
 ```
 
 ### Running Tests Directly
+
 ```bash
 # Build and install
 go install ./cmd/sheeter
@@ -70,6 +72,7 @@ go test -coverprofile=coverage.txt -covermode=atomic $(go list ./... | grep -v "
 ```
 
 ## Architecture
+
 ```text
 cmd/sheeter/         CLI entry point (Cobra framework)
 sheeter/
@@ -93,4 +96,5 @@ sheeter/
 **Test data** is located in `testdata/env/`, organized by feature (build, config, excel, etc.). Tests use `testify` for assertions.
 
 ## Go Version
+
 Requires Go 1.25.0+.
