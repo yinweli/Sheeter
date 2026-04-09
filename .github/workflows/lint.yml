@@ -8,12 +8,12 @@ on:
   workflow_call:
 
 concurrency:
-  group: lint-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   lint:
-    name: ubuntu-latest | go 1.25.x
+    name: lint
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -21,9 +21,8 @@ jobs:
       - name: setup go
         uses: actions/setup-go@v6
         with:
-          go-version: 1.25.x
-          cache: true
+          go-version-file: go.mod
       - name: lint
         uses: golangci/golangci-lint-action@v9
         with:
-          version: v2.10
+          version: v2.11
