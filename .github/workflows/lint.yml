@@ -5,23 +5,25 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_call:
+
+concurrency:
+  group: lint-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   lint:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        go: [1.25.x]
-    name: ${{ matrix.os }} | go ${{ matrix.go }}
-    runs-on: ${{ matrix.os }}
+    name: ubuntu-latest | go 1.25.x
+    runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v6
-      - name: setup go ${{ matrix.go }}
+      - name: setup go
         uses: actions/setup-go@v6
         with:
-          go-version: ${{ matrix.go }}
+          go-version: 1.25.x
+          cache: true
       - name: lint
         uses: golangci/golangci-lint-action@v9
         with:
-          version: v2.10
+          version: v2.12

@@ -5,104 +5,63 @@ on:
     tags:
       - "v*"
 
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
+  lint:
+    uses: ./.github/workflows/lint.yml
+
+  test:
+    uses: ./.github/workflows/test.yml
+    secrets:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
   build:
     needs: [lint, test]
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
-        go: [1.25.x]
         include:
-          - os: ubuntu-latest
-            artifacts-name: "linux-amd64"
-            goos: "linux"
-            goarch: "amd64"
-          - os: macos-latest
-            artifacts-name: "darwin-amd64"
-            goos: "darwin"
-            goarch: "amd64"
-          - os: windows-latest
-            artifacts-name: "windows-amd64"
-            goos: "windows"
-            goarch: "amd64"
-    name: build
+          - artifacts-name: linux-amd64
+            goos: linux
+            goarch: amd64
+            compress-cmd: tar -czf sheeter-linux-amd64.tar.gz -C sheeter .
+            compress-file: sheeter-linux-amd64.tar.gz
+          - artifacts-name: darwin-amd64
+            goos: darwin
+            goarch: amd64
+            compress-cmd: tar -czf sheeter-darwin-amd64.tar.gz -C sheeter .
+            compress-file: sheeter-darwin-amd64.tar.gz
+          - artifacts-name: windows-amd64
+            goos: windows
+            goarch: amd64
+            compress-cmd: 7z a -tzip sheeter-windows-amd64.zip sheeter/*
+            compress-file: sheeter-windows-amd64.zip
+    name: build ${{ matrix.artifacts-name }}
     runs-on: ubuntu-latest
     steps:
       - name: checkout
         uses: actions/checkout@v6
-      - name: setup go ${{ matrix.go }}
+      - name: setup go
         uses: actions/setup-go@v6
         with:
-          go-version: ${{ matrix.go }}
+          go-version: 1.25.x
+          cache: true
       - name: build
         shell: bash
         run: |
-          mkdir -p ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/excel
-          env GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter -ldflags="-s -w" cmd/sheeter/*.go
-          cp README.md ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
-          cp support/example/config.yaml ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
-          cp support/example/build.bat ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter
-          cp support/example/excel/example.xlsx ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter/excel
-          # Compress the output directory
-          if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-            7z a -tzip ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter-${{ matrix.artifacts-name }}.zip ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/*
-          else
-            tar -czf ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter-${{ matrix.artifacts-name }}.tar.gz -C ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter .
-          fi
+          mkdir -p sheeter/excel
+          env GOOS=${{ matrix.goos }} GOARCH=${{ matrix.goarch }} go build -o sheeter/ -ldflags="-s -w" cmd/sheeter/*.go
+          cp README.md sheeter/
+          cp support/example/config.yaml sheeter/
+          cp support/example/build.bat sheeter/
+          cp support/example/excel/example.xlsx sheeter/excel/
+      - name: compress
+        shell: bash
+        run: ${{ matrix.compress-cmd }}
       - name: release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            if [[ "${{ matrix.os }}" == "windows-latest" ]]; then
-              ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter-${{ matrix.artifacts-name }}.zip
-            else
-              ${{ github.workspace }}/release/${{ matrix.artifacts-name }}/sheeter-${{ matrix.artifacts-name }}.tar.gz
-            fi
-  lint:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        go: [1.25.x]
-    name: ${{ matrix.os }} | go ${{ matrix.go }}
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: checkout
-        uses: actions/checkout@v6
-      - name: setup go ${{ matrix.go }}
-        uses: actions/setup-go@v6
-        with:
-          go-version: ${{ matrix.go }}
-      - name: lint
-        uses: golangci/golangci-lint-action@v9
-        with:
-          version: v2.10
-  test:
-    strategy:
-      matrix:
-        os: [ubuntu-latest]
-        go: [1.25.x]
-        proto: [3.x]
-    name: ${{ matrix.os }} | go ${{ matrix.go }} | proto ${{ matrix.proto }}
-    runs-on: ${{ matrix.os }}
-    steps:
-      - name: checkout
-        uses: actions/checkout@v6
-      - name: setup go ${{ matrix.go }}
-        uses: actions/setup-go@v6
-        with:
-          go-version: ${{ matrix.go }}
-      - name: setup protoc
-        uses: arduino/setup-protoc@v3
-        with:
-          version: ${{ matrix.proto }}
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: setup protoc-go
-        run: go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
-      - name: test
-        run: go test -coverprofile=coverage.txt -covermode=atomic ./...
-      - name: upload coverage to Codecov
-        uses: codecov/codecov-action@v5
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-        with:
-          fail_ci_if_error: true
+          files: ${{ matrix.compress-file }}
