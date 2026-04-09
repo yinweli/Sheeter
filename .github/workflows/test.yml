@@ -11,12 +11,12 @@ on:
         required: true
 
 concurrency:
-  group: test-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
   test:
-    name: ubuntu-latest | go 1.25.x | proto 3.x
+    name: test
     runs-on: ubuntu-latest
     steps:
       - name: checkout
@@ -24,8 +24,7 @@ jobs:
       - name: setup go
         uses: actions/setup-go@v6
         with:
-          go-version: 1.25.x
-          cache: true
+          go-version-file: go.mod
       - name: setup protoc
         uses: arduino/setup-protoc@v3
         with:

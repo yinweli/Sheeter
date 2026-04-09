@@ -6,7 +6,7 @@ on:
       - "v*"
 
 concurrency:
-  group: build-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -46,8 +46,7 @@ jobs:
       - name: setup go
         uses: actions/setup-go@v6
         with:
-          go-version: 1.25.x
-          cache: true
+          go-version-file: go.mod
       - name: build
         shell: bash
         run: |
