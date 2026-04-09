@@ -20,3 +20,6 @@ bin/
 support/handmade/.cr
 support/handmade/.vs
 support/handmade/obj
+
+# Claude Code 本地設定
+.claude/settings.local.json

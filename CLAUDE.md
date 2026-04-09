@@ -46,6 +46,21 @@ This file provides guidance for AI CLIs (such as Claude Code or ChatGPT Codex) w
   - Use `itor` for general iteration
   - Use `k, v` for map iteration
 
+## Commit Message Convention
+
+Format: `Type | Description`
+
+| Type      | Usage                          |
+| :-------- | :----------------------------- |
+| `Feature` | New feature or update          |
+| `Fix`     | Bug fix                        |
+| `Sheet`   | Update sheet data              |
+| `Message` | Update proto messages          |
+| `Doc`     | Update documentation           |
+
+- Description must be in Traditional Chinese.
+- Do not invent new type names (e.g. `Bugfix`, `Update`, `Refactor` are all forbidden).
+
 ## Project Overview
 
 Sheeter is a Go CLI tool that converts Excel (.xlsx) files into JSON data files and generates reader code for C# / Go. Module: `github.com/yinweli/Sheeter/v3`.
