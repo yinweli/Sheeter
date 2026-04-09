@@ -16,7 +16,6 @@ jobs:
   test:
     uses: ./.github/workflows/test.yml
     secrets:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
   build:
