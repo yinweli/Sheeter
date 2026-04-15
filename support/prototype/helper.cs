@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Numerics;
@@ -15,7 +16,7 @@ namespace Sheeter
         /// <summary>
         /// 讀取檔案, 實作時須注意必須維持執行緒安全
         /// </summary>
-        public string Load(FileName filename);
+        public string? Load(FileName filename);
 
         /// <summary>
         /// 錯誤處理, 實作時須注意必須維持執行緒安全
@@ -203,16 +204,7 @@ namespace Sheeter
         /// </summary>
         public static void AddParse<T>(Parser parser)
         {
-            @lock.EnterWriteLock();
-
-            try
-            {
-                parse[typeof(T)] = parser;
-            } // try
-            finally
-            {
-                @lock.ExitWriteLock();
-            } // finally
+            parse[typeof(T)] = parser;
         }
 
         /// <summary>
@@ -220,26 +212,17 @@ namespace Sheeter
         /// </summary>
         public static Result RunParse<T>(string value)
         {
-            @lock.EnterReadLock();
+            var type = typeof(T);
 
-            try
-            {
-                var type = typeof(T);
+            if (parse.TryGetValue(type, out var parser) == false || parser == null)
+                return new Result(null, $"{type} not exist");
 
-                if (parse.TryGetValue(type, out var parser) == false || parser == null)
-                    return new Result(null, $"{type} not exist");
+            var result = parser(value);
 
-                var result = parser(value);
+            if (result.ok == false)
+                return new Result(null, $"{type} parse failed");
 
-                if (result.ok == false)
-                    return new Result(null, $"{type} parse failed");
-
-                return new Result(result.obj);
-            } // try
-            finally
-            {
-                @lock.ExitReadLock();
-            } // finally
+            return new Result(result.obj);
         }
 
         /// <summary>
@@ -269,12 +252,7 @@ namespace Sheeter
         /// <summary>
         /// 解析列表
         /// </summary>
-        private static readonly Dictionary<Type, Parser> parse = new();
-
-        /// <summary>
-        /// 解析執行緒鎖
-        /// </summary>
-        private static readonly ReaderWriterLockSlim @lock = new();
+        private static readonly ConcurrentDictionary<Type, Parser> parse = new();
     }
 
     /// <summary>
@@ -392,7 +370,7 @@ namespace Sheeter
 
             try
             {
-                var value = 0.0f;
+                float value;
 
                 if (curr <= 0 || total <= 0)
                     value = 0.0f;

@@ -5,6 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.11] - 2026-04-15
+
+### Added
+
+- build workflow 自動從 CHANGELOG 產生 Release 說明
+
+### Fixed
+
+- 修正 C# 版本的 `Parse.TryParse<T>(string[])` 全部成功時仍回傳 `false` 的錯誤
+
+### Changed
+
+- 改善 C# 版本產生的程式碼 (目標 Unity 6 / .NET Standard 2.1)
+  - `Reader.FromData` 使用 `Dictionary.TryAdd` 取代 `ContainsKey` + 指派, 減少一次雜湊查找
+  - `Parse` 解析列表改用 `ConcurrentDictionary` 取代 `Dictionary` + `ReaderWriterLockSlim`, 簡化執行緒同步
+  - `Progress.Set` 移除冗餘的初始賦值
+  - `Loader.Load` 介面回傳型別改為 `string?`, 與實際可回傳 null 的行為一致
+- workflows 在僅變更 `.github` / `.idea` / `doc` 時略過 lint 與 test
+- `.idea` 僅保留團隊共用設定, 其餘加入 `.gitignore`
+
 ## [3.0.10] - 2026-04-15
 
 ### Changed
