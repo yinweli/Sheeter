@@ -140,7 +140,6 @@ func (this *Sheeter) FromData() bool {
 	} // if
 
 	waitGroup := sync.WaitGroup{}
-	waitGroup.Add({{len $.Alone}} + {{len $.Merge}})
 	result := atomic.Bool{}
 	result.Store(true)
 
@@ -151,8 +150,7 @@ func (this *Sheeter) FromData() bool {
 	} {
 		tmpl := itor
 
-		go func() {
-			defer waitGroup.Done()
+		waitGroup.Go(func() {
 			filename := tmpl.FileName()
 			data := this.loader.Load(filename)
 
@@ -164,13 +162,11 @@ func (this *Sheeter) FromData() bool {
 				this.loader.Error(filename.File(), err)
 				result.Store(false)
 			} // if
-		}()
+		})
 	} // for
 {{- range $.Merge}}
 
-	go func() {
-		defer waitGroup.Done()
-
+	waitGroup.Go(func() {
 		for i, itor := range []Reader{
 {{- range $name := .MemberName}}
 			&this.{{$name}},
@@ -188,7 +184,7 @@ func (this *Sheeter) FromData() bool {
 				result.Store(false)
 			} // if
 		} // for
-	}()
+	})
 {{- end}}
 
 	waitGroup.Wait()
