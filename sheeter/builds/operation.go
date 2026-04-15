@@ -1,8 +1,9 @@
 package builds
 
 import (
+	"cmp"
 	"fmt"
-	"sort"
+	"slices"
 
 	"github.com/yinweli/Sheeter/v3/sheeter/excels"
 	"github.com/yinweli/Sheeter/v3/sheeter/layouts"
@@ -92,10 +93,8 @@ func parseLayout(material *OperationData) (result pipelines.Output) {
 		})
 	} // for
 
-	sort.Slice(material.Field, func(l, r int) bool { // 經過排序後讓產生程式碼時能夠更加一致
-		lhs := material.Field[l]
-		rhs := material.Field[r]
-		return lhs.FieldName() < rhs.FieldName()
+	slices.SortFunc(material.Field, func(l, r *nameds.Field) int { // 經過排序後讓產生程式碼時能夠更加一致
+		return cmp.Compare(l.FieldName(), r.FieldName())
 	})
 
 	material.Layout = layout

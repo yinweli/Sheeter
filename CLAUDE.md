@@ -68,6 +68,7 @@ Sheeter is a Go CLI tool that converts Excel (.xlsx) files into JSON data files 
 ## Development / Build / Common Commands
 
 All commands use [Task](https://taskfile.dev/) (install per official docs).
+
 ```bash
 task lint                # Format and lint (golangci-lint fmt + run, markdownlint, prettier)
 task install             # Install all dev tools (golangci-lint, buf, csharpier, etc.)
@@ -103,10 +104,11 @@ sheeter/
 ```
 
 **Key Patterns:**
-* Pipeline architecture: modular build stages chained in sequence
-* Interface-based field type registration (`fields/field.go`) — uses a global slice, not a map
-* Explicit `Close()` for resource cleanup (Excel / Sheet)
-* Config struct with Cobra flag binding for CLI options
+
+- Pipeline architecture: modular build stages chained in sequence
+- Interface-based field type registration (`fields/field.go`) — uses a global slice, not a map
+- Explicit `Close()` for resource cleanup (Excel / Sheet)
+- Config struct with Cobra flag binding for CLI options
 
 **Test data** is located in `testdata/env/`, organized by feature (build, config, excel, etc.). Tests use `testify` for assertions.
 

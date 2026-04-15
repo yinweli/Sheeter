@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.0.10] - 2026-04-15
+
+### Changed
+
+- 套用 Go 1.22~1.25 新語法簡化程式碼
+  - 使用 `sync.WaitGroup.Go` 取代手動 `Add` / `Done` 管理 goroutine
+  - 使用 `for range N` 取代計數式 for 迴圈
+  - 移除 loop 變數的中間拷貝 (Go 1.22 per-iteration scope)
+  - 使用 `slices.SortFunc` + `cmp.Compare` 取代 `sort.Slice`
+  - 使用 `strings.SplitSeq` 取代 `strings.Split` 的 range 迭代
+
 ## [3.0.9] - 2026-04-09
 
 ### Changed

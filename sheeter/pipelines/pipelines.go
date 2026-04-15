@@ -33,14 +33,12 @@ func Pipeline[T any](name string, material []T, execute []Execute[T]) (result []
 	output := make(chan Output, count)
 
 	for _, itor := range material {
-		temp := itor // 多執行緒需要使用中間變數
-
 		go func() {
 			succ := true
 
 			for _, exec := range execute {
 				if succ { // 如果管線中有執行失敗, 則就不能再執行下去
-					o := exec(temp)
+					o := exec(itor)
 					succ = o.Error == nil
 					output <- o
 				} // if

@@ -20,10 +20,9 @@ func main() {
 
 func check(sheet *sheeter.Sheeter, threads int) {
 	waitGroup := &sync.WaitGroup{}
-	waitGroup.Add(threads)
 
-	for t := 0; t < threads; t++ {
-		go func() {
+	for range threads {
+		waitGroup.Go(func() {
 			actual := sheet.VerifyData.Get(1)
 			assert(actual != nil)
 			assert(actual.Name1 == 1)
@@ -121,9 +120,7 @@ func check(sheet *sheeter.Sheeter, threads int) {
 			assert(actual.Name3 == 51)
 			assert(actual.Name4 == 52)
 			assert(actual.Name5 == 53)
-
-			waitGroup.Done()
-		}()
+		})
 	} // for
 
 	waitGroup.Wait()
