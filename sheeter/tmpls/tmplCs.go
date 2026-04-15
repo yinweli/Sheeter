@@ -67,10 +67,9 @@ namespace {{$.Namespace | $.FirstUpper}}
 
             foreach (var itor in tmpl)
             {
-                if (this.data.ContainsKey(itor.Key))
+                if (this.data.TryAdd(itor.Key, itor.Value) == false)
                     return "from data: key duplicate [{{$.JsonName}} : " + itor.Key + "]";
 
-                this.data[itor.Key] = itor.Value;
                 curr++;
                 progress.Set(task, curr, total);
             } // for
@@ -300,6 +299,7 @@ var HelperCs = Header + `
 #nullable enable
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -315,7 +315,7 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// <summary>
         /// 讀取檔案, 實作時須注意必須維持執行緒安全
         /// </summary>
-        public string Load(FileName filename);
+        public string? Load(FileName filename);
 
         /// <summary>
         /// 錯誤處理, 實作時須注意必須維持執行緒安全
@@ -503,16 +503,7 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// </summary>
         public static void AddParse<T>(Parser parser)
         {
-            @lock.EnterWriteLock();
-
-            try
-            {
-                parse[typeof(T)] = parser;
-            } // try
-            finally
-            {
-                @lock.ExitWriteLock();
-            } // finally
+            parse[typeof(T)] = parser;
         }
 
         /// <summary>
@@ -520,26 +511,17 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// </summary>
         public static Result RunParse<T>(string value)
         {
-            @lock.EnterReadLock();
+            var type = typeof(T);
 
-            try
-            {
-                var type = typeof(T);
+            if (parse.TryGetValue(type, out var parser) == false || parser == null)
+                return new Result(null, $"{type} not exist");
 
-                if (parse.TryGetValue(type, out var parser) == false || parser == null)
-                    return new Result(null, $"{type} not exist");
+            var result = parser(value);
 
-                var result = parser(value);
+            if (result.ok == false)
+                return new Result(null, $"{type} parse failed");
 
-                if (result.ok == false)
-                    return new Result(null, $"{type} parse failed");
-
-                return new Result(result.obj);
-            } // try
-            finally
-            {
-                @lock.ExitReadLock();
-            } // finally
+            return new Result(result.obj);
         }
 
         /// <summary>
@@ -587,7 +569,7 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// </summary>
         public static bool TryParse<T>(this string[] value, out T[] result)
         {
-            var ok = false;
+            var ok = true;
             var list = new List<T>();
 
             foreach (var itor in value)
@@ -605,12 +587,7 @@ namespace {{$.Namespace | $.FirstUpper}}
         /// <summary>
         /// 解析列表
         /// </summary>
-        private static readonly Dictionary<Type, Parser> parse = new();
-
-        /// <summary>
-        /// 解析執行緒鎖
-        /// </summary>
-        private static readonly ReaderWriterLockSlim @lock = new();
+        private static readonly ConcurrentDictionary<Type, Parser> parse = new();
     }
 
     /// <summary>
@@ -728,7 +705,7 @@ namespace {{$.Namespace | $.FirstUpper}}
 
             try
             {
-                var value = 0.0f;
+                float value;
 
                 if (curr <= 0 || total <= 0)
                     value = 0.0f;

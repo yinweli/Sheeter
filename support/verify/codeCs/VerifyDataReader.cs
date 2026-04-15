@@ -118,10 +118,9 @@ namespace Sheeter
 
             foreach (var itor in tmpl)
             {
-                if (this.data.ContainsKey(itor.Key))
+                if (this.data.TryAdd(itor.Key, itor.Value) == false)
                     return "from data: key duplicate [verifyData : " + itor.Key + "]";
 
-                this.data[itor.Key] = itor.Value;
                 curr++;
                 progress.Set(task, curr, total);
             } // for
