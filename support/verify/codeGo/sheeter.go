@@ -39,17 +39,15 @@ func (this *Sheeter) FromData() bool {
 	for _, itor := range []Reader{
 		&this.VerifyData,
 	} {
-		tmpl := itor
-
 		waitGroup.Go(func() {
-			filename := tmpl.FileName()
+			filename := itor.FileName()
 			data := this.loader.Load(filename)
 
 			if len(data) == 0 {
 				return
 			} // if
 
-			if err := tmpl.FromData(data, true, this.progress); err != nil {
+			if err := itor.FromData(data, true, this.progress); err != nil {
 				this.loader.Error(filename.File(), err)
 				result.Store(false)
 			} // if

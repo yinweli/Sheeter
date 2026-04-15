@@ -150,7 +150,7 @@ func (this *Sheet) Nextn(n int) bool {
 		return false
 	} // if
 
-	for i := 0; i < n; i++ {
+	for range n {
 		if this.Next() == false {
 			return false
 		} // if

@@ -31,7 +31,7 @@ func StrToBoolArray(input string) (result []bool, err error) {
 		return []bool{}, nil
 	} // if
 
-	for _, itor := range strings.Split(input, sheeter.TokenArray) {
+	for itor := range strings.SplitSeq(input, sheeter.TokenArray) {
 		value, err := StrToBool(itor)
 
 		if err != nil {
@@ -67,7 +67,7 @@ func StrToInt32Array(input string) (result []int32, err error) {
 		return []int32{}, nil
 	} // if
 
-	for _, itor := range strings.Split(input, sheeter.TokenArray) {
+	for itor := range strings.SplitSeq(input, sheeter.TokenArray) {
 		value, err := StrToInt32(itor)
 
 		if err != nil {
@@ -103,7 +103,7 @@ func StrToInt64Array(input string) (result []int64, err error) {
 		return []int64{}, nil
 	} // if
 
-	for _, itor := range strings.Split(input, sheeter.TokenArray) {
+	for itor := range strings.SplitSeq(input, sheeter.TokenArray) {
 		value, err := StrToInt64(itor)
 
 		if err != nil {
@@ -139,7 +139,7 @@ func StrToFloat32Array(input string) (result []float32, err error) {
 		return []float32{}, nil
 	} // if
 
-	for _, itor := range strings.Split(input, sheeter.TokenArray) {
+	for itor := range strings.SplitSeq(input, sheeter.TokenArray) {
 		value, err := StrToFloat32(itor)
 
 		if err != nil {
@@ -175,7 +175,7 @@ func StrToFloat64Array(input string) (result []float64, err error) {
 		return []float64{}, nil
 	} // if
 
-	for _, itor := range strings.Split(input, sheeter.TokenArray) {
+	for itor := range strings.SplitSeq(input, sheeter.TokenArray) {
 		value, err := StrToFloat64(itor)
 
 		if err != nil {
@@ -190,7 +190,7 @@ func StrToFloat64Array(input string) (result []float64, err error) {
 
 // StrToStrArray 字串轉為字串陣列
 func StrToStrArray(input string) (result []string) {
-	for _, itor := range strings.Split(input, sheeter.TokenArray) {
+	for itor := range strings.SplitSeq(input, sheeter.TokenArray) {
 		result = append(result, strings.TrimSpace(itor))
 	} // for
 

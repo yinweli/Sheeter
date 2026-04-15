@@ -1,8 +1,9 @@
 package builds
 
 import (
+	"cmp"
 	"fmt"
-	"sort"
+	"slices"
 
 	"github.com/yinweli/Sheeter/v3/sheeter/nameds"
 	"github.com/yinweli/Sheeter/v3/sheeter/pipelines"
@@ -26,10 +27,8 @@ func Poststep(config *Config, initializeData []*InitializeData) (result []any, e
 		})
 	} // for
 
-	sort.Slice(material.Alone, func(l, r int) bool { // 經過排序後讓產生程式碼時能夠更加一致
-		lhs := material.Alone[l]
-		rhs := material.Alone[r]
-		return lhs.StructName() < rhs.StructName()
+	slices.SortFunc(material.Alone, func(l, r *nameds.Named) int { // 經過排序後讓產生程式碼時能夠更加一致
+		return cmp.Compare(l.StructName(), r.StructName())
 	})
 
 	for _, itor := range config.Merged() {
@@ -49,10 +48,8 @@ func Poststep(config *Config, initializeData []*InitializeData) (result []any, e
 		})
 	} // for
 
-	sort.Slice(material.Merge, func(l, r int) bool { // 經過排序後讓產生程式碼時能夠更加一致
-		lhs := material.Merge[l]
-		rhs := material.Merge[r]
-		return lhs.Name < rhs.Name
+	slices.SortFunc(material.Merge, func(l, r *nameds.Merge) int { // 經過排序後讓產生程式碼時能夠更加一致
+		return cmp.Compare(l.Name, r.Name)
 	})
 
 	result, err = pipelines.Pipeline[*PoststepData]("poststep", []*PoststepData{material}, []pipelines.Execute[*PoststepData]{

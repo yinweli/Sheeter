@@ -21,7 +21,7 @@ func main() {
 func check(sheet *sheeter.Sheeter, threads int) {
 	waitGroup := &sync.WaitGroup{}
 
-	for t := 0; t < threads; t++ {
+	for range threads {
 		waitGroup.Go(func() {
 			actual := sheet.VerifyData.Get(1)
 			assert(actual != nil)

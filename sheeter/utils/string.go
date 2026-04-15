@@ -36,7 +36,7 @@ func FirstLower(input string) string {
 func SnakeToCamel(input string) (result string) {
 	input = strings.ReplaceAll(input, " ", "_") // 把空格改為底線, 讓含有空格的字串也可以獲得相同效果
 
-	for _, itor := range strings.Split(input, "_") {
+	for itor := range strings.SplitSeq(input, "_") {
 		if itor != "" {
 			result += strings.ToUpper(itor[:1]) + itor[1:]
 		} // if
